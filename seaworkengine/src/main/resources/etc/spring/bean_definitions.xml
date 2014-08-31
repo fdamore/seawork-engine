@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ftp="http://www.springframework.org/schema/integration/ftp"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath:etc/props.properties</value>
+		</property>
+	</bean>
+
+
+
+
+
+
+	<security:global-method-security
+		pre-post-annotations="enabled" />
+
+	<security:http auto-config="true" use-expressions="true"
+		access-denied-page="/index.zul">
+		<security:intercept-url pattern="/index.zul*"
+			access="permitAll" />
+		<security:intercept-url pattern="/application/**"
+			access="hasRole('ROLE_SUPERVISOR')" />
+		<security:form-login login-page='/index.zul'
+			authentication-failure-url="/index.zul" always-use-default-target="true"
+			default-target-url="/application/index.zul" />
+		<security:logout invalidate-session="true"
+			logout-success-url="/index.zul" />
+	</security:http>
+
+	<security:authentication-manager alias="dbAuthenticationManager">
+		<security:authentication-provider
+			user-service-ref="myPersonDAO">
+			<security:password-encoder hash="sha-256">
+				<security:salt-source user-property="email"></security:salt-source>
+			</security:password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+
+
+
+
+
+
+	<!-- BEGIN SECTION SEAWORK DATASOURCE **** SERVER *** -->
+	<bean id="local_datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://www.uario.com/seaworkengine" />
+		<property name="user" value="seawork"></property>
+		<property name="password" value="bAP22OHaz7"></property>
+		<property name="acquireIncrement" value="5" />
+		<property name="maxIdleTime" value="3600" />
+		<property name="maxIdleTimeExcessConnections" value="300" />
+		<property name="unreturnedConnectionTimeout" value="3600" />
+	</bean>
+
+
+	<!-- SET DB SESSION FACTORY -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="local_datasource" />
+		<property name="mapperLocations" value="classpath*:etc/mybatismapper/*" />
+		<property name="configLocation" value="WEB-INF/mybatis_configuration.xml" />
+	</bean>
+
+
+	<!-- Setup Person and DAO -->
+	<bean id="myPersonDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisPersonDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+	
+	<!-- Setup Person and DAO -->
+	<bean id="myConfigurationDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisConfigurationDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+
+
+	<!-- Mail Wrapper -->
+	<bean id="mailWrapper" class="org.uario.seaworkengine.platform.mail.SendMailSMTP">
+		<property name="mailer" value="GruppoBooking"></property>
+		<property name="from" value="commerciale@gruppobooking.it"></property>
+		<property name="mailhost" value="authsmtp.gruppobooking.it"></property>
+
+		<property name="user" value="smtp@gruppobooking.it" />
+		<property name="password" value="Gruppobooking_2013" />
+
+
+		<!-- <property name="user" value="commerciale@gruppobooking.it"></property> -->
+		<!-- <property name="password" value="r0d1980" /> -->
+
+
+		<property name="port" value="25" />
+		<property name="prot" value="smtp" />
+	</bean>
+
+
+
+
+</beans>

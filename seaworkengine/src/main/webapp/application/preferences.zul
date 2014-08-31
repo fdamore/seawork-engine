@@ -1,0 +1,349 @@
+<?page id="preferences" title="Preferences"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<vlayout sclass="page-content" xmlns:n="native" spacing="0"
+	id="page_preferences"
+	apply="org.uario.seaworkengine.zkevent.Preferences">
+
+	<div sclass="page-header">
+		<label value="Parametri di sistema" />
+		<a label="Definizione e lettura dei paramentri di sistema"
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+	</div>
+
+
+	<hbox align="center">
+		<a label="Gestione della memoria" iconSclass="z-icon-list"
+			sclass="green lighter rcaption" />
+		<button label="Libera la Memoria" mold="trendy"
+			sclass="btn-info" id="free_memory">
+		</button>
+
+	</hbox>
+
+	<separator></separator>
+
+	<hbox align="center">
+		<label value="Free Memory: "></label>
+		<label id="label_free_meomry"></label>
+	</hbox>
+
+	<separator></separator>
+
+	<hbox align="center">
+		<label value="Max Memory: "></label>
+		<label id="label_max_meomry"></label>
+	</hbox>
+
+	<separator></separator>
+
+	<hbox align="center">
+		<label value="Allocated Memory: "></label>
+		<label id="label_allocated_meomry"></label>
+	</hbox>
+
+	<space></space>
+
+	<!-- TASK -->
+	<div>
+
+		<a label="Mansioni" iconSclass="z-icon-list"
+			sclass="green lighter rcaption" />
+
+		<!-- TASK EDITOR -->
+		<div id="grid_task_details" visible="false">
+
+			<panel border="normal" collapsible="false"
+				sclass="transparent">
+				<caption iconSclass="z-icon-star orange"
+					label="Dettagli Mansione">
+
+					<toolbarbutton label="Chiudi" style="color: blue"
+						onClick="grid_task_details.setVisible(false);add_tasks_command.setVisible(false);modify_tasks_command.setVisible(false);">
+					</toolbarbutton>
+
+					<toolbarbutton id="add_tasks_command"
+						label="Aggiungi" style="color: blue" visible="false">
+					</toolbarbutton>
+
+					<toolbarbutton id="modify_tasks_command"
+						label="Modifica" style="color: blue" visible="false">
+					</toolbarbutton>
+
+				</caption>
+
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Inforamzioni" />
+						</columns>
+						<rows>
+
+							<row id="row_code_task">
+								<label value="Codice:"></label>
+								<textbox id="code_task" mold="rounded" />
+							</row>
+
+
+							<row id="row_description_task">
+								<label value="Descrizione:"></label>
+								<textbox id="description_task"
+									mold="rounded" />
+							</row>
+
+
+
+
+
+						</rows>
+					</grid>
+
+
+				</panelchildren>
+
+			</panel>
+
+
+
+		</div>
+
+
+		<div>
+			<separator></separator>
+
+			<button id="sw_addtask" sclass="btn-info"
+				label="Aggiungi Mansione"
+				onClick="modify_tasks_command.setVisible(false);add_tasks_command.setVisible(true);grid_task_details.setVisible(true)">
+			</button>
+
+			<button id="sw_refresh_tasklist" sclass="btn-info"
+				label="Ricarica Lista Mansioni">
+			</button>
+
+
+
+			<separator></separator>
+		</div>
+
+		<div id="box_deletetask" visible="false">
+
+			<a label="Vuoi eliminare la mansione selezionata?"
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+			<toolbarbutton label="Si" style="color: red"
+				id="deletetask_command">
+			</toolbarbutton>
+			<toolbarbutton label="No" style="color: no"
+				onClick="box_deletetask.setVisible(false)">
+			</toolbarbutton>
+
+		</div>
+
+
+
+		<listbox id="sw_list_task" pagingPosition="both" mold="paging"
+			style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+			pageSize="20">
+			<listhead sizable="true">
+				<listheader label="Codice" />
+				<listheader label="Descrizione"
+					sort="auto(description)" />
+				<listheader label="" />
+			</listhead>
+
+			<listitem self="@{each='task_item'}" value="@{task_item}">
+
+
+
+				<listcell label="@{task_item.code}" />
+
+				<listcell label="@{task_item.description}" />
+
+
+
+				<listcell>
+
+					<toolbarbutton id="sw_link_deletetask"
+						style="color:blue"
+						onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
+						label="Cancella">
+					</toolbarbutton>
+
+					<toolbarbutton id="sw_link_modifyetask"
+						style="color:blue"
+						onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());add_tasks_command.setVisible(false);modify_tasks_command.setVisible(true);grid_task_details.setVisible(true);"
+						label="Modifica">
+					</toolbarbutton>
+
+				</listcell>
+
+
+
+
+			</listitem>
+
+		</listbox>
+
+	</div>
+
+	<space></space>
+
+	<!-- SHIFT -->
+	<div>
+		<a label="Turni" iconSclass="z-icon-list"
+			sclass="green lighter rcaption" />
+
+		<!-- SHIFT EDITOR -->
+		<div id="grid_shift_details" visible="false">
+
+			<panel border="normal" collapsible="false"
+				sclass="transparent">
+				<caption iconSclass="z-icon-star orange"
+					label="Dettagli Turno">
+
+					<toolbarbutton label="Chiudi" style="color: blue"
+						onClick="grid_shift_details.setVisible(false);add_shifts_command.setVisible(false);modify_shifts_command.setVisible(false);">
+					</toolbarbutton>
+
+					<toolbarbutton id="add_shifts_command"
+						label="Aggiungi" style="color: blue" visible="false">
+					</toolbarbutton>
+
+					<toolbarbutton id="modify_shifts_command"
+						label="Modifica" style="color: blue" visible="false">
+					</toolbarbutton>
+
+				</caption>
+
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Inforamzioni" />
+						</columns>
+						<rows>
+
+							<row id="row_code_shift">
+								<label value="Codice:"></label>
+								<textbox id="code_shift" mold="rounded" />
+							</row>
+
+
+							<row id="row_description_shift">
+								<label value="Descrizione:"></label>
+								<textbox id="description_shift"
+									mold="rounded" />
+							</row>
+
+							<row id="row_type_shift">
+								<label value="Tipo:"></label>
+								<textbox id="type_shift" mold="rounded" />
+							</row>
+
+						</rows>
+					</grid>
+
+
+				</panelchildren>
+
+			</panel>
+
+
+
+		</div>
+
+		<div>
+			<separator></separator>
+
+			<button id="sw_addshift" sclass="btn-info"
+				label="Aggiungi Turno"
+				onClick="modify_shifts_command.setVisible(false);add_shifts_command.setVisible(true);grid_shift_details.setVisible(true)">
+			</button>
+
+			<button id="sw_refresh_shiftlist" sclass="btn-info"
+				label="Ricarica Lista Turni">
+			</button>
+
+
+
+			<separator></separator>
+		</div>
+
+
+		<div id="box_deleteshift" visible="false">
+
+			<a label="Vuoi eliminare il turno selezionato?"
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+			<toolbarbutton label="Si" style="color: red"
+				id="deleteshift_command">
+			</toolbarbutton>
+			<toolbarbutton label="No" style="color: no"
+				onClick="box_deleteshift.setVisible(false)">
+			</toolbarbutton>
+
+		</div>
+
+
+
+		<listbox id="sw_list_shift" pagingPosition="both" mold="paging"
+			style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+			pageSize="20">
+			<listhead sizable="true">
+				<listheader label="Codice" />
+				<listheader label="Descrizione"
+					sort="auto(description)" />
+				<listheader label="Type" />
+				<listheader label="" />
+			</listhead>
+
+			<listitem self="@{each='shift_item'}"
+				value="@{shift_item}">
+
+
+
+				<listcell label="@{shift_item.code}" />
+
+				<listcell label="@{shift_item.description}" />
+				<listcell label="@{shift_item.us_type}" />
+
+
+
+				<listcell>
+
+					<toolbarbutton id="sw_link_deleteshift"
+						style="color:blue"
+						onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());box_deleteshift.setVisible(true)"
+						label="Cancella">
+					</toolbarbutton>
+
+					<toolbarbutton id="sw_link_modifyshift"
+						style="color:blue"
+						onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());add_shifts_command.setVisible(false);modify_shifts_command.setVisible(true);grid_shift_details.setVisible(true);"
+						label="Modifica">
+					</toolbarbutton>
+
+				</listcell>
+
+
+
+
+			</listitem>
+
+
+		</listbox>
+
+
+
+	</div>
+
+
+
+
+
+
+</vlayout>

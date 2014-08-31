@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="person">
+
+	<cache />
+
+
+
+
+
+	<select id="usersAdmin" resultType="org.uario.seaworkengine.model.Person">
+
+		select
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.bill_center,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.date_fired,
+		u.date_modify,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.employee_level,
+		u.employment,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM
+		user u where u.authority =
+		'ROLE_SUPERVISOR' or u.authority =
+		'ROLE_BACKOFFICE' order by u.status
+		asc
+
+	</select>
+
+
+	<select id="selectUsersByUsername" parameterType="string"
+		resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.bill_center,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.date_fired,
+		u.date_modify,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.employee_level,
+		u.employment,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM
+		user
+		u
+		WHERE
+		u.email =
+		#{username} order by u.status asc
+	</select>
+
+	<select id="selectUsersByUsernameAndPassword" parameterType="string"
+		resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.bill_center,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.date_fired,
+		u.date_modify,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.employee_level,
+		u.employment,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM
+		user
+		u
+		WHERE
+		u.email =
+		#{username} and u.password =
+		#{password} order by
+		u.status asc
+	</select>
+
+
+
+
+
+	<select id="selectAllPerson" parameterType="string"
+		resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.bill_center,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.date_fired,
+		u.date_modify,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.employee_level,
+		u.employment,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM
+		user
+		u order by u.status asc
+	</select>
+
+
+
+
+
+
+	<select id="selectUserById" parameterType="int"
+		resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.bill_center,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.date_fired,
+		u.date_modify,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.employee_level,
+		u.employment,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM
+		user
+		u
+		WHERE
+		u.id = #{id}
+	</select>
+
+	<insert id="insertPerson" parameterType="org.uario.seaworkengine.model.Person">
+		INSERT INTO user
+		(email,password text,authority,firstname,
+		lastname,
+		address,
+		city,
+		zip,
+		phone,
+		country,
+		enabled,
+		status,
+		date_modify,
+		ncfl,
+		birth_place,
+		birth_date,
+		provincia,
+		fiscal_code,
+		employment,
+		marital_status,
+		family_charge,
+		employee_identification,
+		education,
+		driving_license,
+		driving_license_emission,
+		employee_level,
+		current_position,
+		bill_center,
+		department,
+		npass,
+		nbudge,
+		date_fired)
+		VALUES
+		(#{email},
+		#{password},
+		#{authority},
+		#{firstname},
+		#{lastname},
+		#{address},
+		#{city},
+		#{zip},
+		#{phone},
+		#{country},
+		#{enabled},
+		#{status},
+		#{date_modify},
+		#{ncfl},
+		#{birth_place},
+		#{birth_date},
+		#{provincia},
+		#{fiscal_code},
+		#{employment},
+		#{marital_status},
+		#{family_charge},
+		#{employee_identification},
+		#{education},
+		#{drive_license},
+		#{drive_license_emission},
+		#{employee_level},
+		#{current_position},
+		#{bill_center},
+		#{department},
+		#{npass},
+		#{nbudge},
+		#{date_fired})
+	</insert>
+
+	<delete id="deletePerson" parameterType="int">
+		delete from user where
+		id = #{id}
+	</delete>
+
+	<update id="updatePerson" parameterType="org.uario.seaworkengine.model.Person">
+		UPDATE user set
+		enabled =
+		#{enabled},
+		authority = #{authority},
+		firstname = #{firstname},
+		lastname
+		= #{lastname},
+		address = #{address},
+		city = #{city},
+		zip = #{zip},
+		phone =
+		#{phone},
+		country = #{country},
+		bill_center = #{bill_center},
+		birth_date	= #{birth_date},
+		birth_place = #{birth_place},
+		current_position =
+		#{current_position},
+		date_fired =
+		#{date_fired},
+		date_modify =
+		#{date_modify},
+		department =
+		#{department},
+		driving_license =
+		#{driving_license},
+		driving_license_emission =
+		#{driving_license_emission},
+		education =
+		#{education},
+		employee_identification = #{employee_identification},
+		employee_level =
+		#{employee_level},
+		employment = #{employment},
+		family_charge =
+		#{family_charge},
+		fiscal_code = #{fiscal_code},
+		marital_status =
+		#{marital_status},
+		nbudge = #{nbudge},
+		ncfl = #{ncfl},
+		npass =
+		#{npass},
+		provincia = #{provincia},
+		status = #{status}
+		WHERE id =
+		#{id}
+	</update>
+
+	<update id="changeMail" parameterType="org.uario.seaworkengine.model.Person">
+		UPDATE user set
+		email =
+		#{email},
+		password = #{password}
+		WHERE id = #{id}
+	</update>
+
+	<update id="changePassword" parameterType="org.uario.seaworkengine.model.Person">
+		UPDATE user set
+		password = #{password}
+		WHERE email = #{email}
+	</update>
+
+</mapper>

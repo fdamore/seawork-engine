@@ -1,0 +1,79 @@
+<?page id="index" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+
+<!-- Load Bootstrap  -->
+<?link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+
+<!-- Google Open Sans font -->
+<!-- Load fonts from local -->
+<?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+
+<!-- Unmark if we want to use fonts from google server
+	<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+-->
+
+<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+
+<zk xmlns:n="native">
+	<include src="navbar.zul" />
+	<hlayout id="main" spacing="0"
+		apply="org.uario.seaworkengine.zkevent.IndexComposer">
+		<vlayout spacing="0" hflex="1">
+
+
+
+			<!-- HEADER -->
+			<div sclass="breadcrumbs">
+				<hlayout>
+
+					<div sclass="breadcrumb">
+						<span sclass="home-icon z-icon-home" />
+						<a label="Home" href="/application" />
+						<label id="sw_brec_position" value="Home" />
+					</div>
+
+					<div sclass="breadcrumb">
+						<button type="button" class="btn-success"
+							id="sw_home_button" iconSclass="z-icon-signal" />
+						<button type="button" class="btn-warning"
+							id="sw_user_button" iconSclass="z-icon-group" />
+						<button type="button" class="btn-info"
+							iconSclass="z-icon-pencil" />
+						<button type="button" class="btn-danger"
+							iconSclass="z-icon-cogs" />
+					</div>
+
+
+					<!-- Search input-->
+					<!-- 
+						<div sclass="nav-search">
+						<bandbox placeholder="Search ..." sclass="input-prepend"/>
+						</div>
+					-->
+
+				</hlayout>
+			</div>
+
+			<!-- PAGE HEADER -->
+			<include src="mainpage.zul" id="include_home" />
+
+
+			<include mode="defer" src="userdetails.zul"
+				id="include_user_detail" visible="false" />
+
+			<include mode="defer" src="preferences.zul"
+				id="include_preferences" visible="false" />
+
+			<include mode="defer" src="myprofile.zul"
+				id="include_myprofile" visible="false" />
+
+		</vlayout>
+	</hlayout>
+
+
+
+
+
+
+</zk>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="configuration">
+
+	<cache />
+
+
+	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT id,
+		code,
+		description
+		FROM usertask;
+
+	</select>
+
+	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
+		SELECT id,
+		code,
+		description,
+		us_type
+		FROM usershift;
+	</select>
+
+	<delete id="deleteTask" parameterType="int">
+		delete from usertask where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteShift" parameterType="int">
+		delete from usershift
+		where
+		id = #{id}
+	</delete>
+
+	<insert id="insertTask" parameterType="org.uario.seaworkengine.model.UserTask">
+		INSERT INTO usertask
+		(code,
+		description)
+		VALUES
+		(#{code},#{description});
+
+	</insert>
+
+	<insert id="insertShift" parameterType="org.uario.seaworkengine.model.UserShift">
+		INSERT INTO
+		usershift
+		(code,
+		description,
+		us_type)
+		VALUES
+		(#{code},#{description},#{us_type});
+	</insert>
+
+
+
+	<update id="updateTask" parameterType="org.uario.seaworkengine.model.UserTask">
+		UPDATE
+		usertask
+		SET
+		id =
+		#{id},
+		code = #{code},
+		description = #{description}
+		WHERE id = #{id}
+
+	</update>
+
+	<update id="updateShift" parameterType="org.uario.seaworkengine.model.UserShift">
+		UPDATE
+		usershift
+		SET
+		id =
+		#{id},
+		code = #{code},
+		description = #{description},
+		us_type =
+		#{us_type}
+		WHERE id = #{id};
+
+
+	</update>
+
+
+
+</mapper>

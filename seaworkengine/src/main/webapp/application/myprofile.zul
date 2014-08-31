@@ -1,0 +1,215 @@
+<?page id="myprofile" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<vlayout sclass="page-content" xmlns:n="native" spacing="0"
+	id="page_user_detail"
+	apply="org.uario.seaworkengine.zkevent.MyProfileComposer">
+
+	<div sclass="page-header">
+		<label value="Profilo utente" />
+		<a label="Definisci profilo utente"
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+	</div>
+
+
+	<!-- USER EDITOR -->
+	<div id="grid_user_details" visible="true">
+
+		<panel border="normal" collapsible="false"
+			sclass="transparent">
+			<caption iconSclass="z-icon-star orange"
+				label="Dettagli utente">
+
+				<toolbarbutton id="modify_users_command"
+					label="Modifica" style="color: blue" visible="true">
+				</toolbarbutton>
+
+			</caption>
+
+			<panelchildren>
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Type" />
+						<column label="Inforamzioni" />
+					</columns>
+					<rows>
+						<row>
+							<label value="E-mail:"></label>
+							<textbox id="email_user" mold="rounded"
+								constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+						</row>
+
+						<row id="row_email_user_retype">
+							<label value="Ridigita E-mail:"></label>
+							<textbox id="email_user_retype"
+								mold="rounded"
+								constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+						</row>
+
+						<row id="row_password_user">
+							<label value="Password:"></label>
+							<textbox id="password_user" type="password"
+								mold="rounded" />
+						</row>
+
+						<row id="row_password_user_retype">
+							<label value="Ridigita Password:"></label>
+							<textbox id="password_user_retype"
+								mold="rounded" type="password" />
+						</row>
+
+						<row>
+							<label value="Nome:"></label>
+							<textbox id="firstname_user" value="NOME"
+								constraint="no empty" mold="rounded" />
+						</row>
+
+						<row>
+							<label value="Cognome:"></label>
+							<textbox id="lastname_user" value="COGNOME"
+								constraint="no empty" mold="rounded" />
+						</row>
+
+
+						<row>
+							<label value="Telefono:"></label>
+							<textbox id="phone_user" mold="rounded" />
+						</row>
+
+						<row>
+							<label value="Città:"></label>
+							<textbox id="city_user" mold="rounded" />
+						</row>
+						<row>
+							<label value="Indirizzo:"></label>
+							<textbox id="address_user" mold="rounded" />
+						</row>
+
+						<row>
+							<label value="Codice Postale:"></label>
+							<textbox id="postalCode_user"
+								mold="rounded" />
+						</row>
+
+					</rows>
+				</grid>
+
+
+			</panelchildren>
+
+		</panel>
+
+		<div id="panel_modify" visible="true">
+
+			<panel id="panel_mail_user" border="normal"
+				collapsible="false" sclass="transparent">
+				<caption iconSclass="z-icon-star orange"
+					label="Gestione Mail">
+
+					<toolbarbutton id="modify_mail_user"
+						label="Modifica Mail" style="color: blue">
+					</toolbarbutton>
+
+				</caption>
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Inforamzioni" />
+						</columns>
+						<rows>
+							<row>
+								<label value="E-mail:"></label>
+								<textbox id="email_editor_user"
+									mold="rounded"
+									constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+							</row>
+
+							<row>
+								<label value="Ridigita E-mail:"></label>
+								<textbox id="email_editor_user_retype"
+									mold="rounded"
+									constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+							</row>
+
+							<row>
+								<label
+									value="Inserisci la Password Attuale: ">
+								</label>
+								<textbox id="mailpassword_user"
+									type="password">
+								</textbox>
+							</row>
+
+
+
+						</rows>
+					</grid>
+
+				</panelchildren>
+
+			</panel>
+
+			<panel id="panel_mail_password" border="normal"
+				collapsible="false" sclass="transparent">
+				<caption iconSclass="z-icon-star orange"
+					label="Gestione Password">
+
+					<toolbarbutton id="modify_mail_password"
+						label="Modifica Password" style="color: blue">
+					</toolbarbutton>
+
+				</caption>
+
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Inforamzioni" />
+						</columns>
+						<rows>
+							<row>
+								<label value="Password:"></label>
+								<textbox id="password_editor_user"
+									type="password" mold="rounded" />
+							</row>
+
+							<row>
+								<label value="Ridigita Password:"></label>
+								<textbox
+									id="password_editor_user_retype" mold="rounded"
+									type="password" />
+							</row>
+
+
+						</rows>
+					</grid>
+
+				</panelchildren>
+
+
+
+
+
+
+			</panel>
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+
+</vlayout>

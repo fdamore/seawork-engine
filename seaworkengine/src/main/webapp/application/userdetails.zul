@@ -1,0 +1,490 @@
+<?page id="user" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<vlayout sclass="page-content" xmlns:n="native" spacing="0"
+	id="page_user_detail"
+	apply="org.uario.seaworkengine.zkevent.UserDetailsComposer">
+
+	<div sclass="page-header">
+		<label value="Dettagli Utente" />
+		<a label="Utenti del sistema Seaworkengine"
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+	</div>
+
+
+	<!-- USER EDITOR -->
+	<div id="grid_user_details" visible="false">
+
+		<toolbarbutton label="Chiudi" style="color: blue"
+			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">
+		</toolbarbutton>
+
+		<panel border="normal" collapsible="false"
+			sclass="transparent">
+			<caption iconSclass="z-icon-star orange"
+				label="Dettagli utente">
+
+
+
+				<toolbarbutton id="add_users_command" label="Aggiungi"
+					style="color: blue" visible="false">
+				</toolbarbutton>
+
+				<toolbarbutton id="modify_users_command"
+					label="Modifica" style="color: blue" visible="false">
+				</toolbarbutton>
+
+			</caption>
+
+			<panelchildren>
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Type" />
+						<column label="Informazioni" />
+					</columns>
+					<rows>
+						<row>
+							<label value="E-mail:"></label>
+							<textbox id="email_user" mold="rounded"
+								constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+						</row>
+
+						<row id="row_email_user_retype">
+							<label value="Ridigita E-mail:"></label>
+							<textbox id="email_user_retype"
+								mold="rounded"
+								constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+						</row>
+
+						<row id="row_password_user">
+							<label value="Password:"></label>
+							<textbox id="password_user" type="password"
+								mold="rounded" />
+						</row>
+
+						<row id="row_password_user_retype">
+							<label value="Ridigita Password:"></label>
+							<textbox id="password_user_retype"
+								mold="rounded" type="password" />
+						</row>
+
+						<row>
+							<label value="Abilita"></label>
+							<checkbox id="user_enabled" />
+						</row>
+
+						<row>
+							<label value="Ruolo Amministratore"></label>
+							<checkbox id="admin_user" />
+						</row>
+
+						<row>
+							<label value="Ruolo Preposto"></label>
+							<checkbox id="operative_user" />
+						</row>
+
+						<row>
+							<label value="Ruolo Programmatore"></label>
+							<checkbox id="backoffice_user" />
+						</row>
+
+						<row>
+							<label value="Ruolo Visore"></label>
+							<checkbox id="viewer_user" />
+						</row>
+
+
+
+
+						<row>
+							<label value="Status"></label>
+							<combobox id="user_status"
+								placeholder="Seleziona lo stato utente" readonly="true">
+								<comboitem label="APERTO" value="A">
+								</comboitem>
+								<comboitem label="RIAPERTO"
+									value="AR">
+								</comboitem>
+								<comboitem label="NON CONFERMATO"
+									value="NC">
+								</comboitem>
+								<comboitem label="RIASSEGNATO"
+									value="D">
+								</comboitem>
+								<comboitem label="LICENZIATO"
+									value="L">
+								</comboitem>
+							</combobox>
+						</row>
+
+						<row>
+							<label value="Nome:"></label>
+							<textbox id="firstname_user" value="NOME"
+								constraint="no empty" mold="rounded" />
+						</row>
+
+						<row>
+							<label value="Cognome:"></label>
+							<textbox id="lastname_user" value="COGNOME"
+								constraint="no empty" mold="rounded" />
+						</row>
+
+						<row>
+							<label value="Numero di Identificazione:"></label>
+							<textbox id="employee_identification_user" />
+						</row>
+
+
+						<row>
+							<label value="Contatti Telefonici:"></label>
+							<textbox id="phone_user" mold="rounded" />
+						</row>
+
+
+
+						<row>
+							<label value="Città:"></label>
+							<textbox id="city_user" mold="rounded" />
+						</row>
+
+						<row>
+							<label value="Paese:"></label>
+							<textbox id="country_user" mold="rounded" />
+						</row>
+
+						<row>
+							<label value="Provincia:"></label>
+							<textbox id="provincia_user" mold="rounded" />
+						</row>
+
+
+						<row>
+							<label value="Indirizzo:"></label>
+							<textbox id="address_user" />
+						</row>
+
+						<row>
+							<label value="Codice Postale:"></label>
+							<textbox id="postalCode_user" />
+						</row>
+
+						<row>
+							<label value="Codice Fiscale:"></label>
+							<textbox id="fiscalcode_user" />
+						</row>
+
+						<row>
+							<label value="Data di nascita:"></label>
+							<datebox id="birth_date_user" />
+						</row>
+
+						<row>
+							<label value="Luogo di Nascita:"></label>
+							<textbox id="birth_place_user" />
+						</row>
+
+						<row>
+							<label value="Educazione:"></label>
+							<textbox id="education_user" />
+						</row>
+
+						<row>
+							<label value="Data Assunzione:"></label>
+							<datebox id="employment_date_user" />
+						</row>
+
+						<row>
+							<label value="Data licenziamento:"></label>
+							<datebox id="date_fired_user" />
+						</row>
+
+						<row>
+							<label
+								value="Data modifica rapporto di lavoro:">
+							</label>
+							<datebox id="date_modify_user" />
+						</row>
+
+						<row>
+							<label
+								value="Identificativo Contratto (n. cfl):">
+							</label>
+							<textbox id="ncfl_user" />
+						</row>
+
+						<row>
+							<label value="Dipartimento o Settore:"></label>
+							<textbox id="department_user" />
+						</row>
+
+						<row>
+							<label value="Posizione Corrente:"></label>
+							<textbox id="current_position_user" />
+						</row>
+
+						<row>
+							<label value="Livello Corrente:"></label>
+							<textbox id="employee_level_user" />
+						</row>
+
+
+
+						<row>
+							<label value="Centro di Spesa:"></label>
+							<combobox id="billcenter_user"
+								placeholder="Selezioni un centro di spesa" readonly="true">
+								<comboitem label="IMPIEGATI"
+									value="IMPIEGATI">
+								</comboitem>
+								<comboitem label="AMMINISTRATIVI"
+									value="AMMINISTRATIVI">
+								</comboitem>
+								<comboitem label="PREPOSTI"
+									value="PREPOSTI">
+								</comboitem>
+								<comboitem label="RIZZATORI"
+									value="RIZZATORI">
+								</comboitem>
+							</combobox>
+						</row>
+
+						<row>
+							<label value="Numero Budje:"></label>
+							<textbox id="nbudje_user" />
+						</row>
+
+						<row>
+							<label value="Numero Pass:"></label>
+							<textbox id="npass_user" />
+						</row>
+
+						<row>
+							<label value="Stato Civile:"></label>
+							<textbox id="marital_status_user" />
+						</row>
+
+						<row>
+							<label value="Carichi Familiari:"></label>
+							<textbox id="family_charge_user" />
+						</row>
+
+						<row>
+							<label value="Licenze di guida:"></label>
+							<textbox id="driving_license_charge_user" />
+						</row>
+
+						<row>
+							<label
+								value="Ultimo rilascio licenza di guida:">
+							</label>
+							<datebox
+								id="driving_license_emission_user" />
+						</row>
+					</rows>
+				</grid>
+
+
+			</panelchildren>
+
+		</panel>
+
+		<div id="panel_modify" visible="false">
+
+			<panel id="panel_mail_user" border="normal"
+				collapsible="false" sclass="transparent">
+				<caption iconSclass="z-icon-star orange"
+					label="Gestione Mail">
+
+					<toolbarbutton id="modify_mail_user"
+						label="Modifica Mail" style="color: blue">
+					</toolbarbutton>
+
+				</caption>
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Informazioni" />
+						</columns>
+						<rows>
+							<row>
+								<label value="E-mail:"></label>
+								<textbox id="email_editor_user"
+									mold="rounded"
+									constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+							</row>
+
+							<row>
+								<label value="Ridigita E-mail:"></label>
+								<textbox id="email_editor_user_retype"
+									mold="rounded"
+									constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+
+							</row>
+
+							<row>
+								<label
+									value="Inserisci la Password Attuale: ">
+								</label>
+								<textbox id="mailpassword_user"
+									type="password">
+								</textbox>
+							</row>
+
+
+
+						</rows>
+					</grid>
+
+				</panelchildren>
+
+			</panel>
+
+			<panel id="panel_mail_password" border="normal"
+				collapsible="false" sclass="transparent">
+				<caption iconSclass="z-icon-star orange"
+					label="Gestione Password">
+
+					<toolbarbutton id="modify_mail_password"
+						label="Modifica Password" style="color: blue">
+					</toolbarbutton>
+
+				</caption>
+
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Informazioni" />
+						</columns>
+						<rows>
+							<row>
+								<label value="Password:"></label>
+								<textbox id="password_editor_user"
+									type="password" mold="rounded" />
+							</row>
+
+							<row>
+								<label value="Ridigita Password:"></label>
+								<textbox
+									id="password_editor_user_retype" mold="rounded"
+									type="password" />
+							</row>
+
+
+						</rows>
+					</grid>
+
+				</panelchildren>
+
+
+
+
+
+
+			</panel>
+		</div>
+
+	</div>
+
+	<div>
+		<separator></separator>
+
+		<button id="sw_adduser" sclass="btn-info"
+			label="Aggiungi Utente"
+			onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true)">
+		</button>
+
+		<button id="sw_refresh_list" sclass="btn-info"
+			label="Aggiorna Lista Utenti">
+		</button>
+
+		<button id="sw_select_admins" sclass="btn-info"
+			label="Seleziona Amministratori di Sistema">
+		</button>
+
+		<separator></separator>
+	</div>
+
+	<a label="Lista Utenti" iconSclass="z-icon-list"
+		sclass="green lighter rcaption" />
+
+	<div id="box_deleteuser" visible="false">
+
+		<a label="Vuoi eliminare l'utente selezionato?"
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+		<toolbarbutton label="Si" style="color: red"
+			id="deleteuser_command">
+		</toolbarbutton>
+		<toolbarbutton label="No" style="color: no"
+			onClick="box_deleteuser.setVisible(false)">
+		</toolbarbutton>
+
+	</div>
+
+	<listbox id="sw_list_user" pagingPosition="both" mold="paging"
+		onSelect="grid_user_details.setVisible(false)"
+		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+		pageSize="20">
+		<listhead sizable="true">
+			<listheader label="Id" sort="auto(id)" />
+			<listheader label="Status" sort="auto(status)" />
+			<listheader label="Abilitato" />
+			<listheader label="Nome" sort="auto(individualName)" />
+			<listheader label="Città" sort="auto(city)" />
+			<listheader label="Telefono" sort="auto(phone)" />
+			<listheader label="Mail" sort="auto(email)" />
+			<listheader label="Ruolo" />
+			<listheader label="" />
+		</listhead>
+
+		<listitem self="@{each='user_item'}" value="@{user_item}">
+
+			<listcell label="@{user_item.id}" />
+			<listcell label="@{user_item.status}" />
+
+			<listcell label="@{user_item.enabled}" />
+
+			<listcell label="@{user_item.individualName}" />
+
+			<listcell label="@{user_item.city}" />
+			<listcell label="@{user_item.phone}" />
+			<listcell label="@{user_item.email}" />
+			<listcell label="@{user_item.authority}" />
+
+			<listcell>
+
+				<toolbarbutton id="sw_link_deleteuser"
+					style="color:blue"
+					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());box_deleteuser.setVisible(true)"
+					label="Cancella">
+				</toolbarbutton>
+
+				<toolbarbutton id="sw_link_modifyeuser"
+					style="color:blue"
+					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_user_details.setVisible(true);"
+					label="Edita">
+				</toolbarbutton>
+
+			</listcell>
+
+
+
+
+		</listitem>
+
+	</listbox>
+
+
+
+
+
+</vlayout>

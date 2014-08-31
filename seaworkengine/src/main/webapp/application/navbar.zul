@@ -1,0 +1,72 @@
+<div sclass="navbar"
+	apply="org.uario.seaworkengine.zkevent.NavbarComposer">
+
+
+	<!-- Brand Logo -->
+	<a label="Seawork Engine" sclass="pull-left navbar-brand"
+		iconSclass="z-icon-leaf" />
+	<!-- Navbar -->
+
+
+	<hlayout sclass="nav-user pull-right" spacing="0">
+		<a id="atask" iconSclass="z-icon-tasks"
+			popup="taskpp, position=after_end, type=toggle" sclass="purple">
+			<label value="Server e Configurazioni"
+				sclass="badge badge-grey" />
+		</a>
+
+		<!-- User menu -->
+		<menubar sclass="user-menu light-blue">
+			<menu tooltiptext="Profilo Utente" id="user_welcome"
+				label="Benvenuto Utente">
+				<menupopup>
+					<menuitem label="Profile" iconSclass="z-icon-user"
+						id="user_profile" />
+					<menuseparator />
+					<menuitem id="sw_logout" label="Logout"
+						iconSclass="z-icon-off" />
+				</menupopup>
+			</menu>
+		</menubar>
+	</hlayout>
+
+	<!-- Popups of navbar -->
+	<popup id="taskpp" sclass="menu" width="240px">
+		<a label="Gestione server e Configurazione" sclass="header"
+			iconSclass="z-icon-check" />
+		<vlayout spacing="0">
+			<a href="#">
+				<div>
+					<label class="pull-left" value="Max Memory" />
+					<label class="pull-right" id="max_memoery_pop_value"
+						value="35%" />
+				</div>
+				<progressmeter value="100" width="100%"
+					sclass="progressmeter-danger" />
+			</a>
+			<a href="#">
+				<div>
+					<label class="pull-left" value="Free Memory" />
+					<label class="pull-right" value="65%"
+						id="free_memoery_pop_value" />
+				</div>
+				<progressmeter value="1" width="100%" id="free_mem_pc" />
+			</a>
+			<a href="#">
+				<div>
+					<label class="pull-left" value="Allocated Memory" />
+					<label class="pull-right" value="15%"
+						id="allocated_memoery_pop_value" />
+				</div>
+				<progressmeter value="1" width="100%"
+					id="allocated_mem_pc" sclass="progressmeter-warning" />
+			</a>
+
+			<a label="Vedi dettagli di configurazione"
+				id="gs_preferences">
+				<span class="z-icon-arrow-right" />
+			</a>
+		</vlayout>
+	</popup>
+
+</div>

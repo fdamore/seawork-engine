@@ -1,0 +1,92 @@
+<?page title="Seawork Engine" contentType="text/html;charset=UTF-8"?>
+
+
+<zk>
+
+	<!-- Load Bootstrap  -->
+	<?link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+
+	<!-- Google Open Sans font -->
+	<!-- Load fonts from local -->
+	<?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+
+	<!-- Unmark if we want to use fonts from google server
+		<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+	-->
+
+	<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+	
+	
+	
+
+
+	<window draggable="false" mode="overlapped" position="center,center"
+		visible="true" border="none" width="600px">
+
+		<vbox align="center">
+
+			<separator></separator>
+			
+	
+
+
+
+			<hbox align="center">
+
+				<label value="Seawork Engine" style="font-size:2em;">
+				</label>
+
+				<image src="/img/login.png" width="40px"></image>
+
+			</hbox>
+
+			<separator />
+
+
+			<label value="Login form" style="font-size:1.0em;"></label>
+
+			<separator />
+
+			<html:form id="f" name="f" action="j_spring_security_check"
+				method="POST" xmlns:html="native">
+				<grid style="margin: 5% 5% 5% 5%">
+					<rows>
+						<row>
+							<label value="User: "></label>
+							<textbox id="u" name="j_username" />
+						</row>
+						<row>
+							<label value="Password: "></label>
+							<textbox id="p" type="password"
+								name="j_password" />
+						</row>
+						<row spans="3">
+
+							<hbox>
+
+								<button type="reset" label="Reset" />
+
+								<button type="submit" label="Accedi"
+									mold="trendy" />
+
+							</hbox>
+						</row>
+					</rows>
+				</grid>
+			</html:form>
+
+			<separator></separator>
+
+			<hbox align="center">
+				<label value="Powerd by " style="font-size:10px"></label>
+				<toolbarbutton label="Uario"
+					style="font-size:10px;color:blue" href="http://www.uario.com">
+				</toolbarbutton>
+			</hbox>
+
+			<separator />
+		</vbox>
+	</window>
+</zk>
+
+
