@@ -239,7 +239,7 @@
 
 	<insert id="insertPerson" parameterType="org.uario.seaworkengine.model.Person">
 		INSERT INTO user
-		(email,password text,authority,firstname,
+		(email,password,authority,firstname,
 		lastname,
 		address,
 		city,
@@ -292,8 +292,8 @@
 		#{family_charge},
 		#{employee_identification},
 		#{education},
-		#{drive_license},
-		#{drive_license_emission},
+		#{driving_license},
+		#{driving_license_emission},
 		#{employee_level},
 		#{current_position},
 		#{bill_center},
