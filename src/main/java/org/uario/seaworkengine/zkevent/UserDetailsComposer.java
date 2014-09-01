@@ -34,229 +34,229 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Component			add_users_command;
+	private Component add_users_command;
 
 	@Wire
-	private Textbox				address_user;
+	private Textbox address_user;
 
 	@Wire
-	private Checkbox			admin_user;
+	private Checkbox admin_user;
 
 	@Wire
-	private Checkbox			backoffice_user;
+	private Checkbox backoffice_user;
 
 	@Wire
-	private Combobox			billcenter_user;
+	private Combobox billcenter_user;
 
 	@Wire
-	private Datebox				birth_date_user;
+	private Datebox birth_date_user;
 
 	@Wire
-	private Textbox				birth_place_user;
+	private Textbox birth_place_user;
 
 	@Wire
-	private Div					box_deleteuser;
+	private Div box_deleteuser;
 
 	@Wire
-	private Textbox				city_user;
+	private Textbox city_user;
 
 	@Wire
-	private Textbox				country_user;
+	private Textbox country_user;
 
 	@Wire
-	private Textbox				current_position_user;
+	private Textbox current_position_user;
 
 	@Wire
-	private Datebox				date_fired_user;
+	private Datebox date_fired_user;
 
 	@Wire
-	private Datebox				date_modify_user;
+	private Datebox date_modify_user;
 
 	@Wire
-	private Textbox				department_user;
+	private Textbox department_user;
 
 	@Wire
-	private Datebox				driving_license_emission_user;
+	private Datebox driving_license_emission_user;
 
 	@Wire
-	private Textbox				driving_license_user;
+	private Textbox driving_license_user;
 
 	@Wire
-	private Textbox				education_user;
+	private Textbox education_user;
 
 	@Wire
-	private Textbox				email_editor_user;
+	private Textbox email_editor_user;
 
 	@Wire
-	private Textbox				email_editor_user_retype;
+	private Textbox email_editor_user_retype;
 
 	@Wire
-	private Textbox				email_user;
+	private Textbox email_user;
 
 	@Wire
-	private Textbox				email_user_retype;
+	private Textbox email_user_retype;
 
 	@Wire
-	private Textbox				employee_identification_user;
+	private Textbox employee_identification_user;
 
 	@Wire
-	private Textbox				employee_level_user;
+	private Textbox employee_level_user;
 
 	@Wire
-	private Datebox				employment_date_user;
+	private Datebox employment_date_user;
 
 	@Wire
-	private Textbox				family_charge_user;
+	private Textbox family_charge_user;
 
 	@Wire
-	private Textbox				firstname_user;
+	private Textbox firstname_user;
 
 	@Wire
-	private Textbox				fiscalcode_user;
+	private Textbox fiscalcode_user;
 
 	@Wire
-	private Component			grid_user_details;
+	private Component grid_user_details;
 
 	@Wire
-	private Textbox				lastname_user;
+	private Textbox lastname_user;
 
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
-
-	@Wire
-	private Textbox				mailpassword_user;
+	private final Logger logger = Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox				marital_status_user;
+	private Textbox mailpassword_user;
 
 	@Wire
-	private Component			modify_users_command;
+	private Textbox marital_status_user;
 
 	@Wire
-	private Textbox				nbudje_user;
+	private Component modify_users_command;
 
 	@Wire
-	private Textbox				ncfl_user;
+	private Textbox nbudje_user;
 
 	@Wire
-	private Textbox				npass_user;
+	private Textbox ncfl_user;
 
 	@Wire
-	private Checkbox			operative_user;
+	private Textbox npass_user;
 
 	@Wire
-	private Div					panel_modify;
+	private Checkbox operative_user;
 
 	@Wire
-	private Textbox				password_editor_user;
+	private Div panel_modify;
 
 	@Wire
-	private Textbox				password_editor_user_retype;
+	private Textbox password_editor_user;
 
 	@Wire
-	private Textbox				password_user;
+	private Textbox password_editor_user_retype;
 
 	@Wire
-	private Textbox				password_user_retype;
+	private Textbox password_user;
+
+	@Wire
+	private Textbox password_user_retype;
 
 	// the dao used for db interaction
-	private PersonDAO			personDao;
+	private PersonDAO personDao;
 
 	@Wire
-	private Textbox				phone_user;
+	private Textbox phone_user;
 
 	@Wire
-	private Textbox				postalCode_user;
+	private Textbox postalCode_user;
 
 	@Wire
-	private Textbox				provincia_user;
+	private Textbox provincia_user;
 
 	@Wire
-	private Row					row_email_user_retype;
+	private Row row_email_user_retype;
 
 	@Wire
-	private Row					row_password_user;
+	private Row row_password_user;
 
 	@Wire
-	private Row					row_password_user_retype;
+	private Row row_password_user_retype;
 
 	@Wire
-	private Listbox				sw_list_user;
+	private Listbox sw_list_user;
 
 	@Wire
-	private Checkbox			user_enabled;
+	private Checkbox user_enabled;
 
 	@Wire
-	private Combobox			user_status;
+	private Combobox user_status;
 
 	@Wire
-	private Checkbox			viewer_user;
+	private Checkbox viewer_user;
 
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
 
 		// check info mail
-		final String mail = this.email_user.getValue();
-		final String retype_mail = this.email_user_retype.getValue();
+		final String mail = email_user.getValue();
+		final String retype_mail = email_user_retype.getValue();
 		if (!retype_mail.equals(mail)) {
 			Messagebox.show("Ridigita la Mail!", "ERROR", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 
 		// check info password
-		final String retype_password = this.password_user_retype.getValue();
-		final String password = this.password_user.getValue();
+		final String retype_password = password_user_retype.getValue();
+		final String password = password_user.getValue();
 		if (retype_password.equals("") || !retype_password.equals(password)) {
 			Messagebox.show("Ridigita la password!", "ERROR", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 
 		// check mail single....
-		final Object ob = this.personDao.loadUserByUsernameIfAny(mail);
+		final Object ob = personDao.loadUserByUsernameIfAny(mail);
 		if ((ob != null) && (ob instanceof Person)) {
 			Messagebox.show("Mail già presente", "ERROR", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 
 		final Person person = new Person();
-		person.setAddress(this.address_user.getValue());
-		person.setCity(this.city_user.getValue());
-		person.setEmail(this.email_user.getValue());
-		person.setFirstname(this.firstname_user.getValue());
-		person.setLastname(this.lastname_user.getValue());
-		person.setPassword(this.password_user.getValue());
-		person.setPhone(this.phone_user.getValue());
-		person.setZip(this.postalCode_user.getValue());
-		person.setCountry(this.country_user.getValue());
-		person.setEnabled(this.user_enabled.isChecked());
-		person.setEmployee_identification(this.employee_identification_user.getValue());
-		person.setProvincia(this.provincia_user.getValue());
-		person.setFiscal_code(this.fiscalcode_user.getValue());
-		person.setBirth_date(this.birth_date_user.getValue());
-		person.setBirth_place(this.birth_place_user.getValue());
-		person.setEducation(this.education_user.getValue());
-		person.setEmployment(this.employment_date_user.getValue());
-		person.setDate_fired(this.date_fired_user.getValue());
-		person.setDate_modify(this.date_modify_user.getValue());
-		person.setNcfl(this.ncfl_user.getValue());
-		person.setDepartment(this.department_user.getValue());
-		person.setCurrent_position(this.current_position_user.getValue());
-		person.setEmployee_level(this.employee_level_user.getValue());
-		person.setBill_center(this.billcenter_user.getValue());
+		person.setAddress(address_user.getValue());
+		person.setCity(city_user.getValue());
+		person.setEmail(email_user.getValue());
+		person.setFirstname(firstname_user.getValue());
+		person.setLastname(lastname_user.getValue());
+		person.setPassword(password_user.getValue());
+		person.setPhone(phone_user.getValue());
+		person.setZip(postalCode_user.getValue());
+		person.setCountry(country_user.getValue());
+		person.setEnabled(user_enabled.isChecked());
+		person.setEmployee_identification(employee_identification_user.getValue());
+		person.setProvincia(provincia_user.getValue());
+		person.setFiscal_code(fiscalcode_user.getValue());
+		person.setBirth_date(birth_date_user.getValue());
+		person.setBirth_place(birth_place_user.getValue());
+		person.setEducation(education_user.getValue());
+		person.setEmployment(employment_date_user.getValue());
+		person.setDate_fired(date_fired_user.getValue());
+		person.setDate_modify(date_modify_user.getValue());
+		person.setNcfl(ncfl_user.getValue());
+		person.setDepartment(department_user.getValue());
+		person.setCurrent_position(current_position_user.getValue());
+		person.setEmployee_level(employee_level_user.getValue());
+		person.setBill_center(billcenter_user.getValue());
 
-		person.setNbudge(this.nbudje_user.getValue());
-		person.setNpass(this.npass_user.getValue());
-		person.setMarital_status(this.marital_status_user.getValue());
-		person.setFamily_charge(this.family_charge_user.getValue());
-		person.setDriving_license(this.driving_license_user.getValue());
-		person.setDriving_license_emission(this.driving_license_emission_user.getValue());
+		person.setNbudge(nbudje_user.getValue());
+		person.setNpass(npass_user.getValue());
+		person.setMarital_status(marital_status_user.getValue());
+		person.setFamily_charge(family_charge_user.getValue());
+		person.setDriving_license(driving_license_user.getValue());
+		person.setDriving_license_emission(driving_license_emission_user.getValue());
 
 		// set authority
 		person.setAuthority(UserTag.ROLE_USER);
 
-		final boolean admin = this.admin_user.isChecked();
+		final boolean admin = admin_user.isChecked();
 
 		if (admin) {
 			person.setAuthority(UserTag.ROLE_SUPERVISOR);
@@ -265,19 +265,19 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// set enable true by default
 		person.setEnabled(Boolean.TRUE);
 
-		this.personDao.savePerson(person);
+		personDao.savePerson(person);
 
 		// reset data info
-		this.resetDataInfo();
+		resetDataInfo();
 
 		Messagebox.show("Aggiunto elemento", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 		// set user ListBox
-		this.setUserListBox();
+		setUserListBox();
 
-		this.grid_user_details.setVisible(false);
-		this.add_users_command.setVisible(false);
-		this.modify_users_command.setVisible(false);
+		grid_user_details.setVisible(false);
+		add_users_command.setVisible(false);
+		modify_users_command.setVisible(false);
 
 	}
 
@@ -286,44 +286,44 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		try {
 
-			if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-					|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+			if ((sw_list_user.getSelectedItem() == null) || (sw_list_user.getSelectedItem().getValue() == null)
+					|| !(sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 				return;
 			}
 
-			final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
+			final Person person_selected = sw_list_user.getSelectedItem().getValue();
 
 			// check over password
-			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), person_selected.getEmail());
+			final String hashing_password = Utility.encodeSHA256(mailpassword_user.getValue(), person_selected.getEmail());
 			if (!hashing_password.equals(person_selected.getPassword())) {
 				Messagebox.show("la password inserita non è corretta", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 
 				// set fields
-				this.mailpassword_user.setValue("");
+				mailpassword_user.setValue("");
 
 				return;
 
 			}
 
-			if (!this.email_editor_user.getValue().equals(this.email_editor_user_retype.getValue())) {
+			if (!email_editor_user.getValue().equals(email_editor_user_retype.getValue())) {
 				Messagebox.show("Le mail devono essere uguali", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 
 				// set fields
-				this.mailpassword_user.setValue("");
+				mailpassword_user.setValue("");
 
 				return;
 			}
 
 			// change password
-			this.personDao.changeMail(person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
+			personDao.changeMail(person_selected.getId(), mailpassword_user.getValue(), email_editor_user.getValue());
 
-			person_selected.setEmail(this.email_editor_user.getValue());
-			this.sw_list_user.getSelectedItem().setValue(person_selected);
+			person_selected.setEmail(email_editor_user.getValue());
+			sw_list_user.getSelectedItem().setValue(person_selected);
 
 			// set fields
-			this.mailpassword_user.setValue("");
+			mailpassword_user.setValue("");
 
-			this.email_user.setValue(person_selected.getEmail());
+			email_user.setValue(person_selected.getEmail());
 
 			Messagebox.show("Mail Cambiata", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -341,25 +341,25 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void changePassword(final Event evt) {
 		try {
 
-			if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-					|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+			if ((sw_list_user.getSelectedItem() == null) || (sw_list_user.getSelectedItem().getValue() == null)
+					|| !(sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 				return;
 			}
 
-			final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
+			final Person person_selected = sw_list_user.getSelectedItem().getValue();
 
 			// WARNING
-			if (!this.password_editor_user.getValue().equals(this.password_editor_user_retype.getValue())) {
+			if (!password_editor_user.getValue().equals(password_editor_user_retype.getValue())) {
 				Messagebox.show("Le Password devono essere uguali", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 				return;
 			}
 
 			// change password
-			this.personDao.changePassword(person_selected.getEmail(), this.password_editor_user.getValue());
+			personDao.changePassword(person_selected.getEmail(), password_editor_user.getValue());
 
 			// reset fields
-			this.password_editor_user.setValue("");
-			this.password_editor_user_retype.setValue("");
+			password_editor_user.setValue("");
+			password_editor_user_retype.setValue("");
 
 			Messagebox.show("Password Aggiornata", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -376,66 +376,67 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_modifyeuser")
 	public void defineModifyView() {
 
-		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+		if ((sw_list_user.getSelectedItem() == null) || (sw_list_user.getSelectedItem().getValue() == null)
+				|| !(sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
 
-		Person person_selected = this.sw_list_user.getSelectedItem().getValue();
+		Person person_selected = sw_list_user.getSelectedItem().getValue();
 
 		// get the last person from database
-		person_selected = this.personDao.loadPerson(person_selected.getId());
+		person_selected = personDao.loadPerson(person_selected.getId());
 
-		this.email_user.setValue(person_selected.getEmail());
-		this.email_user.setDisabled(true);
+		email_user.setValue(person_selected.getEmail());
+		email_user.setDisabled(true);
 
 		// disable command about credential
-		this.row_email_user_retype.setVisible(false);
-		this.row_password_user.setVisible(false);
-		this.row_password_user_retype.setVisible(false);
+		row_email_user_retype.setVisible(false);
+		row_password_user.setVisible(false);
+		row_password_user_retype.setVisible(false);
 
-		this.firstname_user.setValue(person_selected.getFirstname());
-		this.lastname_user.setValue(person_selected.getLastname());
-		this.city_user.setValue(person_selected.getCity());
-		this.address_user.setValue(person_selected.getAddress());
-		this.phone_user.setValue(person_selected.getPhone());
-		this.postalCode_user.setValue(person_selected.getZip());
-		this.user_enabled.setChecked(person_selected.isEnabled());
-		this.country_user.setValue(person_selected.getCountry());
-		this.provincia_user.setValue(person_selected.getProvincia());
-		this.employee_identification_user.setValue(person_selected.getEmployee_identification());
-		this.fiscalcode_user.setValue(person_selected.getFiscal_code());
-		this.birth_date_user.setValue(person_selected.getBirth_date());
-		this.birth_place_user.setValue(person_selected.getBirth_place());
-		this.education_user.setValue(person_selected.getEducation());
-		this.employment_date_user.setValue(person_selected.getEmployment());
-		this.date_fired_user.setValue(person_selected.getDate_fired());
-		this.date_modify_user.setValue(person_selected.getDate_modify());
-		this.ncfl_user.setValue(person_selected.getNcfl());
-		this.department_user.setValue(person_selected.getDepartment());
-		this.current_position_user.setValue(person_selected.getCurrent_position());
-		this.employee_level_user.setValue(person_selected.getEmployee_level());
-		this.billcenter_user.setValue(person_selected.getBill_center());
-		this.driving_license_emission_user.setValue(person_selected.getDriving_license_emission());
+		firstname_user.setValue(person_selected.getFirstname());
+		lastname_user.setValue(person_selected.getLastname());
+		city_user.setValue(person_selected.getCity());
+		address_user.setValue(person_selected.getAddress());
+		phone_user.setValue(person_selected.getPhone());
+		postalCode_user.setValue(person_selected.getZip());
+		user_enabled.setChecked(person_selected.isEnabled());
+		country_user.setValue(person_selected.getCountry());
+		provincia_user.setValue(person_selected.getProvincia());
+		employee_identification_user.setValue(person_selected.getEmployee_identification());
+		fiscalcode_user.setValue(person_selected.getFiscal_code());
+		birth_date_user.setValue(person_selected.getBirth_date());
+		birth_place_user.setValue(person_selected.getBirth_place());
+		education_user.setValue(person_selected.getEducation());
+		employment_date_user.setValue(person_selected.getEmployment());
+		date_fired_user.setValue(person_selected.getDate_fired());
+		date_modify_user.setValue(person_selected.getDate_modify());
+		ncfl_user.setValue(person_selected.getNcfl());
+		department_user.setValue(person_selected.getDepartment());
+		current_position_user.setValue(person_selected.getCurrent_position());
+		employee_level_user.setValue(person_selected.getEmployee_level());
+		billcenter_user.setValue(person_selected.getBill_center());
+		driving_license_emission_user.setValue(person_selected.getDriving_license_emission());
+		nbudje_user.setValue(person_selected.getNbudge());
 
 		// set status
 		final String status = person_selected.getStatus();
-		final List<Comboitem> lists = this.user_status.getItems();
+		final List<Comboitem> lists = user_status.getItems();
 		for (final Comboitem item : lists) {
 			if (item.getValue().equals(status)) {
-				this.user_status.setSelectedItem(item);
+				user_status.setSelectedItem(item);
 				break;
 			}
 		}
 
 		// set users
-		this.admin_user.setChecked(person_selected.isAdministrator());
-		this.viewer_user.setChecked(person_selected.isViewer());
-		this.backoffice_user.setChecked(person_selected.isBackoffice());
-		this.operative_user.setChecked(person_selected.isOperative());
+		admin_user.setChecked(person_selected.isAdministrator());
+		viewer_user.setChecked(person_selected.isViewer());
+		backoffice_user.setChecked(person_selected.isBackoffice());
+		operative_user.setChecked(person_selected.isOperative());
 
 		// set panel modify
-		this.panel_modify.setVisible(true);
+		panel_modify.setVisible(true);
 
 	}
 
@@ -443,25 +444,25 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void deleteUserCommand() {
 
 		try {
-			if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-					|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+			if ((sw_list_user.getSelectedItem() == null) || (sw_list_user.getSelectedItem().getValue() == null)
+					|| !(sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 				return;
 			}
 
-			final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
+			final Person person_selected = sw_list_user.getSelectedItem().getValue();
 
-			this.personDao.removePerson(person_selected.getId());
+			personDao.removePerson(person_selected.getId());
 
 			// update list
-			this.setUserListBox();
+			setUserListBox();
 
-			this.box_deleteuser.setVisible(false);
+			box_deleteuser.setVisible(false);
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 		} catch (final Exception e) {
 
-			this.logger.error("Error removing user. " + e.getMessage());
+			logger.error("Error removing user. " + e.getMessage());
 
 			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
 					Messagebox.OK, Messagebox.ERROR);
@@ -473,13 +474,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Override
 	public void doFinally() throws Exception {
 
-		this.getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
+		getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
 
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
 
 				// get the person dao
-				UserDetailsComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+				personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
 				UserDetailsComposer.this.setInitialView();
 
@@ -491,63 +492,63 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #modify_users_command")
 	public void modifyCommand() {
 
-		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+		if ((sw_list_user.getSelectedItem() == null) || (sw_list_user.getSelectedItem().getValue() == null)
+				|| !(sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
 
-		final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
+		final Person person_selected = sw_list_user.getSelectedItem().getValue();
 
-		person_selected.setFirstname(this.firstname_user.getValue());
-		person_selected.setLastname(this.lastname_user.getValue());
-		person_selected.setCity(this.city_user.getValue());
-		person_selected.setAddress(this.address_user.getValue());
-		person_selected.setPhone(this.phone_user.getValue());
-		person_selected.setZip(this.postalCode_user.getValue());
-		person_selected.setEnabled(this.user_enabled.isChecked());
-		person_selected.setEmployee_identification(this.employee_identification_user.getValue());
-		person_selected.setProvincia(this.provincia_user.getValue());
-		person_selected.setFiscal_code(this.fiscalcode_user.getValue());
-		person_selected.setBirth_date(this.birth_date_user.getValue());
-		person_selected.setBirth_place(this.birth_place_user.getValue());
-		person_selected.setEducation(this.education_user.getValue());
-		person_selected.setEmployment(this.employment_date_user.getValue());
-		person_selected.setDate_fired(this.date_fired_user.getValue());
-		person_selected.setDate_modify(this.date_modify_user.getValue());
-		person_selected.setNcfl(this.ncfl_user.getValue());
-		person_selected.setDepartment(this.department_user.getValue());
-		person_selected.setCurrent_position(this.current_position_user.getValue());
-		person_selected.setEmployee_level(this.employee_level_user.getValue());
-		person_selected.setBill_center(this.billcenter_user.getValue());
-		person_selected.setDriving_license_emission(this.driving_license_emission_user.getValue());
-		person_selected.setCountry(this.country_user.getValue());
+		person_selected.setFirstname(firstname_user.getValue());
+		person_selected.setLastname(lastname_user.getValue());
+		person_selected.setCity(city_user.getValue());
+		person_selected.setAddress(address_user.getValue());
+		person_selected.setPhone(phone_user.getValue());
+		person_selected.setZip(postalCode_user.getValue());
+		person_selected.setEnabled(user_enabled.isChecked());
+		person_selected.setEmployee_identification(employee_identification_user.getValue());
+		person_selected.setProvincia(provincia_user.getValue());
+		person_selected.setFiscal_code(fiscalcode_user.getValue());
+		person_selected.setBirth_date(birth_date_user.getValue());
+		person_selected.setBirth_place(birth_place_user.getValue());
+		person_selected.setEducation(education_user.getValue());
+		person_selected.setEmployment(employment_date_user.getValue());
+		person_selected.setDate_fired(date_fired_user.getValue());
+		person_selected.setDate_modify(date_modify_user.getValue());
+		person_selected.setNcfl(ncfl_user.getValue());
+		person_selected.setDepartment(department_user.getValue());
+		person_selected.setCurrent_position(current_position_user.getValue());
+		person_selected.setEmployee_level(employee_level_user.getValue());
+		person_selected.setBill_center(billcenter_user.getValue());
+		person_selected.setDriving_license_emission(driving_license_emission_user.getValue());
+		person_selected.setCountry(country_user.getValue());
 
 		// set status
-		if (this.user_status.getSelectedItem() != null) {
-			final String status_val = this.user_status.getSelectedItem().getValue();
+		if (user_status.getSelectedItem() != null) {
+			final String status_val = user_status.getSelectedItem().getValue();
 			person_selected.setStatus(status_val);
 		}
 
 		// set authority
 		String auth = UserTag.ROLE_USER;
-		if (this.admin_user.isChecked()) {
+		if (admin_user.isChecked()) {
 			auth = UserTag.ROLE_SUPERVISOR;
 		}
 
-		if (this.operative_user.isChecked()) {
+		if (operative_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_OPERATIVE;
 			}
 		}
 
-		if (this.backoffice_user.isChecked()) {
+		if (backoffice_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_BACKOFFICE;
 
 			}
 		}
 
-		if (this.viewer_user.isChecked()) {
+		if (viewer_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_VIEWER;
 			}
@@ -555,12 +556,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		person_selected.setAuthority(auth);
 
 		// update
-		this.personDao.updatePerson(person_selected);
+		personDao.updatePerson(person_selected);
 
 		// update list
-		this.setUserListBox();
+		setUserListBox();
 
-		this.grid_user_details.setVisible(false);
+		grid_user_details.setVisible(false);
 
 		Messagebox.show("Dati Utente aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -570,64 +571,64 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void refreshList() {
 
 		// set user listbox
-		this.setUserListBox();
+		setUserListBox();
 	}
 
 	/**
 	 * Reset data on user grid
 	 */
 	private void resetDataInfo() {
-		this.email_user.setValue("info@seawork.com");
-		this.email_user_retype.setValue("info@seawork.com");
-		this.password_user.setValue("");
-		this.password_user_retype.setValue("");
-		this.firstname_user.setValue("NOME");
-		this.lastname_user.setValue("COGNOME");
-		this.city_user.setValue("");
-		this.address_user.setValue("");
-		this.phone_user.setValue("");
-		this.postalCode_user.setValue("");
-		this.employee_identification_user.setValue("");
-		this.provincia_user.setValue("");
-		this.user_enabled.setChecked(Boolean.TRUE);
-		this.user_status.setValue(null);
-		this.fiscalcode_user.setValue("");
-		this.birth_date_user.setValue(null);
-		this.birth_place_user.setValue("");
-		this.education_user.setValue("");
-		this.employment_date_user.setValue(null);
-		this.date_fired_user.setValue(null);
-		this.country_user.setValue("");
+		email_user.setValue("info@seawork.com");
+		email_user_retype.setValue("info@seawork.com");
+		password_user.setValue("");
+		password_user_retype.setValue("");
+		firstname_user.setValue("NOME");
+		lastname_user.setValue("COGNOME");
+		city_user.setValue("");
+		address_user.setValue("");
+		phone_user.setValue("");
+		postalCode_user.setValue("");
+		employee_identification_user.setValue("");
+		provincia_user.setValue("");
+		user_enabled.setChecked(Boolean.TRUE);
+		user_status.setValue(null);
+		fiscalcode_user.setValue("");
+		birth_date_user.setValue(null);
+		birth_place_user.setValue("");
+		education_user.setValue("");
+		employment_date_user.setValue(null);
+		date_fired_user.setValue(null);
+		country_user.setValue("");
 
-		this.date_modify_user.setValue(null);
-		this.ncfl_user.setValue("");
-		this.department_user.setValue("");
-		this.current_position_user.setValue("");
-		this.employee_level_user.setValue("");
-		this.billcenter_user.setValue(null);
-		this.driving_license_emission_user.setValue(null);
+		date_modify_user.setValue(null);
+		ncfl_user.setValue("");
+		department_user.setValue("");
+		current_position_user.setValue("");
+		employee_level_user.setValue("");
+		billcenter_user.setValue(null);
+		driving_license_emission_user.setValue(null);
 
 		// set roles
-		this.admin_user.setChecked(Boolean.FALSE);
-		this.operative_user.setChecked(Boolean.FALSE);
-		this.backoffice_user.setChecked(Boolean.FALSE);
-		this.viewer_user.setChecked(Boolean.FALSE);
+		admin_user.setChecked(Boolean.FALSE);
+		operative_user.setChecked(Boolean.FALSE);
+		backoffice_user.setChecked(Boolean.FALSE);
+		viewer_user.setChecked(Boolean.FALSE);
 
 		// set enable email (due becouse modify process)
-		this.email_user.setDisabled(false);
+		email_user.setDisabled(false);
 
 		// enable command about credential
-		this.row_email_user_retype.setVisible(true);
-		this.row_password_user.setVisible(true);
-		this.row_password_user_retype.setVisible(true);
+		row_email_user_retype.setVisible(true);
+		row_password_user.setVisible(true);
+		row_password_user_retype.setVisible(true);
 	}
 
 	@Listen("onClick = #sw_select_admins")
 	public void selectAdmins() {
 
-		final List<Person> list_person = this.personDao.usersAdmin();
+		final List<Person> list_person = personDao.usersAdmin();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		sw_list_user.setModel(new ListModelList<Person>(list_person));
 
 	}
 
@@ -637,10 +638,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void setInitialView() {
 
 		// set user listbox
-		this.setUserListBox();
+		setUserListBox();
 
 		// initial view
-		this.grid_user_details.setVisible(false);
+		grid_user_details.setVisible(false);
 
 	}
 
@@ -649,18 +650,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	 */
 	private void setUserListBox() {
 
-		final List<Person> list_person = this.personDao.listAllPersons();
+		final List<Person> list_person = personDao.listAllPersons();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		sw_list_user.setModel(new ListModelList<Person>(list_person));
 	}
 
 	@Listen("onClick = #sw_adduser")
 	public void showGridAddUser() {
 
-		this.resetDataInfo();
+		resetDataInfo();
 
 		// set panel modify
-		this.panel_modify.setVisible(false);
+		panel_modify.setVisible(false);
 
 	}
 }
