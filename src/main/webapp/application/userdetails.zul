@@ -27,14 +27,12 @@
 					id="mail_user_tab" />
 				<tab label="Password Utente" visible="false"
 					id="password_user_tab" />
+				<tab label="Mansioni" visible="false"
+					id="task_user_tab" />
 			</tabs>
 			<tabpanels>
 				<!-- Tab Comments Content -->
 				<tabpanel>
-
-
-
-
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<caption iconSclass="z-icon-star orange"
@@ -357,9 +355,6 @@
 
 					</panel>
 
-
-
-
 				</tabpanel>
 
 				<!-- Tab mail. -->
@@ -473,6 +468,105 @@
 					</panel>
 
 				</tabpanel>
+
+				<tabpanel>
+
+					<div id="grid_task_details" visible="false">
+
+					</div>
+
+					<panel id="panel_task">
+
+						<panelchildren>
+
+							<a label="Lista Mansioni Utente"
+								iconSclass="z-icon-list" sclass="green lighter rcaption" />
+
+							<div>
+								<separator></separator>
+
+								<button id="sw_addtask"
+									sclass="btn-info" label="Aggiungi Mansione"
+									onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true);">
+								</button>
+
+								<button id="sw_refresh_list_task"
+									sclass="btn-info" label="Aggiorna Lista Mansioni">
+								</button>
+
+								<separator></separator>
+							</div>
+
+
+							<div id="box_deletetask" visible="false">
+
+								<a
+									label="Vuoi eliminare la mansione selezionata?"
+									iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+								<toolbarbutton label="Si"
+									style="color: red" id="deletetask_command">
+								</toolbarbutton>
+								<toolbarbutton label="No"
+									style="color: no" onClick="box_deletetask.setVisible(false)">
+								</toolbarbutton>
+
+							</div>
+
+
+							<listbox id="sw_list_task"
+								pagingPosition="both" mold="paging"
+								onSelect="grid_task_details.setVisible(false)"
+								style="border: 1px solid #CCCCCC;" checkmark="true"
+								multiple="false" pageSize="20">
+								<listhead sizable="true">
+									<listheader label="Id"
+										sort="auto(id)" />
+									<listheader label="Codice"
+										sort="auto(status)" />
+									<listheader label="Descrizione" />
+
+									<listheader label="" />
+								</listhead>
+
+								<listitem self="@{each='user_item'}"
+									value="@{user_item}">
+
+									<listcell label="@{user_item.id}" />
+									<listcell label="@{user_item.code}" />
+
+									<listcell
+										label="@{user_item.description}" />
+
+									<listcell>
+
+										<toolbarbutton
+											id="sw_link_deletetask" style="color:blue"
+											onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
+											label="Cancella">
+										</toolbarbutton>
+
+										<toolbarbutton
+											id="sw_link_modifyetask" style="color:blue"
+											onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_task_details.setVisible(true);"
+											label="Edita">
+										</toolbarbutton>
+
+									</listcell>
+
+
+
+
+								</listitem>
+
+							</listbox>
+
+
+						</panelchildren>
+
+					</panel>
+
+				</tabpanel>
 			</tabpanels>
 		</tabbox>
 
@@ -480,12 +574,17 @@
 
 	</div>
 
+
+
+	<a label="Lista Utenti" iconSclass="z-icon-list"
+		sclass="green lighter rcaption" />
+
 	<div>
 		<separator></separator>
 
 		<button id="sw_adduser" sclass="btn-info"
 			label="Aggiungi Utente"
-			onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(false);password_user_tab.setVisible(false);">
+			onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(false);password_user_tab.setVisible(false);task_user_tab.setVisible(false)">
 		</button>
 
 		<button id="sw_refresh_list" sclass="btn-info"
@@ -498,9 +597,6 @@
 
 		<separator></separator>
 	</div>
-
-	<a label="Lista Utenti" iconSclass="z-icon-list"
-		sclass="green lighter rcaption" />
 
 	<div id="box_deleteuser" visible="false">
 
@@ -535,16 +631,19 @@
 		<listitem self="@{each='user_item'}" value="@{user_item}">
 
 			<listcell label="@{user_item.id}" />
-			<listcell label="@{user_item.status}" />
+			<listcell
+				label="@{user_item.status, converter='org.uario.seaworkengine.zkevent.converter.UserStatusConverter'}" />
 
-			<listcell label="@{user_item.enabled}" />
+			<listcell
+				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />
 
 			<listcell label="@{user_item.individualName}" />
 
 			<listcell label="@{user_item.city}" />
 			<listcell label="@{user_item.phone}" />
 			<listcell label="@{user_item.email}" />
-			<listcell label="@{user_item.authority}" />
+			<listcell
+				label="@{user_item.authority, converter='org.uario.seaworkengine.zkevent.converter.UserRoleConverter'}" />
 
 			<listcell>
 
@@ -556,7 +655,7 @@
 
 				<toolbarbutton id="sw_link_modifyeuser"
 					style="color:blue"
-					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(true);password_user_tab.setVisible(true);"
+					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(true);password_user_tab.setVisible(true);task_user_tab.setVisible(true)"
 					label="Edita">
 				</toolbarbutton>
 
