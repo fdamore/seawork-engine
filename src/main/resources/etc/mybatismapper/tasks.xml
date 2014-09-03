@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tasks">
+
+	<cache />
+
+	<select id="selectAllTasksByUser" resultType="org.uario.seaworkengine.model.UserTask"
+		parameterType="map">
+		SELECT t.id,
+		t.code,
+		t.description
+		FROM usertask t,
+		user_usertask ut where ut.id_user = #{id_user} and ut.id_usertask =
+		t.id;
+
+	</select>
+
+	<insert id="assignTaskToUser" parameterType="map">
+		INSERT INTO
+		user_usertask
+		(id_user,
+		id_usertask)
+		VALUES
+		(#{id_user},#{id_task});
+
+	</insert>
+
+	<delete id="deleteTaskToUser" parameterType="map">
+		delete from
+		user_usertask where
+		id_usertask = #{id_usertask} and id_user = #{id_user}
+	</delete>
+
+</mapper>

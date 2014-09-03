@@ -469,15 +469,66 @@
 
 				</tabpanel>
 
+				<!-- TAB TASKS -->
 				<tabpanel>
+					<panel id="panel_task" border="none"
+						collapsible="false" sclass="transparent">
 
-					<div id="grid_task_details" visible="false">
+						<caption iconSclass="z-icon-star orange"
+							label="Dettagli Mansione Utente">
 
-					</div>
+							<toolbarbutton id="add_tasks_command"
+								label="Aggiungi Mansione" style="color: blue" visible="false">
+							</toolbarbutton>
 
-					<panel id="panel_task">
+
+
+
+						</caption>
+
 
 						<panelchildren>
+
+							<div id="grid_task_details"
+								visible="false">
+
+								<toolbarbutton label="Chiudi"
+									onClick="grid_task_details.setVisible(false);add_tasks_command.setVisible(false);"
+									style="color: blue" visible="true">
+								</toolbarbutton>
+
+
+								<grid sclass="domain">
+									<columns>
+										<column label="Tipo" />
+										<column label="Informazioni" />
+									</columns>
+									<rows>
+										<row>
+											<label
+												value="Descrizione Mansione:">
+											</label>
+											<label
+												id="user_task_description" />
+										</row>
+
+										<row>
+											<label
+												value="Codice Mansione:">
+											</label>
+											<combobox
+												id="user_task_code" placeholder="Seleziona Mansione" />
+										</row>
+
+									</rows>
+								</grid>
+
+
+
+
+							</div>
+
+
 
 							<a label="Lista Mansioni Utente"
 								iconSclass="z-icon-list" sclass="green lighter rcaption" />
@@ -487,11 +538,12 @@
 
 								<button id="sw_addtask"
 									sclass="btn-info" label="Aggiungi Mansione"
-									onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true);">
+									onClick="add_tasks_command.setVisible(true);grid_task_details.setVisible(true);">
 								</button>
 
 								<button id="sw_refresh_list_task"
-									sclass="btn-info" label="Aggiorna Lista Mansioni">
+									onClick="grid_task_details.setVisible(false)" sclass="btn-info"
+									label="Aggiorna Lista Mansioni">
 								</button>
 
 								<separator></separator>
@@ -505,7 +557,8 @@
 									iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 								<toolbarbutton label="Si"
-									style="color: red" id="deletetask_command">
+									style="color: red" id="deletetask_command"
+									onClick="box_deletetask.setVisible(false)">
 								</toolbarbutton>
 								<toolbarbutton label="No"
 									style="color: no" onClick="box_deletetask.setVisible(false)">
@@ -520,8 +573,6 @@
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="20">
 								<listhead sizable="true">
-									<listheader label="Id"
-										sort="auto(id)" />
 									<listheader label="Codice"
 										sort="auto(status)" />
 									<listheader label="Descrizione" />
@@ -532,7 +583,7 @@
 								<listitem self="@{each='user_item'}"
 									value="@{user_item}">
 
-									<listcell label="@{user_item.id}" />
+
 									<listcell label="@{user_item.code}" />
 
 									<listcell
@@ -544,12 +595,6 @@
 											id="sw_link_deletetask" style="color:blue"
 											onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
 											label="Cancella">
-										</toolbarbutton>
-
-										<toolbarbutton
-											id="sw_link_modifyetask" style="color:blue"
-											onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_task_details.setVisible(true);"
-											label="Edita">
 										</toolbarbutton>
 
 									</listcell>
@@ -574,7 +619,7 @@
 
 	</div>
 
-
+	<space></space>
 
 	<a label="Lista Utenti" iconSclass="z-icon-list"
 		sclass="green lighter rcaption" />

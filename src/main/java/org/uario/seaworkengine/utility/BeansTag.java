@@ -6,4 +6,6 @@ public interface BeansTag {
 
 	public static String	PERSON_DAO			= "myPersonDAO";
 
+	public static String	TASK_DAO			= "myTasksDAO";
+
 }

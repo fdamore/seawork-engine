@@ -15,6 +15,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
@@ -74,15 +76,20 @@ public class Preferences extends SelectorComposer<Component> {
 	private Listbox				sw_list_task;
 
 	@Wire
-	private Textbox				type_shift;
+	private Combobox			type_shift;
 
 	@Listen("onClick = #add_shifts_command")
 	public void addShift() {
 
+		String us_type = null;
+		if (this.type_shift.getSelectedItem() != null) {
+			us_type = this.type_shift.getSelectedItem().getValue();
+		}
+
 		final UserShift shift = new UserShift();
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
-		shift.setUs_type(this.type_shift.getValue());
+		shift.setUs_type(us_type);
 		this.configurationDao.createShift(shift);
 
 		this.refreshShiftList();
@@ -200,22 +207,39 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.code_shift.setValue(shift.getCode());
 		this.description_shift.setValue(shift.getDescription());
-		this.type_shift.setValue(shift.getUs_type());
+
+		// set type shift
+		final String shft = shift.getUs_type();
+		if ((shft == null) || shft.equals("")) {
+			this.type_shift.setSelectedItem(null);
+		}
+		else {
+			final List<Comboitem> lists = this.type_shift.getItems();
+			for (final Comboitem item : lists) {
+				if (item.getValue().equals(shft)) {
+					this.type_shift.setSelectedItem(item);
+					break;
+				}
+			}
+		}
 
 	}
 
 	@Listen("onClick = #modify_shifts_command")
 	public void modifyShiftCommand() {
 
-		if (this.sw_list_shift.getSelectedItem() == null) {
+		if (this.type_shift.getSelectedItem() == null) {
 			return;
 		}
+
+		// define us_type
+		final String us_type = this.type_shift.getSelectedItem().getValue();
 
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
-		shift.setUs_type(this.description_shift.getValue());
+		shift.setUs_type(us_type);
 
 		this.configurationDao.updateShift(shift);
 
@@ -299,7 +323,7 @@ public class Preferences extends SelectorComposer<Component> {
 	private void resetShiftInfo() {
 		this.code_shift.setValue("");
 		this.description_shift.setValue("");
-		this.type_shift.setValue("");
+		this.type_shift.setSelectedItem(null);
 	}
 
 	private void resetTaskInfo() {

@@ -77,7 +77,7 @@
 
 					<grid sclass="domain">
 						<columns>
-							<column label="Type" />
+							<column label="Tipo" />
 							<column label="Inforamzioni" />
 						</columns>
 						<rows>
@@ -222,7 +222,7 @@
 
 					<grid sclass="domain">
 						<columns>
-							<column label="Type" />
+							<column label="Tipo" />
 							<column label="Inforamzioni" />
 						</columns>
 						<rows>
@@ -241,7 +241,16 @@
 
 							<row id="row_type_shift">
 								<label value="Tipo:"></label>
-								<textbox id="type_shift" mold="rounded" />
+								<combobox id="type_shift"
+									placeholder="Seleziona il tipo di turno" readonly="true">
+									<comboitem label="TURNO DI LAVORO"
+										value="W">
+									</comboitem>
+									<comboitem label="TURNO DI ASSENZA"
+										value="A">
+									</comboitem>
+
+								</combobox>
 							</row>
 
 						</rows>
@@ -297,7 +306,7 @@
 				<listheader label="Codice" />
 				<listheader label="Descrizione"
 					sort="auto(description)" />
-				<listheader label="Type" />
+				<listheader label="Tipo di Turno" />
 				<listheader label="" />
 			</listhead>
 
@@ -309,7 +318,8 @@
 				<listcell label="@{shift_item.code}" />
 
 				<listcell label="@{shift_item.description}" />
-				<listcell label="@{shift_item.us_type}" />
+				<listcell
+					label="@{shift_item.us_type, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
 
 
 

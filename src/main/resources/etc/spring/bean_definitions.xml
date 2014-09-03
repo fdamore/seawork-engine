@@ -87,6 +87,13 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+	<!-- Setup Tasks and DAO -->
+	<bean id="myTasksDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisTasksDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 
 	<!-- Mail Wrapper -->

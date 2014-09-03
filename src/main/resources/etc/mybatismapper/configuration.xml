@@ -6,6 +6,8 @@
 	<cache />
 
 
+
+
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
