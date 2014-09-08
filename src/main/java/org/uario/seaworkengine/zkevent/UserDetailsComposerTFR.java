@@ -48,7 +48,7 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 	private Datebox				user_tfr_date;
 
 	@Listen("onClick = #add_command")
-	public void addTaskUser() {
+	public void addItemToUser() {
 
 		if (this.person_selected == null) {
 			return;
@@ -68,7 +68,7 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 	}
 
 	@Listen("onClick = #delete_command")
-	public void deleteTaskUser() {
+	public void deleteItemToUser() {
 
 		if (this.sw_list.getSelectedItem() == null) {
 			return;

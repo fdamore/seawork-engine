@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Person;
-import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -65,8 +64,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox				city_user;
-
-	private ConfigurationDAO	configurationDAO;
 
 	@Wire
 	private Textbox				country_user;
@@ -481,8 +478,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
@@ -503,7 +499,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 				// get the person dao
 				UserDetailsComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
-				UserDetailsComposer.this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
 				UserDetailsComposer.this.setInitialView();
 
@@ -674,10 +669,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	 */
 	private void sendPersonToUserComponents(final Person person_selected) {
 
+		// send event to show user task
 		final Component comp = Path.getComponent("//usertask/panel_task");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp, person_selected);
 
 		// send event to show user task
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp, person_selected);
+		final Component comp_tfr = Path.getComponent("//usertfr/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_tfr, person_selected);
 
 	}
 

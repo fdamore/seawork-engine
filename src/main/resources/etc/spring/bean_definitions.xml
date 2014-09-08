@@ -94,6 +94,13 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+	<!-- Setup Tasks and DAO -->
+	<bean id="myTfrDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisTfrDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 
 	<!-- Mail Wrapper -->

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tfr">
+
+	<cache />
+
+	<select id="loadTFRByUser" resultType="org.uario.seaworkengine.model.TfrUser"
+		parameterType="map">
+		SELECT t.id,
+		t.tfr_destination,
+		t.tfr_selection_date
+		FROM
+		tfruser t where 
+		t.id_user = #{id_user};
+
+	</select>
+
+
+
+	<insert id="createTGRForUser" parameterType="map">
+		INSERT INTO
+		tfruser
+		(tfr_destination,
+		tfr_selection_date,id_user)
+		VALUES
+		(#{tfr_destination},#{tfr_selection_date},#{id_user});
+
+	</insert>
+
+	<delete id="removeTFR" parameterType="map">
+		delete from
+		tfruser
+		where
+		id = #{id_tfr}
+	</delete>
+
+</mapper>

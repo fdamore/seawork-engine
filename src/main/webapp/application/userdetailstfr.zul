@@ -3,7 +3,7 @@
 
 <zk>
 
-	<panel id="panel_task" border="none" collapsible="false"
+	<panel id="panel" border="none" collapsible="false"
 		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerTFR"
 		sclass="transparent">
 
@@ -24,8 +24,8 @@
 
 				<space></space>
 
-				<button id="add_command" label="OK." sclass="btn-info"
-					visible="false">
+				<button id="add_command" label="OK."
+					sclass="btn-info">
 				</button>
 				<button label="Chiudi"
 					onClick="grid_details.setVisible(false);" sclass="btn-info"
@@ -42,13 +42,13 @@
 					<rows>
 						<row>
 							<label value="Scelta TFR:"></label>
-							<textbox id="user_tfr" />
+							<textbox id="user_tfr" width="200px" />
 						</row>
 
 						<row>
 							<label value="Data Della Scelta:"></label>
 							<datebox id="user_tfr_date"
-								placeholder="Seleziona La Data" />
+								placeholder="Seleziona La Data" width="200px" />
 						</row>
 
 					</rows>
@@ -109,9 +109,9 @@
 				<listitem self="@{each='item'}" value="@{item}">
 
 
-					<listcell label="@{item.code}" />
+					<listcell label="@{item.tfr_destination}" />
 
-					<listcell label="@{item.description}" />
+					<listcell label="@{item.tfr_selection_date}" />
 
 					<listcell>
 
