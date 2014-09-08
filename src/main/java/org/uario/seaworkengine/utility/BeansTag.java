@@ -8,4 +8,6 @@ public interface BeansTag {
 
 	public static String	TASK_DAO			= "myTasksDAO";
 
+	public static String	TFR_DAO				= "myTfrDAO";
+
 }

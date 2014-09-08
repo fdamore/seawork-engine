@@ -4,10 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Person;
-import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
-import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.UserTag;
@@ -15,9 +13,11 @@ import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -26,7 +26,6 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -127,9 +126,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox				fiscalcode_user;
 
 	@Wire
-	private Component			grid_task_details;
-
-	@Wire
 	private Component			grid_user_details;
 
 	@Wire
@@ -192,12 +188,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Row					row_password_user_retype;
 
 	@Wire
-	private Listbox				sw_list_task;
-
-	@Wire
 	private Listbox				sw_list_user;
-
-	private TasksDAO			taskDAO;
 
 	@Wire
 	private Checkbox			user_enabled;
@@ -206,36 +197,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Combobox			user_status;
 
 	@Wire
-	private Combobox			user_task_code;
-
-	@Wire
-	private Label				user_task_description;
-
-	@Wire
 	private Checkbox			viewer_user;
-
-	@Listen("onClick = #add_tasks_command")
-	public void addTaskUser() {
-
-		if (this.user_task_code.getSelectedItem() == null) {
-			return;
-		}
-
-		if (this.sw_list_user.getSelectedItem() == null) {
-			return;
-		}
-
-		final UserTask task = this.user_task_code.getSelectedItem().getValue();
-		final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
-
-		this.taskDAO.assignTaskToUser(person_selected.getId(), task.getId());
-
-		Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
-
-		// Refresh list task
-		this.refreshListTaskUser();
-
-	}
 
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
@@ -416,19 +378,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #user_task_code")
-	public void changeTaskSelector() {
-
-		if (this.user_task_code.getSelectedItem() == null) {
-			return;
-		}
-
-		final UserTask task = this.user_task_code.getSelectedItem().getValue();
-
-		this.user_task_description.setValue(task.getDescription());
-
-	}
-
 	@Listen("onClick = #sw_link_modifyeuser")
 	public void defineModifyView() {
 
@@ -444,8 +393,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// general details
 		this.defineUserDetailsView(person_selected);
-		// tasks
-		this.defineUserTasksView(person_selected);
 
 	}
 
@@ -508,40 +455,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.viewer_user.setChecked(person_selected.isViewer());
 		this.backoffice_user.setChecked(person_selected.isBackoffice());
 		this.operative_user.setChecked(person_selected.isOperative());
-	}
 
-	/**
-	 * define tasks view for modify
-	 *
-	 * @param person_selected
-	 */
-	private void defineUserTasksView(final Person person_selected) {
-
-		final List<UserTask> list = this.taskDAO.loadTasksByUser(person_selected.getId());
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list));
-
-	}
-
-	@Listen("onClick = #deletetask_command")
-	public void deleteTaskUser() {
-
-		if (this.sw_list_task.getSelectedItem() == null) {
-			return;
-		}
-
-		if (this.sw_list_user.getSelectedItem() == null) {
-			return;
-		}
-
-		final UserTask task = this.sw_list_task.getSelectedItem().getValue();
-		final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
-
-		this.taskDAO.deleteTaskToUser(person_selected.getId(), task.getId());
-
-		Messagebox.show("Mansione rimossa dall'elenco utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
-
-		// Refresh list task
-		this.refreshListTaskUser();
+		// send mail to components
+		this.sendPersonToUserComponents(person_selected);
 
 	}
 
@@ -587,7 +503,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 				// get the person dao
 				UserDetailsComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
-				UserDetailsComposer.this.taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 				UserDetailsComposer.this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
 				UserDetailsComposer.this.setInitialView();
@@ -680,20 +595,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_refresh_list_task")
-	public void refreshListTaskUser() {
-
-		final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
-		if (person_selected == null) {
-			return;
-		}
-
-		final List<UserTask> list = this.taskDAO.loadTasksByUser(person_selected.getId());
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list));
-
-		this.grid_task_details.setVisible(false);
-	}
-
 	@Listen("onClick = #sw_refresh_list")
 	public void refreshListUser() {
 
@@ -767,6 +668,20 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * Send person_selected to other component
+	 *
+	 * @param person_selected
+	 */
+	private void sendPersonToUserComponents(final Person person_selected) {
+
+		final Component comp = Path.getComponent("//usertask/panel_task");
+
+		// send event to show user task
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp, person_selected);
+
+	}
+
+	/**
 	 * Show users
 	 */
 	public void setInitialView() {
@@ -776,10 +691,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// initial view
 		this.grid_user_details.setVisible(false);
-
-		// select combo task
-		final List<UserTask> list = this.configurationDAO.loadTasks();
-		this.user_task_code.setModel(new ListModelList<UserTask>(list));
 
 	}
 

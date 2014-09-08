@@ -41,6 +41,23 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 	}
 
 	@Override
+	public boolean isTaskAssigned(final Integer id_user, final Integer id_task) {
+
+		MyBatisTasksDAO.logger.info("Get Task assigned");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id_user", id_user.toString());
+		map.put("id_task", id_task.toString());
+
+		final UserTask task = this.getSqlSession().selectOne("tasks.isTaskAssigned", map);
+		if (task != null) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+
+	}
+
+	@Override
 	public List<UserTask> loadTasksByUser(final Integer id_user) {
 
 		MyBatisTasksDAO.logger.info("Get all tasks by user..");

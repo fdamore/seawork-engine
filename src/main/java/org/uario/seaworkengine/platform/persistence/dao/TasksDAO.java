@@ -10,6 +10,8 @@ public interface TasksDAO {
 
 	public void deleteTaskToUser(final Integer id_user, final Integer id_usertask);
 
+	public boolean isTaskAssigned(Integer id_user, Integer id_task);
+
 	public List<UserTask> loadTasksByUser(Integer id_user);
 
 }

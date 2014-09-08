@@ -16,6 +16,17 @@
 
 	</select>
 
+	<select id="isTaskAssigned" resultType="org.uario.seaworkengine.model.UserTask"
+		parameterType="map">
+		SELECT t.id,
+		t.code,
+		t.description
+		FROM usertask t,
+		user_usertask ut where t.id = ut.id_user and ut.id_user = #{id_user} and ut.id_usertask =
+		#{id_task};
+
+	</select>
+
 	<insert id="assignTaskToUser" parameterType="map">
 		INSERT INTO
 		user_usertask
@@ -29,7 +40,8 @@
 	<delete id="deleteTaskToUser" parameterType="map">
 		delete from
 		user_usertask where
-		id_usertask = #{id_usertask} and id_user = #{id_user}
+		id_usertask = #{id_usertask} and id_user =
+		#{id_user}
 	</delete>
 
 </mapper>

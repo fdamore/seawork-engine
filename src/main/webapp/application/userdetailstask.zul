@@ -1,0 +1,143 @@
+<?page id="usertask" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<zk>
+
+	<panel id="panel_task" border="none" collapsible="false"
+		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerTask"
+		sclass="transparent">
+
+		<caption iconSclass="z-icon-star orange"
+			label="Dettagli Mansione Utente">
+
+
+
+
+
+
+
+		</caption>
+
+
+		<panelchildren>
+
+			<div id="grid_task_details" visible="false">
+
+				<space></space>
+
+				<button id="add_tasks_command" label="OK."
+					sclass="btn-info" visible="false">
+				</button>
+				<button label="Chiudi"
+					onClick="grid_task_details.setVisible(false);add_tasks_command.setVisible(false);"
+					sclass="btn-info" visible="true">
+				</button>
+				<space></space>
+
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Tipo" />
+						<column label="Informazioni" />
+					</columns>
+					<rows>
+						<row>
+							<label value="Descrizione Mansione:">
+							</label>
+							<label id="user_task_description" />
+						</row>
+
+						<row>
+							<label value="Codice Mansione:"></label>
+							<combobox id="user_task_code"
+								placeholder="Seleziona Mansione" />
+						</row>
+
+					</rows>
+				</grid>
+
+
+				<space></space>
+
+			</div>
+
+
+
+			<a label="Lista Mansioni Utente" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+
+			<div>
+				<separator></separator>
+
+				<button id="sw_addtask" sclass="btn-info"
+					label="Aggiungi Mansione"
+					onClick="add_tasks_command.setVisible(true);grid_task_details.setVisible(true);">
+				</button>
+
+				<button id="sw_refresh_list_task"
+					onClick="grid_task_details.setVisible(false)" sclass="btn-info"
+					label="Aggiorna Lista Mansioni">
+				</button>
+
+				<separator></separator>
+			</div>
+
+
+			<div id="box_deletetask" visible="false">
+
+				<a label="Vuoi eliminare la mansione selezionata?"
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+				<toolbarbutton label="Si" style="color: red"
+					id="deletetask_command"
+					onClick="box_deletetask.setVisible(false)">
+				</toolbarbutton>
+				<toolbarbutton label="No" style="color: no"
+					onClick="box_deletetask.setVisible(false)">
+				</toolbarbutton>
+
+			</div>
+
+
+			<listbox id="sw_list_task" pagingPosition="both"
+				mold="paging" onSelect="grid_task_details.setVisible(false)"
+				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+				pageSize="20">
+				<listhead sizable="true">
+					<listheader label="Codice" sort="auto(status)" />
+					<listheader label="Descrizione" />
+
+					<listheader label="" />
+				</listhead>
+
+				<listitem self="@{each='user_item'}"
+					value="@{user_item}">
+
+
+					<listcell label="@{user_item.code}" />
+
+					<listcell label="@{user_item.description}" />
+
+					<listcell>
+
+						<toolbarbutton id="sw_link_deletetask"
+							style="color:blue"
+							onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
+							label="Cancella">
+						</toolbarbutton>
+
+					</listcell>
+
+
+
+
+				</listitem>
+
+			</listbox>
+
+
+		</panelchildren>
+
+	</panel>
+
+</zk>

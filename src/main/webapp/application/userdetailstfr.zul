@@ -1,0 +1,138 @@
+<?page id="usertfr" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<zk>
+
+	<panel id="panel_task" border="none" collapsible="false"
+		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerTFR"
+		sclass="transparent">
+
+		<caption iconSclass="z-icon-star orange"
+			label="Dettagli TFR Utente">
+
+
+
+
+
+
+		</caption>
+
+
+		<panelchildren>
+
+			<div id="grid_details" visible="false">
+
+				<space></space>
+
+				<button id="add_command" label="OK." sclass="btn-info"
+					visible="false">
+				</button>
+				<button label="Chiudi"
+					onClick="grid_details.setVisible(false);" sclass="btn-info"
+					visible="true">
+				</button>
+				<space></space>
+
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Tipo" />
+						<column label="Informazioni" />
+					</columns>
+					<rows>
+						<row>
+							<label value="Scelta TFR:"></label>
+							<textbox id="user_tfr" />
+						</row>
+
+						<row>
+							<label value="Data Della Scelta:"></label>
+							<datebox id="user_tfr_date"
+								placeholder="Seleziona La Data" />
+						</row>
+
+					</rows>
+				</grid>
+
+
+				<space></space>
+
+			</div>
+
+
+
+			<a label="Lista Scelte TFR" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+
+			<div>
+				<separator></separator>
+
+				<button id="sw_add" sclass="btn-info"
+					label="Aggiungi TFR" onClick="grid_details.setVisible(true);">
+				</button>
+
+				<button id="sw_refresh_list"
+					onClick="grid_details.setVisible(false)" sclass="btn-info"
+					label="Aggiorna Lista Scelte TFR">
+				</button>
+
+				<separator></separator>
+			</div>
+
+
+			<div id="box_delete" visible="false">
+
+				<a label="Vuoi eliminare la scelta selezionata?"
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+				<toolbarbutton label="Si" style="color: red"
+					id="delete_command" onClick="box_delete.setVisible(false)">
+				</toolbarbutton>
+				<toolbarbutton label="No" style="color: no"
+					onClick="box_delete.setVisible(false)">
+				</toolbarbutton>
+
+			</div>
+
+
+			<listbox id="sw_list" pagingPosition="both" mold="paging"
+				onSelect="grid_details.setVisible(false)"
+				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+				pageSize="20">
+				<listhead sizable="true">
+					<listheader label="Scelta" sort="auto(status)" />
+					<listheader label="Data" />
+
+					<listheader label="" />
+				</listhead>
+
+				<listitem self="@{each='item'}" value="@{item}">
+
+
+					<listcell label="@{item.code}" />
+
+					<listcell label="@{item.description}" />
+
+					<listcell>
+
+						<toolbarbutton id="sw_link_delete"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());box_delete.setVisible(true)"
+							label="Cancella">
+						</toolbarbutton>
+
+					</listcell>
+
+
+
+
+				</listitem>
+
+			</listbox>
+
+
+		</panelchildren>
+
+	</panel>
+
+</zk>
