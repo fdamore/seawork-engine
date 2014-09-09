@@ -80,28 +80,36 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<!-- Setup Person and DAO -->
 	<bean id="myConfigurationDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisConfigurationDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
-	<!-- Setup Tasks and DAO -->
+
+
 	<bean id="myTasksDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisTasksDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
-	<!-- Setup Tasks and DAO -->
+
+
 	<bean id="myTfrDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisTfrDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
 
+
+	<bean id="myFiscalControlDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisFiscalControlDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+
+	<!-- END DAO -->
 
 	<!-- Mail Wrapper -->
 	<bean id="mailWrapper" class="org.uario.seaworkengine.platform.mail.SendMailSMTP">

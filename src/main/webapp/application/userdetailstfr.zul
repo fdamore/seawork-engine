@@ -100,7 +100,7 @@
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="20">
 				<listhead sizable="true">
-					<listheader label="Scelta" sort="auto(status)" />
+					<listheader label="Scelta" />
 					<listheader label="Data" />
 
 					<listheader label="" />

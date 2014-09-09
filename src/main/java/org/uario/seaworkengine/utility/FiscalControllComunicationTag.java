@@ -1,6 +1,6 @@
 package org.uario.seaworkengine.utility;
 
-public class FiscalControllComunication {
+public class FiscalControllComunicationTag {
 
 	public final static String	FAX		= "FAX";
 

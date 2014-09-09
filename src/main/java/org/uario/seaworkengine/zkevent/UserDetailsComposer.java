@@ -478,7 +478,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
@@ -676,6 +677,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// send event to show user task
 		final Component comp_tfr = Path.getComponent("//usertfr/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_tfr, person_selected);
+
+		// send event to show user fc
+		final Component comp_fc = Path.getComponent("//userfc/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_fc, person_selected);
 
 	}
 

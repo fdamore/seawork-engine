@@ -1,0 +1,215 @@
+<?page id="userfc" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<zk>
+
+	<panel id="panel" border="none" collapsible="false"
+		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerFC"
+		sclass="transparent">
+
+		<caption iconSclass="z-icon-star orange"
+			label="Dettagli Visite Fiscali">
+
+
+
+
+
+
+
+
+
+
+		</caption>
+
+
+		<panelchildren>
+
+			<div id="grid_details" visible="false">
+
+				<space></space>
+
+				<button id="add_command" label="OK."
+					sclass="btn-info">
+				</button>
+				<button label="Chiudi"
+					onClick="grid_details.setVisible(false);" sclass="btn-info"
+					visible="true">
+				</button>
+				<space></space>
+
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Tipo" />
+						<column label="Informazioni" />
+					</columns>
+					<rows>
+
+						<row>
+							<label
+								value="Data Richiesta Controllo Fiscale:">
+							</label>
+							<datebox id="request_date"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+						<row>
+							<label value="Data Controllo Fiscale:"></label>
+							<datebox placeholder="Seleziona La Data"
+								id="control_date" width="200px" />
+						</row>
+
+						<row>
+							<label value="Sede INPS:"></label>
+							<textbox id="sede_inps" width="200px" />
+						</row>
+
+						<row>
+							<label value="Risultato:"></label>
+							<textbox id="result" width="200px" />
+						</row>
+
+						<row>
+							<label value="Comunicazione:"></label>
+							<combobox id="result_comunication_type"
+								placeholder="Scegli il tipo di comunicazione" readonly="true"
+								width="200px">
+								<comboitem value="FAX" label="FAX"></comboitem>
+								<comboitem value="MAIL" label="POSTA"></comboitem>
+								<comboitem value="ONLINE"
+									label="ONLINE">
+								</comboitem>
+							</combobox>
+						</row>
+
+						<row>
+							<label
+								value="Inizio perdiodo di malattia:">
+							</label>
+							<datebox placeholder="Seleziona La Data"
+								id="sikness_from" width="200px" />
+						</row>
+
+						<row>
+							<label value="Fine periodo di malattia:"></label>
+							<datebox placeholder="Seleziona La Data"
+								id="sikness_to" width="200px" />
+						</row>
+
+						<row>
+							<label value="Note:"></label>
+							<textbox id="note" width="200px" rows="5" />
+						</row>
+
+
+
+
+
+
+					</rows>
+				</grid>
+
+
+				<space></space>
+
+			</div>
+
+
+
+			<a label="Lista Visite Fiscali" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+
+			<div>
+				<separator></separator>
+
+				<button id="sw_add" sclass="btn-info"
+					label="Aggiungi Visita Fiscale"
+					onClick="grid_details.setVisible(true);">
+				</button>
+
+				<button id="sw_refresh_list"
+					onClick="grid_details.setVisible(false)" sclass="btn-info"
+					label="Aggiorna Lista Visita Fiscale">
+				</button>
+
+				<separator></separator>
+			</div>
+
+
+			<div id="box_delete" visible="false">
+
+				<a label="Vuoi eliminare la scelta selezionata?"
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+				<toolbarbutton label="Si" style="color: red"
+					id="delete_command" onClick="box_delete.setVisible(false)">
+				</toolbarbutton>
+				<toolbarbutton label="No" style="color: no"
+					onClick="box_delete.setVisible(false)">
+				</toolbarbutton>
+
+			</div>
+
+
+			<listbox id="sw_list" pagingPosition="both" mold="paging"
+				onSelect="grid_details.setVisible(false)"
+				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+				pageSize="20">
+				<listhead sizable="true">
+					<listheader label="Richiesta" />
+					<listheader label="Controllo" />
+					<listheader label="Sede Inps" />
+					<listheader label="Risultato" />
+					<listheader label="Comunicazione" />
+					<listheader label="Malattida da" />
+					<listheader label="Malattida a" />
+
+
+					<listheader label="" />
+				</listhead>
+
+				<listitem self="@{each='item'}" value="@{item}">
+
+
+					<listcell
+						label="@{item.request_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell
+						label="@{item.control_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell label="@{item.sede_inps}" />
+					<listcell label="@{item.result}" />
+					<listcell
+						label="@{item.result_comunication_type, converter='org.uario.seaworkengine.zkevent.converter.ResultFCTypeConverter'}" />
+					<listcell
+						label="@{item.sikness_from, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell
+						label="@{item.sikness_to, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+					<listcell>
+
+						<toolbarbutton id="sw_link_delete"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());box_delete.setVisible(true)"
+							label="Cancella">
+						</toolbarbutton>
+
+						<toolbarbutton id="sw_link_edit"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
+							label="Edita">
+						</toolbarbutton>
+
+					</listcell>
+
+
+
+
+				</listitem>
+
+			</listbox>
+
+
+		</panelchildren>
+
+	</panel>
+
+</zk>

@@ -30,6 +30,8 @@
 				<tab label="Mansioni" visible="false"
 					id="task_user_tab" />
 				<tab label="TFR" visible="false" id="tfr_user_tab" />
+				<tab label="Visite Fiscali" visible="false"
+					id="fiscalcheck_user_tab" />
 			</tabs>
 			<tabpanels>
 				<!-- Tab Comments Content -->
@@ -480,6 +482,13 @@
 				<tabpanel>
 					<include mode="defer" src="./userdetailstfr.zul"></include>
 				</tabpanel>
+
+				<!-- TAB FISCAL CHECK -->
+				<tabpanel>
+					<include mode="defer"
+						src="./userdetailsfc.zul">
+					</include>
+				</tabpanel>
 			</tabpanels>
 		</tabbox>
 
@@ -497,7 +506,7 @@
 
 		<button id="sw_adduser" sclass="btn-info"
 			label="Aggiungi Utente"
-			onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(false);password_user_tab.setVisible(false);task_user_tab.setVisible(false);tfr_user_tab.setVisible(false)">
+			onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(false);password_user_tab.setVisible(false);task_user_tab.setVisible(false);tfr_user_tab.setVisible(false);fiscalcheck_user_tab.setVisible(false)">
 		</button>
 
 		<button id="sw_refresh_list" sclass="btn-info"
@@ -568,7 +577,7 @@
 
 				<toolbarbutton id="sw_link_modifyeuser"
 					style="color:blue"
-					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(true);password_user_tab.setVisible(true);task_user_tab.setVisible(true);tfr_user_tab.setVisible(true)"
+					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(true);password_user_tab.setVisible(true);task_user_tab.setVisible(true);tfr_user_tab.setVisible(true);fiscalcheck_user_tab.setVisible(true)"
 					label="Edita">
 				</toolbarbutton>
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fc">
+
+	<cache />
+
+	<select id="loadItemsByUser" resultType="org.uario.seaworkengine.model.FiscalControl"
+		parameterType="map">
+		SELECT f.id,
+		f.request_date,
+		f.sede_inps,
+		f.control_date,
+		f.sikness_from,
+		f.sikness_to,
+		f.result_comunication_type,
+		f.result,
+		f.note,
+		f.id_user
+		FROM
+		fiscalcontrol f where
+		f.id_user = #{id_user};
+
+	</select>
+
+
+
+	<insert id="createItemForUser" parameterType="map">
+		INSERT INTO
+		fiscalcontrol
+		(request_date,
+		sede_inps,
+		control_date,
+		sikness_from,
+		sikness_to,
+		result_comunication_type,
+		result,
+		note,
+		id_user)
+		VALUES
+		(#{request_date}, #{sede_inps}, #{control_date}, #{sikness_from},
+		#{sikness_to}, #{result_comunication_type},
+		#{result}, #{note},
+		#{id_user});
+
+	</insert>
+
+	<delete id="removeItem" parameterType="map">
+		delete from
+		fiscalcontrol
+		where
+		id
+		= #{id_item}
+	</delete>
+
+	<update id="udapteItem" parameterType="org.uario.seaworkengine.model.FiscalControl"></update>
+
+</mapper>
