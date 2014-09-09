@@ -28,7 +28,7 @@
 
 				<space></space>
 
-				<button id="add_command" label="OK."
+				<button id="ok_command" label="OK"
 					sclass="btn-info">
 				</button>
 				<button label="Chiudi"
@@ -194,7 +194,7 @@
 
 						<toolbarbutton id="sw_link_edit"
 							style="color:blue"
-							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
 							label="Edita">
 						</toolbarbutton>
 

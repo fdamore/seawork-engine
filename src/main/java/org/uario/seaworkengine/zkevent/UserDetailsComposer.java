@@ -682,6 +682,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final Component comp_fc = Path.getComponent("//userfc/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_fc, person_selected);
 
+		// send event to show user td
+		final Component comp_td = Path.getComponent("//usertd/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_td, person_selected);
+
 	}
 
 	/**

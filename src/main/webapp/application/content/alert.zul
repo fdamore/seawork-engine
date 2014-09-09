@@ -1,7 +1,7 @@
 <!-- Alert -->
 <window closable="true" border="normal" sclass="alert alert-success">
 	<caption iconSclass="z-icon-check">
-		Benvenuti nel
+		<label value="Benvenuti nel "></label>
 		<label value="Seawork Engine"
 			style="font-weight:bold;color:#69AA46" />
 		<label value="(v1.0)"

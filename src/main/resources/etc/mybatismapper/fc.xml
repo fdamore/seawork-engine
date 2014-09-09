@@ -53,6 +53,24 @@
 		= #{id_item}
 	</delete>
 
-	<update id="udapteItem" parameterType="org.uario.seaworkengine.model.FiscalControl"></update>
+	<update id="udapteItem" parameterType="org.uario.seaworkengine.model.FiscalControl">
+
+		UPDATE fiscalcontrol set
+		request_date = #{request_date},
+		sede_inps =
+		#{sede_inps},
+		control_date = #{control_date},
+		sikness_from =
+		#{sikness_from},
+		sikness_to = #{sikness_to},
+		result_comunication_type =
+		#{result_comunication_type},
+		result = #{result},
+		note = #{note}
+		WHERE id
+		= #{id}
+
+
+	</update>
 
 </mapper>

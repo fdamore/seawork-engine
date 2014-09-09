@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="td">
+
+	<cache />
+
+	<select id="loadItemsByUser" resultType="org.uario.seaworkengine.model.TradeUnion"
+		parameterType="map">
+		SELECT id,
+		name,
+		note,
+		registration,
+		cancellation,
+		id_user
+		FROM
+		tradeunion where
+		id_user = #{id_user};
+
+	</select>
+
+
+
+	<insert id="createItemForUser" parameterType="map">
+		INSERT INTO
+		tradeunion
+		(name,
+		note,
+		registration,
+		cancellation,
+		id_user)
+		VALUES
+		(#{name},
+		#{note},
+		#{registration},
+		#{cancellation},
+		#{id_user});
+
+	</insert>
+
+	<delete id="removeItem" parameterType="map">
+		delete from
+		tradeunion
+		where
+		id
+		= #{id_item}
+	</delete>
+
+	<update id="udapteItem" parameterType="org.uario.seaworkengine.model.TradeUnion">
+
+		UPDATE tradeunion set
+		name
+		= #{name},
+		note = #{note},
+		registration = #{registration},
+		cancellation =
+		#{cancellation}
+		WHERE id
+		= #{id}
+
+
+	</update>
+
+</mapper>

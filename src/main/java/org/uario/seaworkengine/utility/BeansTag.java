@@ -12,4 +12,6 @@ public interface BeansTag {
 
 	public static String	TFR_DAO				= "myTfrDAO";
 
+	public static String	TRADE_UNION_DAO		= "myTradeUnionDAO";
+
 }
