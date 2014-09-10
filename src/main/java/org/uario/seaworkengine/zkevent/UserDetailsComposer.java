@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -283,6 +284,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onChange = #user_status")
+	public void change_user_status() {
+
+		this.date_modify_user.setValue(Calendar.getInstance().getTime());
+
+	}
+
 	@Listen("onClick = #modify_mail_user")
 	public void changeMailActionUser(final Event evt) {
 
@@ -478,8 +486,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 

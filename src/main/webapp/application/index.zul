@@ -38,10 +38,11 @@
 							id="sw_home_button" iconSclass="z-icon-signal" />
 						<button type="button" class="btn-warning"
 							id="sw_user_button" iconSclass="z-icon-group" />
-						<button type="button" class="btn-info"
-							iconSclass="z-icon-pencil" />
 						<button type="button" class="btn-danger"
 							iconSclass="z-icon-cogs" />
+						<button type="button" class="btn-info"
+							id="sw_program_button" iconSclass="z-icon-pencil" />
+
 					</div>
 
 
@@ -67,6 +68,9 @@
 
 			<include mode="defer" src="myprofile.zul"
 				id="include_myprofile" visible="false" />
+
+			<include mode="defer" src="program.zul" id="include_program"
+				visible="false" />
 
 		</vlayout>
 	</hlayout>
