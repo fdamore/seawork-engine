@@ -20,6 +20,9 @@ public class Scheduler implements Serializable {
 
 	private Integer				id_editor;
 
+	// matricola
+	private String				id_employee_scheduled;
+
 	private Integer				id_final_shift;
 
 	private Integer				id_final_task;
@@ -29,6 +32,8 @@ public class Scheduler implements Serializable {
 	private Integer				id_initial_task;
 
 	private Integer				id_scheduled;
+
+	private String				name_scheduled;
 
 	private String				note;
 
@@ -54,6 +59,10 @@ public class Scheduler implements Serializable {
 		return this.id_editor;
 	}
 
+	public String getId_employee_scheduled() {
+		return this.id_employee_scheduled;
+	}
+
 	public Integer getId_final_shift() {
 		return this.id_final_shift;
 	}
@@ -72,6 +81,10 @@ public class Scheduler implements Serializable {
 
 	public Integer getId_scheduled() {
 		return this.id_scheduled;
+	}
+
+	public String getName_scheduled() {
+		return this.name_scheduled;
 	}
 
 	public String getNote() {
@@ -102,6 +115,10 @@ public class Scheduler implements Serializable {
 		this.id_editor = id_editor;
 	}
 
+	public void setId_employee_scheduled(final String id_employee_scheduled) {
+		this.id_employee_scheduled = id_employee_scheduled;
+	}
+
 	public void setId_final_shift(final Integer id_final_shift) {
 		this.id_final_shift = id_final_shift;
 	}
@@ -120,6 +137,10 @@ public class Scheduler implements Serializable {
 
 	public void setId_scheduled(final Integer id_scheduled) {
 		this.id_scheduled = id_scheduled;
+	}
+
+	public void setName_scheduled(final String name_scheduled) {
+		this.name_scheduled = name_scheduled;
 	}
 
 	public void setNote(final String note) {

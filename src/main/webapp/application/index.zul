@@ -69,8 +69,8 @@
 			<include mode="defer" src="myprofile.zul"
 				id="include_myprofile" visible="false" />
 
-			<include mode="defer" src="program.zul" id="include_program"
-				visible="false" />
+			<include mode="defer" src="scheduler.zul"
+				id="include_scheduler" visible="false" />
 
 		</vlayout>
 	</hlayout>

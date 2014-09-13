@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scheduler">
+
+	<cache />
+
+
+
+
+	<select id="selectScheduler" resultType="org.uario.seaworkengine.model.Scheduler">
+		select s.id,
+		s.date_scheduler,s.note, s.from_ts, s.to_ts, s.editor, s.controller,
+		s.initial_task, s.final_task, s.initial_shift, s.final_shift,
+		u.id as
+		scheduled, concat(u.firstname,u.lastname) as name_scheduled
+		from user u
+		left join scheduler s on u.id = s.scheduled
+
+	</select>
+
+
+
+
+</mapper>
+
+

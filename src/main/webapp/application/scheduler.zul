@@ -1,0 +1,153 @@
+<?page id="scheduler" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<vlayout sclass="page-content" xmlns:n="native" spacing="0"
+	id="page_panel">
+
+	<div sclass="page-header">
+		<label value="Programma Lavoro" />
+		<a label="Sistema di programmazione lavoro Seawork"
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+	</div>
+
+	<panel border="normal" collapsible="false" sclass="transparent">
+		<panelchildren>
+
+			<grid sclass="domain">
+				<auxhead>
+					<auxheader label="" colspan="2" />
+
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+
+				</auxhead>
+				<auxhead>
+					<auxheader label="Matricola" colspan="1" />
+					<auxheader label="Nome" colspan="1" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4" />
+
+				</auxhead>
+				<columns>
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Mar" />
+					<column label="Apr" />
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Mar" />
+					<column label="Apr" />
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Mar" />
+					<column label="Apr" />
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Mar" />
+					<column label="Apr" />
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Mar" />
+					<column label="Apr" />
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Mar" />
+					<column label="Apr" />
+					<column label="Jan" />
+					<column label="Feb" />
+					<column label="Mar" />
+					<column label="Apr" />
+				</columns>
+				<rows>
+					<row>
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+
+					</row>
+					<row>
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+						<label value="1,000" />
+						<label value="1,100" />
+						<label value="1,200" />
+						<label value="1,300" />
+					</row>
+				</rows>
+			</grid>
+
+
+		</panelchildren>
+	</panel>
+
+
+
+
+
+
+
+</vlayout>

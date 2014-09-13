@@ -50,6 +50,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				email;
 
+	// matricola
 	private String				employee_identification;
 
 	private String				employee_level;

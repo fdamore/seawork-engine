@@ -40,7 +40,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 	private Include				include_preferences;
 
 	@Wire
-	private Include				include_program;
+	private Include				include_scheduler;
 
 	@Wire
 	private Include				include_user_detail;
@@ -95,7 +95,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
 		this.include_myprofile.setVisible(true);
-		this.include_program.setVisible(false);
+		this.include_scheduler.setVisible(false);
 
 		final Component comp = Path.getComponent("//myprofile/page_user_detail");
 
@@ -112,7 +112,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(true);
 		this.include_myprofile.setVisible(false);
-		this.include_program.setVisible(false);
+		this.include_scheduler.setVisible(false);
 
 		final Component comp = Path.getComponent("//preferences/page_preferences");
 
@@ -130,7 +130,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
 		this.include_myprofile.setVisible(false);
-		this.include_program.setVisible(true);
+		this.include_scheduler.setVisible(true);
 
 		// final Component comp = Path.getComponent("//program/page_panel");
 
@@ -145,7 +145,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_user_detail.setVisible(true);
 		this.include_preferences.setVisible(false);
 		this.include_myprofile.setVisible(false);
-		this.include_program.setVisible(false);
+		this.include_scheduler.setVisible(false);
 
 		final Component comp = Path.getComponent("//user/page_user_detail");
 
