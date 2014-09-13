@@ -41,7 +41,7 @@
 						<button type="button" class="btn-danger"
 							iconSclass="z-icon-cogs" />
 						<button type="button" class="btn-info"
-							id="sw_program_button" iconSclass="z-icon-pencil" />
+							id="sw_scheduler_button" iconSclass="z-icon-pencil" />
 
 					</div>
 

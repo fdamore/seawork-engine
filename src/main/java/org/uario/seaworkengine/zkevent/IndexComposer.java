@@ -123,7 +123,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_program_button")
+	@Listen("onClick = #sw_scheduler_button")
 	public void showProgramConfigurator(final Event event) {
 
 		this.include_home.setVisible(false);
@@ -132,7 +132,9 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_myprofile.setVisible(false);
 		this.include_scheduler.setVisible(true);
 
-		// final Component comp = Path.getComponent("//program/page_panel");
+		final Component comp = Path.getComponent("//scheduler/page_panel");
+		// send event to show users
+		Events.sendEvent(ZkEventsTag.onShowScheduler, comp, null);
 
 		this.sw_brec_position.setValue(IndexComposer.PROGRAM_PAGE_NAME);
 

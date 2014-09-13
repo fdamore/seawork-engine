@@ -2,6 +2,7 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 
 <vlayout sclass="page-content" xmlns:n="native" spacing="0"
+	apply="org.uario.seaworkengine.zkevent.SchedulerComposer"
 	id="page_panel">
 
 	<div sclass="page-header">
@@ -11,134 +12,100 @@
 
 	</div>
 
+
+
+
+
+	<hbox>
+		<a label="Seleziona data iniziale: "></a>
+		<datebox id="date_init_scheduler"
+			placeholder="Selezione data iniziale" width="200px">
+		</datebox>
+		<button id="refresh_command" label="Aggiorna"
+			sclass="btn-info">
+		</button>
+	</hbox>
+
+	<space></space>
+
 	<panel border="normal" collapsible="false" sclass="transparent">
 		<panelchildren>
 
-			<grid sclass="domain">
+			<listbox sclass="domain" checkmark="true" multiple="true">
 				<auxhead>
 					<auxheader label="" colspan="2" />
 
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_month_1" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_month_2" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_month_3" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_month_4" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_month_5" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_month_6" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_month_7" />
 
 				</auxhead>
 				<auxhead>
-					<auxheader label="Matricola" colspan="1" />
-					<auxheader label="Nome" colspan="1" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
-					<auxheader label="H1'07" colspan="4" />
+					<auxheader label="" colspan="2" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_week_1" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_week_2" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_week_3" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_week_4" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_week_5" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_week_6" />
+					<auxheader label="H1'07" colspan="4"
+						id="day_week_7" />
 
 				</auxhead>
-				<columns>
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Mar" />
-					<column label="Apr" />
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Mar" />
-					<column label="Apr" />
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Mar" />
-					<column label="Apr" />
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Mar" />
-					<column label="Apr" />
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Mar" />
-					<column label="Apr" />
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Mar" />
-					<column label="Apr" />
-					<column label="Jan" />
-					<column label="Feb" />
-					<column label="Mar" />
-					<column label="Apr" />
-				</columns>
-				<rows>
-					<row>
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
 
-					</row>
-					<row>
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-						<label value="1,000" />
-						<label value="1,100" />
-						<label value="1,200" />
-						<label value="1,300" />
-					</row>
-				</rows>
-			</grid>
+				<listhead>
+					<listheader label="Matricola" sort="auto" hflex="2" />
+					<listheader label="Nome" sort="auto" hflex="2" />
+
+					<listheader label="1" hflex="1" />
+					<listheader label="2" hflex="1" />
+					<listheader label="3" hflex="1" />
+					<listheader label="4" hflex="1" />
+					<listheader label="1" hflex="1" />
+					<listheader label="2" hflex="1" />
+					<listheader label="3" hflex="1" />
+					<listheader label="4" hflex="1" />
+					<listheader label="1" hflex="1" />
+					<listheader label="2" hflex="1" />
+					<listheader label="3" hflex="1" />
+					<listheader label="4" hflex="1" />
+					<listheader label="1" hflex="1" />
+					<listheader label="2" hflex="1" />
+					<listheader label="3" hflex="1" />
+					<listheader label="4" hflex="1" />
+					<listheader label="1" hflex="1" />
+					<listheader label="2" hflex="1" />
+					<listheader label="3" hflex="1" />
+					<listheader label="4" hflex="1" />
+					<listheader label="1" hflex="1" />
+					<listheader label="2" hflex="1" />
+					<listheader label="3" hflex="1" />
+					<listheader label="4" hflex="1" />
+					<listheader label="1" hflex="1" />
+					<listheader label="2" hflex="1" />
+					<listheader label="3" hflex="1" />
+					<listheader label="4" hflex="1" />
+				</listhead>
+
+
+			</listbox>
 
 
 		</panelchildren>

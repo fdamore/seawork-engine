@@ -23,16 +23,41 @@ public class Scheduler implements Serializable {
 	// matricola
 	private String				id_employee_scheduled;
 
-	private Integer				id_final_shift;
+	private Integer				id_final_shift_1;
 
-	private Integer				id_final_task;
+	private Integer				id_final_shift_2;
 
-	private Integer				id_initial_shift;
+	private Integer				id_final_shift_3;
 
-	private Integer				id_initial_task;
+	private Integer				id_final_shift_4;
+
+	private Integer				id_final_task_1;
+
+	private Integer				id_final_task_2;
+
+	private Integer				id_final_task_3;
+
+	private Integer				id_final_task_4;
+
+	private Integer				id_initial_shift_1;
+
+	private Integer				id_initial_shift_2;
+
+	private Integer				id_initial_shift_3;
+
+	private Integer				id_initial_shift_4;
+
+	private Integer				id_initial_task_1;
+
+	private Integer				id_initial_task_2;
+
+	private Integer				id_initial_task_3;
+
+	private Integer				id_initial_task_4;
 
 	private Integer				id_scheduled;
 
+	// used to visualize it
 	private String				name_scheduled;
 
 	private String				note;
@@ -63,20 +88,68 @@ public class Scheduler implements Serializable {
 		return this.id_employee_scheduled;
 	}
 
-	public Integer getId_final_shift() {
-		return this.id_final_shift;
+	public Integer getId_final_shift_1() {
+		return this.id_final_shift_1;
 	}
 
-	public Integer getId_final_task() {
-		return this.id_final_task;
+	public Integer getId_final_shift_2() {
+		return this.id_final_shift_2;
 	}
 
-	public Integer getId_initial_shift() {
-		return this.id_initial_shift;
+	public Integer getId_final_shift_3() {
+		return this.id_final_shift_3;
 	}
 
-	public Integer getId_initial_task() {
-		return this.id_initial_task;
+	public Integer getId_final_shift_4() {
+		return this.id_final_shift_4;
+	}
+
+	public Integer getId_final_task_1() {
+		return this.id_final_task_1;
+	}
+
+	public Integer getId_final_task_2() {
+		return this.id_final_task_2;
+	}
+
+	public Integer getId_final_task_3() {
+		return this.id_final_task_3;
+	}
+
+	public Integer getId_final_task_4() {
+		return this.id_final_task_4;
+	}
+
+	public Integer getId_initial_shift_1() {
+		return this.id_initial_shift_1;
+	}
+
+	public Integer getId_initial_shift_2() {
+		return this.id_initial_shift_2;
+	}
+
+	public Integer getId_initial_shift_3() {
+		return this.id_initial_shift_3;
+	}
+
+	public Integer getId_initial_shift_4() {
+		return this.id_initial_shift_4;
+	}
+
+	public Integer getId_initial_task_1() {
+		return this.id_initial_task_1;
+	}
+
+	public Integer getId_initial_task_2() {
+		return this.id_initial_task_2;
+	}
+
+	public Integer getId_initial_task_3() {
+		return this.id_initial_task_3;
+	}
+
+	public Integer getId_initial_task_4() {
+		return this.id_initial_task_4;
 	}
 
 	public Integer getId_scheduled() {
@@ -119,20 +192,68 @@ public class Scheduler implements Serializable {
 		this.id_employee_scheduled = id_employee_scheduled;
 	}
 
-	public void setId_final_shift(final Integer id_final_shift) {
-		this.id_final_shift = id_final_shift;
+	public void setId_final_shift_1(final Integer id_final_shift_1) {
+		this.id_final_shift_1 = id_final_shift_1;
 	}
 
-	public void setId_final_task(final Integer id_final_task) {
-		this.id_final_task = id_final_task;
+	public void setId_final_shift_2(final Integer id_final_shift_2) {
+		this.id_final_shift_2 = id_final_shift_2;
 	}
 
-	public void setId_initial_shift(final Integer id_initial_shift) {
-		this.id_initial_shift = id_initial_shift;
+	public void setId_final_shift_3(final Integer id_final_shift_3) {
+		this.id_final_shift_3 = id_final_shift_3;
 	}
 
-	public void setId_initial_task(final Integer id_initial_task) {
-		this.id_initial_task = id_initial_task;
+	public void setId_final_shift_4(final Integer id_final_shift_4) {
+		this.id_final_shift_4 = id_final_shift_4;
+	}
+
+	public void setId_final_task_1(final Integer id_final_task_1) {
+		this.id_final_task_1 = id_final_task_1;
+	}
+
+	public void setId_final_task_2(final Integer id_final_task_2) {
+		this.id_final_task_2 = id_final_task_2;
+	}
+
+	public void setId_final_task_3(final Integer id_final_task_3) {
+		this.id_final_task_3 = id_final_task_3;
+	}
+
+	public void setId_final_task_4(final Integer id_final_task_4) {
+		this.id_final_task_4 = id_final_task_4;
+	}
+
+	public void setId_initial_shift_1(final Integer id_initial_shift_1) {
+		this.id_initial_shift_1 = id_initial_shift_1;
+	}
+
+	public void setId_initial_shift_2(final Integer id_initial_shift_2) {
+		this.id_initial_shift_2 = id_initial_shift_2;
+	}
+
+	public void setId_initial_shift_3(final Integer id_initial_shift_3) {
+		this.id_initial_shift_3 = id_initial_shift_3;
+	}
+
+	public void setId_initial_shift_4(final Integer id_initial_shift_4) {
+		this.id_initial_shift_4 = id_initial_shift_4;
+	}
+
+	public void setId_initial_task_1(final Integer id_initial_task_1) {
+		this.id_initial_task_1 = id_initial_task_1;
+	}
+
+	public void setId_initial_task_2(final Integer id_initial_task_2) {
+		this.id_initial_task_2 = id_initial_task_2;
+	}
+
+	public void setId_initial_task_3(final Integer id_initial_task_3) {
+		this.id_initial_task_3 = id_initial_task_3;
+	}
+
+	public void setId_initial_task_4(final Integer id_initial_task_4) {
+		this.id_initial_task_4 = id_initial_task_4;
 	}
 
 	public void setId_scheduled(final Integer id_scheduled) {
