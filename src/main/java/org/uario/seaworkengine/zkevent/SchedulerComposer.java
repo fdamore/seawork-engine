@@ -13,6 +13,8 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Auxheader;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
@@ -25,10 +27,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Datebox					date_init_scheduler;
 
+	// format
 	private final SimpleDateFormat	formatter_ddmmm		= new SimpleDateFormat("dd/MMM");
 	private final SimpleDateFormat	formatter_eeee		= new SimpleDateFormat("EEEE");
 
 	private final Logger			logger				= Logger.getLogger(SchedulerComposer.class);
+
+	@Wire
+	private Comboitem				program_item;
+
+	@Wire
+	private Combobox				review;
 
 	@Listen("onChange = #date_init_scheduler")
 	public void changeInitialDate() {
@@ -64,6 +73,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		// set program version
+		this.review.setSelectedItem(this.program_item);
+
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(initial_date);
 
@@ -84,6 +96,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			final String day_w = this.formatter_eeee.format(current_calendar.getTime());
 			final String day_m = this.formatter_ddmmm.format(current_calendar.getTime());
+
+			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+				week_head.setStyle("color:red");
+				month_head.setStyle("color:red");
+			} else {
+				week_head.setStyle("color:black");
+				month_head.setStyle("color:black");
+			}
 
 			week_head.setLabel(day_w.toUpperCase());
 			month_head.setLabel(day_m.toUpperCase());

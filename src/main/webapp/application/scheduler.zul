@@ -16,7 +16,7 @@
 
 
 
-	<hbox>
+	<hbox align="center">
 		<a label="Seleziona data iniziale: "></a>
 		<datebox id="date_init_scheduler"
 			placeholder="Selezione data iniziale" width="200px">
@@ -28,6 +28,22 @@
 
 	<space></space>
 
+	<hbox align="center">
+		<a label="Visualizza Versione: "></a>
+		<combobox id="review" readonly="true">
+			<comboitem label="PROGRAMMAZIONE" value="PROGRAMMAZIONE"
+				id="program_item">
+			</comboitem>
+			<comboitem label="REVISIONE" value="REVISIONE"
+				id="review_item">
+			</comboitem>
+
+		</combobox>
+
+	</hbox>
+
+	<space></space>
+
 	<panel border="normal" collapsible="false" sclass="transparent">
 		<panelchildren>
 
@@ -35,37 +51,37 @@
 				<auxhead>
 					<auxheader label="" colspan="2" />
 
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_month_1" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_month_2" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_month_3" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_month_4" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_month_5" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_month_6" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_month_7" />
 
 				</auxhead>
 				<auxhead>
 					<auxheader label="" colspan="2" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_week_1" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_week_2" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_week_3" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_week_4" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_week_5" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_week_6" />
-					<auxheader label="H1'07" colspan="4"
+					<auxheader label="H1'07" colspan="4" align="center"
 						id="day_week_7" />
 
 				</auxhead>
@@ -74,34 +90,34 @@
 					<listheader label="Matricola" sort="auto" hflex="2" />
 					<listheader label="Nome" sort="auto" hflex="2" />
 
-					<listheader label="1" hflex="1" />
-					<listheader label="2" hflex="1" />
-					<listheader label="3" hflex="1" />
-					<listheader label="4" hflex="1" />
-					<listheader label="1" hflex="1" />
-					<listheader label="2" hflex="1" />
-					<listheader label="3" hflex="1" />
-					<listheader label="4" hflex="1" />
-					<listheader label="1" hflex="1" />
-					<listheader label="2" hflex="1" />
-					<listheader label="3" hflex="1" />
-					<listheader label="4" hflex="1" />
-					<listheader label="1" hflex="1" />
-					<listheader label="2" hflex="1" />
-					<listheader label="3" hflex="1" />
-					<listheader label="4" hflex="1" />
-					<listheader label="1" hflex="1" />
-					<listheader label="2" hflex="1" />
-					<listheader label="3" hflex="1" />
-					<listheader label="4" hflex="1" />
-					<listheader label="1" hflex="1" />
-					<listheader label="2" hflex="1" />
-					<listheader label="3" hflex="1" />
-					<listheader label="4" hflex="1" />
-					<listheader label="1" hflex="1" />
-					<listheader label="2" hflex="1" />
-					<listheader label="3" hflex="1" />
-					<listheader label="4" hflex="1" />
+					<listheader label="1" hflex="1" align="center" />
+					<listheader label="2" hflex="1" align="center" />
+					<listheader label="3" hflex="1" align="center" />
+					<listheader label="4" hflex="1" align="center" />
+					<listheader label="1" hflex="1" align="center" />
+					<listheader label="2" hflex="1" align="center" />
+					<listheader label="3" hflex="1" align="center" />
+					<listheader label="4" hflex="1" align="center" />
+					<listheader label="1" hflex="1" align="center" />
+					<listheader label="2" hflex="1" align="center" />
+					<listheader label="3" hflex="1" align="center" />
+					<listheader label="4" hflex="1" align="center" />
+					<listheader label="1" hflex="1" align="center" />
+					<listheader label="2" hflex="1" align="center" />
+					<listheader label="3" hflex="1" align="center" />
+					<listheader label="4" hflex="1" align="center" />
+					<listheader label="1" hflex="1" align="center" />
+					<listheader label="2" hflex="1" align="center" />
+					<listheader label="3" hflex="1" align="center" />
+					<listheader label="4" hflex="1" align="center" />
+					<listheader label="1" hflex="1" align="center" />
+					<listheader label="2" hflex="1" align="center" />
+					<listheader label="3" hflex="1" align="center" />
+					<listheader label="4" hflex="1" align="center" />
+					<listheader label="1" hflex="1" align="center" />
+					<listheader label="2" hflex="1" align="center" />
+					<listheader label="3" hflex="1" align="center" />
+					<listheader label="4" hflex="1" align="center" />
 				</listhead>
 
 
