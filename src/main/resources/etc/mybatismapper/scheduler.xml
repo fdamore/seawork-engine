@@ -10,15 +10,22 @@
 
 	<select id="selectScheduler" resultType="org.uario.seaworkengine.model.Scheduler">
 		select s.id,
-		s.date_scheduler,s.note, s.from_ts, s.to_ts, s.editor, s.controller,
-		s.initial_task_1, s.final_task_1, s.initial_shift_1, s.final_shift_1,
-		s.initial_task_2, s.final_task_2, s.initial_shift_2, s.final_shift_2,
-		s.initial_task_3, s.final_task_3, s.initial_shift_3, s.final_shift_3,
-		s.initial_task_4, s.final_task_4, s.initial_shift_4, s.final_shift_4,
-		u.id as
-		scheduled, concat(u.firstname,u.lastname) as name_scheduled
-		from user u
-		left join scheduler s on u.id = s.scheduled
+		s.date_scheduler,s.note, s.from_ts, s.to_ts, s.editor,
+		s.controller,
+		s.initial_task_1, s.initial_task_2, s.initial_task_3,
+		s.initial_task_4,
+		s.final_task_1, s.final_task_2, s.final_task_3,
+		s.final_task_4, s.initial_time_task_1,
+		s.initial_time_task_2,
+		s.initial_time_task_3, s.initial_time_task_4, s.final_time_task_1,
+		s.final_time_task_2, s.final_time_task_3, s.final_time_task_4,
+		u.employee_identification, u.id as scheduled,
+		concat(u.firstname,u.lastname) as name_scheduled
+		from
+		user u
+		left join
+		scheduler s on (u.id = s.scheduled and s.date_scheduler =
+		'31-31-2014');
 
 	</select>
 
