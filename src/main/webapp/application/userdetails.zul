@@ -22,7 +22,8 @@
 
 		<tabbox>
 			<tabs>
-				<tab label="Informazioni Generali" selected="true" />
+				<tab label="Informazioni Generali" id="detail_user_tab"
+					selected="true" />
 				<tab label="Mail Utente" visible="false"
 					id="mail_user_tab" />
 				<tab label="Password Utente" visible="false"
@@ -513,8 +514,7 @@
 		<separator></separator>
 
 		<button id="sw_adduser" sclass="btn-info"
-			label="Aggiungi Utente"
-			onClick="modify_users_command.setVisible(false);add_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(false);password_user_tab.setVisible(false);task_user_tab.setVisible(false);tfr_user_tab.setVisible(false);fiscalcheck_user_tab.setVisible(false);tradeunion_user_tab.setVisible(false)">
+			label="Aggiungi Utente">
 		</button>
 
 		<button id="sw_refresh_list" sclass="btn-info"
@@ -585,7 +585,7 @@
 
 				<toolbarbutton id="sw_link_modifyeuser"
 					style="color:blue"
-					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());add_users_command.setVisible(false);modify_users_command.setVisible(true);grid_user_details.setVisible(true);mail_user_tab.setVisible(true);password_user_tab.setVisible(true);task_user_tab.setVisible(true);tfr_user_tab.setVisible(true);fiscalcheck_user_tab.setVisible(true);tradeunion_user_tab.setVisible(true)"
+					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());"
 					label="Edita">
 				</toolbarbutton>
 

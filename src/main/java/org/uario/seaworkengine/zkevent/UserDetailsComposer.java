@@ -30,6 +30,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Row;
+import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 
 public class UserDetailsComposer extends SelectorComposer<Component> {
@@ -82,6 +83,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox				department_user;
 
 	@Wire
+	private Tab					detail_user_tab;
+
+	@Wire
 	private Textbox				driving_license_charge_user;
 
 	@Wire
@@ -121,6 +125,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox				firstname_user;
 
 	@Wire
+	private Component			fiscalcheck_user_tab;
+
+	@Wire
 	private Textbox				fiscalcode_user;
 
 	@Wire
@@ -130,6 +137,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox				lastname_user;
 
 	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
+
+	@Wire
+	private Component			mail_user_tab;
 
 	@Wire
 	private Textbox				mailpassword_user;
@@ -164,6 +174,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Wire
 	private Textbox				password_user_retype;
 
+	@Wire
+	private Component			password_user_tab;
+
 	// the dao used for db interaction
 	private PersonDAO			personDao;
 
@@ -187,6 +200,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox				sw_list_user;
+
+	@Wire
+	private Component			task_user_tab;
+
+	@Wire
+	private Component			tfr_user_tab;
+
+	@Wire
+	private Component			tradeunion_user_tab;
 
 	@Wire
 	private Checkbox			user_enabled;
@@ -486,7 +508,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
@@ -719,9 +742,50 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	}
 
 	@Listen("onClick = #sw_adduser")
+	public void showAddUserPanel() {
+
+		// command
+		this.add_users_command.setVisible(true);
+		this.modify_users_command.setVisible(false);
+
+		// configure tab
+		this.grid_user_details.setVisible(true);
+		this.mail_user_tab.setVisible(false);
+		this.password_user_tab.setVisible(false);
+		this.task_user_tab.setVisible(false);
+		this.tfr_user_tab.setVisible(false);
+		this.fiscalcheck_user_tab.setVisible(false);
+		this.tradeunion_user_tab.setVisible(false);
+
+		// set detail to selection
+		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
+
+	}
+
+	@Listen("onClick = #sw_adduser")
 	public void showGridAddUser() {
 
 		this.resetDataInfo();
 
+	}
+
+	@Listen("onClick = #sw_link_modifyeuser")
+	public void showModifyUserPanel() {
+
+		// command
+		this.add_users_command.setVisible(false);
+		this.modify_users_command.setVisible(true);
+
+		// configure tab
+		this.grid_user_details.setVisible(true);
+		this.mail_user_tab.setVisible(true);
+		this.password_user_tab.setVisible(true);
+		this.task_user_tab.setVisible(true);
+		this.tfr_user_tab.setVisible(true);
+		this.fiscalcheck_user_tab.setVisible(true);
+		this.tradeunion_user_tab.setVisible(true);
+
+		// set detail to selection
+		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
 	}
 }

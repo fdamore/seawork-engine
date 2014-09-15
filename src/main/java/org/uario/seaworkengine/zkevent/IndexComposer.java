@@ -80,6 +80,8 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
 		this.include_myprofile.setVisible(false);
+		this.include_scheduler.setVisible(false);
+
 		this.sw_brec_position.setValue(IndexComposer.HOME_PAGE_NAME);
 
 	}
