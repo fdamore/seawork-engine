@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Scheduler;
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedulerDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -33,11 +35,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private static final long		serialVersionUID	= 1L;
 
+	private ConfigurationDAO		configurationDAO;
+
 	@Wire
 	private Datebox					date_init_scheduler;
-
 	// format
 	private final SimpleDateFormat	formatter_ddmmm		= new SimpleDateFormat("dd/MMM");
+
 	private final SimpleDateFormat	formatter_eeee		= new SimpleDateFormat("EEEE");
 
 	@Wire
@@ -49,10 +53,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final Logger			logger				= Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
+	private Combobox				program_combo_task;
+
+	@Wire
 	private Comboitem				program_item;
 
 	@Wire
 	private Combobox				review;
+
+	@Wire
+	private Combobox				revision_combo_task;
 
 	private ISchedulerDAO			schedulerDAO;
 
@@ -69,11 +79,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
 
 		this.schedulerDAO = (ISchedulerDAO) SpringUtil.getBean(BeansTag.SCHEDULER_DAO);
+		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
 
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
+
+				// set combo task
+				final List<UserShift> list = SchedulerComposer.this.configurationDAO.loadShifts();
+				SchedulerComposer.this.program_combo_task.setModel(new ListModelList<UserShift>(list));
+				SchedulerComposer.this.revision_combo_task.setModel(new ListModelList<UserShift>(list));
 
 				// set initial structure
 				SchedulerComposer.this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
@@ -137,7 +153,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}

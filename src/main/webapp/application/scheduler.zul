@@ -62,16 +62,51 @@
 				<grid sclass="domain">
 					<columns>
 						<column label="Type" />
-						<column label="Informazioni" />
+						<column label="Programmazione">
+							<button id="ok_program" label="Salva"
+								sclass="btn-info">
+							</button>
+						</column>
+						<column label="Revisione">
+							<button id="ok_revisione" label="Salva"
+								sclass="btn-info">
+							</button>
+						</column>
 					</columns>
 					<rows>
 						<row>
 							<a label="Ingresso: "></a>
-							<datebox></datebox>
+							<timebox></timebox>
+							<timebox></timebox>
 						</row>
 						<row>
 							<a label="Uscita: "></a>
-							<datebox></datebox>
+							<timebox></timebox>
+							<timebox></timebox>
+						</row>
+						<row>
+							<a label="Assegna ore: "></a>
+							<intbox constraint="no negative"
+								onChange="program_combo_task.setSelectedItem(null)"
+								onOK="program_combo_task.setSelectedItem(null)"
+								id="time_shift_program">
+							</intbox>
+							<intbox constraint="no negative"
+								onOK="revision_combo_task.setSelectedItem(null)"
+								onChange="revision_combo_task.setSelectedItem(null)"
+								id="time_shift_revision">
+							</intbox>
+						</row>
+						<row>
+							<a label="Assegna Turno: "></a>
+							<combobox readonly="true"
+								onChange="time_shift_program.setValue(null)"
+								id="program_combo_task" placeholder="Scegli turno">
+							</combobox>
+							<combobox readonly="true"
+								onChange="time_shift_revision.setValue(null)"
+								id="revision_combo_task" placeholder="Scegli turno">
+							</combobox>
 						</row>
 					</rows>
 				</grid>

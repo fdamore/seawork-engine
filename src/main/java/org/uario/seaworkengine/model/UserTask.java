@@ -41,7 +41,7 @@ public class UserTask implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.getCode();
+		return "" + this.getCode() + " - " + this.getDescription();
 	}
 
 }
