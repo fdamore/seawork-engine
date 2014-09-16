@@ -8,7 +8,9 @@
 
 
 
-	<select id="selectScheduler" resultType="org.uario.seaworkengine.model.Scheduler">
+	<select id="selectScheduler" resultType="org.uario.seaworkengine.model.Scheduler"
+		parameterType="map">
+	<![CDATA[
 		select s.id,
 		s.date_scheduler,s.note, s.from_ts, s.to_ts, s.editor,
 		s.controller,
@@ -24,10 +26,11 @@
 		from
 		user u
 		left join
-		scheduler s on (u.id = s.scheduled and s.date_scheduler =
-		'31-31-2014');
-
+		scheduler s on (u.id = s.scheduled and (s.date_scheduler >=
+		#{date_from} and s.date_scheduler <= #{date_to}));
+]]>
 	</select>
+
 
 
 

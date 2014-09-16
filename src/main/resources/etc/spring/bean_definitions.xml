@@ -108,14 +108,20 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myTradeUnionDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisTradeUnionDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
-	
+
+	<bean id="mySchedulerDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisSchedulerDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+
+
 
 	<!-- END DAO -->
 

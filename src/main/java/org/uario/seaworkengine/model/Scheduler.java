@@ -11,6 +11,7 @@ public class Scheduler implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	private Date				date_scheduler;
+
 	private String				employee_identification;
 	private Integer				final_task_1;
 	private Integer				final_task_2;
@@ -244,6 +245,11 @@ public class Scheduler implements Serializable {
 
 	public void setTo_ts(final Date to_ts) {
 		this.to_ts = to_ts;
+	}
+
+	@Override
+	public String toString() {
+		return "" + this.getId();
 	}
 
 }

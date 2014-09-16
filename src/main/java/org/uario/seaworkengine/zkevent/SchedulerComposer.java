@@ -3,9 +3,15 @@ package org.uario.seaworkengine.zkevent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
+import org.uario.seaworkengine.model.Scheduler;
+import org.uario.seaworkengine.platform.persistence.dao.ISchedulerDAO;
+import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
+import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -16,6 +22,9 @@ import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
@@ -31,6 +40,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final SimpleDateFormat	formatter_ddmmm		= new SimpleDateFormat("dd/MMM");
 	private final SimpleDateFormat	formatter_eeee		= new SimpleDateFormat("EEEE");
 
+	@Wire
+	private Listbox					grid_scheduler;
+
+	@Wire
+	private Div						info_scheduler;
+
 	private final Logger			logger				= Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
@@ -38,6 +53,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox				review;
+
+	private ISchedulerDAO			schedulerDAO;
 
 	@Listen("onChange = #date_init_scheduler")
 	public void changeInitialDate() {
@@ -51,6 +68,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
 
+		this.schedulerDAO = (ISchedulerDAO) SpringUtil.getBean(BeansTag.SCHEDULER_DAO);
+
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
 
 			@Override
@@ -58,9 +77,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// set initial structure
 				SchedulerComposer.this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
+				SchedulerComposer.this.setupValuesGrid();
 			}
 		});
 
+		this.getSelf().addEventListener(ZkEventsTag.onShiftClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+				SchedulerComposer.this.info_scheduler.setVisible(true);
+
+			}
+		});
+
+	}
+
+	@Listen("onClick = #refresh_command")
+	public void refreshButton() {
+
+		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
+		this.setGridStructure(this.date_init_scheduler.getValue());
+		this.setupValuesGrid();
 	}
 
 	/**
@@ -112,4 +149,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * setup values for grid
+	 */
+	private void setupValuesGrid() {
+
+		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
+		final Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, 7);
+		final Date final_date = calendar.getTime();
+
+		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
+		this.grid_scheduler.setModel(new ListModelList<Scheduler>(list));
+
+	}
 }

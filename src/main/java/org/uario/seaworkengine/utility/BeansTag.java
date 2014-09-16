@@ -8,6 +8,8 @@ public interface BeansTag {
 
 	public static String	PERSON_DAO			= "myPersonDAO";
 
+	public static String	SCHEDULER_DAO		= "mySchedulerDAO";
+
 	public static String	TASK_DAO			= "myTasksDAO";
 
 	public static String	TFR_DAO				= "myTfrDAO";
