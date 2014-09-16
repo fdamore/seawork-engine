@@ -39,9 +39,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox					date_init_scheduler;
+
 	// format
 	private final SimpleDateFormat	formatter_ddmmm		= new SimpleDateFormat("dd/MMM");
-
 	private final SimpleDateFormat	formatter_eeee		= new SimpleDateFormat("EEEE");
 
 	@Wire
@@ -103,6 +103,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			public void onEvent(final Event arg0) throws Exception {
 				SchedulerComposer.this.info_scheduler.setVisible(true);
 
+				final String data_info = arg0.getData().toString();
+
+				final int sss = 0;
+
 			}
 		});
 
@@ -114,6 +118,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
 		this.setGridStructure(this.date_init_scheduler.getValue());
 		this.setupValuesGrid();
+	}
+
+	/**
+	 * Save program
+	 */
+	@Listen("onChange = #ok_program")
+	public void saveProgram() {
+
+		if (this.grid_scheduler.getSelectedItem() == null) {
+			return;
+		}
+
 	}
 
 	/**
@@ -153,8 +169,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}

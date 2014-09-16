@@ -204,253 +204,308 @@
 					<listcell label="@{item.name_scheduled}" />
 
 					<listcell>
-						<toolbarbutton id="shift_1_1"
+						<toolbarbutton
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 							style="color:blue">
 							<attribute name="onClick">
-	Events.sendEvent("onShiftClick", page_panel, self.getId());
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClick", page_panel, "shift_1_2");
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
-						<toolbarbutton id="shift_1_2"
+						<toolbarbutton
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 							style="color:blue">
 							<attribute name="onClick">
-	Events.sendEvent("onShiftClick", page_panel, self.getId());
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClick", page_panel, "shift_1_2");
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
-						<toolbarbutton id="shift_1_3"
+						<toolbarbutton
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 							style="color:blue">
 							<attribute name="onClick">
-	Events.sendEvent("onShiftClick", page_panel, self.getId());
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClick", page_panel, "shift_1_3");
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
-						<toolbarbutton id="shift_1_4"
+						<toolbarbutton
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 							style="color:blue">
 							<attribute name="onClick">
-	Events.sendEvent("onShiftClick", page_panel, self.getId());
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClick", page_panel, "shift_1_4");
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
-						<toolbarbutton id="shift_2_1"
+						<toolbarbutton
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 							style="color:blue">
 							<attribute name="onClick">
-	Events.sendEvent("onShiftClick", page_panel, self.getId());
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClick", page_panel, "shift_2_1");
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_2_2"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_2_3"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_2_4"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_3_1"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_3_2"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_3_3"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_3_4"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_4_1"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_4_2"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_4_3"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_4_4"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_5_1"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_5_2"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_5_3"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 							style="color:blue">
 						</toolbarbutton>
 						<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_5_4"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_6_1"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_6_2"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_6_3"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_6_4"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_7_1"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_7_2"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_7_3"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
 					</listcell>
 					<listcell>
 						<toolbarbutton id="shift_7_4"
+							onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 							style="color:blue">
 							<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClick", page_panel, self.getId());
 </attribute>
 						</toolbarbutton>
