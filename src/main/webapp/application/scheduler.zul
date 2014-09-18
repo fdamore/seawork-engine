@@ -68,7 +68,7 @@
 							</button>
 						</column>
 						<column label="Revisione">
-							<button id="ok_revisione" label="Salva"
+							<button id="ok_revision" label="Salva"
 								sclass="btn-info">
 							</button>
 						</column>
@@ -76,36 +76,43 @@
 					<rows>
 						<row>
 							<a label="Ingresso: "></a>
-							<timebox></timebox>
-							<timebox></timebox>
+							<datebox id="program_time_in" width="200px"
+								format="long+short">
+							</datebox>
+							<datebox id="revision_time_in" width="200px"
+								format="long+short">
+							</datebox>
 						</row>
 						<row>
 							<a label="Uscita: "></a>
-							<timebox></timebox>
-							<timebox></timebox>
+							<datebox id="program_time_out" width="200px"
+								format="long+short">
+							</datebox>
+							<datebox id="revision_time_out"
+								width="200px" format="long+short">
+							</datebox>
 						</row>
 						<row>
 							<a label="Assegna ore: "></a>
 							<intbox constraint="no negative"
-								onChange="program_combo_task.setSelectedItem(null)"
-								onOK="program_combo_task.setSelectedItem(null)"
-								id="time_shift_program">
+								width="200px" onChange="program_task.setSelectedItem(null)"
+								onOK="program_task.setSelectedItem(null)" id="program_time">
 							</intbox>
 							<intbox constraint="no negative"
-								onOK="revision_combo_task.setSelectedItem(null)"
-								onChange="revision_combo_task.setSelectedItem(null)"
-								id="time_shift_revision">
+								width="200px" onOK="revision_task.setSelectedItem(null)"
+								onChange="revision_task.setSelectedItem(null)"
+								id="revision_time">
 							</intbox>
 						</row>
 						<row>
 							<a label="Assegna Turno: "></a>
-							<combobox readonly="true"
-								onChange="time_shift_program.setValue(null)"
-								id="program_combo_task" placeholder="Scegli turno">
+							<combobox readonly="true" width="200px"
+								onChange="program_time.setValue(null)" id="program_task"
+								placeholder="Scegli turno">
 							</combobox>
-							<combobox readonly="true"
-								onChange="time_shift_revision.setValue(null)"
-								id="revision_combo_task" placeholder="Scegli turno">
+							<combobox readonly="true" width="200px"
+								onChange="revision_time.setValue(null)" id="revision_task"
+								placeholder="Scegli turno">
 							</combobox>
 						</row>
 					</rows>

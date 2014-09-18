@@ -21,7 +21,7 @@
 		s.initial_time_task_2,
 		s.initial_time_task_3, s.initial_time_task_4, s.final_time_task_1,
 		s.final_time_task_2, s.final_time_task_3, s.final_time_task_4,
-		u.employee_identification, u.id as scheduled,
+		u.employee_identification, u.id as id_scheduled,
 		concat(u.firstname,u.lastname) as name_scheduled
 		from
 		user u

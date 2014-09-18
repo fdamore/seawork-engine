@@ -247,9 +247,4 @@ public class Scheduler implements Serializable {
 		this.to_ts = to_ts;
 	}
 
-	@Override
-	public String toString() {
-		return "" + this.getId();
-	}
-
 }

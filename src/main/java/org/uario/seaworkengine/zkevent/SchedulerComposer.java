@@ -5,10 +5,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Scheduler;
 import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedulerDAO;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -25,6 +27,7 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 
@@ -53,22 +56,47 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final Logger			logger				= Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
-	private Combobox				program_combo_task;
+	private Comboitem				program_item;
 
 	@Wire
-	private Comboitem				program_item;
+	private Combobox				program_task;
+
+	@Wire
+	private Intbox					program_time;
+
+	@Wire
+	private Datebox					program_time_in;
+
+	@Wire
+	private Datebox					program_time_out;
 
 	@Wire
 	private Combobox				review;
 
 	@Wire
-	private Combobox				revision_combo_task;
+	private Combobox				revision_task;
+
+	@Wire
+	private Intbox					revision_time;
+
+	@Wire
+	private Datebox					revision_time_in;
+
+	@Wire
+	private Datebox					revision_time_out;
 
 	private ISchedulerDAO			schedulerDAO;
+
+	// selected week
+	private String					selectedDay;
+
+	// selected shift
+	private String					selectedShift;
 
 	@Listen("onChange = #date_init_scheduler")
 	public void changeInitialDate() {
 
+		this.info_scheduler.setVisible(false);
 		this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
 
 	}
@@ -88,8 +116,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// set combo task
 				final List<UserShift> list = SchedulerComposer.this.configurationDAO.loadShifts();
-				SchedulerComposer.this.program_combo_task.setModel(new ListModelList<UserShift>(list));
-				SchedulerComposer.this.revision_combo_task.setModel(new ListModelList<UserShift>(list));
+				SchedulerComposer.this.program_task.setModel(new ListModelList<UserShift>(list));
+				SchedulerComposer.this.revision_task.setModel(new ListModelList<UserShift>(list));
 
 				// set initial structure
 				SchedulerComposer.this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
@@ -101,11 +129,55 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
-				SchedulerComposer.this.info_scheduler.setVisible(true);
 
+				if (SchedulerComposer.this.grid_scheduler.getSelectedItem() == null) {
+					return;
+
+				}
+
+				// for of shift --> shift_1_4
 				final String data_info = arg0.getData().toString();
+				final String[] info = data_info.split("_");
+				SchedulerComposer.this.selectedDay = info[1];
+				SchedulerComposer.this.selectedShift = info[2];
 
-				final int sss = 0;
+				// take the right scheduler
+				final Scheduler scheduler = SchedulerComposer.this.grid_scheduler.getSelectedItem().getValue();
+				if (scheduler == null) {
+					return;
+				}
+
+				// set data
+				if (NumberUtils.isNumber(SchedulerComposer.this.selectedDay)) {
+
+					final Integer days = Integer.parseInt(SchedulerComposer.this.selectedDay);
+					final int to_add = days.intValue() - 1;
+
+					final Calendar calendar_day = Calendar.getInstance();
+					calendar_day.setTime(SchedulerComposer.this.date_init_scheduler.getValue());
+					calendar_day.add(Calendar.DAY_OF_YEAR, to_add);
+
+					if (scheduler.getFrom_ts() == null) {
+						SchedulerComposer.this.program_time_in.setValue(calendar_day.getTime());
+						SchedulerComposer.this.revision_time_in.setValue(calendar_day.getTime());
+					}
+					else {
+						SchedulerComposer.this.program_time_in.setValue(scheduler.getFrom_ts());
+						SchedulerComposer.this.revision_time_in.setValue(scheduler.getFrom_ts());
+					}
+
+					if (scheduler.getTo_ts() == null) {
+						SchedulerComposer.this.program_time_out.setValue(calendar_day.getTime());
+						SchedulerComposer.this.revision_time_out.setValue(calendar_day.getTime());
+					}
+					else {
+						SchedulerComposer.this.program_time_out.setValue(scheduler.getTo_ts());
+						SchedulerComposer.this.revision_time_out.setValue(scheduler.getTo_ts());
+					}
+
+				}
+
+				SchedulerComposer.this.info_scheduler.setVisible(true);
 
 			}
 		});
@@ -123,12 +195,67 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Save program
 	 */
-	@Listen("onChange = #ok_program")
+	@Listen("onClick = #ok_program")
 	public void saveProgram() {
 
 		if (this.grid_scheduler.getSelectedItem() == null) {
 			return;
 		}
+
+		final Scheduler scheduler = this.grid_scheduler.getSelectedItem().getValue();
+		if (scheduler == null) {
+			return;
+		}
+
+		final String shift = this.selectedShift;
+		final String day = this.selectedDay;
+
+		// set task and time
+		final Integer initial_time_task = this.program_time.getValue();
+		final UserTask initial_task_ob = this.program_task.getSelectedItem().getValue();
+		Integer initial_task = null;
+		if (initial_task_ob != null) {
+			initial_task = initial_task_ob.getId();
+		}
+
+		if (shift.equals("1")) {
+			scheduler.setInitial_task_1(initial_task);
+			scheduler.setInitial_time_task_1(initial_time_task);
+		}
+
+		if (shift.equals("2")) {
+			scheduler.setInitial_task_2(initial_task);
+			scheduler.setInitial_time_task_2(initial_time_task);
+		}
+
+		if (shift.equals("3")) {
+			scheduler.setInitial_task_3(initial_task);
+			scheduler.setInitial_time_task_3(initial_time_task);
+		}
+		if (shift.equals("4")) {
+			scheduler.setInitial_task_4(initial_task);
+			scheduler.setInitial_time_task_4(initial_time_task);
+		}
+
+		// set time in and out
+		scheduler.setFrom_ts(this.program_time_in.getValue());
+		scheduler.setTo_ts(this.program_time_out.getValue());
+
+		// save scheduler
+
+	}
+
+	/**
+	 * Save program
+	 */
+	@Listen("onClick = #ok_revision")
+	public void saveRevision() {
+
+		if (this.grid_scheduler.getSelectedItem() == null) {
+			return;
+		}
+
+		final Scheduler shceduler = this.grid_scheduler.getSelectedItem().getValue();
 
 	}
 
@@ -169,7 +296,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
