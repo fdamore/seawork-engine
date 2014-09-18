@@ -202,13 +202,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		final String shift = this.selectedShift;
+		final String day = this.selectedDay;
+
 		final Scheduler scheduler = this.grid_scheduler.getSelectedItem().getValue();
 		if (scheduler == null) {
 			return;
 		}
-
-		final String shift = this.selectedShift;
-		final String day = this.selectedDay;
 
 		// set task and time
 		final Integer initial_time_task = this.program_time.getValue();
