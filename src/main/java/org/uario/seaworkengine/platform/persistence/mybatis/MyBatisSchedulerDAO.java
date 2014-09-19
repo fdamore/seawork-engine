@@ -17,6 +17,19 @@ public class MyBatisSchedulerDAO extends SqlSessionDaoSupport implements ISchedu
 	private static Logger	logger	= Logger.getLogger(MyBatisSchedulerDAO.class);
 
 	@Override
+	public void saveOrUpdate(final Scheduler scheduler) {
+		if (scheduler.getId() == null) {
+			// save
+			this.getSqlSession().insert("scheduler.save");
+
+		} else {
+			this.getSqlSession().update("scheduler.update");
+
+		}
+
+	}
+
+	@Override
 	public List<Scheduler> selectSchedulers(final Date date_from, final Date date_to) {
 		MyBatisSchedulerDAO.logger.info("selectSchedulers..");
 

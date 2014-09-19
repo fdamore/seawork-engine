@@ -31,6 +31,70 @@
 ]]>
 	</select>
 
+	<insert id="save" parameterType="org.uario.seaworkengine.model.Scheduler">
+		INSERT INTO scheduler
+		(date_scheduler,note, from_ts, to_ts, editor,
+		controller,
+		initial_task_1, initial_task_2, initial_task_3,
+		initial_task_4,
+		final_task_1, final_task_2, final_task_3,
+		final_task_4,
+		initial_time_task_1,
+		initial_time_task_2,
+		initial_time_task_3,
+		initial_time_task_4, final_time_task_1,
+		final_time_task_2,
+		final_time_task_3, final_time_task_4, scheduled)
+		VALUE
+		(#{date_scheduler},#{note}, #{from_ts}, #{to_ts}, #{editor},
+		#{controller},
+		#{initial_task_1}, #{initial_task_2}, #{initial_task_3},
+		#{initial_task_4},
+		#{final_task_1}, #{final_task_2}, #{final_task_3},
+		#{final_task_4},
+		#{initial_time_task_1},
+		#{initial_time_task_2},
+		#{initial_time_task_3},
+		#{initial_time_task_4}, #{final_time_task_1},
+		#{final_time_task_2},
+		#{final_time_task_3}, #{final_time_task_4},
+		#{id_scheduled})
+
+
+	</insert>
+
+	<update id="update" parameterType="org.uario.seaworkengine.model.Scheduler">
+
+		UPDATE scheduler set
+		date_scheduler = #{date_scheduler}, note = #{note}, from_ts =
+		#{from_ts}, to_ts =
+		#{to_ts}, editor = #{editor},
+		controller =
+		#{controller},
+		initial_task_1 = #{initial_task_1}, initial_task_2 =
+		#{initial_task_2}, initial_task_3 = #{initial_task_3},
+		initial_task_4 =
+		#{initial_task_4},
+		final_task_1 = #{final_task_1}, final_task_2 =
+		#{final_task_2}, final_task_3 = #{final_task_3},
+		final_task_4 =
+		#{final_task_4},
+		initial_time_task_1 = #{initial_time_task_1},
+		initial_time_task_2 = #{initial_time_task_2},
+		initial_time_task_3 =
+		#{initial_time_task_3},
+		initial_time_task_4 = #{initial_time_task_4},
+		final_time_task_1 = #{final_time_task_1},
+		final_time_task_2 =
+		#{final_time_task_2},
+		final_time_task_3 = #{final_time_task_3},
+		final_time_task_4 = #{final_time_task_4},
+		scheduled =
+		#{id_scheduled}
+		where id = #{id}
+
+	</update>
+
 
 
 

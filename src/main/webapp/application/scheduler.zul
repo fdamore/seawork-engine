@@ -74,32 +74,17 @@
 						</column>
 					</columns>
 					<rows>
-						<row>
-							<a label="Ingresso: "></a>
-							<datebox id="program_time_in" width="200px"
-								format="long+short">
-							</datebox>
-							<datebox id="revision_time_in" width="200px"
-								format="long+short">
-							</datebox>
-						</row>
-						<row>
-							<a label="Uscita: "></a>
-							<datebox id="program_time_out" width="200px"
-								format="long+short">
-							</datebox>
-							<datebox id="revision_time_out"
-								width="200px" format="long+short">
-							</datebox>
-						</row>
+
 						<row>
 							<a label="Assegna ore: "></a>
 							<intbox constraint="no negative"
-								width="200px" onChange="program_task.setSelectedItem(null)"
+								placeholder="Assegna ore" width="200px"
+								onChange="program_task.setSelectedItem(null)"
 								onOK="program_task.setSelectedItem(null)" id="program_time">
 							</intbox>
 							<intbox constraint="no negative"
-								width="200px" onOK="revision_task.setSelectedItem(null)"
+								placeholder="Assegna ore" width="200px"
+								onOK="revision_task.setSelectedItem(null)"
 								onChange="revision_task.setSelectedItem(null)"
 								id="revision_time">
 							</intbox>
@@ -115,11 +100,38 @@
 								placeholder="Scegli turno">
 							</combobox>
 						</row>
+
+						<row>
+							<a label="Ingresso: "></a>
+							<div></div>
+							<datebox id="revision_time_in" width="200px"
+								format="long+short">
+							</datebox>
+						</row>
+						<row>
+							<a label="Uscita: "></a>
+							<div></div>
+							<datebox id="revision_time_out"
+								width="200px" format="long+short">
+							</datebox>
+						</row>
 					</rows>
 				</grid>
 
+
+
 			</panelchildren>
 		</panel>
+
+		<space></space>
+
+		<hbox align="start">
+			<a label="Note: "></a>
+			<textbox
+				placeholder="Inserisci note di programmazione e revisione"
+				width="400px" id="note" rows="5">
+			</textbox>
+		</hbox>
 
 		<space></space>
 
@@ -216,7 +228,7 @@
 							style="color:blue">
 							<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onShiftClick", page_panel, "shift_1_2");
+	Events.sendEvent("onShiftClick", page_panel, "shift_1_1");
 </attribute>
 						</toolbarbutton>
 					</listcell>

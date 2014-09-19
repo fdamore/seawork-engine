@@ -30,6 +30,8 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
@@ -56,6 +58,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final Logger			logger				= Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
+	private Textbox					note;
+
+	@Wire
 	private Comboitem				program_item;
 
 	@Wire
@@ -63,12 +68,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox					program_time;
-
-	@Wire
-	private Datebox					program_time_in;
-
-	@Wire
-	private Datebox					program_time_out;
 
 	@Wire
 	private Combobox				review;
@@ -147,7 +146,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return;
 				}
 
-				// set data
+				// set date
 				if (NumberUtils.isNumber(SchedulerComposer.this.selectedDay)) {
 
 					final Integer days = Integer.parseInt(SchedulerComposer.this.selectedDay);
@@ -158,25 +157,55 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					calendar_day.add(Calendar.DAY_OF_YEAR, to_add);
 
 					if (scheduler.getFrom_ts() == null) {
-						SchedulerComposer.this.program_time_in.setValue(calendar_day.getTime());
 						SchedulerComposer.this.revision_time_in.setValue(calendar_day.getTime());
-					}
-					else {
-						SchedulerComposer.this.program_time_in.setValue(scheduler.getFrom_ts());
+					} else {
 						SchedulerComposer.this.revision_time_in.setValue(scheduler.getFrom_ts());
 					}
 
 					if (scheduler.getTo_ts() == null) {
-						SchedulerComposer.this.program_time_out.setValue(calendar_day.getTime());
 						SchedulerComposer.this.revision_time_out.setValue(calendar_day.getTime());
-					}
-					else {
-						SchedulerComposer.this.program_time_out.setValue(scheduler.getTo_ts());
+					} else {
 						SchedulerComposer.this.revision_time_out.setValue(scheduler.getTo_ts());
 					}
 
 				}
 
+				// set note
+				SchedulerComposer.this.note.setValue(scheduler.getNote());
+
+				// set task and hours working
+				if (NumberUtils.isNumber(SchedulerComposer.this.selectedShift)) {
+					final Integer shift = Integer.parseInt(SchedulerComposer.this.selectedShift);
+					if (shift.intValue() == 1) {
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_1());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_1());
+						// SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_1().toString());
+						// SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_1().toString());
+					}
+					if (shift.intValue() == 2) {
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_2());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_2());
+						// SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_2().toString());
+						// SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_2().toString());
+
+					}
+					if (shift.intValue() == 3) {
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_3());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_3());
+						// SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_3().toString());
+						// SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_3().toString());
+
+					}
+					if (shift.intValue() == 4) {
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_4());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_4());
+						SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_4().toString());
+						SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_4().toString());
+
+					}
+				}
+
+				// show info table
 				SchedulerComposer.this.info_scheduler.setVisible(true);
 
 			}
@@ -212,10 +241,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set task and time
 		final Integer initial_time_task = this.program_time.getValue();
-		final UserTask initial_task_ob = this.program_task.getSelectedItem().getValue();
+
 		Integer initial_task = null;
-		if (initial_task_ob != null) {
-			initial_task = initial_task_ob.getId();
+		if ((this.program_task.getSelectedItem() != null) && (this.program_task.getSelectedItem().getValue() instanceof UserTask)) {
+			final UserTask initial_task_ob = this.program_task.getSelectedItem().getValue();
+			if (initial_task_ob != null) {
+				initial_task = initial_task_ob.getId();
+			}
 		}
 
 		if (shift.equals("1")) {
@@ -237,11 +269,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			scheduler.setInitial_time_task_4(initial_time_task);
 		}
 
-		// set time in and out
-		scheduler.setFrom_ts(this.program_time_in.getValue());
-		scheduler.setTo_ts(this.program_time_out.getValue());
+		// save note
+		scheduler.setNote(this.note.getValue());
 
 		// save scheduler
+		this.schedulerDAO.saveOrUpdate(scheduler);
+
+		Messagebox.show("Il programma è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 	}
 
@@ -255,7 +289,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		final Scheduler shceduler = this.grid_scheduler.getSelectedItem().getValue();
+		final Scheduler scheduler = this.grid_scheduler.getSelectedItem().getValue();
+
+		// set time in and out
+		scheduler.setFrom_ts(this.revision_time_in.getValue());
+		scheduler.setTo_ts(this.revision_time_out.getValue());
 
 	}
 
@@ -296,8 +334,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
