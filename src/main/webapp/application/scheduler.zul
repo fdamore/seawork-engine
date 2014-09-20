@@ -50,9 +50,15 @@
 
 		<space></space>
 
-		<toolbarbutton label="Chiudi" style="color:blue"
-			onClick="info_scheduler.setVisible(false)">
-		</toolbarbutton>
+		<hbox align="center">
+			<a id="scheduler_label"></a>
+
+			<toolbarbutton label="Chiudi" style="color:blue"
+				onClick="info_scheduler.setVisible(false)">
+
+			</toolbarbutton>
+
+		</hbox>
 
 
 		<panel border="normal" collapsible="false"

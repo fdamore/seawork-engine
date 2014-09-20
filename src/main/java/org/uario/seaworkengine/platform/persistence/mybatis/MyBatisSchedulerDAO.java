@@ -20,10 +20,10 @@ public class MyBatisSchedulerDAO extends SqlSessionDaoSupport implements ISchedu
 	public void saveOrUpdate(final Scheduler scheduler) {
 		if (scheduler.getId() == null) {
 			// save
-			this.getSqlSession().insert("scheduler.save");
+			this.getSqlSession().insert("scheduler.save", scheduler);
 
 		} else {
-			this.getSqlSession().update("scheduler.update");
+			this.getSqlSession().update("scheduler.update", scheduler);
 
 		}
 

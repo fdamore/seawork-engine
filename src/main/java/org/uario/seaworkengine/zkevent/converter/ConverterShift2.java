@@ -23,16 +23,16 @@ public class ConverterShift2 implements TypeConverter {
 
 		final Scheduler shift = (Scheduler) arg0;
 
-		if ((shift.getInitial_task_2() == null) && (shift.getInitial_time_task_2() == null)) {
+		if ((shift.getInitial_shift_2() == null) && (shift.getInitial_time_2() == null)) {
 			return NO_DATA;
 		}
 
-		if (shift.getInitial_time_task_2() != null) {
-			return shift.getInitial_time_task_1();
+		if (shift.getInitial_time_2() != null) {
+			return "" + shift.getInitial_time_2();
 		}
 
-		if (shift.getInitial_task_2() != null) {
-			return shift.getInitial_task_1();
+		if (shift.getInitial_shift_2() != null) {
+			return "" + shift.getInitial_shift_2();
 		}
 
 		return NO_DATA;

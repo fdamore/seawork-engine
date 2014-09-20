@@ -14,14 +14,14 @@
 		select s.id,
 		s.date_scheduler,s.note, s.from_ts, s.to_ts, s.editor,
 		s.controller,
-		s.initial_task_1, s.initial_task_2, s.initial_task_3,
-		s.initial_task_4,
-		s.final_task_1, s.final_task_2, s.final_task_3,
-		s.final_task_4, s.initial_time_task_1,
-		s.initial_time_task_2,
-		s.initial_time_task_3, s.initial_time_task_4, s.final_time_task_1,
-		s.final_time_task_2, s.final_time_task_3, s.final_time_task_4,
-		u.employee_identification, u.id as id_scheduled,
+		s.initial_shift_1, s.initial_shift_2, s.initial_shift_3,
+		s.initial_shift_4,
+		s.final_shift_1, s.final_shift_2, s.final_shift_3,
+		s.final_shift_4, s.initial_time_1,
+		s.initial_time_2,
+		s.initial_time_3, s.initial_time_4, s.final_time_1,
+		s.final_time_2, s.final_time_3, s.final_time_4,
+		u.employee_identification, u.id as scheduled,
 		concat(u.firstname,u.lastname) as name_scheduled
 		from
 		user u
@@ -35,30 +35,34 @@
 		INSERT INTO scheduler
 		(date_scheduler,note, from_ts, to_ts, editor,
 		controller,
-		initial_task_1, initial_task_2, initial_task_3,
-		initial_task_4,
-		final_task_1, final_task_2, final_task_3,
-		final_task_4,
-		initial_time_task_1,
-		initial_time_task_2,
-		initial_time_task_3,
-		initial_time_task_4, final_time_task_1,
-		final_time_task_2,
-		final_time_task_3, final_time_task_4, scheduled)
+		initial_shift_1, initial_shift_2, initial_shift_3,
+		initial_shift_4,
+		final_shift_1, final_shift_2, final_shift_3,
+		final_shift_4,
+		initial_time_1,
+		initial_time_2,
+		initial_time_3,
+		initial_time_4,
+		final_time_1,
+		final_time_2,
+		final_time_3, final_time_4, scheduled)
 		VALUE
 		(#{date_scheduler},#{note}, #{from_ts}, #{to_ts}, #{editor},
 		#{controller},
-		#{initial_task_1}, #{initial_task_2}, #{initial_task_3},
-		#{initial_task_4},
-		#{final_task_1}, #{final_task_2}, #{final_task_3},
-		#{final_task_4},
-		#{initial_time_task_1},
-		#{initial_time_task_2},
-		#{initial_time_task_3},
-		#{initial_time_task_4}, #{final_time_task_1},
-		#{final_time_task_2},
-		#{final_time_task_3}, #{final_time_task_4},
-		#{id_scheduled})
+		#{initial_shift_1}, #{initial_shift_2},
+		#{initial_shift_3},
+		#{initial_shift_4},
+		#{final_shift_1},
+		#{final_shift_2}, #{final_shift_3},
+		#{final_shift_4},
+		#{initial_time_1},
+		#{initial_time_2},
+		#{initial_time_3},
+		#{initial_time_4}, #{final_time_1},
+		#{final_time_2},
+		#{final_time_3},
+		#{final_time_4},
+		#{scheduled})
 
 
 	</insert>
@@ -71,27 +75,28 @@
 		#{to_ts}, editor = #{editor},
 		controller =
 		#{controller},
-		initial_task_1 = #{initial_task_1}, initial_task_2 =
-		#{initial_task_2}, initial_task_3 = #{initial_task_3},
-		initial_task_4 =
-		#{initial_task_4},
-		final_task_1 = #{final_task_1}, final_task_2 =
-		#{final_task_2}, final_task_3 = #{final_task_3},
-		final_task_4 =
-		#{final_task_4},
-		initial_time_task_1 = #{initial_time_task_1},
-		initial_time_task_2 = #{initial_time_task_2},
-		initial_time_task_3 =
-		#{initial_time_task_3},
-		initial_time_task_4 = #{initial_time_task_4},
-		final_time_task_1 = #{final_time_task_1},
-		final_time_task_2 =
-		#{final_time_task_2},
-		final_time_task_3 = #{final_time_task_3},
-		final_time_task_4 = #{final_time_task_4},
+		initial_shift_1 = #{initial_shift_1}, initial_shift_2 =
+		#{initial_shift_2}, initial_shift_3 = #{initial_shift_3},
+		initial_shift_4 =
+		#{initial_shift_4},
+		final_shift_1 = #{final_shift_1}, final_shift_2 =
+		#{final_shift_2}, final_shift_3 = #{final_shift_3},
+		final_shift_4 =
+		#{final_shift_4},
+		initial_time_1 = #{initial_time_1},
+		initial_time_2 = #{initial_time_2},
+		initial_time_3 =
+		#{initial_time_3},
+		initial_time_4 = #{initial_time_4},
+		final_time_1 = #{final_time_1},
+		final_time_2 =
+		#{final_time_2},
+		final_time_3 = #{final_time_3},
+		final_time_4 = #{final_time_4},
 		scheduled =
-		#{id_scheduled}
-		where id = #{id}
+		#{scheduled}
+		where
+		id = #{id}
 
 	</update>
 

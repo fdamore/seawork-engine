@@ -8,9 +8,10 @@ import java.util.List;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Scheduler;
 import org.uario.seaworkengine.model.UserShift;
-import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedulerDAO;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -22,6 +23,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.A;
 import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
@@ -38,7 +40,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long		serialVersionUID	= 1L;
+	private static final long		serialVersionUID			= 1L;
 
 	private ConfigurationDAO		configurationDAO;
 
@@ -46,8 +48,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Datebox					date_init_scheduler;
 
 	// format
-	private final SimpleDateFormat	formatter_ddmmm		= new SimpleDateFormat("dd/MMM");
-	private final SimpleDateFormat	formatter_eeee		= new SimpleDateFormat("EEEE");
+	private final SimpleDateFormat	formatter_ddmmm				= new SimpleDateFormat("dd/MMM");
+	private final SimpleDateFormat	formatter_eeee				= new SimpleDateFormat("EEEE");
+	private final SimpleDateFormat	formatter_scheduler_info	= new SimpleDateFormat("EEEE dd MMM");
 
 	@Wire
 	private Listbox					grid_scheduler;
@@ -55,7 +58,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Div						info_scheduler;
 
-	private final Logger			logger				= Logger.getLogger(SchedulerComposer.class);
+	private final Logger			logger						= Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
 	private Textbox					note;
@@ -83,6 +86,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox					revision_time_out;
+
+	@Wire
+	private A						scheduler_label;
 
 	private ISchedulerDAO			schedulerDAO;
 
@@ -149,21 +155,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// set date
 				if (NumberUtils.isNumber(SchedulerComposer.this.selectedDay)) {
 
-					final Integer days = Integer.parseInt(SchedulerComposer.this.selectedDay);
-					final int to_add = days.intValue() - 1;
+					final Date current_day = SchedulerComposer.this.getDateScheduled(SchedulerComposer.this.selectedDay);
 
-					final Calendar calendar_day = Calendar.getInstance();
-					calendar_day.setTime(SchedulerComposer.this.date_init_scheduler.getValue());
-					calendar_day.add(Calendar.DAY_OF_YEAR, to_add);
+					// set label
+					SchedulerComposer.this.scheduler_label.setLabel("Giorno: " + SchedulerComposer.this.formatter_scheduler_info.format(current_day)
+							+ ". Turno: " + SchedulerComposer.this.selectedShift);
 
 					if (scheduler.getFrom_ts() == null) {
-						SchedulerComposer.this.revision_time_in.setValue(calendar_day.getTime());
+						SchedulerComposer.this.revision_time_in.setValue(current_day);
 					} else {
 						SchedulerComposer.this.revision_time_in.setValue(scheduler.getFrom_ts());
 					}
 
 					if (scheduler.getTo_ts() == null) {
-						SchedulerComposer.this.revision_time_out.setValue(calendar_day.getTime());
+						SchedulerComposer.this.revision_time_out.setValue(current_day);
 					} else {
 						SchedulerComposer.this.revision_time_out.setValue(scheduler.getTo_ts());
 					}
@@ -177,30 +182,47 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (NumberUtils.isNumber(SchedulerComposer.this.selectedShift)) {
 					final Integer shift = Integer.parseInt(SchedulerComposer.this.selectedShift);
 					if (shift.intValue() == 1) {
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_1());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_1());
-						// SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_1().toString());
-						// SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_1().toString());
+
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_1());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_1());
+
+						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.program_task, scheduler.getInitial_shift_1()));
+						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_1()));
+
 					}
 					if (shift.intValue() == 2) {
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_2());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_2());
-						// SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_2().toString());
-						// SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_2().toString());
+
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_2());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_2());
+
+						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.program_task, scheduler.getInitial_shift_2()));
+						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_2()));
 
 					}
 					if (shift.intValue() == 3) {
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_3());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_3());
-						// SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_3().toString());
-						// SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_3().toString());
+
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_3());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_3());
+
+						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.program_task, scheduler.getInitial_shift_3()));
+						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_3()));
 
 					}
 					if (shift.intValue() == 4) {
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_task_4());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_task_4());
-						SchedulerComposer.this.program_task.setValue(scheduler.getInitial_task_4().toString());
-						SchedulerComposer.this.revision_task.setValue(scheduler.getFinal_task_4().toString());
+
+						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_4());
+						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_4());
+
+						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.program_task, scheduler.getInitial_shift_4()));
+						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
+								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_4()));
 
 					}
 				}
@@ -211,6 +233,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		});
 
+	}
+
+	/**
+	 * Get date scheduled
+	 *
+	 * @param day
+	 * @return
+	 */
+	private Date getDateScheduled(final String day) {
+		final Integer days = Integer.parseInt(day);
+		final int to_add = days.intValue() - 1;
+
+		final Calendar calendar_day = Calendar.getInstance();
+		calendar_day.setTime(SchedulerComposer.this.date_init_scheduler.getValue());
+		calendar_day.add(Calendar.DAY_OF_YEAR, to_add);
+
+		return calendar_day.getTime();
 	}
 
 	@Listen("onClick = #refresh_command")
@@ -242,38 +281,49 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set task and time
 		final Integer initial_time_task = this.program_time.getValue();
 
-		Integer initial_task = null;
-		if ((this.program_task.getSelectedItem() != null) && (this.program_task.getSelectedItem().getValue() instanceof UserTask)) {
-			final UserTask initial_task_ob = this.program_task.getSelectedItem().getValue();
-			if (initial_task_ob != null) {
-				initial_task = initial_task_ob.getId();
+		Integer initial_shift = null;
+		if (this.program_task.getSelectedItem() != null) {
+			final UserShift initial_shift_ob = this.program_task.getSelectedItem().getValue();
+			if (initial_shift_ob != null) {
+				initial_shift = initial_shift_ob.getId();
 			}
 		}
 
 		if (shift.equals("1")) {
-			scheduler.setInitial_task_1(initial_task);
-			scheduler.setInitial_time_task_1(initial_time_task);
+			scheduler.setInitial_shift_1(initial_shift);
+			scheduler.setInitial_time_1(initial_time_task);
 		}
 
 		if (shift.equals("2")) {
-			scheduler.setInitial_task_2(initial_task);
-			scheduler.setInitial_time_task_2(initial_time_task);
+			scheduler.setInitial_shift_2(initial_shift);
+			scheduler.setInitial_time_2(initial_time_task);
 		}
 
 		if (shift.equals("3")) {
-			scheduler.setInitial_task_3(initial_task);
-			scheduler.setInitial_time_task_3(initial_time_task);
+			scheduler.setInitial_shift_3(initial_shift);
+			scheduler.setInitial_time_3(initial_time_task);
 		}
 		if (shift.equals("4")) {
-			scheduler.setInitial_task_4(initial_task);
-			scheduler.setInitial_time_task_4(initial_time_task);
+			scheduler.setInitial_shift_4(initial_shift);
+			scheduler.setInitial_time_4(initial_time_task);
 		}
 
 		// save note
 		scheduler.setNote(this.note.getValue());
 
+		// set editor
+		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		scheduler.setEditor(person.getId());
+
+		// set data scheduler
+		final Date date_scheduler = this.getDateScheduled(day);
+		scheduler.setDate_scheduler(date_scheduler);
+
 		// save scheduler
 		this.schedulerDAO.saveOrUpdate(scheduler);
+
+		// refresh grid
+		this.setupValuesGrid();
 
 		Messagebox.show("Il programma è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -294,6 +344,26 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set time in and out
 		scheduler.setFrom_ts(this.revision_time_in.getValue());
 		scheduler.setTo_ts(this.revision_time_out.getValue());
+
+	}
+
+	/**
+	 * return selected comboitem
+	 *
+	 * @param targetCombo
+	 * @param shift
+	 * @return
+	 */
+	private Comboitem selectItemShift(final Combobox targetCombo, final Integer shift) {
+
+		for (final Comboitem item : targetCombo.getItems()) {
+			final UserShift shift_item = item.getValue();
+			if (shift_item.getId().equals(shift)) {
+				return item;
+			}
+		}
+
+		return null;
 
 	}
 
@@ -358,6 +428,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
 		this.grid_scheduler.setModel(new ListModelList<Scheduler>(list));
+
+		// close info scheduler
+		this.info_scheduler.setVisible(false);
 
 	}
 }
