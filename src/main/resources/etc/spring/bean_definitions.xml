@@ -74,17 +74,18 @@
 	</bean>
 
 
-	<!-- Setup Person and DAO -->
+	<!-- Setup DAOs -->
 	<bean id="myPersonDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisPersonDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
 
-	<!-- Setup Person and DAO -->
+
 	<bean id="myConfigurationDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisConfigurationDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="shift_cache" ref="myShiftCache"></property>
 
 	</bean>
 
@@ -120,6 +121,13 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+
+	<!-- SETUP PLATFORM CACHES -->
+	<bean id="myShiftCache"
+		class="org.uario.seaworkengine.platform.persistence.cache.shift.ShiftCache">
+	</bean>
+
+
 
 
 

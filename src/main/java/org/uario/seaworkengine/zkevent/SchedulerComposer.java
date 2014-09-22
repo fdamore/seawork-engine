@@ -103,6 +103,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.info_scheduler.setVisible(false);
 		this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
+		this.setupValuesGrid();
 
 	}
 
@@ -147,7 +148,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				SchedulerComposer.this.selectedShift = info[2];
 
 				// take the right scheduler
-				final Scheduler scheduler = SchedulerComposer.this.grid_scheduler.getSelectedItem().getValue();
+				final Scheduler scheduler = SchedulerComposer.this.getCurrentScheduler(SchedulerComposer.this.selectedDay,
+						SchedulerComposer.this.selectedShift);
+
 				if (scheduler == null) {
 					return;
 				}
@@ -163,13 +166,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					if (scheduler.getFrom_ts() == null) {
 						SchedulerComposer.this.revision_time_in.setValue(current_day);
-					} else {
+					}
+					else {
 						SchedulerComposer.this.revision_time_in.setValue(scheduler.getFrom_ts());
 					}
 
 					if (scheduler.getTo_ts() == null) {
 						SchedulerComposer.this.revision_time_out.setValue(current_day);
-					} else {
+					}
+					else {
 						SchedulerComposer.this.revision_time_out.setValue(scheduler.getTo_ts());
 					}
 
@@ -236,6 +241,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * Get a scheduler on the grid by day and shift
+	 *
+	 * @param selectedDay2
+	 * @param selectedShift2
+	 * @return
+	 */
+	private Scheduler getCurrentScheduler(final String selectedDay2, final String selectedShift2) {
+		return SchedulerComposer.this.grid_scheduler.getSelectedItem().getValue();
+	}
+
+	/**
 	 * Get date scheduled
 	 *
 	 * @param day
@@ -273,7 +289,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final String shift = this.selectedShift;
 		final String day = this.selectedDay;
 
-		final Scheduler scheduler = this.grid_scheduler.getSelectedItem().getValue();
+		final Scheduler scheduler = this.getCurrentScheduler(day, shift);
 		if (scheduler == null) {
 			return;
 		}
@@ -339,7 +355,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		final Scheduler scheduler = this.grid_scheduler.getSelectedItem().getValue();
+		final String shift = this.selectedShift;
+		final String day = this.selectedDay;
+
+		final Scheduler scheduler = this.getCurrentScheduler(day, shift);
+		if (scheduler == null) {
+			return;
+		}
 
 		// set time in and out
 		scheduler.setFrom_ts(this.revision_time_in.getValue());
@@ -404,7 +426,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}

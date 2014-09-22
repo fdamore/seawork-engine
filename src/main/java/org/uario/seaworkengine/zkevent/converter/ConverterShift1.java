@@ -1,6 +1,10 @@
 package org.uario.seaworkengine.zkevent.converter;
 
 import org.uario.seaworkengine.model.Scheduler;
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.utility.BeansTag;
+import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
@@ -24,7 +28,7 @@ public class ConverterShift1 implements TypeConverter {
 		final Scheduler shift = (Scheduler) arg0;
 
 		if ((shift.getInitial_shift_1() == null) && (shift.getInitial_time_1() == null)) {
-			return NO_DATA;
+			return ConverterShift1.NO_DATA;
 		}
 
 		if (shift.getInitial_time_1() != null) {
@@ -32,10 +36,22 @@ public class ConverterShift1 implements TypeConverter {
 		}
 
 		if (shift.getInitial_shift_1() != null) {
-			return "" + shift.getInitial_shift_1();
+
+			// get shift cache
+			final IShiftCache shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+
+			final Integer id = shift.getInitial_shift_1();
+			final UserShift item = shift_cache.getUserShift(id);
+			if (item != null) {
+				return item.getCode();
+			}
+			else {
+				return "" + shift.getInitial_shift_1();
+			}
+
 		}
 
-		return NO_DATA;
+		return ConverterShift1.NO_DATA;
 
 	}
 }

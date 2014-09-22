@@ -4,16 +4,23 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
+import org.uario.seaworkengine.utility.BeansTag;
 
 /**
  * Define App context... Application Lifecycle Listener implementation class
  * WebAppContext
- * 
+ *
  */
 public class WebAppContext implements ServletContextListener {
 
@@ -32,7 +39,8 @@ public class WebAppContext implements ServletContextListener {
 			try {
 				DriverManager.deregisterDriver(driver);
 
-			} catch (final SQLException e) {
+			}
+			catch (final SQLException e) {
 				this.logger.error(e);
 
 			}
@@ -42,8 +50,16 @@ public class WebAppContext implements ServletContextListener {
 	@Override
 	public void contextInitialized(final ServletContextEvent arg0) {
 		this.logger.info("Context Initialized");
+
 		// set the logger system for ibatis
 		// org.apache.ibatis.logging.LogFactory.useStdOutLogging();
+
+		// set platform caches
+		final WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(arg0.getServletContext());
+		final ConfigurationDAO configuration = (ConfigurationDAO) ctx.getBean(BeansTag.CONFIGURATION_DAO);
+		final IShiftCache shift_cache = (IShiftCache) ctx.getBean(BeansTag.SHIFT_CACHE);
+		final List<UserShift> list_shift = configuration.loadShifts();
+		shift_cache.buildCache(list_shift);
 
 	}
 
