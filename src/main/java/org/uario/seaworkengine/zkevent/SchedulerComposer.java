@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedulerDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
+import org.uario.seaworkengine.zkevent.bean.RowScheduler;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -449,7 +451,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.add(Calendar.DAY_OF_YEAR, 7);
 		final Date final_date = calendar.getTime();
 
+		// set grid
+		final List<RowScheduler> rows = new ArrayList<RowScheduler>();
 		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
+
 		this.grid_scheduler.setModel(new ListModelList<Scheduler>(list));
 
 		// close info scheduler
