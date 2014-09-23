@@ -4,13 +4,54 @@ import org.uario.seaworkengine.model.Scheduler;
 
 public class RowScheduler {
 
-	private Scheduler	scheduler_1;
-	private Scheduler	scheduler_2;
-	private Scheduler	scheduler_3;
-	private Scheduler	scheduler_4;
-	private Scheduler	scheduler_5;
-	private Scheduler	scheduler_6;
-	private Scheduler	scheduler_7;
+	private String		employee_identification;
+
+	// used to visualize it
+	private String		name_scheduled;
+
+	private Integer		scheduled;
+
+	private Scheduler	scheduler_1	= new Scheduler();
+
+	private Scheduler	scheduler_2	= new Scheduler();
+
+	private Scheduler	scheduler_3	= new Scheduler();
+
+	private Scheduler	scheduler_4	= new Scheduler();
+
+	private Scheduler	scheduler_5	= new Scheduler();
+
+	private Scheduler	scheduler_6	= new Scheduler();
+
+	private Scheduler	scheduler_7	= new Scheduler();
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (!(obj instanceof Scheduler)) {
+			return false;
+		}
+
+		final RowScheduler item = (RowScheduler) obj;
+
+		if ((item.scheduled == null) || (this.scheduled == null)) {
+			return false;
+		}
+
+		return this.scheduled.equals(item.scheduled);
+
+	}
+
+	public String getEmployee_identification() {
+		return this.employee_identification;
+	}
+
+	public String getName_scheduled() {
+		return this.name_scheduled;
+	}
+
+	public Integer getScheduled() {
+		return this.scheduled;
+	}
 
 	public Scheduler getScheduler_1() {
 		return this.scheduler_1;
@@ -38,6 +79,18 @@ public class RowScheduler {
 
 	public Scheduler getScheduler_7() {
 		return this.scheduler_7;
+	}
+
+	public void setEmployee_identification(final String employee_identification) {
+		this.employee_identification = employee_identification;
+	}
+
+	public void setName_scheduled(final String name_scheduled) {
+		this.name_scheduled = name_scheduled;
+	}
+
+	public void setScheduled(final Integer scheduled) {
+		this.scheduled = scheduled;
 	}
 
 	public void setScheduler_1(final Scheduler scheduler_1) {

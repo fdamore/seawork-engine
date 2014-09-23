@@ -27,7 +27,7 @@
 		user u
 		left join
 		scheduler s on (u.id = s.scheduled and (s.date_scheduler >=
-		#{date_from} and s.date_scheduler <= #{date_to}));
+		#{date_from} and s.date_scheduler <= #{date_to})) order by scheduled asc, s.date_scheduler asc;
 ]]>
 	</select>
 

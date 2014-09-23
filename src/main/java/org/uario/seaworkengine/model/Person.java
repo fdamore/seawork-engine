@@ -22,6 +22,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				address;
 
+	private String				asd					= "asd";
+
 	private String				authority;
 
 	private String				bill_center;
@@ -132,6 +134,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public String getAddress() {
 		return this.address;
+	}
+
+	public String getAsd() {
+		return this.asd;
 	}
 
 	@Override
@@ -401,6 +407,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setAddress(final String address) {
 		this.address = address;
+	}
+
+	public void setAsd(final String asd) {
+		this.asd = asd;
 	}
 
 	public void setAuthority(final String authority) {

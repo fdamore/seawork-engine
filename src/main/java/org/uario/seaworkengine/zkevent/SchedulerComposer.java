@@ -39,6 +39,8 @@ import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
+	private static final int		DAYS_IN_GRID				= 7;
+
 	/**
 	 *
 	 */
@@ -168,15 +170,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					if (scheduler.getFrom_ts() == null) {
 						SchedulerComposer.this.revision_time_in.setValue(current_day);
-					}
-					else {
+					} else {
 						SchedulerComposer.this.revision_time_in.setValue(scheduler.getFrom_ts());
 					}
 
 					if (scheduler.getTo_ts() == null) {
 						SchedulerComposer.this.revision_time_out.setValue(current_day);
-					}
-					else {
+					} else {
 						SchedulerComposer.this.revision_time_out.setValue(scheduler.getTo_ts());
 					}
 
@@ -408,7 +408,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.setTime(initial_date);
 
 		// set seven days
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < DAYS_IN_GRID; i++) {
 
 			final int index_day = i + 1;
 
@@ -428,8 +428,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -448,12 +447,75 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
 		final Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_YEAR, 7);
+		calendar.add(Calendar.DAY_OF_YEAR, DAYS_IN_GRID);
 		final Date final_date = calendar.getTime();
 
 		// set grid
 		final List<RowScheduler> rows = new ArrayList<RowScheduler>();
+
+		RowScheduler current_scheduled = null;
+		int index = 0;
 		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
+		for (int i = 0; i < list.size(); i++) {
+
+			final Scheduler scheduler = list.get(i);
+
+			if (current_scheduled == null) {
+
+				final RowScheduler row = new RowScheduler();
+				row.setName_scheduled(scheduler.getName_scheduled());
+				row.setEmployee_identification(scheduler.getEmployee_identification());
+				row.setScheduled(scheduler.getScheduled());
+				row.setScheduler_1(scheduler);
+
+				// asign scheduled
+				current_scheduled = row;
+				index = 2;
+
+			} else if (scheduler.getScheduled().equals(current_scheduled.getScheduled())) {
+
+				if (index == 2) {
+					current_scheduled.setScheduler_2(scheduler);
+				}
+
+				if (index == 3) {
+					current_scheduled.setScheduler_3(scheduler);
+				}
+
+				if (index == 4) {
+					current_scheduled.setScheduler_4(scheduler);
+				}
+
+				if (index == 5) {
+					current_scheduled.setScheduler_5(scheduler);
+				}
+
+				if (index == 6) {
+					current_scheduled.setScheduler_6(scheduler);
+				}
+
+				if (index == 7) {
+					current_scheduled.setScheduler_7(scheduler);
+				}
+
+				// asign scheduled
+				index = index++;
+
+			} else if (!(scheduler.equals(current_scheduled.getScheduled()))) {
+
+				final RowScheduler row = new RowScheduler();
+				row.setName_scheduled(scheduler.getName_scheduled());
+				row.setEmployee_identification(scheduler.getEmployee_identification());
+				row.setScheduled(scheduler.getScheduled());
+				row.setScheduler_1(scheduler);
+
+				// asign scheduled
+				current_scheduled = row;
+				index = 1;
+
+			}
+
+		}
 
 		this.grid_scheduler.setModel(new ListModelList<Scheduler>(list));
 
