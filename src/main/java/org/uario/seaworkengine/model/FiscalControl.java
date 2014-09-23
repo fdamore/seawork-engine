@@ -6,7 +6,7 @@ import java.util.Date;
 public class FiscalControl implements Serializable {
 
 	/**
-	 * Model for fiscal choices
+	 * Model for fiscal choices -
 	 */
 	private static final long	serialVersionUID	= 1L;
 
