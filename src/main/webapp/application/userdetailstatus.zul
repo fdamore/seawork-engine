@@ -111,7 +111,8 @@
 
 				<listitem self="@{each='item'}" value="@{item}">
 
-					<listcell label="@{item.status}" />
+					<listcell
+						label="@{item.status, converter='org.uario.seaworkengine.zkevent.converter.UserStatusConverter'}" />
 					<listcell
 						label="@{item.date_modified, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 

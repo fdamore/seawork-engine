@@ -14,7 +14,7 @@
 		id_user
 		FROM
 		employment where
-		id_user = #{id_user};
+		id_user = #{id_user} order by date_modified desc;
 
 	</select>
 
