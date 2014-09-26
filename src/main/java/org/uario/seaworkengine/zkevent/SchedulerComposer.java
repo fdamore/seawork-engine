@@ -441,21 +441,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * setup values for grid
+	 * setup RowScheduler
+	 *
+	 * @param initial_date
+	 * @param final_date
+	 * @return
 	 */
-	private void setupValuesGrid() {
+	private List<Scheduler> setupRowScheduler(final Date initial_date, final Date final_date) {
 
-		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
-		final Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_YEAR, DAYS_IN_GRID);
-		final Date final_date = calendar.getTime();
+		// get list data list
+		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
 
 		// set grid
 		final List<RowScheduler> rows = new ArrayList<RowScheduler>();
 
 		RowScheduler current_scheduled = null;
 		int index = 0;
-		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
+
 		for (int i = 0; i < list.size(); i++) {
 
 			final Scheduler scheduler = list.get(i);
@@ -516,6 +518,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 		}
+		return list;
+	}
+
+	/**
+	 * setup values for grid
+	 */
+	private void setupValuesGrid() {
+
+		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
+		final Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, DAYS_IN_GRID);
+		final Date final_date = calendar.getTime();
+
+		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
+
+		// TODO: setup row scheduler
+		// final List<Scheduler> list = setupRowScheduler(initial_date,
+		// final_date);
 
 		this.grid_scheduler.setModel(new ListModelList<Scheduler>(list));
 

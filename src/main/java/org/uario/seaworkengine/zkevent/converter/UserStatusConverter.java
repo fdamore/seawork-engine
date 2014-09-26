@@ -11,6 +11,7 @@ public class UserStatusConverter implements TypeConverter {
 	private static final String	NON_CONFERMATO	= "NON CONFERMATO";
 	private static final String	RIAPERTO		= "RIAPERTO";
 	private static final String	RIASSEGNATO		= "RIASSEGNATO";
+	private static final String	UNDEFINED		= "NON DEFINITIO";
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -21,6 +22,11 @@ public class UserStatusConverter implements TypeConverter {
 	@Override
 	public Object coerceToUi(final Object arg0, final Component arg1) {
 		final String status = (String) arg0;
+
+		if (status == null) {
+			return UNDEFINED;
+		}
+
 		if (status.equals(UserStatusTag.FIRED)) {
 			return UserStatusConverter.LICENZIATO;
 		}

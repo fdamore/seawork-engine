@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.zkevent;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -75,9 +74,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox				date_fired_user;
-
-	@Wire
-	private Datebox				date_modify_user;
 
 	@Wire
 	private Textbox				department_user;
@@ -264,7 +260,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		person.setEducation(this.education_user.getValue());
 		person.setEmployment(this.employment_date_user.getValue());
 		person.setDate_fired(this.date_fired_user.getValue());
-		person.setDate_modify(this.date_modify_user.getValue());
 		person.setNcfl(this.ncfl_user.getValue());
 		person.setDepartment(this.department_user.getValue());
 		person.setCurrent_position(this.current_position_user.getValue());
@@ -309,8 +304,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #user_status")
 	public void change_user_status() {
 
-		this.date_modify_user.setValue(Calendar.getInstance().getTime());
-
+		// TODO: user status changed
 	}
 
 	@Listen("onClick = #modify_mail_user")
@@ -453,7 +447,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.education_user.setValue(person_selected.getEducation());
 		this.employment_date_user.setValue(person_selected.getEmployment());
 		this.date_fired_user.setValue(person_selected.getDate_fired());
-		this.date_modify_user.setValue(person_selected.getDate_modify());
 		this.ncfl_user.setValue(person_selected.getNcfl());
 		this.department_user.setValue(person_selected.getDepartment());
 		this.current_position_user.setValue(person_selected.getCurrent_position());
@@ -508,8 +501,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
@@ -563,7 +555,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		person_selected.setEducation(this.education_user.getValue());
 		person_selected.setEmployment(this.employment_date_user.getValue());
 		person_selected.setDate_fired(this.date_fired_user.getValue());
-		person_selected.setDate_modify(this.date_modify_user.getValue());
 		person_selected.setNcfl(this.ncfl_user.getValue());
 		person_selected.setDepartment(this.department_user.getValue());
 		person_selected.setCurrent_position(this.current_position_user.getValue());
@@ -653,8 +644,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.employment_date_user.setValue(null);
 		this.date_fired_user.setValue(null);
 		this.country_user.setValue("");
-
-		this.date_modify_user.setValue(null);
 		this.ncfl_user.setValue("");
 		this.department_user.setValue("");
 		this.current_position_user.setValue("");

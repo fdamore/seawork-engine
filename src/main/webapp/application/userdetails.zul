@@ -254,12 +254,7 @@
 										<datebox id="date_fired_user" />
 									</row>
 
-									<row>
-										<label
-											value="Data modifica rapporto di lavoro:">
-										</label>
-										<datebox id="date_modify_user" />
-									</row>
+									
 
 									<row>
 										<label

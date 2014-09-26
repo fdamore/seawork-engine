@@ -40,8 +40,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private java.util.Date		date_fired;
 
-	private java.util.Date		date_modify;
-
 	private String				department;
 
 	private String				driving_license;
@@ -185,10 +183,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public java.util.Date getDate_fired() {
 		return this.date_fired;
-	}
-
-	public java.util.Date getDate_modify() {
-		return this.date_modify;
 	}
 
 	public String getDepartment() {
@@ -443,10 +437,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setDate_fired(final java.util.Date date_fired) {
 		this.date_fired = date_fired;
-	}
-
-	public void setDate_modify(final java.util.Date date_modify) {
-		this.date_modify = date_modify;
 	}
 
 	public void setDepartment(final String department) {
