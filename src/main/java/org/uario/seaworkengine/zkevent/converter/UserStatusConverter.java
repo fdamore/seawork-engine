@@ -15,7 +15,7 @@ public class UserStatusConverter implements TypeConverter {
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

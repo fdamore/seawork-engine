@@ -1,22 +1,14 @@
-<?page id="usertd" title="Seawork Admin"?>
+<?page id="userstatus" title="Seawork Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 
 <zk>
 
 	<panel id="panel" border="none" collapsible="false"
-		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerTD"
+		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerStatus"
 		sclass="transparent">
 
-		<caption iconSclass="z-icon-star orange" label="Sindacati">
-
-
-
-
-
-
-
-
-
+		<caption iconSclass="z-icon-star orange"
+			label="Rapporto lavorativo">
 
 		</caption>
 
@@ -44,19 +36,13 @@
 					<rows>
 
 						<row>
-							<label value="Nome:"></label>
-							<textbox id="name" width="200px" />
+							<label value="Status:"></label>
+							<textbox id="status" width="200px" />
 						</row>
 
 						<row>
-							<label value="Iscrizione:"></label>
-							<datebox id="registration"
-								placeholder="Seleziona La Data" width="200px" />
-						</row>
-
-						<row>
-							<label value="Cancellazione:"></label>
-							<datebox id="cancellation"
+							<label value="Data Modifica:"></label>
+							<datebox id="date_modifiled"
 								placeholder="Seleziona La Data" width="200px" />
 						</row>
 
@@ -76,20 +62,20 @@
 
 
 
-			<a label="Lista Iscrizione a Sincadati"
-				iconSclass="z-icon-list" sclass="green lighter rcaption" />
+			<a label="Storico" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
 
 			<div>
 				<separator></separator>
 
 				<button id="sw_add" sclass="btn-info"
-					label="Aggiungi Sindacato"
+					label="Aggiungi Informazioni"
 					onClick="grid_details.setVisible(true);">
 				</button>
 
 				<button id="sw_refresh_list"
 					onClick="grid_details.setVisible(false)" sclass="btn-info"
-					label="Aggiorna Lista Sindacato">
+					label="Aggiorna Lista">
 				</button>
 
 				<separator></separator>
@@ -116,22 +102,18 @@
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="20">
 				<listhead sizable="true">
-					<listheader label="Nome" />
-					<listheader label="Iscrizione" />
-					<listheader label="Cancellazione" />
+
+					<listheader label="Status" />
+					<listheader label="Data Modifica" />
+
 					<listheader label="" />
 				</listhead>
 
 				<listitem self="@{each='item'}" value="@{item}">
 
-					<listcell label="@{item.name}" />
-
-
+					<listcell label="@{item.status}" />
 					<listcell
-						label="@{item.registration, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-					<listcell
-						label="@{item.cancellation, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-
+						label="@{item.date_modified, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
 					<listcell>
 

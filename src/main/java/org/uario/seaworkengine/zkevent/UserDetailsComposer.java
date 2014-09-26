@@ -1,9 +1,12 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
+import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -114,6 +117,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Wire
 	private Datebox				employment_date_user;
 
+	// DAO for access amployment data
+	private EmploymentDAO		employmentDao;
+
 	@Wire
 	private Textbox				family_charge_user;
 
@@ -193,6 +199,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Row					row_password_user_retype;
+
+	// notify status chnaged
+	private boolean				status_changed		= false;
+
+	@Wire
+	private Component			status_user_tab;
 
 	@Wire
 	private Listbox				sw_list_user;
@@ -303,8 +315,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onChange = #user_status")
 	public void change_user_status() {
+		this.status_changed = true;
 
-		// TODO: user status changed
 	}
 
 	@Listen("onClick = #modify_mail_user")
@@ -520,8 +532,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
 
-				// get the person dao
+				// get the DAOs
 				UserDetailsComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+				UserDetailsComposer.this.employmentDao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
+
+				// reset notify status changed
+				UserDetailsComposer.this.status_changed = false;
 
 				UserDetailsComposer.this.setInitialView();
 
@@ -602,6 +618,26 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// update
 		this.personDao.updatePerson(person_selected);
+
+		// set status cnaged
+		if (this.status_changed) {
+
+			// get status
+			String status_val = null;
+			if (this.user_status.getSelectedItem() != null) {
+				status_val = this.user_status.getSelectedItem().getValue();
+			}
+
+			final Employment employment = new Employment();
+			employment.setId_user(person_selected.getId());
+			employment.setDate_modified(Calendar.getInstance().getTime());
+			employment.setStatus(status_val);
+
+			this.employmentDao.createEmploymentForUser(person_selected.getId(), employment);
+
+			// set status notify flag
+			this.status_changed = false;
+		}
 
 		// update list
 		this.setUserListBox();
@@ -705,6 +741,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final Component comp_td = Path.getComponent("//usertd/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_td, person_selected);
 
+		// send event to show user status
+		final Component comp_status = Path.getComponent("//userstatus/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_status, person_selected);
+
 	}
 
 	/**
@@ -742,6 +782,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.mail_user_tab.setVisible(false);
 		this.password_user_tab.setVisible(false);
 		this.task_user_tab.setVisible(false);
+		this.status_user_tab.setVisible(false);
 		this.tfr_user_tab.setVisible(false);
 		this.fiscalcheck_user_tab.setVisible(false);
 		this.tradeunion_user_tab.setVisible(false);
@@ -770,6 +811,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.mail_user_tab.setVisible(true);
 		this.password_user_tab.setVisible(true);
 		this.task_user_tab.setVisible(true);
+		this.status_user_tab.setVisible(true);
 		this.tfr_user_tab.setVisible(true);
 		this.fiscalcheck_user_tab.setVisible(true);
 		this.tradeunion_user_tab.setVisible(true);

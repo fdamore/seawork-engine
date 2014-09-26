@@ -28,6 +28,8 @@
 					id="mail_user_tab" />
 				<tab label="Password Utente" visible="false"
 					id="password_user_tab" />
+				<tab label="Rapporto Lavorativo" visible="false"
+					id="status_user_tab" />
 				<tab label="Mansioni" visible="false"
 					id="task_user_tab" />
 				<tab label="TFR" visible="false" id="tfr_user_tab" />
@@ -254,7 +256,7 @@
 										<datebox id="date_fired_user" />
 									</row>
 
-									
+
 
 									<row>
 										<label
@@ -470,6 +472,14 @@
 
 				</tabpanel>
 
+				<!-- TAB STATUS -->
+				<tabpanel>
+					<include mode="defer"
+						src="./userdetailstatus.zul">
+					</include>
+
+				</tabpanel>
+
 				<!-- TAB TASKS -->
 				<tabpanel>
 					<include mode="defer" src="./userdetailstask.zul"></include>
@@ -581,7 +591,7 @@
 				<toolbarbutton id="sw_link_modifyeuser"
 					style="color:blue"
 					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());"
-					label="Edita">
+					label="Visualizza e Modifica">
 				</toolbarbutton>
 
 			</listcell>

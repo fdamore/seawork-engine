@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employment">
+
+	<cache />
+
+	<select id="loadItemsByUser" resultType="org.uario.seaworkengine.model.Employment"
+		parameterType="map">
+		SELECT id,
+		status,
+		note,
+		date_modified,
+		id_user
+		FROM
+		employment where
+		id_user = #{id_user};
+
+	</select>
+
+
+
+	<insert id="createItemForUser" parameterType="map">
+		INSERT INTO
+		employment
+		(status, note,
+		date_modified,
+		id_user)
+		VALUES
+		(#{status},
+		#{note},
+		#{date_modified},
+		#{id_user});
+
+	</insert>
+
+	<delete id="removeItem" parameterType="map">
+		delete from
+		employment
+		where
+		id
+		= #{id_item}
+	</delete>
+
+	<update id="udapteItem" parameterType="org.uario.seaworkengine.model.Employment">
+
+		UPDATE employment set
+		status
+		= #{status},
+		note = #{note},
+		date_modified = #{date_modified}
+		WHERE id
+		= #{id}
+
+
+	</update>
+
+</mapper>

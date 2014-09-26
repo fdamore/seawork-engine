@@ -115,6 +115,13 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+
+	<bean id="myEmploymentDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisEmploymentDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 	<bean id="mySchedulerDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisSchedulerDAO">
