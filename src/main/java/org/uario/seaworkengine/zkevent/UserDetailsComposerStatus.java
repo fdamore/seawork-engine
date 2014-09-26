@@ -15,6 +15,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -45,7 +47,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	private Person				person_selected;
 
 	@Wire
-	private Textbox				status;
+	private Combobox			status;
 
 	// status ADD or MODIFY
 	private boolean				status_add			= false;
@@ -124,7 +126,17 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		}
 
 		this.note.setValue(item.getNote());
-		this.status.setValue(item.getStatus());
+
+		// set status
+		final String status_info = item.getStatus();
+		final List<Comboitem> lists = this.status.getItems();
+		for (final Comboitem item_combo : lists) {
+			if (item_combo.getValue().equals(status_info)) {
+				this.status.setSelectedItem(item_combo);
+				break;
+			}
+		}
+
 		this.date_modifiled.setValue(item.getDate_modified());
 
 	}
@@ -147,7 +159,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		} else {
+		}
+		else {
 
 			// get selected item
 			final Employment item = this.sw_list.getSelectedItem().getValue();
@@ -182,7 +195,13 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	private void setupItemWithValues(final Employment item) {
 
 		item.setNote(this.note.getValue());
-		item.setStatus(this.status.getValue());
+
+		// set status
+		if (this.status.getSelectedItem() != null) {
+			final String status_val = this.status.getSelectedItem().getValue();
+			item.setStatus(status_val);
+		}
+
 		item.setDate_modified(this.date_modifiled.getValue());
 
 	}
