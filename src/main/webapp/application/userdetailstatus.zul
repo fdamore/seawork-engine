@@ -36,9 +36,26 @@
 					<rows>
 
 						<row>
-							<label value="Status:"></label>
-							<textbox id="status" width="200px" />
+							<label value="Status"></label>
+							<combobox id="status"
+								placeholder="Seleziona lo stato utente" readonly="true">
+								<comboitem label="APERTO" value="A">
+								</comboitem>
+								<comboitem label="RIAPERTO"
+									value="AR">
+								</comboitem>
+								<comboitem label="NON CONFERMATO"
+									value="NC">
+								</comboitem>
+								<comboitem label="RIASSEGNATO"
+									value="D">
+								</comboitem>
+								<comboitem label="LICENZIATO"
+									value="L">
+								</comboitem>
+							</combobox>
 						</row>
+
 
 						<row>
 							<label value="Data Modifica:"></label>
