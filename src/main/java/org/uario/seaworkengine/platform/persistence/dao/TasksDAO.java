@@ -14,4 +14,6 @@ public interface TasksDAO {
 
 	public List<UserTask> loadTasksByUser(Integer id_user);
 
+	public void setAsDefault(final Integer id_user, final Integer id_usertask);
+
 }

@@ -15,6 +15,9 @@ public class UserTask implements Serializable {
 
 	private Integer				id;
 
+	// used in join with user
+	private Boolean				task_default;
+
 	public String getCode() {
 		return this.code;
 	}
@@ -27,6 +30,10 @@ public class UserTask implements Serializable {
 		return this.id;
 	}
 
+	public Boolean getTask_default() {
+		return this.task_default;
+	}
+
 	public void setCode(final String code) {
 		this.code = code;
 	}
@@ -37,6 +44,10 @@ public class UserTask implements Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setTask_default(final Boolean task_default) {
+		this.task_default = task_default;
 	}
 
 	@Override

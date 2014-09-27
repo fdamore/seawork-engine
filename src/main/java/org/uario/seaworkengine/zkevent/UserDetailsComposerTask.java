@@ -152,6 +152,26 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 		this.grid_task_details.setVisible(false);
 	}
 
+	@Listen("onClick = #sw_setdefault")
+	public void setDefault() {
+
+		if (this.sw_list_task.getSelectedItem() == null) {
+			return;
+		}
+
+		if (this.person_selected == null) {
+			return;
+		}
+
+		final UserTask task = this.sw_list_task.getSelectedItem().getValue();
+
+		this.taskDAO.setAsDefault(this.person_selected.getId(), task.getId());
+
+		// Refresh list task
+		this.refreshListTaskUser();
+
+	}
+
 	/**
 	 * Show users
 	 */

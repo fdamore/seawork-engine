@@ -70,4 +70,21 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 
 	}
 
+	@Override
+	public void setAsDefault(final Integer id_user, final Integer id_usertask) {
+		MyBatisTasksDAO.logger.info("setAsDefault");
+
+		// remove all default
+		final HashMap<String, String> map_0 = new HashMap<String, String>();
+		map_0.put("id_user", id_user.toString());
+		this.getSqlSession().update("tasks.removeAllDefault", map_0);
+
+		final HashMap<String, String> map_1 = new HashMap<String, String>();
+		map_1.put("id_user", id_user.toString());
+		map_1.put("id_usertask", id_usertask.toString());
+
+		this.getSqlSession().update("tasks.setAsDefault", map_1);
+
+	}
+
 }

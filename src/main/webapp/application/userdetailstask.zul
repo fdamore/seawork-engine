@@ -106,6 +106,7 @@
 				<listhead sizable="true">
 					<listheader label="Codice" />
 					<listheader label="Descrizione" />
+					<listheader label="Predefinito" align="center" />
 
 					<listheader label="" />
 				</listhead>
@@ -120,10 +121,24 @@
 
 					<listcell>
 
+						<image
+							src="@{user_item, converter='org.uario.seaworkengine.zkevent.converter.TaskDefaultConverter'}" />
+
+					</listcell>
+
+
+					<listcell>
+
 						<toolbarbutton id="sw_link_deletetask"
 							style="color:blue"
 							onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
 							label="Cancella">
+						</toolbarbutton>
+
+						<toolbarbutton id="sw_setdefault"
+							style="color:blue"
+							onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());"
+							label="Predefinito">
 						</toolbarbutton>
 
 					</listcell>

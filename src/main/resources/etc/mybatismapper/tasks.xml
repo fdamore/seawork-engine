@@ -9,9 +9,12 @@
 		parameterType="map">
 		SELECT t.id,
 		t.code,
-		t.description
-		FROM usertask t,
-		user_usertask ut where ut.id_user = #{id_user} and ut.id_usertask =
+		t.description,
+		ut.task_default
+		FROM
+		usertask t,
+		user_usertask ut where ut.id_user = #{id_user} and
+		ut.id_usertask =
 		t.id;
 
 	</select>
@@ -22,7 +25,8 @@
 		t.code,
 		t.description
 		FROM usertask t,
-		user_usertask ut where t.id = ut.id_user and ut.id_user = #{id_user} and ut.id_usertask =
+		user_usertask ut where t.id = ut.id_user and ut.id_user = #{id_user}
+		and ut.id_usertask =
 		#{id_task};
 
 	</select>
@@ -36,6 +40,24 @@
 		(#{id_user},#{id_task});
 
 	</insert>
+
+	<update id="setAsDefault" parameterType="map">
+
+		UPDATE user_usertask set
+		task_default = 1
+		where id_user = #{id_user} and id_usertask =
+		#{id_usertask};
+
+	</update>
+
+	<update id="removeAllDefault" parameterType="map">
+
+		UPDATE user_usertask
+		set
+		task_default = 0
+		where id_user = #{id_user};
+
+	</update>
 
 	<delete id="deleteTaskToUser" parameterType="map">
 		delete from
