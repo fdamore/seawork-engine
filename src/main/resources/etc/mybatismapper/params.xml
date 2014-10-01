@@ -15,7 +15,7 @@
 	</select>
 
 
-	<update id="update" parameterType="map">
+	<update id="setParam" parameterType="map">
 
 		UPDATE params set
 		val = #{val}

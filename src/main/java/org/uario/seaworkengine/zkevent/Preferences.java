@@ -6,7 +6,9 @@ import java.util.List;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
+import org.uario.seaworkengine.platform.persistence.dao.IParams;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.ParamsTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -21,6 +23,7 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 
 public class Preferences extends SelectorComposer<Component> {
@@ -51,6 +54,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Textbox				description_task;
 
 	@Wire
+	private Textbox				docrepo;
+
+	@Wire
 	private Div					grid_shift_details;
 
 	@Wire
@@ -66,6 +72,8 @@ public class Preferences extends SelectorComposer<Component> {
 	private Label				label_max_meomry;
 
 	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
+
+	private IParams				paramsDAO;
 
 	private final Runtime		runtime				= Runtime.getRuntime();
 
@@ -171,8 +179,13 @@ public class Preferences extends SelectorComposer<Component> {
 
 				// get the configuration dao
 				Preferences.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+				Preferences.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
 
+				// define memory info
 				Preferences.this.showMemory();
+
+				// define doc repository
+				Preferences.this.setDocRepositiry();
 
 				// refresh task list
 				Preferences.this.refreshTaskList();
@@ -212,8 +225,7 @@ public class Preferences extends SelectorComposer<Component> {
 		final String shft = shift.getUs_type();
 		if ((shft == null) || shft.equals("")) {
 			this.type_shift.setSelectedItem(null);
-		}
-		else {
+		} else {
 			final List<Comboitem> lists = this.type_shift.getItems();
 			for (final Comboitem item : lists) {
 				if (item.getValue().equals(shft)) {
@@ -332,6 +344,15 @@ public class Preferences extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * Set repositiry
+	 */
+	private void setDocRepositiry() {
+		final String repo_value = this.paramsDAO.getParam(ParamsTag.REPO_DOC);
+		this.docrepo.setValue(repo_value);
+
+	}
+
+	/**
 	 * Calculate memory
 	 */
 	private void showMemory() {
@@ -347,6 +368,14 @@ public class Preferences extends SelectorComposer<Component> {
 		this.label_max_meomry.setValue(max_memory_info);
 		this.label_free_meomry.setValue(free_memory_info);
 		this.label_allocated_meomry.setValue(allocated_memory_info);
+	}
+
+	@Listen("onClick = #update_doc_repo")
+	public void updateDocRepository() {
+		final String value = this.docrepo.getValue();
+		this.paramsDAO.setParam(ParamsTag.REPO_DOC, value);
+
+		Messagebox.show("Doc Repository Aggiornato con successo", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 	}
 
 }

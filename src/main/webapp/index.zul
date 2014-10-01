@@ -15,9 +15,9 @@
 	-->
 
 	<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
-	
-	
-	
+
+
+
 
 
 	<window draggable="false" mode="overlapped" position="center,center"
@@ -26,8 +26,8 @@
 		<vbox align="center">
 
 			<separator></separator>
-			
-	
+
+
 
 
 
@@ -38,12 +38,18 @@
 
 				<image src="/img/login.png" width="40px"></image>
 
+
+
 			</hbox>
+
+			<a href="http://slot5.uario.com"
+				label="Ritorna al portale Seawork">
+			</a>
 
 			<separator />
 
 
-			<label value="Login form" style="font-size:1.0em;"></label>
+
 
 			<separator />
 

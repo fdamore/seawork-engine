@@ -12,36 +12,79 @@
 
 	</div>
 
+	<!-- MEMORY -->
+	<div>
+		<hbox align="center">
+			<a label="Gestione della memoria" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+			<button label="Libera la Memoria" mold="trendy"
+				sclass="btn-info" id="free_memory">
+			</button>
 
-	<hbox align="center">
-		<a label="Gestione della memoria" iconSclass="z-icon-list"
+		</hbox>
+
+		<separator></separator>
+
+		<hbox align="center">
+			<label value="Free Memory: "></label>
+			<label id="label_free_meomry"></label>
+		</hbox>
+
+		<separator></separator>
+
+		<hbox align="center">
+			<label value="Max Memory: "></label>
+			<label id="label_max_meomry"></label>
+		</hbox>
+
+		<separator></separator>
+
+		<hbox align="center">
+			<label value="Allocated Memory: "></label>
+			<label id="label_allocated_meomry"></label>
+		</hbox>
+
+	</div>
+
+	<space></space>
+
+	<!-- DOC REPOSITORY -->
+	<div>
+
+
+		<a label="Repository per i documenti" iconSclass="z-icon-list"
 			sclass="green lighter rcaption" />
-		<button label="Libera la Memoria" mold="trendy"
-			sclass="btn-info" id="free_memory">
-		</button>
 
-	</hbox>
+		<separator></separator>
 
-	<separator></separator>
+		<div id="box_changedocrepo" visible="false">
+			<hbox align="center">
+				<a label="Procedere con la modifica al doc repository?"
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+				<toolbarbutton label="Si" style="color: red"
+					onClick="box_changedocrepo.setVisible(false)"
+					id="update_doc_repo">
+				</toolbarbutton>
+				<toolbarbutton label="No" style="color: no"
+					onClick="box_changedocrepo.setVisible(false)">
+				</toolbarbutton>
 
-	<hbox align="center">
-		<label value="Free Memory: "></label>
-		<label id="label_free_meomry"></label>
-	</hbox>
+			</hbox>
 
-	<separator></separator>
+		</div>
 
-	<hbox align="center">
-		<label value="Max Memory: "></label>
-		<label id="label_max_meomry"></label>
-	</hbox>
 
-	<separator></separator>
 
-	<hbox align="center">
-		<label value="Allocated Memory: "></label>
-		<label id="label_allocated_meomry"></label>
-	</hbox>
+		<hbox align="center">
+			<label value="Doc Repository: "></label>
+			<textbox id="docrepo"></textbox>
+			<button label="Aggiorna" mold="trendy"
+				onClick="box_changedocrepo.setVisible(true)" sclass="btn-danger">
+			</button>
+
+		</hbox>
+
+	</div>
 
 	<space></space>
 
@@ -284,16 +327,17 @@
 
 
 		<div id="box_deleteshift" visible="false">
+			<hbox align="center">
+				<a label="Vuoi eliminare il turno selezionato?"
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
-			<a label="Vuoi eliminare il turno selezionato?"
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-			<toolbarbutton label="Si" style="color: red"
-				id="deleteshift_command">
-			</toolbarbutton>
-			<toolbarbutton label="No" style="color: no"
-				onClick="box_deleteshift.setVisible(false)">
-			</toolbarbutton>
+				<toolbarbutton label="Si" style="color: red"
+					id="deleteshift_command">
+				</toolbarbutton>
+				<toolbarbutton label="No" style="color: no"
+					onClick="box_deleteshift.setVisible(false)">
+				</toolbarbutton>
+			</hbox>
 
 		</div>
 
