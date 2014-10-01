@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="contestation">
+
+	<cache />
+
+
+
+	<select id="createContestation" parameterType="map">
+		INSERT INTO
+		contestation
+		(id, 
+		typ,
+		date_contestation, 
+		id_user,
+		note,
+		stop_from,
+		stop_to)
+		VALUES
+		(#{id},
+		#{typ},
+		#{date_contestation},
+		#{id_user}
+		#{note}
+		#{stop_from}
+		#{stop_to});
+
+	</select>
+
+	<select id="loadContestation" resultType="org.uario.seaworkengine.model.Contestation" parameterType="int">
+		SELECT id,
+		typ,
+		date_contestation,
+		note,
+		id_user,
+		stop_from,
+		stop_to
+		FROM
+		contestation where
+		id = #{id} order by date_contestation desc;
+	</select>
+
+	<select id="loadUserContestation" resultType="org.uario.seaworkengine.model.Contestation" parameterType="int">
+		SELECT id,
+		typ,
+		date_contestation,
+		note,
+		id_user,
+		stop_from,
+		stop_to
+		FROM
+		contestation where
+		id_user = #{id_user} order by date_contestation desc;
+	</select>
+
+	<delete id="removeContestation" parameterType="int" >
+		delete from
+		contestation
+		where
+		id
+		= #{id}
+	</delete>
+
+		
+	<update id="updateContestation" parameterType="org.uario.seaworkengine.model.Contestation">
+		UPDATE
+		contestation
+		SET
+		id = #{id},
+		typ = #{typ},
+		date_contestation = #{date_contestation},
+		id_user = #{id_user},
+		note = #{note},
+		stop_from = #{stop_from},
+		stop_to = #{stop_to}
+		WHERE id = #{id};
+	</update>
+
+
+
+</mapper>
