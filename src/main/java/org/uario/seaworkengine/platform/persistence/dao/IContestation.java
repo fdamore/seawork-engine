@@ -1,13 +1,16 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.model.Contestation;
 
+/**
+ * @author Gabriele
+ *
+ */
 public interface IContestation {
 
-	public void createContestation(int id, String typ, Date date_contestation, String note, int id_user, String stop_from, String stop_to);
+	public void createContestation(Contestation item);
 
 	public Contestation loadContestation(int id);
 

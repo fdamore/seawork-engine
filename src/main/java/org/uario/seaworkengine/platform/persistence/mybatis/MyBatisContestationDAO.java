@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,20 +12,10 @@ public class MyBatisContestationDAO extends SqlSessionDaoSupport implements ICon
 	private static Logger	logger	= Logger.getLogger(MyBatisContestationDAO.class);
 
 	@Override
-	public void createContestation(final int id, final String typ, final Date date_contestation, final String note, final int id_user,
-			final String stop_from, final String stop_to) {
+	public void createContestation(final Contestation item) {
 		MyBatisContestationDAO.logger.info("createContestation");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("typ", typ.toString());
-		map.put("date_contestation", date_contestation.toString());
-		map.put("note", note);
-		map.put("id_user", id_user);
-		map.put("stop_from", stop_from);
-		map.put("stop_to", stop_to);
-
-		this.getSqlSession().insert("contestation.createContestation", map);
+		this.getSqlSession().insert("contestation.createContestation", item);
 	}
 
 	@Override

@@ -134,6 +134,12 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+	<bean id="myContestationDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisContestationDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 	<!-- SETUP PLATFORM CACHES -->
 	<bean id="myShiftCache"

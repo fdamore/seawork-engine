@@ -4,6 +4,8 @@ public interface BeansTag {
 
 	public static String	CONFIGURATION_DAO	= "myConfigurationDAO";
 
+	public static String	CONTESTATION_DAO	= "myContestationDAO";
+
 	public static String	EMPLOYMENT_DAO		= "myEmploymentDAO";
 
 	public static String	FISCAL_CONTROL_DAO	= "myFiscalControlDAO";

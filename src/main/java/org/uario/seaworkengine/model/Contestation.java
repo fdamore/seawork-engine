@@ -5,31 +5,41 @@ import java.util.Date;
 
 public class Contestation implements Comparable<Contestation>, Serializable {
 
-	private Date	date_contestation;
+	/**
+	 *
+	 */
+	private static final long	serialVersionUID	= 1L;
 
-	private int		id;
+	private Date				date_contestation;
 
-	private int		id_user;
+	private int					id;
 
-	private String	note;
+	private int					id_user;
 
-	private Date	stop_from;
+	private String				note;
 
-	private Date	stop_to;
+	private Date				stop_from;
 
-	private String	typ;
+	private Date				stop_to;
 
-	public Contestation(final int id, final String typ, final Date date_contestation, final int id_user) {
-		this.id = id;
-		this.typ = typ;
-		this.date_contestation = date_contestation;
-		this.id_user = id_user;
-	}
+	private String				typ;
 
 	@Override
-	public int compareTo(final Contestation arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(final Contestation o) {
+		if (o == null) {
+			return -1;
+		}
+		if (!(o instanceof Contestation)) {
+			return -1;
+		}
+		if (this.getDate_contestation() == null) {
+			return -1;
+		}
+		final Contestation item = o;
+		if (item.getDate_contestation() == null) {
+			return 1;
+		}
+		return this.getDate_contestation().compareTo(item.getDate_contestation());
 	}
 
 	public Date getDate_contestation() {
