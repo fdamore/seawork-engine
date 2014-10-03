@@ -70,6 +70,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox				city_user;
 
 	@Wire
+	private Component			contestations_user_tab;
+
+	@Wire
 	private Textbox				country_user;
 
 	@Wire
@@ -745,6 +748,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final Component comp_status = Path.getComponent("//userstatus/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_status, person_selected);
 
+		// send event to show contestations
+		final Component comp_cons = Path.getComponent("//cons/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_cons, person_selected);
+
 	}
 
 	/**
@@ -786,6 +793,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.tfr_user_tab.setVisible(false);
 		this.fiscalcheck_user_tab.setVisible(false);
 		this.tradeunion_user_tab.setVisible(false);
+		this.contestations_user_tab.setVisible(false);
 
 		// set detail to selection
 		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
@@ -815,6 +823,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.tfr_user_tab.setVisible(true);
 		this.fiscalcheck_user_tab.setVisible(true);
 		this.tradeunion_user_tab.setVisible(true);
+		this.contestations_user_tab.setVisible(true);
 
 		// set detail to selection
 		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);

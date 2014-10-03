@@ -1,0 +1,217 @@
+<?page id="cons" title="Seawork Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+
+<zk>
+
+	<panel id="panel" border="none" collapsible="false"
+		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerCons"
+		sclass="transparent">
+
+		<caption iconSclass="z-icon-star orange"
+			label="Contestazioni Disciplinari">
+
+
+
+
+
+
+
+
+
+
+		</caption>
+
+
+		<panelchildren>
+
+			<div id="grid_details" visible="false">
+
+				<space></space>
+
+				<button id="ok_command" label="OK" sclass="btn-info">
+				</button>
+				<button label="Chiudi"
+					onClick="grid_details.setVisible(false);" sclass="btn-info"
+					visible="true">
+				</button>
+				<space></space>
+
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Tipo" />
+						<column label="Informazioni" />
+					</columns>
+					<rows>
+
+						<row>
+							<label value="Tipo Contestazione:"></label>
+							<combobox id="typ" readonly="true"
+								placeholder="Tipo di Contestazione">
+
+								<comboitem label="NESSUNA"
+									value="NESSUNA">
+								</comboitem>
+
+								<comboitem label="AMMONIZIONE VERBALE"
+									value="AMMONIZIONE VERBALE">
+								</comboitem>
+								<comboitem label="AMMONIZIONE SCRITTA"
+									value="AMMONIZIONE SCRITTA">
+								</comboitem>
+								<comboitem label="MULTA"
+									value="MULTA">
+								</comboitem>
+								<comboitem label="SOSPENSIONE"
+									value="SOSPENSIONE">
+								</comboitem>
+								<comboitem label="LICENZIAMENTO"
+									value="LICENZIAMENTO">
+								</comboitem>
+
+							</combobox>
+
+
+
+
+						</row>
+
+						<row>
+							<label value="Data Contestazione:"></label>
+							<datebox id="date_contestation"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+						<row>
+							<label value="Sospeso da:"></label>
+							<datebox id="stop_from"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+						<row>
+							<label value="Sospeso fino a:"></label>
+							<datebox id="stop_to"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+						<row>
+							<label value="Note:"></label>
+							<textbox id="note" width="200px" rows="5" />
+						</row>
+
+
+					</rows>
+				</grid>
+
+
+				<space></space>
+
+			</div>
+
+
+
+			<a label="Lista Contestazioni Disciplinari"
+				iconSclass="z-icon-list" sclass="green lighter rcaption" />
+
+			<div>
+				<separator></separator>
+
+				<button id="sw_add" sclass="btn-info"
+					label="Aggiungi Contestazione"
+					onClick="grid_details.setVisible(true);">
+				</button>
+
+				<button id="sw_refresh_list"
+					onClick="grid_details.setVisible(false)" sclass="btn-info"
+					label="Aggiorna Lista Contestazioni">
+				</button>
+
+				<separator></separator>
+			</div>
+
+
+			<div id="box_delete" visible="false">
+
+				<a label="Vuoi eliminare la scelta selezionata?"
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+				<toolbarbutton label="Si" style="color: red"
+					id="delete_command" onClick="box_delete.setVisible(false)">
+				</toolbarbutton>
+				<toolbarbutton label="No" style="color: no"
+					onClick="box_delete.setVisible(false)">
+				</toolbarbutton>
+
+			</div>
+
+
+			<listbox id="sw_list" pagingPosition="both" mold="paging"
+				onSelect="grid_details.setVisible(false)"
+				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+				pageSize="20">
+				<listhead sizable="true">
+					<listheader label="Tipo" />
+					<listheader label="Data Contestazione"
+						sort="date_contestation" />
+					<listheader label="Sospeso Da" />
+					<listheader label="Fino a" />
+					<listheader label="" />
+					<listheader label="" />
+				</listhead>
+
+				<listitem self="@{each='item'}" value="@{item}">
+
+					<listcell label="@{item.typ}" />
+
+					<listcell
+						label="@{item.date_contestation, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+
+					<listcell
+						label="@{item.stop_from, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+
+					<listcell
+						label="@{item.stop_to, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+
+					<listcell>
+
+						<toolbarbutton id="sw_download_list"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
+							label="Scarica Documento">
+						</toolbarbutton>
+
+					</listcell>
+
+
+					<listcell>
+
+						<toolbarbutton id="sw_link_delete"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());box_delete.setVisible(true)"
+							label="Cancella">
+						</toolbarbutton>
+
+						<toolbarbutton id="sw_link_edit"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
+							label="Visualizza e Modifica">
+						</toolbarbutton>
+
+					</listcell>
+
+
+
+
+				</listitem>
+
+			</listbox>
+
+
+		</panelchildren>
+
+	</panel>
+
+</zk>

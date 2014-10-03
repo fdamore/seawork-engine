@@ -37,6 +37,8 @@
 					id="fiscalcheck_user_tab" />
 				<tab label="Sindacati" visible="false"
 					id="tradeunion_user_tab" />
+				<tab label="Contestazioni Disciplinari" visible="false"
+					id="contestations_user_tab" />
 			</tabs>
 			<tabpanels>
 				<!-- Tab Comments Content -->
@@ -502,6 +504,15 @@
 					<include mode="defer" src="./userdetailstd.zul">
 					</include>
 				</tabpanel>
+
+				<!-- TAB CONTESTATIONS -->
+				<tabpanel>
+					<include mode="defer" src="./userdetailscons.zul">
+					</include>
+				</tabpanel>
+
+
+
 
 			</tabpanels>
 		</tabbox>
