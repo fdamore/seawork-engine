@@ -26,12 +26,13 @@
 			<!-- HEADER -->
 			<div sclass="breadcrumbs">
 				<hlayout>
-
+ 
 					<div sclass="breadcrumb">
 						<span sclass="home-icon z-icon-home" />
 						<a label="Home" href="/application" />
 						<label id="sw_brec_position" value="Home" />
 					</div>
+					
 
 					<div sclass="breadcrumb">
 						<button type="button" class="btn-success"

@@ -55,7 +55,7 @@
 
 			<html:form id="f" name="f" action="j_spring_security_check"
 				method="POST" xmlns:html="native">
-				<grid style="margin: 5% 5% 5% 5%">
+				<grid >
 					<rows>
 						<row>
 							<label value="User: "></label>
@@ -66,15 +66,11 @@
 							<textbox id="p" type="password"
 								name="j_password" />
 						</row>
-						<row spans="3">
-
+						<row>
 							<hbox>
-
 								<button type="reset" label="Reset" />
-
 								<button type="submit" label="Accedi"
 									mold="trendy" />
-
 							</hbox>
 						</row>
 					</rows>
