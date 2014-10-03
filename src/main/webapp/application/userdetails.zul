@@ -149,6 +149,9 @@
 											<comboitem
 												label="RIASSEGNATO" value="D">
 											</comboitem>
+											<comboitem label="SOSPESO"
+												value="S">
+											</comboitem>
 											<comboitem
 												label="LICENZIATO" value="L">
 											</comboitem>

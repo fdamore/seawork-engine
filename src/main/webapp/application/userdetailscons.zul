@@ -99,6 +99,13 @@
 							<textbox id="note" width="200px" rows="5" />
 						</row>
 
+						<row>
+							<label value="Documento:"></label>
+							<button upload="true" id="doc"
+								sclass="btn-info" label="Inserisci il Documento">
+							</button>
+						</row>
+
 
 					</rows>
 				</grid>

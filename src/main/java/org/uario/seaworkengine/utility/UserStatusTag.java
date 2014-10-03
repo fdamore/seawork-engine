@@ -17,4 +17,7 @@ public class UserStatusTag {
 	// DIMESSO
 	public final static String	RESIGNED		= "D";
 
+	// DIMESSO
+	public final static String	SUSPENDED		= "S";
+
 }

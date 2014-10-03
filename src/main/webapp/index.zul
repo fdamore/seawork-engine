@@ -46,24 +46,21 @@
 				label="Ritorna al portale Seawork">
 			</a>
 
-			<separator />
+			<separator height="30px" />
 
-
-
-
-			<separator />
 
 			<html:form id="f" name="f" action="j_spring_security_check"
 				method="POST" xmlns:html="native">
-				<grid >
+				<grid style="border:none">
 					<rows>
 						<row>
 							<label value="User: "></label>
-							<textbox id="u" name="j_username" />
+							<textbox id="u" name="j_username"
+								width="90%" />
 						</row>
 						<row>
 							<label value="Password: "></label>
-							<textbox id="p" type="password"
+							<textbox id="p" type="password" width="90%"
 								name="j_password" />
 						</row>
 						<row>

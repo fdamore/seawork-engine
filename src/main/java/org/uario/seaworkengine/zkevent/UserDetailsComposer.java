@@ -203,7 +203,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Wire
 	private Row					row_password_user_retype;
 
-	// notify status chnaged
+	// notify status changed
 	private boolean				status_changed		= false;
 
 	@Wire
