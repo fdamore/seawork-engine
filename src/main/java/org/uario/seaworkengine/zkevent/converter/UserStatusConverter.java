@@ -11,6 +11,7 @@ public class UserStatusConverter implements TypeConverter {
 	private static final String	NON_CONFERMATO	= "NON CONFERMATO";
 	private static final String	RIAPERTO		= "RIAPERTO";
 	private static final String	RIASSEGNATO		= "RIASSEGNATO";
+	private static final String	SUSPENDED		= "SOSPESO";
 	private static final String	UNDEFINED		= "NON DEFINITIO";
 
 	@Override
@@ -24,7 +25,7 @@ public class UserStatusConverter implements TypeConverter {
 		final String status = (String) arg0;
 
 		if (status == null) {
-			return UNDEFINED;
+			return UserStatusConverter.UNDEFINED;
 		}
 
 		if (status.equals(UserStatusTag.FIRED)) {
@@ -45,6 +46,10 @@ public class UserStatusConverter implements TypeConverter {
 
 		if (status.equals(UserStatusTag.RESIGNED)) {
 			return UserStatusConverter.RIASSEGNATO;
+		}
+
+		if (status.equals(UserStatusTag.SUSPENDED)) {
+			return UserStatusConverter.SUSPENDED;
 		}
 
 		return "";
