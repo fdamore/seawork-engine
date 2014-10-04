@@ -7,7 +7,7 @@
 
 
 
-	<select id="createContestation" parameterType="map">
+	<select id="createContestation" parameterType="org.uario.seaworkengine.model.Contestation">
 		INSERT INTO
 		contestation
 		(id, 
@@ -16,15 +16,17 @@
 		id_user,
 		note,
 		stop_from,
-		stop_to)
+		stop_to,
+		file_name)
 		VALUES
 		(#{id},
 		#{typ},
 		#{date_contestation},
-		#{id_user}
-		#{note}
-		#{stop_from}
-		#{stop_to});
+		#{id_user},
+		#{note},
+		#{stop_from},
+		#{stop_to},
+		#{file_name});
 
 	</select>
 
@@ -35,7 +37,8 @@
 		note,
 		id_user,
 		stop_from,
-		stop_to
+		stop_to,
+		file_name
 		FROM
 		contestation where
 		id = #{id} order by date_contestation desc;
@@ -48,7 +51,8 @@
 		note,
 		id_user,
 		stop_from,
-		stop_to
+		stop_to,
+		file_name
 		FROM
 		contestation where
 		id_user = #{id_user} order by date_contestation desc;
@@ -59,7 +63,7 @@
 		contestation
 		where
 		id
-		= #{id}
+		= #{id};
 	</delete>
 
 		
@@ -73,7 +77,8 @@
 		id_user = #{id_user},
 		note = #{note},
 		stop_from = #{stop_from},
-		stop_to = #{stop_to}
+		stop_to = #{stop_to},
+		file_name = #{file_name}
 		WHERE id = #{id};
 	</update>
 

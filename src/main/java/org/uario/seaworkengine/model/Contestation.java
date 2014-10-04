@@ -12,6 +12,8 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	private Date				date_contestation;
 
+	private String				file_name;
+
 	private int					id;
 
 	private int					id_user;
@@ -96,6 +98,14 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public void setTyp(final String typ) {
 		this.typ = typ;
+	}
+
+	public String getFile_name() {
+		return file_name;
+	}
+
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
 	}
 
 }
