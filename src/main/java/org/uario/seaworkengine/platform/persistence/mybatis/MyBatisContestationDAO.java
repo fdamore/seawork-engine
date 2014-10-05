@@ -30,10 +30,7 @@ public class MyBatisContestationDAO extends SqlSessionDaoSupport implements ICon
 	public List<Contestation> loadUserContestation(final int id_user) {
 		MyBatisContestationDAO.logger.info("loadContestationByUserId =" + id_user);
 
-		final HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("id_user", id_user);
-
-		final List<Contestation> list_items = this.getSqlSession().selectList("contestation.loadContestation", map);
+		final List<Contestation> list_items = this.getSqlSession().selectList("contestation.loadUserContestation", id_user);
 		return list_items;
 	}
 

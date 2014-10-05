@@ -42,7 +42,7 @@
 		id = #{id} order by date_contestation desc;
 	</select>
 
-	<select id="loadUserContestation" resultType="org.uario.seaworkengine.model.Contestation" parameterType="map">
+	<select id="loadUserContestation" resultType="org.uario.seaworkengine.model.Contestation" parameterType="int">
 		SELECT id,
 		typ,
 		date_contestation,
