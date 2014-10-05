@@ -1,5 +1,8 @@
 <?page id="index" title="Seawork Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<!-- Favicon -->
+<?link rel="icon" href="/img/favicon.ico" type="image/x-icon"?>
+
 
 
 <!-- Load Bootstrap  -->
@@ -15,8 +18,7 @@
 
 <?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
 
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
+
 
 <zk xmlns:n="native">
 	<include src="navbar.zul" />
@@ -29,13 +31,13 @@
 			<!-- HEADER -->
 			<div sclass="breadcrumbs">
 				<hlayout>
- 
+
 					<div sclass="breadcrumb">
 						<span sclass="home-icon z-icon-home" />
 						<a label="Home" href="/application" />
 						<label id="sw_brec_position" value="Home" />
 					</div>
-					
+
 
 					<div sclass="breadcrumb">
 						<button type="button" class="btn-success"
