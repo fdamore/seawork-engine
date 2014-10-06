@@ -9,6 +9,7 @@ import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IContestation;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.ContestationTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -33,6 +34,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	// dao interface
 	private IContestation		contestationDAO;
+
 	@Wire
 	private Datebox				date_contestation;
 
@@ -40,7 +42,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	@Wire
 	private Component			grid_details;
-
 	private final Logger		logger				= Logger.getLogger(UserDetailsComposerCons.class);
 
 	@Wire
@@ -68,7 +69,24 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_add")
 	public void addItem() {
 
+		this.typ.setValue(ContestationTag.NESSUNA);
+
+		this.stop_from.setDisabled(false);
+		this.stop_to.setDisabled(false);
+
 		this.status_add = true;
+
+	}
+
+	@Listen("onChange = #typ")
+	public void changeTypContestation() {
+
+		if (this.typ.getSelectedItem() == null) {
+			return;
+		}
+
+		// set date box
+		this.setDateBoxs();
 
 	}
 
@@ -142,6 +160,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.stop_to.setValue(item.getStop_to());
 		this.typ.setValue(item.getTyp());
 
+		// set date box
+		this.setDateBoxs();
+
 	}
 
 	@Listen("onClick = #ok_command")
@@ -183,6 +204,25 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		// Refresh list task
 		this.setInitialView();
 
+	}
+
+	/**
+	 * set datebox in view
+	 */
+	private void setDateBoxs() {
+		final String info = this.typ.getSelectedItem().getValue();
+		if (info.equals(ContestationTag.SOSPENSIONE)) {
+
+			this.stop_from.setDisabled(true);
+			this.stop_to.setDisabled(true);
+			this.stop_from.setValue(null);
+			this.stop_to.setValue(null);
+
+		} else {
+			this.stop_from.setDisabled(false);
+			this.stop_to.setDisabled(false);
+
+		}
 	}
 
 	@Listen("onClick = #sw_refresh_list")
