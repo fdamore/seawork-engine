@@ -74,11 +74,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.stop_from.setDisabled(false);
 		this.stop_to.setDisabled(false);
 
-		if (this.stop_to.getValue() != null && this.stop_from.getValue() != null && !this.stop_to.getValue().after(this.stop_from.getValue())) {
-			Messagebox.show("Intervallo date sospensione errato!");
-		} else {
-			this.status_add = true;
-		}
+		this.status_add = true;
 
 	}
 
@@ -180,6 +176,26 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			final Contestation item = new Contestation();
 
+			if (this.typ.getSelectedItem().toString().equals(ContestationTag.NESSUNA)) {
+				Messagebox.show("Inserire un tipo di contestazione!");
+				return;
+			}
+
+			if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
+				Messagebox.show("Intervallo date sospensione non completo!");
+				return;
+			}
+
+			if (!this.stop_to.getValue().after(this.stop_from.getValue())) {
+				Messagebox.show("Intervallo date sospensione errato!");
+				return;
+			}
+
+			if (this.date_contestation == null) {
+				Messagebox.show("Data della contestazione mancante!");
+				return;
+			}
+
 			// setup item with values
 			this.setupItemWithValues(item);
 
@@ -189,7 +205,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			// create contestation
 			this.contestationDAO.createContestation(item);
 
-			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Contestazione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 		} else {
 
