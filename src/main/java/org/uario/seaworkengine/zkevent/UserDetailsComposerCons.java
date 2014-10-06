@@ -74,7 +74,11 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.stop_from.setDisabled(false);
 		this.stop_to.setDisabled(false);
 
-		this.status_add = true;
+		if (this.stop_to.getValue() != null && this.stop_from.getValue() != null && !this.stop_to.getValue().after(this.stop_from.getValue())) {
+			Messagebox.show("Intervallo date sospensione errato!");
+		} else {
+			this.status_add = true;
+		}
 
 	}
 
