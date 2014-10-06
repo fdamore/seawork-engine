@@ -19,14 +19,6 @@ public class MyBatisContestationDAO extends SqlSessionDaoSupport implements ICon
 	}
 
 	@Override
-	public Contestation loadContestation(final int id) {
-		MyBatisContestationDAO.logger.info("loadContestationByContestationId = " + id);
-
-		final Contestation contestation = this.getSqlSession().selectOne("contestation.loadContestation", id);
-		return contestation;
-	}
-
-	@Override
 	public List<Contestation> loadUserContestation(final int id_user) {
 		MyBatisContestationDAO.logger.info("loadContestationByUserId =" + id_user);
 

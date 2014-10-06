@@ -7,28 +7,22 @@
 
 
 
-	<select id="createContestation" parameterType="org.uario.seaworkengine.model.Contestation">
+
+
+
+
+	<insert id="createContestation" parameterType="org.uario.seaworkengine.model.Contestation">
 		INSERT INTO
-		contestation
-		(typ,
-		date_contestation, 
-		id_user,
-		note,
-		stop_from,
-		stop_to,
-		file_name)
-		VALUES
-		(#{typ},
-		#{date_contestation},
-		#{id_user},
+		contestation (typ, date_contestation, id_user, note, stop_from,
+		stop_to, file_name) VALUES (#{typ}, #{date_contestation}, #{id_user},
 		#{note},
-		#{stop_from},
-		#{stop_to},
-		#{file_name});
+		#{stop_from}, #{stop_to}, #{file_name});
+	</insert>
 
-	</select>
 
-	<select id="loadContestation" resultType="org.uario.seaworkengine.model.Contestation" parameterType="int">
+
+	<select id="loadUserContestation" resultType="org.uario.seaworkengine.model.Contestation"
+		parameterType="int">
 		SELECT id,
 		typ,
 		date_contestation,
@@ -39,24 +33,11 @@
 		file_name
 		FROM
 		contestation where
-		id = #{id} order by date_contestation desc;
+		id_user = #{id_user} order by
+		date_contestation desc;
 	</select>
 
-	<select id="loadUserContestation" resultType="org.uario.seaworkengine.model.Contestation" parameterType="int">
-		SELECT id,
-		typ,
-		date_contestation,
-		note,
-		id_user,
-		stop_from,
-		stop_to,
-		file_name
-		FROM
-		contestation where
-		id_user = #{id_user} order by date_contestation desc;
-	</select>
-
-	<delete id="removeContestation" parameterType="map" >
+	<delete id="removeContestation" parameterType="map">
 		delete from
 		contestation
 		where
@@ -64,7 +45,7 @@
 		= #{id};
 	</delete>
 
-		
+
 	<update id="updateContestation" parameterType="org.uario.seaworkengine.model.Contestation">
 		UPDATE
 		contestation
@@ -74,7 +55,8 @@
 		id_user = #{id_user},
 		note = #{note},
 		stop_from = #{stop_from},
-		stop_to = #{stop_to},
+		stop_to =
+		#{stop_to},
 		file_name = #{file_name}
 		WHERE id = #{id};
 	</update>

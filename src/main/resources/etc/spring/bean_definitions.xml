@@ -66,6 +66,8 @@
 	</bean>
 
 
+
+
 	<!-- SET DB SESSION FACTORY -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="local_datasource" />
@@ -115,7 +117,7 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 
 	<bean id="myEmploymentDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisEmploymentDAO">
@@ -128,13 +130,13 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myParamDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisParamsDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myContestationDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisContestationDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />

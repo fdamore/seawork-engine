@@ -1,13 +1,12 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Contestation;
 import org.uario.seaworkengine.model.Person;
-import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IContestation;
-import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ContestationTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -15,6 +14,7 @@ import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -38,8 +38,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	@Wire
 	private Datebox				date_contestation;
 
-	private EmploymentDAO		employmenyDAO;
-
 	@Wire
 	private Component			grid_details;
 	private final Logger		logger				= Logger.getLogger(UserDetailsComposerCons.class);
@@ -48,8 +46,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private Textbox				note;
 
 	private Person				person_selected;
-
-	private PersonDAO			personDAO;
 
 	// status ADD or MODIFY
 	private boolean				status_add			= false;
@@ -71,8 +67,14 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 		this.typ.setValue(ContestationTag.NESSUNA);
 
-		this.stop_from.setDisabled(false);
-		this.stop_to.setDisabled(false);
+		this.stop_from.setValue(null);
+		this.stop_to.setValue(null);
+		this.date_contestation.setValue(Calendar.getInstance().getTime());
+
+		this.stop_from.setDisabled(true);
+		this.stop_to.setDisabled(true);
+
+		this.note.setValue("");
 
 		this.status_add = true;
 
@@ -127,8 +129,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 				// get the dao
 				UserDetailsComposerCons.this.contestationDAO = (IContestation) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
-				UserDetailsComposerCons.this.personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
-				UserDetailsComposerCons.this.employmenyDAO = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
 
 				UserDetailsComposerCons.this.setInitialView();
 
@@ -176,24 +176,27 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			final Contestation item = new Contestation();
 
-			if (this.typ.getSelectedItem().toString().equals(ContestationTag.NESSUNA)) {
+			if (this.typ.getSelectedItem() == null) {
 				Messagebox.show("Inserire un tipo di contestazione!");
-				return;
-			}
-
-			if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
-				Messagebox.show("Intervallo date sospensione non completo!");
-				return;
-			}
-
-			if (!this.stop_to.getValue().after(this.stop_from.getValue())) {
-				Messagebox.show("Intervallo date sospensione errato!");
 				return;
 			}
 
 			if (this.date_contestation == null) {
 				Messagebox.show("Data della contestazione mancante!");
 				return;
+			}
+
+			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
+
+				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
+					Messagebox.show("Intervallo date sospensione non completo!");
+					return;
+				}
+
+				if (!this.stop_to.getValue().after(this.stop_from.getValue())) {
+					Messagebox.show("Intervallo date sospensione errato!");
+					return;
+				}
 			}
 
 			// setup item with values
@@ -233,14 +236,14 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		final String info = this.typ.getSelectedItem().getValue();
 		if (info.equals(ContestationTag.SOSPENSIONE)) {
 
+			this.stop_from.setDisabled(false);
+			this.stop_to.setDisabled(false);
+
+		} else {
 			this.stop_from.setDisabled(true);
 			this.stop_to.setDisabled(true);
 			this.stop_from.setValue(null);
 			this.stop_to.setValue(null);
-
-		} else {
-			this.stop_from.setDisabled(false);
-			this.stop_to.setDisabled(false);
 
 		}
 	}
@@ -264,6 +267,15 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		item.setStop_from(this.stop_from.getValue());
 		item.setStop_to(this.stop_to.getValue());
 		item.setTyp(this.typ.getValue());
+	}
+
+	@Listen("onUpload = #doc")
+	public void uploadFile(final UploadEvent evt) {
+
+		final String nameFile = evt.getName();
+
+		final int i = 0;
+
 	}
 
 }

@@ -12,8 +12,6 @@ public interface IContestation {
 
 	public void createContestation(Contestation item);
 
-	public Contestation loadContestation(int id);
-
 	public List<Contestation> loadUserContestation(int id_user);
 
 	public void removeContestation(int id);
