@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
+import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.Utility;
 
 public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO {
@@ -48,6 +49,17 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 
 		this.getSqlSession().update("person.changePassword", person_data_handle);
 
+	}
+
+	@Override
+	public List<Person> getSuspendendUsers() {
+		MyBatisPersonDAO.logger.info("Get suspended users ");
+
+		final String idSuspended = UserStatusTag.SUSPENDED;
+
+		final List<Person> suspendedUsers = this.getSqlSession().selectList("person.selectSuspendedUsers", idSuspended);
+
+		return suspendedUsers;
 	}
 
 	@Override

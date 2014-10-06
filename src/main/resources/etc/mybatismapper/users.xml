@@ -186,6 +186,47 @@
 	</select>
 
 
+	<select id="selectSuspendedUsers" parameterType="string" 
+	resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.bill_center,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.date_fired,	
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.employee_level,
+		u.employment,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM
+		user
+		u 
+		WHERE
+		u.status = #{idSuspended}
+	</select>
 
 
 

@@ -30,6 +30,13 @@ public interface PersonDAO extends UserDetailsService {
 	void changePassword(String username, String new_password);
 
 	/**
+	 * List all users suspended
+	 *
+	 * @return Return a list of User suspended
+	 */
+	public List<Person> getSuspendendUsers();
+
+	/**
 	 * List all person in the persistence engine
 	 *
 	 * @return
