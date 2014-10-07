@@ -223,7 +223,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		}
 
 		// download
-
 		final String repo = this.paramsDAO.getParam(ParamsTag.REPO_DOC);
 		final String global_file_name = repo + item.getFile_name();
 		final File file = new File(global_file_name);
@@ -261,8 +260,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		// set link to current document
 		if (item.getFile_name() == null) {
 			this.current_document.setVisible(false);
-		}
-		else {
+		} else {
 			this.current_document.setVisible(true);
 
 		}
@@ -283,6 +281,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		}
 
 		if (this.status_add) {
+
+			// adding branch
 
 			final Contestation item = new Contestation();
 
@@ -320,8 +320,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			Messagebox.show("Contestazione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		else {
+		} else {
+
+			// modify branch
 
 			if (this.typ.getSelectedItem() == null) {
 				Messagebox.show("Inserire un tipo di contestazione!");
@@ -352,6 +353,11 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				}
 			}
 
+			// delete existing file if any and if required
+			if ((item.getFile_name() != null) && (this.currentDoc != null)) {
+				// TODO: delete old file
+			}
+
 			// add values to the items
 			this.setupItemWithValues(item);
 
@@ -373,8 +379,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			this.stop_from.setDisabled(false);
 			this.stop_to.setDisabled(false);
 
-		}
-		else {
+		} else {
 			this.stop_from.setDisabled(true);
 			this.stop_to.setDisabled(true);
 			this.stop_from.setValue(null);
@@ -428,13 +433,11 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				stream = new FileOutputStream(global_file_name);
 				IOUtils.write(this.currentDoc.getFile_doc(), stream);
 
-			}
-			finally {
+			} finally {
 				if (stream != null) {
 					try {
 						stream.close();
-					}
-					catch (final IOException ignore) {
+					} catch (final IOException ignore) {
 
 					}
 				}
@@ -462,20 +465,17 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final String info = evt.getMedia().getStringData();
 					byteDoc = info.getBytes();
 
-				}
-				else {
+				} else {
 					reader = evt.getMedia().getReaderData();
 					byteDoc = IOUtils.toByteArray(reader);
 
 				}
-			}
-			else {
+			} else {
 				if (evt.getMedia().inMemory()) {
 
 					byteDoc = evt.getMedia().getByteData();
 
-				}
-				else {
+				} else {
 
 					stream = evt.getMedia().getStreamData();
 					byteDoc = IOUtils.toByteArray(stream);
@@ -490,21 +490,21 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			// set initial sclass
 			this.docupload.setSclass(UserDetailsComposerCons.BUTTON_FINAL_SCLASS);
 
-		}
-		finally {
+		} finally {
 
-			if (reader != null) {
-				try {
+			try {
+
+				if (reader != null) {
 					reader.close();
-
-					if (stream != null) {
-						stream.close();
-					}
 				}
 
-				catch (final IOException ignore) {
-
+				if (stream != null) {
+					stream.close();
 				}
+
+			}
+
+			catch (final IOException ignore) {
 
 			}
 
