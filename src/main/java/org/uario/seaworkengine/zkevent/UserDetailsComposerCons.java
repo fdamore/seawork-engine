@@ -193,7 +193,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					return;
 				}
 
-				if (!this.stop_to.getValue().after(this.stop_from.getValue())) {
+				if (this.stop_from.getValue().compareTo(this.stop_to.getValue()) > 0) {
 					Messagebox.show("Intervallo date sospensione errato!");
 					return;
 				}
@@ -235,7 +235,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					return;
 				}
 
-				if (!this.stop_to.getValue().after(this.stop_from.getValue())) {
+				if (this.stop_from.getValue().compareTo(this.stop_to.getValue()) > 0) {
 					Messagebox.show("Intervallo date sospensione errato!");
 					return;
 				}
