@@ -11,14 +11,6 @@
 			label="Contestazioni Disciplinari">
 
 
-
-
-
-
-
-
-
-
 		</caption>
 
 
@@ -101,9 +93,15 @@
 
 						<row>
 							<label value="Documento:"></label>
-							<button upload="true" id="doc"
-								sclass="btn-info" label="Inserisci il Documento">
-							</button>
+
+							<div>
+								<button upload="true" id="docupload"
+									sclass="btn-success" label="Inserisci il Documento">
+								</button>
+								<a label="Documento Corrente"
+									id="current_document" visible="false">
+								</a>
+							</div>
 						</row>
 
 
@@ -186,7 +184,7 @@
 
 						<toolbarbutton id="sw_download_list"
 							style="color:blue"
-							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="Scarica Documento">
 						</toolbarbutton>
 
