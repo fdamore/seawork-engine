@@ -176,12 +176,12 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			final Contestation item = new Contestation();
 
-			if (this.typ.getSelectedItem() == null) {
+			if (this.typ.getSelectedItem().getValue() == null) {
 				Messagebox.show("Inserire un tipo di contestazione!");
 				return;
 			}
 
-			if (this.date_contestation == null) {
+			if (this.date_contestation.getValue() == null) {
 				Messagebox.show("Data della contestazione mancante!");
 				return;
 			}
@@ -212,10 +212,33 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 		} else {
 
+			if (this.typ.getSelectedItem() == null) {
+				Messagebox.show("Inserire un tipo di contestazione!");
+				return;
+			}
+
 			// get selected item
 			final Contestation item = this.sw_list.getSelectedItem().getValue();
 			if (item == null) {
 				return;
+			}
+
+			if (this.date_contestation.getValue() == null) {
+				Messagebox.show("Data della contestazione mancante!");
+				return;
+			}
+
+			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
+
+				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
+					Messagebox.show("Intervallo date sospensione non completo!");
+					return;
+				}
+
+				if (!this.stop_to.getValue().after(this.stop_from.getValue())) {
+					Messagebox.show("Intervallo date sospensione errato!");
+					return;
+				}
 			}
 
 			// add values to the items

@@ -5,12 +5,6 @@
 
 	<cache />
 
-
-
-
-
-
-
 	<insert id="createContestation" parameterType="org.uario.seaworkengine.model.Contestation">
 		INSERT INTO
 		contestation (typ, date_contestation, id_user, note, stop_from,
@@ -18,8 +12,6 @@
 		#{note},
 		#{stop_from}, #{stop_to}, #{file_name});
 	</insert>
-
-
 
 	<select id="loadUserContestation" resultType="org.uario.seaworkengine.model.Contestation"
 		parameterType="int">
