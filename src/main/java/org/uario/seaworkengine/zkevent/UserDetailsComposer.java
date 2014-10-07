@@ -547,6 +547,33 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 		});
 
+		this.getSelf().addEventListener(ZkEventsTag.onUpdateGeneralDetails, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final String status = (String) arg0.getData();
+
+				final Person person_selected = UserDetailsComposer.this.sw_list_user.getSelectedItem().getValue();
+				person_selected.setStatus(status);
+
+				UserDetailsComposer.this.personDao.updatePerson(person_selected);
+
+				// set status
+				final List<Comboitem> lists = UserDetailsComposer.this.user_status.getItems();
+				for (final Comboitem item : lists) {
+					if (item.getValue().equals(status)) {
+						UserDetailsComposer.this.user_status.setSelectedItem(item);
+						break;
+					}
+				}
+
+				// set user listbox
+				UserDetailsComposer.this.setUserListBox();
+
+			}
+		});
+
 	}
 
 	@Listen("onClick = #modify_users_command")
@@ -638,14 +665,16 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			this.employmentDao.createEmploymentForUser(person_selected.getId(), employment);
 
+			// send event to show user status
+			final Component comp_status = Path.getComponent("//userstatus/panel");
+			Events.sendEvent(ZkEventsTag.onShowUsers, comp_status, person_selected);
+
 			// set status notify flag
 			this.status_changed = false;
 		}
 
 		// update list
 		this.setUserListBox();
-
-		this.grid_user_details.setVisible(false);
 
 		Messagebox.show("Dati Utente aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 

@@ -16,7 +16,7 @@
 	<!-- USER EDITOR -->
 	<div id="grid_user_details" visible="false">
 
-		<toolbarbutton label="Chiudi" style="color: blue"
+		<toolbarbutton label="Chiudi Anagrafica" style="color: blue"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">
 		</toolbarbutton>
 

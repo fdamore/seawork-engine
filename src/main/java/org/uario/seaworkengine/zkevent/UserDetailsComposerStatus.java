@@ -1,7 +1,10 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
@@ -10,8 +13,10 @@ import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -29,6 +34,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
+
+	@Wire
+	private Component			box_update_status;
 
 	@Wire
 	private Datebox				date_modifiled;
@@ -52,6 +60,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	// status ADD or MODIFY
 	private boolean				status_add			= false;
 
+	private String				status_upload		= "";
+
 	@Wire
 	private Listbox				sw_list;
 
@@ -59,6 +69,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	public void addItem() {
 
 		this.status_add = true;
+		this.date_modifiled.setValue(Calendar.getInstance().getTime());
+		this.note.setValue("");
+		this.status.setValue(null);
 
 	}
 
@@ -148,9 +161,13 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			return;
 		}
 
+		Employment item = null;
+
 		if (this.status_add) {
 
-			final Employment item = new Employment();
+			// add a status
+
+			item = new Employment();
 
 			// setup item with values
 			this.setupItemWithValues(item);
@@ -159,11 +176,12 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		else {
+		} else {
+
+			// modify a status
 
 			// get selected item
-			final Employment item = this.sw_list.getSelectedItem().getValue();
+			item = this.sw_list.getSelectedItem().getValue();
 			if (item == null) {
 				return;
 			}
@@ -174,9 +192,33 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			this.employmentDao.updateEmployment(item);
 		}
 
+		// ask user for update current status
+		Date to_day = Calendar.getInstance().getTime();
+		to_day = DateUtils.truncate(to_day, Calendar.DATE);
+		final Date my_date = DateUtils.truncate(item.getDate_modified(), Calendar.DATE);
+
+		if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
+
+			this.box_update_status.setVisible(true);
+			this.status_upload = item.getStatus();
+
+		}
+
 		// Refresh list task
 		this.setInitialView();
 
+	}
+
+	@Listen("onClick = #update_command")
+	public void onUpdateStatus() {
+
+		if (this.status_upload == null) {
+			return;
+		}
+
+		// send event to show user task
+		final Component comp = Path.getComponent("//user/page_user_detail");
+		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, this.status_upload);
 	}
 
 	@Listen("onClick = #sw_refresh_list")
