@@ -1,18 +1,17 @@
 package org.uario.seaworkengine.zkevent;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
-import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.UserTag;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkEventsTag;
+import org.uario.seaworkengine.zkevent.converter.UserStatusConverter;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
@@ -25,9 +24,9 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -40,195 +39,193 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long			serialVersionUID	= 1L;
 
 	@Wire
-	private Component			add_users_command;
+	private Component					add_users_command;
 
 	@Wire
-	private Textbox				address_user;
+	private Textbox						address_user;
 
 	@Wire
-	private Checkbox			admin_user;
+	private Checkbox					admin_user;
 
 	@Wire
-	private Checkbox			backoffice_user;
+	private Checkbox					backoffice_user;
 
 	@Wire
-	private Combobox			billcenter_user;
+	private Combobox					billcenter_user;
 
 	@Wire
-	private Datebox				birth_date_user;
+	private Datebox						birth_date_user;
 
 	@Wire
-	private Textbox				birth_place_user;
+	private Textbox						birth_place_user;
 
 	@Wire
-	private Div					box_deleteuser;
+	private Div							box_deleteuser;
 
 	@Wire
-	private Textbox				city_user;
+	private Textbox						city_user;
 
 	@Wire
-	private Component			contestations_user_tab;
+	private Component					contestations_user_tab;
+
+	private final UserStatusConverter	converter			= new UserStatusConverter();
 
 	@Wire
-	private Textbox				country_user;
+	private Textbox						country_user;
 
 	@Wire
-	private Textbox				current_position_user;
+	private Textbox						current_position_user;
 
 	@Wire
-	private Datebox				date_fired_user;
+	private Datebox						date_fired_user;
 
 	@Wire
-	private Textbox				department_user;
+	private Textbox						department_user;
 
 	@Wire
-	private Tab					detail_user_tab;
+	private Tab							detail_user_tab;
 
 	@Wire
-	private Textbox				driving_license_charge_user;
+	private Textbox						driving_license_charge_user;
 
 	@Wire
-	private Datebox				driving_license_emission_user;
+	private Datebox						driving_license_emission_user;
 
 	@Wire
-	private Textbox				driving_license_user;
+	private Textbox						driving_license_user;
 
 	@Wire
-	private Textbox				education_user;
+	private Textbox						education_user;
 
 	@Wire
-	private Textbox				email_editor_user;
+	private Textbox						email_editor_user;
 
 	@Wire
-	private Textbox				email_editor_user_retype;
+	private Textbox						email_editor_user_retype;
 
 	@Wire
-	private Textbox				email_user;
+	private Textbox						email_user;
 
 	@Wire
-	private Textbox				email_user_retype;
+	private Textbox						email_user_retype;
 
 	@Wire
-	private Textbox				employee_identification_user;
+	private Textbox						employee_identification_user;
 
 	@Wire
-	private Textbox				employee_level_user;
+	private Textbox						employee_level_user;
 
 	@Wire
-	private Datebox				employment_date_user;
-
-	// DAO for access amployment data
-	private EmploymentDAO		employmentDao;
+	private Datebox						employment_date_user;
 
 	@Wire
-	private Textbox				family_charge_user;
+	private Textbox						family_charge_user;
 
 	@Wire
-	private Textbox				firstname_user;
+	private Textbox						firstname_user;
 
 	@Wire
-	private Component			fiscalcheck_user_tab;
+	private Component					fiscalcheck_user_tab;
 
 	@Wire
-	private Textbox				fiscalcode_user;
+	private Textbox						fiscalcode_user;
 
 	@Wire
-	private Component			grid_user_details;
+	private Component					grid_user_details;
 
 	@Wire
-	private Textbox				lastname_user;
+	private Textbox						lastname_user;
 
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
-
-	@Wire
-	private Component			mail_user_tab;
+	private final Logger				logger				= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox				mailpassword_user;
+	private Component					mail_user_tab;
 
 	@Wire
-	private Textbox				marital_status_user;
+	private Textbox						mailpassword_user;
 
 	@Wire
-	private Component			modify_users_command;
+	private Textbox						marital_status_user;
 
 	@Wire
-	private Textbox				nbudje_user;
+	private Component					modify_users_command;
 
 	@Wire
-	private Textbox				ncfl_user;
+	private Textbox						nbudje_user;
 
 	@Wire
-	private Textbox				npass_user;
+	private Textbox						ncfl_user;
 
 	@Wire
-	private Checkbox			operative_user;
+	private Textbox						npass_user;
 
 	@Wire
-	private Textbox				password_editor_user;
+	private Checkbox					operative_user;
 
 	@Wire
-	private Textbox				password_editor_user_retype;
+	private Textbox						password_editor_user;
 
 	@Wire
-	private Textbox				password_user;
+	private Textbox						password_editor_user_retype;
 
 	@Wire
-	private Textbox				password_user_retype;
+	private Textbox						password_user;
 
 	@Wire
-	private Component			password_user_tab;
+	private Textbox						password_user_retype;
+
+	@Wire
+	private Component					password_user_tab;
+
+	Person								person_selected		= null;
 
 	// the dao used for db interaction
-	private PersonDAO			personDao;
+	private PersonDAO					personDao;
 
 	@Wire
-	private Textbox				phone_user;
+	private Textbox						phone_user;
 
 	@Wire
-	private Textbox				postalCode_user;
+	private Textbox						postalCode_user;
 
 	@Wire
-	private Textbox				provincia_user;
+	private Textbox						provincia_user;
 
 	@Wire
-	private Row					row_email_user_retype;
+	private Row							row_email_user_retype;
 
 	@Wire
-	private Row					row_password_user;
+	private Row							row_password_user;
 
 	@Wire
-	private Row					row_password_user_retype;
-
-	// notify status changed
-	private boolean				status_changed		= false;
+	private Row							row_password_user_retype;
 
 	@Wire
-	private Component			status_user_tab;
+	private Component					status_user_tab;
 
 	@Wire
-	private Listbox				sw_list_user;
+	private Listbox						sw_list_user;
 
 	@Wire
-	private Component			task_user_tab;
+	private Component					task_user_tab;
 
 	@Wire
-	private Component			tfr_user_tab;
+	private Component					tfr_user_tab;
 
 	@Wire
-	private Component			tradeunion_user_tab;
+	private Component					tradeunion_user_tab;
 
 	@Wire
-	private Checkbox			user_enabled;
+	private Checkbox					user_enabled;
 
 	@Wire
-	private Combobox			user_status;
+	private Label						user_status;
 
 	@Wire
-	private Checkbox			viewer_user;
+	private Checkbox					viewer_user;
 
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
@@ -280,13 +277,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		person.setCurrent_position(this.current_position_user.getValue());
 		person.setEmployee_level(this.employee_level_user.getValue());
 		person.setBill_center(this.billcenter_user.getValue());
-
 		person.setNbudge(this.nbudje_user.getValue());
 		person.setNpass(this.npass_user.getValue());
 		person.setMarital_status(this.marital_status_user.getValue());
 		person.setFamily_charge(this.family_charge_user.getValue());
 		person.setDriving_license(this.driving_license_user.getValue());
 		person.setDriving_license_emission(this.driving_license_emission_user.getValue());
+
+		// add initial status
+		person.setStatus(UserStatusTag.OPEN);
 
 		// set authority
 		person.setAuthority(UserTag.ROLE_USER);
@@ -316,27 +315,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #user_status")
-	public void change_user_status() {
-		this.status_changed = true;
-
-	}
-
 	@Listen("onClick = #modify_mail_user")
 	public void changeMailActionUser(final Event evt) {
 
 		try {
 
-			if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-					|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+			if (this.person_selected == null) {
 				return;
 			}
 
-			final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
-
 			// check over password
-			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), person_selected.getEmail());
-			if (!hashing_password.equals(person_selected.getPassword())) {
+			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), this.person_selected.getEmail());
+			if (!hashing_password.equals(this.person_selected.getPassword())) {
 				Messagebox.show("la password inserita non è corretta", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 
 				// set fields
@@ -356,15 +346,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changeMail(person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
+			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
 
-			person_selected.setEmail(this.email_editor_user.getValue());
-			this.sw_list_user.getSelectedItem().setValue(person_selected);
+			this.person_selected.setEmail(this.email_editor_user.getValue());
+			this.sw_list_user.getSelectedItem().setValue(this.person_selected);
 
 			// set fields
 			this.mailpassword_user.setValue("");
 
-			this.email_user.setValue(person_selected.getEmail());
+			this.email_user.setValue(this.person_selected.getEmail());
 
 			Messagebox.show("Mail Cambiata", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -382,12 +372,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void changePassword(final Event evt) {
 		try {
 
-			if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-					|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+			if (this.person_selected == null) {
 				return;
 			}
-
-			final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
 
 			// WARNING
 			if (!this.password_editor_user.getValue().equals(this.password_editor_user_retype.getValue())) {
@@ -396,7 +383,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changePassword(person_selected.getEmail(), this.password_editor_user.getValue());
+			this.personDao.changePassword(this.person_selected.getEmail(), this.password_editor_user.getValue());
 
 			// reset fields
 			this.password_editor_user.setValue("");
@@ -422,13 +409,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		Person person_selected = this.sw_list_user.getSelectedItem().getValue();
+		// take person
+		this.person_selected = this.sw_list_user.getSelectedItem().getValue();
 
 		// get the last person from database
-		person_selected = this.personDao.loadPerson(person_selected.getId());
+		this.person_selected = this.personDao.loadPerson(this.person_selected.getId());
 
 		// general details
-		this.defineUserDetailsView(person_selected);
+		this.defineUserDetailsView(this.person_selected);
 
 	}
 
@@ -477,13 +465,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// set status
 		final String status = person_selected.getStatus();
-		final List<Comboitem> lists = this.user_status.getItems();
-		for (final Comboitem item : lists) {
-			if (item.getValue().equals(status)) {
-				this.user_status.setSelectedItem(item);
-				break;
-			}
-		}
+		final String status_label = (String) this.converter.coerceToUi(status, null);
+		this.user_status.setValue(status_label);
 
 		// set users
 		this.admin_user.setChecked(person_selected.isAdministrator());
@@ -500,14 +483,11 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void deleteUserCommand() {
 
 		try {
-			if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-					|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+			if (this.person_selected == null) {
 				return;
 			}
 
-			final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
-
-			this.personDao.removePerson(person_selected.getId());
+			this.personDao.removePerson(this.person_selected.getId());
 
 			// update list
 			this.setUserListBox();
@@ -516,7 +496,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
@@ -537,10 +518,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 				// get the DAOs
 				UserDetailsComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
-				UserDetailsComposer.this.employmentDao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
-
-				// reset notify status changed
-				UserDetailsComposer.this.status_changed = false;
 
 				UserDetailsComposer.this.setInitialView();
 
@@ -552,21 +529,19 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
 
+				if (UserDetailsComposer.this.person_selected == null) {
+					return;
+				}
+
 				final String status = (String) arg0.getData();
 
-				final Person person_selected = UserDetailsComposer.this.sw_list_user.getSelectedItem().getValue();
-				person_selected.setStatus(status);
+				UserDetailsComposer.this.person_selected.setStatus(status);
 
-				UserDetailsComposer.this.personDao.updatePerson(person_selected);
+				UserDetailsComposer.this.personDao.updatePerson(UserDetailsComposer.this.person_selected);
 
 				// set status
-				final List<Comboitem> lists = UserDetailsComposer.this.user_status.getItems();
-				for (final Comboitem item : lists) {
-					if (item.getValue().equals(status)) {
-						UserDetailsComposer.this.user_status.setSelectedItem(item);
-						break;
-					}
-				}
+				final String status_label = (String) UserDetailsComposer.this.converter.coerceToUi(status, null);
+				UserDetailsComposer.this.user_status.setValue(status_label);
 
 				// set user listbox
 				UserDetailsComposer.this.setUserListBox();
@@ -579,46 +554,37 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #modify_users_command")
 	public void modifyCommand() {
 
-		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+		if (this.person_selected == null) {
 			return;
 		}
 
-		final Person person_selected = this.sw_list_user.getSelectedItem().getValue();
-
-		person_selected.setFirstname(this.firstname_user.getValue());
-		person_selected.setLastname(this.lastname_user.getValue());
-		person_selected.setCity(this.city_user.getValue());
-		person_selected.setAddress(this.address_user.getValue());
-		person_selected.setPhone(this.phone_user.getValue());
-		person_selected.setZip(this.postalCode_user.getValue());
-		person_selected.setEnabled(this.user_enabled.isChecked());
-		person_selected.setEmployee_identification(this.employee_identification_user.getValue());
-		person_selected.setProvincia(this.provincia_user.getValue());
-		person_selected.setFiscal_code(this.fiscalcode_user.getValue());
-		person_selected.setBirth_date(this.birth_date_user.getValue());
-		person_selected.setBirth_place(this.birth_place_user.getValue());
-		person_selected.setEducation(this.education_user.getValue());
-		person_selected.setEmployment(this.employment_date_user.getValue());
-		person_selected.setDate_fired(this.date_fired_user.getValue());
-		person_selected.setNcfl(this.ncfl_user.getValue());
-		person_selected.setDepartment(this.department_user.getValue());
-		person_selected.setCurrent_position(this.current_position_user.getValue());
-		person_selected.setEmployee_level(this.employee_level_user.getValue());
-		person_selected.setBill_center(this.billcenter_user.getValue());
-		person_selected.setCountry(this.country_user.getValue());
-		person_selected.setNbudge(this.nbudje_user.getValue());
-		person_selected.setNpass(this.npass_user.getValue());
-		person_selected.setMarital_status(this.marital_status_user.getValue());
-		person_selected.setFamily_charge(this.family_charge_user.getValue());
-		person_selected.setDriving_license(this.driving_license_user.getValue());
-		person_selected.setDriving_license_emission(this.driving_license_emission_user.getValue());
-
-		// set status
-		if (this.user_status.getSelectedItem() != null) {
-			final String status_val = this.user_status.getSelectedItem().getValue();
-			person_selected.setStatus(status_val);
-		}
+		this.person_selected.setFirstname(this.firstname_user.getValue());
+		this.person_selected.setLastname(this.lastname_user.getValue());
+		this.person_selected.setCity(this.city_user.getValue());
+		this.person_selected.setAddress(this.address_user.getValue());
+		this.person_selected.setPhone(this.phone_user.getValue());
+		this.person_selected.setZip(this.postalCode_user.getValue());
+		this.person_selected.setEnabled(this.user_enabled.isChecked());
+		this.person_selected.setEmployee_identification(this.employee_identification_user.getValue());
+		this.person_selected.setProvincia(this.provincia_user.getValue());
+		this.person_selected.setFiscal_code(this.fiscalcode_user.getValue());
+		this.person_selected.setBirth_date(this.birth_date_user.getValue());
+		this.person_selected.setBirth_place(this.birth_place_user.getValue());
+		this.person_selected.setEducation(this.education_user.getValue());
+		this.person_selected.setEmployment(this.employment_date_user.getValue());
+		this.person_selected.setDate_fired(this.date_fired_user.getValue());
+		this.person_selected.setNcfl(this.ncfl_user.getValue());
+		this.person_selected.setDepartment(this.department_user.getValue());
+		this.person_selected.setCurrent_position(this.current_position_user.getValue());
+		this.person_selected.setEmployee_level(this.employee_level_user.getValue());
+		this.person_selected.setBill_center(this.billcenter_user.getValue());
+		this.person_selected.setCountry(this.country_user.getValue());
+		this.person_selected.setNbudge(this.nbudje_user.getValue());
+		this.person_selected.setNpass(this.npass_user.getValue());
+		this.person_selected.setMarital_status(this.marital_status_user.getValue());
+		this.person_selected.setFamily_charge(this.family_charge_user.getValue());
+		this.person_selected.setDriving_license(this.driving_license_user.getValue());
+		this.person_selected.setDriving_license_emission(this.driving_license_emission_user.getValue());
 
 		// set authority
 		String auth = UserTag.ROLE_USER;
@@ -644,34 +610,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				auth = auth + "," + UserTag.ROLE_VIEWER;
 			}
 		}
-		person_selected.setAuthority(auth);
+		this.person_selected.setAuthority(auth);
 
 		// update
-		this.personDao.updatePerson(person_selected);
-
-		// set status cnaged
-		if (this.status_changed) {
-
-			// get status
-			String status_val = null;
-			if (this.user_status.getSelectedItem() != null) {
-				status_val = this.user_status.getSelectedItem().getValue();
-			}
-
-			final Employment employment = new Employment();
-			employment.setId_user(person_selected.getId());
-			employment.setDate_modified(Calendar.getInstance().getTime());
-			employment.setStatus(status_val);
-
-			this.employmentDao.createEmploymentForUser(person_selected.getId(), employment);
-
-			// send event to show user status
-			final Component comp_status = Path.getComponent("//userstatus/panel");
-			Events.sendEvent(ZkEventsTag.onShowUsers, comp_status, person_selected);
-
-			// set status notify flag
-			this.status_changed = false;
-		}
+		this.personDao.updatePerson(this.person_selected);
 
 		// update list
 		this.setUserListBox();
