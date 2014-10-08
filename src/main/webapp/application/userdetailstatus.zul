@@ -50,8 +50,6 @@
 								<comboitem label="RIASSEGNATO"
 									value="D">
 								</comboitem>
-								<comboitem label="SOSPESO" value="S">
-								</comboitem>
 								<comboitem label="LICENZIATO"
 									value="L">
 								</comboitem>
@@ -114,14 +112,15 @@
 				</toolbarbutton>
 
 			</div>
-			
+
 			<div id="box_update_status" visible="false">
 
 				<a label="Vuoi cambiare lo status attuale?"
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 				<toolbarbutton label="Si" style="color: red"
-					id="update_command" onClick="box_update_status.setVisible(false)">
+					id="update_command"
+					onClick="box_update_status.setVisible(false)">
 				</toolbarbutton>
 				<toolbarbutton label="No" style="color: no"
 					onClick="box_update_status.setVisible(false)">
@@ -161,6 +160,12 @@
 							style="color:blue"
 							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
 							label="Visualizza e Modifica">
+						</toolbarbutton>
+
+						<toolbarbutton id="sw_link_set"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
+							label="Assegna">
 						</toolbarbutton>
 
 					</listcell>

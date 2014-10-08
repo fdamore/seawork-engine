@@ -176,7 +176,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		} else {
+		}
+		else {
 
 			// modify a status
 
@@ -219,6 +220,18 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		// send event to show user task
 		final Component comp = Path.getComponent("//user/page_user_detail");
 		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, this.status_upload);
+	}
+
+	@Listen("onClick = #sw_link_set")
+	public void setCurrentStatus() {
+
+		final Employment item = this.sw_list.getSelectedItem().getValue();
+
+		// send event to show user task
+		final Component comp = Path.getComponent("//user/page_user_detail");
+		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item.getStatus());
+
+		Messagebox.show("Status Utente Assegnato", "Info", Messagebox.OK, Messagebox.INFORMATION);
 	}
 
 	@Listen("onClick = #sw_refresh_list")
