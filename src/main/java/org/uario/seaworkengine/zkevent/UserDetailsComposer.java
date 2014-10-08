@@ -270,8 +270,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		person.setBirth_date(this.birth_date_user.getValue());
 		person.setBirth_place(this.birth_place_user.getValue());
 		person.setEducation(this.education_user.getValue());
-		person.setEmployment(this.employment_date_user.getValue());
-		person.setDate_fired(this.date_fired_user.getValue());
 		person.setNcfl(this.ncfl_user.getValue());
 		person.setDepartment(this.department_user.getValue());
 		person.setCurrent_position(this.current_position_user.getValue());
@@ -448,8 +446,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_date_user.setValue(person_selected.getBirth_date());
 		this.birth_place_user.setValue(person_selected.getBirth_place());
 		this.education_user.setValue(person_selected.getEducation());
-		this.employment_date_user.setValue(person_selected.getEmployment());
-		this.date_fired_user.setValue(person_selected.getDate_fired());
 		this.ncfl_user.setValue(person_selected.getNcfl());
 		this.department_user.setValue(person_selected.getDepartment());
 		this.current_position_user.setValue(person_selected.getCurrent_position());
@@ -496,8 +492,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
@@ -571,8 +566,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.person_selected.setBirth_date(this.birth_date_user.getValue());
 		this.person_selected.setBirth_place(this.birth_place_user.getValue());
 		this.person_selected.setEducation(this.education_user.getValue());
-		this.person_selected.setEmployment(this.employment_date_user.getValue());
-		this.person_selected.setDate_fired(this.date_fired_user.getValue());
 		this.person_selected.setNcfl(this.ncfl_user.getValue());
 		this.person_selected.setDepartment(this.department_user.getValue());
 		this.person_selected.setCurrent_position(this.current_position_user.getValue());
