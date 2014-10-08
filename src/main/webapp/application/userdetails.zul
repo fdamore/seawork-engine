@@ -229,23 +229,9 @@
 										<textbox id="education_user" />
 									</row>
 
-									<row>
-										<label
-											value="Data Assunzione:">
-										</label>
-										<datebox
-											id="employment_date_user" />
-									</row>
+									
 
-									<row>
-										<label
-											value="Data licenziamento:">
-										</label>
-										<datebox id="date_fired_user" />
-									</row>
-
-
-
+									
 									<row>
 										<label
 											value="Identificativo Contratto (n. cfl):">

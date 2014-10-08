@@ -38,7 +38,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				current_position;
 
-	private java.util.Date		date_fired;
+	// private java.util.Date date_fired;
 
 	private String				department;
 
@@ -55,7 +55,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				employee_level;
 
-	private java.util.Date		employment;
+	// private java.util.Date employment;
 
 	private Boolean				enabled;
 
@@ -181,10 +181,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.current_position;
 	}
 
-	public java.util.Date getDate_fired() {
-		return this.date_fired;
-	}
-
 	public String getDepartment() {
 		return this.department;
 	}
@@ -211,10 +207,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public String getEmployee_level() {
 		return this.employee_level;
-	}
-
-	public java.util.Date getEmployment() {
-		return this.employment;
 	}
 
 	public String getFamily_charge() {
@@ -435,10 +427,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		this.current_position = current_position;
 	}
 
-	public void setDate_fired(final java.util.Date date_fired) {
-		this.date_fired = date_fired;
-	}
-
 	public void setDepartment(final String department) {
 		this.department = department;
 	}
@@ -465,10 +453,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setEmployee_level(final String employee_level) {
 		this.employee_level = employee_level;
-	}
-
-	public void setEmployment(final java.util.Date employment) {
-		this.employment = employment;
 	}
 
 	public void setEnabled(final Boolean checked) {
