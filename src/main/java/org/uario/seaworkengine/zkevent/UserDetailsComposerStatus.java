@@ -11,6 +11,7 @@ import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
+import org.uario.seaworkengine.zkevent.UserDetailsComposerCons.ContestationMessage;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
@@ -119,6 +120,36 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			}
 		});
 
+		this.getSelf().addEventListener(ZkEventsTag.onUpdateGeneralDetails, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				if (UserDetailsComposerStatus.this.person_selected == null) {
+					return;
+				}
+
+				final ContestationMessage data = (ContestationMessage) arg0.getData();
+
+				if (data == null) {
+					return;
+				}
+
+				final Employment item = new Employment();
+
+				// setup item with values
+				item.setNote(null);
+				item.setStatus(data.getStatus());
+				item.setDate_modified(data.getDate_modified());
+				item.setId_user(UserDetailsComposerStatus.this.person_selected.getId());
+
+				UserDetailsComposerStatus.this.employmentDao.createEmploymentForUser(UserDetailsComposerStatus.this.person_selected.getId(), item);
+
+				UserDetailsComposerStatus.this.setInitialView();
+
+			}
+		});
+
 	}
 
 	@Listen("onClick = #sw_link_edit")
@@ -176,8 +207,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		else {
+		} else {
 
 			// modify a status
 

@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Contestation;
 import org.uario.seaworkengine.model.Person;
@@ -18,11 +20,14 @@ import org.uario.seaworkengine.platform.persistence.dao.IParams;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ContestationTag;
 import org.uario.seaworkengine.utility.ParamsTag;
+import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -38,6 +43,12 @@ import org.zkoss.zul.Textbox;
 
 public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
+	/**
+	 * used for internal doc preocess
+	 *
+	 * @author francesco
+	 *
+	 */
 	private class ContestationDoc {
 		/**
 		 * The file to add
@@ -64,6 +75,36 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Used to send a cons to "Rapporto Lavorativo"
+	 *
+	 * @author francesco
+	 *
+	 */
+	public class ContestationMessage {
+
+		private Date	date_modified;
+
+		private String	status;
+
+		public Date getDate_modified() {
+			return this.date_modified;
+		}
+
+		public String getStatus() {
+			return this.status;
+		}
+
+		public void setDate_modified(final Date date_modified) {
+			this.date_modified = date_modified;
+		}
+
+		public void setStatus(final String item) {
+			this.status = item;
+		}
+
+	}
+
 	private final static String	BUTTON_FINAL_SCLASS		= "btn-danger";
 
 	private final static String	BUTTON_INITIAL_SCLASS	= "btn-success";
@@ -72,6 +113,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	 *
 	 */
 	private static final long	serialVersionUID		= 1L;
+
+	@Wire
+	private Component			box_update_status;
 
 	// dao interface
 	private IContestation		contestationDAO;
@@ -101,6 +145,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	// status ADD or MODIFY
 	private boolean				status_add				= false;
+
+	private Date				status_date_modified	= null;
+	private String				status_upload			= "";
 
 	@Wire
 	private Datebox				stop_from;
@@ -280,11 +327,13 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			return;
 		}
 
+		Contestation item;
+
 		if (this.status_add) {
 
 			// adding branch
 
-			final Contestation item = new Contestation();
+			item = new Contestation();
 
 			if (this.typ.getSelectedItem().getValue() == null) {
 				Messagebox.show("Inserire un tipo di contestazione!");
@@ -330,7 +379,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			}
 
 			// get selected item
-			final Contestation item = this.sw_list.getSelectedItem().getValue();
+			item = this.sw_list.getSelectedItem().getValue();
 			if (item == null) {
 				return;
 			}
@@ -355,7 +404,10 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			// delete existing file if any and if required
 			if ((item.getFile_name() != null) && (this.currentDoc != null)) {
-				// TODO: delete old file
+				final String repo = this.paramsDAO.getParam(ParamsTag.REPO_DOC);
+				final String global_file_name = repo + item.getFile_name();
+				final File file = new File(global_file_name);
+				file.delete();
 			}
 
 			// add values to the items
@@ -364,9 +416,51 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			this.contestationDAO.updateContestation(item);
 		}
 
+		if (item.getTyp() != null) {
+			if (item.getTyp().equals(ContestationTag.LICENZIAMENTO) || item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
+
+				// ask user for update current status
+				Date to_day = Calendar.getInstance().getTime();
+				to_day = DateUtils.truncate(to_day, Calendar.DATE);
+				final Date my_date = DateUtils.truncate(item.getDate_contestation(), Calendar.DATE);
+
+				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
+
+					this.box_update_status.setVisible(true);
+
+					if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)) {
+						this.status_upload = UserStatusTag.FIRED;
+						this.status_date_modified = item.getDate_contestation();
+					}
+
+					if (item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
+						this.status_upload = UserStatusTag.SUSPENDED;
+						this.status_date_modified = item.getDate_contestation();
+					}
+
+				}
+
+			}
+		}
+
 		// Refresh list task
 		this.setInitialView();
 
+	}
+
+	@Listen("onClick = #update_command")
+	public void onUpdateStatus() {
+
+		// send event to show user task
+		final Component comp = Path.getComponent("//user/page_user_detail");
+		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, this.status_upload);
+
+		// send info to "Rapporto Lavorativo"
+		final ContestationMessage message = new ContestationMessage();
+		message.setStatus(this.status_upload);
+		message.setDate_modified(this.status_date_modified);
+		final Component comp_status = Path.getComponent("//userstatus/panel");
+		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp_status, message);
 	}
 
 	/**
