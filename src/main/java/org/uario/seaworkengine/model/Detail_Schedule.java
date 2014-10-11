@@ -8,39 +8,39 @@ public class Detail_Schedule implements Serializable {
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
-	private int					id;
-	private int					id_schedule;
-	private int					shift;
-	private int					task_final;
-	private int					task_initial;
-	private int					time_final;
-	private int					time_initial;
+	private Integer				id;
+	private Integer				id_schedule;
+	private Integer				shift;
+	private Integer				task_final;
+	private Integer				task_initial;
+	private Integer				time_final;
+	private Integer				time_initial;
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public int getId_schedule() {
+	public Integer getId_schedule() {
 		return this.id_schedule;
 	}
 
-	public int getShift() {
+	public Integer getShift() {
 		return this.shift;
 	}
 
-	public int getTask_final() {
+	public Integer getTask_final() {
 		return this.task_final;
 	}
 
-	public int getTask_initial() {
+	public Integer getTask_initial() {
 		return this.task_initial;
 	}
 
-	public int getTime_final() {
+	public Integer getTime_final() {
 		return this.time_final;
 	}
 
-	public int getTime_initial() {
+	public Integer getTime_initial() {
 		return this.time_initial;
 	}
 

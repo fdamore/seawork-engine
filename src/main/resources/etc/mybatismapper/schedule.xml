@@ -43,6 +43,44 @@
 		WHERE id = #{id};
 	</update>
 	
+	<insert id="createDetail_Schedule" parameterType="org.uario.seaworkengine.model.Detail_Schedule">
+		INSERT INTO
+		detail_schedule (id_schedule, shift, task_final, task_initial, time_final, time_initial) 
+		VALUES (#{id_schedule}, #{shift}, #{task_final}, #{task_initial}, #{time_final}, #{time_initial});
+	</insert>
+	
+	<select id="loadDetail_Schedule" resultType="org.uario.seaworkengine.model.Detail_Schedule" parameterType="int">
+		SELECT id, id_schedule, shift, task_final, task_initial, time_final, time_initial
+		FROM detail_schedule
+		WHERE id = #{id}; 
+	</select>
+	
+	<select id="loadDetail_ScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.Detail_Schedule" parameterType="int">
+		SELECT id, id_schedule, shift, task_final, task_initial, time_final, time_initial
+		FROM detail_schedule
+		WHERE id_schedule = #{id_schedule};
+		ORDER BY id desc; 
+	</select>
+	
+	<delete id="removeDetail_Schedule" parameterType="int">
+		DELETE FROM detail_schedule
+		WHERE id = #{id};
+	</delete>
+	
+	<update id="updateDetailSchedule" parameterType="org.uario.seaworkengine.model.Detail_Schedule">
+		UPDATE detail_schedule
+		SET
+			id = #{id},
+			id_schedule = #{id_schedule},
+			shift = #{shift}, 
+			task_final = #{task_final}, 
+			task_initial = #{task_initial}, 
+			time_final = #{time_final}, 
+			time_initial = #{time_initial}
+		WHERE id = #{id};
+	</update>
+	
+	
 </mapper>	
 	
 

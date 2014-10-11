@@ -14,6 +14,8 @@ public interface BeansTag {
 
 	public static String	PERSON_DAO			= "myPersonDAO";
 
+	public static String	SCHEDULE_DAO		= "myScheduleDAO";
+
 	public static String	SCHEDULER_DAO		= "mySchedulerDAO";
 
 	public static String	SHIFT_CACHE			= "myShiftCache";
