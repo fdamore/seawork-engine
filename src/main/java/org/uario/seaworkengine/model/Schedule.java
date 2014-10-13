@@ -9,13 +9,24 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
+
 	private Integer				controller;
+
 	private Date				date_schedule;
+
 	private Integer				editor;
+
 	private Date				from_time;
+
 	private Integer				id;
+
+	// used form visualize
+	private String				name_user;
+
 	private String				note;
+
 	private Date				to_time;
+
 	private Integer				user;
 
 	@Override
@@ -56,6 +67,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.id;
 	}
 
+	public String getName_user() {
+		return this.name_user;
+	}
+
 	public String getNote() {
 		return this.note;
 	}
@@ -86,6 +101,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setName_user(final String name_user) {
+		this.name_user = name_user;
 	}
 
 	public void setNote(final String note) {

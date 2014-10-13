@@ -125,11 +125,7 @@
 
 	</bean>
 
-	<bean id="mySchedulerDAO"
-		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisSchedulerDAO">
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-
-	</bean>
+	
 
 	<bean id="myParamDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisParamsDAO">

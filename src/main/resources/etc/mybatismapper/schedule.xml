@@ -4,83 +4,121 @@
 <mapper namespace="schedule">
 
 	<cache />
-	
+
 	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO
-		schedule (date_schedule, user, editor, controller, from_time, to_time, note) 
-		VALUES (#{date_schedule}, #{user}, #{editor}, #{controller}, #{from_time}, #{to_time}, #{note});
+		schedule
+		(date_schedule, user, editor, controller, from_time, to_time, note)
+		VALUES (#{date_schedule}, #{user}, #{editor}, #{controller},
+		#{from_time}, #{to_time}, #{note});
 	</insert>
-	
-	<select id="loadSchedule" resultType="org.uario.seaworkengine.model.Schedule" parameterType="int">
-		SELECT id, date_schedule, user, editor, controller, from_time, to_time, note
-		FROM schedule 
+
+	<select id="loadSchedule" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="int">
+		SELECT id, date_schedule, user, editor, controller,
+		from_time, to_time, note
+		FROM schedule
 		WHERE id = #{id};
 	</select>
-	
-	<select id="loadScheduleByDate" resultType="org.uario.seaworkengine.model.Schedule" parameterType="java.util.Date">
-		SELECT id, date_schedule, user, editor, controller, from_time, to_time, note
-		FROM schedule 
-		WHERE date_schedule = #{date_schedule};
+
+	<select id="loadScheduleByDate" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="java.util.Date">
+		SELECT id, date_schedule, user, editor, controller,
+		from_time, to_time, note
+		FROM schedule
+		WHERE date_schedule =
+		#{date_schedule};
 		ORDER BY date_schedule desc;
 	</select>
-	
+
 	<delete id="removeSchedule" parameterType="int">
 		DELETE FROM schedule
 		WHERE id = #{id};
 	</delete>
-	
-	<update id="updateSchedule"	parameterType="org.uario.seaworkengine.model.Schedule">
+
+	<select id="selectSchedule" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="map">
+	<![CDATA[
+		select s.id,
+		s.date_schedule, s.note, s.from_time, s.to_time, s.editor,
+		s.controller,
+		u.id as user,
+		concat(u.firstname,u.lastname) as name_user
+		from
+		user u
+		left join
+		schedule s on (u.id = s.user and (s.date_schedule >=
+		#{date_from} and s.date_schedule <= #{date_to})) order by user asc, s.date_schedule asc;
+]]>
+	</select>
+
+	<update id="updateSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		UPDATE schedule
 		SET
-			id = #{id}, 
-			date_schedule = #{date_schedule},
-			user = #{user},
-			editor = #{editor},
-			controller = #{controller},
-			from_time = #{from_time},
-			to_time = #{to_time},
-			note = #{note}
+		id =
+		#{id},
+		date_schedule = #{date_schedule},
+		user = #{user},
+		editor =
+		#{editor},
+		controller = #{controller},
+		from_time = #{from_time},
+		to_time
+		= #{to_time},
+		note = #{note}
 		WHERE id = #{id};
 	</update>
-	
+
 	<insert id="createDetail_Schedule" parameterType="org.uario.seaworkengine.model.Detail_Schedule">
 		INSERT INTO
-		detail_schedule (id_schedule, shift, task_final, task_initial, time_final, time_initial) 
-		VALUES (#{id_schedule}, #{shift}, #{task_final}, #{task_initial}, #{time_final}, #{time_initial});
+		detail_schedule (id_schedule, shift, task_final, task_initial,
+		time_final, time_initial)
+		VALUES (#{id_schedule}, #{shift},
+		#{task_final}, #{task_initial},
+		#{time_final}, #{time_initial});
 	</insert>
-	
-	<select id="loadDetail_Schedule" resultType="org.uario.seaworkengine.model.Detail_Schedule" parameterType="int">
-		SELECT id, id_schedule, shift, task_final, task_initial, time_final, time_initial
+
+	<select id="loadDetail_Schedule" resultType="org.uario.seaworkengine.model.Detail_Schedule"
+		parameterType="int">
+		SELECT id, id_schedule, shift, task_final, task_initial,
+		time_final, time_initial
 		FROM detail_schedule
-		WHERE id = #{id}; 
+		WHERE id = #{id};
 	</select>
-	
-	<select id="loadDetail_ScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.Detail_Schedule" parameterType="int">
-		SELECT id, id_schedule, shift, task_final, task_initial, time_final, time_initial
+
+	<select id="loadDetail_ScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.Detail_Schedule"
+		parameterType="int">
+		SELECT id, id_schedule, shift, task_final, task_initial,
+		time_final, time_initial
 		FROM detail_schedule
-		WHERE id_schedule = #{id_schedule};
-		ORDER BY id desc; 
+		WHERE id_schedule =
+		#{id_schedule};
+		ORDER BY id desc;
 	</select>
-	
+
 	<delete id="removeDetail_Schedule" parameterType="int">
-		DELETE FROM detail_schedule
+		DELETE FROM
+		detail_schedule
 		WHERE id = #{id};
 	</delete>
-	
+
 	<update id="updateDetailSchedule" parameterType="org.uario.seaworkengine.model.Detail_Schedule">
-		UPDATE detail_schedule
+		UPDATE
+		detail_schedule
 		SET
-			id = #{id},
-			id_schedule = #{id_schedule},
-			shift = #{shift}, 
-			task_final = #{task_final}, 
-			task_initial = #{task_initial}, 
-			time_final = #{time_final}, 
-			time_initial = #{time_initial}
-		WHERE id = #{id};
+		id = #{id},
+		id_schedule = #{id_schedule},
+		shift =
+		#{shift},
+		task_final = #{task_final},
+		task_initial = #{task_initial},
+		time_final = #{time_final},
+		time_initial = #{time_initial}
+		WHERE id =
+		#{id};
 	</update>
-	
-	
+
+
 </mapper>	
 	
 

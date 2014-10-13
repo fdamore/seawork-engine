@@ -1,10 +1,6 @@
 package org.uario.seaworkengine.zkevent.converter;
 
-import org.uario.seaworkengine.model.Scheduler;
-import org.uario.seaworkengine.model.UserShift;
-import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
-import org.uario.seaworkengine.utility.BeansTag;
-import org.zkoss.spring.SpringUtil;
+import org.uario.seaworkengine.zkevent.bean.ItemRowScheduler;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
@@ -21,37 +17,17 @@ public class ConverterShift1 implements TypeConverter {
 	@Override
 	public Object coerceToUi(final Object arg0, final Component arg1) {
 
-		if (!(arg0 instanceof Scheduler) || (arg0 == null)) {
+		if (!(arg0 instanceof ItemRowScheduler) || (arg0 == null)) {
 			return arg0;
 		}
 
-		final Scheduler shift = (Scheduler) arg0;
+		final ItemRowScheduler item_schedule = (ItemRowScheduler) arg0;
 
-		if ((shift.getInitial_shift_1() == null) && (shift.getInitial_time_1() == null)) {
+		if (item_schedule.getAnchor1() == null) {
 			return ConverterShift1.NO_DATA;
+		} else {
+			return item_schedule.getAnchor1();
 		}
-
-		if (shift.getInitial_time_1() != null) {
-			return "" + shift.getInitial_time_1();
-		}
-
-		if (shift.getInitial_shift_1() != null) {
-
-			// get shift cache
-			final IShiftCache shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
-
-			final Integer id = shift.getInitial_shift_1();
-			final UserShift item = shift_cache.getUserShift(id);
-			if (item != null) {
-				return item.getCode();
-			}
-			else {
-				return "" + shift.getInitial_shift_1();
-			}
-
-		}
-
-		return ConverterShift1.NO_DATA;
 
 	}
 }

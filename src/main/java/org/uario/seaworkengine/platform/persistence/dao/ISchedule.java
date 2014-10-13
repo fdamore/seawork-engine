@@ -24,6 +24,10 @@ public interface ISchedule {
 
 	public void removeSchedule(Integer id);
 
+	public void saveOrUpdate(Schedule currentSchedule);
+
+	public List<Schedule> selectSchedulers(Date initial_date, Date final_date);
+
 	public void updateDetailSchedule(Detail_Schedule detail_schedule);
 
 	public void updateSchedule(Schedule schedule);

@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -74,6 +75,31 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		MyBatisScheduleDAO.logger.info("removeSchedule");
 
 		this.getSqlSession().delete("schedule.removeSchedule", id);
+	}
+
+	@Override
+	public void saveOrUpdate(final Schedule currentSchedule) {
+		if (currentSchedule.getId() == null) {
+			// save
+			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
+
+		} else {
+			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
+
+		}
+
+	}
+
+	@Override
+	public List<Schedule> selectSchedulers(final Date initial_date, final Date final_date) {
+		MyBatisScheduleDAO.logger.info("selectSchedulers..");
+
+		final HashMap<String, Date> map = new HashMap<String, Date>();
+		map.put("date_from", initial_date);
+		map.put("date_to", final_date);
+
+		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectSchedule", map);
+		return list;
 	}
 
 	@Override

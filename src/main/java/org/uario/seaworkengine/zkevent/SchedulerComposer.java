@@ -11,12 +11,13 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.model.Person;
-import org.uario.seaworkengine.model.Scheduler;
+import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
-import org.uario.seaworkengine.platform.persistence.dao.ISchedulerDAO;
+import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
+import org.uario.seaworkengine.zkevent.bean.ItemRowScheduler;
 import org.uario.seaworkengine.zkevent.bean.RowScheduler;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -48,12 +49,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private ConfigurationDAO		configurationDAO;
 
+	private Schedule				currentSchedule;
+
 	@Wire
 	private Datebox					date_init_scheduler;
-
 	// format
 	private final SimpleDateFormat	formatter_ddmmm				= new SimpleDateFormat("dd/MMM");
 	private final SimpleDateFormat	formatter_eeee				= new SimpleDateFormat("EEEE");
+
 	private final SimpleDateFormat	formatter_scheduler_info	= new SimpleDateFormat("EEEE dd MMM");
 
 	@Wire
@@ -91,10 +94,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Datebox					revision_time_out;
 
+	private ISchedule				scheduleDAO;
+
 	@Wire
 	private A						scheduler_label;
-
-	private ISchedulerDAO			schedulerDAO;
 
 	// selected week
 	private String					selectedDay;
@@ -116,7 +119,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
 
-		this.schedulerDAO = (ISchedulerDAO) SpringUtil.getBean(BeansTag.SCHEDULER_DAO);
+		this.scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
@@ -152,7 +155,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				SchedulerComposer.this.selectedShift = info[2];
 
 				// take the right scheduler
-				final Scheduler scheduler = SchedulerComposer.this.getCurrentScheduler(SchedulerComposer.this.selectedDay,
+				final Schedule scheduler = SchedulerComposer.this.getCurrentScheduler(SchedulerComposer.this.selectedDay,
 						SchedulerComposer.this.selectedShift);
 
 				if (scheduler == null) {
@@ -168,71 +171,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					SchedulerComposer.this.scheduler_label.setLabel("Giorno: " + SchedulerComposer.this.formatter_scheduler_info.format(current_day)
 							+ ". Turno: " + SchedulerComposer.this.selectedShift);
 
-					if (scheduler.getFrom_ts() == null) {
+					if (scheduler.getFrom_time() == null) {
 						SchedulerComposer.this.revision_time_in.setValue(current_day);
 					} else {
-						SchedulerComposer.this.revision_time_in.setValue(scheduler.getFrom_ts());
+						SchedulerComposer.this.revision_time_in.setValue(scheduler.getFrom_time());
 					}
 
-					if (scheduler.getTo_ts() == null) {
+					if (scheduler.getTo_time() == null) {
 						SchedulerComposer.this.revision_time_out.setValue(current_day);
 					} else {
-						SchedulerComposer.this.revision_time_out.setValue(scheduler.getTo_ts());
+						SchedulerComposer.this.revision_time_out.setValue(scheduler.getTo_time());
 					}
 
 				}
 
 				// set note
 				SchedulerComposer.this.note.setValue(scheduler.getNote());
-
-				// set task and hours working
-				if (NumberUtils.isNumber(SchedulerComposer.this.selectedShift)) {
-					final Integer shift = Integer.parseInt(SchedulerComposer.this.selectedShift);
-					if (shift.intValue() == 1) {
-
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_1());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_1());
-
-						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.program_task, scheduler.getInitial_shift_1()));
-						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_1()));
-
-					}
-					if (shift.intValue() == 2) {
-
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_2());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_2());
-
-						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.program_task, scheduler.getInitial_shift_2()));
-						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_2()));
-
-					}
-					if (shift.intValue() == 3) {
-
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_3());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_3());
-
-						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.program_task, scheduler.getInitial_shift_3()));
-						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_3()));
-
-					}
-					if (shift.intValue() == 4) {
-
-						SchedulerComposer.this.program_time.setValue(scheduler.getInitial_time_4());
-						SchedulerComposer.this.revision_time.setValue(scheduler.getFinal_time_4());
-
-						SchedulerComposer.this.program_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.program_task, scheduler.getInitial_shift_4()));
-						SchedulerComposer.this.revision_task.setSelectedItem(SchedulerComposer.this.selectItemShift(
-								SchedulerComposer.this.revision_task, scheduler.getFinal_shift_4()));
-
-					}
-				}
 
 				// show info table
 				SchedulerComposer.this.info_scheduler.setVisible(true);
@@ -249,7 +203,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param selectedShift2
 	 * @return
 	 */
-	private Scheduler getCurrentScheduler(final String selectedDay2, final String selectedShift2) {
+	private Schedule getCurrentScheduler(final String selectDay, final String selectShift) {
+
 		return SchedulerComposer.this.grid_scheduler.getSelectedItem().getValue();
 	}
 
@@ -284,17 +239,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #ok_program")
 	public void saveProgram() {
 
-		if (this.grid_scheduler.getSelectedItem() == null) {
+		if (this.currentSchedule == null) {
 			return;
 		}
 
 		final String shift = this.selectedShift;
 		final String day = this.selectedDay;
-
-		final Scheduler scheduler = this.getCurrentScheduler(day, shift);
-		if (scheduler == null) {
-			return;
-		}
 
 		// set task and time
 		final Integer initial_time_task = this.program_time.getValue();
@@ -307,38 +257,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		if (shift.equals("1")) {
-			scheduler.setInitial_shift_1(initial_shift);
-			scheduler.setInitial_time_1(initial_time_task);
-		}
-
-		if (shift.equals("2")) {
-			scheduler.setInitial_shift_2(initial_shift);
-			scheduler.setInitial_time_2(initial_time_task);
-		}
-
-		if (shift.equals("3")) {
-			scheduler.setInitial_shift_3(initial_shift);
-			scheduler.setInitial_time_3(initial_time_task);
-		}
-		if (shift.equals("4")) {
-			scheduler.setInitial_shift_4(initial_shift);
-			scheduler.setInitial_time_4(initial_time_task);
-		}
-
 		// save note
-		scheduler.setNote(this.note.getValue());
+		this.currentSchedule.setNote(this.note.getValue());
 
 		// set editor
 		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		scheduler.setEditor(person.getId());
+		this.currentSchedule.setEditor(person.getId());
 
 		// set data scheduler
-		final Date date_scheduler = this.getDateScheduled(day);
-		scheduler.setDate_scheduler(date_scheduler);
+		final Date date_schedule = this.getDateScheduled(day);
+		this.currentSchedule.setDate_schedule(date_schedule);
 
 		// save scheduler
-		this.schedulerDAO.saveOrUpdate(scheduler);
+		this.scheduleDAO.saveOrUpdate(this.currentSchedule);
 
 		// refresh grid
 		this.setupValuesGrid();
@@ -353,41 +284,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #ok_revision")
 	public void saveRevision() {
 
-		if (this.grid_scheduler.getSelectedItem() == null) {
-			return;
-		}
-
-		final String shift = this.selectedShift;
-		final String day = this.selectedDay;
-
-		final Scheduler scheduler = this.getCurrentScheduler(day, shift);
-		if (scheduler == null) {
+		if (this.currentSchedule == null) {
 			return;
 		}
 
 		// set time in and out
-		scheduler.setFrom_ts(this.revision_time_in.getValue());
-		scheduler.setTo_ts(this.revision_time_out.getValue());
-
-	}
-
-	/**
-	 * return selected comboitem
-	 *
-	 * @param targetCombo
-	 * @param shift
-	 * @return
-	 */
-	private Comboitem selectItemShift(final Combobox targetCombo, final Integer shift) {
-
-		for (final Comboitem item : targetCombo.getItems()) {
-			final UserShift shift_item = item.getValue();
-			if (shift_item.getId().equals(shift)) {
-				return item;
-			}
-		}
-
-		return null;
+		this.currentSchedule.setFrom_time(this.revision_time_in.getValue());
+		this.currentSchedule.setTo_time(this.revision_time_out.getValue());
 
 	}
 
@@ -408,7 +311,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.setTime(initial_date);
 
 		// set seven days
-		for (int i = 0; i < DAYS_IN_GRID; i++) {
+		for (int i = 0; i < SchedulerComposer.DAYS_IN_GRID; i++) {
 
 			final int index_day = i + 1;
 
@@ -447,78 +350,111 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param final_date
 	 * @return
 	 */
-	private List<Scheduler> setupRowScheduler(final Date initial_date, final Date final_date) {
+	private List<RowScheduler> setupRowScheduler(final Date initial_date, final Date final_date) {
 
-		// get list data list
-		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
+		final List<Schedule> list = this.scheduleDAO.selectSchedulers(initial_date, final_date);
 
-		// set grid
-		final List<RowScheduler> rows = new ArrayList<RowScheduler>();
+		final ArrayList<RowScheduler> ret = new ArrayList<RowScheduler>();
 
-		RowScheduler current_scheduled = null;
-		int index = 0;
+		RowScheduler currentRow = null;
+
+		// The number of the day we are showing in the scheduler (in the first
+		// implementation max 7 day in a row)
+		int day = 1;
 
 		for (int i = 0; i < list.size(); i++) {
 
-			final Scheduler scheduler = list.get(i);
+			final Schedule schedule = list.get(i);
 
-			if (current_scheduled == null) {
+			// if the user is changed, add another row
+			if (currentRow != null) {
+				if (!currentRow.getUser().equals(schedule.getUser())) {
+					day = 1;
+				}
+			}
 
-				final RowScheduler row = new RowScheduler();
-				row.setName_scheduled(scheduler.getName_scheduled());
-				row.setEmployee_identification(scheduler.getEmployee_identification());
-				row.setScheduled(scheduler.getScheduled());
-				row.setScheduler_1(scheduler);
+			switch (day) {
+			case 1: {
+				currentRow = new RowScheduler();
 
-				// asign scheduled
-				current_scheduled = row;
-				index = 2;
-
-			} else if (scheduler.getScheduled().equals(current_scheduled.getScheduled())) {
-
-				if (index == 2) {
-					current_scheduled.setScheduler_2(scheduler);
+				final ItemRowScheduler itemsRow = new ItemRowScheduler();
+				if (schedule.getId() != null) {
+					itemsRow.setAnchor1("" + schedule.getId());
+					itemsRow.setAnchor2("" + schedule.getId());
+					itemsRow.setAnchor3("" + schedule.getId());
+					itemsRow.setAnchor4("" + schedule.getId());
 				}
 
-				if (index == 3) {
-					current_scheduled.setScheduler_3(scheduler);
-				}
+				currentRow.setItem_1(itemsRow);
+				currentRow.setName_user(schedule.getName_user());
+				currentRow.setUser(schedule.getUser());
+				day++;
 
-				if (index == 4) {
-					current_scheduled.setScheduler_4(scheduler);
-				}
+				ret.add(currentRow);
+				break;
+			}
+			case 2: {
+				final ItemRowScheduler itemsRow = new ItemRowScheduler();
+				itemsRow.setAnchor1("" + schedule.getId());
+				itemsRow.setAnchor2("" + schedule.getId());
+				itemsRow.setAnchor3("" + schedule.getId());
+				itemsRow.setAnchor4("" + schedule.getId());
 
-				if (index == 5) {
-					current_scheduled.setScheduler_5(scheduler);
-				}
+				currentRow.setItem_2(itemsRow);
+				day++;
+				break;
+			}
+			case 3: {
+				final ItemRowScheduler itemsRow = new ItemRowScheduler();
+				itemsRow.setAnchor1("" + schedule.getId());
+				itemsRow.setAnchor2("" + schedule.getId());
+				itemsRow.setAnchor3("" + schedule.getId());
+				itemsRow.setAnchor4("" + schedule.getId());
 
-				if (index == 6) {
-					current_scheduled.setScheduler_6(scheduler);
-				}
+				currentRow.setItem_3(itemsRow);
+				day++;
+				break;
+			}
+			case 4: {
+				final ItemRowScheduler itemsRow = new ItemRowScheduler();
+				itemsRow.setAnchor1("" + schedule.getId());
+				itemsRow.setAnchor2("" + schedule.getId());
+				itemsRow.setAnchor3("" + schedule.getId());
+				itemsRow.setAnchor4("" + schedule.getId());
 
-				if (index == 7) {
-					current_scheduled.setScheduler_7(scheduler);
-				}
+				currentRow.setItem_4(itemsRow);
+				day++;
+				break;
+			}
+			case 5: {
+				final ItemRowScheduler itemsRow = new ItemRowScheduler();
+				itemsRow.setAnchor1("" + schedule.getId());
+				itemsRow.setAnchor2("" + schedule.getId());
+				itemsRow.setAnchor3("" + schedule.getId());
+				itemsRow.setAnchor4("" + schedule.getId());
 
-				// asign scheduled
-				index = index++;
+				currentRow.setItem_5(itemsRow);
+				day++;
+				break;
+			}
+			case 6: {
+				final ItemRowScheduler itemsRow = new ItemRowScheduler();
+				itemsRow.setAnchor1("" + schedule.getId());
+				itemsRow.setAnchor2("" + schedule.getId());
+				itemsRow.setAnchor3("" + schedule.getId());
+				itemsRow.setAnchor4("" + schedule.getId());
 
-			} else if (!(scheduler.equals(current_scheduled.getScheduled()))) {
-
-				final RowScheduler row = new RowScheduler();
-				row.setName_scheduled(scheduler.getName_scheduled());
-				row.setEmployee_identification(scheduler.getEmployee_identification());
-				row.setScheduled(scheduler.getScheduled());
-				row.setScheduler_1(scheduler);
-
-				// asign scheduled
-				current_scheduled = row;
-				index = 1;
-
+				currentRow.setItem_2(itemsRow);
+				day = 0;
+				currentRow = null;
+				break;
+			}
 			}
 
 		}
-		return list;
+
+		return ret;
+
 	}
 
 	/**
@@ -528,16 +464,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
 		final Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_YEAR, DAYS_IN_GRID);
+		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID);
 		final Date final_date = calendar.getTime();
 
-		final List<Scheduler> list = this.schedulerDAO.selectSchedulers(initial_date, final_date);
-
 		// TODO: setup row scheduler
-		// final List<Scheduler> list = setupRowScheduler(initial_date,
-		// final_date);
+		final List<RowScheduler> list_row = this.setupRowScheduler(initial_date, final_date);
 
-		this.grid_scheduler.setModel(new ListModelList<Scheduler>(list));
+		this.grid_scheduler.setModel(new ListModelList<RowScheduler>(list_row));
 
 		// close info scheduler
 		this.info_scheduler.setVisible(false);
