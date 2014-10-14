@@ -1,9 +1,10 @@
 package org.uario.seaworkengine.zkevent.bean;
 
 import java.io.Serializable;
-import java.util.Date;
 
-public class ItemRowScheduler implements Serializable {
+import org.uario.seaworkengine.model.Schedule;
+
+public class ItemRowSchedule implements Serializable {
 
 	/**
 	 *
@@ -18,9 +19,7 @@ public class ItemRowScheduler implements Serializable {
 
 	private String				anchor4;
 
-	private Date				date_scheduler;
-
-	private Integer				id;
+	private Schedule			schedule;
 
 	public String getAnchor1() {
 		return this.anchor1;
@@ -38,12 +37,8 @@ public class ItemRowScheduler implements Serializable {
 		return this.anchor4;
 	}
 
-	public Date getDate_scheduler() {
-		return this.date_scheduler;
-	}
-
-	public Integer getId() {
-		return this.id;
+	public Schedule getSchedule() {
+		return this.schedule;
 	}
 
 	public void setAnchor1(final String anchor1) {
@@ -62,12 +57,8 @@ public class ItemRowScheduler implements Serializable {
 		this.anchor4 = anchor4;
 	}
 
-	public void setDate_scheduler(final Date date_scheduler) {
-		this.date_scheduler = date_scheduler;
-	}
-
-	public void setId(final Integer id) {
-		this.id = id;
+	public void setSchedule(final Schedule schedule) {
+		this.schedule = schedule;
 	}
 
 }

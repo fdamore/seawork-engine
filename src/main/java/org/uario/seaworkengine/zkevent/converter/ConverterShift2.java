@@ -1,6 +1,6 @@
 package org.uario.seaworkengine.zkevent.converter;
 
-import org.uario.seaworkengine.zkevent.bean.ItemRowScheduler;
+import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
@@ -17,11 +17,11 @@ public class ConverterShift2 implements TypeConverter {
 	@Override
 	public Object coerceToUi(final Object arg0, final Component arg1) {
 
-		if (!(arg0 instanceof ItemRowScheduler) || (arg0 == null)) {
+		if (!(arg0 instanceof ItemRowSchedule) || (arg0 == null)) {
 			return arg0;
 		}
 
-		final ItemRowScheduler item_schedule = (ItemRowScheduler) arg0;
+		final ItemRowSchedule item_schedule = (ItemRowSchedule) arg0;
 
 		if (item_schedule.getAnchor2() == null) {
 			return ConverterShift2.NO_DATA;
