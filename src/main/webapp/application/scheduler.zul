@@ -73,9 +73,19 @@
 						<auxhead>
 							<auxheader colspan="2">
 								<label value="Definizione del turno"></label>
+
+								<combobox readonly="true"
+									placeholder="Mansioni" id="program_task">
+								</combobox>
+
+								<intbox placeholder="Ore da lavorare"
+									id="program_time">
+								</intbox>
+
 								<button label="Aggiungi"
 									sclass="btn-info">
 								</button>
+
 								<button label="Cancella"
 									sclass="btn-info">
 								</button>
@@ -89,15 +99,16 @@
 							<listheader label="Tempo programmato" />
 						</listhead>
 
-						<listitem>
+						<listitem self="@{each='item_program'}"
+							value="@{item_program}">
 							<listcell>
-								<combobox readonly="true" width="200px"
-									id="program_task" placeholder="Scegli Mansione">
-								</combobox>
+								<label width="200px"
+									value="@{item_program.task_initial}">
+								</label>
 							</listcell>
 							<listcell>
 								<intbox width="200px"
-									id="program_time">
+									value="@{item_program.time_initial}">
 								</intbox>
 							</listcell>
 
@@ -120,6 +131,15 @@
 						<auxhead>
 							<auxheader colspan="2">
 								<label value="Consuntivo"></label>
+
+								<combobox readonly="true"
+									placeholder="Mansioni" id="revision_task">
+								</combobox>
+
+								<intbox placeholder="Ore da lavorare"
+									id="revision_time">
+								</intbox>
+
 								<button label="Aggiungi"
 									sclass="btn-info">
 								</button>
@@ -136,20 +156,18 @@
 							<listheader label="Tempo Impiegato" />
 						</listhead>
 
-						<listitem>
+						<listitem self="@{each='item_revision'}"
+							value="@{item_revision}">
 							<listcell>
-								<combobox readonly="true" width="200px"
-									id="revision_task" placeholder="Scegli Mansione">
-								</combobox>
+								<label width="200px"
+									value="@{item_revision.task_revision}">
+								</label>
 							</listcell>
-
 							<listcell>
 								<intbox width="200px"
-									id="revision_time">
+									value="@{item_revision.time_revision}">
 								</intbox>
 							</listcell>
-
-
 						</listitem>
 
 					</listbox>

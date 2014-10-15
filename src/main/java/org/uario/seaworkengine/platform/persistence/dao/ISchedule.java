@@ -16,6 +16,8 @@ public interface ISchedule {
 
 	public List<Detail_Schedule> loadDetail_ScheduleByIdSchedule(Integer id_schedule);
 
+	public Schedule loadSchedule(Date date_scheduler, Integer id_user);
+
 	public Schedule loadSchedule(Integer id_schedule);
 
 	public List<Schedule> loadScheduleByDate(Date date_schedule);

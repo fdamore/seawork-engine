@@ -21,6 +21,15 @@
 		WHERE id = #{id};
 	</select>
 
+	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="map">
+		SELECT id, date_schedule, user, editor, controller,
+		from_time, to_time, note
+		FROM schedule
+		WHERE user = #{id_user} and
+		date_schedule = #{date_schedule};
+	</select>
+
 	<select id="loadScheduleByDate" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="java.util.Date">
 		SELECT id, date_schedule, user, editor, controller,
@@ -92,8 +101,8 @@
 		time_final, time_initial
 		FROM detail_schedule
 		WHERE id_schedule =
-		#{id_schedule};
-		ORDER BY id desc;
+		#{id_schedule}
+		ORDER BY shift asc;
 	</select>
 
 	<delete id="removeDetail_Schedule" parameterType="int">

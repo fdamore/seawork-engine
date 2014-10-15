@@ -46,13 +46,23 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
+	public Schedule loadSchedule(final Date date_schedule, final Integer id_user) {
+		MyBatisScheduleDAO.logger.info("selectSchedulers..");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date_schedule", date_schedule);
+		map.put("id_user", id_user);
+
+		final Schedule ret = this.getSqlSession().selectOne("schedule.selectScheduleByDateAndUser", map);
+		return ret;
+	}
+
+	@Override
 	public Schedule loadSchedule(final Integer id_schedule) {
 		MyBatisScheduleDAO.logger.info("loadSchedule");
 
 		return this.getSqlSession().selectOne("schedule.loadSchedule", id_schedule);
 	}
-
-	// Detail_Schedule
 
 	@Override
 	public List<Schedule> loadScheduleByDate(final Date date_schedule) {
