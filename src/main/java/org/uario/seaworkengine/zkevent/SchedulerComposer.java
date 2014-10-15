@@ -108,6 +108,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	// selected shift
 	private String					selectedShift;
 
+	/**
+	 * User selected to schedule
+	 */
+	private Integer					selectedUser;
+
 	private TasksDAO				taskDAO;
 
 	@Listen("onChange = #date_init_scheduler")
@@ -289,13 +294,38 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * Save Current scehduler updating values from grid
+	 */
+	private void saveCurrentScheduler(final String day) {
+
+		// set data scheduler
+		final Date date_schedule = this.getDateScheduled(day);
+		this.currentSchedule.setDate_schedule(date_schedule);
+
+		// set editor
+		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.currentSchedule.setEditor(person.getId());
+
+		// set user
+		this.currentSchedule.setUser(this.selectedUser);
+
+		this.scheduleDAO.saveOrUpdate(this.currentSchedule);
+		this.setupValuesGrid();
+		this.currentSchedule = this.getCurrentScheduler(this.selectedDay);
+	}
+
+	/**
 	 * Save program
 	 */
 	@Listen("onClick = #ok_program")
 	public void saveProgram() {
 
-		if (this.currentSchedule == null) {
+		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
 			return;
+		}
+
+		if (this.currentSchedule == null) {
+			this.currentSchedule = new Schedule();
 		}
 
 		final String shift = this.selectedShift;
@@ -312,24 +342,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		// save note
-		this.currentSchedule.setNote(this.note.getValue());
-
-		// set editor
-		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		this.currentSchedule.setEditor(person.getId());
-
-		// set data scheduler
-		final Date date_schedule = this.getDateScheduled(day);
-		this.currentSchedule.setDate_schedule(date_schedule);
-
 		// save scheduler
-		this.scheduleDAO.saveOrUpdate(this.currentSchedule);
-
-		// refresh grid
-		this.setupValuesGrid();
+		this.saveCurrentScheduler(this.selectedDay);
 
 		Messagebox.show("Il programma è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+
+	}
+
+	@Listen("onClick = #save_report")
+	public void saveReport() {
+
+		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
+			return;
+		}
+
+		if (this.currentSchedule == null) {
+			this.currentSchedule = new Schedule();
+		}
+
+		// save note
+		this.currentSchedule.setNote(this.note.getValue());
+		this.currentSchedule.setFrom_time(this.revision_time_in.getValue());
+		this.currentSchedule.setTo_time(this.revision_time_out.getValue());
+
+		// save scheduler
+		this.saveCurrentScheduler(this.selectedDay);
+
+		Messagebox.show("Il Report è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 	}
 
@@ -533,6 +572,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final String[] info = data_info.split("_");
 		SchedulerComposer.this.selectedDay = info[1];
 		SchedulerComposer.this.selectedShift = info[2];
+
+		this.selectedUser = row_scheduler.getUser();
 
 		// take the right scheduler
 		SchedulerComposer.this.currentSchedule = SchedulerComposer.this.getCurrentScheduler(SchedulerComposer.this.selectedDay);

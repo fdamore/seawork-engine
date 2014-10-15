@@ -166,9 +166,11 @@
 		<panel border="none" collapsible="false" title="Rapporto"
 			sclass="transparent">
 			<caption>
-				<button id="save_note" label="Salva Rapporto"
-					sclass="btn-info">
-				</button>
+
+
+				<button id="save_report" label="Salva Rapporto"
+					sclass="btn-info" />
+
 			</caption>
 			<panelchildren>
 
