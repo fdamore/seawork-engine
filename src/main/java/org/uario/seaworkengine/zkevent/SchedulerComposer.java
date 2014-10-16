@@ -10,7 +10,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.uario.seaworkengine.model.Detail_Schedule;
+import org.uario.seaworkengine.model.DetailSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserTask;
@@ -68,7 +68,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Div						info_scheduler;
 
 	// initial program and revision
-	private List<Detail_Schedule>	list_details;
+	private List<DetailSchedule>	list_details_program;
 
 	@Wire
 	private Listbox					listbox_program;
@@ -123,12 +123,56 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private TasksDAO				taskDAO;
 
+	@Listen("onClick= #add_program_item")
+	public void addProgramItem() {
+
+		if (this.list_details_program == null) {
+			return;
+		}
+
+		if ((this.selectedShift == null) || !NumberUtils.isNumber(this.selectedShift)) {
+			return;
+		}
+
+		if (this.program_task.getSelectedItem() == null) {
+			return;
+		}
+
+		final UserTask task = this.program_task.getSelectedItem().getValue();
+		if (task == null) {
+			Messagebox.show("Assegna una mansione", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+
+		final Integer time = this.program_time.getValue();
+		if (time == null) {
+			Messagebox.show("Definisce numero di ore da lavorate", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+
+		if (this.currentSchedule == null) {
+			// save scheduler
+			this.saveCurrentScheduler();
+		}
+
+		final DetailSchedule new_item = new DetailSchedule();
+		new_item.setId_schedule(this.currentSchedule.getId());
+		new_item.setShift(Integer.parseInt(this.selectedShift));
+		new_item.setTime_initial(time);
+		new_item.setTask_initial(task.getId());
+
+		// update program list
+		this.list_details_program.add(new_item);
+		this.listbox_program.setModel(new ListModelList<DetailSchedule>(this.list_details_program));
+
+	}
+
 	@Listen("onChange = #date_init_scheduler")
 	public void changeInitialDate() {
 
 		this.info_scheduler.setVisible(false);
 		this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
-		this.setupValuesGrid();
+		this.setupGlobalSchedulerGrid(false);
 
 	}
 
@@ -148,7 +192,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// set initial structure
 				SchedulerComposer.this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
-				SchedulerComposer.this.setupValuesGrid();
+				SchedulerComposer.this.setupGlobalSchedulerGrid(false);
 			}
 		});
 
@@ -239,11 +283,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
 		this.setGridStructure(this.date_init_scheduler.getValue());
-		this.setupValuesGrid();
+		this.setupGlobalSchedulerGrid(false);
 	}
 
 	/**
-	 * Save Current scehduler updating values from grid
+	 * Save Current scheduler updating values from grid
 	 */
 	private void saveCurrentScheduler() {
 
@@ -277,10 +321,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		if (this.list_details_program == null) {
+			return;
+		}
+
 		if (this.currentSchedule == null) {
 			// save scheduler
 			this.saveCurrentScheduler();
 		}
+
+		this.scheduleDAO.saveListDetailScheduler(this.currentSchedule.getId(), this.list_details_program);
+
+		// refresh grid, but keep the info editor visible
+		this.setupGlobalSchedulerGrid(true);
 
 		Messagebox.show("Il programma è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -366,8 +419,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -380,13 +432,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * setup values for grid
+	 */
+	private void setupGlobalSchedulerGrid(final boolean info_visibility) {
+
+		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
+		final Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID);
+		final Date final_date = calendar.getTime();
+
+		final List<RowSchedule> list_row = this.setupRowsScheduler(initial_date, final_date);
+
+		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
+
+		// close info scheduler
+		this.info_scheduler.setVisible(info_visibility);
+
+	}
+
+	/**
 	 * setup RowScheduler
 	 *
 	 * @param initial_date
 	 * @param final_date
 	 * @return
 	 */
-	private List<RowSchedule> setupRowScheduler(final Date initial_date, final Date final_date) {
+	private List<RowSchedule> setupRowsScheduler(final Date initial_date, final Date final_date) {
 
 		final List<Schedule> list = this.scheduleDAO.selectSchedulers(initial_date, final_date);
 
@@ -417,8 +488,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (day != day_on_current_calendar) {
 					itemsRow = new ItemRowSchedule();
 
-				}
-				else {
+				} else {
 					itemsRow = this.getItemRowSchedule(schedule);
 				}
 
@@ -458,25 +528,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * setup values for grid
-	 */
-	private void setupValuesGrid() {
-
-		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
-		final Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID);
-		final Date final_date = calendar.getTime();
-
-		final List<RowSchedule> list_row = this.setupRowScheduler(initial_date, final_date);
-
-		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
-
-		// close info scheduler
-		this.info_scheduler.setVisible(false);
-
-	}
-
-	/**
 	 * Shift configurator
 	 *
 	 * @param data_info
@@ -508,51 +559,48 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
+				+ SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
 				SchedulerComposer.this.revision_time_in.setValue(date_schedule);
-			}
-			else {
+			} else {
 				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
 			}
 
 			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
 				SchedulerComposer.this.revision_time_out.setValue(date_schedule);
-			}
-			else {
+			} else {
 				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
 			}
 
+			// set note
+			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
+
 			// set initial program and revision
-			this.list_details = this.scheduleDAO.loadDetail_ScheduleByIdSchedule(this.currentSchedule.getId());
-			this.listbox_program.setModel(new ListModelList<Detail_Schedule>(this.list_details));
+			this.list_details_program = this.scheduleDAO.loadDetailScheduleByIdSchedule(this.currentSchedule.getId());
+			this.listbox_program.setModel(new ListModelList<DetailSchedule>(this.list_details_program));
 
 			// TODO: set revision list
 			// this.listbox_revision.setModel(new
 			// ListModelList<Detail_Schedule>(this.list_details));
 
-		}
-		else {
+		} else {
 			// if we haven't information about schedule
 			SchedulerComposer.this.revision_time_in.setValue(null);
 			SchedulerComposer.this.revision_time_out.setValue(null);
+			this.note.setValue(null);
+			this.listbox_program.getItems().clear();
+			this.listbox_revision.getItems().clear();
+
 		}
 
 		// set combo task
 		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
 		SchedulerComposer.this.program_task.setModel(new ListModelList<UserTask>(list));
 		SchedulerComposer.this.revision_task.setModel(new ListModelList<UserTask>(list));
-
-		// set note
-		if (SchedulerComposer.this.currentSchedule != null) {
-			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
-		}
-		else {
-			SchedulerComposer.this.note.setValue(null);
-		}
 
 		// show info table
 		SchedulerComposer.this.info_scheduler.setVisible(true);

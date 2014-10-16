@@ -2,7 +2,7 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 
-public class Detail_Schedule implements Serializable {
+public class DetailSchedule implements Serializable {
 
 	/**
 	 *

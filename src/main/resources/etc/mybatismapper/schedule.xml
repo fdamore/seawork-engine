@@ -44,6 +44,8 @@
 		DELETE FROM schedule
 		WHERE id = #{id};
 	</delete>
+	
+	
 
 	<select id="selectSchedule" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
@@ -78,7 +80,7 @@
 		WHERE id = #{id};
 	</update>
 
-	<insert id="createDetail_Schedule" parameterType="org.uario.seaworkengine.model.Detail_Schedule">
+	<insert id="createDetail_Schedule" parameterType="org.uario.seaworkengine.model.DetailSchedule">
 		INSERT INTO
 		detail_schedule (id_schedule, shift, task_final, task_initial,
 		time_final, time_initial)
@@ -87,7 +89,7 @@
 		#{time_final}, #{time_initial});
 	</insert>
 
-	<select id="loadDetail_Schedule" resultType="org.uario.seaworkengine.model.Detail_Schedule"
+	<select id="loadDetail_Schedule" resultType="org.uario.seaworkengine.model.DetailSchedule"
 		parameterType="int">
 		SELECT id, id_schedule, shift, task_final, task_initial,
 		time_final, time_initial
@@ -95,7 +97,7 @@
 		WHERE id = #{id};
 	</select>
 
-	<select id="loadDetail_ScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.Detail_Schedule"
+	<select id="loadDetail_ScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.DetailSchedule"
 		parameterType="int">
 		SELECT id, id_schedule, shift, task_final, task_initial,
 		time_final, time_initial
@@ -110,8 +112,14 @@
 		detail_schedule
 		WHERE id = #{id};
 	</delete>
+	
+	<delete id="removeAllDetailScheduleOnSchedule" parameterType="int">
+		DELETE FROM
+		detail_schedule
+		WHERE id_schedule = #{id_schedule};
+	</delete>
 
-	<update id="updateDetailSchedule" parameterType="org.uario.seaworkengine.model.Detail_Schedule">
+	<update id="updateDetailSchedule" parameterType="org.uario.seaworkengine.model.DetailSchedule">
 		UPDATE
 		detail_schedule
 		SET

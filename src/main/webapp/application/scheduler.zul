@@ -83,7 +83,7 @@
 								</intbox>
 
 								<button label="Aggiungi"
-									sclass="btn-info">
+									id="add_program_item" sclass="btn-info">
 								</button>
 
 								<button label="Cancella"
@@ -107,9 +107,9 @@
 								</label>
 							</listcell>
 							<listcell>
-								<intbox width="200px"
+								<label width="200px"
 									value="@{item_program.time_initial}">
-								</intbox>
+								</label>
 							</listcell>
 
 

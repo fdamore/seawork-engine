@@ -3,11 +3,16 @@
 	xmlns:int="http://www.springframework.org/schema/integration"
 	xmlns:int-ftp="http://www.springframework.org/schema/integration/ftp"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -64,6 +69,15 @@
 		<property name="maxIdleTimeExcessConnections" value="300" />
 		<property name="unreturnedConnectionTimeout" value="3600" />
 	</bean>
+
+	<!-- TRASANSACTION -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="local_datasource" />
+	</bean>
+
+	<!-- enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="txManager" />
 
 
 
@@ -125,7 +139,7 @@
 
 	</bean>
 
-	
+
 
 	<bean id="myParamDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisParamsDAO">
@@ -138,15 +152,15 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
-	
+
+
 	<bean id="myScheduleDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisScheduleDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-		
+
 	</bean>
-	
-	
+
+
 	<!-- SETUP PLATFORM CACHES -->
 	<bean id="myShiftCache"
 		class="org.uario.seaworkengine.platform.persistence.cache.shift.ShiftCache">
