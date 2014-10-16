@@ -188,6 +188,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * return the day of this schedule on calendar
+	 *
+	 * @param initial_date
+	 * @param schedule
+	 * @return
+	 */
+	private int getDayOfSchedule(final Date initial_date, final Schedule schedule) {
+		if (schedule == null) {
+			this.logger.error("Schedule null not permitted");
+			throw new IllegalArgumentException("Schedule null not permitted");
+		}
+		if (schedule.getDate_schedule() == null) {
+			// if not date scheduler, put it at first day
+			return 1;
+		}
+
+		final Date date_init_truncate = DateUtils.truncate(initial_date, Calendar.DATE);
+		final Date schedule_date_truncate = DateUtils.truncate(schedule.getDate_schedule(), Calendar.DATE);
+
+		final long millis = schedule_date_truncate.getTime() - date_init_truncate.getTime();
+		final long day_elapsed = millis / (1000 * 60 * 60 * 24);
+
+		return (int) (day_elapsed + 1);
+
+	}
+
+	/**
 	 * Get a new Item Row from a schedule
 	 *
 	 * @param schedule
@@ -339,7 +366,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -366,82 +394,61 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		RowSchedule currentRow = null;
 
-		// The number of the day we are showing in the scheduler (in the first
-		// implementation max 7 day in a row)
-		int day = 1;
-
 		for (int i = 0; i < list.size(); i++) {
 
 			final Schedule schedule = list.get(i);
 
 			// if the user is changed, add another row
-			if (currentRow != null) {
-				if (!currentRow.getUser().equals(schedule.getUser())) {
-					day = 1;
-				}
-			}
-
-			switch (day) {
-			case 1: {
+			if ((currentRow == null) || (!currentRow.getUser().equals(schedule.getUser()))) {
+				// set current row
 				currentRow = new RowSchedule();
-
-				// set item row
-				final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
-
-				currentRow.setItem_1(itemsRow);
-				currentRow.setName_user(schedule.getName_user());
 				currentRow.setUser(schedule.getUser());
-				day++;
-
+				currentRow.setName_user(schedule.getName_user());
 				ret.add(currentRow);
-				break;
 			}
-			case 2: {
 
-				// set item row
-				final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
+			// get day on calendar
+			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule);
 
-				currentRow.setItem_2(itemsRow);
-				day++;
-				break;
-			}
-			case 3: {
+			for (int day = 1; day <= 7; day++) {
 
-				// set item row
-				final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
+				ItemRowSchedule itemsRow;
 
-				currentRow.setItem_3(itemsRow);
-				day++;
-				break;
-			}
-			case 4: {
+				if (day != day_on_current_calendar) {
+					itemsRow = new ItemRowSchedule();
 
-				// set item row
-				final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
+				}
+				else {
+					itemsRow = this.getItemRowSchedule(schedule);
+				}
 
-				currentRow.setItem_4(itemsRow);
-				day++;
-				break;
-			}
-			case 5: {
+				if (day == 1) {
+					currentRow.setItem_1(itemsRow);
+				}
 
-				// set item row
-				final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
+				if (day == 2) {
+					currentRow.setItem_2(itemsRow);
+				}
 
-				currentRow.setItem_5(itemsRow);
-				day++;
-				break;
-			}
-			case 6: {
+				if (day == 3) {
+					currentRow.setItem_3(itemsRow);
+				}
 
-				// set item row
-				final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
+				if (day == 4) {
+					currentRow.setItem_4(itemsRow);
+				}
 
-				currentRow.setItem_2(itemsRow);
-				day = 0;
-				currentRow = null;
-				break;
-			}
+				if (day == 5) {
+					currentRow.setItem_5(itemsRow);
+				}
+
+				if (day == 6) {
+					currentRow.setItem_6(itemsRow);
+				}
+
+				if (day == 7) {
+					currentRow.setItem_7(itemsRow);
+				}
 			}
 
 		}
@@ -501,29 +508,34 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
-				+ SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
 				SchedulerComposer.this.revision_time_in.setValue(date_schedule);
-			} else {
+			}
+			else {
 				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
 			}
 
 			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
 				SchedulerComposer.this.revision_time_out.setValue(date_schedule);
-			} else {
+			}
+			else {
 				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
 			}
 
 			// set initial program and revision
 			this.list_details = this.scheduleDAO.loadDetail_ScheduleByIdSchedule(this.currentSchedule.getId());
 			this.listbox_program.setModel(new ListModelList<Detail_Schedule>(this.list_details));
-			this.listbox_revision.setModel(new ListModelList<Detail_Schedule>(this.list_details));
 
-		} else {
+			// TODO: set revision list
+			// this.listbox_revision.setModel(new
+			// ListModelList<Detail_Schedule>(this.list_details));
+
+		}
+		else {
 			// if we haven't information about schedule
 			SchedulerComposer.this.revision_time_in.setValue(null);
 			SchedulerComposer.this.revision_time_out.setValue(null);
@@ -537,7 +549,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set note
 		if (SchedulerComposer.this.currentSchedule != null) {
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
-		} else {
+		}
+		else {
 			SchedulerComposer.this.note.setValue(null);
 		}
 
