@@ -21,6 +21,15 @@ public class ItemRowSchedule implements Serializable {
 
 	private Schedule			schedule;
 
+	public ItemRowSchedule() {
+
+	}
+
+	public ItemRowSchedule(final Schedule schedule) {
+		this.schedule = schedule;
+
+	}
+
 	public String getAnchor1() {
 		return this.anchor1;
 	}

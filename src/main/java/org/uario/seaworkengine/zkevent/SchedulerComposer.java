@@ -150,6 +150,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		// check about sum of time
+		boolean check_sum = true;
+		if (time > 6) {
+			check_sum = false;
+		}
+		if (this.list_details_program.size() != 0) {
+			int sum = time;
+			for (final DetailSchedule detail : this.list_details_program) {
+				final int current_time = detail.getTime_initial();
+				sum = sum + current_time;
+				if (sum > 6) {
+					check_sum = false;
+					break;
+				}
+			}
+		}
+		if (!check_sum) {
+			Messagebox.show("Non si possono assegnare più di sei ore per turno", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+
 		if (this.currentSchedule == null) {
 			// save scheduler
 			this.saveCurrentScheduler();
@@ -175,6 +196,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.info_scheduler.setVisible(false);
 		this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
 		this.setupGlobalSchedulerGrid(false);
+
+	}
+
+	private String defineAnchorContent(final boolean program, final Schedule schedule) {
+		Integer time = null;
+		if (program) {
+			time = schedule.getProgram_time();
+		}
+
+		if (time != null) {
+			return "" + time;
+		}
+
+		return null;
 
 	}
 
@@ -264,16 +299,58 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param schedule
 	 */
-	private ItemRowSchedule getItemRowSchedule(final Schedule schedule) {
+	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule) {
 
-		final ItemRowSchedule itemsRow = new ItemRowSchedule();
+		ItemRowSchedule itemsRow = null;
+
+		if (day_on_current_calendar == 1) {
+			itemsRow = currentRow.getItem_1();
+		}
+
+		if (day_on_current_calendar == 2) {
+			itemsRow = currentRow.getItem_2();
+		}
+
+		if (day_on_current_calendar == 3) {
+			itemsRow = currentRow.getItem_3();
+		}
+
+		if (day_on_current_calendar == 4) {
+			itemsRow = currentRow.getItem_4();
+		}
+
+		if (day_on_current_calendar == 5) {
+			itemsRow = currentRow.getItem_5();
+		}
+
+		if (day_on_current_calendar == 6) {
+			itemsRow = currentRow.getItem_5();
+		}
+
+		if (day_on_current_calendar == 7) {
+			itemsRow = currentRow.getItem_7();
+		}
 
 		if (schedule.getId() != null) {
-			itemsRow.setAnchor1("" + schedule.getId());
-			itemsRow.setAnchor2("" + schedule.getId());
-			itemsRow.setAnchor3("" + schedule.getId());
-			itemsRow.setAnchor4("" + schedule.getId());
-			itemsRow.setSchedule(schedule);
+			if (schedule.getShift() != null) {
+
+				if (schedule.getShift() == 1) {
+					itemsRow.setAnchor1(this.defineAnchorContent(true, schedule));
+				}
+
+				if (schedule.getShift() == 2) {
+					itemsRow.setAnchor2(this.defineAnchorContent(true, schedule));
+				}
+
+				if (schedule.getShift() == 3) {
+					itemsRow.setAnchor3(this.defineAnchorContent(true, schedule));
+				}
+
+				if (schedule.getShift() == 4) {
+					itemsRow.setAnchor4(this.defineAnchorContent(true, schedule));
+				}
+			}
+
 		}
 
 		return itemsRow;
@@ -420,7 +497,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -460,18 +538,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				list_row.add(currentRow);
 
 				// set items for current row
-				currentRow.setItem_1(new ItemRowSchedule());
-				currentRow.setItem_2(new ItemRowSchedule());
-				currentRow.setItem_3(new ItemRowSchedule());
-				currentRow.setItem_4(new ItemRowSchedule());
-				currentRow.setItem_5(new ItemRowSchedule());
-				currentRow.setItem_6(new ItemRowSchedule());
-				currentRow.setItem_7(new ItemRowSchedule());
+				currentRow.setItem_1(new ItemRowSchedule(schedule));
+				currentRow.setItem_2(new ItemRowSchedule(schedule));
+				currentRow.setItem_3(new ItemRowSchedule(schedule));
+				currentRow.setItem_4(new ItemRowSchedule(schedule));
+				currentRow.setItem_5(new ItemRowSchedule(schedule));
+				currentRow.setItem_6(new ItemRowSchedule(schedule));
+				currentRow.setItem_7(new ItemRowSchedule(schedule));
 			}
 
 			// set correct day
 			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule);
-			final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
+			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule);
 
 			if (day_on_current_calendar == 1) {
 				currentRow.setItem_1(itemsRow);
@@ -547,20 +625,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
-				+ SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
 				SchedulerComposer.this.revision_time_in.setValue(date_schedule);
-			} else {
+			}
+			else {
 				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
 			}
 
 			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
 				SchedulerComposer.this.revision_time_out.setValue(date_schedule);
-			} else {
+			}
+			else {
 				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
 			}
 
@@ -574,7 +653,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// this.listbox_revision.setModel(new
 			// ListModelList<Detail_Schedule>(this.list_details));
 
-		} else {
+		}
+		else {
 			// if we haven't information about schedule
 			SchedulerComposer.this.revision_time_in.setValue(null);
 			SchedulerComposer.this.revision_time_out.setValue(null);

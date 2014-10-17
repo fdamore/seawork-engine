@@ -25,6 +25,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	private String				note;
 
+	private Integer				program_time;
+
+	private Integer				shift;
+
 	private Date				to_time;
 
 	private Integer				user;
@@ -75,6 +79,14 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.note;
 	}
 
+	public Integer getProgram_time() {
+		return this.program_time;
+	}
+
+	public Integer getShift() {
+		return this.shift;
+	}
+
 	public Date getTo_time() {
 		return this.to_time;
 	}
@@ -109,6 +121,14 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setNote(final String note) {
 		this.note = note;
+	}
+
+	public void setProgram_time(final Integer program_time) {
+		this.program_time = program_time;
+	}
+
+	public void setShift(final Integer shift) {
+		this.shift = shift;
 	}
 
 	public void setTo_time(final Date to_time) {

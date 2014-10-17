@@ -50,16 +50,25 @@
 	<select id="selectSchedule" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 	<![CDATA[
-		select s.id,
-		s.date_schedule, s.note, s.from_time, s.to_time, s.editor,
-		s.controller,
-		u.id as user,
-		concat(u.firstname,' ',u.lastname) as name_user
-		from
-		user u
-		left join
-		schedule s on (u.id = s.user and (s.date_schedule >=
-		#{date_from} and s.date_schedule <= #{date_to})) order by user asc, s.date_schedule asc;
+select 
+    sw.id,
+    ds.shift,
+    sum(ds.time_initial) as program_time,
+    sw.date_schedule,
+    sw.note,
+    sw.from_time,
+    sw.to_time,
+    sw.editor,
+    sw.controller,
+    sw.user,
+    sw.name_user
+from
+    schedule_view sw
+        left join
+    detail_schedule ds ON (sw.id = ds.id_schedule and (sw.date_schedule >=
+		#{date_from} and sw.date_schedule <= #{date_to}))
+group by sw.user , sw.id , ds.shift
+order by sw.user asc, sw.date_schedule asc;
 ]]>
 	</select>
 
