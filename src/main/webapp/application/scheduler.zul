@@ -87,7 +87,7 @@
 								</button>
 
 								<button label="Cancella"
-									sclass="btn-info">
+									id="remove_program_item" sclass="btn-info">
 								</button>
 								<button id="ok_program" label="Salva"
 									sclass="btn-info">
@@ -181,8 +181,8 @@
 
 		<space></space>
 
-		<panel border="none" collapsible="false" title="Rapporto Giornaliero"
-			sclass="transparent">
+		<panel border="none" collapsible="false"
+			title="Rapporto Giornaliero" sclass="transparent">
 			<caption>
 
 

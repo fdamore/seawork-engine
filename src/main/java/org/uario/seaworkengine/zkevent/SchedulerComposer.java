@@ -37,6 +37,7 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 
@@ -55,10 +56,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox					date_init_scheduler;
+
 	// format
 	private final SimpleDateFormat	formatter_ddmmm				= new SimpleDateFormat("dd/MMM");
 	private final SimpleDateFormat	formatter_eeee				= new SimpleDateFormat("EEEE");
-
 	private final SimpleDateFormat	formatter_scheduler_info	= new SimpleDateFormat("EEEE dd MMM");
 
 	@Wire
@@ -364,6 +365,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.setupGlobalSchedulerGrid(false);
 	}
 
+	@Listen("onClick = #remove_program_item")
+	public void removeProgramItem() {
+
+		if (this.listbox_program == null) {
+			return;
+		}
+
+		if ((this.list_details_program == null) || (this.list_details_program.size() == 0)) {
+			return;
+		}
+
+		// remove....
+		for (final Listitem itm : this.listbox_program.getSelectedItems()) {
+			final DetailSchedule detail_item = itm.getValue();
+			this.list_details_program.remove(detail_item);
+		}
+
+		// set model list program and revision
+		final ListModelList<DetailSchedule> model = new ListModelList<DetailSchedule>(this.list_details_program);
+		model.setMultiple(true);
+		this.listbox_program.setModel(model);
+
+	}
+
 	/**
 	 * Save Current scheduler updating values from grid
 	 */
@@ -497,8 +522,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -625,21 +649,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
+				+ SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
 				SchedulerComposer.this.revision_time_in.setValue(null);
-			}
-			else {
+			} else {
 				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
 			}
 
 			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
 				SchedulerComposer.this.revision_time_out.setValue(null);
-			}
-			else {
+			} else {
 				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
 			}
 
@@ -653,8 +676,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// this.listbox_revision.setModel(new
 			// ListModelList<Detail_Schedule>(this.list_details));
 
-		}
-		else {
+		} else {
 			// if we haven't information about schedule
 			SchedulerComposer.this.revision_time_in.setValue(null);
 			SchedulerComposer.this.revision_time_out.setValue(null);
@@ -676,6 +698,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
 		SchedulerComposer.this.program_task.setModel(new ListModelList<UserTask>(list));
 		SchedulerComposer.this.revision_task.setModel(new ListModelList<UserTask>(list));
+
+		// set task selection
+		this.program_task.setSelectedItem(null);
+		this.revision_task.setSelectedItem(null);
 
 		// show info table
 		SchedulerComposer.this.info_scheduler.setVisible(true);

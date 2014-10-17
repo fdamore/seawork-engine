@@ -65,10 +65,13 @@ select
 from
     schedule_view sw
         left join
-    detail_schedule ds ON (sw.id = ds.id_schedule and (sw.date_schedule >=
-		#{date_from} and sw.date_schedule <= #{date_to}))
+    detail_schedule ds ON (sw.id = ds.id_schedule)
+where
+    (sw.date_schedule >= #{date_from})
+        and (sw.date_schedule <= #{date_to})
+        or (sw.date_schedule is null)
 group by sw.user , sw.id , ds.shift
-order by sw.user asc, sw.date_schedule asc;
+order by sw.user asc , sw.date_schedule asc;
 ]]>
 	</select>
 
