@@ -181,7 +181,7 @@
 
 		<space></space>
 
-		<panel border="none" collapsible="false" title="Rapporto"
+		<panel border="none" collapsible="false" title="Rapporto Giornaliero"
 			sclass="transparent">
 			<caption>
 

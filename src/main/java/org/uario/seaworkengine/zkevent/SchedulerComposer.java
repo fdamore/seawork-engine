@@ -630,14 +630,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
-				SchedulerComposer.this.revision_time_in.setValue(date_schedule);
+				SchedulerComposer.this.revision_time_in.setValue(null);
 			}
 			else {
 				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
 			}
 
 			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
-				SchedulerComposer.this.revision_time_out.setValue(date_schedule);
+				SchedulerComposer.this.revision_time_out.setValue(null);
 			}
 			else {
 				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
