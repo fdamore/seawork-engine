@@ -6,7 +6,7 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class ConverterShift3 implements TypeConverter {
 
-	private static final String	NO_DATA	= "X";
+	private static final String	NO_DATA	= "_";
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {

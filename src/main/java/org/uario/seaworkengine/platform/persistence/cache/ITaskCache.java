@@ -2,23 +2,23 @@ package org.uario.seaworkengine.platform.persistence.cache;
 
 import java.util.List;
 
-import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.model.UserTask;
 
-public interface IShiftCache {
+public interface ITaskCache {
 
 	/**
 	 * Build caches
-	 * 
+	 *
 	 * @param caches
 	 */
-	public void buildCache(List<UserShift> caches);
+	public void buildCache(List<UserTask> caches);
 
 	/**
 	 * Get UserShift
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
-	public UserShift getUserShift(Integer id);
+	public UserTask getUserTask(Integer id);
 
 }

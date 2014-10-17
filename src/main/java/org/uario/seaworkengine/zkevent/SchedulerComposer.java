@@ -111,10 +111,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A						scheduler_label;
 
 	// selected week
-	private String					selectedDay;
+	private Integer					selectedDay;
 
 	// selected shift
-	private String					selectedShift;
+	private Integer					selectedShift;
 
 	/**
 	 * User selected to schedule
@@ -130,7 +130,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		if ((this.selectedShift == null) || !NumberUtils.isNumber(this.selectedShift)) {
+		if (this.selectedShift == null) {
 			return;
 		}
 
@@ -157,13 +157,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final DetailSchedule new_item = new DetailSchedule();
 		new_item.setId_schedule(this.currentSchedule.getId());
-		new_item.setShift(Integer.parseInt(this.selectedShift));
+		new_item.setShift(this.selectedShift);
 		new_item.setTime_initial(time);
 		new_item.setTask_initial(task.getId());
 
 		// update program list
 		this.list_details_program.add(new_item);
-		this.listbox_program.setModel(new ListModelList<DetailSchedule>(this.list_details_program));
+		final ListModelList<DetailSchedule> model = new ListModelList<DetailSchedule>(this.list_details_program);
+		model.setMultiple(true);
+		this.listbox_program.setModel(model);
 
 	}
 
@@ -219,9 +221,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param day
 	 * @return
 	 */
-	private Date getDateScheduled(final String day) {
-		final Integer days = Integer.parseInt(day);
-		final int to_add = days.intValue() - 1;
+	private Date getDateScheduled(final Integer day) {
+		final int to_add = day - 1;
 
 		final Calendar calendar_day = Calendar.getInstance();
 		calendar_day.setTime(SchedulerComposer.this.date_init_scheduler.getValue());
@@ -330,7 +331,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.saveCurrentScheduler();
 		}
 
-		this.scheduleDAO.saveListDetailScheduler(this.currentSchedule.getId(), this.list_details_program);
+		this.scheduleDAO.saveListDetailScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_program);
 
 		// refresh grid, but keep the info editor visible
 		this.setupGlobalSchedulerGrid(true);
@@ -441,28 +442,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID);
 		final Date final_date = calendar.getTime();
 
-		final List<RowSchedule> list_row = this.setupRowsScheduler(initial_date, final_date);
-
-		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
-
-		// close info scheduler
-		this.info_scheduler.setVisible(info_visibility);
-
-	}
-
-	/**
-	 * setup RowScheduler
-	 *
-	 * @param initial_date
-	 * @param final_date
-	 * @return
-	 */
-	private List<RowSchedule> setupRowsScheduler(final Date initial_date, final Date final_date) {
-
 		final List<Schedule> list = this.scheduleDAO.selectSchedulers(initial_date, final_date);
 
-		final ArrayList<RowSchedule> ret = new ArrayList<RowSchedule>();
-
+		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
 
 		for (int i = 0; i < list.size(); i++) {
@@ -475,55 +457,56 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow = new RowSchedule();
 				currentRow.setUser(schedule.getUser());
 				currentRow.setName_user(schedule.getName_user());
-				ret.add(currentRow);
+				list_row.add(currentRow);
+
+				// set items for current row
+				currentRow.setItem_1(new ItemRowSchedule());
+				currentRow.setItem_2(new ItemRowSchedule());
+				currentRow.setItem_3(new ItemRowSchedule());
+				currentRow.setItem_4(new ItemRowSchedule());
+				currentRow.setItem_5(new ItemRowSchedule());
+				currentRow.setItem_6(new ItemRowSchedule());
+				currentRow.setItem_7(new ItemRowSchedule());
 			}
 
-			// get day on calendar
+			// set correct day
 			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule);
+			final ItemRowSchedule itemsRow = this.getItemRowSchedule(schedule);
 
-			for (int day = 1; day <= 7; day++) {
+			if (day_on_current_calendar == 1) {
+				currentRow.setItem_1(itemsRow);
+			}
 
-				ItemRowSchedule itemsRow;
+			if (day_on_current_calendar == 2) {
+				currentRow.setItem_2(itemsRow);
+			}
 
-				if (day != day_on_current_calendar) {
-					itemsRow = new ItemRowSchedule();
+			if (day_on_current_calendar == 3) {
+				currentRow.setItem_3(itemsRow);
+			}
 
-				} else {
-					itemsRow = this.getItemRowSchedule(schedule);
-				}
+			if (day_on_current_calendar == 4) {
+				currentRow.setItem_4(itemsRow);
+			}
 
-				if (day == 1) {
-					currentRow.setItem_1(itemsRow);
-				}
+			if (day_on_current_calendar == 5) {
+				currentRow.setItem_5(itemsRow);
+			}
 
-				if (day == 2) {
-					currentRow.setItem_2(itemsRow);
-				}
+			if (day_on_current_calendar == 6) {
+				currentRow.setItem_6(itemsRow);
+			}
 
-				if (day == 3) {
-					currentRow.setItem_3(itemsRow);
-				}
-
-				if (day == 4) {
-					currentRow.setItem_4(itemsRow);
-				}
-
-				if (day == 5) {
-					currentRow.setItem_5(itemsRow);
-				}
-
-				if (day == 6) {
-					currentRow.setItem_6(itemsRow);
-				}
-
-				if (day == 7) {
-					currentRow.setItem_7(itemsRow);
-				}
+			if (day_on_current_calendar == 7) {
+				currentRow.setItem_7(itemsRow);
 			}
 
 		}
 
-		return ret;
+		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
+
+		// close info scheduler
+		this.info_scheduler.setVisible(info_visibility);
 
 	}
 
@@ -542,16 +525,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
-		SchedulerComposer.this.selectedDay = info[1];
-		SchedulerComposer.this.selectedShift = info[2];
-		this.selectedUser = row_scheduler.getUser();
+		if (info.length != 3) {
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 
 		// info check
-		if (!NumberUtils.isNumber(SchedulerComposer.this.selectedDay) || !NumberUtils.isNumber(SchedulerComposer.this.selectedShift)) {
+		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
 
 			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
+
+		SchedulerComposer.this.selectedDay = Integer.parseInt(info[1]);
+		SchedulerComposer.this.selectedShift = Integer.parseInt(info[2]);
+		this.selectedUser = row_scheduler.getUser();
 
 		final Date date_schedule = SchedulerComposer.this.getDateScheduled(SchedulerComposer.this.selectedDay);
 
@@ -580,8 +568,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
-			this.list_details_program = this.scheduleDAO.loadDetailScheduleByIdSchedule(this.currentSchedule.getId());
-			this.listbox_program.setModel(new ListModelList<DetailSchedule>(this.list_details_program));
+			this.list_details_program = this.scheduleDAO.loadDetailScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
 
 			// TODO: set revision list
 			// this.listbox_revision.setModel(new
@@ -595,7 +582,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.listbox_program.getItems().clear();
 			this.listbox_revision.getItems().clear();
 
+			// set list program and revision
+			this.list_details_program = new ArrayList<DetailSchedule>();
+
 		}
+
+		// set model list program and revision
+		final ListModelList<DetailSchedule> model = new ListModelList<DetailSchedule>(this.list_details_program);
+		model.setMultiple(true);
+		this.listbox_program.setModel(model);
 
 		// set combo task
 		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());

@@ -40,10 +40,14 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DetailSchedule> loadDetailScheduleByIdSchedule(final Integer id_schedule) {
+	public List<DetailSchedule> loadDetailScheduleByIdScheduleAndShift(final Integer id_schedule, final Integer shift) {
 		MyBatisScheduleDAO.logger.info("loadDetail_ScheduleByIdSchedule");
 
-		return this.getSqlSession().selectList("schedule.loadDetail_ScheduleByIdSchedule", id_schedule);
+		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("id_schedule", id_schedule);
+		map.put("shift", shift);
+
+		return this.getSqlSession().selectList("schedule.loadDetail_ScheduleByIdSchedule", map);
 	}
 
 	@Override
@@ -66,14 +70,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<Schedule> loadScheduleByDate(final Date date_schedule) {
-		MyBatisScheduleDAO.logger.info("loadScheduleByDate");
-
-		final List<Schedule> list_schedules = this.getSqlSession().selectList("schedule.loadScheduleByDate", date_schedule);
-		return list_schedules;
-	}
-
-	@Override
 	public void removeDetailSchedule(final Integer id_detail_schedule) {
 		MyBatisScheduleDAO.logger.info("removeDetail_Schedule");
 
@@ -90,10 +86,14 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 	@Override
 	@Transactional
-	public void saveListDetailScheduler(final Integer id_schedule, final List<DetailSchedule> details) {
+	public void saveListDetailScheduler(final Integer id_schedule, final Integer shift, final List<DetailSchedule> details) {
+
+		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("id_schedule", id_schedule);
+		map.put("shift", shift);
 
 		// delete all detail
-		this.getSqlSession().delete("schedule.removeAllDetailScheduleOnSchedule", id_schedule);
+		this.getSqlSession().delete("schedule.removeAllDetailScheduleOnSchedule", map);
 
 		// add all details
 		for (final DetailSchedule item_detail : details) {

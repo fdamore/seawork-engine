@@ -14,19 +14,17 @@ public interface ISchedule {
 
 	public DetailSchedule loadDetailSchedule(Integer id);
 
-	public List<DetailSchedule> loadDetailScheduleByIdSchedule(Integer id_schedule);
+	public List<DetailSchedule> loadDetailScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
 	public Schedule loadSchedule(Date date_scheduler, Integer id_user);
 
 	public Schedule loadSchedule(Integer id_schedule);
 
-	public List<Schedule> loadScheduleByDate(Date date_schedule);
-
 	public void removeDetailSchedule(Integer id_detail_schedule);
 
 	public void removeSchedule(Integer id);
 
-	public void saveListDetailScheduler(Integer id_schedule, List<DetailSchedule> details);
+	public void saveListDetailScheduler(Integer id_schedule, Integer shift, List<DetailSchedule> details);
 
 	public void saveOrUpdate(Schedule currentSchedule);
 

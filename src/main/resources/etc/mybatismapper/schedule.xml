@@ -44,8 +44,8 @@
 		DELETE FROM schedule
 		WHERE id = #{id};
 	</delete>
-	
-	
+
+
 
 	<select id="selectSchedule" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
@@ -54,7 +54,7 @@
 		s.date_schedule, s.note, s.from_time, s.to_time, s.editor,
 		s.controller,
 		u.id as user,
-		concat(u.firstname,u.lastname) as name_user
+		concat(u.firstname,' ',u.lastname) as name_user
 		from
 		user u
 		left join
@@ -98,13 +98,12 @@
 	</select>
 
 	<select id="loadDetail_ScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.DetailSchedule"
-		parameterType="int">
+		parameterType="map">
 		SELECT id, id_schedule, shift, task_final, task_initial,
 		time_final, time_initial
 		FROM detail_schedule
 		WHERE id_schedule =
-		#{id_schedule}
-		ORDER BY shift asc;
+		#{id_schedule} and shift = #{shift};
 	</select>
 
 	<delete id="removeDetail_Schedule" parameterType="int">
@@ -112,11 +111,12 @@
 		detail_schedule
 		WHERE id = #{id};
 	</delete>
-	
-	<delete id="removeAllDetailScheduleOnSchedule" parameterType="int">
+
+	<delete id="removeAllDetailScheduleOnSchedule" parameterType="map">
 		DELETE FROM
 		detail_schedule
-		WHERE id_schedule = #{id_schedule};
+		WHERE id_schedule = #{id_schedule} and shift
+		= #{shift};
 	</delete>
 
 	<update id="updateDetailSchedule" parameterType="org.uario.seaworkengine.model.DetailSchedule">

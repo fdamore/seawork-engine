@@ -103,7 +103,7 @@
 							value="@{item_program}">
 							<listcell>
 								<label width="200px"
-									value="@{item_program.task_initial}">
+									value="@{item_program.task_initial, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
 								</label>
 							</listcell>
 							<listcell>
@@ -160,7 +160,7 @@
 							value="@{item_revision}">
 							<listcell>
 								<label width="200px"
-									value="@{item_revision.task_revision}">
+									value="@{item_revision.task_revision, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
 								</label>
 							</listcell>
 							<listcell>
