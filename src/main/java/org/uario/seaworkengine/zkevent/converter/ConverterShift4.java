@@ -23,10 +23,10 @@ public class ConverterShift4 implements TypeConverter {
 
 		final ItemRowSchedule item_schedule = (ItemRowSchedule) arg0;
 
-		if (item_schedule.getAnchor3() == null) {
+		if (item_schedule.getAnchor4() == null) {
 			return ConverterShift4.NO_DATA;
 		} else {
-			return item_schedule.getAnchor3();
+			return item_schedule.getAnchor4();
 		}
 	}
 }

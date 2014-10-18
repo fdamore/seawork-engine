@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -14,8 +15,8 @@ import org.uario.seaworkengine.model.DetailSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserTask;
-import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -50,8 +51,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private static final long		serialVersionUID			= 1L;
 
-	private ConfigurationDAO		configurationDAO;
-
 	private Schedule				currentSchedule;
 
 	@Wire
@@ -81,6 +80,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox					note;
+
+	private PersonDAO				personDAO;
 
 	@Wire
 	private Comboitem				program_item;
@@ -220,8 +221,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
 
 		this.scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
-		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		this.taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+		this.personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
 
@@ -549,6 +550,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
 
+		// create a map for define people scheduled
+		final HashMap<Integer, Object> sign_scheduled = new HashMap<Integer, Object>();
+
 		for (int i = 0; i < list.size(); i++) {
 
 			final Schedule schedule = list.get(i);
@@ -569,6 +573,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow.setItem_5(new ItemRowSchedule(schedule));
 				currentRow.setItem_6(new ItemRowSchedule(schedule));
 				currentRow.setItem_7(new ItemRowSchedule(schedule));
+
+				// sign person scheduled
+				sign_scheduled.put(schedule.getUser(), new Object());
 			}
 
 			// set correct day
@@ -602,6 +609,31 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (day_on_current_calendar == 7) {
 				currentRow.setItem_7(itemsRow);
 			}
+
+		}
+
+		// get all user to schedule
+		final List<Person> users_schedule = this.personDAO.listAllPersons();
+
+		for (final Person person : users_schedule) {
+			if (sign_scheduled.containsKey(person.getId())) {
+				continue;
+			}
+
+			final RowSchedule addedRow = new RowSchedule();
+			addedRow.setUser(person.getId());
+			addedRow.setName_user(person.getIndividualName());
+
+			// set items for current row
+			addedRow.setItem_1(new ItemRowSchedule());
+			addedRow.setItem_2(new ItemRowSchedule());
+			addedRow.setItem_3(new ItemRowSchedule());
+			addedRow.setItem_4(new ItemRowSchedule());
+			addedRow.setItem_5(new ItemRowSchedule());
+			addedRow.setItem_6(new ItemRowSchedule());
+			addedRow.setItem_7(new ItemRowSchedule());
+
+			list_row.add(addedRow);
 
 		}
 
