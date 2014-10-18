@@ -51,27 +51,25 @@
 		parameterType="map">
 	<![CDATA[
 select 
-    sw.id,
-    ds.shift,
+    s.id,
+ds.shift,
     sum(ds.time_initial) as program_time,
-    sw.date_schedule,
-    sw.note,
-    sw.from_time,
-    sw.to_time,
-    sw.editor,
-    sw.controller,
-    sw.user,
-    sw.name_user
+    s.date_schedule,
+    s.note,
+    s.from_time,
+    s.to_time,
+    s.editor,
+    s.controller,
+    u.id as user,
+    concat(u.firstname, ' ', u.lastname) AS name_user
 from
-    schedule_view sw
-        left join
-    detail_schedule ds ON (sw.id = ds.id_schedule)
+    user u,
+    schedule s left join
+    detail_schedule ds ON (s.id = ds.id_schedule)
 where
-    (sw.date_schedule >= #{date_from})
-        and (sw.date_schedule <= #{date_to})
-        or (sw.date_schedule is null)
-group by sw.user , sw.id , ds.shift
-order by sw.user asc , sw.date_schedule asc;
+    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule <= #{date_to}
+group by user , s.id , ds.shift
+order by user, s.date_schedule asc
 ]]>
 	</select>
 
