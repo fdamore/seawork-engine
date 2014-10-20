@@ -288,7 +288,7 @@
 		bill_center,
 		department,
 		npass,
-		nbudge,
+		nbudge
 		)
 		VALUES
 		(#{email},

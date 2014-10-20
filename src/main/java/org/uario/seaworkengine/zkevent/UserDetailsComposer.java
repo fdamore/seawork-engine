@@ -80,9 +80,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox						current_position_user;
 
 	@Wire
-	private Datebox						date_fired_user;
-
-	@Wire
 	private Textbox						department_user;
 
 	@Wire
@@ -117,9 +114,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox						employee_level_user;
-
-	@Wire
-	private Datebox						employment_date_user;
 
 	@Wire
 	private Textbox						family_charge_user;
@@ -644,8 +638,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_date_user.setValue(null);
 		this.birth_place_user.setValue("");
 		this.education_user.setValue("");
-		this.employment_date_user.setValue(null);
-		this.date_fired_user.setValue(null);
 		this.country_user.setValue("");
 		this.ncfl_user.setValue("");
 		this.department_user.setValue("");
