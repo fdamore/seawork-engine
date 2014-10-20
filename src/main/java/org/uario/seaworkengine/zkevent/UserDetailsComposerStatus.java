@@ -201,7 +201,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			item = new Employment();
 
 			// setup item with values
-			this.setupItemWithValues(item);
+			if (!this.setupItemWithValues(item)) {
+				return;
+			}
 
 			this.employmentDao.createEmploymentForUser(this.person_selected.getId(), item);
 
@@ -218,7 +220,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			}
 
 			// add values to the items
-			this.setupItemWithValues(item);
+			if (!this.setupItemWithValues(item)) {
+				return;
+			}
 
 			this.employmentDao.updateEmployment(item);
 		}
@@ -277,7 +281,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		this.grid_details.setVisible(false);
 	}
 
-	private void setupItemWithValues(final Employment item) {
+	private Boolean setupItemWithValues(final Employment item) {
 
 		item.setNote(this.note.getValue());
 
@@ -285,10 +289,18 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		if (this.status.getSelectedItem() != null) {
 			final String status_val = this.status.getSelectedItem().getValue();
 			item.setStatus(status_val);
+		} else {
+			Messagebox.show("Selezionare Status Utente!", "Info", Messagebox.OK, Messagebox.INFORMATION);
+			return false;
+		}
+
+		if (this.date_modifiled.getValue() == null) {
+			Messagebox.show("Selezionare una data!", "Info", Messagebox.OK, Messagebox.INFORMATION);
+			return false;
 		}
 
 		item.setDate_modified(this.date_modifiled.getValue());
-
+		return true;
 	}
 
 }
