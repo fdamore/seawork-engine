@@ -12,7 +12,7 @@ public class UserStatusConverter implements TypeConverter {
 	private static final String	RIAPERTO		= "RIAPERTO";
 	private static final String	RIASSEGNATO		= "RIASSEGNATO";
 	private static final String	SUSPENDED		= "SOSPESO";
-	private static final String	UNDEFINED		= "NON DEFINITIO";
+	private static final String	UNDEFINED		= "NON DEFINITIVO";
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
