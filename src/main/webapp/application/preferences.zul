@@ -296,6 +296,12 @@
 								</combobox>
 							</row>
 
+							<row id="row_force">
+								<label value="Forzabile:"></label>
+								<checkbox id="forceable"/>
+							</row>
+
+
 						</rows>
 					</grid>
 
@@ -351,6 +357,7 @@
 				<listheader label="Descrizione"
 					sort="auto(description)" />
 				<listheader label="Tipo di Turno" />
+				<listheader label="Forzabile" />
 				<listheader label="" />
 			</listhead>
 
@@ -365,7 +372,10 @@
 				<listcell
 					label="@{shift_item.us_type, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
 
-
+				<listcell>
+					<checkbox checked="@{shift_item.forceable}"
+						disabled="true" />
+				</listcell>
 
 				<listcell>
 

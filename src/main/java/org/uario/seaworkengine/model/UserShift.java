@@ -13,6 +13,8 @@ public class UserShift implements Serializable {
 
 	private String				description;
 
+	private Boolean				forceable;
+
 	private Integer				id;
 
 	private String				us_type;
@@ -23,6 +25,10 @@ public class UserShift implements Serializable {
 
 	public String getDescription() {
 		return this.description;
+	}
+
+	public Boolean getForce() {
+		return this.forceable;
 	}
 
 	public Integer getId() {
@@ -39,6 +45,10 @@ public class UserShift implements Serializable {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public void setForce(final Boolean force) {
+		this.forceable = force;
 	}
 
 	public void setId(final Integer id) {

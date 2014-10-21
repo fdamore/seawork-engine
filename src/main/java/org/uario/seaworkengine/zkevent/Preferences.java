@@ -17,6 +17,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
@@ -55,6 +56,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox				docrepo;
+
+	@Wire
+	private Checkbox			force;
 
 	@Wire
 	private Div					grid_shift_details;
@@ -98,6 +102,11 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
 		shift.setUs_type(us_type);
+		if (this.force.isChecked()) {
+			shift.setForce(true);
+		} else {
+			shift.setForce(false);
+		}
 		this.configurationDao.createShift(shift);
 
 		this.refreshShiftList();
@@ -220,6 +229,11 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.code_shift.setValue(shift.getCode());
 		this.description_shift.setValue(shift.getDescription());
+		if (this.force.isChecked()) {
+			shift.setForce(true);
+		} else {
+			shift.setForce(false);
+		}
 
 		// set type shift
 		final String shft = shift.getUs_type();
@@ -252,6 +266,11 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
 		shift.setUs_type(us_type);
+		if (this.force.isChecked()) {
+			shift.setForce(true);
+		} else {
+			shift.setForce(false);
+		}
 
 		this.configurationDao.updateShift(shift);
 

@@ -77,7 +77,6 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	public void updateShift(final UserShift shift) {
 		MyBatisConfigurationDAO.logger.info("Update person with id " + shift.getId());
 		this.getSqlSession().update("configuration.updateShift", shift);
-
 	}
 
 	@Override
