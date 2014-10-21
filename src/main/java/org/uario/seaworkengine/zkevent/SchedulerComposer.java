@@ -728,12 +728,39 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set combo task
 		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
-		SchedulerComposer.this.program_task.setModel(new ListModelList<UserTask>(list));
-		SchedulerComposer.this.revision_task.setModel(new ListModelList<UserTask>(list));
 
-		// set task selection
 		this.program_task.setSelectedItem(null);
+		this.program_task.getChildren().clear();
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+			this.program_task.appendChild(combo_item);
+
+			// set if default
+			if (task_item.getTask_default()) {
+				this.program_task.setSelectedItem(combo_item);
+			}
+
+		}
+
 		this.revision_task.setSelectedItem(null);
+		this.revision_task.getChildren().clear();
+
+		this.revision_task.getItems().clear();
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+			this.revision_task.appendChild(combo_item);
+
+			// set if default
+			if (task_item.getTask_default()) {
+				this.revision_task.setSelectedItem(combo_item);
+			}
+
+		}
 
 		// show info table
 		SchedulerComposer.this.info_scheduler.setVisible(true);

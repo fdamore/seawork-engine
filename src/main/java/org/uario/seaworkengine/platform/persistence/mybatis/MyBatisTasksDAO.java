@@ -41,6 +41,15 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 	}
 
 	@Override
+	public UserTask getDefault(final Integer id_user) {
+		MyBatisTasksDAO.logger.info("getDefault");
+
+		// return default
+		return this.getSqlSession().selectOne("tasks.getDefault", id_user);
+
+	}
+
+	@Override
 	public boolean isTaskAssigned(final Integer id_user, final Integer id_task) {
 
 		MyBatisTasksDAO.logger.info("Get Task assigned");
