@@ -218,7 +218,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NONAME;
 
-		} else {
+		}
+		else {
 			return this.firstname;
 		}
 
@@ -236,7 +237,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		final String ret = this.getFirstname() + " " + this.getLastname();
 		if (ret.trim().equals("")) {
 			return this.getEmail();
-		} else {
+		}
+		else {
 			return ret;
 		}
 	}
@@ -247,7 +249,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NOSURNAME;
 
-		} else {
+		}
+		else {
 			return this.lastname;
 		}
 
@@ -352,6 +355,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	@Override
 	public boolean isEnabled() {
+		if ((this.password == null) || this.password.equals("")) {
+			return false;
+		}
+
 		return this.enabled;
 	}
 
@@ -520,7 +527,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	public String toString() {
 		if (this.getIndividualName() == null) {
 			return "";
-		} else {
+		}
+		else {
 			return this.getIndividualName();
 		}
 	}

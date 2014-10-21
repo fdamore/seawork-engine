@@ -67,7 +67,7 @@ from
     schedule s left join
     detail_schedule ds ON (s.id = ds.id_schedule)
 where
-    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule <= #{date_to}
+    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to}
 group by user , s.id , ds.shift
 order by user, s.date_schedule asc
 ]]>
