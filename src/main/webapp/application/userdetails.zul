@@ -24,7 +24,7 @@
 			<tabs>
 				<tab label="Informazioni Generali" id="detail_user_tab"
 					selected="true" />
-				<tab label="Mail Utente" visible="false"
+				<tab label="Mail Utente (Username)" visible="false"
 					id="mail_user_tab" />
 				<tab label="Password Utente" visible="false"
 					id="password_user_tab" />
@@ -69,26 +69,26 @@
 								</columns>
 								<rows>
 									<row>
-										<label value="E-mail:"></label>
+										<label
+											value="Username (email):">
+										</label>
 										<textbox id="email_user"
-											mold="rounded"
-											constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+											mold="rounded" />
 
 									</row>
 
 									<row>
 										<label value="Status"></label>
-										<label id="user_status" ></label>
+										<label id="user_status"></label>
 
 									</row>
 
 									<row id="row_email_user_retype">
 										<label
-											value="Ridigita E-mail:">
+											value="Ridigita Username:">
 										</label>
 										<textbox id="email_user_retype"
-											mold="rounded"
-											constraint="/.+@.+\.[a-z]+/: Please enter an e-mail address" />
+											mold="rounded" />
 
 									</row>
 
@@ -229,9 +229,9 @@
 										<textbox id="education_user" />
 									</row>
 
-									
 
-									
+
+
 									<row>
 										<label
 											value="Identificativo Contratto (n. cfl):">
@@ -541,7 +541,7 @@
 			<listheader label="Nome" sort="auto(individualName)" />
 			<listheader label="Città" sort="auto(city)" />
 			<listheader label="Telefono" sort="auto(phone)" />
-			<listheader label="Mail" sort="auto(email)" />
+			<listheader label="Username" sort="auto(email)" />
 			<listheader label="Ruolo" />
 			<listheader label="" />
 		</listhead>

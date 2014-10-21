@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -225,19 +226,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
 
 		// check info mail
-		final String mail = this.email_user.getValue();
-		final String retype_mail = this.email_user_retype.getValue();
-		if (!retype_mail.equals(mail)) {
-			Messagebox.show("Ridigita la Mail!", "ERROR", Messagebox.OK, Messagebox.ERROR);
-			return;
-		}
+		String mail = this.email_user.getValue();
 
-		// check info password
-		final String retype_password = this.password_user_retype.getValue();
-		final String password = this.password_user.getValue();
-		if (retype_password.equals("") || !retype_password.equals(password)) {
-			Messagebox.show("Ridigita la password!", "ERROR", Messagebox.OK, Messagebox.ERROR);
-			return;
+		if ((mail != null) && !mail.equals("")) {
+
+			final String retype_mail = this.email_user_retype.getValue();
+			if (!retype_mail.equals(mail)) {
+				Messagebox.show("Ridigita Username!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+				return;
+			}
+		}
+		else {
+			mail = "" + Calendar.getInstance().getTimeInMillis();
 		}
 
 		// check mail single....
@@ -247,10 +247,22 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		final String password = this.password_user.getValue();
+
+		if ((password != null) && !password.equals("")) {
+			// check info password
+			final String retype_password = this.password_user_retype.getValue();
+
+			if (retype_password.equals("") || !retype_password.equals(password)) {
+				Messagebox.show("Ridigita la password!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+				return;
+			}
+		}
+
 		final Person person = new Person();
 		person.setAddress(this.address_user.getValue());
 		person.setCity(this.city_user.getValue());
-		person.setEmail(this.email_user.getValue());
+		person.setEmail(mail);
 		person.setFirstname(this.firstname_user.getValue());
 		person.setLastname(this.lastname_user.getValue());
 		person.setPassword(this.password_user.getValue());
@@ -393,11 +405,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_link_deleteuser")
+	public void defineDeleteView() {
+
+		// take person
+		this.person_selected = this.sw_list_user.getSelectedItem().getValue();
+
+	}
+
 	@Listen("onClick = #sw_link_modifyeuser")
 	public void defineModifyView() {
 
-		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null) || !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
 
@@ -486,12 +505,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
-			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
-					Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO", Messagebox.OK, Messagebox.ERROR);
 
 		}
 
@@ -620,8 +639,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	 * Reset data on user grid
 	 */
 	private void resetDataInfo() {
-		this.email_user.setValue("info@seawork.com");
-		this.email_user_retype.setValue("info@seawork.com");
+		this.email_user.setValue(null);
+		this.email_user_retype.setValue(null);
 		this.password_user.setValue("");
 		this.password_user_retype.setValue("");
 		this.firstname_user.setValue("NOME");
