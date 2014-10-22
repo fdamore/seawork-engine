@@ -16,9 +16,16 @@
 	<!-- USER EDITOR -->
 	<div id="grid_user_details" visible="false">
 
-		<toolbarbutton label="Chiudi Anagrafica" style="color: blue"
+
+		<a id="userName" iconSclass="z-icon-angle-double-right"
+			sclass="subtitle" />
+
+
+		<button label="Chiudi Anagrafica" sclass="btn-danger"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">
-		</toolbarbutton>
+		</button>
+
+		<separator></separator>
 
 		<tabbox>
 			<tabs>
@@ -47,8 +54,6 @@
 						sclass="transparent">
 						<caption iconSclass="z-icon-star orange"
 							label="Dettagli utente">
-
-
 
 							<toolbarbutton id="add_users_command"
 								label="Aggiungi Utente" style="color: blue" visible="false">
