@@ -27,7 +27,7 @@ public class UserShift implements Serializable {
 		return this.description;
 	}
 
-	public Boolean getForce() {
+	public Boolean getForceable() {
 		return this.forceable;
 	}
 
@@ -47,8 +47,8 @@ public class UserShift implements Serializable {
 		this.description = description;
 	}
 
-	public void setForce(final Boolean force) {
-		this.forceable = force;
+	public void setForceable(final Boolean forceable) {
+		this.forceable = forceable;
 	}
 
 	public void setId(final Integer id) {

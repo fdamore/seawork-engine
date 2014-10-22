@@ -58,7 +58,7 @@ public class Preferences extends SelectorComposer<Component> {
 	private Textbox				docrepo;
 
 	@Wire
-	private Checkbox			force;
+	private Checkbox			forceable;
 
 	@Wire
 	private Div					grid_shift_details;
@@ -102,10 +102,10 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
 		shift.setUs_type(us_type);
-		if (this.force.isChecked()) {
-			shift.setForce(true);
+		if (this.forceable.isChecked()) {
+			shift.setForceable(true);
 		} else {
-			shift.setForce(false);
+			shift.setForceable(false);
 		}
 		this.configurationDao.createShift(shift);
 
@@ -229,10 +229,10 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.code_shift.setValue(shift.getCode());
 		this.description_shift.setValue(shift.getDescription());
-		if (this.force.isChecked()) {
-			shift.setForce(true);
+		if (shift.getForceable()) {
+			this.forceable.setChecked(true);
 		} else {
-			shift.setForce(false);
+			this.forceable.setChecked(false);
 		}
 
 		// set type shift
@@ -266,10 +266,10 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
 		shift.setUs_type(us_type);
-		if (this.force.isChecked()) {
-			shift.setForce(true);
+		if (this.forceable.isChecked()) {
+			shift.setForceable(true);
 		} else {
-			shift.setForce(false);
+			shift.setForceable(false);
 		}
 
 		this.configurationDao.updateShift(shift);

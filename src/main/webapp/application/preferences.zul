@@ -121,7 +121,7 @@
 					<grid sclass="domain">
 						<columns>
 							<column label="Tipo" />
-							<column label="Inforamzioni" />
+							<column label="Informazioni" />
 						</columns>
 						<rows>
 
@@ -296,7 +296,7 @@
 								</combobox>
 							</row>
 
-							<row id="row_force">
+							<row id="row_forceable">
 								<label value="Forzabile:"></label>
 								<checkbox id="forceable"/>
 							</row>
