@@ -266,7 +266,7 @@
 					<grid sclass="domain">
 						<columns>
 							<column label="Tipo" />
-							<column label="Inforamzioni" />
+							<column label="Informazioni" />
 						</columns>
 						<rows>
 

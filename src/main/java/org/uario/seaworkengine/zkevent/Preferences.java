@@ -9,6 +9,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ParamsTag;
+import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -103,7 +104,7 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setDescription(this.description_shift.getValue());
 
 		if (us_type != null) {
-			if (us_type.equals("TURNO DI ASSENZA")) {
+			if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
 				shift.setUs_type(false);
 			} else {
 				shift.setUs_type(true);
@@ -247,9 +248,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 		if (shift.getUs_type() != null) {
 			if (!shift.getUs_type()) {
-				shft = "TURNO DI ASSENZA";
+				shft = ShiftTag.ABSENCE_SHIFT;
 			} else {
-				shft = "TURNO DI LAVORO";
+				shft = ShiftTag.WORK_SHIFT;
 			}
 		}
 
@@ -271,6 +272,7 @@ public class Preferences extends SelectorComposer<Component> {
 	public void modifyShiftCommand() {
 
 		if (this.type_shift.getSelectedItem() == null) {
+			this.grid_shift_details.setVisible(false);
 			return;
 		}
 
@@ -281,7 +283,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
-		if (us_type.equals("TURNO DI ASSENZA")) {
+		if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
 			shift.setUs_type(false);
 		} else {
 			shift.setUs_type(true);

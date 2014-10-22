@@ -1,15 +1,14 @@
 package org.uario.seaworkengine.zkevent.converter;
 
+import org.uario.seaworkengine.utility.ShiftTag;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
 public class ShiftTypeConverter implements TypeConverter {
 
-	private static final String	ABSENCE			= "false";
-	private static final String	ABSENCE_INFO	= "TURNO DI ASSENZA";
+	private static final String	ABSENCE	= "false";
 
-	private static final String	WORK			= "true";
-	private static final String	WORK_INFO		= "TURNO DI LAVORO";
+	private static final String	WORK	= "true";
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -27,12 +26,12 @@ public class ShiftTypeConverter implements TypeConverter {
 		final String shift = arg0.toString();
 
 		if (shift.equals(ShiftTypeConverter.ABSENCE)) {
-			return ShiftTypeConverter.ABSENCE_INFO;
+			return ShiftTag.ABSENCE_SHIFT;
 
 		}
 
 		if (shift.equals(ShiftTypeConverter.WORK)) {
-			return ShiftTypeConverter.WORK_INFO;
+			return ShiftTag.WORK_SHIFT;
 
 		}
 
