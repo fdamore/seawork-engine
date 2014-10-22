@@ -101,7 +101,14 @@ public class Preferences extends SelectorComposer<Component> {
 		final UserShift shift = new UserShift();
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
-		shift.setUs_type(us_type);
+
+		if (us_type != null) {
+			if (us_type.equals("TURNO DI ASSENZA")) {
+				shift.setUs_type(false);
+			} else {
+				shift.setUs_type(true);
+			}
+		}
 		if (this.forceable.isChecked()) {
 			shift.setForceable(true);
 		} else {
@@ -236,7 +243,16 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 
 		// set type shift
-		final String shft = shift.getUs_type();
+		String shft = null;
+
+		if (shift.getUs_type() != null) {
+			if (!shift.getUs_type()) {
+				shft = "TURNO DI ASSENZA";
+			} else {
+				shft = "TURNO DI LAVORO";
+			}
+		}
+
 		if ((shft == null) || shft.equals("")) {
 			this.type_shift.setSelectedItem(null);
 		} else {
@@ -265,7 +281,12 @@ public class Preferences extends SelectorComposer<Component> {
 
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
-		shift.setUs_type(us_type);
+		if (us_type.equals("TURNO DI ASSENZA")) {
+			shift.setUs_type(false);
+		} else {
+			shift.setUs_type(true);
+		}
+
 		if (this.forceable.isChecked()) {
 			shift.setForceable(true);
 		} else {

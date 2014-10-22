@@ -5,10 +5,10 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class ShiftTypeConverter implements TypeConverter {
 
-	private static final String	ABSENCE			= "A";
+	private static final String	ABSENCE			= "false";
 	private static final String	ABSENCE_INFO	= "TURNO DI ASSENZA";
 
-	private static final String	WORK			= "W";
+	private static final String	WORK			= "true";
 	private static final String	WORK_INFO		= "TURNO DI LAVORO";
 
 	@Override
