@@ -88,154 +88,187 @@
 
 	<space></space>
 
-	<!-- TASK -->
-	<div>
+	<tabbox>
+		
+		<tabs>
+			<tab label="Mansioni" id="task"
+						selected="true" />
+			<tab label="Turni" 
+						id="shift" />				
+		</tabs>
+		
+		<tabpanels>					
+			
+			<tabpanel>
+				<panel id="panel_task" border="normal"
+						collapsible="false" sclass="transparent">
+						<caption iconSclass="z-icon-star orange"
+							label="Gestione Mansioni">
+						</caption>
 
-		<a label="Mansioni" iconSclass="z-icon-list"
-			sclass="green lighter rcaption" />
-
-		<!-- TASK EDITOR -->
-		<div id="grid_task_details" visible="false">
-
-			<panel border="normal" collapsible="false"
-				sclass="transparent">
-				<caption iconSclass="z-icon-star orange"
-					label="Dettagli Mansione">
-
-					<toolbarbutton label="Chiudi" style="color: blue"
-						onClick="grid_task_details.setVisible(false);add_tasks_command.setVisible(false);modify_tasks_command.setVisible(false);">
+						<panelchildren>									
+			
+								<!-- TASK -->
+								<div>
+		
+				<a label="Mansioni" iconSclass="z-icon-list"
+					sclass="green lighter rcaption" />
+		
+				<!-- TASK EDITOR -->
+				<div id="grid_task_details" visible="false">
+		
+					<panel border="normal" collapsible="false"
+						sclass="transparent">
+						<caption iconSclass="z-icon-star orange"
+							label="Dettagli Mansione">
+		
+							<toolbarbutton label="Chiudi" style="color: blue"
+								onClick="grid_task_details.setVisible(false);add_tasks_command.setVisible(false);modify_tasks_command.setVisible(false);">
+							</toolbarbutton>
+		
+							<toolbarbutton id="add_tasks_command"
+								label="Aggiungi" style="color: blue" visible="false">
+							</toolbarbutton>
+		
+							<toolbarbutton id="modify_tasks_command"
+								label="Modifica" style="color: blue" visible="false">
+							</toolbarbutton>
+		
+						</caption>
+		
+						<panelchildren>
+		
+							<grid sclass="domain">
+								<columns>
+									<column label="Tipo" />
+									<column label="Informazioni" />
+								</columns>
+								<rows>
+		
+									<row id="row_code_task">
+										<label value="Codice:"></label>
+										<textbox id="code_task" mold="rounded" />
+									</row>
+		
+		
+									<row id="row_description_task">
+										<label value="Descrizione:"></label>
+										<textbox id="description_task"
+											mold="rounded" />
+									</row>
+		
+		
+		
+		
+		
+								</rows>
+							</grid>
+		
+		
+						</panelchildren>
+		
+					</panel>
+		
+		
+		
+				</div>
+		
+		
+				<div>
+					<separator></separator>
+		
+					<button id="sw_addtask" sclass="btn-info"
+						label="Aggiungi Mansione"
+						onClick="modify_tasks_command.setVisible(false);add_tasks_command.setVisible(true);grid_task_details.setVisible(true)">
+					</button>
+		
+					<button id="sw_refresh_tasklist" sclass="btn-info"
+						label="Ricarica Lista Mansioni">
+					</button>
+		
+		
+		
+					<separator></separator>
+				</div>
+		
+				<div id="box_deletetask" visible="false">
+		
+					<a label="Vuoi eliminare la mansione selezionata?"
+						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+		
+					<toolbarbutton label="Si" style="color: red"
+						id="deletetask_command">
 					</toolbarbutton>
-
-					<toolbarbutton id="add_tasks_command"
-						label="Aggiungi" style="color: blue" visible="false">
+					<toolbarbutton label="No" style="color: no"
+						onClick="box_deletetask.setVisible(false)">
 					</toolbarbutton>
+		
+				</div>
+		
+		
+		
+				<listbox id="sw_list_task" pagingPosition="both" mold="paging"
+					style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+					pageSize="20">
+					<listhead sizable="true">
+						<listheader label="Codice" />
+						<listheader label="Descrizione"
+							sort="auto(description)" />
+						<listheader label="" />
+					</listhead>
+		
+					<listitem self="@{each='task_item'}" value="@{task_item}">
+		
+		
+		
+						<listcell label="@{task_item.code}" />
+		
+						<listcell label="@{task_item.description}" />
+		
+		
+		
+						<listcell>
+		
+							<toolbarbutton id="sw_link_deletetask"
+								style="color:blue"
+								onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
+								label="Cancella">
+							</toolbarbutton>
+		
+							<toolbarbutton id="sw_link_modifyetask"
+								style="color:blue"
+								onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());add_tasks_command.setVisible(false);modify_tasks_command.setVisible(true);grid_task_details.setVisible(true);"
+								label="Modifica">
+							</toolbarbutton>
+		
+						</listcell>
+		
+		
+		
+		
+					</listitem>
+		
+				</listbox>
+		
+			</div>
+												
+						</panelchildren>
+						</panel>
+			</tabpanel>		
+						
+				
+			<tabpanel>
+				<panel id="panel_shift" border="normal"
+						collapsible="false" sclass="transparent">
+						<caption iconSclass="z-icon-star orange"
+							label="Gestione Turni">							
+						</caption>
 
-					<toolbarbutton id="modify_tasks_command"
-						label="Modifica" style="color: blue" visible="false">
-					</toolbarbutton>
-
-				</caption>
-
-				<panelchildren>
-
-					<grid sclass="domain">
-						<columns>
-							<column label="Tipo" />
-							<column label="Informazioni" />
-						</columns>
-						<rows>
-
-							<row id="row_code_task">
-								<label value="Codice:"></label>
-								<textbox id="code_task" mold="rounded" />
-							</row>
-
-
-							<row id="row_description_task">
-								<label value="Descrizione:"></label>
-								<textbox id="description_task"
-									mold="rounded" />
-							</row>
-
-
-
-
-
-						</rows>
-					</grid>
-
-
-				</panelchildren>
-
-			</panel>
-
-
-
-		</div>
-
-
-		<div>
-			<separator></separator>
-
-			<button id="sw_addtask" sclass="btn-info"
-				label="Aggiungi Mansione"
-				onClick="modify_tasks_command.setVisible(false);add_tasks_command.setVisible(true);grid_task_details.setVisible(true)">
-			</button>
-
-			<button id="sw_refresh_tasklist" sclass="btn-info"
-				label="Ricarica Lista Mansioni">
-			</button>
-
-
-
-			<separator></separator>
-		</div>
-
-		<div id="box_deletetask" visible="false">
-
-			<a label="Vuoi eliminare la mansione selezionata?"
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-			<toolbarbutton label="Si" style="color: red"
-				id="deletetask_command">
-			</toolbarbutton>
-			<toolbarbutton label="No" style="color: no"
-				onClick="box_deletetask.setVisible(false)">
-			</toolbarbutton>
-
-		</div>
-
-
-
-		<listbox id="sw_list_task" pagingPosition="both" mold="paging"
-			style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
-			pageSize="20">
-			<listhead sizable="true">
-				<listheader label="Codice" />
-				<listheader label="Descrizione"
-					sort="auto(description)" />
-				<listheader label="" />
-			</listhead>
-
-			<listitem self="@{each='task_item'}" value="@{task_item}">
-
-
-
-				<listcell label="@{task_item.code}" />
-
-				<listcell label="@{task_item.description}" />
-
-
-
-				<listcell>
-
-					<toolbarbutton id="sw_link_deletetask"
-						style="color:blue"
-						onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
-						label="Cancella">
-					</toolbarbutton>
-
-					<toolbarbutton id="sw_link_modifyetask"
-						style="color:blue"
-						onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());add_tasks_command.setVisible(false);modify_tasks_command.setVisible(true);grid_task_details.setVisible(true);"
-						label="Modifica">
-					</toolbarbutton>
-
-				</listcell>
-
-
-
-
-			</listitem>
-
-		</listbox>
-
-	</div>
-
-	<space></space>
-
-	<!-- SHIFT -->
-	<div>
+						<panelchildren>
+											
+							<!-- SHIFT -->
+							<div>
+			
 		<a label="Turni" iconSclass="z-icon-list"
 			sclass="green lighter rcaption" />
 
@@ -405,8 +438,14 @@
 
 
 	</div>
-
-
+			
+						</panelchildren>
+				</panel>
+				
+			</tabpanel>
+						
+		</tabpanels>
+	</tabbox>
 
 
 
