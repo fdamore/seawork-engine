@@ -23,6 +23,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.A;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
@@ -220,6 +221,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Label						user_status;
 
 	@Wire
+	private A							userName;
+
+	@Wire
 	private Checkbox					viewer_user;
 
 	@Listen("onClick = #add_users_command")
@@ -235,8 +239,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				Messagebox.show("Ridigita Username!", "ERROR", Messagebox.OK, Messagebox.ERROR);
 				return;
 			}
-		}
-		else {
+		} else {
 			mail = "" + Calendar.getInstance().getTimeInMillis();
 		}
 
@@ -416,7 +419,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_modifyeuser")
 	public void defineModifyView() {
 
-		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null) || !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
+				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
 
@@ -428,6 +432,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// general details
 		this.defineUserDetailsView(this.person_selected);
+
+		this.userName.setLabel(this.firstname_user.getValue() + " " + this.lastname_user.getValue());
+		this.userName.setVisible(true);
 
 	}
 
@@ -505,12 +512,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
-			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
+					Messagebox.OK, Messagebox.ERROR);
 
 		}
 
@@ -769,6 +776,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.fiscalcheck_user_tab.setVisible(false);
 		this.tradeunion_user_tab.setVisible(false);
 		this.contestations_user_tab.setVisible(false);
+		this.userName.setVisible(false);
 
 		// set detail to selection
 		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
