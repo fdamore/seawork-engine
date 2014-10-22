@@ -21,7 +21,8 @@
 		code,
 		description,
 		us_type, forceable
-		FROM usershift;
+		FROM usershift
+		ORDER BY description;
 	</select>
 
 	<delete id="deleteTask" parameterType="int">
