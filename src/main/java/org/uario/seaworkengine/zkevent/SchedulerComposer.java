@@ -44,7 +44,7 @@ import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
-	private static final int		DAYS_IN_GRID				= 7;
+	private static final int		DAYS_IN_GRID_PROGRAM				= 7;
 
 	/**
 	 *
@@ -568,7 +568,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.setTime(initial_date);
 
 		// set seven days
-		for (int i = 0; i < SchedulerComposer.DAYS_IN_GRID; i++) {
+		for (int i = 0; i < SchedulerComposer.DAYS_IN_GRID_PROGRAM; i++) {
 
 			final int index_day = i + 1;
 
@@ -617,7 +617,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(initial_date);
-		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID);
+		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID_PROGRAM);
 		final Date final_date = calendar.getTime();
 
 		final List<Schedule> list = this.scheduleDAO.selectSchedulers(initial_date, final_date);
