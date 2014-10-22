@@ -84,6 +84,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private PersonDAO				personDAO;
 
 	@Wire
+	private Div						preprocessing_div;
+
+	@Wire
+	private Comboitem				preprocessing_item;
+
+	@Wire
+	private Div						program_div;
+
+	@Wire
 	private Comboitem				program_item;
 
 	@Wire
@@ -91,9 +100,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox					program_time;
-
-	@Wire
-	private Combobox				review;
 
 	@Wire
 	private Combobox				revision_task;
@@ -111,6 +117,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A						scheduler_label;
+
+	@Wire
+	private Combobox				scheduler_type_selector;
 
 	// selected week
 	private Integer					selectedDay;
@@ -199,8 +208,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void changeInitialDate() {
 
 		this.info_scheduler.setVisible(false);
-		this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
-		this.setupGlobalSchedulerGrid(false);
+		this.setGridStructureForShift(SchedulerComposer.this.date_init_scheduler.getValue());
+		this.setupGlobalSchedulerGridForShift(false);
 
 	}
 
@@ -218,6 +227,35 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onChange = #scheduler_type_selector")
+	public void defineSchedulerType() {
+
+		if (this.scheduler_type_selector.getSelectedItem() == null) {
+			return;
+		}
+
+		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
+
+		if (selected == this.preprocessing_item) {
+			this.preprocessing_div.setVisible(true);
+			this.program_div.setVisible(false);
+
+			// set initial structure for program
+			SchedulerComposer.this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
+			SchedulerComposer.this.setupGlobalSchedulerGridForDay(false);
+		}
+
+		if (selected == this.program_item) {
+			this.preprocessing_div.setVisible(false);
+			this.program_div.setVisible(true);
+
+			// set initial structure for program
+			SchedulerComposer.this.setGridStructureForShift(SchedulerComposer.this.date_init_scheduler.getValue());
+			SchedulerComposer.this.setupGlobalSchedulerGridForShift(false);
+		}
+
+	}
+
 	@Override
 	public void doFinally() throws Exception {
 
@@ -232,9 +270,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
 
-				// set initial structure
-				SchedulerComposer.this.setGridStructure(SchedulerComposer.this.date_init_scheduler.getValue());
-				SchedulerComposer.this.setupGlobalSchedulerGrid(false);
+				// set preprocessing item in combo selection
+				SchedulerComposer.this.scheduler_type_selector.setSelectedItem(SchedulerComposer.this.preprocessing_item);
+
+				// set initial structure for program
+				SchedulerComposer.this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
+				SchedulerComposer.this.setupGlobalSchedulerGridForDay(false);
+
 			}
 		});
 
@@ -365,8 +407,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void refreshButton() {
 
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
-		this.setGridStructure(this.date_init_scheduler.getValue());
-		this.setupGlobalSchedulerGrid(false);
+		this.setGridStructureForShift(this.date_init_scheduler.getValue());
+		this.setupGlobalSchedulerGridForShift(false);
 	}
 
 	@Listen("onClick = #remove_program_item")
@@ -454,7 +496,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.scheduleDAO.saveListDetailScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_program);
 
 		// refresh grid, but keep the info editor visible
-		this.setupGlobalSchedulerGrid(true);
+		this.setupGlobalSchedulerGridForShift(true);
 
 		Messagebox.show("Il programma è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -508,13 +550,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param initial_date
 	 */
-	private void setGridStructure(final Date initial_date) {
+	private void setGridStructureForDay(final Date initial_date) {
+
+	}
+
+	/**
+	 * initial structure
+	 *
+	 * @param initial_date
+	 */
+	private void setGridStructureForShift(final Date initial_date) {
 		if (initial_date == null) {
 			return;
 		}
-
-		// set program version
-		this.review.setSelectedItem(this.program_item);
 
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(initial_date);
@@ -553,9 +601,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * setup values for grid
+	 * @param info_visibility
+	 *            if true set info scheduler for programming visible
 	 */
-	private void setupGlobalSchedulerGrid(final boolean info_visibility) {
+	private void setupGlobalSchedulerGridForDay(final boolean info_visibility) {
+
+	}
+
+	/**
+	 * @param info_visibility
+	 *            if true set info scheduler for programming visible
+	 */
+	private void setupGlobalSchedulerGridForShift(final boolean info_visibility) {
 
 		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
 		final Calendar calendar = Calendar.getInstance();
