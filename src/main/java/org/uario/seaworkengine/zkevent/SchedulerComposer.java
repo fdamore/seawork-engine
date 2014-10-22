@@ -137,6 +137,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.program_task.getSelectedItem() == null) {
+			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK,
+					Messagebox.EXCLAMATION);
 			return;
 		}
 
@@ -147,8 +149,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final Integer time = this.program_time.getValue();
+
 		if (time == null) {
-			Messagebox.show("Definisce numero di ore da lavorate", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			Messagebox.show("Definire il numero di ore da lavorare", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
 

@@ -296,11 +296,12 @@
 								</combobox>
 							</row>
 
+							
 							<row id="row_forceable">
 								<label value="Forzabile:"></label>
 								<checkbox id="forceable"/>
 							</row>
-
+							
 
 						</rows>
 					</grid>
