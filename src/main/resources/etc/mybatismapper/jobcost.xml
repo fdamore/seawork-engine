@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jobcost">
+
+	<cache />
+	
+	
+	<insert id="createJobCost" parameterType="org.uario.seaworkengine.model.JobCost">
+		INSERT INTO
+		jobcost
+		(business_job_cost, final_job_cost, date_from, date_to, contractual_level, bill_center, id_user)
+		VALUES (#{business_job_cost}, #{final_job_cost}, #{date_from}, #{date_to},	#{contractual_level}, #{bill_center}, #{id_user});	
+	</insert>
+	
+	
+	<select id="selectJobCostByBillCenter" parameterType="String" resultType="org.uario.seaworkengine.model.JobCost">
+		SELECT id, business_job_cost, final_job_cost, date_from, date_to, contractual_level, bill_center, id_user
+		FROM jobcost
+		WHERE bill_center=#{bill_center};
+	</select>
+	
+		
+	<select id="selectJobCostByUser" parameterType="String" resultType="org.uario.seaworkengine.model.JobCost">
+		SELECT id, business_job_cost, final_job_cost, date_from, date_to, contractual_level, bill_center, id_user
+		FROM jobcost
+		WHERE id_user=#{id_user};
+	</select>
+	
+	
+	<delete id="removeJobCost" parameterType="Integer">
+		DELETE FROM
+		jobcost
+		WHERE id = #{id};
+	</delete>
+	
+	
+	<update id="updateJobCost" parameterType="org.uario.seaworkengine.model.JobCost">
+		UPDATE
+		jobcost
+		SET
+		business_job_cost = #{business_job_cost}, 
+		final_job_cost = #{final_job_cost}, 
+		date_from = #{date_from}, 
+		date_to = #{date_to},
+		contractual_level = #{contractual_level}, 
+		bill_center = #{bill_center}, 
+		id_user = #{id_user}
+		WHERE id = #{id};
+	</update>
+	
+	
+	</mapper>	

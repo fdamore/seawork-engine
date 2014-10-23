@@ -160,6 +160,12 @@
 
 	</bean>
 
+	<bean id="myJobCostDAO" class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisJobCostDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+
+
 
 	<!-- SETUP PLATFORM CACHES -->
 	<bean id="myTaskCache"

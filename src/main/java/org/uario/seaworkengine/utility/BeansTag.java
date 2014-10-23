@@ -10,6 +10,8 @@ public interface BeansTag {
 
 	public static String	FISCAL_CONTROL_DAO	= "myFiscalControlDAO";
 
+	public static String	JOB_COST_DAO		= "myJobCostDAO";
+
 	public static String	PARAMS_DAO			= "myParamDAO";
 
 	public static String	PERSON_DAO			= "myPersonDAO";
