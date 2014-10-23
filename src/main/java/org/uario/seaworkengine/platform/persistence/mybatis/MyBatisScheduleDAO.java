@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
+import org.uario.seaworkengine.model.DaySchedule;
 import org.uario.seaworkengine.model.DetailSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
@@ -15,6 +16,14 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	private static Logger	logger	= Logger.getLogger(MyBatisScheduleDAO.class);
 
 	// Schedule
+
+	@Override
+	public void createDaySchedule(final DaySchedule daySchedule) {
+		MyBatisScheduleDAO.logger.info("createDaySchedule");
+
+		this.getSqlSession().insert("schedule.createDaySchedule", daySchedule);
+
+	}
 
 	@Override
 	public void createDetailSchedule(final DetailSchedule detail_schedule) {
@@ -29,6 +38,26 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		MyBatisScheduleDAO.logger.info("createSchedule");
 
 		this.getSqlSession().insert("schedule.createSchedule", schedule);
+
+	}
+
+	@Override
+	public DaySchedule loadDaySchedule(final Integer id) {
+		MyBatisScheduleDAO.logger.info("loadDaySchedule");
+
+		return this.getSqlSession().selectOne("schedule.loadDaySchedule", id);
+
+	}
+
+	@Override
+	public void loadDaySchedule(final Integer id_user, final Date date_scheduled) {
+		MyBatisScheduleDAO.logger.info("loadDaySchedule By id_user and date_scheduled");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id_user", id_user.toString());
+		map.put("date_scheduled", date_scheduled.toString());
+
+		this.getSqlSession().selectOne("schedule.loadDayScheduleByIdUserShift", map);
 
 	}
 
@@ -67,6 +96,14 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		MyBatisScheduleDAO.logger.info("loadSchedule");
 
 		return this.getSqlSession().selectOne("schedule.loadSchedule", id_schedule);
+	}
+
+	@Override
+	public void removeDaySchedule(final Integer id) {
+		MyBatisScheduleDAO.logger.info("removeDaySchedule");
+
+		this.getSqlSession().delete("schedule.removeDaySchedule", id);
+
 	}
 
 	@Override
@@ -125,6 +162,14 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectSchedule", map);
 		return list;
+	}
+
+	@Override
+	public void updateDaySchedule(final DaySchedule daySchedule) {
+		MyBatisScheduleDAO.logger.info("updateDayScheduled");
+
+		this.getSqlSession().update("schedule.updateDaySchedule", daySchedule);
+
 	}
 
 	@Override

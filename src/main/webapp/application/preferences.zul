@@ -330,9 +330,11 @@
 							</row>
 
 							
-							<row id="row_forceable">
+							<row id="row_forceable" align="center">
 								<label value="Forzabile:"></label>
+								
 								<checkbox id="forceable"/>
+								
 							</row>
 							
 

@@ -146,6 +146,42 @@ order by user, s.date_schedule asc
 	</update>
 
 
+
+	<insert id="createDaySchedule" parameterType="org.uario.seaworkengine.model.DaySchedule">
+		INSERT INTO
+		dayschedule (id_user, shift, date_scheduled)
+		VALUES (#{id_user}, #{shift}, #{date_scheduled});
+	</insert>
+	
+	<select id="loadDaySchedule" parameterType="Integer" resultType="org.uario.seaworkengine.model.DaySchedule">
+		SELECT (id, id_user, shift, date_scheduled)
+		FROM dayschedule
+		WHERE id=#{id}; 
+	</select>		
+	
+	<select id="loadDayScheduleByIdUserShift" parameterType="map" resultType="org.uario.seaworkengine.model.DaySchedule">
+		SELECT (id, id_user, shift, date_scheduled)
+		FROM dayschedule
+		WHERE id_user=#{id_user} and date_scheduled=#{date_scheduled}; 
+	</select>		
+	
+	<delete id="removeDaySchedule" parameterType="Integer">
+		DELETE FROM
+		dayschedule
+		WHERE id = #{id};
+	</delete>	
+	
+	<update id="updateDaySchedule" parameterType="org.uario.seaworkengine.model.DetailSchedule">
+		UPDATE
+		dayschedule
+		SET
+		id_user = #{id_user}, 
+		shift = #{shift},
+		date_scheduled = #{date_scheduled}
+		WHERE id = #{id};
+	</update>
+	
+
 </mapper>	
 	
 
