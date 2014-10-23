@@ -17,7 +17,7 @@ public interface ISchedule {
 
 	public DaySchedule loadDaySchedule(Integer id);
 
-	public void loadDaySchedule(Integer id_user, Date date_scheduled);
+	public DaySchedule loadDaySchedule(Integer id_user, Date date_scheduled);
 
 	public DetailSchedule loadDetailSchedule(Integer id);
 

@@ -159,7 +159,7 @@ order by user, s.date_schedule asc
 		WHERE id=#{id}; 
 	</select>		
 	
-	<select id="loadDayScheduleByIdUserShift" parameterType="map" resultType="org.uario.seaworkengine.model.DaySchedule">
+	<select id="loadDayScheduleByIdUserAndDate" parameterType="map" resultType="org.uario.seaworkengine.model.DaySchedule">
 		SELECT (id, id_user, shift, date_scheduled)
 		FROM dayschedule
 		WHERE id_user=#{id_user} and date_scheduled=#{date_scheduled}; 
