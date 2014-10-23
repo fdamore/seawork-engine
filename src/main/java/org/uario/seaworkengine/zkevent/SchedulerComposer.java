@@ -38,101 +38,103 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
-	private static final int		DAYS_IN_GRID_PROGRAM				= 7;
+	private static final int				DAYS_IN_GRID_PREPROCESSING	= 31;
 
+	private static final int				DAYS_IN_GRID_PROGRAM		= 7;
+
+	// format
+	private static final SimpleDateFormat	formatter_dd				= new SimpleDateFormat("dd");
+	private static final SimpleDateFormat	formatter_ddmmm				= new SimpleDateFormat("dd/MMM");
+	private static final SimpleDateFormat	formatter_e					= new SimpleDateFormat("E");
+	private static final SimpleDateFormat	formatter_eeee				= new SimpleDateFormat("EEEE");
+	private static final SimpleDateFormat	formatter_scheduler_info	= new SimpleDateFormat("EEEE dd MMM");
 	/**
 	 *
 	 */
-	private static final long		serialVersionUID			= 1L;
-
-	private Schedule				currentSchedule;
+	private static final long				serialVersionUID			= 1L;
+	private Schedule						currentSchedule;
+	@Wire
+	private Datebox							date_init_scheduler;
 
 	@Wire
-	private Datebox					date_init_scheduler;
-
-	// format
-	private final SimpleDateFormat	formatter_ddmmm				= new SimpleDateFormat("dd/MMM");
-	private final SimpleDateFormat	formatter_eeee				= new SimpleDateFormat("EEEE");
-	private final SimpleDateFormat	formatter_scheduler_info	= new SimpleDateFormat("EEEE dd MMM");
+	private Listbox							grid_scheduler;
 
 	@Wire
-	private Listbox					grid_scheduler;
-
-	@Wire
-	private Div						info_scheduler;
+	private Div								info_scheduler;
 
 	// initial program and revision
-	private List<DetailSchedule>	list_details_program;
+	private List<DetailSchedule>			list_details_program;
 
 	@Wire
-	private Listbox					listbox_program;
+	private Listbox							listbox_program;
 
 	@Wire
-	private Listbox					listbox_revision;
+	private Listbox							listbox_revision;
 
-	private final Logger			logger						= Logger.getLogger(SchedulerComposer.class);
-
-	@Wire
-	private Textbox					note;
-
-	private PersonDAO				personDAO;
+	private final Logger					logger						= Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
-	private Div						preprocessing_div;
+	private Textbox							note;
+
+	private PersonDAO						personDAO;
 
 	@Wire
-	private Comboitem				preprocessing_item;
+	private Div								preprocessing_div;
 
 	@Wire
-	private Div						program_div;
+	private Comboitem						preprocessing_item;
 
 	@Wire
-	private Comboitem				program_item;
+	private Div								program_div;
 
 	@Wire
-	private Combobox				program_task;
+	private Comboitem						program_item;
 
 	@Wire
-	private Intbox					program_time;
+	private Combobox						program_task;
 
 	@Wire
-	private Combobox				revision_task;
+	private Intbox							program_time;
 
 	@Wire
-	private Intbox					revision_time;
+	private Combobox						revision_task;
 
 	@Wire
-	private Datebox					revision_time_in;
+	private Intbox							revision_time;
 
 	@Wire
-	private Datebox					revision_time_out;
-
-	private ISchedule				scheduleDAO;
+	private Datebox							revision_time_in;
 
 	@Wire
-	private A						scheduler_label;
+	private Datebox							revision_time_out;
+
+	private ISchedule						scheduleDAO;
 
 	@Wire
-	private Combobox				scheduler_type_selector;
+	private A								scheduler_label;
+
+	@Wire
+	private Combobox						scheduler_type_selector;
 
 	// selected week
-	private Integer					selectedDay;
+	private Integer							selectedDay;
 
 	// selected shift
-	private Integer					selectedShift;
+	private Integer							selectedShift;
 
 	/**
 	 * User selected to schedule
 	 */
-	private Integer					selectedUser;
+	private Integer							selectedUser;
 
-	private TasksDAO				taskDAO;
+	private TasksDAO						taskDAO;
 
 	@Listen("onClick= #add_program_item")
 	public void addProgramItem() {
@@ -146,8 +148,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.program_task.getSelectedItem() == null) {
-			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK,
-					Messagebox.EXCLAMATION);
+			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
 
@@ -206,10 +207,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onChange = #date_init_scheduler")
 	public void changeInitialDate() {
+		if (this.scheduler_type_selector.getSelectedItem() == null) {
+			return;
+		}
 
-		this.info_scheduler.setVisible(false);
-		this.setGridStructureForShift(SchedulerComposer.this.date_init_scheduler.getValue());
-		this.setupGlobalSchedulerGridForShift(false);
+		if (this.scheduler_type_selector.getSelectedItem() == this.preprocessing_item) {
+			this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
+			this.setupGlobalSchedulerGridForDay(false);
+		}
+
+		if (this.scheduler_type_selector.getSelectedItem() == this.program_item) {
+			this.setGridStructureForShift(SchedulerComposer.this.date_init_scheduler.getValue());
+			this.setupGlobalSchedulerGridForShift(false);
+		}
 
 	}
 
@@ -406,9 +416,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #refresh_command")
 	public void refreshButton() {
 
+		if (this.scheduler_type_selector.getSelectedItem() == null) {
+			return;
+		}
+
 		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
-		this.setGridStructureForShift(this.date_init_scheduler.getValue());
-		this.setupGlobalSchedulerGridForShift(false);
+
+		if (this.scheduler_type_selector.getSelectedItem() == this.preprocessing_item) {
+			this.setGridStructureForDay(this.date_init_scheduler.getValue());
+			this.setupGlobalSchedulerGridForDay(false);
+		}
+
+		if (this.scheduler_type_selector.getSelectedItem() == this.program_item) {
+			this.setGridStructureForShift(this.date_init_scheduler.getValue());
+			this.setupGlobalSchedulerGridForShift(false);
+		}
 	}
 
 	@Listen("onClick = #remove_program_item")
@@ -552,6 +574,45 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void setGridStructureForDay(final Date initial_date) {
 
+		if (initial_date == null) {
+			return;
+		}
+
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(initial_date);
+
+		// set seven days
+		for (int i = 0; i < SchedulerComposer.DAYS_IN_GRID_PREPROCESSING; i++) {
+
+			final int index_day = i + 1;
+
+			final Auxheader day_label = (Auxheader) this.getSelf().getFellowIfAny("day_label_" + index_day);
+			final Listheader day_number = (Listheader) this.getSelf().getFellowIfAny("day_numb_" + index_day);
+			if ((day_label == null) || (day_number == null)) {
+				continue;
+			}
+
+			final Calendar current_calendar = Calendar.getInstance();
+			current_calendar.setTime(calendar.getTime());
+			current_calendar.add(Calendar.DAY_OF_YEAR, i);
+
+			final String day_n = SchedulerComposer.formatter_e.format(current_calendar.getTime());
+			final String day_l = SchedulerComposer.formatter_dd.format(current_calendar.getTime());
+
+			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+				day_number.setStyle("color:red");
+				day_label.setStyle("color:red");
+			}
+			else {
+				day_number.setStyle("color:black");
+				day_label.setStyle("color:black");
+			}
+
+			day_number.setLabel(day_n.toUpperCase());
+			day_label.setLabel(day_l.toUpperCase());
+
+		}
+
 	}
 
 	/**
@@ -582,13 +643,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			current_calendar.setTime(calendar.getTime());
 			current_calendar.add(Calendar.DAY_OF_YEAR, i);
 
-			final String day_w = this.formatter_eeee.format(current_calendar.getTime());
-			final String day_m = this.formatter_ddmmm.format(current_calendar.getTime());
+			final String day_w = SchedulerComposer.formatter_eeee.format(current_calendar.getTime());
+			final String day_m = SchedulerComposer.formatter_ddmmm.format(current_calendar.getTime());
 
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -756,20 +818,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
-				+ SchedulerComposer.this.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
 				SchedulerComposer.this.revision_time_in.setValue(null);
-			} else {
+			}
+			else {
 				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
 			}
 
 			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
 				SchedulerComposer.this.revision_time_out.setValue(null);
-			} else {
+			}
+			else {
 				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
 			}
 
@@ -783,7 +846,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// this.listbox_revision.setModel(new
 			// ListModelList<Detail_Schedule>(this.list_details));
 
-		} else {
+		}
+		else {
 			// if we haven't information about schedule
 			SchedulerComposer.this.revision_time_in.setValue(null);
 			SchedulerComposer.this.revision_time_out.setValue(null);
