@@ -404,7 +404,7 @@
 
 				<listcell label="@{shift_item.description}" />
 				<listcell
-					label="@{shift_item.us_type, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
+					label="@{shift_item.presence, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
 
 				<listcell>
 					<checkbox checked="@{shift_item.forceable}"

@@ -105,9 +105,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 		if (us_type != null) {
 			if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
-				shift.setUs_type(false);
+				shift.setPresence(false);
 			} else {
-				shift.setUs_type(true);
+				shift.setPresence(true);
 			}
 		}
 		if (this.forceable.isChecked()) {
@@ -246,8 +246,8 @@ public class Preferences extends SelectorComposer<Component> {
 		// set type shift
 		String shft = null;
 
-		if (shift.getUs_type() != null) {
-			if (!shift.getUs_type()) {
+		if (shift.getPresence() != null) {
+			if (!shift.getPresence()) {
 				shft = ShiftTag.ABSENCE_SHIFT;
 			} else {
 				shft = ShiftTag.WORK_SHIFT;
@@ -284,9 +284,9 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
 		if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
-			shift.setUs_type(false);
+			shift.setPresence(false);
 		} else {
-			shift.setUs_type(true);
+			shift.setPresence(true);
 		}
 
 		if (this.forceable.isChecked()) {

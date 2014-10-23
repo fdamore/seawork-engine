@@ -17,7 +17,7 @@ public class UserShift implements Serializable {
 
 	private Integer				id;
 
-	private Boolean				us_type;
+	private Boolean				presence;
 
 	public String getCode() {
 		return this.code;
@@ -35,8 +35,8 @@ public class UserShift implements Serializable {
 		return this.id;
 	}
 
-	public Boolean getUs_type() {
-		return this.us_type;
+	public Boolean getPresence() {
+		return this.presence;
 	}
 
 	public void setCode(final String code) {
@@ -55,8 +55,8 @@ public class UserShift implements Serializable {
 		this.id = id;
 	}
 
-	public void setUs_type(final Boolean us_type) {
-		this.us_type = us_type;
+	public void setPresence(final Boolean presence) {
+		this.presence = presence;
 
 	}
 

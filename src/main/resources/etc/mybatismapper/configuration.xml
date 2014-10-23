@@ -20,7 +20,7 @@
 		SELECT id,
 		code,
 		description,
-		us_type, forceable
+		presence, forceable
 		FROM usershift
 		ORDER BY description;
 	</select>
@@ -50,9 +50,9 @@
 		usershift
 		(code,
 		description,
-		us_type, forceable)
+		presence, forceable)
 		VALUES
-		(#{code},#{description},#{us_type},#{forceable});
+		(#{code},#{description},#{presence},#{forceable});
 	</insert>
 
 
@@ -77,8 +77,8 @@
 		#{id},
 		code = #{code},
 		description = #{description},
-		us_type =
-		#{us_type},
+		presence =
+		#{presence},
 		forceable = 
 		#{forceable}
 		WHERE id = #{id};
