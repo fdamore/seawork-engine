@@ -35,6 +35,19 @@
 						<column label="Informazioni" />
 					</columns>
 					<rows>
+						
+						<row>
+							<label value="Centro di costo:"></label>
+							<combobox id="bill_center"
+								placeholder="Scegli il centro di costo" readonly="true"
+								width="200px">
+								<comboitem value="IMPIEGATI" label="IMPIEGATI"></comboitem>
+								<comboitem value="AMMINISTRATIVI" label="AMMINISTRATIVI"></comboitem>
+								<comboitem value="PREPOSTI" label="PREPOSTI"></comboitem>
+								<comboitem value="RIZZATORI" label="RIZZATORI"></comboitem>
+								
+							</combobox>
+						</row>					
 
 						<row>
 							<label
@@ -56,7 +69,7 @@
 						</row>
 
 						<row>
-							<label value="Costo aziendale orario:"></label>
+							<label value="Costo consuntivo orario:"></label>
 							<doublebox id="final_job_cost" width="200px" />
 						</row>
 
@@ -65,18 +78,7 @@
 							<textbox id="contractual_level" width="200px" />
 						</row>
 
-						<row>
-							<label value="Centro di costo:"></label>
-							<combobox id="bill_center"
-								placeholder="Scegli il centro di costo" readonly="true"
-								width="200px">
-								<comboitem value="IMPIEGATI" label="IMPIEGATI"></comboitem>
-								<comboitem value="AMMINISTRATIVI" label="AMMINISTRATIVI"></comboitem>
-								<comboitem value="PREPOSTI" label="PREPOSTI"></comboitem>
-								<comboitem value="RIZZATORI" label="RIZZATORI"></comboitem>
-								
-							</combobox>
-						</row>
+						
 
 					</rows>
 				</grid>
@@ -128,12 +130,12 @@
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="20">
 				<listhead sizable="true">
-					<listheader label="Costo Orario Aziendale" />
-					<listheader label="Costo Orario Effettivo" />
+					<listheader label="Centro di Costo" />
 					<listheader label="Dalla data" />
 					<listheader label="Alla data" />
+					<listheader label="Costo Orario Aziendale" />
+					<listheader label="Costo Orario Effettivo" />
 					<listheader label="Livello Contrattuale" />
-					<listheader label="Centro di Costo" />
 					
 
 
@@ -142,14 +144,16 @@
 
 				<listitem self="@{each='item'}" value="@{item}">
 					
-					<listcell label="@{item.business_job_cost}" />
-					<listcell label="@{item.final_job_cost}" />
+					<listcell label="@{item.bill_center}" />
 					<listcell
 						label="@{item.date_from, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell
 						label="@{item.date_to, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell label="@{item.business_job_cost}" />
+					<listcell label="@{item.final_job_cost}" />
+					
 					<listcell label="@{item.contractual_level}" />
-					<listcell label="@{item.bill_center}" />
+					
 					
 					
 

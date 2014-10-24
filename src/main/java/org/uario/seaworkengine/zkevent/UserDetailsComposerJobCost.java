@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.model.JobCost;
@@ -63,6 +64,56 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	public void addItem() {
 
 		this.status_add = true;
+
+	}
+
+	private Boolean compareDate(final JobCost jc, final Date from, final Date to) {
+		if (jc.getDate_from() != null && jc.getDate_to() != null) {
+			if (from.compareTo(jc.getDate_from()) >= 0 && from.compareTo(jc.getDate_to()) <= 0) {
+				return false;
+			}
+			if (to.compareTo(jc.getDate_from()) >= 0 && to.compareTo(jc.getDate_to()) <= 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private Boolean controlDate(final Date from, final Date to) {
+		if (from == null || to == null) {
+			return false;
+		}
+
+		if (from.compareTo(to) > 0) {
+			return false;
+		}
+
+		final List<JobCost> list = (List<JobCost>) this.sw_list.getModel();
+
+		int control = 0;
+		Integer idSelected = 0;
+
+		if (this.sw_list.getSelectedItem() != null) {
+			idSelected = ((JobCost) this.sw_list.getSelectedItem().getValue()).getId();
+			control = 1;
+		}
+
+		for (final JobCost jc : list) {
+			if (control == 1) {
+				// edit mode
+				if (jc.getId() != idSelected) {
+					if (!this.compareDate(jc, from, to)) {
+						return false;
+					}
+				}
+			} else {
+				// add mode
+				if (!this.compareDate(jc, from, to)) {
+					return false;
+				}
+			}
+		}
+		return true;
 
 	}
 
@@ -151,6 +202,16 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 	@Listen("onClick = #ok_command")
 	public void okCommand() {
+
+		if (this.bill_center.getSelectedItem() == null) {
+			Messagebox.show("Inserire centro di costo!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		if (!this.controlDate(this.date_from.getValue(), this.date_to.getValue())) {
+			Messagebox.show("Controllare date inserite!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
 
 		if (this.person_selected == null) {
 			return;
