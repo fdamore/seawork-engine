@@ -39,6 +39,7 @@
 					id="status_user_tab" />
 				<tab label="Mansioni" visible="false"
 					id="task_user_tab" />
+				<tab label="Costi orari" visible="false" id="jobcost_user_tab"/>
 				<tab label="TFR" visible="false" id="tfr_user_tab" />
 				<tab label="Visite Fiscali" visible="false"
 					id="fiscalcheck_user_tab" />
@@ -463,6 +464,11 @@
 				<tabpanel>
 					<include mode="defer" src="./userdetailstask.zul"></include>
 
+				</tabpanel>
+
+				<!-- TAB JOB COST -->
+				<tabpanel>
+					<include mode="defer" src="./userdetailjobcost.zul"></include>
 				</tabpanel>
 
 				<!-- TAB TFR -->

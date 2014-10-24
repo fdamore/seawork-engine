@@ -133,6 +133,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Component					grid_user_details;
 
 	@Wire
+	private Component					jobcost_user_tab;
+
+	@Wire
 	private Textbox						lastname_user;
 
 	private final Logger				logger				= Logger.getLogger(UserDetailsComposer.class);
@@ -734,6 +737,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final Component comp_cons = Path.getComponent("//cons/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_cons, person_selected);
 
+		final Component comp_jc = Path.getComponent("//userjobcost/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_jc, person_selected);
+
 	}
 
 	/**
@@ -807,6 +813,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.fiscalcheck_user_tab.setVisible(true);
 		this.tradeunion_user_tab.setVisible(true);
 		this.contestations_user_tab.setVisible(true);
+		this.jobcost_user_tab.setVisible(true);
 
 		// set detail to selection
 		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
