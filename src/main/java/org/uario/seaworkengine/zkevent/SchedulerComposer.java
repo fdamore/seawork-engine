@@ -15,7 +15,9 @@ import org.uario.seaworkengine.model.DaySchedule;
 import org.uario.seaworkengine.model.DetailSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
@@ -43,6 +45,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Popup;
 import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
@@ -61,9 +64,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 */
 	private static final long				serialVersionUID			= 1L;
+	private ConfigurationDAO				configurationDAO;
 	private Schedule						currentSchedule;
+
 	@Wire
 	private Datebox							date_init_scheduler;
+
+	@Wire
+	private Popup							day_definition_popup;
 
 	@Wire
 	private Listbox							grid_scheduler;
@@ -138,6 +146,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * User selected to schedule
 	 */
 	private Integer							selectedUser;
+
+	@Wire
+	private Combobox						shift_popup;
 
 	private TasksDAO						taskDAO;
 
@@ -234,10 +245,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param data_info
 	 */
 	protected void dayConfigurator(final String data_info) {
-		// TODO Auto-generated method stub
+		this.day_definition_popup.open(this.grid_scheduler_day, "after_pointer");
 
 	}
 
+	/**
+	 * Define anchor content on shift schedule
+	 *
+	 * @param program
+	 * @param schedule
+	 * @return
+	 */
 	private String defineAnchorContent(final boolean program, final Schedule schedule) {
 		Integer time = null;
 		if (program) {
@@ -289,6 +307,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 		this.taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 		this.personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
 
@@ -297,6 +316,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// set preprocessing item in combo selection
 				SchedulerComposer.this.scheduler_type_selector.setSelectedItem(SchedulerComposer.this.preprocessing_item);
+
+				// define shift combo
+				final List<UserShift> shifts = SchedulerComposer.this.configurationDAO.loadShifts();
+				SchedulerComposer.this.shift_popup.setModel(new ListModelList<UserShift>(shifts));
 
 				// set initial structure for program
 				SchedulerComposer.this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());

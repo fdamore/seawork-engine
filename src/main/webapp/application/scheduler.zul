@@ -51,6 +51,30 @@
 	<!-- PREPROCESSING -->
 	<div id="preprocessing_div" visible="true">
 
+		<popup id="day_definition_popup">
+			<panel border="none" collapsible="false"
+				style="margin: 5px 5px 5px 5px">
+				<panelchildren>
+					<vbox align="end">
+						<a label="Configurazione gionaliera: "
+							id="label_date_popup" sclass="header" iconSclass="z-icon-check" />
+						<separator></separator>
+						<combobox id="shift_popup"
+							placeholder="Seleziona un turno..." readonly="true">
+						</combobox>
+						<separator></separator>
+						<hbox>
+							<button label="OK" sclass="btn-info"
+								id="ok_day_shift">
+							</button>
+							<spinner placeholder="Giorni.."></spinner>
+						</hbox>
+						<separator></separator>
+					</vbox>
+				</panelchildren>
+			</panel>
+		</popup>
+
 		<panel border="normal" collapsible="false"
 			sclass="transparent">
 			<panelchildren>
@@ -204,277 +228,277 @@
 							<toolbarbutton label="@{dayitem.item1}"
 								style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "1");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item2}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "2");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item3}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "3");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item4}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "4");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item5}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "5");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item6}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "6");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item7}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "7");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item8}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "8");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item9}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "9");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item10}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "10");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item11}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "11");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item12}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "12");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item13}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "13");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item14}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "14");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item15}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "15");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item16}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "16");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item17}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "17");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item18}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "18");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item19}" style="color:blue">
 							</toolbarbutton>
 							<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "19");
 </attribute>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item20}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "20");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item21}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "21");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item22}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "22");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item23}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "23");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item24}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "24");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item25}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "25");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item26}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "26");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item27}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "27");
 </attribute>
 							</toolbarbutton>
 						</listcell>
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item28}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "28");
 </attribute>
 							</toolbarbutton>
@@ -482,10 +506,10 @@
 
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item29}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "29");
 </attribute>
 							</toolbarbutton>
@@ -493,10 +517,10 @@
 
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item30}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "30");
 </attribute>
 							</toolbarbutton>
@@ -504,10 +528,10 @@
 
 						<listcell>
 							<toolbarbutton
-								onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
+								onClick="grid_scheduler_day.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{dayitem.item31}" style="color:blue">
 								<attribute name="onClick">
-	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "31");
 </attribute>
 							</toolbarbutton>

@@ -89,7 +89,12 @@ public class DaySchedule implements Comparable<DaySchedule>, Serializable {
 
 	@Override
 	public String toString() {
-		return "" + this.shiftcode;
+		if (this.shiftcode == null) {
+			return "_";
+		}
+		else {
+			return this.shiftcode;
+		}
 	}
 
 }
