@@ -25,7 +25,6 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Checkbox;
-import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
@@ -54,9 +53,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Checkbox					backoffice_user;
-
-	@Wire
-	private Combobox					billcenter_user;
 
 	@Wire
 	private Datebox						birth_date_user;
@@ -113,9 +109,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox						employee_identification_user;
-
-	@Wire
-	private Textbox						employee_level_user;
 
 	@Wire
 	private Textbox						family_charge_user;
@@ -285,8 +278,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		person.setNcfl(this.ncfl_user.getValue());
 		person.setDepartment(this.department_user.getValue());
 		person.setCurrent_position(this.current_position_user.getValue());
-		person.setEmployee_level(this.employee_level_user.getValue());
-		person.setBill_center(this.billcenter_user.getValue());
 		person.setNbudge(this.nbudje_user.getValue());
 		person.setNpass(this.npass_user.getValue());
 		person.setMarital_status(this.marital_status_user.getValue());
@@ -472,8 +463,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.ncfl_user.setValue(person_selected.getNcfl());
 		this.department_user.setValue(person_selected.getDepartment());
 		this.current_position_user.setValue(person_selected.getCurrent_position());
-		this.employee_level_user.setValue(person_selected.getEmployee_level());
-		this.billcenter_user.setValue(person_selected.getBill_center());
 
 		this.nbudje_user.setValue(person_selected.getNbudge());
 		this.npass_user.setValue(person_selected.getNpass());
@@ -592,8 +581,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.person_selected.setNcfl(this.ncfl_user.getValue());
 		this.person_selected.setDepartment(this.department_user.getValue());
 		this.person_selected.setCurrent_position(this.current_position_user.getValue());
-		this.person_selected.setEmployee_level(this.employee_level_user.getValue());
-		this.person_selected.setBill_center(this.billcenter_user.getValue());
 		this.person_selected.setCountry(this.country_user.getValue());
 		this.person_selected.setNbudge(this.nbudje_user.getValue());
 		this.person_selected.setNpass(this.npass_user.getValue());
@@ -671,8 +658,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.ncfl_user.setValue("");
 		this.department_user.setValue("");
 		this.current_position_user.setValue("");
-		this.employee_level_user.setValue("");
-		this.billcenter_user.setValue(null);
 
 		this.nbudje_user.setValue("");
 

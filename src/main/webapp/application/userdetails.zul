@@ -260,37 +260,7 @@
 											id="current_position_user" />
 									</row>
 
-									<row>
-										<label
-											value="Livello Corrente:">
-										</label>
-										<textbox
-											id="employee_level_user" />
-									</row>
-
-
-
-									<row>
-										<label
-											value="Centro di Spesa:">
-										</label>
-										<combobox id="billcenter_user"
-											placeholder="Selezioni un centro di spesa" readonly="true">
-											<comboitem label="IMPIEGATI"
-												value="IMPIEGATI">
-											</comboitem>
-											<comboitem
-												label="AMMINISTRATIVI" value="AMMINISTRATIVI">
-											</comboitem>
-											<comboitem label="PREPOSTI"
-												value="PREPOSTI">
-											</comboitem>
-											<comboitem label="RIZZATORI"
-												value="RIZZATORI">
-											</comboitem>
-										</combobox>
-									</row>
-
+									
 									<row>
 										<label value="Numero Budje:"></label>
 										<textbox id="nbudje_user" />

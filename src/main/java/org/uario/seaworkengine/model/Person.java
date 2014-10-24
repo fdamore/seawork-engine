@@ -26,8 +26,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				authority;
 
-	private String				bill_center;
-
 	private java.util.Date		birth_date;
 
 	private String				birth_place;
@@ -52,10 +50,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	// matricola
 	private String				employee_identification;
-
-	private String				employee_level;
-
-	// private java.util.Date employment;
 
 	private Boolean				enabled;
 
@@ -157,10 +151,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.authority;
 	}
 
-	public String getBill_center() {
-		return this.bill_center;
-	}
-
 	public java.util.Date getBirth_date() {
 		return this.birth_date;
 	}
@@ -205,10 +195,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.employee_identification;
 	}
 
-	public String getEmployee_level() {
-		return this.employee_level;
-	}
-
 	public String getFamily_charge() {
 		return this.family_charge;
 	}
@@ -218,8 +204,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NONAME;
 
-		}
-		else {
+		} else {
 			return this.firstname;
 		}
 
@@ -237,8 +222,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		final String ret = this.getFirstname() + " " + this.getLastname();
 		if (ret.trim().equals("")) {
 			return this.getEmail();
-		}
-		else {
+		} else {
 			return ret;
 		}
 	}
@@ -249,8 +233,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NOSURNAME;
 
-		}
-		else {
+		} else {
 			return this.lastname;
 		}
 
@@ -410,10 +393,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		this.authority = authority;
 	}
 
-	public void setBill_center(final String bill_center) {
-		this.bill_center = bill_center;
-	}
-
 	public void setBirth_date(final java.util.Date birth_date) {
 		this.birth_date = birth_date;
 	}
@@ -456,10 +435,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setEmployee_identification(final String employee_identification) {
 		this.employee_identification = employee_identification;
-	}
-
-	public void setEmployee_level(final String employee_level) {
-		this.employee_level = employee_level;
 	}
 
 	public void setEnabled(final Boolean checked) {
@@ -527,8 +502,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	public String toString() {
 		if (this.getIndividualName() == null) {
 			return "";
-		}
-		else {
+		} else {
 			return this.getIndividualName();
 		}
 	}
