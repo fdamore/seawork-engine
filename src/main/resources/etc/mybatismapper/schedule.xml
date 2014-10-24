@@ -73,6 +73,25 @@ order by user, s.date_schedule asc
 ]]>
 	</select>
 
+
+	<select id="selectDaySchedulers" resultType="org.uario.seaworkengine.model.DaySchedule"
+		parameterType="map">
+	<![CDATA[
+select s.id, 
+u.id as id_user, 
+s.shift, 
+s.date_scheduled,
+    concat(u.firstname, ' ', u.lastname) AS name_user
+from
+    user u left join
+    dayschedule s ON (u.id = s.id_user and s.date_scheduled >= #{date_from} and s.date_scheduled < #{date_to})    
+
+    
+
+]]>
+	</select>
+
+
 	<update id="updateSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		UPDATE schedule
 		SET
@@ -150,37 +169,41 @@ order by user, s.date_schedule asc
 	<insert id="createDaySchedule" parameterType="org.uario.seaworkengine.model.DaySchedule">
 		INSERT INTO
 		dayschedule (id_user, shift, date_scheduled)
-		VALUES (#{id_user}, #{shift}, #{date_scheduled});
+		VALUES (#{id_user},
+		#{shift}, #{date_scheduled});
 	</insert>
-	
-	<select id="loadDaySchedule" parameterType="Integer" resultType="org.uario.seaworkengine.model.DaySchedule">
+
+	<select id="loadDaySchedule" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.DaySchedule">
 		SELECT (id, id_user, shift, date_scheduled)
 		FROM dayschedule
-		WHERE id=#{id}; 
-	</select>		
-	
-	<select id="loadDayScheduleByIdUserAndDate" parameterType="map" resultType="org.uario.seaworkengine.model.DaySchedule">
+		WHERE id=#{id};
+	</select>
+
+	<select id="loadDayScheduleByIdUserAndDate" parameterType="map"
+		resultType="org.uario.seaworkengine.model.DaySchedule">
 		SELECT (id, id_user, shift, date_scheduled)
 		FROM dayschedule
-		WHERE id_user=#{id_user} and date_scheduled=#{date_scheduled}; 
-	</select>		
-	
+		WHERE id_user=#{id_user} and date_scheduled=#{date_scheduled};
+	</select>
+
 	<delete id="removeDaySchedule" parameterType="Integer">
 		DELETE FROM
 		dayschedule
 		WHERE id = #{id};
-	</delete>	
-	
+	</delete>
+
 	<update id="updateDaySchedule" parameterType="org.uario.seaworkengine.model.DetailSchedule">
 		UPDATE
 		dayschedule
 		SET
-		id_user = #{id_user}, 
+		id_user = #{id_user},
 		shift = #{shift},
-		date_scheduled = #{date_scheduled}
+		date_scheduled =
+		#{date_scheduled}
 		WHERE id = #{id};
 	</update>
-	
+
 
 </mapper>	
 	

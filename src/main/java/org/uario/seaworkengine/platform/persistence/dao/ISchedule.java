@@ -37,6 +37,8 @@ public interface ISchedule {
 
 	public void saveOrUpdate(Schedule currentSchedule);
 
+	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date);
+
 	public List<Schedule> selectSchedulers(Date initial_date, Date final_date);
 
 	public void updateDaySchedule(DaySchedule daySchedule);

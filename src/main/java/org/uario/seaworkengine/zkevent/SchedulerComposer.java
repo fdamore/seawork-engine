@@ -11,6 +11,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.uario.seaworkengine.model.DaySchedule;
 import org.uario.seaworkengine.model.DetailSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
@@ -21,6 +22,7 @@ import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
+import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -65,6 +67,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox							grid_scheduler;
+
+	@Wire
+	private Listbox							grid_scheduler_day;
 
 	@Wire
 	private Div								info_scheduler;
@@ -223,6 +228,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Define bheavior for day configuration
+	 *
+	 * @param data_info
+	 */
+	protected void dayConfigurator(final String data_info) {
+		// TODO Auto-generated method stub
+
+	}
+
 	private String defineAnchorContent(final boolean program, final Schedule schedule) {
 		Integer time = null;
 		if (program) {
@@ -305,6 +320,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		});
 
+		// SHOW SHIFT CONFIGURATOR
+		this.getSelf().addEventListener(ZkEventsTag.onDayClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final String data_info = arg0.getData().toString();
+
+				// configure shift
+				SchedulerComposer.this.dayConfigurator(data_info);
+
+			}
+
+		});
+
 	}
 
 	/**
@@ -331,18 +361,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param schedule
 	 * @return
 	 */
-	private int getDayOfSchedule(final Date initial_date, final Schedule schedule) {
-		if (schedule == null) {
-			this.logger.error("Schedule null not permitted");
-			throw new IllegalArgumentException("Schedule null not permitted");
-		}
-		if (schedule.getDate_schedule() == null) {
+	private int getDayOfSchedule(final Date initial_date, final Date schedule_date) {
+
+		if (schedule_date == null) {
 			// if not date scheduler, put it at first day
 			return 1;
 		}
 
 		final Date date_init_truncate = DateUtils.truncate(initial_date, Calendar.DATE);
-		final Date schedule_date_truncate = DateUtils.truncate(schedule.getDate_schedule(), Calendar.DATE);
+		final Date schedule_date_truncate = DateUtils.truncate(schedule_date, Calendar.DATE);
 
 		final long millis = schedule_date_truncate.getTime() - date_init_truncate.getTime();
 		final long day_elapsed = millis / (1000 * 60 * 60 * 24);
@@ -668,6 +695,195 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void setupGlobalSchedulerGridForDay(final boolean info_visibility) {
 
+		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(initial_date);
+		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID_PREPROCESSING);
+		final Date final_date = calendar.getTime();
+
+		final List<DaySchedule> list = this.scheduleDAO.selectDaySchedulers(initial_date, final_date);
+
+		final ArrayList<RowDaySchedule> list_row = new ArrayList<RowDaySchedule>();
+		RowDaySchedule currentRow = null;
+
+		for (int i = 0; i < list.size(); i++) {
+
+			final DaySchedule schedule = list.get(i);
+
+			// if the user is changed, add another row
+			if ((currentRow == null) || (!currentRow.getUser().equals(schedule.getId_user()))) {
+				// set current row
+				currentRow = new RowDaySchedule();
+				currentRow.setUser(schedule.getId_user());
+				currentRow.setName_user(schedule.getName_user());
+				list_row.add(currentRow);
+
+				// set items for current row
+				currentRow.setItem1(new DaySchedule());
+				currentRow.setItem2(new DaySchedule());
+				currentRow.setItem3(new DaySchedule());
+				currentRow.setItem4(new DaySchedule());
+				currentRow.setItem5(new DaySchedule());
+				currentRow.setItem6(new DaySchedule());
+				currentRow.setItem7(new DaySchedule());
+				currentRow.setItem8(new DaySchedule());
+				currentRow.setItem9(new DaySchedule());
+				currentRow.setItem10(new DaySchedule());
+				currentRow.setItem11(new DaySchedule());
+				currentRow.setItem12(new DaySchedule());
+				currentRow.setItem13(new DaySchedule());
+				currentRow.setItem14(new DaySchedule());
+				currentRow.setItem15(new DaySchedule());
+				currentRow.setItem16(new DaySchedule());
+				currentRow.setItem17(new DaySchedule());
+				currentRow.setItem18(new DaySchedule());
+				currentRow.setItem19(new DaySchedule());
+				currentRow.setItem20(new DaySchedule());
+				currentRow.setItem21(new DaySchedule());
+				currentRow.setItem22(new DaySchedule());
+				currentRow.setItem23(new DaySchedule());
+				currentRow.setItem24(new DaySchedule());
+				currentRow.setItem25(new DaySchedule());
+				currentRow.setItem26(new DaySchedule());
+				currentRow.setItem27(new DaySchedule());
+				currentRow.setItem28(new DaySchedule());
+				currentRow.setItem29(new DaySchedule());
+				currentRow.setItem30(new DaySchedule());
+				currentRow.setItem31(new DaySchedule());
+
+			}
+
+			// set correct day
+			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule.getDate_scheduled());
+
+			if (day_on_current_calendar == 1) {
+				currentRow.setItem1(schedule);
+			}
+
+			if (day_on_current_calendar == 2) {
+				currentRow.setItem2(schedule);
+			}
+
+			if (day_on_current_calendar == 3) {
+				currentRow.setItem3(schedule);
+			}
+
+			if (day_on_current_calendar == 4) {
+				currentRow.setItem4(schedule);
+			}
+
+			if (day_on_current_calendar == 5) {
+				currentRow.setItem5(schedule);
+			}
+
+			if (day_on_current_calendar == 6) {
+				currentRow.setItem6(schedule);
+			}
+
+			if (day_on_current_calendar == 7) {
+				currentRow.setItem7(schedule);
+			}
+
+			if (day_on_current_calendar == 8) {
+				currentRow.setItem8(schedule);
+			}
+
+			if (day_on_current_calendar == 9) {
+				currentRow.setItem9(schedule);
+			}
+
+			if (day_on_current_calendar == 10) {
+				currentRow.setItem10(schedule);
+			}
+
+			if (day_on_current_calendar == 11) {
+				currentRow.setItem11(schedule);
+			}
+
+			if (day_on_current_calendar == 12) {
+				currentRow.setItem12(schedule);
+			}
+
+			if (day_on_current_calendar == 13) {
+				currentRow.setItem13(schedule);
+			}
+
+			if (day_on_current_calendar == 14) {
+				currentRow.setItem14(schedule);
+			}
+
+			if (day_on_current_calendar == 15) {
+				currentRow.setItem15(schedule);
+			}
+
+			if (day_on_current_calendar == 16) {
+				currentRow.setItem16(schedule);
+			}
+
+			if (day_on_current_calendar == 17) {
+				currentRow.setItem17(schedule);
+			}
+
+			if (day_on_current_calendar == 18) {
+				currentRow.setItem18(schedule);
+			}
+
+			if (day_on_current_calendar == 19) {
+				currentRow.setItem19(schedule);
+			}
+
+			if (day_on_current_calendar == 20) {
+				currentRow.setItem20(schedule);
+			}
+
+			if (day_on_current_calendar == 21) {
+				currentRow.setItem21(schedule);
+			}
+
+			if (day_on_current_calendar == 22) {
+				currentRow.setItem22(schedule);
+			}
+
+			if (day_on_current_calendar == 23) {
+				currentRow.setItem23(schedule);
+			}
+
+			if (day_on_current_calendar == 24) {
+				currentRow.setItem24(schedule);
+			}
+
+			if (day_on_current_calendar == 25) {
+				currentRow.setItem25(schedule);
+			}
+
+			if (day_on_current_calendar == 26) {
+				currentRow.setItem26(schedule);
+			}
+
+			if (day_on_current_calendar == 27) {
+				currentRow.setItem27(schedule);
+			}
+
+			if (day_on_current_calendar == 28) {
+				currentRow.setItem28(schedule);
+			}
+
+			if (day_on_current_calendar == 29) {
+				currentRow.setItem29(schedule);
+			}
+
+			if (day_on_current_calendar == 30) {
+				currentRow.setItem30(schedule);
+			}
+
+			if (day_on_current_calendar == 31) {
+				currentRow.setItem31(schedule);
+			}
+
+		}
+
+		this.grid_scheduler_day.setModel(new ListModelList<RowDaySchedule>(list_row));
+
 	}
 
 	/**
@@ -716,7 +932,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// set correct day
-			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule);
+			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule.getDate_schedule());
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule);
 
 			if (day_on_current_calendar == 1) {

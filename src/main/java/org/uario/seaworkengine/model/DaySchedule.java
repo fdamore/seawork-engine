@@ -12,7 +12,13 @@ public class DaySchedule implements Comparable<DaySchedule>, Serializable {
 	private Date				date_scheduled;
 	private Integer				id;
 	private Integer				id_user;
+
+	// used form visualize
+	private String				name_user;
+
 	private Integer				shift;
+
+	private String				shiftcode;
 
 	@Override
 	public int compareTo(final DaySchedule arg0) {
@@ -45,8 +51,16 @@ public class DaySchedule implements Comparable<DaySchedule>, Serializable {
 		return this.id_user;
 	}
 
+	public String getName_user() {
+		return this.name_user;
+	}
+
 	public Integer getShift() {
 		return this.shift;
+	}
+
+	public String getShiftcode() {
+		return this.shiftcode;
 	}
 
 	public void setDate_scheduled(final Date date_scheduled) {
@@ -61,8 +75,21 @@ public class DaySchedule implements Comparable<DaySchedule>, Serializable {
 		this.id_user = id_user;
 	}
 
+	public void setName_user(final String name_user) {
+		this.name_user = name_user;
+	}
+
 	public void setShift(final Integer shift) {
 		this.shift = shift;
+	}
+
+	public void setShiftcode(final String shiftcode) {
+		this.shiftcode = shiftcode;
+	}
+
+	@Override
+	public String toString() {
+		return "" + this.shiftcode;
 	}
 
 }
