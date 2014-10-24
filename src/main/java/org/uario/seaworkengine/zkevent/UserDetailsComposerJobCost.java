@@ -65,6 +65,12 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		this.status_add = true;
 
+		this.bill_center.setSelectedItem(null);
+		this.business_job_cost.setValue(null);
+		this.final_job_cost.setValue(null);
+		this.date_from.setValue(null);
+		this.date_to.setValue(null);
+		this.contractual_level.setValue("");
 	}
 
 	private Boolean compareDate(final JobCost jc, final Date from, final Date to) {
