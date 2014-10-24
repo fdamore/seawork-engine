@@ -2,6 +2,8 @@ package org.uario.seaworkengine.utility;
 
 public interface ZkEventsTag {
 
+	public static String	onDayClick				= "onDayClick";
+
 	public static String	onShiftClick			= "onShiftClick";
 
 	public static String	onShowMyProfile			= "onShowMyProfile";
