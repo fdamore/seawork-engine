@@ -52,12 +52,12 @@
 
 						<row>
 							<label value="Costo aziendale orario:"></label>
-							<textbox id="business_job_cost" width="200px" />
+							<doublebox id="business_job_cost" width="200px" />
 						</row>
 
 						<row>
 							<label value="Costo aziendale orario:"></label>
-							<textbox id="final_job_cost" width="200px" />
+							<doublebox id="final_job_cost" width="200px" />
 						</row>
 
 						<row>

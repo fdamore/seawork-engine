@@ -21,6 +21,7 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Textbox;
 
 public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
@@ -36,7 +37,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	private Doublebox			business_job_cost;
 
 	@Wire
-	private Combobox			contractual_level;
+	private Textbox				contractual_level;
 
 	@Wire
 	private Datebox				date_from;
@@ -206,6 +207,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		item.setContractual_level(this.contractual_level.getValue());
 		item.setDate_from(this.date_from.getValue());
 		item.setDate_to(this.date_to.getValue());
+		item.setId_user(this.person_selected.getId());
 
 		// set result communication type
 		if (this.bill_center.getSelectedItem() == null) {
