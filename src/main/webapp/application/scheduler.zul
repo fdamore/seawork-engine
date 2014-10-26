@@ -77,8 +77,7 @@
 			sclass="transparent">
 			<panelchildren>
 
-				<listbox sclass="domain" id="grid_scheduler_day"
-					checkmark="true">
+				<listbox sclass="domain" id="grid_scheduler_day">
 					<auxhead>
 						<auxheader label="" colspan="1" />
 
