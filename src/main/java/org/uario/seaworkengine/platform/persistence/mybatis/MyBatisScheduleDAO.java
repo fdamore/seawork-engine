@@ -140,13 +140,25 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public void saveOrUpdate(final Schedule currentSchedule) {
+	public void saveOrUpdateDaySchedule(final DaySchedule day_schedule) {
+		if (day_schedule.getId() == null) {
+			// save
+			this.getSqlSession().insert("schedule.createDaySchedule", day_schedule);
+
+		} else {
+			this.getSqlSession().update("schedule.updateDaySchedule", day_schedule);
+
+		}
+
+	}
+
+	@Override
+	public void saveOrUpdateSchedule(final Schedule currentSchedule) {
 		if (currentSchedule.getId() == null) {
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		}
-		else {
+		} else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}

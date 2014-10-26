@@ -9,8 +9,6 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class TaskConverter implements TypeConverter {
 
-	private static final String	NO_DATA	= "X";
-
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
 

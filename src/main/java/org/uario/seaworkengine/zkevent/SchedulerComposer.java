@@ -82,6 +82,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Div								info_scheduler;
 
+	@Wire
+	private A								label_date_popup;
+
 	// initial program and revision
 	private List<DetailSchedule>			list_details_program;
 
@@ -136,7 +139,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Combobox						scheduler_type_selector;
 
-	// selected week
+	// selected day
 	private Integer							selectedDay;
 
 	// selected shift
@@ -164,7 +167,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.program_task.getSelectedItem() == null) {
-			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK,
+					Messagebox.EXCLAMATION);
 			return;
 		}
 
@@ -229,7 +233,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.scheduler_type_selector.getSelectedItem() == this.preprocessing_item) {
 			this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
-			this.setupGlobalSchedulerGridForDay(false);
+			this.setupGlobalSchedulerGridForDay();
 		}
 
 		if (this.scheduler_type_selector.getSelectedItem() == this.program_item) {
@@ -245,8 +249,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param data_info
 	 */
 	protected void dayConfigurator(final String data_info) {
-		this.day_definition_popup.open(this.grid_scheduler_day, "after_pointer");
 
+		// set info day;
+		this.selectedDay = Integer.parseInt(data_info);
+		if (this.selectedDay == null) {
+			return;
+		}
+
+		final Date current_day = this.getDateScheduled(this.selectedDay);
+		this.label_date_popup.setLabel("Configurazione gionaliera: " + SchedulerComposer.formatter_scheduler_info.format(current_day));
+		this.day_definition_popup.open(this.grid_scheduler_day, "after_pointer");
 	}
 
 	/**
@@ -285,7 +297,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set initial structure for program
 			SchedulerComposer.this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
-			SchedulerComposer.this.setupGlobalSchedulerGridForDay(false);
+			SchedulerComposer.this.setupGlobalSchedulerGridForDay();
 		}
 
 		if (selected == this.program_item) {
@@ -323,7 +335,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// set initial structure for program
 				SchedulerComposer.this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
-				SchedulerComposer.this.setupGlobalSchedulerGridForDay(false);
+				SchedulerComposer.this.setupGlobalSchedulerGridForDay();
 
 			}
 		});
@@ -474,7 +486,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.scheduler_type_selector.getSelectedItem() == this.preprocessing_item) {
 			this.setGridStructureForDay(this.date_init_scheduler.getValue());
-			this.setupGlobalSchedulerGridForDay(false);
+			this.setupGlobalSchedulerGridForDay();
 		}
 
 		if (this.scheduler_type_selector.getSelectedItem() == this.program_item) {
@@ -527,7 +539,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set user
 		this.currentSchedule.setUser(this.selectedUser);
 
-		this.scheduleDAO.saveOrUpdate(this.currentSchedule);
+		this.scheduleDAO.saveOrUpdateSchedule(this.currentSchedule);
 
 		this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 	}
@@ -617,6 +629,42 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #ok_day_shift")
+	public void setDayShift() {
+		if (this.grid_scheduler_day.getSelectedItem() == null) {
+			return;
+		}
+
+		if (this.shift_popup.getSelectedItem() == null) {
+			return;
+		}
+
+		if (this.selectedDay == null) {
+			return;
+		}
+
+		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
+		final UserShift shift = this.shift_popup.getSelectedItem().getValue();
+
+		DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay);
+		if (daySchedule == null) {
+			daySchedule = new DaySchedule();
+		}
+
+		// reset day schedule
+		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
+		daySchedule.setDate_scheduled(date_scheduled);
+		daySchedule.setId_user(row_item.getUser());
+		daySchedule.setShift(shift.getId());
+
+		this.scheduleDAO.saveOrUpdateDaySchedule(daySchedule);
+
+		this.setupGlobalSchedulerGridForDay();
+
+		this.day_definition_popup.close();
+
+	}
+
 	/**
 	 * initial structure
 	 *
@@ -652,8 +700,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				day_number.setStyle("color:red");
 				day_label.setStyle("color:red");
-			}
-			else {
+			} else {
 				day_number.setStyle("color:black");
 				day_label.setStyle("color:black");
 			}
@@ -699,8 +746,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -716,7 +762,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param info_visibility
 	 *            if true set info scheduler for programming visible
 	 */
-	private void setupGlobalSchedulerGridForDay(final boolean info_visibility) {
+	private void setupGlobalSchedulerGridForDay() {
 
 		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
 		final Calendar calendar = Calendar.getInstance();
@@ -1057,21 +1103,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
+				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
 				SchedulerComposer.this.revision_time_in.setValue(null);
-			}
-			else {
+			} else {
 				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
 			}
 
 			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
 				SchedulerComposer.this.revision_time_out.setValue(null);
-			}
-			else {
+			} else {
 				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
 			}
 
@@ -1085,8 +1130,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// this.listbox_revision.setModel(new
 			// ListModelList<Detail_Schedule>(this.list_details));
 
-		}
-		else {
+		} else {
 			// if we haven't information about schedule
 			SchedulerComposer.this.revision_time_in.setValue(null);
 			SchedulerComposer.this.revision_time_out.setValue(null);

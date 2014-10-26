@@ -14,7 +14,7 @@ public interface ITaskCache {
 	public void buildCache(List<UserTask> caches);
 
 	/**
-	 * Get UserShift
+	 * Get UserTask
 	 *
 	 * @param id
 	 * @return

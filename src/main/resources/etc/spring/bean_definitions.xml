@@ -102,6 +102,7 @@
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisConfigurationDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="task_cache" ref="myTaskCache"></property>
+		<property name="shift_cache" ref="myShiftCache"></property>
 
 	</bean>
 
@@ -160,7 +161,8 @@
 
 	</bean>
 
-	<bean id="myJobCostDAO" class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisJobCostDAO">
+	<bean id="myJobCostDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisJobCostDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
@@ -170,6 +172,10 @@
 	<!-- SETUP PLATFORM CACHES -->
 	<bean id="myTaskCache"
 		class="org.uario.seaworkengine.platform.persistence.cache.task.TaskCacheImpl">
+	</bean>
+
+	<bean id="myShiftCache"
+		class="org.uario.seaworkengine.platform.persistence.cache.task.ShiftCacheImpl">
 	</bean>
 
 

@@ -18,8 +18,6 @@ public class DaySchedule implements Comparable<DaySchedule>, Serializable {
 
 	private Integer				shift;
 
-	private String				shiftcode;
-
 	@Override
 	public int compareTo(final DaySchedule arg0) {
 		if (arg0 == null) {
@@ -59,10 +57,6 @@ public class DaySchedule implements Comparable<DaySchedule>, Serializable {
 		return this.shift;
 	}
 
-	public String getShiftcode() {
-		return this.shiftcode;
-	}
-
 	public void setDate_scheduled(final Date date_scheduled) {
 		this.date_scheduled = date_scheduled;
 	}
@@ -81,20 +75,6 @@ public class DaySchedule implements Comparable<DaySchedule>, Serializable {
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
-	}
-
-	public void setShiftcode(final String shiftcode) {
-		this.shiftcode = shiftcode;
-	}
-
-	@Override
-	public String toString() {
-		if (this.shiftcode == null) {
-			return "_";
-		}
-		else {
-			return this.shiftcode;
-		}
 	}
 
 }

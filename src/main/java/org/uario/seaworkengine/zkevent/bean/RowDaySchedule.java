@@ -40,7 +40,144 @@ public class RowDaySchedule {
 
 	// used to visualize it
 	private String		name_user;
+
 	private Integer		user;
+
+	public DaySchedule getDaySchedule(final Integer day) {
+		if ((day < 1) || (day > 31)) {
+			return null;
+		}
+
+		switch (day) {
+
+		case 1: {
+			return this.getItem1();
+		}
+
+		case 2: {
+			return this.getItem2();
+		}
+
+		case 3: {
+			return this.getItem3();
+		}
+
+		case 4: {
+			return this.getItem4();
+		}
+
+		case 5: {
+			return this.getItem5();
+		}
+
+		case 6: {
+			return this.getItem6();
+		}
+
+		case 7: {
+			return this.getItem7();
+		}
+
+		case 8: {
+			return this.getItem8();
+		}
+
+		case 9: {
+			return this.getItem9();
+		}
+
+		case 10: {
+			return this.getItem10();
+		}
+
+		case 11: {
+			return this.getItem11();
+		}
+
+		case 12: {
+			return this.getItem12();
+		}
+
+		case 13: {
+			return this.getItem13();
+		}
+
+		case 14: {
+			return this.getItem14();
+		}
+
+		case 15: {
+			return this.getItem15();
+		}
+
+		case 16: {
+			return this.getItem16();
+		}
+
+		case 17: {
+			return this.getItem17();
+		}
+
+		case 18: {
+			return this.getItem18();
+		}
+
+		case 19: {
+			return this.getItem19();
+		}
+
+		case 20: {
+			return this.getItem20();
+		}
+
+		case 21: {
+			return this.getItem21();
+		}
+
+		case 22: {
+			return this.getItem22();
+		}
+
+		case 23: {
+			return this.getItem23();
+		}
+
+		case 24: {
+			return this.getItem24();
+		}
+
+		case 25: {
+			return this.getItem25();
+		}
+
+		case 26: {
+			return this.getItem26();
+		}
+
+		case 27: {
+			return this.getItem27();
+		}
+
+		case 28: {
+			return this.getItem28();
+		}
+
+		case 29: {
+			return this.getItem29();
+		}
+
+		case 30: {
+			return this.getItem30();
+		}
+
+		case 31: {
+			return this.getItem31();
+		}
+
+		}
+
+		return null;
+	}
 
 	public DaySchedule getItem1() {
 		return this.item1;
