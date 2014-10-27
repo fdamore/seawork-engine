@@ -92,8 +92,7 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #deletetask_command")
-	public void deleteTaskUser() {
+	private void deleteTaskUser() {
 
 		if (this.sw_list_task.getSelectedItem() == null) {
 			return;
@@ -150,6 +149,22 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list));
 
 		this.grid_task_details.setVisible(false);
+	}
+
+	@Listen("onClick = #sw_link_deletetask")
+	public void removeItem() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerTask.this.deleteTaskUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
+
 	}
 
 	@Listen("onClick = #sw_setdefault")

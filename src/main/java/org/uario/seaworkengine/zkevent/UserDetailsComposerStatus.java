@@ -76,8 +76,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #delete_command")
-	public void deleteItemToUser() {
+	private void deleteItemToUser() {
 
 		if (this.sw_list.getSelectedItem() == null) {
 			return;
@@ -91,7 +90,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		this.employmentDao.removeEmployment(item.getId());
 
-		Messagebox.show("Inforomazione rimossa", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		Messagebox.show("Informazione rimossa", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 		// Refresh list task
 		this.setInitialView();
@@ -234,7 +233,18 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
-			this.box_update_status.setVisible(true);
+			Messagebox.show("Vuoi cambiare lo status attuale?", "CONFERMA STATUS ATTUALE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener() {
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								UserDetailsComposerStatus.this.onUpdateStatus();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					});
+
 			this.status_upload = item.getStatus();
 
 		}
@@ -244,8 +254,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #update_command")
-	public void onUpdateStatus() {
+	private void onUpdateStatus() {
 
 		if (this.status_upload == null) {
 			return;
@@ -254,6 +263,22 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		// send event to show user task
 		final Component comp = Path.getComponent("//user/page_user_detail");
 		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, this.status_upload);
+	}
+
+	@Listen("onClick = #sw_link_delete")
+	public void removeItem() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerStatus.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
+
 	}
 
 	@Listen("onClick = #sw_link_set")

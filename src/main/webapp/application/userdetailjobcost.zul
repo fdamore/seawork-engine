@@ -108,21 +108,7 @@
 
 				<separator></separator>
 			</div>
-
-
-			<div id="box_delete" visible="false">
-
-				<a label="Vuoi eliminare la scelta selezionata?"
-					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-				<toolbarbutton label="Si" style="color: red"
-					id="delete_command" onClick="box_delete.setVisible(false)">
-				</toolbarbutton>
-				<toolbarbutton label="No" style="color: no"
-					onClick="box_delete.setVisible(false)">
-				</toolbarbutton>
-
-			</div>
+			
 
 
 			<listbox id="sw_list" pagingPosition="both" mold="paging"
@@ -161,7 +147,7 @@
 
 						<toolbarbutton id="sw_link_delete"
 							style="color:blue"
-							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());box_delete.setVisible(true)"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="Cancella">
 						</toolbarbutton>
 
