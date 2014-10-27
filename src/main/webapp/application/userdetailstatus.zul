@@ -39,7 +39,7 @@
 							<label value="Status"></label>
 							<combobox id="status"
 								placeholder="Seleziona lo stato utente" readonly="true">
-								<comboitem label="APERTO" value="A">
+								<comboitem label="IN ORGANICO" value="A">
 								</comboitem>
 								<comboitem label="RIAPERTO"
 									value="AR">
