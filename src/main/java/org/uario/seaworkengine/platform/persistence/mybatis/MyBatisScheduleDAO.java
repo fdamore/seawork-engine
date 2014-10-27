@@ -1,9 +1,11 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,19 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		MyBatisScheduleDAO.logger.info("createSchedule");
 
 		this.getSqlSession().insert("schedule.createSchedule", schedule);
+
+	}
+
+	@Override
+	public List<DaySchedule> loadDaySchedule(final Date date_scheduled) {
+		MyBatisScheduleDAO.logger.info("loadDayScheduleByDate");
+
+		final Date dt_arg = DateUtils.truncate(date_scheduled, Calendar.DATE);
+
+		final HashMap<String, Date> map = new HashMap<String, Date>();
+		map.put("dt_arg", dt_arg);
+
+		return this.getSqlSession().selectList("schedule.loadDayScheduleByDate", map);
 
 	}
 
@@ -145,7 +160,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createDaySchedule", day_schedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateDaySchedule", day_schedule);
 
 		}
@@ -158,7 +174,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}

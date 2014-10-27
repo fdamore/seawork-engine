@@ -19,14 +19,18 @@ public class ItemRowSchedule implements Serializable {
 
 	private String				anchor4;
 
+	private final RowSchedule	currentRow;
+
 	private Schedule			schedule;
 
-	public ItemRowSchedule() {
+	public ItemRowSchedule(final RowSchedule row) {
+		this.currentRow = row;
 
 	}
 
-	public ItemRowSchedule(final Schedule schedule) {
+	public ItemRowSchedule(final RowSchedule row, final Schedule schedule) {
 		this.schedule = schedule;
+		this.currentRow = row;
 
 	}
 
@@ -44,6 +48,15 @@ public class ItemRowSchedule implements Serializable {
 
 	public String getAnchor4() {
 		return this.anchor4;
+	}
+
+	/**
+	 * Row Schedule
+	 * 
+	 * @return
+	 */
+	public RowSchedule getRowSchedule() {
+		return this.currentRow;
 	}
 
 	public Schedule getSchedule() {
