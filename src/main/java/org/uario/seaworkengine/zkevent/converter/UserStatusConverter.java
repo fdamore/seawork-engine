@@ -6,7 +6,7 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class UserStatusConverter implements TypeConverter {
 
-	private static final String	APERTO			= "APERTO";
+	private static final String	APERTO			= "IN ORGANICO";
 	private static final String	LICENZIATO		= "LICENZIATO";
 	private static final String	NON_CONFERMATO	= "NON CONFERMATO";
 	private static final String	RIAPERTO		= "RIAPERTO";
