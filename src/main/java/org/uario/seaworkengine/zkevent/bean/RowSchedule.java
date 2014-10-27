@@ -17,9 +17,11 @@ public class RowSchedule {
 	private ItemRowSchedule	item_7	= new ItemRowSchedule();
 
 	// used to visualize it
-	private String				name_user;
+	private String			name_user;
 
-	private Integer				user;
+	private Integer			user;
+
+	private String			user_status;
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -73,6 +75,10 @@ public class RowSchedule {
 		return this.user;
 	}
 
+	public String getUser_status() {
+		return this.user_status;
+	}
+
 	public void setItem_1(final ItemRowSchedule item_1) {
 		this.item_1 = item_1;
 	}
@@ -107,6 +113,10 @@ public class RowSchedule {
 
 	public void setUser(final Integer user) {
 		this.user = user;
+	}
+
+	public void setUser_status(final String user_status) {
+		this.user_status = user_status;
 	}
 
 }

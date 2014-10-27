@@ -50,9 +50,11 @@ import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
+	private static final int				DAYS_BEFORE_TODAY			= -2;
+
 	private static final int				DAYS_IN_GRID_PREPROCESSING	= 31;
 
-	private static final int				DAYS_IN_GRID_PROGRAM		= 7;
+	private static final int				DAYS_IN_GRID_PROGRAM		= 4;
 
 	// format
 	private static final SimpleDateFormat	formatter_dd				= new SimpleDateFormat("dd");
@@ -72,6 +74,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Popup							day_definition_popup;
+
+	/**
+	 * First date in grid
+	 */
+	private Date							firstDateInGrid;
 
 	@Wire
 	private Listbox							grid_scheduler;
@@ -382,7 +389,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final int to_add = day - 1;
 
 		final Calendar calendar_day = Calendar.getInstance();
-		calendar_day.setTime(SchedulerComposer.this.date_init_scheduler.getValue());
+		calendar_day.setTime(this.firstDateInGrid);
 		calendar_day.add(Calendar.DAY_OF_YEAR, to_add);
 
 		final Date ret = calendar_day.getTime();
@@ -396,14 +403,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param schedule
 	 * @return
 	 */
-	private int getDayOfSchedule(final Date initial_date, final Date schedule_date) {
+	private int getDayOfSchedule(final Date schedule_date) {
 
 		if (schedule_date == null) {
 			// if not date scheduler, put it at first day
 			return 1;
 		}
 
-		final Date date_init_truncate = DateUtils.truncate(initial_date, Calendar.DATE);
+		final Date date_init_truncate = DateUtils.truncate(this.firstDateInGrid, Calendar.DATE);
 		final Date schedule_date_truncate = DateUtils.truncate(schedule_date, Calendar.DATE);
 
 		final long millis = schedule_date_truncate.getTime() - date_init_truncate.getTime();
@@ -676,8 +683,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(initial_date);
+		this.firstDateInGrid = DateUtils.truncate(initial_date, Calendar.DATE);
 
 		// set seven days
 		for (int i = 0; i < SchedulerComposer.DAYS_IN_GRID_PREPROCESSING; i++) {
@@ -691,7 +697,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			final Calendar current_calendar = Calendar.getInstance();
-			current_calendar.setTime(calendar.getTime());
+			current_calendar.setTime(this.firstDateInGrid);
 			current_calendar.add(Calendar.DAY_OF_YEAR, i);
 
 			final String day_n = SchedulerComposer.formatter_e.format(current_calendar.getTime());
@@ -723,7 +729,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(initial_date);
+		calendar.setTime(DateUtils.truncate(initial_date, Calendar.DATE));
+		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_BEFORE_TODAY);
+		this.firstDateInGrid = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
 
 		// set seven days
 		for (int i = 0; i < SchedulerComposer.DAYS_IN_GRID_PROGRAM; i++) {
@@ -737,7 +745,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			final Calendar current_calendar = Calendar.getInstance();
-			current_calendar.setTime(calendar.getTime());
+			current_calendar.setTime(this.firstDateInGrid);
 			current_calendar.add(Calendar.DAY_OF_YEAR, i);
 
 			final String day_w = SchedulerComposer.formatter_eeee.format(current_calendar.getTime());
@@ -764,13 +772,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void setupGlobalSchedulerGridForDay() {
 
-		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
 		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(initial_date);
+		calendar.setTime(this.firstDateInGrid);
 		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID_PREPROCESSING);
 		final Date final_date = calendar.getTime();
 
-		final List<DaySchedule> list = this.scheduleDAO.selectDaySchedulers(initial_date, final_date);
+		final List<DaySchedule> list = this.scheduleDAO.selectDaySchedulers(this.firstDateInGrid, final_date);
 
 		final ArrayList<RowDaySchedule> list_row = new ArrayList<RowDaySchedule>();
 		RowDaySchedule currentRow = null;
@@ -823,7 +830,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// set correct day
-			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule.getDate_scheduled());
+			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_scheduled());
 
 			if (day_on_current_calendar == 1) {
 				currentRow.setItem1(schedule);
@@ -961,13 +968,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void setupGlobalSchedulerGridForShift(final boolean info_visibility) {
 
-		final Date initial_date = DateUtils.truncate(this.date_init_scheduler.getValue(), Calendar.DATE);
+		// final
 		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(initial_date);
+		calendar.setTime(this.firstDateInGrid);
 		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID_PROGRAM);
 		final Date final_date = calendar.getTime();
 
-		final List<Schedule> list = this.scheduleDAO.selectSchedulers(initial_date, final_date);
+		final List<Schedule> list = this.scheduleDAO.selectSchedulers(this.firstDateInGrid, final_date);
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -1001,7 +1008,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// set correct day
-			final int day_on_current_calendar = this.getDayOfSchedule(initial_date, schedule.getDate_schedule());
+			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule);
 
 			if (day_on_current_calendar == 1) {
