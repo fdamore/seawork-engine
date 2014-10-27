@@ -2,7 +2,7 @@ package org.uario.seaworkengine.zkevent.bean;
 
 import org.uario.seaworkengine.utility.UserTag;
 
-public class RowSchedule {
+public class RowSchedule implements Comparable<RowSchedule> {
 
 	private ItemRowSchedule	item_1		= new ItemRowSchedule(this);
 
@@ -24,6 +24,16 @@ public class RowSchedule {
 	private Integer			user;
 
 	private String			user_status	= UserTag.USER_WORKER_AVAILABLE;
+
+	@Override
+	public int compareTo(final RowSchedule o) {
+		if (this.getUser_status().equals(o.getUser_status())) {
+			return this.getName_user().compareTo(o.getName_user());
+		}
+
+		return this.getUser_status().compareTo(o.getUser_status());
+
+	}
 
 	@Override
 	public boolean equals(final Object obj) {

@@ -3,6 +3,7 @@ package org.uario.seaworkengine.zkevent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1013,7 +1014,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			if (!presence && !forzable) {
-				status = UserTag.USER_WORKER_NOT_AVALABLE;
+				status = UserTag.USER_WORKER_NOT_AVAILABLE;
 			}
 
 			map_status.put(id_user, status);
@@ -1121,6 +1122,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			list_row.add(addedRow);
 
 		}
+
+		// sort
+		Collections.sort(list_row);
 
 		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
 

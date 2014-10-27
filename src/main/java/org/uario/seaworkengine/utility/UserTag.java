@@ -16,10 +16,10 @@ public class UserTag {
 
 	public static final String	USER_NOSURNAME				= "NOSURNAME";
 
-	public static final String	USER_WORKER_AVAILABLE		= "USER_WORKER_AVAILABLE";
+	public static final String	USER_WORKER_AVAILABLE		= "a";
 
-	public static final String	USER_WORKER_FORZABLE		= "USER_WORKER_FORZABLE";
+	public static final String	USER_WORKER_FORZABLE		= "b";
 
-	public static final String	USER_WORKER_NOT_AVALABLE	= "USER_WORKER_NOT_AVALABLE";
+	public static final String	USER_WORKER_NOT_AVAILABLE	= "c";
 
 }
