@@ -32,19 +32,23 @@ public class Utility {
 	public static void defineColorShiftConverter(final Component arg1, final ItemRowSchedule item_schedule) {
 		final RowSchedule row = item_schedule.getRowSchedule();
 		final String status = row.getUser_status();
-		String color_stye = "color:green";
+		String color_stye = "color:blue";
+
 		if (status.equals(UserTag.USER_WORKER_AVAILABLE)) {
-			color_stye = "color:green";
+			color_stye = "color:blue;font-weight: bold;";
 		}
 		if (status.equals(UserTag.USER_WORKER_FORZABLE)) {
-			color_stye = "color:orange";
+			color_stye = "color:orange;font-weight: bold;";
 		}
-		if (status.equals(UserTag.USER_WORKER_NOT_AVALABLE)) {
-			color_stye = "color:red";
+		if (status.equals(UserTag.USER_WORKER_NOT_AVAILABLE)) {
+			color_stye = "color:red;font-weight: bold;";
 		}
 
 		final Toolbarbutton toolbar = (Toolbarbutton) arg1;
 		toolbar.setStyle(color_stye);
+
+		// final Listcell cell = (Listcell) arg1.getParent();
+		// cell.setStyle("background-color:red");
 	}
 
 	/**
