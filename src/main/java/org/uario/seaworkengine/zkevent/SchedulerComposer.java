@@ -178,7 +178,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.program_task.getSelectedItem() == null) {
-			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK,
+					Messagebox.EXCLAMATION);
 			return;
 		}
 
@@ -622,8 +623,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// save note
 		this.currentSchedule.setNote(this.note.getValue());
-		this.currentSchedule.setFrom_time(this.revision_time_in.getValue());
-		this.currentSchedule.setTo_time(this.revision_time_out.getValue());
 
 		// save scheduler
 		this.saveCurrentScheduler();
@@ -722,8 +721,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				day_number.setStyle("color:red");
 				day_label.setStyle("color:red");
-			}
-			else {
+			} else {
 				day_number.setStyle("color:black");
 				day_label.setStyle("color:black");
 			}
@@ -771,8 +769,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -1169,23 +1166,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
+				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
-			if (SchedulerComposer.this.currentSchedule.getFrom_time() == null) {
-				SchedulerComposer.this.revision_time_in.setValue(null);
-			}
-			else {
-				SchedulerComposer.this.revision_time_in.setValue(SchedulerComposer.this.currentSchedule.getFrom_time());
-			}
-
-			if (SchedulerComposer.this.currentSchedule.getTo_time() == null) {
-				SchedulerComposer.this.revision_time_out.setValue(null);
-			}
-			else {
-				SchedulerComposer.this.revision_time_out.setValue(SchedulerComposer.this.currentSchedule.getTo_time());
-			}
 
 			// set note
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
@@ -1197,8 +1182,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// this.listbox_revision.setModel(new
 			// ListModelList<Detail_Schedule>(this.list_details));
 
-		}
-		else {
+		} else {
 			// if we haven't information about schedule
 			SchedulerComposer.this.revision_time_in.setValue(null);
 			SchedulerComposer.this.revision_time_out.setValue(null);

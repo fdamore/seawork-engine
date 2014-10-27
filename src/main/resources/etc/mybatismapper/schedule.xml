@@ -8,15 +8,15 @@
 	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO
 		schedule
-		(date_schedule, user, editor, controller, from_time, to_time, note)
+		(date_schedule, user, editor, controller, note)
 		VALUES (#{date_schedule}, #{user}, #{editor}, #{controller},
-		#{from_time}, #{to_time}, #{note});
+		#{note});
 	</insert>
 
 	<select id="loadSchedule" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="int">
 		SELECT id, date_schedule, user, editor, controller,
-		from_time, to_time, note
+		note
 		FROM schedule
 		WHERE id = #{id};
 	</select>
@@ -27,7 +27,7 @@
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 		SELECT id, date_schedule, user, editor, controller,
-		from_time, to_time, note
+		note
 		FROM schedule
 		WHERE user = #{id_user} and
 		date_schedule = #{date_schedule};
@@ -51,8 +51,6 @@ ds.shift,
     sum(ds.time_initial) as program_time,
     s.date_schedule,
     s.note,
-    s.from_time,
-    s.to_time,
     s.editor,
     s.controller,
     u.id as user,
@@ -97,9 +95,6 @@ from
 		editor =
 		#{editor},
 		controller = #{controller},
-		from_time = #{from_time},
-		to_time
-		= #{to_time},
 		note = #{note}
 		WHERE id = #{id};
 	</update>

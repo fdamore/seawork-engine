@@ -16,8 +16,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	private Integer				editor;
 
-	private Date				from_time;
-
 	private Integer				id;
 
 	// used form visualize
@@ -28,8 +26,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	private Integer				program_time;
 
 	private Integer				shift;
-
-	private Date				to_time;
 
 	private Integer				user;
 
@@ -63,10 +59,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.editor;
 	}
 
-	public Date getFrom_time() {
-		return this.from_time;
-	}
-
 	public Integer getId() {
 		return this.id;
 	}
@@ -87,10 +79,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.shift;
 	}
 
-	public Date getTo_time() {
-		return this.to_time;
-	}
-
 	public Integer getUser() {
 		return this.user;
 	}
@@ -105,10 +93,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setEditor(final Integer editor) {
 		this.editor = editor;
-	}
-
-	public void setFrom_time(final Date from_time) {
-		this.from_time = from_time;
 	}
 
 	public void setId(final Integer id) {
@@ -129,10 +113,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
-	}
-
-	public void setTo_time(final Date to_time) {
-		this.to_time = to_time;
 	}
 
 	public void setUser(final Integer user) {
