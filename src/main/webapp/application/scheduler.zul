@@ -817,8 +817,7 @@
 
 					<listhead>
 
-						<listheader label="Nome"
-							sort="auto(name_scheduled)" hflex="3" />
+						<listheader label="Nome" hflex="3" />
 
 						<listheader label="1" hflex="1" align="center" />
 						<listheader label="2" hflex="1" align="center" />
