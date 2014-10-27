@@ -1,27 +1,29 @@
 package org.uario.seaworkengine.zkevent.bean;
 
+import org.uario.seaworkengine.utility.UserTag;
+
 public class RowSchedule {
 
-	private ItemRowSchedule	item_1	= new ItemRowSchedule();
+	private ItemRowSchedule	item_1		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_2	= new ItemRowSchedule();
+	private ItemRowSchedule	item_2		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_3	= new ItemRowSchedule();
+	private ItemRowSchedule	item_3		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_4	= new ItemRowSchedule();
+	private ItemRowSchedule	item_4		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_5	= new ItemRowSchedule();
+	private ItemRowSchedule	item_5		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_6	= new ItemRowSchedule();
+	private ItemRowSchedule	item_6		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_7	= new ItemRowSchedule();
+	private ItemRowSchedule	item_7		= new ItemRowSchedule(this);
 
 	// used to visualize it
 	private String			name_user;
 
 	private Integer			user;
 
-	private String			user_status;
+	private String			user_status	= UserTag.USER_WORKER_AVAILABLE;
 
 	@Override
 	public boolean equals(final Object obj) {

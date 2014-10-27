@@ -835,7 +835,7 @@
 						<listheader label="1" hflex="1" align="center" />
 						<listheader label="2" hflex="1" align="center" />
 						<listheader label="3" hflex="1" align="center" />
-						<listheader label="4" hflex="1" align="center" />						
+						<listheader label="4" hflex="1" align="center" />
 					</listhead>
 
 					<listitem self="@{each='item'}" value="@{item}">
