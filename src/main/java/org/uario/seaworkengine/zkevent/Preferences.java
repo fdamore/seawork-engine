@@ -36,12 +36,6 @@ public class Preferences extends SelectorComposer<Component> {
 	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Div					box_deleteshift;
-
-	@Wire
-	private Div					box_deletetask;
-
-	@Wire
 	private Textbox				code_shift;
 
 	@Wire
@@ -103,13 +97,17 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setCode(this.code_shift.getValue());
 		shift.setDescription(this.description_shift.getValue());
 
-		if (us_type != null) {
-			if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
-				shift.setPresence(false);
-			} else {
-				shift.setPresence(true);
-			}
+		if (us_type == null) {
+			Messagebox.show("Selezionare tipo di turno", "Error", Messagebox.OK, Messagebox.ERROR);
+			return;
 		}
+
+		if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
+			shift.setPresence(false);
+		} else {
+			shift.setPresence(true);
+		}
+
 		if (this.forceable.isChecked()) {
 			shift.setForceable(true);
 		} else {
@@ -150,8 +148,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.resetTaskInfo();
 	}
 
-	@Listen("onClick = #deleteshift_command")
-	public void deleteShift() {
+	private void deleteShift() {
 
 		if (this.sw_list_shift.getSelectedItem() == null) {
 			return;
@@ -164,12 +161,10 @@ public class Preferences extends SelectorComposer<Component> {
 		this.refreshShiftList();
 
 		this.grid_shift_details.setVisible(false);
-		this.box_deleteshift.setVisible(false);
 
 	}
 
-	@Listen("onClick = #deletetask_command")
-	public void deleteTask() {
+	private void deleteTask() {
 
 		if (this.sw_list_task.getSelectedItem() == null) {
 			return;
@@ -182,7 +177,6 @@ public class Preferences extends SelectorComposer<Component> {
 		this.refreshTaskList();
 
 		this.grid_task_details.setVisible(false);
-		this.box_deletetask.setVisible(false);
 
 	}
 
@@ -354,7 +348,6 @@ public class Preferences extends SelectorComposer<Component> {
 		final List<UserShift> list = this.configurationDao.loadShifts();
 		Preferences.this.sw_list_shift.setModel(new ListModelList<UserShift>(list));
 
-		this.box_deleteshift.setVisible(false);
 	}
 
 	@Listen("onClick = #sw_refresh_shiftlist")
@@ -371,7 +364,38 @@ public class Preferences extends SelectorComposer<Component> {
 		final List<UserTask> list = Preferences.this.configurationDao.loadTasks();
 		Preferences.this.sw_list_task.setModel(new ListModelList<UserTask>(list));
 
-		this.box_deletetask.setVisible(false);
+	}
+
+	@Listen("onClick = #sw_link_deleteshift")
+	public void removeShift() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteShift();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
+
+	}
+
+	@Listen("onClick = #sw_link_deletetask")
+	public void removeTask() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
+
 	}
 
 	private void resetShiftInfo() {

@@ -77,8 +77,7 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #delete_command")
-	public void deleteItemToUser() {
+	private void deleteItemToUser() {
 
 		if (this.sw_list.getSelectedItem() == null) {
 			return;
@@ -177,10 +176,9 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 
 			this.fcDAO.createFCForUser(this.person_selected.getId(), item);
 
-			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Visita fiscale aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		else {
+		} else {
 
 			// get selected item
 			final FiscalControl item = this.sw_list.getSelectedItem().getValue();
@@ -196,6 +194,22 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 
 		// Refresh list task
 		this.setInitialView();
+
+	}
+
+	@Listen("onClick = #sw_link_delete")
+	public void removeItem() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerFC.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 
@@ -221,8 +235,7 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 		// set result communication type
 		if (this.result_comunication_type.getSelectedItem() == null) {
 			item.setResult_comunication_type(null);
-		}
-		else {
+		} else {
 			final String itm = this.result_comunication_type.getSelectedItem().getValue();
 			item.setResult_comunication_type(itm);
 		}

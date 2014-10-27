@@ -26,7 +26,6 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Datebox;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -59,9 +58,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox						birth_place_user;
-
-	@Wire
-	private Div							box_deleteuser;
 
 	@Wire
 	private Textbox						city_user;
@@ -487,8 +483,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #deleteuser_command")
-	public void deleteUserCommand() {
+	private void deleteUserCommand() {
 
 		try {
 			if (this.person_selected == null) {
@@ -499,8 +494,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			// update list
 			this.setUserListBox();
-
-			this.box_deleteuser.setVisible(false);
 
 			Messagebox.show("Utente cancellato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -630,6 +623,22 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// set user listbox
 		this.setUserListBox();
+	}
+
+	@Listen("onClick = #sw_link_deleteuser")
+	public void removeItem() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposer.this.deleteUserCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
+
 	}
 
 	/**

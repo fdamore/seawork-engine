@@ -63,8 +63,7 @@ public class UserDetailsComposerTD extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #delete_command")
-	public void deleteItemToUser() {
+	private void deleteItemToUser() {
 
 		if (this.sw_list.getSelectedItem() == null) {
 			return;
@@ -148,10 +147,9 @@ public class UserDetailsComposerTD extends SelectorComposer<Component> {
 
 			this.tradeUnionDAO.createTradeUnionForUser(this.person_selected.getId(), item);
 
-			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Sindacato aggiunto all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		else {
+		} else {
 
 			// get selected item
 			final TradeUnion item = this.sw_list.getSelectedItem().getValue();
@@ -167,6 +165,22 @@ public class UserDetailsComposerTD extends SelectorComposer<Component> {
 
 		// Refresh list task
 		this.setInitialView();
+
+	}
+
+	@Listen("onClick = #sw_link_delete")
+	public void removeItem() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerTD.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 

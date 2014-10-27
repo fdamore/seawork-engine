@@ -114,9 +114,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	 */
 	private static final long	serialVersionUID		= 1L;
 
-	@Wire
-	private Component			box_update_status;
-
 	// dao interface
 	private IContestation		contestationDAO;
 
@@ -147,8 +144,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private boolean				status_add				= false;
 
 	private Date				status_date_modified	= null;
-	private String				status_upload			= "";
 
+	private String				status_upload			= "";
 	@Wire
 	private Datebox				stop_from;
 
@@ -200,8 +197,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #delete_command")
-	public void deleteItemToUser() {
+	private void deleteItemToUser() {
 
 		if (this.sw_list.getSelectedItem() == null) {
 			return;
@@ -426,7 +422,17 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
-					this.box_update_status.setVisible(true);
+					Messagebox.show("Riportare lo status utente su storico e anagrafica?", "AGGIORNARE STATUS", Messagebox.OK | Messagebox.CANCEL,
+							Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										UserDetailsComposerCons.this.onUpdateStatus();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// Cancel is clicked
+									}
+								}
+							});
 
 					if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)) {
 						this.status_upload = UserStatusTag.FIRED;
@@ -448,8 +454,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #update_command")
-	public void onUpdateStatus() {
+	private void onUpdateStatus() {
 
 		// send event to show user task
 		final Component comp = Path.getComponent("//user/page_user_detail");
@@ -461,6 +466,22 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		message.setDate_modified(this.status_date_modified);
 		final Component comp_status = Path.getComponent("//userstatus/panel");
 		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp_status, message);
+	}
+
+	@Listen("onClick = #sw_link_delete")
+	public void removeItem() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerCons.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
+
 	}
 
 	/**

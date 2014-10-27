@@ -191,20 +191,7 @@
 					<separator></separator>
 				</div>
 		
-				<div id="box_deletetask" visible="false">
-		
-					<a label="Vuoi eliminare la mansione selezionata?"
-						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-		
-					<toolbarbutton label="Si" style="color: red"
-						id="deletetask_command">
-					</toolbarbutton>
-					<toolbarbutton label="No" style="color: no"
-						onClick="box_deletetask.setVisible(false)">
-					</toolbarbutton>
-		
-				</div>
-		
+				
 		
 		
 				<listbox id="sw_list_task" pagingPosition="both" mold="paging"
@@ -231,7 +218,7 @@
 		
 							<toolbarbutton id="sw_link_deletetask"
 								style="color:blue"
-								onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());box_deletetask.setVisible(true)"
+								onClick="sw_list_task.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="Cancella">
 							</toolbarbutton>
 		
@@ -367,24 +354,7 @@
 			<separator></separator>
 		</div>
 
-
-		<div id="box_deleteshift" visible="false">
-			<hbox align="center">
-				<a label="Vuoi eliminare il turno selezionato?"
-					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-				<toolbarbutton label="Si" style="color: red"
-					id="deleteshift_command">
-				</toolbarbutton>
-				<toolbarbutton label="No" style="color: no"
-					onClick="box_deleteshift.setVisible(false)">
-				</toolbarbutton>
-			</hbox>
-
-		</div>
-
-
-
+	
 		<listbox id="sw_list_shift" pagingPosition="both" mold="paging"
 			style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 			pageSize="20">
@@ -417,7 +387,7 @@
 
 					<toolbarbutton id="sw_link_deleteshift"
 						style="color:blue"
-						onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());box_deleteshift.setVisible(true)"
+						onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());"
 						label="Cancella">
 					</toolbarbutton>
 

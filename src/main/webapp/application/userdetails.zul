@@ -497,20 +497,7 @@
 		<separator></separator>
 	</div>
 
-	<div id="box_deleteuser" visible="false">
-
-		<a label="Vuoi eliminare l'utente selezionato?"
-			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-		<toolbarbutton label="Si" style="color: red"
-			id="deleteuser_command">
-		</toolbarbutton>
-		<toolbarbutton label="No" style="color: no"
-			onClick="box_deleteuser.setVisible(false)">
-		</toolbarbutton>
-
-	</div>
-
+	
 	<listbox id="sw_list_user" pagingPosition="both" mold="paging"
 		onSelect="grid_user_details.setVisible(false)"
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
@@ -548,7 +535,7 @@
 
 				<toolbarbutton id="sw_link_deleteuser"
 					style="color:blue"
-					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());box_deleteuser.setVisible(true)"
+					onClick="sw_list_user.setSelectedItem((Listitem)self.getParent().getParent());"
 					label="Cancella">
 				</toolbarbutton>
 

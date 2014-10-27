@@ -60,15 +60,14 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 		this.tfrDao.createTGRForUser(this.person_selected.getId(), item);
 
-		Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		Messagebox.show("TFR aggiunto all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 		// Refresh list task
 		this.setInitialView();
 
 	}
 
-	@Listen("onClick = #delete_command")
-	public void deleteItemToUser() {
+	private void deleteItemToUser() {
 
 		if (this.sw_list.getSelectedItem() == null) {
 			return;
@@ -107,6 +106,22 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 				UserDetailsComposerTFR.this.setInitialView();
 
+			}
+		});
+
+	}
+
+	@Listen("onClick = #sw_link_delete")
+	public void removeItem() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerTFR.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
 			}
 		});
 
