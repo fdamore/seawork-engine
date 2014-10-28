@@ -22,7 +22,9 @@
 	</bean>
 
 
+	<aop:aspectj-autoproxy />
 
+	<import resource="cxf-definition.xml" />
 
 
 

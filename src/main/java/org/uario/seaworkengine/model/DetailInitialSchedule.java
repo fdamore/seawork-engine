@@ -2,6 +2,12 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(namespace = "org.uario.seaworkengine.model")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DetailInitialSchedule implements Serializable {
 
 	/**
@@ -26,12 +32,10 @@ public class DetailInitialSchedule implements Serializable {
 		return this.shift;
 	}
 
-	
 	public Integer getTask() {
 		return this.task;
 	}
 
-	
 	public Integer getTime() {
 		return this.time;
 	}
@@ -48,12 +52,10 @@ public class DetailInitialSchedule implements Serializable {
 		this.shift = shift;
 	}
 
-	
 	public void setTask(final int task_initial) {
 		this.task = task_initial;
 	}
 
-	
 	public void setTime(final int time_initial) {
 		this.time = time_initial;
 	}

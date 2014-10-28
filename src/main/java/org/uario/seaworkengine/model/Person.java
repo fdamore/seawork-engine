@@ -6,11 +6,18 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.uario.seaworkengine.utility.UserTag;
 
+@XmlRootElement(namespace = "org.uario.seaworkengine.model")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public static final Person	NULL				= new Person();
@@ -35,8 +42,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	private String				country;
 
 	private String				current_position;
-
-	// private java.util.Date date_fired;
 
 	private String				department;
 
@@ -71,6 +76,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				npass;
 
+	@XmlTransient
 	private String				password;
 
 	private String				phone;
@@ -204,7 +210,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NONAME;
 
-		} else {
+		}
+		else {
 			return this.firstname;
 		}
 
@@ -222,7 +229,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		final String ret = this.getFirstname() + " " + this.getLastname();
 		if (ret.trim().equals("")) {
 			return this.getEmail();
-		} else {
+		}
+		else {
 			return ret;
 		}
 	}
@@ -233,7 +241,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NOSURNAME;
 
-		} else {
+		}
+		else {
 			return this.lastname;
 		}
 
@@ -502,7 +511,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	public String toString() {
 		if (this.getIndividualName() == null) {
 			return "";
-		} else {
+		}
+		else {
 			return this.getIndividualName();
 		}
 	}
