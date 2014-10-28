@@ -139,12 +139,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Intbox							revision_time;
 
-	@Wire
-	private Datebox							revision_time_in;
-
-	@Wire
-	private Datebox							revision_time_out;
-
 	private ISchedule						scheduleDAO;
 
 	@Wire
@@ -1222,8 +1216,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		} else {
 			// if we haven't information about schedule
-			SchedulerComposer.this.revision_time_in.setValue(null);
-			SchedulerComposer.this.revision_time_out.setValue(null);
 			this.note.setValue(null);
 			this.listbox_program.getItems().clear();
 			this.listbox_revision.getItems().clear();

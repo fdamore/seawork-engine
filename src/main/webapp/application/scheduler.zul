@@ -747,23 +747,7 @@
 								width="400px" id="note" rows="5">
 							</textbox>
 						</hbox>
-
-						<hbox align="center">
-							<label value="Orario Ingresso: "></label>
-							<datebox id="revision_time_in" width="200px"
-								format="long+short">
-							</datebox>
-						</hbox>
-
-						<hbox align="center">
-							<label value="Orario Uscita: "></label>
-							<datebox id="revision_time_out"
-								width="200px" format="long+short">
-							</datebox>
-
-						</hbox>
-
-
+						
 
 					</hbox>
 
