@@ -662,64 +662,7 @@
 						</listbox>
 
 					</panelchildren>
-				</panel>
-
-				<space></space>
-
-				<panel border="normal" collapsible="false" width="100%"
-					sclass="transparent">
-					<panelchildren>
-
-						<listbox id="listbox_revision" width="100%"
-							checkmark="true" multiple="true">
-							<auxhead>
-								<auxheader colspan="2">
-									<label value="Consuntivo"></label>
-
-									<combobox readonly="true"
-										placeholder="Mansioni" id="revision_task">
-									</combobox>
-
-									<intbox
-										placeholder="Ore da lavorare" id="revision_time">
-									</intbox>
-
-									<button label="Aggiungi"
-										sclass="btn-info">
-									</button>
-									<button label="Cancella"
-										sclass="btn-info">
-									</button>
-									<button id="ok_revision"
-										label="Salva" sclass="btn-info">
-									</button>
-								</auxheader>
-							</auxhead>
-							<listhead>
-								<listheader label="Mansioni"></listheader>
-								<listheader label="Tempo Impiegato" />
-							</listhead>
-
-							<listitem self="@{each='item_revision'}"
-								value="@{item_revision}">
-								<listcell>
-									<label width="200px"
-										value="@{item_revision.task_revision, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
-									</label>
-								</listcell>
-								<listcell>
-									<intbox width="200px"
-										value="@{item_revision.time_revision}">
-									</intbox>
-								</listcell>
-							</listitem>
-
-						</listbox>
-
-					</panelchildren>
-				</panel>
-
-
+				</panel>				
 			</hbox>
 
 

@@ -100,13 +100,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A								label_date_popup;
 
 	// initial program and revision
-	private List<DetailInitialSchedule>			list_details_program;
+	private List<DetailInitialSchedule>		list_details_program;
 
 	@Wire
 	private Listbox							listbox_program;
-
-	@Wire
-	private Listbox							listbox_revision;
 
 	private final Logger					logger						= Logger.getLogger(SchedulerComposer.class);
 
@@ -132,12 +129,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox							program_time;
-
-	@Wire
-	private Combobox						revision_task;
-
-	@Wire
-	private Intbox							revision_time;
 
 	private ISchedule						scheduleDAO;
 
@@ -629,26 +620,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.saveCurrentScheduler();
 
 		Messagebox.show("Il Report è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
-
-	}
-
-	/**
-	 * Save program
-	 */
-	@Listen("onClick = #ok_revision")
-	public void saveRevision() {
-
-		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
-			return;
-		}
-
-		if (this.currentSchedule == null) {
-
-			// save scheduler
-			this.saveCurrentScheduler();
-		}
-
-		Messagebox.show("Il consuntivo è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 	}
 
@@ -1208,17 +1179,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
-			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
-
-			// TODO: set revision list
-			// this.listbox_revision.setModel(new
-			// ListModelList<Detail_Schedule>(this.list_details));
+			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(),
+					this.selectedShift);
 
 		} else {
 			// if we haven't information about schedule
 			this.note.setValue(null);
 			this.listbox_program.getItems().clear();
-			this.listbox_revision.getItems().clear();
 
 			// set list program and revision
 			this.list_details_program = new ArrayList<DetailInitialSchedule>();
@@ -1249,20 +1216,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		this.revision_task.setSelectedItem(null);
-		this.revision_task.getChildren().clear();
-
-		this.revision_task.getItems().clear();
 		for (final UserTask task_item : list) {
 			final Comboitem combo_item = new Comboitem();
 			combo_item.setValue(task_item);
 			combo_item.setLabel(task_item.toString());
-			this.revision_task.appendChild(combo_item);
-
-			// set if default
-			if (task_item.getTask_default()) {
-				this.revision_task.setSelectedItem(combo_item);
-			}
 
 		}
 
