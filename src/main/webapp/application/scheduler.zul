@@ -65,7 +65,10 @@
 							<button label="OK" sclass="btn-info"
 								id="ok_day_shift">
 							</button>
-							<spinner placeholder="Giorni.."></spinner>
+							<spinner placeholder="Giorni.."
+								id="days_after_config"
+								constraint="no negative: Non può essere negativo">
+							</spinner>
 						</hbox>
 						<separator></separator>
 					</vbox>
