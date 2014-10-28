@@ -49,6 +49,7 @@ import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Popup;
+import org.zkoss.zul.Spinner;
 import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
@@ -61,6 +62,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	// format
 	private static final SimpleDateFormat	formatter_dd				= new SimpleDateFormat("dd");
+
 	private static final SimpleDateFormat	formatter_ddmmm				= new SimpleDateFormat("dd/MMM");
 	private static final SimpleDateFormat	formatter_e					= new SimpleDateFormat("E");
 	private static final SimpleDateFormat	formatter_eeee				= new SimpleDateFormat("EEEE");
@@ -71,12 +73,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private static final long				serialVersionUID			= 1L;
 	private ConfigurationDAO				configurationDAO;
 	private Schedule						currentSchedule;
-
 	@Wire
 	private Datebox							date_init_scheduler;
 
 	@Wire
 	private Popup							day_definition_popup;
+
+	@Wire
+	private Spinner							days_after_config;
 
 	/**
 	 * First date in grid
@@ -261,6 +265,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param data_info
 	 */
 	protected void dayConfigurator(final String data_info) {
+
+		this.days_after_config.setValue(null);
 
 		// set info day;
 		this.selectedDay = Integer.parseInt(data_info);
@@ -669,18 +675,46 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
 		final UserShift shift = this.shift_popup.getSelectedItem().getValue();
 
-		DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay);
-		if (daySchedule == null) {
-			daySchedule = new DaySchedule();
+		if (this.days_after_config.getValue() == null) {
+			DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay);
+			if (daySchedule == null) {
+				daySchedule = new DaySchedule();
+			}
+			// reset day schedule
+			final Date date_scheduled = this.getDateScheduled(this.selectedDay);
+
+			daySchedule.setDate_scheduled(date_scheduled);
+			daySchedule.setId_user(row_item.getUser());
+			daySchedule.setShift(shift.getId());
+
+			this.scheduleDAO.saveOrUpdateDaySchedule(daySchedule);
+		} else {
+
+			final int count = this.days_after_config.getValue().intValue();
+
+			if ((this.selectedDay + count) > 31) {
+				Messagebox.show("Non puoi schedulare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				return;
+			}
+
+			for (int i = 0; i < count; i++) {
+
+				DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay + i);
+				if (daySchedule == null) {
+					daySchedule = new DaySchedule();
+				}
+				// reset day schedule
+				final Date date_scheduled = this.getDateScheduled(this.selectedDay + i);
+
+				daySchedule.setDate_scheduled(date_scheduled);
+				daySchedule.setId_user(row_item.getUser());
+				daySchedule.setShift(shift.getId());
+
+				this.scheduleDAO.saveOrUpdateDaySchedule(daySchedule);
+
+			}
+
 		}
-
-		// reset day schedule
-		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
-		daySchedule.setDate_scheduled(date_scheduled);
-		daySchedule.setId_user(row_item.getUser());
-		daySchedule.setShift(shift.getId());
-
-		this.scheduleDAO.saveOrUpdateDaySchedule(daySchedule);
 
 		this.setupGlobalSchedulerGridForDay();
 
