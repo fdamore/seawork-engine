@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 import org.uario.seaworkengine.model.DaySchedule;
-import org.uario.seaworkengine.model.DetailSchedule;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 
@@ -18,10 +18,10 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	private static Logger	logger	= Logger.getLogger(MyBatisScheduleDAO.class);
 
 	@Override
-	public void createDetailSchedule(final DetailSchedule detail_schedule) {
+	public void createDetailInitialSchedule(final DetailInitialSchedule detail_schedule) {
 		MyBatisScheduleDAO.logger.info("createDetail_Schedule");
 
-		this.getSqlSession().insert("schedule.createDetail_Schedule", detail_schedule);
+		this.getSqlSession().insert("schedule.createDetailInitialSchedule", detail_schedule);
 
 	}
 
@@ -39,14 +39,14 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DetailSchedule> loadDetailScheduleByIdScheduleAndShift(final Integer id_schedule, final Integer shift) {
-		MyBatisScheduleDAO.logger.info("loadDetail_ScheduleByIdSchedule");
+	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(final Integer id_schedule, final Integer shift) {
+		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdSchedule");
 
 		final HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("id_schedule", id_schedule);
 		map.put("shift", shift);
 
-		return this.getSqlSession().selectList("schedule.loadDetail_ScheduleByIdSchedule", map);
+		return this.getSqlSession().selectList("schedule.loadDetailInitialScheduleByIdSchedule", map);
 	}
 
 	@Override
@@ -63,18 +63,18 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 	@Override
 	@Transactional
-	public void saveListDetailScheduler(final Integer id_schedule, final Integer shift, final List<DetailSchedule> details) {
+	public void saveListDetailInitialScheduler(final Integer id_schedule, final Integer shift, final List<DetailInitialSchedule> details) {
 
 		final HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("id_schedule", id_schedule);
 		map.put("shift", shift);
 
 		// delete all detail
-		this.getSqlSession().delete("schedule.removeAllDetailScheduleOnSchedule", map);
+		this.getSqlSession().delete("schedule.removeAllDetailInitialScheduleOnSchedule", map);
 
 		// add all details
-		for (final DetailSchedule item_detail : details) {
-			this.createDetailSchedule(item_detail);
+		for (final DetailInitialSchedule item_detail : details) {
+			this.createDetailInitialSchedule(item_detail);
 		}
 
 	}

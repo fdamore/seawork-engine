@@ -13,7 +13,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.model.DaySchedule;
-import org.uario.seaworkengine.model.DetailSchedule;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
@@ -100,7 +100,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A								label_date_popup;
 
 	// initial program and revision
-	private List<DetailSchedule>			list_details_program;
+	private List<DetailInitialSchedule>			list_details_program;
 
 	@Wire
 	private Listbox							listbox_program;
@@ -202,8 +202,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		if (this.list_details_program.size() != 0) {
 			int sum = time;
-			for (final DetailSchedule detail : this.list_details_program) {
-				final int current_time = detail.getTime_initial();
+			for (final DetailInitialSchedule detail : this.list_details_program) {
+				final int current_time = detail.getTime();
 				sum = sum + current_time;
 				if (sum > 6) {
 					check_sum = false;
@@ -221,15 +221,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.saveCurrentScheduler();
 		}
 
-		final DetailSchedule new_item = new DetailSchedule();
+		final DetailInitialSchedule new_item = new DetailInitialSchedule();
 		new_item.setId_schedule(this.currentSchedule.getId());
 		new_item.setShift(this.selectedShift);
-		new_item.setTime_initial(time);
-		new_item.setTask_initial(task.getId());
+		new_item.setTime(time);
+		new_item.setTask(task.getId());
 
 		// update program list
 		this.list_details_program.add(new_item);
-		final ListModelList<DetailSchedule> model = new ListModelList<DetailSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
@@ -533,12 +533,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// remove....
 		for (final Listitem itm : this.listbox_program.getSelectedItems()) {
-			final DetailSchedule detail_item = itm.getValue();
+			final DetailInitialSchedule detail_item = itm.getValue();
 			this.list_details_program.remove(detail_item);
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailSchedule> model = new ListModelList<DetailSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
@@ -592,8 +592,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		int sum = 0;
 		if (this.list_details_program.size() != 0) {
-			for (final DetailSchedule detail : this.list_details_program) {
-				sum = sum + detail.getTime_initial();
+			for (final DetailInitialSchedule detail : this.list_details_program) {
+				sum = sum + detail.getTime();
 			}
 		}
 		if (sum < 6) {
@@ -602,7 +602,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		this.scheduleDAO.saveListDetailScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_program);
+		this.scheduleDAO.saveListDetailInitialScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_program);
 
 		// refresh grid, but keep the info editor visible
 		this.setupGlobalSchedulerGridForShift(true);
@@ -1208,7 +1208,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
-			this.list_details_program = this.scheduleDAO.loadDetailScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
 
 			// TODO: set revision list
 			// this.listbox_revision.setModel(new
@@ -1221,12 +1221,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.listbox_revision.getItems().clear();
 
 			// set list program and revision
-			this.list_details_program = new ArrayList<DetailSchedule>();
+			this.list_details_program = new ArrayList<DetailInitialSchedule>();
 
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailSchedule> model = new ListModelList<DetailSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 

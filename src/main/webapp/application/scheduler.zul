@@ -647,12 +647,12 @@
 								value="@{item_program}">
 								<listcell>
 									<label width="200px"
-										value="@{item_program.task_initial, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
+										value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
 									</label>
 								</listcell>
 								<listcell>
 									<label width="200px"
-										value="@{item_program.time_initial}">
+										value="@{item_program.time}">
 									</label>
 								</listcell>
 
