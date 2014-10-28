@@ -13,15 +13,7 @@
 		#{note});
 	</insert>
 
-	<select id="loadSchedule" resultType="org.uario.seaworkengine.model.Schedule"
-		parameterType="int">
-		SELECT id, date_schedule, user, editor, controller,
-		note
-		FROM schedule
-		WHERE id = #{id};
-	</select>
-
-
+	
 
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
@@ -35,11 +27,7 @@
 
 
 
-	<delete id="removeSchedule" parameterType="int">
-		DELETE FROM schedule
-		WHERE id = #{id};
-	</delete>
-
+	
 
 
 	<select id="selectSchedule" resultType="org.uario.seaworkengine.model.Schedule"
@@ -108,13 +96,7 @@ from
 		#{time_final}, #{time_initial});
 	</insert>
 
-	<select id="loadDetail_Schedule" resultType="org.uario.seaworkengine.model.DetailSchedule"
-		parameterType="int">
-		SELECT id, id_schedule, shift, task_final, task_initial,
-		time_final, time_initial
-		FROM detail_schedule
-		WHERE id = #{id};
-	</select>
+	
 
 	<select id="loadDetail_ScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.DetailSchedule"
 		parameterType="map">
@@ -125,11 +107,7 @@ from
 		#{id_schedule} and shift = #{shift};
 	</select>
 
-	<delete id="removeDetail_Schedule" parameterType="int">
-		DELETE FROM
-		detail_schedule
-		WHERE id = #{id};
-	</delete>
+	
 
 	<delete id="removeAllDetailScheduleOnSchedule" parameterType="map">
 		DELETE FROM
@@ -138,21 +116,7 @@ from
 		= #{shift};
 	</delete>
 
-	<update id="updateDetailSchedule" parameterType="org.uario.seaworkengine.model.DetailSchedule">
-		UPDATE
-		detail_schedule
-		SET
-		id = #{id},
-		id_schedule = #{id_schedule},
-		shift =
-		#{shift},
-		task_final = #{task_final},
-		task_initial = #{task_initial},
-		time_final = #{time_final},
-		time_initial = #{time_initial}
-		WHERE id =
-		#{id};
-	</update>
+	
 
 
 
@@ -168,30 +132,9 @@ from
 		SELECT id, id_user, shift, date_scheduled
 		FROM dayschedule
 		WHERE id=#{id};
-	</select>
+	</select>	
 
-	<select id="loadDayScheduleByDate" parameterType="map"
-		resultType="org.uario.seaworkengine.model.DaySchedule">
-		SELECT id, id_user, shift, date_scheduled
-		FROM dayschedule
-		WHERE date_scheduled = #{dt_arg};
-	</select>
-
-
-
-	<select id="loadDayScheduleByIdUserAndDate" parameterType="map"
-		resultType="org.uario.seaworkengine.model.DaySchedule">
-		SELECT id, id_user, shift, date_scheduled
-		FROM dayschedule
-		WHERE id_user=#{id_user} and date_scheduled=#{date_scheduled};
-	</select>
-
-	<delete id="removeDaySchedule" parameterType="Integer">
-		DELETE FROM
-		dayschedule
-		WHERE id = #{id};
-	</delete>
-
+	
 	<update id="updateDaySchedule" parameterType="org.uario.seaworkengine.model.DetailSchedule">
 		UPDATE
 		dayschedule
