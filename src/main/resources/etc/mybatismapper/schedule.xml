@@ -103,6 +103,14 @@ from
 		VALUES (#{id_schedule}, #{shift},
 		#{task}, #{time});
 	</insert>
+	
+	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
+		INSERT INTO
+		detailfinalschedule (id_schedule, shift, task,
+		time)
+		VALUES (#{id_schedule}, #{shift},
+		#{task}, #{time});
+	</insert>
 
 
 
@@ -110,6 +118,14 @@ from
 		parameterType="map">
 		SELECT id, id_schedule, shift, task, time
 		FROM detailinitialschedule
+		WHERE id_schedule =
+		#{id_schedule} and shift = #{shift};
+	</select>
+	
+	<select id="loadDetailFinalScheduleByIdSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
+		parameterType="map">
+		SELECT id, id_schedule, shift, task, time
+		FROM detailfinalschedule
 		WHERE id_schedule =
 		#{id_schedule} and shift = #{shift};
 	</select>
@@ -123,7 +139,12 @@ from
 		= #{shift};
 	</delete>
 
-
+	<delete id="removeAllDetailFinalScheduleOnSchedule" parameterType="map">
+		DELETE FROM
+		detailfinalschedule
+		WHERE id_schedule = #{id_schedule} and shift
+		= #{shift};
+	</delete>
 
 
 
