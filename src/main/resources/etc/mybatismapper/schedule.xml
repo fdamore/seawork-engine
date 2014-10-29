@@ -132,14 +132,14 @@ from
 
 
 
-	<delete id="removeAllDetailInitialScheduleOnScheduleByScheduleAndShift" parameterType="map">
+	<delete id="removeAllDetailInitialScheduleByScheduleAndShift" parameterType="map">
 		DELETE FROM
 		detailinitialschedule
 		WHERE id_schedule = #{id_schedule} and shift
 		= #{shift};
 	</delete>
 
-	<delete id="removeAllDetailFinalScheduleOnScheduleByScheduleAndShift" parameterType="map">
+	<delete id="removeAllDetailFinalScheduleByScheduleAndShift" parameterType="map">
 		DELETE FROM
 		detailfinalschedule
 		WHERE id_schedule = #{id_schedule} and shift

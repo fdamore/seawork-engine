@@ -22,9 +22,9 @@ public interface ISchedule {
 
 	public Schedule loadSchedule(Date date_scheduler, Integer id_user);
 
-	public void removeAllDetailFinalScheduleOnScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
+	public void removeAllDetailFinalScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public void removeAllDetailInitialScheduleOnScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
+	public void removeAllDetailInitialScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 
 	public void saveListDetailFinalScheduler(Integer id_schedule, Integer shift, List<DetailFinalSchedule> details);
 
