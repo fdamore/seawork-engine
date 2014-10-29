@@ -16,7 +16,11 @@ public interface ISchedule {
 
 	public List<DaySchedule> loadDaySchedule(Date date_scheduled);
 
+	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(Integer id_schedule);
+
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
+
+	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 

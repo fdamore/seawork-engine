@@ -48,25 +48,39 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(final Integer id_schedule, final Integer shift) {
+	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(final Integer id_schedule) {
 		MyBatisScheduleDAO.logger.info("loadDetailFinalScheduleByIdSchedule");
+
+		return this.getSqlSession().selectList("schedule.loadDetailFinalScheduleByIdSchedule", id_schedule);
+	}
+
+	@Override
+	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(final Integer id_schedule, final Integer shift) {
+		MyBatisScheduleDAO.logger.info("loadDetailFinalScheduleByIdScheduleAndShift");
 
 		final HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("id_schedule", id_schedule);
 		map.put("shift", shift);
 
-		return this.getSqlSession().selectList("schedule.loadDetailFinalScheduleByIdSchedule", map);
+		return this.getSqlSession().selectList("schedule.loadDetailFinalScheduleByIdScheduleAndShift", map);
+	}
+
+	@Override
+	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(final Integer id_schedule) {
+		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdSchedule");
+
+		return this.getSqlSession().selectList("schedule.loadDetailInitialScheduleByIdSchedule", id_schedule);
 	}
 
 	@Override
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(final Integer id_schedule, final Integer shift) {
-		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdSchedule");
+		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdScheduleAndShift");
 
 		final HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("id_schedule", id_schedule);
 		map.put("shift", shift);
 
-		return this.getSqlSession().selectList("schedule.loadDetailInitialScheduleByIdSchedule", map);
+		return this.getSqlSession().selectList("schedule.loadDetailInitialScheduleByIdScheduleAndShift", map);
 	}
 
 	@Override
