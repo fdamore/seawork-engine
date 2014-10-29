@@ -630,6 +630,9 @@
 								<button id="ok_program" label="Salva"
 									sclass="btn-info">
 								</button>
+								<button id="cancel_program" label="Cancella Programmazione"
+									sclass="btn-danger">
+								</button>
 							</auxheader>
 						</auxhead>
 

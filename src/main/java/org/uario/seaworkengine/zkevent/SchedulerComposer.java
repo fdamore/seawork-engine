@@ -514,6 +514,26 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	@Listen("onClick = #cancel_program")
+	public void removeProgram() {
+		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
+			return;
+		}
+
+		if (this.list_details_program == null) {
+			return;
+		}
+
+		this.scheduleDAO.removeAllDetailInitialScheduleByScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+
+		// refresh grid
+		this.setupGlobalSchedulerGridForShift(true);
+
+		// Messagebox.show("Il programma è stato aggiornato", "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.shift_definition_popup.close();
+	}
+
 	@Listen("onClick = #remove_program_item")
 	public void removeProgramItem() {
 
@@ -599,7 +619,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.scheduleDAO.saveListDetailInitialScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_program);
 
-		// refresh grid, but keep the info editor visible
+		// refresh grid
 		this.setupGlobalSchedulerGridForShift(true);
 
 		// Messagebox.show("Il programma è stato aggiornato", "INFO",
