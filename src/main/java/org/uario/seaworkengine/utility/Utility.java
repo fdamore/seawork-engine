@@ -7,6 +7,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Toolbarbutton;
 
 /**
@@ -17,11 +18,15 @@ import org.zkoss.zul.Toolbarbutton;
  */
 public class Utility {
 
-	private static SimpleDateFormat	dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
+	private static String			COLOR_FORZABLE		= "orange";
 
-	private static SimpleDateFormat	dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
+	private static String			COLOR_NOT_AVAILABLE	= "red";
 
-	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
+	private static String			COLOR_WORKER		= "blue";
+
+	private static SimpleDateFormat	dateFormat			= new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat	dateFormat_it		= new SimpleDateFormat("dd-MM-yyyy");
+	private static SimpleDateFormat	timeFormat			= new SimpleDateFormat("HH:mm");
 
 	/**
 	 * color scheduler shift
@@ -32,23 +37,23 @@ public class Utility {
 	public static void defineColorShiftConverter(final Component arg1, final ItemRowSchedule item_schedule) {
 		final RowSchedule row = item_schedule.getRowSchedule();
 		final String status = row.getUser_status();
-		String color_stye = "color:blue";
+		String color_stye = "background-color:" + Utility.COLOR_WORKER;
 
 		if (status.equals(UserTag.USER_WORKER_AVAILABLE)) {
-			color_stye = "color:blue;font-weight: bold;";
+			color_stye = "background-color:" + Utility.COLOR_WORKER;
 		}
 		if (status.equals(UserTag.USER_WORKER_FORZABLE)) {
-			color_stye = "color:orange;font-weight: bold;";
+			color_stye = "background-color:" + Utility.COLOR_FORZABLE;
 		}
 		if (status.equals(UserTag.USER_WORKER_NOT_AVAILABLE)) {
-			color_stye = "color:red;font-weight: bold;";
+			color_stye = "background-color:" + Utility.COLOR_NOT_AVAILABLE;
 		}
 
 		final Toolbarbutton toolbar = (Toolbarbutton) arg1;
-		toolbar.setStyle(color_stye);
+		toolbar.setStyle("font-weight: bold;");
 
-		// final Listcell cell = (Listcell) arg1.getParent();
-		// cell.setStyle("background-color:red");
+		final Listitem cell = (Listitem) arg1.getParent().getParent();
+		cell.setStyle(color_stye);
 	}
 
 	/**
