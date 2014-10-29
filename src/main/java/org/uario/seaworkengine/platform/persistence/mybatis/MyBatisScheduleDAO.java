@@ -82,15 +82,37 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public void saveListDetailFinalScheduler(final Integer id_schedule, final Integer shift, final List<DetailFinalSchedule> details) {
-		MyBatisScheduleDAO.logger.info("saveListDetailFinalScheduler");
+	public void removeAllDetailFinalScheduleOnScheduleByScheduleAndShift(final Integer id_schedule, final Integer shift) {
+		MyBatisScheduleDAO.logger.info("removeAllDetailFinalScheduleOnScheduleByScheduleAndShift");
 
 		final HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("id_schedule", id_schedule);
 		map.put("shift", shift);
 
 		// delete all detail
-		this.getSqlSession().delete("schedule.removeAllDetailFinalScheduleOnSchedule", map);
+		this.getSqlSession().delete("schedule.removeAllDetailFinalScheduleOnScheduleByScheduleAndShift", map);
+
+	}
+
+	@Override
+	public void removeAllDetailInitialScheduleOnScheduleByScheduleAndShift(final Integer id_schedule, final Integer shift) {
+		MyBatisScheduleDAO.logger.info("removeAllDetailInitialScheduleOnScheduleByScheduleAndShift");
+
+		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("id_schedule", id_schedule);
+		map.put("shift", shift);
+
+		// delete all detail
+		this.getSqlSession().delete("schedule.removeAllDetailInitialScheduleOnScheduleByScheduleAndShift", map);
+
+	}
+
+	@Override
+	public void saveListDetailFinalScheduler(final Integer id_schedule, final Integer shift, final List<DetailFinalSchedule> details) {
+		MyBatisScheduleDAO.logger.info("saveListDetailFinalScheduler");
+
+		// delete all detail
+		this.removeAllDetailFinalScheduleOnScheduleByScheduleAndShift(id_schedule, shift);
 
 		// add all details
 		for (final DetailFinalSchedule item_detail : details) {
@@ -104,12 +126,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public void saveListDetailInitialScheduler(final Integer id_schedule, final Integer shift, final List<DetailInitialSchedule> details) {
 		MyBatisScheduleDAO.logger.info("saveListDetailInitialScheduler");
 
-		final HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("id_schedule", id_schedule);
-		map.put("shift", shift);
-
 		// delete all detail
-		this.getSqlSession().delete("schedule.removeAllDetailInitialScheduleOnSchedule", map);
+		this.removeAllDetailInitialScheduleOnScheduleByScheduleAndShift(id_schedule, shift);
 
 		// add all details
 		for (final DetailInitialSchedule item_detail : details) {
