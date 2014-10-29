@@ -586,127 +586,107 @@
 
 	</div>
 
-	
-	
-		
-	
-	
-	
+
+
+
+
+
+
 	<!-- PROGRAM -->
 	<div id="program_div" visible="false">
-		<popup id="shift_definition_popup" width="50%">
-		<!-- Set info Scheduler per Shift -->
-				
-				<space></space>
-	
-				
+		<popup id="shift_definition_popup" width="450px">
+			<panel border="normal" collapsible="false"
+				style="margin: 5px 5px 5px 5px" sclass="transparent">
+				<panelchildren>
 					<a id="scheduler_label"></a>
-	
-					
-	
-				
-	
-				<hbox>
-	
-				
-					<panel border="normal" collapsible="false" width="100%"
-						sclass="transparent">
-						<panelchildren>
-							<listbox id="listbox_program" width="100%"
-								sclass="domain" checkmark="true" multiple="true">
-								<auxhead>
-									<auxheader colspan="2">
-										<label
-											value="Definizione del turno">
-										</label>
-	
-										<combobox readonly="true"
-											placeholder="Mansioni" id="program_task">
-										</combobox>
-	
-										<intbox
-											placeholder="Ore da lavorare" id="program_time">
-										</intbox>
-	
-										<button label="Aggiungi"
-											id="add_program_item" sclass="btn-info">
-										</button>
-	
-										<button label="Cancella"
-											id="remove_program_item" sclass="btn-info">
-										</button>
-										<button id="ok_program"
-											label="Salva" sclass="btn-info">
-										</button>
-									</auxheader>
-								</auxhead>
-								<listhead>
-									<listheader label="Mansioni"></listheader>
-									<listheader label="Tempo programmato" />
-								</listhead>
-	
-								<listitem self="@{each='item_program'}"
-									value="@{item_program}">
-									<listcell>
-										<label width="200px"
-											value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
-										</label>
-									</listcell>
-									<listcell>
-										<label width="200px"
-											value="@{item_program.time}">
-										</label>
-									</listcell>
-	
-	
-								</listitem>
-	
-							</listbox>
-	
-						</panelchildren>
-					</panel>				
-				
-				
-				
-				</hbox>
-	
-	
-				<space></space>
-	
-				<panel border="none" collapsible="false"
-					title="Rapporto Giornaliero" sclass="transparent">
-					<caption>
-	
-	
-						<button id="save_report" label="Salva Rapporto"
-							sclass="btn-info" />
-	
-					</caption>
-					<panelchildren>
-	
-						<separator></separator>
-	
-	
-						<hbox>
-							<hbox align="start">
-								<label value="Note: "></label>
-								<textbox
-									placeholder="Inserisci note di programmazione e revisione"
-									width="400px" id="note" rows="5">
-								</textbox>
-							</hbox>
-							
-	
-						</hbox>
-	
-					</panelchildren>
-				</panel>
-	
-				<space></space>
-			
+					<space></space>
+					<listbox id="listbox_program" sclass="domain"
+						checkmark="true" multiple="true">
+						<auxhead>
+							<auxheader colspan="2">
+								<label value="Definizione del turno">
+								</label>
+
+								<combobox readonly="true"
+									placeholder="Mansioni" id="program_task">
+								</combobox>
+
+								<intbox placeholder="Ore da lavorare"
+									id="program_time">
+								</intbox>
+
+							</auxheader>
+						</auxhead>
+						<auxhead>
+							<auxheader colspan="2">
+
+								<button label="Aggiungi"
+									id="add_program_item" sclass="btn-info">
+								</button>
+
+								<button label="Cancella"
+									id="remove_program_item" sclass="btn-info">
+								</button>
+								<button id="ok_program" label="Salva"
+									sclass="btn-info">
+								</button>
+							</auxheader>
+						</auxhead>
+
+						<listhead>
+							<listheader label="Mansioni"></listheader>
+							<listheader label="Tempo programmato" />
+						</listhead>
+
+						<listitem self="@{each='item_program'}"
+							value="@{item_program}">
+							<listcell>
+								<label width="200px"
+									value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
+								</label>
+							</listcell>
+							<listcell>
+								<label width="200px"
+									value="@{item_program.time}">
+								</label>
+							</listcell>
+
+
+						</listitem>
+
+					</listbox>
+
+				</panelchildren>
+			</panel>
+
+			<space></space>
+
+			<panel border="none" collapsible="false"
+				style="margin: 5px 5px 5px 5px" title="Rapporto Giornaliero"
+				sclass="transparent">
+				<caption>
+					<button id="save_report" label="Salva Rapporto"
+						sclass="btn-info" />
+
+				</caption>
+				<panelchildren>
+
+					<separator></separator>
+
+
+					<textbox
+						placeholder="Inserisci note di programmazione e revisione"
+						width="400px" id="note" rows="5">
+					</textbox>
+
+				</panelchildren>
+			</panel>
+
+
+
 		</popup>
-	
-	
+
+
 
 
 
