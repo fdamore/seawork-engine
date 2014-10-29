@@ -94,9 +94,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Listbox							grid_scheduler_day;
 
 	@Wire
-	private Div								info_scheduler;
-
-	@Wire
 	private A								label_date_popup;
 
 	// initial program and revision
@@ -1138,9 +1135,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
 
-		// close info scheduler
-		this.info_scheduler.setVisible(info_visibility);
-
 	}
 
 	/**
@@ -1236,7 +1230,5 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		// show info table
-		SchedulerComposer.this.info_scheduler.setVisible(true);
 	}
 }

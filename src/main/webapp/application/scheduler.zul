@@ -594,21 +594,17 @@
 	
 	<!-- PROGRAM -->
 	<div id="program_div" visible="false">
-		<popup id="shift_definition_popup">
+		<popup id="shift_definition_popup" width="50%">
 		<!-- Set info Scheduler per Shift -->
-			<div visible="false" id="info_scheduler" width="55%">
-	
+				
 				<space></space>
 	
-				<hbox align="right">
+				
 					<a id="scheduler_label"></a>
 	
-					<toolbarbutton label="Chiudi" style="color:blue" onClick="shift_definition_popup.close();"
-						>
+					
 	
-					</toolbarbutton>
-	
-				</hbox>
+				
 	
 				<hbox>
 	
@@ -707,7 +703,7 @@
 				</panel>
 	
 				<space></space>
-			</div>
+			
 		</popup>
 	
 	
