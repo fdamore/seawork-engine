@@ -152,6 +152,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private IShiftCache						shift_cache;
 
 	@Wire
+	private Popup							shift_definition_popup;
+
+	@Wire
 	private Combobox						shift_popup;
 
 	private TasksDAO						taskDAO;
@@ -168,21 +171,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.program_task.getSelectedItem() == null) {
-			Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione", "INFO", Messagebox.OK,
-					Messagebox.EXCLAMATION);
+			// Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla programmazione",
+			// "INFO", Messagebox.OK,Messagebox.EXCLAMATION);
 			return;
 		}
 
 		final UserTask task = this.program_task.getSelectedItem().getValue();
 		if (task == null) {
-			Messagebox.show("Assegna una mansione", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			// Messagebox.show("Assegna una mansione", "INFO", Messagebox.OK,
+			// Messagebox.EXCLAMATION);
 			return;
 		}
 
 		final Integer time = this.program_time.getValue();
 
 		if (time == null) {
-			Messagebox.show("Definire il numero di ore da lavorare", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			// Messagebox.show("Definire il numero di ore da lavorare", "INFO",
+			// Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
 
@@ -203,7 +208,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 		if (!check_sum) {
-			Messagebox.show("Non si possono assegnare più di sei ore per turno", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			// Messagebox.show("Non si possono assegnare più di sei ore per turno",
+			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
 
@@ -588,7 +594,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 		if (sum < 6) {
-			Messagebox.show("Non si possono assegnare meno di sei ore per turno", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			// Messagebox.show("Non si possono assegnare meno di sei ore per turno",
+			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 
 		}
@@ -598,7 +605,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// refresh grid, but keep the info editor visible
 		this.setupGlobalSchedulerGridForShift(true);
 
-		Messagebox.show("Il programma è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		// Messagebox.show("Il programma è stato aggiornato", "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.shift_definition_popup.close();
 
 	}
 
@@ -619,7 +628,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// save scheduler
 		this.saveCurrentScheduler();
 
-		Messagebox.show("Il Report è stato aggiornato", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		// Messagebox.show("Il Report è stato aggiornato", "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.shift_definition_popup.close();
 
 	}
 
@@ -1138,6 +1149,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param data_info
 	 */
 	private void shiftConfigurator(final String data_info) {
+
+		this.shift_definition_popup.open(this.program_div, "after_pointer");
 
 		if (SchedulerComposer.this.grid_scheduler.getSelectedItem() == null) {
 			return;
