@@ -1,5 +1,7 @@
 package org.uario.seaworkengine.web.services.handler;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -12,14 +14,14 @@ import org.uario.seaworkengine.model.Schedule;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class InitialSchedule {
 
-	private DetailInitialSchedule	detail_schedule;
+	private List<DetailInitialSchedule>	detail_chedule;
 
-	private Person					person;
+	private Person						person;
 
-	private Schedule				schedule;
+	private Schedule					schedule;
 
-	public DetailInitialSchedule getDetail_schedule() {
-		return this.detail_schedule;
+	public List<DetailInitialSchedule> getDetail_chedule() {
+		return this.detail_chedule;
 	}
 
 	public Person getPerson() {
@@ -30,8 +32,8 @@ public class InitialSchedule {
 		return this.schedule;
 	}
 
-	public void setDetail_schedule(final DetailInitialSchedule detail_schedule) {
-		this.detail_schedule = detail_schedule;
+	public void setDetail_chedule(final List<DetailInitialSchedule> detail_chedule) {
+		this.detail_chedule = detail_chedule;
 	}
 
 	public void setPerson(final Person person) {

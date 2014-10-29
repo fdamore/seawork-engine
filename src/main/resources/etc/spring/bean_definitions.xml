@@ -24,7 +24,7 @@
 
 	<aop:aspectj-autoproxy />
 
-	<import resource="cxf-definition.xml" />
+	<!-- <import resource="cxf-definition.xml" /> -->
 
 
 
