@@ -18,11 +18,11 @@ import org.zkoss.zul.Toolbarbutton;
  */
 public class Utility {
 
-	private static String			COLOR_FORZABLE		= "orange";
+	private static String			COLOR_FORZABLE		= ProgramColorTag.COLOR_FORZABLE;
 
-	private static String			COLOR_NOT_AVAILABLE	= "red";
+	private static String			COLOR_NOT_AVAILABLE	= ProgramColorTag.COLOR_NOT_AVAILABLE;
 
-	private static String			COLOR_WORKER		= "blue";
+	private static String			COLOR_WORKER		= ProgramColorTag.COLOR_WORKER;
 
 	private static SimpleDateFormat	dateFormat			= new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat	dateFormat_it		= new SimpleDateFormat("dd-MM-yyyy");
