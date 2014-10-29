@@ -107,9 +107,9 @@ from
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task,
-		time)
+		time, time_from, time_to)
 		VALUES (#{id_schedule}, #{shift},
-		#{task}, #{time});
+		#{task}, #{time}, {#time_from}, {#time_to});
 	</insert>
 
 
@@ -124,7 +124,7 @@ from
 	
 	<select id="loadDetailFinalScheduleByIdScheduleAndShift" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		SELECT id, id_schedule, shift, task, time
+		SELECT id, id_schedule, shift, task, time, time_from, time_to
 		FROM detailfinalschedule
 		WHERE id_schedule =
 		#{id_schedule} and shift = #{shift};
@@ -138,7 +138,7 @@ from
 	</select>
 
 	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
-		SELECT id, id_schedule, shift, task, time
+		SELECT id, id_schedule, shift, task, time, time_from, time_to
 		FROM detailfinalschedule
 		WHERE id_schedule =
 		#{id_schedule};
