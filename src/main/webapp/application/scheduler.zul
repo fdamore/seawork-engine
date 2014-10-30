@@ -226,7 +226,8 @@
 						value="@{dayitem}">
 
 
-						<listcell label="@{dayitem.name_user}" />
+						<listcell label="@{dayitem.name_user}"
+							style="font-weight:bold; color:black;" />
 
 						<listcell>
 							<toolbarbutton
@@ -759,7 +760,8 @@
 					<listitem self="@{each='item'}" value="@{item}">
 
 
-						<listcell label="@{item.name_user}" />
+						<listcell label="@{item.name_user}"
+							style="font-weight:bold; color:black;" />
 
 						<listcell>
 							<toolbarbutton
@@ -1001,7 +1003,10 @@
 						value="@{itemreview}">
 
 
-						<listcell label="@{itemreview.name_user}" />
+						<listcell label="@{itemreview.name_user}"
+							style="font-weight:bold; color:black;" />
+
+
 
 						<listcell>
 							<toolbarbutton
