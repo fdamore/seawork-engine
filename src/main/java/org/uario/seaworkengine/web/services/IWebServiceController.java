@@ -18,10 +18,11 @@ public interface IWebServiceController {
 
 	/**
 	 * Transmit final scheduler
-	 *
+	 * @param shift TODO
 	 * @param date
+	 *
 	 * @return
 	 */
-	public boolean setFinalSchedule(FinalSchedule schedule);
+	public boolean setFinalSchedule(FinalSchedule schedule, Integer shift);
 
 }

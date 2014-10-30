@@ -28,8 +28,8 @@ public class SoapControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public boolean setFinalSchedule(final FinalSchedule schedule) {
-		return this.setFinalSchedule(schedule);
+	public boolean setFinalSchedule(final FinalSchedule schedule, Integer shift) {
+		return this.setFinalSchedule(schedule, shift);
 	}
 
 	public void setWebcontroller(final IWebServiceController webcontroller) {

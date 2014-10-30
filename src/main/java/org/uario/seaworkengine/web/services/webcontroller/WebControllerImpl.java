@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
@@ -33,24 +34,31 @@ public class WebControllerImpl implements IWebServiceController {
 		final List<Person> list = this.personDAO.listAllPersons();
 		for (final Person person : list) {
 
-			// TODO: definisci i dettagli di schedulazione
-
 			final InitialSchedule item = new InitialSchedule();
 
 			final Schedule schedule = this.scheduleDAO.loadSchedule(date, person.getId());
+			final List<DetailInitialSchedule> details = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
 
+			// set current object
 			item.setPerson(person);
+			item.setDetail_chedule(details);
+			ret.add(item);
 
 		}
 
-		// TODO Auto-generated method stub
-		return null;
+		return ret;
 	}
 
 	@Override
-	public boolean setFinalSchedule(final FinalSchedule schedule) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean setFinalSchedule(final FinalSchedule final_schedule, final Integer shift) {
+
+		try {
+			this.scheduleDAO.saveListDetailFinalScheduler(final_schedule.getSchedule().getId(), shift, final_schedule.getDetail_schedule());
+			return true;
+		}
+		catch (final Exception e) {
+			return false;
+		}
 	}
 
 	public void setPersonDAO(final PersonDAO personDAO) {

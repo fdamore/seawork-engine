@@ -28,8 +28,8 @@ public class RestControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public boolean setFinalSchedule(final FinalSchedule schedule) {
-		return this.webcontroller.setFinalSchedule(schedule);
+	public boolean setFinalSchedule(final FinalSchedule schedule, Integer shift) {
+		return this.webcontroller.setFinalSchedule(schedule, null);
 	}
 
 	public void setWebcontroller(final IWebServiceController webcontroller) {

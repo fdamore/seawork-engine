@@ -14,14 +14,14 @@ import org.uario.seaworkengine.model.Schedule;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FinalSchedule {
 
-	private List<DetailFinalSchedule>	detail_chedule;
+	private List<DetailFinalSchedule>	detail_schedule;
 
 	private Person						person;
 
 	private Schedule					schedule;
 
-	public List<DetailFinalSchedule> getDetail_chedule() {
-		return this.detail_chedule;
+	public List<DetailFinalSchedule> getDetail_schedule() {
+		return this.detail_schedule;
 	}
 
 	public Person getPerson() {
@@ -32,8 +32,8 @@ public class FinalSchedule {
 		return this.schedule;
 	}
 
-	public void setDetail_chedule(final List<DetailFinalSchedule> detail_chedule) {
-		this.detail_chedule = detail_chedule;
+	public void setDetail_schedule(final List<DetailFinalSchedule> detail_schedule) {
+		this.detail_schedule = detail_schedule;
 	}
 
 	public void setPerson(final Person person) {
