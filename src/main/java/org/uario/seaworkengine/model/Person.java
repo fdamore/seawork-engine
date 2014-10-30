@@ -20,17 +20,22 @@ import org.uario.seaworkengine.utility.UserTag;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Person implements Comparable<Person>, UserDetails, Serializable {
 
+	@XmlTransient
 	public static final Person	NULL				= new Person();
 
 	/**
 	 *
 	 */
+	@XmlTransient
 	private static final long	serialVersionUID	= 1L;
 
+	@XmlTransient
 	private String				address;
 
+	@XmlTransient
 	private String				asd					= "asd";
 
+	@XmlTransient
 	private String				authority;
 
 	private java.util.Date		birth_date;
@@ -56,8 +61,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	// matricola
 	private String				employee_identification;
 
+	@XmlTransient
 	private Boolean				enabled;
 
+	@XmlTransient
 	private String				family_charge;
 
 	private String				firstname;
@@ -68,6 +75,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				lastname;
 
+	@XmlTransient
 	private String				marital_status;
 
 	private String				nbudge;

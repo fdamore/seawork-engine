@@ -3,6 +3,13 @@ package org.uario.seaworkengine.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(namespace = "org.uario.seaworkengine.model")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Schedule implements Comparable<Schedule>, Serializable {
 
 	/**
@@ -19,6 +26,7 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	private Integer				id;
 
 	// used form visualize
+	@XmlTransient
 	private String				name_user;
 
 	private String				note;

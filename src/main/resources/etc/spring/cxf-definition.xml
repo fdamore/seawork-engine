@@ -3,15 +3,15 @@
 	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns="http://www.springframework.org/schema/beans"
 	xsi:schemaLocation="http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	<!-- <import resource="classpath:META-INF/cxf/cxf.xml" /> <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" 
+		/> import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> -->
+
 
 
 
 	<!-- SOAP SERVICE -->
 
-<!-- 	<jaxws:server address="/soapservice">
+	<jaxws:server address="/soapservice">
 		<jaxws:serviceBean>
 			<ref bean="soapservice" />
 		</jaxws:serviceBean>
@@ -20,7 +20,7 @@
 	<bean id="soapservice"
 		class="org.uario.seaworkengine.web.services.soap.SoapControllerImpl">
 		<property name="webcontroller" ref="webcontroller" />
-	</bean> -->
+	</bean>
 
 	<!-- END SOAP SERVICE -->
 
@@ -36,7 +36,7 @@
 
 	<bean id="restcontroller"
 		class="org.uario.seaworkengine.web.services.rest.RestControllerImpl">
-		<!-- <property name="webcontroller" ref="webcontroller"></property> -->
+		<property name="webcontroller" ref="webcontroller"></property>
 	</bean>
 
 	<!-- END REST SERVICE -->

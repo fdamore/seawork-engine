@@ -3,18 +3,13 @@ package org.uario.seaworkengine.web.services.soap;
 import java.util.Date;
 import java.util.List;
 
-import javax.jws.WebService;
+import javax.jws.WebParam;
 
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 
-/**
- * User: Francesco Marasco Date: 28/06/12 Time: 16.45 Implements soap services
- */
-
-@WebService(serviceName = "ControllerServices")
-public class SoapControllerImpl implements IWebServiceController {
+public class SoapControllerImpl implements ISoapServiceInterface {
 
 	private IWebServiceController	webcontroller;
 
@@ -23,12 +18,12 @@ public class SoapControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedul(final Date date) {
-		return this.webcontroller.selectInitialSchedul(date);
+	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date") final Date date) {
+		return this.webcontroller.selectInitialSchedule(date);
 	}
 
 	@Override
-	public boolean setFinalSchedule(final FinalSchedule schedule, Integer shift) {
+	public boolean setFinalSchedule(@WebParam(name = "schedule") final FinalSchedule schedule, @WebParam(name = "shift") final Integer shift) {
 		return this.setFinalSchedule(schedule, shift);
 	}
 

@@ -1,0 +1,34 @@
+package org.uario.seaworkengine.web.services.soap;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+
+import org.uario.seaworkengine.web.services.handler.FinalSchedule;
+import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+
+@WebService(serviceName = "SoapControllerServices")
+public interface ISoapServiceInterface {
+
+	/**
+	 * Get initial schedule for each person
+	 *
+	 * @param date
+	 * @return
+	 */
+	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date") Date date);
+
+	/**
+	 * Transmit final scheduler
+	 *
+	 * @param shift
+	 *            TODO
+	 * @param date
+	 *
+	 * @return
+	 */
+	public boolean setFinalSchedule(@WebParam(name = "schedule") FinalSchedule schedule, @WebParam(name = "shift") Integer shift);
+
+}

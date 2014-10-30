@@ -14,11 +14,13 @@ public interface IWebServiceController {
 	 * @param date
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedul(Date date);
+	public List<InitialSchedule> selectInitialSchedule(Date date);
 
 	/**
 	 * Transmit final scheduler
-	 * @param shift TODO
+	 *
+	 * @param shift
+	 *            TODO
 	 * @param date
 	 *
 	 * @return

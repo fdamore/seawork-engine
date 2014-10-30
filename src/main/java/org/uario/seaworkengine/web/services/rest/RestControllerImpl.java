@@ -3,32 +3,36 @@ package org.uario.seaworkengine.web.services.rest;
 import java.util.Date;
 import java.util.List;
 
-import javax.jws.WebService;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 
-/**
- * User: Francesco Marasco Date: 28/06/12 Time: 16.45 Implements soap services
- */
-
-@WebService(serviceName = "ControllerServices")
 public class RestControllerImpl implements IWebServiceController {
 
-	IWebServiceController	webcontroller;
+	private IWebServiceController	webcontroller;
 
 	public IWebServiceController getWebcontroller() {
 		return this.webcontroller;
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedul(final Date date) {
-		return this.webcontroller.selectInitialSchedul(date);
+	@GET
+	@Produces("application/xml")
+	@Path("/selectInitialSchedule/{date}")
+	public List<InitialSchedule> selectInitialSchedule(@PathParam("date") final Date date) {
+		return this.webcontroller.selectInitialSchedule(date);
 	}
 
 	@Override
-	public boolean setFinalSchedule(final FinalSchedule schedule, Integer shift) {
+	@GET
+	@Produces("application/xml")
+	@Path("/setFinalSchedule/{schedule}/{shift}")
+	public boolean setFinalSchedule(@PathParam("schedule") final FinalSchedule schedule, @PathParam("shift") final Integer shift) {
 		return this.webcontroller.setFinalSchedule(schedule, null);
 	}
 

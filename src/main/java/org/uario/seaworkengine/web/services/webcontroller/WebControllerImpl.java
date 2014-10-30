@@ -27,7 +27,7 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedul(final Date date) {
+	public List<InitialSchedule> selectInitialSchedule(final Date date) {
 
 		final List<InitialSchedule> ret = new ArrayList<InitialSchedule>();
 
