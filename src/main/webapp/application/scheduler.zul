@@ -38,6 +38,9 @@
 			<comboitem label="PROGRAMMAZIONE" value="PROGRAMMAZIONE"
 				id="program_item">
 			</comboitem>
+			<comboitem label="CONSUNTIVO" value="PROGRAMMAZIONE"
+				id="review_item">
+			</comboitem>
 
 
 		</combobox>
@@ -586,12 +589,6 @@
 
 	</div>
 
-
-
-
-
-
-
 	<!-- PROGRAM -->
 	<div id="program_div" visible="false">
 		<popup id="shift_definition_popup" width="450px">
@@ -630,8 +627,8 @@
 								<button id="ok_program" label="Salva"
 									sclass="btn-info">
 								</button>
-								<button id="cancel_program" label="Cancella Programmazione"
-									sclass="btn-danger">
+								<button id="cancel_program"
+									label="Cancella Programmazione" sclass="btn-danger">
 								</button>
 							</auxheader>
 						</auxhead>
@@ -958,7 +955,154 @@
 
 	</div>
 
+	<!-- REVIEW -->
+	<div id="review_div" visible="false">
 
+		<panel border="normal" collapsible="false"
+			sclass="transparent">
+			<panelchildren>
+
+				<listbox sclass="domain" id="grid_scheduler_review">
+					<auxhead>
+						<auxheader label="" colspan="1" />
+
+						<auxheader colspan="4" align="center"
+							id="day_month_review_1" />
+						<auxheader colspan="4" align="center"
+							id="day_month_review_2" />
+
+
+					</auxhead>
+					<auxhead>
+						<auxheader label="" colspan="1" />
+						<auxheader colspan="4" align="center"
+							id="day_week_review_1" />
+						<auxheader colspan="4" align="center"
+							id="day_week_review_2" />
+
+					</auxhead>
+
+					<listhead>
+
+						<listheader label="Nome" hflex="3" />
+
+						<listheader label="1" hflex="1" align="center" />
+						<listheader label="2" hflex="1" align="center" />
+						<listheader label="3" hflex="1" align="center" />
+						<listheader label="4" hflex="1" align="center" />
+						<listheader label="1" hflex="1" align="center" />
+						<listheader label="2" hflex="1" align="center" />
+						<listheader label="3" hflex="1" align="center" />
+						<listheader label="4" hflex="1" align="center" />
+
+					</listhead>
+
+					<listitem self="@{each='itemreview'}"
+						value="@{itemreview}">
+
+
+						<listcell label="@{itemreview.name_user}" />
+
+						<listcell>
+							<toolbarbutton
+								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_1");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+						<listcell>
+							<toolbarbutton
+								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
+								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+						<listcell>
+							<toolbarbutton
+								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
+								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_3");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+						<listcell>
+							<toolbarbutton
+								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
+								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_4");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+						<listcell>
+							<toolbarbutton
+								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
+								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_1");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+						<listcell>
+							<toolbarbutton
+								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
+								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_2");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+						<listcell>
+							<toolbarbutton
+								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
+								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_3");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+						<listcell>
+							<toolbarbutton
+								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
+								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
+								style="color:blue">
+								<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_4");
+</attribute>
+							</toolbarbutton>
+						</listcell>
+
+					</listitem>
+
+
+
+				</listbox>
+
+
+			</panelchildren>
+		</panel>
+
+
+	</div>
 
 
 
