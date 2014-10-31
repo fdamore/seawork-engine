@@ -1011,7 +1011,7 @@
 						<listcell>
 							<toolbarbutton
 								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_1");
@@ -1022,7 +1022,7 @@
 							<toolbarbutton
 								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
@@ -1033,7 +1033,7 @@
 							<toolbarbutton
 								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_3");
@@ -1044,7 +1044,7 @@
 							<toolbarbutton
 								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_4");
@@ -1055,7 +1055,7 @@
 							<toolbarbutton
 								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_1");
@@ -1066,7 +1066,7 @@
 							<toolbarbutton
 								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_2");
@@ -1077,7 +1077,7 @@
 							<toolbarbutton
 								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_3");
@@ -1088,7 +1088,7 @@
 							<toolbarbutton
 								onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 								label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
-								style="color:blue">
+								style="font-weight:bold; color:black; font-size: 13px;">
 								<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_4");
