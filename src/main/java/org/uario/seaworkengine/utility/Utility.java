@@ -8,7 +8,6 @@ import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Listitem;
-import org.zkoss.zul.Toolbarbutton;
 
 /**
  * Utility methods for GeoInt....
@@ -48,9 +47,6 @@ public class Utility {
 		if (status.equals(UserTag.USER_WORKER_NOT_AVAILABLE)) {
 			color_stye = "background-color:" + Utility.COLOR_NOT_AVAILABLE;
 		}
-
-		final Toolbarbutton toolbar = (Toolbarbutton) arg1;
-		toolbar.setStyle("font-weight: bold;");
 
 		final Listitem cell = (Listitem) arg1.getParent().getParent();
 		cell.setStyle(color_stye);
