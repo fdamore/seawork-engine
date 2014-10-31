@@ -24,7 +24,7 @@ public interface ISoapServiceInterface {
 	 * Transmit final scheduler
 	 *
 	 * @param shift
-	 *            TODO
+	 * 
 	 * @param date
 	 *
 	 * @return
