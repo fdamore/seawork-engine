@@ -469,16 +469,12 @@
 					label="Dettagli Status">
 
 					<toolbarbutton label="Chiudi" style="color: blue"
-						onClick="grid_status_details.setVisible(false);add_stasus_command.setVisible(false);modify_status_command.setVisible(false);">
+						onClick="grid_status_details.setVisible(false);">
 					</toolbarbutton>
 
-					<toolbarbutton id="add_stasus_command"
+					<toolbarbutton id="add_status_command"
 						label="Aggiungi" style="color: blue" visible="false">
-					</toolbarbutton>
-
-					<toolbarbutton id="modify_status_command"
-						label="Modifica" style="color: blue" visible="false">
-					</toolbarbutton>
+					</toolbarbutton>					
 
 				</caption>
 
@@ -496,7 +492,7 @@
 
 							<row id="row_description_status">
 								<label value="Descrizione:"></label>
-								<textbox id="description_stasus"
+								<textbox id="description_status"
 									mold="rounded" />
 							</row>														
 
@@ -517,10 +513,10 @@
 
 			<button id="sw_addstatus" sclass="btn-info"
 				label="Aggiungi Status"
-				onClick="modify_status_command.setVisible(false);add_status_command.setVisible(true);grid_status_details.setVisible(true)">
+				onClick="add_status_command.setVisible(true);grid_status_details.setVisible(true)">
 			</button>
 
-			<button id="sw_refresh_statuslist" sclass="btn-info"
+			<button id="sw_refresh_status_list" sclass="btn-info"
 				label="Ricarica Lista Status">
 			</button>
 
@@ -534,9 +530,9 @@
 			style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 			pageSize="20">
 			<listhead sizable="true">
-				<listheader label="Codice" />
+				
 				<listheader label="Descrizione"
-					sort="auto(description)" />
+					sort="auto" />
 				
 				<listheader label="" />
 			</listhead>
@@ -546,7 +542,7 @@
 
 
 
-				<listcell label="@{status_item.code}" />
+				
 
 				<listcell label="@{status_item.description}" />
 				
@@ -559,11 +555,7 @@
 						label="Cancella">
 					</toolbarbutton>
 
-					<toolbarbutton id="sw_link_modifystatus"
-						style="color:blue"
-						onClick="sw_list_status.setSelectedItem((Listitem)self.getParent().getParent());add_status_command.setVisible(false);modify_status_command.setVisible(true);grid_status_details.setVisible(true);"
-						label="Modifica">
-					</toolbarbutton>
+					
 
 				</listcell>
 

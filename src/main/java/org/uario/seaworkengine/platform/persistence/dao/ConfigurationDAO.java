@@ -19,7 +19,7 @@ public interface ConfigurationDAO {
 
 	public void removeShift(Integer id);
 
-	public void removeStatus(Integer id);
+	public void removeStatus(String description);
 
 	public void removeTask(Integer id);
 

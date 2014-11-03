@@ -78,10 +78,10 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
-	public void removeStatus(final Integer id) {
+	public void removeStatus(final String description) {
 		MyBatisConfigurationDAO.logger.info("Removed Status");
 
-		this.getSqlSession().delete("configuration.removeStatus", id);
+		this.getSqlSession().delete("configuration.removeStatus", description);
 
 	}
 

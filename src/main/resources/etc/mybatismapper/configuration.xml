@@ -93,13 +93,19 @@
 	
 	<delete id="removeStatus">
 		DELETE FROM status
-		WHERE id=#{id};
+		WHERE description=#{description};
 	</delete>
 	
 	<select id="selectAllStatus" resultType="String">
 		SELECT description
 		FROM status;
 	</select>
+	
+	<update id="updateStatus" parameterType="String">
+		UPDATE status
+		SET description = #{description}
+		WHERE d
+	</update>
 
 
 </mapper>

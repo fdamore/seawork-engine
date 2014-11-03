@@ -89,6 +89,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Listbox				sw_list_shift;
 
 	@Wire
+	private Listbox				sw_list_status;
+
+	@Wire
 	private Listbox				sw_list_task;
 
 	@Wire
@@ -139,20 +142,30 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onClick = #add_status_command")
 	public void addStatus() {
 
-		final String status = this.description_status.getValue();
+		final String status = this.description_status.getValue().toString();
 
-		if (status == null) {
-			Messagebox.show("Inserire uno status", "Error", Messagebox.OK, Messagebox.ERROR);
+		if (status == "") {
+			Messagebox.show("Inserire uno status!", "Error", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		if (this.configurationDao.selectAllStatus().contains(status)) {
+			Messagebox.show("Status già presente!", "Error", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
 
 		this.configurationDao.addStatus(status);
 
-		// this.refreshShiftList();
-		// this.resetShiftInfo();
+		this.refreshStatusList();
+		this.resetStatusInfo();
 
 		this.grid_status_details.setVisible(false);
 
+	}
+
+	@Listen("onClick = #sw_addstatus")
+	public void addStatusDefine() {
+		this.resetStatusInfo();
 	}
 
 	@Listen("onClick = #add_tasks_command")
@@ -189,6 +202,20 @@ public class Preferences extends SelectorComposer<Component> {
 		this.refreshShiftList();
 
 		this.grid_shift_details.setVisible(false);
+
+	}
+
+	private void deleteStatus() {
+
+		if (this.sw_list_status.getSelectedItem() == null) {
+			return;
+		}
+
+		this.configurationDao.removeStatus(this.sw_list_status.getSelectedItem().getValue().toString());
+
+		this.refreshStatusList();
+
+		this.grid_status_details.setVisible(false);
 
 	}
 
@@ -233,6 +260,10 @@ public class Preferences extends SelectorComposer<Component> {
 				// refresh shift list
 				Preferences.this.refreshShiftList();
 				Preferences.this.resetTaskInfo();
+
+				// refresh status list
+				Preferences.this.refreshStatusList();
+				Preferences.this.resetStatusInfo();
 
 			}
 
@@ -362,13 +393,13 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_refresh_tasklist")
+	@Listen("onClick = #sw_refresh_shiftlist")
 	public void refreshShiftCommand() {
-		this.refreshTaskList();
+		this.refreshShiftList();
 
-		this.resetTaskInfo();
+		this.resetShiftInfo();
 
-		this.grid_task_details.setVisible(false);
+		this.grid_shift_details.setVisible(false);
 	}
 
 	private void refreshShiftList() {
@@ -378,13 +409,20 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_refresh_shiftlist")
+	@Listen("onClick = #sw_refresh_status_list")
+	public void refreshStatusList() {
+		final List<String> list = this.configurationDao.selectAllStatus();
+		Preferences.this.sw_list_status.setModel(new ListModelList<String>(list));
+
+	}
+
+	@Listen("onClick = #sw_refresh_tasklist")
 	public void refreshTaskCommand() {
-		this.refreshShiftList();
+		this.refreshTaskList();
 
-		this.resetShiftInfo();
+		this.resetTaskInfo();
 
-		this.grid_shift_details.setVisible(false);
+		this.grid_task_details.setVisible(false);
 	}
 
 	private void refreshTaskList() {
@@ -402,6 +440,22 @@ public class Preferences extends SelectorComposer<Component> {
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
 					Preferences.this.deleteShift();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
+
+	}
+
+	@Listen("onClick = #sw_link_deletestatus")
+	public void removeStatus() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteStatus();
 				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 					// Cancel is clicked
 				}
@@ -430,6 +484,11 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_shift.setValue("");
 		this.description_shift.setValue("");
 		this.type_shift.setSelectedItem(null);
+	}
+
+	private void resetStatusInfo() {
+		this.description_status.setValue("");
+
 	}
 
 	private void resetTaskInfo() {
