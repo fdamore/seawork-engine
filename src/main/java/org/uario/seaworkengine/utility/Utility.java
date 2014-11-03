@@ -4,10 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
-import org.uario.seaworkengine.zkevent.bean.RowSchedule;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zul.Listitem;
 
 /**
  * Utility methods for GeoInt....
@@ -17,40 +13,9 @@ import org.zkoss.zul.Listitem;
  */
 public class Utility {
 
-	private static String			COLOR_FORZABLE		= ProgramColorTag.COLOR_FORZABLE;
-
-	private static String			COLOR_NOT_AVAILABLE	= ProgramColorTag.COLOR_NOT_AVAILABLE;
-
-	private static String			COLOR_WORKER		= ProgramColorTag.COLOR_WORKER;
-
-	private static SimpleDateFormat	dateFormat			= new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat	dateFormat_it		= new SimpleDateFormat("dd-MM-yyyy");
-	private static SimpleDateFormat	timeFormat			= new SimpleDateFormat("HH:mm");
-
-	/**
-	 * color scheduler shift
-	 *
-	 * @param arg1
-	 * @param item_schedule
-	 */
-	public static void defineColorShiftConverter(final Component arg1, final ItemRowSchedule item_schedule) {
-		final RowSchedule row = item_schedule.getRowSchedule();
-		final String status = row.getUser_status();
-		String color_stye = "background-color:" + Utility.COLOR_WORKER;
-
-		if (status.equals(UserTag.USER_WORKER_AVAILABLE)) {
-			color_stye = "background-color:" + Utility.COLOR_WORKER;
-		}
-		if (status.equals(UserTag.USER_WORKER_FORZABLE)) {
-			color_stye = "background-color:" + Utility.COLOR_FORZABLE;
-		}
-		if (status.equals(UserTag.USER_WORKER_NOT_AVAILABLE)) {
-			color_stye = "background-color:" + Utility.COLOR_NOT_AVAILABLE;
-		}
-
-		final Listitem cell = (Listitem) arg1.getParent().getParent();
-		cell.setStyle(color_stye);
-	}
+	private static SimpleDateFormat	dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat	dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
+	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
 
 	/**
 	 * Encode string on sha

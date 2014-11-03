@@ -54,11 +54,11 @@ import org.zkoss.zul.Textbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
-	private static final int				DAYS_BEFORE_TODAY_IN_PROGRAM	= -2;
+	private static final int				DAYS_BEFORE_TODAY_IN_PROGRAM	= -1;
 
 	private static final int				DAYS_IN_GRID_PREPROCESSING		= 31;
 
-	private static final int				DAYS_IN_GRID_PROGRAM			= 4;
+	private static final int				DAYS_IN_GRID_PROGRAM			= 5;
 
 	private static final int				DAYS_TO_SHOW_IN_REVIEW			= 2;
 
@@ -75,8 +75,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private static final long				serialVersionUID				= 1L;
 	private ConfigurationDAO				configurationDAO;
 	private Schedule						currentSchedule;
+
 	@Wire
 	private Datebox							date_init_scheduler;
+
+	@Wire
+	private Datebox							date_init_scheduler_review;
 
 	@Wire
 	private Popup							day_definition_popup;
@@ -291,7 +295,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler;onClick = #refresh_command")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review;onClick = #refresh_command, #refresh_command_review")
 	public void defineSchedulerType() {
 
 		if (this.scheduler_type_selector.getSelectedItem() == null) {
@@ -316,7 +320,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.review_div.setVisible(false);
 
 			// set initial structure for program
-			this.setGridStructureForShift(SchedulerComposer.this.date_init_scheduler.getValue());
+			this.setGridStructureForShift();
 			this.setupGlobalSchedulerGridForShift();
 		}
 
@@ -326,7 +330,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.review_div.setVisible(true);
 
 			// set initial structure for program
-			this.setGridStructureForShiftReview(SchedulerComposer.this.date_init_scheduler.getValue());
+			this.setGridStructureForShiftReview(SchedulerComposer.this.date_init_scheduler_review.getValue());
 			this.setupGlobalSchedulerGridForShiftReview();
 		}
 
@@ -335,7 +339,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Override
 	public void doFinally() throws Exception {
 
-		SchedulerComposer.this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
+		// select initial value for initial date
+		this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
+		this.date_init_scheduler_review.setValue(Calendar.getInstance().getTime());
 
 		this.scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 		this.taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
@@ -751,13 +757,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param initial_date
 	 */
-	private void setGridStructureForShift(final Date initial_date) {
-		if (initial_date == null) {
-			return;
-		}
+	private void setGridStructureForShift() {
 
 		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(DateUtils.truncate(initial_date, Calendar.DATE));
 		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_BEFORE_TODAY_IN_PROGRAM);
 		this.firstDateInGrid = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
 
