@@ -22,6 +22,14 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	private ITaskCache		task_cache;
 
 	@Override
+	public void addStatus(final String status) {
+		MyBatisConfigurationDAO.logger.info("Add Status");
+
+		this.getSqlSession().insert("configuration.addStatus", status);
+
+	}
+
+	@Override
 	public void createShift(final UserShift shift) {
 		MyBatisConfigurationDAO.logger.info("Insert shift " + shift);
 		this.getSqlSession().insert("configuration.insertShift", shift);
@@ -70,6 +78,14 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void removeStatus(final Integer id) {
+		MyBatisConfigurationDAO.logger.info("Removed Status");
+
+		this.getSqlSession().delete("configuration.removeStatus", id);
+
+	}
+
+	@Override
 	public void removeTask(final Integer id) {
 		MyBatisConfigurationDAO.logger.info("Remove task with id " + id);
 		this.getSqlSession().delete("configuration.deleteTask", id);
@@ -77,6 +93,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 		// upload cache
 		this.task_cache.buildCache(this.loadTasks());
 
+	}
+
+	@Override
+	public List<String> selectAllStatus() {
+		MyBatisConfigurationDAO.logger.info("Selected all status");
+
+		return this.getSqlSession().selectList("configuration.selectAllStatus");
 	}
 
 	public void setShift_cache(final IShiftCache shift_cache) {

@@ -85,7 +85,21 @@
 
 
 	</update>
-
+	
+	<insert id="addStatus" parameterType="String">
+		INSERT INTO status (description)
+		VALUES (#{description});
+	</insert>
+	
+	<delete id="removeStatus">
+		DELETE FROM status
+		WHERE id=#{id};
+	</delete>
+	
+	<select id="selectAllStatus" resultType="String">
+		SELECT description
+		FROM status;
+	</select>
 
 
 </mapper>

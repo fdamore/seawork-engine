@@ -7,6 +7,8 @@ import org.uario.seaworkengine.model.UserTask;
 
 public interface ConfigurationDAO {
 
+	public void addStatus(String status);
+
 	public void createShift(UserShift shift);
 
 	public void createTask(UserTask task);
@@ -17,7 +19,11 @@ public interface ConfigurationDAO {
 
 	public void removeShift(Integer id);
 
+	public void removeStatus(Integer id);
+
 	public void removeTask(Integer id);
+
+	public List<String> selectAllStatus();
 
 	public void updateShift(UserShift shift);
 
