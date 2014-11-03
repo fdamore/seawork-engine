@@ -39,12 +39,18 @@ public class Preferences extends SelectorComposer<Component> {
 	private Textbox				code_shift;
 
 	@Wire
+	private Textbox				code_status;
+
+	@Wire
 	private Textbox				code_task;
 
 	private ConfigurationDAO	configurationDao;
 
 	@Wire
 	private Textbox				description_shift;
+
+	@Wire
+	private Textbox				description_status;
 
 	@Wire
 	private Textbox				description_task;
@@ -57,6 +63,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Div					grid_shift_details;
+
+	@Wire
+	private Div					grid_status_details;
 
 	@Wire
 	private Div					grid_task_details;
@@ -125,6 +134,25 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_addshift")
 	public void addShiftDefine() {
 		this.resetShiftInfo();
+	}
+
+	@Listen("onClick = #add_status_command")
+	public void addStatus() {
+
+		final String status = this.description_status.getValue();
+
+		if (status == null) {
+			Messagebox.show("Inserire uno status", "Error", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		this.configurationDao.addStatus(status);
+
+		// this.refreshShiftList();
+		// this.resetShiftInfo();
+
+		this.grid_status_details.setVisible(false);
+
 	}
 
 	@Listen("onClick = #add_tasks_command")
@@ -370,15 +398,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeShift() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteShift();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteShift();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 
@@ -386,15 +414,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeTask() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteTask();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteTask();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 
