@@ -518,7 +518,7 @@
 
 			<listcell label="@{user_item.id}" />
 			<listcell
-				label="@{user_item.status, converter='org.uario.seaworkengine.zkevent.converter.UserStatusConverter'}" />
+				label="@{user_item.status}" />
 
 			<listcell
 				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />

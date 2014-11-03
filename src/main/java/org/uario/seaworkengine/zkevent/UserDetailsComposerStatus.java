@@ -8,6 +8,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -35,6 +36,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
+
+	private ConfigurationDAO	configurationDao;
 
 	@Wire
 	private Datebox				date_modifiled;
@@ -70,6 +73,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		this.date_modifiled.setValue(Calendar.getInstance().getTime());
 		this.note.setValue("");
 		this.status.setValue(null);
+		this.setStatusComboBox();
 
 	}
 
@@ -110,6 +114,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 				// get DAO
 				UserDetailsComposerStatus.this.employmentDao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
+				UserDetailsComposerStatus.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
 				UserDetailsComposerStatus.this.setInitialView();
 
@@ -152,6 +157,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	public void modifyItem() {
 
 		this.status_add = false;
+
+		this.setStatusComboBox();
 
 		// get selected item
 		final Employment item = this.sw_list.getSelectedItem().getValue();
@@ -232,15 +239,15 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cambiare lo status attuale?", "CONFERMA STATUS ATTUALE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 					new org.zkoss.zk.ui.event.EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								UserDetailsComposerStatus.this.onUpdateStatus();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// Cancel is clicked
-							}
-						}
-					});
+				@Override
+				public void onEvent(final Event e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						UserDetailsComposerStatus.this.onUpdateStatus();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
+					}
+				}
+			});
 
 			this.status_upload = item.getStatus();
 
@@ -266,15 +273,15 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerStatus.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerStatus.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -301,6 +308,11 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		this.sw_list.setModel(new ListModelList<Employment>(list));
 
 		this.grid_details.setVisible(false);
+	}
+
+	private void setStatusComboBox() {
+		final List<String> list = this.configurationDao.selectAllStatus();
+		this.status.setModel(new ListModelList<String>(list));
 	}
 
 	private Boolean setupItemWithValues(final Employment item) {

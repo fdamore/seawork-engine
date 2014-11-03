@@ -39,20 +39,7 @@
 							<label value="Status"></label>
 							<combobox id="status"
 								placeholder="Seleziona lo stato utente" readonly="true">
-								<comboitem label="IN ORGANICO" value="A">
-								</comboitem>
-								<comboitem label="RIAPERTO"
-									value="AR">
-								</comboitem>
-								<comboitem label="NON CONFERMATO"
-									value="NC">
-								</comboitem>
-								<comboitem label="RIASSEGNATO"
-									value="D">
-								</comboitem>
-								<comboitem label="LICENZIATO"
-									value="L">
-								</comboitem>
+								
 							</combobox>
 						</row>
 
@@ -114,7 +101,7 @@
 				<listitem self="@{each='item'}" value="@{item}">
 
 					<listcell
-						label="@{item.status, converter='org.uario.seaworkengine.zkevent.converter.UserStatusConverter'}" />
+						label="@{item.status}" />
 					<listcell
 						label="@{item.date_modified, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 

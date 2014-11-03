@@ -12,7 +12,6 @@ import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.UserTag;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkEventsTag;
-import org.uario.seaworkengine.zkevent.converter.UserStatusConverter;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
@@ -39,184 +38,182 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long			serialVersionUID	= 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Component					add_users_command;
+	private Component			add_users_command;
 
 	@Wire
-	private Textbox						address_user;
+	private Textbox				address_user;
 
 	@Wire
-	private Checkbox					admin_user;
+	private Checkbox			admin_user;
 
 	@Wire
-	private Checkbox					backoffice_user;
+	private Checkbox			backoffice_user;
 
 	@Wire
-	private Datebox						birth_date_user;
+	private Datebox				birth_date_user;
 
 	@Wire
-	private Textbox						birth_place_user;
+	private Textbox				birth_place_user;
 
 	@Wire
-	private Textbox						city_user;
+	private Textbox				city_user;
 
 	@Wire
-	private Component					contestations_user_tab;
-
-	private final UserStatusConverter	converter			= new UserStatusConverter();
+	private Component			contestations_user_tab;
 
 	@Wire
-	private Textbox						country_user;
+	private Textbox				country_user;
 
 	@Wire
-	private Textbox						current_position_user;
+	private Textbox				current_position_user;
 
 	@Wire
-	private Textbox						department_user;
+	private Textbox				department_user;
 
 	@Wire
-	private Tab							detail_user_tab;
+	private Tab					detail_user_tab;
 
 	@Wire
-	private Textbox						driving_license_charge_user;
+	private Textbox				driving_license_charge_user;
 
 	@Wire
-	private Datebox						driving_license_emission_user;
+	private Datebox				driving_license_emission_user;
 
 	@Wire
-	private Textbox						driving_license_user;
+	private Textbox				driving_license_user;
 
 	@Wire
-	private Textbox						education_user;
+	private Textbox				education_user;
 
 	@Wire
-	private Textbox						email_editor_user;
+	private Textbox				email_editor_user;
 
 	@Wire
-	private Textbox						email_editor_user_retype;
+	private Textbox				email_editor_user_retype;
 
 	@Wire
-	private Textbox						email_user;
+	private Textbox				email_user;
 
 	@Wire
-	private Textbox						email_user_retype;
+	private Textbox				email_user_retype;
 
 	@Wire
-	private Textbox						employee_identification_user;
+	private Textbox				employee_identification_user;
 
 	@Wire
-	private Textbox						family_charge_user;
+	private Textbox				family_charge_user;
 
 	@Wire
-	private Textbox						firstname_user;
+	private Textbox				firstname_user;
 
 	@Wire
-	private Component					fiscalcheck_user_tab;
+	private Component			fiscalcheck_user_tab;
 
 	@Wire
-	private Textbox						fiscalcode_user;
+	private Textbox				fiscalcode_user;
 
 	@Wire
-	private Component					grid_user_details;
+	private Component			grid_user_details;
 
 	@Wire
-	private Component					jobcost_user_tab;
+	private Component			jobcost_user_tab;
 
 	@Wire
-	private Textbox						lastname_user;
+	private Textbox				lastname_user;
 
-	private final Logger				logger				= Logger.getLogger(UserDetailsComposer.class);
-
-	@Wire
-	private Component					mail_user_tab;
+	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox						mailpassword_user;
+	private Component			mail_user_tab;
 
 	@Wire
-	private Textbox						marital_status_user;
+	private Textbox				mailpassword_user;
 
 	@Wire
-	private Component					modify_users_command;
+	private Textbox				marital_status_user;
 
 	@Wire
-	private Textbox						nbudje_user;
+	private Component			modify_users_command;
 
 	@Wire
-	private Textbox						ncfl_user;
+	private Textbox				nbudje_user;
 
 	@Wire
-	private Textbox						npass_user;
+	private Textbox				ncfl_user;
 
 	@Wire
-	private Checkbox					operative_user;
+	private Textbox				npass_user;
 
 	@Wire
-	private Textbox						password_editor_user;
+	private Checkbox			operative_user;
 
 	@Wire
-	private Textbox						password_editor_user_retype;
+	private Textbox				password_editor_user;
 
 	@Wire
-	private Textbox						password_user;
+	private Textbox				password_editor_user_retype;
 
 	@Wire
-	private Textbox						password_user_retype;
+	private Textbox				password_user;
 
 	@Wire
-	private Component					password_user_tab;
+	private Textbox				password_user_retype;
 
-	Person								person_selected		= null;
+	@Wire
+	private Component			password_user_tab;
+
+	Person						person_selected		= null;
 
 	// the dao used for db interaction
-	private PersonDAO					personDao;
+	private PersonDAO			personDao;
 
 	@Wire
-	private Textbox						phone_user;
+	private Textbox				phone_user;
 
 	@Wire
-	private Textbox						postalCode_user;
+	private Textbox				postalCode_user;
 
 	@Wire
-	private Textbox						provincia_user;
+	private Textbox				provincia_user;
 
 	@Wire
-	private Row							row_email_user_retype;
+	private Row					row_email_user_retype;
 
 	@Wire
-	private Row							row_password_user;
+	private Row					row_password_user;
 
 	@Wire
-	private Row							row_password_user_retype;
+	private Row					row_password_user_retype;
 
 	@Wire
-	private Component					status_user_tab;
+	private Component			status_user_tab;
 
 	@Wire
-	private Listbox						sw_list_user;
+	private Listbox				sw_list_user;
 
 	@Wire
-	private Component					task_user_tab;
+	private Component			task_user_tab;
 
 	@Wire
-	private Component					tfr_user_tab;
+	private Component			tfr_user_tab;
 
 	@Wire
-	private Component					tradeunion_user_tab;
+	private Component			tradeunion_user_tab;
 
 	@Wire
-	private Checkbox					user_enabled;
+	private Checkbox			user_enabled;
 
 	@Wire
-	private Label						user_status;
+	private Label				user_status;
 
 	@Wire
-	private A							userName;
+	private A					userName;
 
 	@Wire
-	private Checkbox					viewer_user;
+	private Checkbox			viewer_user;
 
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
@@ -468,9 +465,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.driving_license_emission_user.setValue(person_selected.getDriving_license_emission());
 
 		// set status
-		final String status = person_selected.getStatus();
-		final String status_label = (String) this.converter.coerceToUi(status, null);
-		this.user_status.setValue(status_label);
+		this.user_status.setValue(person_selected.getStatus());
 
 		// set users
 		this.admin_user.setChecked(person_selected.isAdministrator());
@@ -540,8 +535,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				UserDetailsComposer.this.personDao.updatePerson(UserDetailsComposer.this.person_selected);
 
 				// set status
-				final String status_label = (String) UserDetailsComposer.this.converter.coerceToUi(status, null);
-				UserDetailsComposer.this.user_status.setValue(status_label);
+				UserDetailsComposer.this.user_status.setValue(status);
 
 				// set user listbox
 				UserDetailsComposer.this.setUserListBox();
@@ -629,15 +623,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposer.this.deleteUserCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposer.this.deleteUserCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 

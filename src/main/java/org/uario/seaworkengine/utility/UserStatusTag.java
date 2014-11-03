@@ -3,21 +3,12 @@ package org.uario.seaworkengine.utility;
 public class UserStatusTag {
 
 	// LICENZIATO
-	public final static String	FIRED			= "L";
-
-	// NON CONFERMATO
-	public final static String	NOT_CONFIRMED	= "NC";
+	public final static String	FIRED		= "LICENZIATO";
 
 	// APERTO
-	public final static String	OPEN			= "A";
-
-	// APERTO CON REINTEGRO
-	public final static String	REOPEN			= "AR";
+	public final static String	OPEN		= "IN ORGANICO";
 
 	// DIMESSO
-	public final static String	RESIGNED		= "D";
-
-	// DIMESSO
-	public final static String	SUSPENDED		= "S";
+	public final static String	SUSPENDED	= "SOSPESO";
 
 }

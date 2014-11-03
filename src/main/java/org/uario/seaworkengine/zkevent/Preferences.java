@@ -10,6 +10,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IParams;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ParamsTag;
 import org.uario.seaworkengine.utility.ShiftTag;
+import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -211,7 +212,12 @@ public class Preferences extends SelectorComposer<Component> {
 			return;
 		}
 
-		this.configurationDao.removeStatus(this.sw_list_status.getSelectedItem().getValue().toString());
+		final String status = this.sw_list_status.getSelectedItem().getValue().toString();
+		if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED) || status.equals(UserStatusTag.OPEN)) {
+			Messagebox.show("Status di sistema, impossibile eliminare!", "Error", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+		this.configurationDao.removeStatus(status);
 
 		this.refreshStatusList();
 
