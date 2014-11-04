@@ -347,8 +347,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @return
 	 */
 	private HashMap<Integer, String> defineUserAvailability() {
-		// define info about current day schedule - define person available
-		final List<DaySchedule> day_schedule_list = this.scheduleDAO.loadDaySchedule(Calendar.getInstance().getTime());
+
+		// the day for define user availability si to morrow
+		final Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+
+		// define info about day scheduled - define person available
+		final List<DaySchedule> day_schedule_list = this.scheduleDAO.loadDaySchedule(calendar.getTime());
 
 		final HashMap<Integer, String> map_status = new HashMap<Integer, String>();
 		for (final DaySchedule day_schedule : day_schedule_list) {
