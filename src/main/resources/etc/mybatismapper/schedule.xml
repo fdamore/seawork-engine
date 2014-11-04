@@ -39,7 +39,7 @@
 
 
 
-	<select id="selectSchedule" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectAggregateSchedule" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 	<![CDATA[
 select 
@@ -66,6 +66,36 @@ group by user , s.id , ds.shift
 order by user, s.date_schedule asc
 ]]>
 	</select>
+
+	<select id="selectAggregateScheduleByDate" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="map">
+	<![CDATA[
+select 
+    s.id,
+    ds.shift,
+    sum(ds.time) as program_time,
+    sum(dfs.time) as revision_time,
+    s.date_schedule,
+    s.note,
+    s.editor,
+    s.controller,
+    u.id as user,
+    concat(u.firstname, ' ', u.lastname) AS name_user
+from
+    user u,
+    schedule s
+        left join
+    detailinitialschedule ds ON (s.id = ds.id_schedule)
+        left join
+    detailfinalschedule dfs ON (s.id = dfs.id_schedule)
+where
+    u.id = s.user and s.date_schedule = #{date_from}
+group by user , s.id , ds.shift
+order by user, s.date_schedule asc
+]]>
+	</select>
+
+
 
 
 	<select id="selectDaySchedulers" resultType="org.uario.seaworkengine.model.DaySchedule"
@@ -101,65 +131,83 @@ from
 	</update>
 
 	<insert id="createDetailInitialSchedule" parameterType="org.uario.seaworkengine.model.DetailInitialSchedule">
-		INSERT INTO
+		INSERT
+		INTO
 		detailinitialschedule (id_schedule, shift, task,
 		time)
-		VALUES (#{id_schedule}, #{shift},
+		VALUES
+		(#{id_schedule}, #{shift},
 		#{task}, #{time});
 	</insert>
-	
+
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task,
-		time, time_from, time_to)
+		time, time_from,
+		time_to)
 		VALUES (#{id_schedule}, #{shift},
-		#{task}, #{time}, {#time_from}, {#time_to});
+		#{task}, #{time},
+		{#time_from}, {#time_to});
 	</insert>
 
 
 
-	<select id="loadDetailInitialScheduleByIdScheduleAndShift" resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
+	<select id="loadDetailInitialScheduleByIdScheduleAndShift"
+		resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
 		parameterType="map">
 		SELECT id, id_schedule, shift, task, time
-		FROM detailinitialschedule
+		FROM
+		detailinitialschedule
 		WHERE id_schedule =
-		#{id_schedule} and shift = #{shift};
-	</select>
-	
-	<select id="loadDetailFinalScheduleByIdScheduleAndShift" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
-		parameterType="map">
-		SELECT id, id_schedule, shift, task, time, time_from, time_to
-		FROM detailfinalschedule
-		WHERE id_schedule =
-		#{id_schedule} and shift = #{shift};
+		#{id_schedule} and shift =
+		#{shift};
 	</select>
 
-	<select id="loadDetailInitialScheduleByIdSchedule" parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
-		SELECT id, id_schedule, shift, task, time
+	<select id="loadDetailFinalScheduleByIdScheduleAndShift"
+		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
+		parameterType="map">
+		SELECT id, id_schedule, shift, task, time, time_from,
+		time_to
+		FROM detailfinalschedule
+		WHERE id_schedule =
+		#{id_schedule} and
+		shift = #{shift};
+	</select>
+
+	<select id="loadDetailInitialScheduleByIdSchedule"
+		parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
+		SELECT id, id_schedule, shift,
+		task, time
 		FROM detailinitialschedule
 		WHERE id_schedule =
 		#{id_schedule}
 	</select>
 
-	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
-		SELECT id, id_schedule, shift, task, time, time_from, time_to
+	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
+		SELECT id, id_schedule, shift, task, time, time_from,
+		time_to
 		FROM detailfinalschedule
 		WHERE id_schedule =
 		#{id_schedule};
 	</select>
 
 
-	<delete id="removeAllDetailInitialScheduleByScheduleAndShift" parameterType="map">
+	<delete id="removeAllDetailInitialScheduleByScheduleAndShift"
+		parameterType="map">
 		DELETE FROM
 		detailinitialschedule
-		WHERE id_schedule = #{id_schedule} and shift
+		WHERE id_schedule =
+		#{id_schedule} and shift
 		= #{shift};
 	</delete>
 
-	<delete id="removeAllDetailFinalScheduleByScheduleAndShift" parameterType="map">
+	<delete id="removeAllDetailFinalScheduleByScheduleAndShift"
+		parameterType="map">
 		DELETE FROM
 		detailfinalschedule
-		WHERE id_schedule = #{id_schedule} and shift
+		WHERE id_schedule =
+		#{id_schedule} and shift
 		= #{shift};
 	</delete>
 

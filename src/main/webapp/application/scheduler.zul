@@ -1014,24 +1014,27 @@
 
 					</listbox>
 
-					
-										
-					
+
+
+
 				</panelchildren>
-				
+
 			</panel>
-			
+
 			<space></space>
-			
+
 			<panel>
 				<panelchildren>
-					<textbox placeholder="Turno Forzabile" readonly="true"/>
-					<textbox placeholder="Turno Non Forzabile" readonly="true"/>
-					<textbox placeholder="Turno di Lavoro" readonly="true"/>
+					<textbox placeholder="Turno Forzabile"
+						readonly="true" />
+					<textbox placeholder="Turno Non Forzabile"
+						readonly="true" />
+					<textbox placeholder="Turno di Lavoro"
+						readonly="true" />
 				</panelchildren>
 			</panel>
-			
-			
+
+
 		</div>
 
 		<!-- REVIEW -->
@@ -1108,7 +1111,7 @@
 
 
 							<listcell>
-								<toolbarbutton
+								<toolbarbutton disabled="true"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
@@ -1118,7 +1121,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell>
-								<toolbarbutton
+								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
@@ -1129,7 +1132,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell>
-								<toolbarbutton
+								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
@@ -1140,7 +1143,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell>
-								<toolbarbutton
+								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
 									style="font-weight:bold; color:black; font-size: 13px;">

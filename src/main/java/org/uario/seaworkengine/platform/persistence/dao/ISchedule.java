@@ -38,8 +38,10 @@ public interface ISchedule {
 
 	public void saveOrUpdateSchedule(Schedule currentSchedule);
 
-	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date);
+	public List<Schedule> selectAggregateSchedulers(Date firstDateInGrid);
 
-	public List<Schedule> selectSchedulers(Date initial_date, Date final_date);
+	public List<Schedule> selectAggregateSchedulers(Date initial_date, Date final_date);
+
+	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date);
 
 }

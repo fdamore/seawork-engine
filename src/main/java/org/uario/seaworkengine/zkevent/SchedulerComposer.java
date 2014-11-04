@@ -494,10 +494,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		ItemRowSchedule itemsRow = null;
 
 		boolean version_program = false;
+		final int day = day_on_current_calendar.intValue();
+
 		if (!program) {
-			version_program = false;
+			if (day == 1) {
+				version_program = true;
+			}
 		} else {
-			final int day = day_on_current_calendar.intValue();
+
 			if ((day == 1) || (day == 2)) {
 				version_program = false;
 			} else {
@@ -864,7 +868,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			final Calendar current_calendar = Calendar.getInstance();
 			current_calendar.setTime(this.firstDateInGrid);
-			current_calendar.add(Calendar.DAY_OF_YEAR, i);
+
+			// show the final same day in two different column
+			// current_calendar.add(Calendar.DAY_OF_YEAR, i);
 
 			final String day_w = SchedulerComposer.formatter_eeee.format(current_calendar.getTime());
 			final String day_m = SchedulerComposer.formatter_ddmmm.format(current_calendar.getTime());
@@ -1096,7 +1102,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Date final_date = calendar.getTime();
 
 		// get info
-		final List<Schedule> list = this.scheduleDAO.selectSchedulers(this.firstDateInGrid, final_date);
+		final List<Schedule> list = this.scheduleDAO.selectAggregateSchedulers(this.firstDateInGrid, final_date);
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -1209,7 +1215,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Date final_date = calendar.getTime();
 
 		// get info
-		final List<Schedule> list = this.scheduleDAO.selectSchedulers(this.firstDateInGrid, final_date);
+		final List<Schedule> list = this.scheduleDAO.selectAggregateSchedulers(this.firstDateInGrid);
+		if ((list.size() > 0) && (list.get(0) != null)) {
+			list.add(list.get(0));
+		}
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
