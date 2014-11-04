@@ -85,7 +85,8 @@
 				sclass="transparent">
 				<panelchildren>
 
-					<listbox sclass="domain" id="grid_scheduler_day">
+					<listbox sclass="domain" id="grid_scheduler_day"
+						checkmark="true" multiple="false">
 						<auxhead>
 							<auxheader label="" colspan="1" />
 
@@ -1065,8 +1066,8 @@
 				sclass="transparent">
 				<panelchildren>
 
-					<listbox sclass="domain"
-						id="grid_scheduler_review">
+					<listbox sclass="domain" checkmark="true"
+						multiple="false" id="grid_scheduler_review">
 						<auxhead>
 							<auxheader label="" colspan="1" />
 

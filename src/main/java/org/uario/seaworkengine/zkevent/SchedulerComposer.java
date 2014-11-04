@@ -1402,7 +1402,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	/**
 	 * Popup on review
-	 * 
+	 *
 	 * @param data_info
 	 */
 	protected void shiftConfiguratorReview(final String data_info) {
