@@ -20,15 +20,16 @@ public class UtilityProgramRow {
 	public static void defineColorShiftConverter(final Component arg1, final ItemRowSchedule item_schedule) {
 		final RowSchedule row = item_schedule.getRowSchedule();
 		final String status = row.getUser_status();
+		if (status == null) {
+			return;
+		}
 		String color_stye = "background-color:" + ProgramColorTag.COLOR_WORKER;
 
 		if (status.equals(UserTag.USER_WORKER_AVAILABLE)) {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_WORKER;
-		}
-		if (status.equals(UserTag.USER_WORKER_FORZABLE)) {
+		} else if (status.equals(UserTag.USER_WORKER_FORZABLE)) {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_FORZABLE;
-		}
-		if (status.equals(UserTag.USER_WORKER_NOT_AVAILABLE)) {
+		} else if (status.equals(UserTag.USER_WORKER_NOT_AVAILABLE)) {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_NOT_AVAILABLE;
 		}
 

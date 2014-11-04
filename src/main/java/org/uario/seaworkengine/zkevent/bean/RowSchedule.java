@@ -1,32 +1,29 @@
 package org.uario.seaworkengine.zkevent.bean;
 
-import org.uario.seaworkengine.utility.UserTag;
-
 public class RowSchedule implements Comparable<RowSchedule> {
 
-	private ItemRowSchedule	item_1		= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_1	= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_2		= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_2	= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_3		= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_3	= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_4		= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_4	= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_5		= new ItemRowSchedule(this);
-
-	private ItemRowSchedule	item_6		= new ItemRowSchedule(this);
-
-	private ItemRowSchedule	item_7		= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_5	= new ItemRowSchedule(this);
 
 	// used to visualize it
 	private String			name_user;
 
 	private Integer			user;
 
-	private String			user_status	= UserTag.USER_WORKER_AVAILABLE;
+	private String			user_status;
 
 	@Override
 	public int compareTo(final RowSchedule o) {
+		if (this.getUser_status() == null) {
+			return 1;
+		}
 		if (this.getUser_status().equals(o.getUser_status())) {
 			return this.getName_user().compareTo(o.getName_user());
 		}
@@ -71,14 +68,6 @@ public class RowSchedule implements Comparable<RowSchedule> {
 		return this.item_5;
 	}
 
-	public ItemRowSchedule getItem_6() {
-		return this.item_6;
-	}
-
-	public ItemRowSchedule getItem_7() {
-		return this.item_7;
-	}
-
 	public String getName_user() {
 		return this.name_user;
 	}
@@ -109,14 +98,6 @@ public class RowSchedule implements Comparable<RowSchedule> {
 
 	public void setItem_5(final ItemRowSchedule item_5) {
 		this.item_5 = item_5;
-	}
-
-	public void setItem_6(final ItemRowSchedule item_6) {
-		this.item_6 = item_6;
-	}
-
-	public void setItem_7(final ItemRowSchedule item_7) {
-		this.item_7 = item_7;
 	}
 
 	public void setName_user(final String name_user) {

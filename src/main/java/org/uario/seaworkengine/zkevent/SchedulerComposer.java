@@ -336,6 +336,44 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Define user availability
+	 *
+	 * @return
+	 */
+	private HashMap<Integer, String> defineUserAvailability() {
+		// define info about current day schedule - define person available
+		final List<DaySchedule> day_schedule_list = this.scheduleDAO.loadDaySchedule(Calendar.getInstance().getTime());
+
+		final HashMap<Integer, String> map_status = new HashMap<Integer, String>();
+		for (final DaySchedule day_schedule : day_schedule_list) {
+			final Integer id_user = day_schedule.getId_user();
+			if (map_status.containsKey(id_user)) {
+				continue;
+			}
+
+			String status = UserTag.USER_WORKER_AVAILABLE;
+
+			final Integer id_shift = day_schedule.getShift();
+			final UserShift shift = this.shift_cache.getUserShift(id_shift);
+			final boolean forzable = shift.getForceable();
+			final boolean presence = shift.getPresence();
+			if (presence) {
+				status = UserTag.USER_WORKER_AVAILABLE;
+			} else if (!presence && forzable) {
+				status = UserTag.USER_WORKER_FORZABLE;
+			}
+
+			else if (!presence && !forzable) {
+				status = UserTag.USER_WORKER_NOT_AVAILABLE;
+			}
+
+			map_status.put(id_user, status);
+
+		}
+		return map_status;
+	}
+
 	@Override
 	public void doFinally() throws Exception {
 
@@ -470,14 +508,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (day_on_current_calendar == 5) {
 			itemsRow = currentRow.getItem_5();
-		}
-
-		if (day_on_current_calendar == 6) {
-			itemsRow = currentRow.getItem_5();
-		}
-
-		if (day_on_current_calendar == 7) {
-			itemsRow = currentRow.getItem_7();
 		}
 
 		if (schedule.getId() != null) {
@@ -1041,42 +1071,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void setupGlobalSchedulerGridForShift() {
 
+		// user availability and color
+		final HashMap<Integer, String> map_status = this.defineUserAvailability();
+
 		// setup final period and get data...
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(this.firstDateInGrid);
 		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID_PROGRAM);
 		final Date final_date = calendar.getTime();
+
+		// get info
 		final List<Schedule> list = this.scheduleDAO.selectSchedulers(this.firstDateInGrid, final_date);
-
-		// define info about current day schedule
-		final List<DaySchedule> day_schedule_list = this.scheduleDAO.loadDaySchedule(Calendar.getInstance().getTime());
-		final HashMap<Integer, String> map_status = new HashMap<Integer, String>();
-		for (final DaySchedule day_schedule : day_schedule_list) {
-			final Integer id_user = day_schedule.getId_user();
-			if (map_status.containsKey(id_user)) {
-				continue;
-			}
-
-			String status = UserTag.USER_WORKER_AVAILABLE;
-
-			final Integer id_shift = day_schedule.getShift();
-			final UserShift shift = this.shift_cache.getUserShift(id_shift);
-			final boolean forzable = shift.getForceable();
-			final boolean presence = shift.getPresence();
-			if (presence) {
-				status = UserTag.USER_WORKER_AVAILABLE;
-			}
-			if (!presence && forzable) {
-				status = UserTag.USER_WORKER_FORZABLE;
-			}
-
-			if (!presence && !forzable) {
-				status = UserTag.USER_WORKER_NOT_AVAILABLE;
-			}
-
-			map_status.put(id_user, status);
-
-		}
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -1102,8 +1107,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow.setItem_3(new ItemRowSchedule(currentRow, schedule));
 				currentRow.setItem_4(new ItemRowSchedule(currentRow, schedule));
 				currentRow.setItem_5(new ItemRowSchedule(currentRow, schedule));
-				currentRow.setItem_6(new ItemRowSchedule(currentRow, schedule));
-				currentRow.setItem_7(new ItemRowSchedule(currentRow, schedule));
 
 				// set user type for available
 				if (map_status.containsKey(schedule.getUser())) {
@@ -1139,14 +1142,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow.setItem_5(itemsRow);
 			}
 
-			if (day_on_current_calendar == 6) {
-				currentRow.setItem_6(itemsRow);
-			}
-
-			if (day_on_current_calendar == 7) {
-				currentRow.setItem_7(itemsRow);
-			}
-
 		}
 
 		// get all user to schedule
@@ -1173,9 +1168,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			addedRow.setItem_3(new ItemRowSchedule(addedRow));
 			addedRow.setItem_4(new ItemRowSchedule(addedRow));
 			addedRow.setItem_5(new ItemRowSchedule(addedRow));
-			addedRow.setItem_6(new ItemRowSchedule(addedRow));
-			addedRow.setItem_7(new ItemRowSchedule(addedRow));
 
+			// add row
 			list_row.add(addedRow);
 
 		}
@@ -1198,37 +1192,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.setTime(this.firstDateInGrid);
 		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_TO_SHOW_IN_REVIEW);
 		final Date final_date = calendar.getTime();
+
+		// get info
 		final List<Schedule> list = this.scheduleDAO.selectSchedulers(this.firstDateInGrid, final_date);
-
-		// define info about current day schedule
-		final List<DaySchedule> day_schedule_list = this.scheduleDAO.loadDaySchedule(Calendar.getInstance().getTime());
-		final HashMap<Integer, String> map_status = new HashMap<Integer, String>();
-		for (final DaySchedule day_schedule : day_schedule_list) {
-			final Integer id_user = day_schedule.getId_user();
-			if (map_status.containsKey(id_user)) {
-				continue;
-			}
-
-			String status = UserTag.USER_WORKER_AVAILABLE;
-
-			final Integer id_shift = day_schedule.getShift();
-			final UserShift shift = this.shift_cache.getUserShift(id_shift);
-			final boolean forzable = shift.getForceable();
-			final boolean presence = shift.getPresence();
-			if (presence) {
-				status = UserTag.USER_WORKER_AVAILABLE;
-			}
-			if (!presence && forzable) {
-				status = UserTag.USER_WORKER_FORZABLE;
-			}
-
-			if (!presence && !forzable) {
-				status = UserTag.USER_WORKER_NOT_AVAILABLE;
-			}
-
-			map_status.put(id_user, status);
-
-		}
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -1251,12 +1217,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// set items for current row
 				currentRow.setItem_1(new ItemRowSchedule(currentRow, schedule));
 				currentRow.setItem_2(new ItemRowSchedule(currentRow, schedule));
-
-				// set user type for available
-				if (map_status.containsKey(schedule.getUser())) {
-					final String status = map_status.get(schedule.getUser());
-					currentRow.setUser_status(status);
-				}
 
 				// sign person scheduled
 				sign_scheduled.put(schedule.getUser(), new Object());
@@ -1287,12 +1247,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final RowSchedule addedRow = new RowSchedule();
 			addedRow.setUser(person.getId());
 			addedRow.setName_user(person.getIndividualName());
-
-			// set user type for available
-			if (map_status.containsKey(person.getId())) {
-				final String status = map_status.get(person.getId());
-				addedRow.setUser_status(status);
-			}
 
 			// set items for current row
 			addedRow.setItem_1(new ItemRowSchedule(addedRow));
