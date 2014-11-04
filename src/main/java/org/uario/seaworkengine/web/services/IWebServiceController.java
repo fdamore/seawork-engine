@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.web.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.web.services.handler.FinalSchedule;
@@ -14,7 +13,7 @@ public interface IWebServiceController {
 	 * @param date
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedule(Date date);
+	public List<InitialSchedule> selectInitialSchedule(String date);
 
 	/**
 	 * Transmit final scheduler

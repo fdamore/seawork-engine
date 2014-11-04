@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.web.services.soap;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -18,7 +17,7 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date") final Date date) {
+	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date") final String date) {
 		return this.webcontroller.selectInitialSchedule(date);
 	}
 

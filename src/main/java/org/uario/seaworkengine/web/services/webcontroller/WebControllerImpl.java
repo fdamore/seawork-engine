@@ -1,5 +1,7 @@
 package org.uario.seaworkengine.web.services.webcontroller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +17,8 @@ import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 
 public class WebControllerImpl implements IWebServiceController {
 
+	SimpleDateFormat	date_format	= new SimpleDateFormat("dd-MM-yyyy");
+
 	private PersonDAO	personDAO;
 	private ISchedule	scheduleDAO;
 
@@ -27,21 +31,35 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedule(final Date date) {
+	public List<InitialSchedule> selectInitialSchedule(final String date) {
 
 		final List<InitialSchedule> ret = new ArrayList<InitialSchedule>();
+
+		Date date_schedule;
+		try {
+			date_schedule = this.date_format.parse(date);
+		}
+		catch (final ParseException e) {
+			return null;
+		}
 
 		final List<Person> list = this.personDAO.listAllPersons();
 		for (final Person person : list) {
 
 			final InitialSchedule item = new InitialSchedule();
 
-			final Schedule schedule = this.scheduleDAO.loadSchedule(date, person.getId());
+			final Schedule schedule = this.scheduleDAO.loadSchedule(date_schedule, person.getId());
+			if (schedule == null) {
+				continue;
+			}
+
 			final List<DetailInitialSchedule> details = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
 
 			// set current object
 			item.setPerson(person);
 			item.setDetail_chedule(details);
+			item.setSchedule(schedule);
+
 			ret.add(item);
 
 		}

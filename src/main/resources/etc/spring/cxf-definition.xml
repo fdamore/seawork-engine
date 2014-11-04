@@ -19,7 +19,7 @@
 
 	<bean id="soapservice"
 		class="org.uario.seaworkengine.web.services.soap.SoapControllerImpl">
-		<property name="webcontroller" ref="webcontroller" />
+		<property name="webcontroller" ref="webcontroller" />		
 	</bean>
 
 	<!-- END SOAP SERVICE -->

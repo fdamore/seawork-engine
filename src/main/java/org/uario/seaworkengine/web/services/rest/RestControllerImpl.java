@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.web.services.rest;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -24,7 +23,7 @@ public class RestControllerImpl implements IWebServiceController {
 	@GET
 	@Produces("application/xml")
 	@Path("/selectInitialSchedule/{date}")
-	public List<InitialSchedule> selectInitialSchedule(@PathParam("date") final Date date) {
+	public List<InitialSchedule> selectInitialSchedule(@PathParam("date") final String date) {
 		return this.webcontroller.selectInitialSchedule(date);
 	}
 
