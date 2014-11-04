@@ -6,6 +6,8 @@ public interface ZkEventsTag {
 
 	public static String	onShiftClick			= "onShiftClick";
 
+	public static String	onShiftClickReview		= "onShiftClickReview";
+
 	public static String	onShowMyProfile			= "onShowMyProfile";
 
 	public static String	onShowPreferences		= "onShowPreferences";

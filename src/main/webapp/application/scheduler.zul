@@ -1040,6 +1040,14 @@
 		<!-- REVIEW -->
 		<div id="review_div" visible="false">
 
+			<!-- POPUP -->
+			<popup id="shift_definition_popup_review" width="450px">
+
+				<label value="ciao"></label>
+
+			</popup>
+
+
 			<hbox align="center">
 				<a label="Seleziona data iniziale: "></a>
 				<datebox id="date_init_scheduler_review"

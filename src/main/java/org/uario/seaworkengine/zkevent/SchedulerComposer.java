@@ -167,6 +167,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Popup							shift_definition_popup;
 
 	@Wire
+	private Popup							shift_definition_popup_review;
+
+	@Wire
 	private Combobox						shift_popup;
 
 	private TasksDAO						taskDAO;
@@ -426,6 +429,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		});
 
 		// SHOW SHIFT CONFIGURATOR
+		this.getSelf().addEventListener(ZkEventsTag.onShiftClickReview, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final String data_info = arg0.getData().toString();
+
+				// configure shift
+				SchedulerComposer.this.shiftConfiguratorReview(data_info);
+
+			}
+
+		});
+
+		// SHOW DAY CONFIGURATOR
 		this.getSelf().addEventListener(ZkEventsTag.onDayClick, new EventListener<Event>() {
 
 			@Override
@@ -1379,6 +1397,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			combo_item.setLabel(task_item.toString());
 
 		}
+
+	}
+
+	/**
+	 * Popup on review
+	 * 
+	 * @param data_info
+	 */
+	protected void shiftConfiguratorReview(final String data_info) {
+
+		this.shift_definition_popup_review.open(this.review_div, "after_pointer");
 
 	}
 }
