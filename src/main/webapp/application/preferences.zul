@@ -428,37 +428,7 @@
 						<panelchildren>
 							<!-- STATUS -->
 							<div>
-								<a label="Status" iconSclass="z-icon-list" sclass="green lighter rcaption" />
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
+								<a label="Status" iconSclass="z-icon-list" sclass="green lighter rcaption" />							
 							
 							<!-- STATUS EDITOR -->
 		<div id="grid_status_details" visible="false">
@@ -467,45 +437,29 @@
 				sclass="transparent">
 				<caption iconSclass="z-icon-star orange"
 					label="Dettagli Status">
-
 					<toolbarbutton label="Chiudi" style="color: blue"
 						onClick="grid_status_details.setVisible(false);">
 					</toolbarbutton>
-
 					<toolbarbutton id="add_status_command"
 						label="Aggiungi" style="color: blue" visible="false">
 					</toolbarbutton>					
-
 				</caption>
-
 				<panelchildren>
-
 					<grid sclass="domain">
 						<columns>
 							<column label="Tipo" />
 							<column label="Informazioni" />
 						</columns>
 						<rows>
-
-							
-
-
 							<row id="row_description_status">
 								<label value="Descrizione:"></label>
 								<textbox id="description_status"
 									mold="rounded" />
 							</row>														
-
 						</rows>
 					</grid>
-
-
 				</panelchildren>
-
 			</panel>
-
-
-
 		</div>
 
 		<div>

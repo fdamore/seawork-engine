@@ -691,10 +691,6 @@
 			</popup>
 
 
-
-
-
-
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 				<panelchildren>
@@ -1014,22 +1010,28 @@
 								</toolbarbutton>
 							</listcell>
 
-
-
-
-
-
 						</listitem>
-
-
 
 					</listbox>
 
-
+					
+										
+					
+				</panelchildren>
+				
+			</panel>
+			
+			<space></space>
+			
+			<panel>
+				<panelchildren>
+					<textbox placeholder="Turno Forzabile" readonly="true"/>
+					<textbox placeholder="Turno Non Forzabile" readonly="true"/>
+					<textbox placeholder="Turno di Lavoro" readonly="true"/>
 				</panelchildren>
 			</panel>
-
-
+			
+			
 		</div>
 
 		<!-- REVIEW -->
