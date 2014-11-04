@@ -44,8 +44,9 @@
 	<![CDATA[
 select 
     s.id,
-ds.shift,
+    ds.shift,
     sum(ds.time) as program_time,
+    sum(dfs.time) as revision_time,
     s.date_schedule,
     s.note,
     s.editor,
@@ -54,8 +55,11 @@ ds.shift,
     concat(u.firstname, ' ', u.lastname) AS name_user
 from
     user u,
-    schedule s left join
+    schedule s
+        left join
     detailinitialschedule ds ON (s.id = ds.id_schedule)
+        left join
+    detailfinalschedule dfs ON (s.id = dfs.id_schedule)
 where
     u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to}
 group by user , s.id , ds.shift

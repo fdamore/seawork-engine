@@ -31,7 +31,13 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	private String				note;
 
+	// used for visualize
+	@XmlTransient
 	private Integer				program_time;
+
+	// used for visualize
+	@XmlTransient
+	private Integer				revision_time;
 
 	private Integer				shift;
 
@@ -83,6 +89,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.program_time;
 	}
 
+	public Integer getRevision_time() {
+		return this.revision_time;
+	}
+
 	public Integer getShift() {
 		return this.shift;
 	}
@@ -117,6 +127,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setProgram_time(final Integer program_time) {
 		this.program_time = program_time;
+	}
+
+	public void setRevision_time(final Integer revision_time) {
+		this.revision_time = revision_time;
 	}
 
 	public void setShift(final Integer shift) {

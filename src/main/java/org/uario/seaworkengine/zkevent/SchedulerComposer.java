@@ -285,6 +285,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Integer time = null;
 		if (program) {
 			time = schedule.getProgram_time();
+		} else {
+			time = schedule.getRevision_time();
 		}
 
 		if (time != null) {
@@ -486,9 +488,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param schedule
 	 */
-	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule) {
+	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule,
+			final boolean program) {
 
 		ItemRowSchedule itemsRow = null;
+
+		boolean version_program = false;
+		if (!program) {
+			version_program = false;
+		} else {
+			final int day = day_on_current_calendar.intValue();
+			if ((day == 1) || (day == 2)) {
+				version_program = false;
+			} else {
+				version_program = true;
+			}
+		}
 
 		if (day_on_current_calendar == 1) {
 			itemsRow = currentRow.getItem_1();
@@ -514,19 +529,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (schedule.getShift() != null) {
 
 				if (schedule.getShift() == 1) {
-					itemsRow.setAnchor1(this.defineAnchorContent(true, schedule));
+					itemsRow.setAnchor1(this.defineAnchorContent(version_program, schedule));
 				}
 
 				if (schedule.getShift() == 2) {
-					itemsRow.setAnchor2(this.defineAnchorContent(true, schedule));
+					itemsRow.setAnchor2(this.defineAnchorContent(version_program, schedule));
 				}
 
 				if (schedule.getShift() == 3) {
-					itemsRow.setAnchor3(this.defineAnchorContent(true, schedule));
+					itemsRow.setAnchor3(this.defineAnchorContent(version_program, schedule));
 				}
 
 				if (schedule.getShift() == 4) {
-					itemsRow.setAnchor4(this.defineAnchorContent(true, schedule));
+					itemsRow.setAnchor4(this.defineAnchorContent(version_program, schedule));
 				}
 			}
 
@@ -1120,7 +1135,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set correct day
 			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
-			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule);
+			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule, true);
 
 			if (day_on_current_calendar == 1) {
 				currentRow.setItem_1(itemsRow);
@@ -1224,7 +1239,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set correct day
 			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
-			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule);
+			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule, false);
 
 			if (day_on_current_calendar == 1) {
 				currentRow.setItem_1(itemsRow);
