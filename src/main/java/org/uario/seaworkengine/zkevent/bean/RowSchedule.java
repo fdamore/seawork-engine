@@ -1,30 +1,33 @@
 package org.uario.seaworkengine.zkevent.bean;
 
+import org.uario.seaworkengine.utility.ShiftTag;
+
 public class RowSchedule implements Comparable<RowSchedule> {
 
-	private ItemRowSchedule	item_1	= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_1		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_2	= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_2		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_3	= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_3		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_4	= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_4		= new ItemRowSchedule(this);
 
-	private ItemRowSchedule	item_5	= new ItemRowSchedule(this);
+	private ItemRowSchedule	item_5		= new ItemRowSchedule(this);
 
 	// used to visualize it
 	private String			name_user;
 
 	private Integer			user;
 
-	private String			user_status;
+	private String			user_status	= ShiftTag.USER_WORKER_NOT_AVAILABLE;
 
 	@Override
 	public int compareTo(final RowSchedule o) {
-		if (this.getUser_status() == null) {
-			return 1;
-		}
+
 		if (this.getUser_status().equals(o.getUser_status())) {
+			if ((this.getName_user() == null) || (o.getName_user() == null)) {
+				return 0;
+			}
 			return this.getName_user().compareTo(o.getName_user());
 		}
 

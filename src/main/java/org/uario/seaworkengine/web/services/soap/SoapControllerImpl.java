@@ -17,8 +17,8 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date") final String date) {
-		return this.webcontroller.selectInitialSchedule(date);
+	public List<InitialSchedule> selectInitialSchedule() {
+		return this.webcontroller.selectInitialSchedule();
 	}
 
 	@Override

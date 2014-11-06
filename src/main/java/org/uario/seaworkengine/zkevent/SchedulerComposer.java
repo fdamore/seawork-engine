@@ -24,7 +24,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
-import org.uario.seaworkengine.utility.UserTag;
+import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
@@ -362,20 +362,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				continue;
 			}
 
-			String status = UserTag.USER_WORKER_AVAILABLE;
+			String status = ShiftTag.USER_WORKER_AVAILABLE;
 
 			final Integer id_shift = day_schedule.getShift();
 			final UserShift shift = this.shift_cache.getUserShift(id_shift);
 			final boolean forzable = shift.getForceable();
 			final boolean presence = shift.getPresence();
 			if (presence) {
-				status = UserTag.USER_WORKER_AVAILABLE;
+				status = ShiftTag.USER_WORKER_AVAILABLE;
 			} else if (!presence && forzable) {
-				status = UserTag.USER_WORKER_FORZABLE;
+				status = ShiftTag.USER_WORKER_FORZABLE;
 			}
 
 			else if (!presence && !forzable) {
-				status = UserTag.USER_WORKER_NOT_AVAILABLE;
+				status = ShiftTag.USER_WORKER_NOT_AVAILABLE;
 			}
 
 			map_status.put(id_user, status);

@@ -1,7 +1,7 @@
 package org.uario.seaworkengine.zkevent.converter;
 
 import org.uario.seaworkengine.utility.ProgramColorTag;
-import org.uario.seaworkengine.utility.UserTag;
+import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
 import org.zkoss.zk.ui.Component;
@@ -25,11 +25,11 @@ public class UtilityProgramRow {
 		}
 		String color_stye = "background-color:" + ProgramColorTag.COLOR_WORKER;
 
-		if (status.equals(UserTag.USER_WORKER_AVAILABLE)) {
+		if (status.equals(ShiftTag.USER_WORKER_AVAILABLE)) {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_WORKER;
-		} else if (status.equals(UserTag.USER_WORKER_FORZABLE)) {
+		} else if (status.equals(ShiftTag.USER_WORKER_FORZABLE)) {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_FORZABLE;
-		} else if (status.equals(UserTag.USER_WORKER_NOT_AVAILABLE)) {
+		} else if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_NOT_AVAILABLE;
 		}
 

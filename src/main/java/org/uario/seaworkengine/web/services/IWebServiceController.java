@@ -13,7 +13,7 @@ public interface IWebServiceController {
 	 * @param date
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedule(String date);
+	public List<InitialSchedule> selectInitialSchedule();
 
 	/**
 	 * Transmit final scheduler

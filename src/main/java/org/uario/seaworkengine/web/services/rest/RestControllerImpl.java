@@ -22,9 +22,9 @@ public class RestControllerImpl implements IWebServiceController {
 	@Override
 	@GET
 	@Produces("application/xml")
-	@Path("/selectInitialSchedule/{date}")
-	public List<InitialSchedule> selectInitialSchedule(@PathParam("date") final String date) {
-		return this.webcontroller.selectInitialSchedule(date);
+	@Path("/selectInitialSchedule")
+	public List<InitialSchedule> selectInitialSchedule() {
+		return this.webcontroller.selectInitialSchedule();
 	}
 
 	@Override

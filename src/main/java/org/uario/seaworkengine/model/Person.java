@@ -38,24 +38,32 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	@XmlTransient
 	private String				authority;
 
+	@XmlTransient
 	private java.util.Date		birth_date;
 
+	@XmlTransient
 	private String				birth_place;
 
+	@XmlTransient
 	private String				city;
 
+	@XmlTransient
 	private String				country;
 
+	@XmlTransient
 	private String				current_position;
 
 	private String				department;
 
 	private String				driving_license;
 
+	@XmlTransient
 	private java.util.Date		driving_license_emission;
 
+	@XmlTransient
 	private String				education;
 
+	@XmlTransient
 	private String				email;
 
 	// matricola
@@ -69,6 +77,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				firstname;
 
+	@XmlTransient
 	private String				fiscal_code;
 
 	private Integer				id;
@@ -89,10 +98,13 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				phone;
 
+	@XmlTransient
 	private String				provincia;
 
+	@XmlTransient
 	private String				status;
 
+	@XmlTransient
 	private String				zip;
 
 	public Person() {
@@ -218,8 +230,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NONAME;
 
-		}
-		else {
+		} else {
 			return this.firstname;
 		}
 
@@ -237,8 +248,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		final String ret = this.getFirstname() + " " + this.getLastname();
 		if (ret.trim().equals("")) {
 			return this.getEmail();
-		}
-		else {
+		} else {
 			return ret;
 		}
 	}
@@ -249,8 +259,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 			return UserTag.USER_NOSURNAME;
 
-		}
-		else {
+		} else {
 			return this.lastname;
 		}
 
@@ -519,8 +528,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	public String toString() {
 		if (this.getIndividualName() == null) {
 			return "";
-		}
-		else {
+		} else {
 			return this.getIndividualName();
 		}
 	}

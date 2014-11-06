@@ -17,7 +17,7 @@ public interface ISoapServiceInterface {
 	 * @param date
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date") String date);
+	public List<InitialSchedule> selectInitialSchedule();
 
 	/**
 	 * Transmit final scheduler
