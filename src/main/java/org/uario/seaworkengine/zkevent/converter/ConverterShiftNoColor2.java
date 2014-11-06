@@ -4,10 +4,9 @@ import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
-import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Toolbarbutton;
 
-public class ConverterShift2 implements TypeConverter {
+public class ConverterShiftNoColor2 implements TypeConverter {
 
 	private static final String	NO_DATA	= "_";
 
@@ -26,11 +25,6 @@ public class ConverterShift2 implements TypeConverter {
 
 		final ItemRowSchedule item_schedule = (ItemRowSchedule) arg0;
 
-		final Listcell listcell = (Listcell) arg1.getParent();
-
-		// define color
-		UtilityProgramRow.defineColorShiftConverter(listcell, item_schedule);
-
 		// after define color.... check if disabled
 		final String status = item_schedule.getRowSchedule().getUser_status();
 		if (status != null) {
@@ -41,7 +35,7 @@ public class ConverterShift2 implements TypeConverter {
 		}
 
 		if (item_schedule.getAnchor2() == null) {
-			return ConverterShift2.NO_DATA;
+			return ConverterShiftNoColor2.NO_DATA;
 		} else {
 			return item_schedule.getAnchor2();
 		}
