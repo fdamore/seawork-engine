@@ -13,6 +13,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.model.DaySchedule;
+import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
@@ -107,9 +108,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	// initial program and revision
 	private List<DetailInitialSchedule>		list_details_program;
+	private List<DetailFinalSchedule>		list_details_review;
 
 	@Wire
 	private Listbox							listbox_program;
+
+	@Wire
+	private Listbox							listbox_review;
 
 	private final Logger					logger							= Logger.getLogger(SchedulerComposer.class);
 
@@ -142,6 +147,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Comboitem						review_item;
 
+	@Wire
+	private Combobox						review_task;
+
+	@Wire
+	private Intbox							review_time;
+
 	private ISchedule						scheduleDAO;
 
 	@Wire
@@ -173,6 +184,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Combobox						shift_popup;
 
 	private TasksDAO						taskDAO;
+
+	@Wire
+	private Datebox							time_from;
+
+	@Wire
+	private Datebox							time_to;
 
 	@Listen("onClick= #add_program_item")
 	public void addProgramItem() {
@@ -244,6 +261,81 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
+
+	}
+
+	@Listen("onClick= #add_review_item")
+	public void addReviewItem() {
+
+		if (this.list_details_review == null) {
+			return;
+		}
+
+		if (this.selectedShift == null) {
+			return;
+		}
+
+		if (this.review_task.getSelectedItem() == null) {
+			// Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla consuntivazione",
+			// "INFO", Messagebox.OK,Messagebox.EXCLAMATION);
+			return;
+		}
+
+		final UserTask task = this.review_task.getSelectedItem().getValue();
+		if (task == null) {
+			// Messagebox.show("Assegna una mansione", "INFO", Messagebox.OK,
+			// Messagebox.EXCLAMATION);
+			return;
+		}
+
+		final Integer time = this.review_time.getValue();
+
+		if (time == null) {
+			// Messagebox.show("Definire il numero di ore lavorate", "INFO",
+			// Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+
+		// check about sum of time
+		boolean check_sum = true;
+		if (time > 6) {
+			check_sum = false;
+		}
+		if (this.list_details_review.size() != 0) {
+			int sum = time;
+			for (final DetailFinalSchedule detail : this.list_details_review) {
+				final int current_time = detail.getTime();
+				sum = sum + current_time;
+				if (sum > 6) {
+					check_sum = false;
+					break;
+				}
+			}
+		}
+		if (!check_sum) {
+			// Messagebox.show("Non si possono assegnare più di sei ore per turno",
+			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		}
+
+		if (this.currentSchedule == null) {
+			// save scheduler
+			this.saveCurrentScheduler();
+		}
+
+		final DetailFinalSchedule new_item = new DetailFinalSchedule();
+		new_item.setId_schedule(this.currentSchedule.getId());
+		new_item.setShift(this.selectedShift);
+		new_item.setTime(time);
+		new_item.setTask(task.getId());
+		new_item.setTime_from(this.time_from.getValue());
+		new_item.setTime_to(this.time_to.getValue());
+
+		// update program list
+		this.list_details_review.add(new_item);
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		model.setMultiple(true);
+		this.listbox_review.setModel(model);
 
 	}
 
@@ -621,6 +713,50 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #cancel_review")
+	public void removeReview() {
+		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
+			return;
+		}
+
+		if (this.list_details_review == null) {
+			return;
+		}
+
+		this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+
+		// refresh grid
+		this.setupGlobalSchedulerGridForShiftReview();
+
+		// Messagebox.show("Il consuntivo è stato aggiornato", "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.shift_definition_popup_review.close();
+	}
+
+	@Listen("onClick = #remove_review_item")
+	public void removeReviewItem() {
+
+		if (this.listbox_review == null) {
+			return;
+		}
+
+		if ((this.list_details_review == null) || (this.list_details_review.size() == 0)) {
+			return;
+		}
+
+		// remove....
+		for (final Listitem itm : this.listbox_review.getSelectedItems()) {
+			final DetailFinalSchedule detail_item = itm.getValue();
+			this.list_details_review.remove(detail_item);
+		}
+
+		// set model list program and revision
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		model.setMultiple(true);
+		this.listbox_review.setModel(model);
+
+	}
+
 	/**
 	 * Save Current scheduler updating values from grid
 	 */
@@ -711,6 +847,74 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// Messagebox.show("Il Report è stato aggiornato", "INFO",
 		// Messagebox.OK, Messagebox.INFORMATION);
 		this.shift_definition_popup.close();
+
+	}
+
+	/**
+	 * Save review
+	 */
+	@Listen("onClick = #ok_review")
+	public void saveReview() {
+
+		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
+			return;
+		}
+
+		if (this.list_details_review == null) {
+			return;
+		}
+
+		if (this.currentSchedule == null) {
+			// save scheduler
+			this.saveCurrentScheduler();
+		}
+
+		// check about sum of time
+
+		int sum = 0;
+		if (this.list_details_review.size() != 0) {
+			for (final DetailFinalSchedule detail : this.list_details_review) {
+				sum = sum + detail.getTime();
+			}
+		}
+		if (sum < 6) {
+			// Messagebox.show("Non si possono assegnare meno di sei ore per turno",
+			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+
+		}
+
+		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_review);
+
+		// refresh grid
+		this.setupGlobalSchedulerGridForShiftReview();
+
+		// Messagebox.show("Il consuntivo è stato aggiornato", "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.shift_definition_popup_review.close();
+
+	}
+
+	@Listen("onClick = #save_report_review")
+	public void saveReviewReport() {
+
+		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
+			return;
+		}
+
+		if (this.currentSchedule == null) {
+			this.currentSchedule = new Schedule();
+		}
+
+		// save note
+		this.currentSchedule.setNote(this.note.getValue());
+
+		// save scheduler
+		this.saveCurrentScheduler();
+
+		// Messagebox.show("Il Report è stato aggiornato", "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.shift_definition_popup_review.close();
 
 	}
 
@@ -1413,6 +1617,89 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	protected void shiftConfiguratorReview(final String data_info) {
 
 		this.shift_definition_popup_review.open(this.review_div, "after_pointer");
+
+		if (SchedulerComposer.this.grid_scheduler_review.getSelectedItem() == null) {
+			return;
+		}
+
+		final RowSchedule row_scheduler = SchedulerComposer.this.grid_scheduler_review.getSelectedItem().getValue();
+
+		// for of shift --> shift_1_4
+		final String[] info = data_info.split("_");
+		if (info.length != 3) {
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		// info check
+		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
+
+			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		SchedulerComposer.this.selectedDay = Integer.parseInt(info[1]);
+		SchedulerComposer.this.selectedShift = Integer.parseInt(info[2]);
+		this.selectedUser = row_scheduler.getUser();
+
+		final Date date_schedule = SchedulerComposer.this.getDateScheduled(SchedulerComposer.this.selectedDay);
+
+		// take the right scheduler
+		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
+
+		// set label
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
+				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+
+		// if any information about schedule...
+		if (SchedulerComposer.this.currentSchedule != null) {
+
+			// set note
+			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
+
+			// set initial program and revision
+			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+
+		} else {
+			// if we haven't information about schedule
+			this.note.setValue(null);
+			this.listbox_review.getItems().clear();
+
+			// set list revision
+			this.list_details_review = new ArrayList<DetailFinalSchedule>();
+
+		}
+
+		// set model list program and revision
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		model.setMultiple(true);
+		this.listbox_review.setModel(model);
+
+		// set combo task
+		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
+
+		this.review_task.setSelectedItem(null);
+		this.review_task.getChildren().clear();
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+			this.review_task.appendChild(combo_item);
+
+			// set if default
+			if (task_item.getTask_default()) {
+				this.review_task.setSelectedItem(combo_item);
+			}
+
+		}
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+
+		}
 
 	}
 }
