@@ -692,6 +692,7 @@
 			</popup>
 
 
+
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 				<panelchildren>
@@ -1041,11 +1042,122 @@
 		<div id="review_div" visible="false">
 
 			<!-- POPUP -->
-			<popup id="shift_definition_popup_review" width="450px">
+			<popup id="shift_definition_popup_review" width="800px">
+				<panel border="normal" collapsible="false"
+					style="margin: 5px 5px 5px 5px" sclass="transparent">
+					<panelchildren>
+						<a id="scheduler_label_review"></a>
+						<space></space>
+						<listbox id="listbox_review" sclass="domain"
+							checkmark="true" multiple="true">
+							<auxhead>
+								<auxheader colspan="4">
+									<label
+										value="Consuntivazione del turno">
+									</label>
 
-				<label value="ciao"></label>
+									<combobox readonly="true"
+										placeholder="Mansioni" id="review_task">
+									</combobox>
+
+									<intbox
+										placeholder="Ore lavorate" id="review_time">
+									</intbox>
+									
+									<datebox 
+										placeholder="Ora inizio" id="time_from">
+									</datebox>
+									
+									<datebox 
+										placeholder="Ora fine" id="time_to">
+									</datebox>
+
+								</auxheader>
+							</auxhead>
+							<auxhead>
+								<auxheader colspan="4">
+
+									<button label="Aggiungi"
+										id="add_review_item" sclass="btn-info">
+									</button>
+
+									<button label="Cancella"
+										id="remove_review_item" sclass="btn-info">
+									</button>
+									<button id="ok_review"
+										label="Salva" sclass="btn-info">
+									</button>
+									<button id="cancel_review"
+										label="Cancella Consuntivazione" sclass="btn-danger">
+									</button>
+								</auxheader>
+							</auxhead>
+
+							<listhead>
+								<listheader label="Mansioni"/>
+								<listheader label="Tempo Lavorato" />
+								<listheader label="Orario di ingresso"/>
+								<listheader label="Orario di uscita"/>
+							</listhead>
+
+							<listitem self="@{each='item_review'}"
+								value="item_review">
+								<listcell>
+									<label width="200px"
+										value="@{item_review.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
+									</label>
+								</listcell>
+								<listcell>
+									<label width="200px"
+										value="@{item_review.time}">
+									</label>
+								</listcell>
+								<listcell>
+									<label width="200px"
+										value="@{item_review.time_from}">
+									</label>
+								</listcell>
+								<listcell>
+									<label width="200px"
+										value="@{item_review.time}">
+									</label>
+								</listcell>
+
+
+							</listitem>
+
+						</listbox>
+
+					</panelchildren>
+				</panel>
+
+				<space></space>
+
+				<panel border="none" collapsible="false"
+					style="margin: 5px 5px 5px 5px" title="Rapporto Giornaliero"
+					sclass="transparent">
+					<caption>
+						<button id="save_report_review" label="Salva Rapporto"
+							sclass="btn-info" />
+
+					</caption>
+					<panelchildren>
+
+						<separator></separator>
+
+
+						<textbox
+							placeholder="Inserisci note di consuntivazione e revisione"
+							width="400px" id="note_review" rows="5">
+						</textbox>
+
+					</panelchildren>
+				</panel>
+
+
 
 			</popup>
+
 
 
 			<hbox align="center">

@@ -142,12 +142,8 @@ from
 
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
-		detailfinalschedule (id_schedule, shift, task,
-		time, time_from,
-		time_to)
-		VALUES (#{id_schedule}, #{shift},
-		#{task}, #{time},
-		{#time_from}, {#time_to});
+		detailfinalschedule (id_schedule, shift, task, time, time_from,	time_to)
+		VALUES (#{id_schedule}, #{shift},#{task}, #{time},{#time_from}, {#time_to});
 	</insert>
 
 
