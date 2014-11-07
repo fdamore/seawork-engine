@@ -1065,13 +1065,13 @@
 										id="review_time">
 									</intbox>
 
-									<datebox placeholder="Ora inizio"
+									<timebox placeholder="Ora inizio"
 										id="time_from">
-									</datebox>
+									</timebox>
 
-									<datebox placeholder="Ora fine"
+									<timebox placeholder="Ora fine"
 										id="time_to">
-									</datebox>
+									</timebox>
 
 								</auxheader>
 							</auxhead>
@@ -1120,7 +1120,7 @@
 								</listcell>
 								<listcell>
 									<label width="200px"
-										value="@{item_review.time}">
+										value="@{item_review.time_to}">
 									</label>
 								</listcell>
 

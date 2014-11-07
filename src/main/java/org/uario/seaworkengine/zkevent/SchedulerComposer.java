@@ -52,6 +52,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Popup;
 import org.zkoss.zul.Spinner;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Timebox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
@@ -186,10 +187,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private TasksDAO						taskDAO;
 
 	@Wire
-	private Datebox							time_from;
+	private Timebox							time_from;
 
 	@Wire
-	private Datebox							time_to;
+	private Timebox							time_to;
 
 	@Listen("onClick= #add_program_item")
 	public void addProgramItem() {
@@ -328,8 +329,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		new_item.setShift(this.selectedShift);
 		new_item.setTime(time);
 		new_item.setTask(task.getId());
-		new_item.setTime_from(this.time_from.getValue());
-		new_item.setTime_to(this.time_to.getValue());
+
+		java.util.Date now = this.time_from.getValue();
+
+		final java.sql.Timestamp t_from = new java.sql.Timestamp(now.getTime());
+
+		new_item.setTime_from(t_from);
+
+		now = this.time_to.getValue();
+		final java.sql.Timestamp t_to = new java.sql.Timestamp(now.getTime());
+
+		new_item.setTime_to(t_to);
 
 		// update program list
 		this.list_details_review.add(new_item);
