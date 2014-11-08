@@ -386,6 +386,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.label_date_popup.setLabel(msg);
+
+		// set initial selected item
+		this.shift_popup.setSelectedItem(null);
+
 		this.day_definition_popup
 		.open(this.grid_scheduler_day, "after_pointer");
 	}
