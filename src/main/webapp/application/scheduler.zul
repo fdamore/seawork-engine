@@ -970,7 +970,7 @@
 							<listcell>
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor1'}"
+									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor1'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
@@ -981,7 +981,7 @@
 							<listcell>
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor2'}"
+									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor2'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
@@ -992,7 +992,7 @@
 							<listcell>
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor3'}"
+									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor3'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1003,7 +1003,7 @@
 							<listcell>
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor4'}"
+									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor4'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
