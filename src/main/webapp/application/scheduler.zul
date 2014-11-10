@@ -1101,26 +1101,27 @@
 								<listheader label="Orario di uscita" />
 							</listhead>
 
-							<listitem self="@{each='item_review'}"
-								value="item_review">
+							<listitem self="@{each='itemreview'}"
+								value="@{itemreview}">
+
 								<listcell>
 									<label width="200px"
-										value="@{item_review.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
+										value="@{itemreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
 									</label>
 								</listcell>
 								<listcell>
 									<label width="200px"
-										value="@{item_review.time}">
+										value="@{itemreview.time}">
 									</label>
 								</listcell>
 								<listcell>
 									<label width="200px"
-										value="@{item_review.time_from}">
+										value="@{itemreview.time_from}">
 									</label>
 								</listcell>
 								<listcell>
 									<label width="200px"
-										value="@{item_review.time_to}">
+										value="@{itemreview.time_to}">
 									</label>
 								</listcell>
 
