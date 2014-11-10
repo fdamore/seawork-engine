@@ -1282,7 +1282,7 @@
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_1");
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_1");
 </attribute>
 								</toolbarbutton>
 							</listcell>
@@ -1293,7 +1293,7 @@
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_2");
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
 </attribute>
 								</toolbarbutton>
 							</listcell>
@@ -1304,7 +1304,7 @@
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_3");
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_3");
 </attribute>
 								</toolbarbutton>
 							</listcell>
@@ -1315,7 +1315,7 @@
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onShiftClickReview", page_panel, "shift_2_4");
+	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_4");
 </attribute>
 								</toolbarbutton>
 							</listcell>
