@@ -691,7 +691,19 @@
 
 			</popup>
 
-
+			<hlayout>
+				<div width="150px" style="background:#87B87F; text-align: center;">
+					<label value="   Turno Forzabile"/>
+				</div>
+				<div width="150px" style="background:#FFB752; text-align: center;">
+					<label value="Turno di Lavoro"/>
+			    </div>
+				<div width="150px" style="background: #D15B47; text-align: center;">
+					<label value="Turno Non Forzabile"/>
+				</div>				
+			 </hlayout>
+			
+			<space></space>
 
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
@@ -1025,16 +1037,7 @@
 
 			<space></space>
 
-			<panel>
-				<panelchildren>
-					<textbox placeholder="Turno Forzabile"
-						readonly="true" />
-					<textbox placeholder="Turno Non Forzabile"
-						readonly="true" />
-					<textbox placeholder="Turno di Lavoro"
-						readonly="true" />
-				</panelchildren>
-			</panel>
+			
 
 
 		</div>
