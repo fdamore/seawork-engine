@@ -39,14 +39,13 @@
 
 
 
-	<select id="selectAggregateSchedule" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 	<![CDATA[
 select 
     s.id,
     ds.shift,
-    sum(ds.time) as program_time,
-    sum(dfs.time) as revision_time,
+    sum(ds.time) as program_time,    
     s.date_schedule,
     s.note,
     s.editor,
@@ -57,9 +56,7 @@ from
     user u,
     schedule s
         left join
-    detailinitialschedule ds ON (s.id = ds.id_schedule)
-        left join
-    detailfinalschedule dfs ON (s.id = dfs.id_schedule)
+    detailinitialschedule ds ON (s.id = ds.id_schedule)        
 where
     u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to}
 group by user , s.id , ds.shift
@@ -67,14 +64,13 @@ order by user, s.date_schedule asc
 ]]>
 	</select>
 
-	<select id="selectAggregateScheduleByDate" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectAggregateScheduleRevision" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 	<![CDATA[
 select 
     s.id,
     ds.shift,
-    sum(ds.time) as program_time,
-    sum(dfs.time) as revision_time,
+    sum(ds.time) as revision_time,    
     s.date_schedule,
     s.note,
     s.editor,
@@ -85,9 +81,57 @@ from
     user u,
     schedule s
         left join
-    detailinitialschedule ds ON (s.id = ds.id_schedule)
+    detailfinalschedule ds ON (s.id = ds.id_schedule)        
+where
+    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to}
+group by user , s.id , ds.shift
+order by user, s.date_schedule asc
+]]>
+	</select>
+
+	<select id="selectAggregateScheduleByDateProgram" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="map">
+	<![CDATA[
+select 
+    s.id,
+    ds.shift,
+    sum(ds.time) as program_time,    
+    s.date_schedule,
+    s.note,
+    s.editor,
+    s.controller,
+    u.id as user,
+    concat(u.firstname, ' ', u.lastname) AS name_user
+from
+    user u,
+    schedule s
         left join
-    detailfinalschedule dfs ON (s.id = dfs.id_schedule)
+    detailinitialschedule ds ON (s.id = ds.id_schedule)        
+where
+    u.id = s.user and s.date_schedule = #{date_from}
+group by user , s.id , ds.shift
+order by user, s.date_schedule asc
+]]>
+	</select>
+	
+		<select id="selectAggregateScheduleByDateRevision" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="map">
+	<![CDATA[
+select 
+    s.id,
+    ds.shift,
+    sum(ds.time) as revision_time,    
+    s.date_schedule,
+    s.note,
+    s.editor,
+    s.controller,
+    u.id as user,
+    concat(u.firstname, ' ', u.lastname) AS name_user
+from
+    user u,
+    schedule s
+        left join
+    detailfinalschedule ds ON (s.id = ds.id_schedule)        
 where
     u.id = s.user and s.date_schedule = #{date_from}
 group by user , s.id , ds.shift
@@ -142,8 +186,10 @@ from
 
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
-		detailfinalschedule (id_schedule, shift, task, time, time_from,	time_to)
-		VALUES (#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to});
+		detailfinalschedule (id_schedule, shift, task, time, time_from,
+		time_to)
+		VALUES
+		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to});
 	</insert>
 
 
