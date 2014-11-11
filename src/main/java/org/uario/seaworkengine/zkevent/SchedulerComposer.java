@@ -163,6 +163,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A								scheduler_label;
 
 	@Wire
+	private A								scheduler_label_review;
+
+	@Wire
 	private Combobox						scheduler_type_selector;
 
 	// selected day
@@ -1603,7 +1606,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			RowSchedule myRow = sign_scheduled.get(schedule.getUser());
 
 			// if the user is changed, add another row
-			if ((myRow == null) || (!currentRow.getUser().equals(schedule.getUser()))) {
+			if ((myRow == null) || (!myRow.getUser().equals(schedule.getUser()))) {
 				// set current row
 				myRow = new RowSchedule();
 				myRow.setUser(schedule.getUser());
@@ -1611,7 +1614,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				list_row.add(myRow);
 
 				// set items for current row
-				currentRow.setItem_1(new ItemRowSchedule(myRow, schedule));
+				myRow.setItem_1(new ItemRowSchedule(myRow, schedule));
 
 				// sign person scheduled
 				sign_scheduled.put(schedule.getUser(), myRow);
@@ -1619,7 +1622,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set day 1
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(myRow, 1, schedule, false);
-			currentRow.setItem_1(itemsRow);
+			myRow.setItem_1(itemsRow);
 
 		}
 
@@ -1789,7 +1792,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
+		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: "
 				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
