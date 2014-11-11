@@ -1752,6 +1752,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	protected void shiftConfiguratorReview(final String data_info) {
 
+		final Date date_to_configure = this.date_init_scheduler_review.getValue();
+		if (date_to_configure == null) {
+			return;
+		}
+
 		this.shift_definition_popup_review.open(this.review_div, "after_pointer");
 
 		if (SchedulerComposer.this.grid_scheduler_review.getSelectedItem() == null) {
@@ -1778,11 +1783,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.selectedShift = Integer.parseInt(info[2]);
 		this.selectedUser = row_scheduler.getUser();
 
-		// final Date date_schedule =
-		// SchedulerComposer.this.getDateScheduled(SchedulerComposer.this.selectedDay);
-		final Calendar calendar_day = Calendar.getInstance();
-		final Date ret = calendar_day.getTime();
-		final Date date_schedule = DateUtils.truncate(ret, Calendar.DATE);
+		final Date date_schedule = DateUtils.truncate(date_to_configure, Calendar.DATE);
 
 		// take the right scheduler
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
