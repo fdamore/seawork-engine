@@ -685,6 +685,53 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		return itemsRow;
 	}
 
+	@Listen("onClick = #go_today_preprocessing, #go_today_review")
+	public void goToday_Preprocessing() {
+		final Calendar calendar = Calendar.getInstance();
+		final Date today = calendar.getTime();
+
+		if (this.scheduler_type_selector.getSelectedItem() == null) {
+			return;
+		}
+
+		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
+
+		if (selected == this.preprocessing_item) {
+			this.preprocessing_div.setVisible(true);
+			this.program_div.setVisible(false);
+			this.review_div.setVisible(false);
+
+			SchedulerComposer.this.date_init_scheduler.setValue(today);
+
+			// set initial structure for program
+			this.setGridStructureForDay(today);
+			this.setupGlobalSchedulerGridForDay();
+		}
+
+		if (selected == this.program_item) {
+			this.preprocessing_div.setVisible(false);
+			this.program_div.setVisible(true);
+			this.review_div.setVisible(false);
+
+			// set initial structure for program
+			this.setGridStructureForShift();
+			this.setupGlobalSchedulerGridForShift();
+		}
+
+		if (selected == this.review_item) {
+			this.preprocessing_div.setVisible(false);
+			this.program_div.setVisible(false);
+			this.review_div.setVisible(true);
+
+			SchedulerComposer.this.date_init_scheduler_review.setValue(today);
+
+			// set initial structure for program
+			this.setGridStructureForShiftReview(today);
+			this.setupGlobalSchedulerGridForShiftReview();
+		}
+
+	}
+
 	@Listen("onClick = #cancel_program")
 	public void removeProgram() {
 		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {

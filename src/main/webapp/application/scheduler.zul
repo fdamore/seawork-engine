@@ -48,8 +48,8 @@
 				</datebox>
 
 				<button id="refresh_command" label="Ricarica"
-					sclass="btn-info">
-				</button>
+					sclass="btn-info"/>
+				<button id="go_today_preprocessing" label="Vai ad oggi" sclass="btn-info"/>
 			</hbox>
 
 			<space></space>
@@ -1171,9 +1171,8 @@
 					placeholder="Selezione data iniziale" width="200px">
 				</datebox>
 
-				<button id="refresh_command_review" label="Ricarica"
-					sclass="btn-info">
-				</button>
+				<button id="refresh_command_review" label="Ricarica" sclass="btn-info"/>
+				<button id="go_today_review" label="Vai ad oggi" sclass="btn-info"/>
 			</hbox>
 
 			<space></space>
