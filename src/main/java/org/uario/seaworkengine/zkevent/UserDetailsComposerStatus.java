@@ -10,6 +10,7 @@ import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
+import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.UserDetailsComposerCons.ContestationMessage;
@@ -54,6 +55,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	private Textbox				note;
 
 	private Person				person_selected;
+
+	private ISchedule			scheduleDao;
 
 	@Wire
 	private Combobox			status;
@@ -115,6 +118,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 				// get DAO
 				UserDetailsComposerStatus.this.employmentDao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
 				UserDetailsComposerStatus.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+				UserDetailsComposerStatus.this.scheduleDao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
 				UserDetailsComposerStatus.this.setInitialView();
 
@@ -209,8 +213,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			}
 
 			this.employmentDao.createEmploymentForUser(this.person_selected.getId(), item);
+			item.setId_user(this.person_selected.getId());
 
-			Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Status aggiunto all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
 		} else {
 
@@ -218,6 +223,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			// get selected item
 			item = this.sw_list.getSelectedItem().getValue();
+
 			if (item == null) {
 				return;
 			}
@@ -228,26 +234,31 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			}
 
 			this.employmentDao.updateEmployment(item);
+			item.setId_user(this.person_selected.getId());
 		}
 
 		// ask user for update current status
 		Date to_day = Calendar.getInstance().getTime();
 		to_day = DateUtils.truncate(to_day, Calendar.DATE);
 		final Date my_date = DateUtils.truncate(item.getDate_modified(), Calendar.DATE);
+		final String status = item.getStatus();
+		final Integer idUser = item.getId_user();
+		final Date dateStatus = item.getDate_modified();
 
 		if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
-			Messagebox.show("Vuoi cambiare lo status attuale?", "CONFERMA STATUS ATTUALE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-					new org.zkoss.zk.ui.event.EventListener() {
-				@Override
-				public void onEvent(final Event e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						UserDetailsComposerStatus.this.onUpdateStatus();
+			Messagebox.show("Vuoi cambiare lo status attuale? In caso di sospensione o licenziamento sarà cancellata la programmazione.",
+					"CONFERMA STATUS ATTUALE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								UserDetailsComposerStatus.this.onUpdateStatus();
+								UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(idUser, dateStatus);
 					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
-					}
-				}
-			});
+								// Cancel is clicked
+							}
+						}
+					});
 
 			this.status_upload = item.getStatus();
 
@@ -294,7 +305,10 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		final Component comp = Path.getComponent("//user/page_user_detail");
 		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item.getStatus());
 
+		UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(item.getId_user(), item.getDate_modified());
+
 		Messagebox.show("Status Utente Assegnato", "Info", Messagebox.OK, Messagebox.INFORMATION);
+
 	}
 
 	@Listen("onClick = #sw_refresh_list")

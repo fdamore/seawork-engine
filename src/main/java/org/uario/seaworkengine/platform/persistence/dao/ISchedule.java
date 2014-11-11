@@ -30,6 +30,10 @@ public interface ISchedule {
 
 	public void removeAllDetailInitialScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 
+	public void removeScheduleUserFired(Integer idUser, Date firedDate);
+
+	public void removeScheduleUserSuspended(Integer idUser, Date initialDate, Date finalDate);
+
 	public void saveListDetailFinalScheduler(Integer id_schedule, Integer shift, List<DetailFinalSchedule> details);
 
 	public void saveListDetailInitialScheduler(Integer id_schedule, Integer shift, List<DetailInitialSchedule> details);
@@ -38,13 +42,13 @@ public interface ISchedule {
 
 	public void saveOrUpdateSchedule(Schedule currentSchedule);
 
-	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date);
-
 	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid);
 
 	public List<Schedule> selectAggregateSchedulersProgram(Date initial_date, Date final_date);
 
 	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid);
+
+	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date);
 
 	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date);
 

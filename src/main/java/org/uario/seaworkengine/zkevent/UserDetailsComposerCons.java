@@ -17,6 +17,7 @@ import org.uario.seaworkengine.model.Contestation;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.IContestation;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
+import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ContestationTag;
 import org.uario.seaworkengine.utility.ParamsTag;
@@ -116,7 +117,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	// dao interface
 	private IContestation		contestationDAO;
-
 	@Wire
 	private Component			current_document;
 
@@ -139,6 +139,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private IParams				paramsDAO;
 
 	private Person				person_selected;
+
+	private ISchedule			scheduleDAO;
 
 	// status ADD or MODIFY
 	private boolean				status_add				= false;
@@ -244,6 +246,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				// get the dao
 				UserDetailsComposerCons.this.contestationDAO = (IContestation) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
 				UserDetailsComposerCons.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
+				UserDetailsComposerCons.this.scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
 				UserDetailsComposerCons.this.setInitialView();
 
@@ -323,7 +326,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			return;
 		}
 
-		Contestation item;
+		final Contestation item;
 
 		if (this.status_add) {
 
@@ -422,17 +425,25 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
-					Messagebox.show("Riportare lo status utente su storico e anagrafica?", "AGGIORNARE STATUS", Messagebox.OK | Messagebox.CANCEL,
-							Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										UserDetailsComposerCons.this.onUpdateStatus();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// Cancel is clicked
-									}
+					Messagebox.show("Riportare lo status utente su storico e anagrafica? L'operazione cancellerà la programmazione dell'utente.",
+							"AGGIORNARE STATUS", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								UserDetailsComposerCons.this.onUpdateStatus();
+								if (UserDetailsComposerCons.this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
+									UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserSuspended(item.getId_user(),
+											UserDetailsComposerCons.this.stop_from.getValue(),
+											UserDetailsComposerCons.this.stop_to.getValue());
+								} else {
+									UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserFired(item.getId_user(),
+											UserDetailsComposerCons.this.date_contestation.getValue());
 								}
-							});
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					});
 
 					if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)) {
 						this.status_upload = UserStatusTag.FIRED;
@@ -472,15 +483,15 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerCons.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerCons.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 

@@ -34,11 +34,6 @@
 		#{date_schedule};
 	</select>
 
-
-
-
-
-
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 	<![CDATA[
@@ -242,6 +237,23 @@ from
 		WHERE id_schedule =
 		#{id_schedule} and shift
 		= #{shift};
+	</delete>
+	
+	<delete id="removeScheduleUserSuspended" parameterType="map">
+		<![CDATA[
+		DELETE FROM
+		schedule
+		WHERE user=#{idUser} and date_schedule>=#{initialDate} and #{finalDate}>=date_schedule;
+		]]>
+	</delete>
+		
+	
+	<delete id="removeScheduleUserFired" parameterType="map">
+		<![CDATA[
+		DELETE FROM
+		schedule
+		WHERE user=#{idUser} and date_schedule>=#{firedDate};
+		]]>
 	</delete>
 
 	<delete id="removeAllDetailFinalScheduleByScheduleAndShift"
