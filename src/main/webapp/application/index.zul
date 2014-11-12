@@ -41,13 +41,16 @@
 
 					<div sclass="breadcrumb">
 						<button type="button" class="btn-success"
-							id="sw_home_button" iconSclass="z-icon-signal" />
+							tooltiptext="Home e Dashboard" id="sw_home_button"
+							iconSclass="z-icon-signal" />
 						<button type="button" class="btn-warning"
-							id="sw_user_button" iconSclass="z-icon-group" />
+							tooltiptext="Gestione Utenti" id="sw_user_button"
+							iconSclass="z-icon-group" />
 						<button type="button" class="btn-danger"
-							iconSclass="z-icon-cogs" />
+							tooltiptext="Programmazione Navi" iconSclass="z-icon-cogs" />
 						<button type="button" class="btn-info"
-							id="sw_scheduler_button" iconSclass="z-icon-pencil" />
+							tooltiptext="Programmazione Turni" id="sw_scheduler_button"
+							iconSclass="z-icon-pencil" />
 
 					</div>
 

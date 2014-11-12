@@ -508,8 +508,7 @@
 			<listheader label="Abilitato" />
 			<listheader label="Nome" sort="auto(individualName)" />
 			<listheader label="Città" sort="auto(city)" />
-			<listheader label="Telefono" sort="auto(phone)" />
-			<listheader label="Username" sort="auto(email)" />
+			<listheader label="Telefono" sort="auto(phone)" />			
 			<listheader label="Ruolo" />
 			<listheader label="" />
 		</listhead>
@@ -526,8 +525,7 @@
 			<listcell label="@{user_item.individualName}" />
 
 			<listcell label="@{user_item.city}" />
-			<listcell label="@{user_item.phone}" />
-			<listcell label="@{user_item.email}" />
+			<listcell label="@{user_item.phone}" />			
 			<listcell
 				label="@{user_item.authority, converter='org.uario.seaworkengine.zkevent.converter.UserRoleConverter'}" />
 

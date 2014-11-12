@@ -50,7 +50,6 @@ import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Popup;
-import org.zkoss.zul.Spinner;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timebox;
 
@@ -85,10 +84,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Datebox							date_init_scheduler_review;
 
 	@Wire
-	private Popup							day_definition_popup;
+	private Datebox							day_after_config;
 
 	@Wire
-	private Spinner							days_after_config;
+	private Popup							day_definition_popup;
 
 	/**
 	 * First date in grid
@@ -361,7 +360,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	protected void dayConfigurator(final String data_info) {
 
-		this.days_after_config.setValue(null);
+		this.day_after_config.setValue(null);
 
 		// set info day;
 		this.selectedDay = Integer.parseInt(data_info);
@@ -399,7 +398,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Integer time = null;
 		if (program) {
 			time = schedule.getProgram_time();
-		} else {
+		}
+		else {
 			time = schedule.getRevision_time();
 		}
 
@@ -481,13 +481,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final boolean presence = shift.getPresence();
 			if (presence) {
 				status = ShiftTag.USER_WORKER_AVAILABLE;
-			} else if (!presence && forzable) {
-				status = ShiftTag.USER_WORKER_FORZABLE;
 			}
+			else
+				if (!presence && forzable) {
+					status = ShiftTag.USER_WORKER_FORZABLE;
+				}
 
-			else if (!presence && !forzable) {
-				status = ShiftTag.USER_WORKER_NOT_AVAILABLE;
-			}
+				else
+					if (!presence && !forzable) {
+						status = ShiftTag.USER_WORKER_NOT_AVAILABLE;
+					}
 
 			map_status.put(id_user, status);
 
@@ -622,8 +625,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param schedule
 	 */
-	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule,
-			final boolean program) {
+	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule, final boolean program) {
 
 		ItemRowSchedule itemsRow = null;
 
@@ -634,11 +636,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (day == 1) {
 				version_program = true;
 			}
-		} else {
+		}
+		else {
 
 			if ((day == 1) || (day == 2)) {
 				version_program = false;
-			} else {
+			}
+			else {
 				version_program = true;
 			}
 		}
@@ -1006,38 +1010,47 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
 		final UserShift shift = this.shift_popup.getSelectedItem().getValue();
 
-		if (this.days_after_config.getValue() == null) {
+		// get day schedule
+		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
+
+		if (this.day_after_config.getValue() == null) {
 			DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay);
 			if (daySchedule == null) {
 				daySchedule = new DaySchedule();
 			}
-			// reset day schedule
-			final Date date_scheduled = this.getDateScheduled(this.selectedDay);
 
 			daySchedule.setDate_scheduled(date_scheduled);
 			daySchedule.setId_user(row_item.getUser());
 			daySchedule.setShift(shift.getId());
 
 			this.scheduleDAO.saveOrUpdateDaySchedule(daySchedule);
-		} else {
+		}
+		else {
 
-			final int count = this.days_after_config.getValue().intValue();
+			final Date to_day = DateUtils.truncate(this.day_after_config.getValue(), Calendar.DATE);
 
-			if ((this.selectedDay + count) > 31) {
-				Messagebox.show("Non puoi schedulare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+			if (date_scheduled.after(to_day)) {
+				Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 				return;
 			}
 
-			for (int i = 0; i < count; i++) {
+			final int count = (int) ((to_day.getTime() - date_scheduled.getTime()) / (1000 * 60 * 60 * 24));
+
+			if ((this.selectedDay + count) > 31) {
+				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				return;
+			}
+
+			for (int i = 0; i <= count; i++) {
 
 				DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay + i);
 				if (daySchedule == null) {
 					daySchedule = new DaySchedule();
 				}
 				// reset day schedule
-				final Date date_scheduled = this.getDateScheduled(this.selectedDay + i);
+				final Date current_date_scheduled = this.getDateScheduled(this.selectedDay + i);
 
-				daySchedule.setDate_scheduled(date_scheduled);
+				daySchedule.setDate_scheduled(current_date_scheduled);
 				daySchedule.setId_user(row_item.getUser());
 				daySchedule.setShift(shift.getId());
 
@@ -1087,7 +1100,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				day_number.setStyle("color:red");
 				day_label.setStyle("color:red");
-			} else {
+			}
+			else {
 				day_number.setStyle("color:black");
 				day_label.setStyle("color:black");
 			}
@@ -1131,7 +1145,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -1181,7 +1196,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			} else {
+			}
+			else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -1261,126 +1277,157 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			if (day_on_current_calendar == 1) {
 				currentRow.setItem1(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 2) {
 				currentRow.setItem2(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 3) {
 				currentRow.setItem3(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 4) {
 				currentRow.setItem4(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 5) {
 				currentRow.setItem5(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 6) {
 				currentRow.setItem6(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 7) {
 				currentRow.setItem7(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 8) {
 				currentRow.setItem8(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 9) {
 				currentRow.setItem9(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 10) {
 				currentRow.setItem10(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 11) {
 				currentRow.setItem11(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 12) {
 				currentRow.setItem12(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 13) {
 				currentRow.setItem13(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 14) {
 				currentRow.setItem14(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 15) {
 				currentRow.setItem15(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 16) {
 				currentRow.setItem16(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 17) {
 				currentRow.setItem17(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 18) {
 				currentRow.setItem18(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 19) {
 				currentRow.setItem19(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 20) {
 				currentRow.setItem20(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 21) {
 				currentRow.setItem21(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 22) {
 				currentRow.setItem22(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 23) {
 				currentRow.setItem23(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 24) {
 				currentRow.setItem24(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 25) {
 				currentRow.setItem25(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 26) {
 				currentRow.setItem26(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 27) {
 				currentRow.setItem27(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 28) {
 				currentRow.setItem28(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 29) {
 				currentRow.setItem29(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 30) {
 				currentRow.setItem30(schedule);
+				continue;
 			}
 
 			if (day_on_current_calendar == 31) {
 				currentRow.setItem31(schedule);
+				continue;
 			}
 
 		}
@@ -1692,8 +1739,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
-				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
@@ -1702,10 +1748,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
-			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(),
-					this.selectedShift);
+			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
 
-		} else {
+		}
+		else {
 			// if we haven't information about schedule
 			this.note.setValue(null);
 			this.listbox_program.getItems().clear();
@@ -1792,8 +1838,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: "
-				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
@@ -1804,7 +1849,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial program and revision
 			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
 
-		} else {
+		}
+		else {
 			// if we haven't information about schedule
 			this.note.setValue(null);
 			this.listbox_review.getItems().clear();

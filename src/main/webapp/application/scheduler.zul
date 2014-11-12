@@ -48,8 +48,9 @@
 				</datebox>
 
 				<button id="refresh_command" label="Ricarica"
-					sclass="btn-info"/>
-				<button id="go_today_preprocessing" label="Vai ad oggi" sclass="btn-info"/>
+					sclass="btn-info" />
+				<button id="go_today_preprocessing" label="Vai ad oggi"
+					sclass="btn-info" />
 			</hbox>
 
 			<space></space>
@@ -70,10 +71,9 @@
 								<button label="OK" sclass="btn-info"
 									id="ok_day_shift">
 								</button>
-								<spinner placeholder="Giorni.."
-									id="days_after_config"
-									constraint="no negative: Non può essere negativo">
-								</spinner>
+								<datebox placeholder="Fino a..."
+									id="day_after_config">
+								</datebox>
 							</hbox>
 							<separator></separator>
 						</vbox>
@@ -158,7 +158,7 @@
 						<listhead>
 
 							<listheader label="Nome"
-								sort="auto(name_scheduled)" hflex="3" />
+								sort="auto(name_user)" hflex="3" />
 							<listheader hflex="1" align="center"
 								id="day_numb_1" />
 							<listheader hflex="1" align="center"
@@ -692,17 +692,20 @@
 			</popup>
 
 			<hlayout>
-				<div width="150px" style="background:#87B87F; text-align: center;">
-					<label value="   Turno Forzabile"/>
+				<div width="150px"
+					style="background:#87B87F; text-align: center;">
+					<label value="   Turno Forzabile" />
 				</div>
-				<div width="150px" style="background:#FFB752; text-align: center;">
-					<label value="Turno di Lavoro"/>
-			    </div>
-				<div width="150px" style="background: #D15B47; text-align: center;">
-					<label value="Turno Non Forzabile"/>
-				</div>				
-			 </hlayout>
-			
+				<div width="150px"
+					style="background:#FFB752; text-align: center;">
+					<label value="Turno di Lavoro" />
+				</div>
+				<div width="150px"
+					style="background: #D15B47; text-align: center;">
+					<label value="Turno Non Forzabile" />
+				</div>
+			</hlayout>
+
 			<space></space>
 
 			<panel border="normal" collapsible="false"
@@ -1037,7 +1040,7 @@
 
 			<space></space>
 
-			
+
 
 
 		</div>
@@ -1171,8 +1174,10 @@
 					placeholder="Selezione data iniziale" width="200px">
 				</datebox>
 
-				<button id="refresh_command_review" label="Ricarica" sclass="btn-info"/>
-				<button id="go_today_review" label="Vai ad oggi" sclass="btn-info"/>
+				<button id="refresh_command_review" label="Ricarica"
+					sclass="btn-info" />
+				<button id="go_today_review" label="Vai ad oggi"
+					sclass="btn-info" />
 			</hbox>
 
 			<space></space>
