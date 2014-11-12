@@ -1079,7 +1079,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.firstDateInGrid = DateUtils.truncate(initial_date, Calendar.DATE);
 
-		// set seven days
+		// days
 		for (int i = 0; i < SchedulerComposer.DAYS_IN_GRID_PREPROCESSING; i++) {
 
 			final int index_day = i + 1;
