@@ -85,7 +85,8 @@
 				sclass="transparent">
 				<panelchildren>
 
-					<listbox sclass="domain" id="grid_scheduler_day">
+					<listbox sclass="domain" id="grid_scheduler_day"
+						mold="paging" pageSize="10" pagingPosition="both">
 						<auxhead>
 							<auxheader label="" colspan="1" />
 
@@ -602,7 +603,8 @@
 						<space></space>
 
 
-						<listbox id="listbox_program" sclass="domain">
+						<listbox id="listbox_program" sclass="domain"
+							checkmark="true" multiple="true">
 							<auxhead>
 								<auxheader colspan="2">
 									<label
@@ -712,7 +714,8 @@
 				sclass="transparent">
 				<panelchildren>
 
-					<listbox sclass="domain" id="grid_scheduler">
+					<listbox sclass="domain" id="grid_scheduler"
+						mold="paging" pageSize="10" pagingPosition="both">
 						<auxhead style="myStyle">
 							<auxheader label="" colspan="1" />
 
@@ -1186,8 +1189,8 @@
 				sclass="transparent">
 				<panelchildren>
 
-					<listbox sclass="domain"
-						id="grid_scheduler_review">
+					<listbox sclass="domain" mold="paging" pageSize="10"
+						pagingPosition="both" id="grid_scheduler_review">
 						<auxhead>
 							<auxheader label="" colspan="1" />
 

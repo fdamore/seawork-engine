@@ -354,40 +354,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Define bheavior for day configuration
-	 *
-	 * @param data_info
-	 */
-	protected void dayConfigurator(final String data_info) {
-
-		this.day_after_config.setValue(null);
-
-		// set info day;
-		this.selectedDay = Integer.parseInt(data_info);
-		if (this.selectedDay == null) {
-			return;
-		}
-		final Date current_day = this.getDateScheduled(this.selectedDay);
-		String msg = "" + SchedulerComposer.formatter_scheduler_info.format(current_day);
-
-		// get user
-		if (this.grid_scheduler_day.getSelectedItem() != null) {
-			final RowDaySchedule row = this.grid_scheduler_day.getSelectedItem().getValue();
-			final String name = row.getName_user();
-
-			msg = name + ". " + msg;
-
-		}
-
-		this.label_date_popup.setLabel(msg);
-
-		// set initial selected item
-		this.shift_popup.setSelectedItem(null);
-
-		this.day_definition_popup.open(this.grid_scheduler_day, "after_pointer");
-	}
-
-	/**
 	 * Define anchor content on shift schedule
 	 *
 	 * @param program
@@ -541,7 +507,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final String data_info = arg0.getData().toString();
 
 				// configure shift
-				SchedulerComposer.this.shiftConfigurator(data_info);
+				SchedulerComposer.this.onShiftClick(data_info);
 
 			}
 
@@ -556,7 +522,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final String data_info = arg0.getData().toString();
 
 				// configure shift
-				SchedulerComposer.this.shiftConfiguratorReview(data_info);
+				SchedulerComposer.this.onShiftClickReview(data_info);
 
 			}
 
@@ -571,7 +537,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final String data_info = arg0.getData().toString();
 
 				// configure shift
-				SchedulerComposer.this.dayConfigurator(data_info);
+				SchedulerComposer.this.onDayClick(data_info);
 
 			}
 
@@ -735,6 +701,233 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial structure for program
 			this.setGridStructureForShiftReview(today);
 			this.setupGlobalSchedulerGridForShiftReview();
+		}
+
+	}
+
+	/**
+	 * Define bheavior for day configuration
+	 *
+	 * @param data_info
+	 */
+	protected void onDayClick(final String data_info) {
+
+		this.day_after_config.setValue(null);
+
+		// set info day;
+		this.selectedDay = Integer.parseInt(data_info);
+		if (this.selectedDay == null) {
+			return;
+		}
+		final Date current_day = this.getDateScheduled(this.selectedDay);
+		String msg = "" + SchedulerComposer.formatter_scheduler_info.format(current_day);
+
+		// get user
+		if (this.grid_scheduler_day.getSelectedItem() != null) {
+			final RowDaySchedule row = this.grid_scheduler_day.getSelectedItem().getValue();
+			final String name = row.getName_user();
+
+			msg = name + ". " + msg;
+
+		}
+
+		this.label_date_popup.setLabel(msg);
+
+		// set initial selected item
+		this.shift_popup.setSelectedItem(null);
+
+		this.day_definition_popup.open(this.grid_scheduler_day, "after_pointer");
+	}
+
+	/**
+	 * Shift configurator
+	 *
+	 * @param data_info
+	 */
+	private void onShiftClick(final String data_info) {
+
+		this.shift_definition_popup.open(this.program_div, "after_pointer");
+
+		if (SchedulerComposer.this.grid_scheduler.getSelectedItem() == null) {
+			return;
+		}
+
+		final RowSchedule row_scheduler = SchedulerComposer.this.grid_scheduler.getSelectedItem().getValue();
+
+		// for of shift --> shift_1_4
+		final String[] info = data_info.split("_");
+		if (info.length != 3) {
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		// info check
+		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
+
+			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		SchedulerComposer.this.selectedDay = Integer.parseInt(info[1]);
+		SchedulerComposer.this.selectedShift = Integer.parseInt(info[2]);
+		this.selectedUser = row_scheduler.getUser();
+
+		final Date date_schedule = SchedulerComposer.this.getDateScheduled(SchedulerComposer.this.selectedDay);
+
+		// take the right scheduler
+		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
+
+		// set label
+		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+
+		// if any information about schedule...
+		if (SchedulerComposer.this.currentSchedule != null) {
+
+			// set note
+			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
+
+			// set initial program and revision
+			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+
+		}
+		else {
+			// if we haven't information about schedule
+			this.note.setValue(null);
+			this.listbox_program.getItems().clear();
+
+			// set list program and revision
+			this.list_details_program = new ArrayList<DetailInitialSchedule>();
+
+		}
+
+		// set model list program and revision
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+		model.setMultiple(true);
+		this.listbox_program.setModel(model);
+
+		// set combo task
+		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
+
+		this.program_task.setSelectedItem(null);
+		this.program_task.getChildren().clear();
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+			this.program_task.appendChild(combo_item);
+
+			// set if default
+			if (task_item.getTask_default()) {
+				this.program_task.setSelectedItem(combo_item);
+			}
+
+		}
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+
+		}
+
+	}
+
+	/**
+	 * Popup on review
+	 *
+	 * @param data_info
+	 */
+	protected void onShiftClickReview(final String data_info) {
+
+		final Date date_to_configure = this.date_init_scheduler_review.getValue();
+		if (date_to_configure == null) {
+			return;
+		}
+
+		this.shift_definition_popup_review.open(this.review_div, "after_pointer");
+
+		if (SchedulerComposer.this.grid_scheduler_review.getSelectedItem() == null) {
+			return;
+		}
+
+		final RowSchedule row_scheduler = SchedulerComposer.this.grid_scheduler_review.getSelectedItem().getValue();
+
+		// for of shift --> shift_1_4
+		final String[] info = data_info.split("_");
+		if (info.length != 3) {
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		// info check
+		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
+
+			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			return;
+		}
+
+		this.selectedDay = Integer.parseInt(info[1]);
+		this.selectedShift = Integer.parseInt(info[2]);
+		this.selectedUser = row_scheduler.getUser();
+
+		final Date date_schedule = DateUtils.truncate(date_to_configure, Calendar.DATE);
+
+		// take the right scheduler
+		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
+
+		// set label
+		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+
+		// if any information about schedule...
+		if (SchedulerComposer.this.currentSchedule != null) {
+
+			// set note
+			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
+
+			// set initial program and revision
+			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+
+		}
+		else {
+			// if we haven't information about schedule
+			this.note.setValue(null);
+			this.listbox_review.getItems().clear();
+
+			// set list revision
+			this.list_details_review = new ArrayList<DetailFinalSchedule>();
+
+		}
+
+		// set model list program and revision
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		model.setMultiple(true);
+		this.listbox_review.setModel(model);
+
+		// set combo task
+		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
+
+		this.review_task.setSelectedItem(null);
+		this.review_task.getChildren().clear();
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+			this.review_task.appendChild(combo_item);
+
+			// set if default
+			if (task_item.getTask_default()) {
+				this.review_task.setSelectedItem(combo_item);
+			}
+
+		}
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+
 		}
 
 	}
@@ -1036,7 +1229,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			final int count = (int) ((to_day.getTime() - date_scheduled.getTime()) / (1000 * 60 * 60 * 24));
 
-			if ((this.selectedDay + count) > 31) {
+			if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 				return;
 			}
@@ -1697,199 +1890,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Collections.sort(list_row);
 
 		this.grid_scheduler_review.setModel(new ListModelList<RowSchedule>(list_row));
-
-	}
-
-	/**
-	 * Shift configurator
-	 *
-	 * @param data_info
-	 */
-	private void shiftConfigurator(final String data_info) {
-
-		this.shift_definition_popup.open(this.program_div, "after_pointer");
-
-		if (SchedulerComposer.this.grid_scheduler.getSelectedItem() == null) {
-			return;
-		}
-
-		final RowSchedule row_scheduler = SchedulerComposer.this.grid_scheduler.getSelectedItem().getValue();
-
-		// for of shift --> shift_1_4
-		final String[] info = data_info.split("_");
-		if (info.length != 3) {
-			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
-			return;
-		}
-
-		// info check
-		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
-
-			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
-			return;
-		}
-
-		SchedulerComposer.this.selectedDay = Integer.parseInt(info[1]);
-		SchedulerComposer.this.selectedShift = Integer.parseInt(info[2]);
-		this.selectedUser = row_scheduler.getUser();
-
-		final Date date_schedule = SchedulerComposer.this.getDateScheduled(SchedulerComposer.this.selectedDay);
-
-		// take the right scheduler
-		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
-
-		// set label
-		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
-
-		// if any information about schedule...
-		if (SchedulerComposer.this.currentSchedule != null) {
-
-			// set note
-			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
-
-			// set initial program and revision
-			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
-
-		}
-		else {
-			// if we haven't information about schedule
-			this.note.setValue(null);
-			this.listbox_program.getItems().clear();
-
-			// set list program and revision
-			this.list_details_program = new ArrayList<DetailInitialSchedule>();
-
-		}
-
-		// set model list program and revision
-		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
-		model.setMultiple(true);
-		this.listbox_program.setModel(model);
-
-		// set combo task
-		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
-
-		this.program_task.setSelectedItem(null);
-		this.program_task.getChildren().clear();
-
-		for (final UserTask task_item : list) {
-			final Comboitem combo_item = new Comboitem();
-			combo_item.setValue(task_item);
-			combo_item.setLabel(task_item.toString());
-			this.program_task.appendChild(combo_item);
-
-			// set if default
-			if (task_item.getTask_default()) {
-				this.program_task.setSelectedItem(combo_item);
-			}
-
-		}
-
-		for (final UserTask task_item : list) {
-			final Comboitem combo_item = new Comboitem();
-			combo_item.setValue(task_item);
-			combo_item.setLabel(task_item.toString());
-
-		}
-
-	}
-
-	/**
-	 * Popup on review
-	 *
-	 * @param data_info
-	 */
-	protected void shiftConfiguratorReview(final String data_info) {
-
-		final Date date_to_configure = this.date_init_scheduler_review.getValue();
-		if (date_to_configure == null) {
-			return;
-		}
-
-		this.shift_definition_popup_review.open(this.review_div, "after_pointer");
-
-		if (SchedulerComposer.this.grid_scheduler_review.getSelectedItem() == null) {
-			return;
-		}
-
-		final RowSchedule row_scheduler = SchedulerComposer.this.grid_scheduler_review.getSelectedItem().getValue();
-
-		// for of shift --> shift_1_4
-		final String[] info = data_info.split("_");
-		if (info.length != 3) {
-			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
-			return;
-		}
-
-		// info check
-		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
-
-			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
-			return;
-		}
-
-		this.selectedDay = Integer.parseInt(info[1]);
-		this.selectedShift = Integer.parseInt(info[2]);
-		this.selectedUser = row_scheduler.getUser();
-
-		final Date date_schedule = DateUtils.truncate(date_to_configure, Calendar.DATE);
-
-		// take the right scheduler
-		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
-
-		// set label
-		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
-
-		// if any information about schedule...
-		if (SchedulerComposer.this.currentSchedule != null) {
-
-			// set note
-			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
-
-			// set initial program and revision
-			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
-
-		}
-		else {
-			// if we haven't information about schedule
-			this.note.setValue(null);
-			this.listbox_review.getItems().clear();
-
-			// set list revision
-			this.list_details_review = new ArrayList<DetailFinalSchedule>();
-
-		}
-
-		// set model list program and revision
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
-		model.setMultiple(true);
-		this.listbox_review.setModel(model);
-
-		// set combo task
-		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
-
-		this.review_task.setSelectedItem(null);
-		this.review_task.getChildren().clear();
-
-		for (final UserTask task_item : list) {
-			final Comboitem combo_item = new Comboitem();
-			combo_item.setValue(task_item);
-			combo_item.setLabel(task_item.toString());
-			this.review_task.appendChild(combo_item);
-
-			// set if default
-			if (task_item.getTask_default()) {
-				this.review_task.setSelectedItem(combo_item);
-			}
-
-		}
-
-		for (final UserTask task_item : list) {
-			final Comboitem combo_item = new Comboitem();
-			combo_item.setValue(task_item);
-			combo_item.setLabel(task_item.toString());
-
-		}
 
 	}
 }
