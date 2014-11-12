@@ -25,6 +25,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -187,6 +188,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Row					row_password_user_retype;
+
+	@Wire
+	private Intbox				shows_rows;
 
 	@Wire
 	private Component			status_user_tab;
@@ -612,7 +616,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_refresh_list")
+	@Listen("onClick = #sw_refresh_list, #shows_rows; onOK = #shows_rows")
 	public void refreshListUser() {
 
 		// set user listbox
@@ -749,6 +753,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private void setUserListBox() {
 
 		final List<Person> list_person = this.personDao.listAllPersons();
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_user.setPageSize(this.shows_rows.getValue());
+		}
 
 		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
 	}

@@ -16,11 +16,11 @@
 		</a>
 
 		<!-- User menu -->
-		<menubar sclass="user-menu light-blue">
+		<menubar sclass="user-menu light-blue;">
 			<menu tooltiptext="Profilo Utente" id="user_welcome"
-				label="Benvenuto Utente">
+				width="150px" label="Benvenuto Utente">
 				<menupopup>
-					<menuitem label="Profile" iconSclass="z-icon-user"
+					<menuitem label="Profilo" iconSclass="z-icon-user"
 						id="user_profile" />
 					<menuseparator />
 					<menuitem id="sw_logout" label="Logout"

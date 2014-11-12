@@ -39,7 +39,8 @@
 					id="status_user_tab" />
 				<tab label="Mansioni" visible="false"
 					id="task_user_tab" />
-				<tab label="Costi orari" visible="false" id="jobcost_user_tab"/>
+				<tab label="Costi orari" visible="false"
+					id="jobcost_user_tab" />
 				<tab label="TFR" visible="false" id="tfr_user_tab" />
 				<tab label="Visite Fiscali" visible="false"
 					id="fiscalcheck_user_tab" />
@@ -260,7 +261,7 @@
 											id="current_position_user" />
 									</row>
 
-									
+
 									<row>
 										<label value="Numero Budje:"></label>
 										<textbox id="nbudje_user" />
@@ -438,7 +439,9 @@
 
 				<!-- TAB JOB COST -->
 				<tabpanel>
-					<include mode="defer" src="./userdetailjobcost.zul"></include>
+					<include mode="defer"
+						src="./userdetailjobcost.zul">
+					</include>
 				</tabpanel>
 
 				<!-- TAB TFR -->
@@ -497,18 +500,28 @@
 		<separator></separator>
 	</div>
 
-	
+	<!-- SHOW ROWS -->
+	<hbox>
+		<a label="Righe da visualizzare: "
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+		<intbox id="shows_rows" constraint="no negative, no zero"
+			value="10">
+		</intbox>
+	</hbox>
+
+	<separator></separator>
+
 	<listbox id="sw_list_user" pagingPosition="both" mold="paging"
 		onSelect="grid_user_details.setVisible(false)"
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
-		pageSize="20">
+		pageSize="10">
 		<listhead sizable="true">
 			<listheader label="Id" sort="auto(id)" />
 			<listheader label="Status" sort="auto(status)" />
 			<listheader label="Abilitato" />
 			<listheader label="Nome" sort="auto(individualName)" />
 			<listheader label="Città" sort="auto(city)" />
-			<listheader label="Telefono" sort="auto(phone)" />			
+			<listheader label="Telefono" sort="auto(phone)" />
 			<listheader label="Ruolo" />
 			<listheader label="" />
 		</listhead>
@@ -516,8 +529,7 @@
 		<listitem self="@{each='user_item'}" value="@{user_item}">
 
 			<listcell label="@{user_item.id}" />
-			<listcell
-				label="@{user_item.status}" />
+			<listcell label="@{user_item.status}" />
 
 			<listcell
 				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />
@@ -525,7 +537,7 @@
 			<listcell label="@{user_item.individualName}" />
 
 			<listcell label="@{user_item.city}" />
-			<listcell label="@{user_item.phone}" />			
+			<listcell label="@{user_item.phone}" />
 			<listcell
 				label="@{user_item.authority, converter='org.uario.seaworkengine.zkevent.converter.UserRoleConverter'}" />
 

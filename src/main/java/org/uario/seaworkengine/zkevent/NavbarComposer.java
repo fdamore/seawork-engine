@@ -20,132 +20,119 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Progressmeter;
 
-public class NavbarComposer extends SelectorComposer<Component>
-{
+public class NavbarComposer extends SelectorComposer<Component> {
 
-    /**
-     *
-     */
-    private static final long  serialVersionUID = 1L;
+	/**
+	 *
+	 */
+	private static final long	serialVersionUID	= 1L;
 
-    @Wire
-    private Progressmeter      allocated_mem_pc;
+	@Wire
+	private Progressmeter		allocated_mem_pc;
 
-    @Wire
-    private Label              allocated_memoery_pop_value;
+	@Wire
+	private Label				allocated_memoery_pop_value;
 
-    @Wire
-    private A                  atask, anoti, amsg;
+	@Wire
+	private A					atask, anoti, amsg;
 
-    @Wire
-    private Progressmeter      free_mem_pc;
+	@Wire
+	private Progressmeter		free_mem_pc;
 
-    @Wire
-    private Label              free_memoery_pop_value;
+	@Wire
+	private Label				free_memoery_pop_value;
 
-    @Wire
-    private Label              max_memoery_pop_value;
+	@Wire
+	private Label				max_memoery_pop_value;
 
-    private final NumberFormat numberFormat     = NumberFormat.getInstance();
+	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
 
-    private final Runtime      runtime          = Runtime.getRuntime();
+	private final Runtime		runtime				= Runtime.getRuntime();
 
-    @Wire
-    private Menu               user_welcome;
+	@Wire
+	private Menu				user_welcome;
 
-    // Toggle open class to the component
-    private void toggleOpenClass(final Boolean open, final Component component)
-    {
-        final HtmlBasedComponent comp = (HtmlBasedComponent) component;
-        final String scls = comp.getSclass();
-        if (open)
-        {
-            comp.setSclass(scls + " open");
-        }
-        else
-        {
-            comp.setSclass(scls.replace(" open", ""));
-        }
-    }
+	@Override
+	public void doFinally() throws Exception {
 
-    @Override
-    public void doFinally() throws Exception
-    {
+		// set info about user
+		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // set info about user
-        final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.user_welcome.setLabel(person.getIndividualName());
+	}
 
-        this.user_welcome.setLabel(person.getIndividualName());
+	@Listen("onClick = #sw_logout")
+	public void logoutApplication(final Event event) {
 
-    }
+		Executions.sendRedirect("/j_spring_security_logout");
+	}
 
-    @Listen("onClick = #sw_logout")
-    public void logoutApplication(final Event event)
-    {
+	@Listen("onClick = #gs_preferences")
+	public void showPreferences() {
 
-        Executions.sendRedirect("/j_spring_security_logout");
-    }
+		final Component comp = Path.getComponent("//index/main");
 
-    @Listen("onClick = #gs_preferences")
-    public void showPreferences()
-    {
+		// send event to show users
+		Events.sendEvent(ZkEventsTag.onShowPreferences, comp, null);
 
-        final Component comp = Path.getComponent("//index/main");
+		this.toggleOpenClass(false, this.atask);
 
-        // send event to show users
-        Events.sendEvent(ZkEventsTag.onShowPreferences, comp, null);
+	}
 
-        this.toggleOpenClass(false, this.atask);
+	@Listen("onClick = #user_profile")
+	public void showUserProfile() {
 
-    }
+		final Component comp = Path.getComponent("//index/main");
 
-    @Listen("onClick = #user_profile")
-    public void showUserProfile()
-    {
+		// send event to show users
+		Events.sendEvent(ZkEventsTag.onShowMyProfile, comp, null);
 
-        final Component comp = Path.getComponent("//index/main");
+	}
 
-        // send event to show users
-        Events.sendEvent(ZkEventsTag.onShowMyProfile, comp, null);
+	// Toggle open class to the component
+	private void toggleOpenClass(final Boolean open, final Component component) {
+		final HtmlBasedComponent comp = (HtmlBasedComponent) component;
+		final String scls = comp.getSclass();
+		if (open) {
+			comp.setSclass(scls + " open");
+		} else {
+			comp.setSclass(scls.replace(" open", ""));
+		}
+	}
 
-    }
+	@Listen("onOpen = #taskpp")
+	public void toggleTaskPopup(final OpenEvent event) {
 
-    @Listen("onOpen = #taskpp")
-    public void toggleTaskPopup(final OpenEvent event)
-    {
+		final long maxMemory = this.runtime.maxMemory();
+		final long freeMemory = this.runtime.freeMemory();
+		final long allocatedMemory = this.runtime.totalMemory();
 
-        final long maxMemory = this.runtime.maxMemory();
-        final long freeMemory = this.runtime.freeMemory();
-        final long allocatedMemory = this.runtime.totalMemory();
+		// check for percentage:
+		final long free_pc = (100 * freeMemory) / maxMemory;
+		final long allocated_pc = (100 * allocatedMemory) / maxMemory;
 
-        // check for percentage:
-        final long free_pc = (100 * freeMemory) / maxMemory;
-        final long allocated_pc = (100 * allocatedMemory) / maxMemory;
+		Integer free_pc_info = 100;
+		if (free_pc < 100) {
+			free_pc_info = (int) free_pc;
+		}
 
-        Integer free_pc_info = 100;
-        if (free_pc < 100)
-        {
-            free_pc_info = (int) free_pc;
-        }
+		Integer allocated_pc_info = 100;
+		if (allocated_pc < 100) {
+			allocated_pc_info = (int) allocated_pc;
+		}
+		this.free_mem_pc.setValue(free_pc_info);
+		this.allocated_mem_pc.setValue(allocated_pc_info);
 
-        Integer allocated_pc_info = 100;
-        if (allocated_pc < 100)
-        {
-            allocated_pc_info = (int) allocated_pc;
-        }
-        this.free_mem_pc.setValue(free_pc_info);
-        this.allocated_mem_pc.setValue(allocated_pc_info);
+		// set value
+		final String max_memory_info = this.numberFormat.format(maxMemory / 1024);
+		final String free_memory_info = this.numberFormat.format(freeMemory / 1024);
+		final String allocated_memory_info = this.numberFormat.format(allocatedMemory / 1024);
 
-        // set value
-        final String max_memory_info = this.numberFormat.format(maxMemory / 1024);
-        final String free_memory_info = this.numberFormat.format(freeMemory / 1024);
-        final String allocated_memory_info = this.numberFormat.format(allocatedMemory / 1024);
+		this.max_memoery_pop_value.setValue(max_memory_info);
+		this.free_memoery_pop_value.setValue(free_memory_info);
+		this.allocated_memoery_pop_value.setValue(allocated_memory_info);
 
-        this.max_memoery_pop_value.setValue(max_memory_info);
-        this.free_memoery_pop_value.setValue(free_memory_info);
-        this.allocated_memoery_pop_value.setValue(allocated_memory_info);
-
-        this.toggleOpenClass(event.isOpen(), this.atask);
-    }
+		this.toggleOpenClass(event.isOpen(), this.atask);
+	}
 
 }
