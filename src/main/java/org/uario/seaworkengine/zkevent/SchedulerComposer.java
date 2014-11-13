@@ -95,6 +95,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Date							firstDateInGrid;
 
 	@Wire
+	private Textbox							full_text_search;
+
+	@Wire
 	private Listbox							grid_scheduler;
 
 	@Wire
@@ -108,8 +111,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	// initial program and revision
 	private List<DetailInitialSchedule>		list_details_program;
-
 	private List<DetailFinalSchedule>		list_details_review;
+
 	@Wire
 	private Listbox							listbox_program;
 
@@ -379,7 +382,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review;onClick = #refresh_command;onOK = #shows_rows")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review;onClick = #refresh_command;onOK = #shows_rows, #full_text_search")
 	public void defineSchedulerType() {
 
 		if (this.scheduler_type_selector.getSelectedItem() == null) {
@@ -932,6 +935,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #refresh_command")
+	public void refreshCommand() {
+
+		this.full_text_search.setValue(null);
+		this.defineSchedulerType();
+
+	}
+
 	@Listen("onClick = #cancel_program")
 	public void removeProgram() {
 		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
@@ -1409,7 +1420,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAYS_IN_GRID_PREPROCESSING);
 		final Date final_date = calendar.getTime();
 
-		final List<DaySchedule> list = this.scheduleDAO.selectDaySchedulers(this.firstDateInGrid, final_date);
+		List<DaySchedule> list = null;
+
+		if ((this.full_text_search.getValue() == null) || this.full_text_search.getValue().equals("")) {
+			list = this.scheduleDAO.selectDaySchedulers(this.firstDateInGrid, final_date, null);
+		} else {
+			list = this.scheduleDAO.selectDaySchedulers(this.firstDateInGrid, final_date, this.full_text_search.getValue());
+		}
 
 		final ArrayList<RowDaySchedule> list_row = new ArrayList<RowDaySchedule>();
 		RowDaySchedule currentRow = null;
@@ -1650,8 +1667,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		initial_calendar.add(Calendar.DAY_OF_YEAR, 2);
 		final Date initial_date_program = initial_calendar.getTime();
 
-		// get info
-		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program);
+		List<Schedule> list_program = null;
+
+		if ((this.full_text_search.getValue() == null) || this.full_text_search.getValue().equals("")) {
+			list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program, null);
+		} else {
+			list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program,
+					this.full_text_search.getValue());
+		}
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;

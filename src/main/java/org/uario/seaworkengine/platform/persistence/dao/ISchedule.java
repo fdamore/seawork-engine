@@ -48,12 +48,12 @@ public interface ISchedule {
 
 	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid);
 
-	public List<Schedule> selectAggregateSchedulersProgram(Date initial_date, Date final_date);
+	public List<Schedule> selectAggregateSchedulersProgram(Date initial_date, Date final_date, String full_text_search);
 
 	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid);
 
 	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date);
 
-	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date);
+	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date, String my_full_text_search);
 
 }

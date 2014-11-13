@@ -40,6 +40,8 @@
 				value="10">
 			</intbox>
 
+			<textbox placeholder="Cerca..." id="full_text_search"></textbox>
+
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
 
