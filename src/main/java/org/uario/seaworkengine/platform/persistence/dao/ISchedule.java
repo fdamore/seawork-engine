@@ -30,6 +30,10 @@ public interface ISchedule {
 
 	public void removeAllDetailInitialScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 
+	public void removeDayScheduleUserFired(Integer idUser, Date firedDate);
+
+	public void removeDayScheduleUserSuspended(Integer idUser, Date initialDate, Date finalDate);
+
 	public void removeScheduleUserFired(Integer idUser, Date firedDate);
 
 	public void removeScheduleUserSuspended(Integer idUser, Date initialDate, Date finalDate);
