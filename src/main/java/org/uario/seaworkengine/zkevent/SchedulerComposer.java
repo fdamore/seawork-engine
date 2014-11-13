@@ -396,6 +396,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial structure for program
 			this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
 			this.setupGlobalSchedulerGridForDay();
+			return;
 		}
 
 		if (selected == this.program_item) {
@@ -406,6 +407,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial structure for program
 			this.setGridStructureForShift();
 			this.setupGlobalSchedulerGridForShift();
+			return;
 		}
 
 		if (selected == this.review_item) {
@@ -416,6 +418,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial structure for program
 			this.setGridStructureForShiftReview(SchedulerComposer.this.date_init_scheduler_review.getValue());
 			this.setupGlobalSchedulerGridForShiftReview();
+			return;
 		}
 
 	}
@@ -480,11 +483,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
 
-				// set preprocessing item in combo selection
-				SchedulerComposer.this.scheduler_type_selector.setSelectedItem(SchedulerComposer.this.preprocessing_item);
-
-				SchedulerComposer.this.defineSchedulerType();
-
 				// define shift combo
 				final List<UserShift> shifts = SchedulerComposer.this.configurationDAO.loadShifts();
 				SchedulerComposer.this.shift_popup.setModel(new ListModelList<UserShift>(shifts));
@@ -492,9 +490,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// get the shift cache
 				SchedulerComposer.this.shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
 
-				// set initial structure for program
-				SchedulerComposer.this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
-				SchedulerComposer.this.setupGlobalSchedulerGridForDay();
+				// set preprocessing item in combo selection
+				SchedulerComposer.this.scheduler_type_selector.setSelectedItem(SchedulerComposer.this.preprocessing_item);
+
+				SchedulerComposer.this.defineSchedulerType();
 
 			}
 		});
