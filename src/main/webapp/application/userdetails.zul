@@ -85,7 +85,9 @@
 									</row>
 
 									<row>
-										<label value="Status"></label>
+										<label
+											value="Rapporto di Lavoro">
+										</label>
 										<label id="user_status"></label>
 
 									</row>
@@ -162,7 +164,7 @@
 
 									<row>
 										<label
-											value="Numero di Identificazione:">
+											value="Matricola Aziendale:">
 										</label>
 										<textbox
 											id="employee_identification_user" />
@@ -232,7 +234,9 @@
 									</row>
 
 									<row>
-										<label value="Educazione:"></label>
+										<label
+											value="Titolo di Studio:">
+										</label>
 										<textbox id="education_user" />
 									</row>
 
@@ -521,7 +525,7 @@
 		pageSize="10">
 		<listhead sizable="true">
 			<listheader label="Id" sort="auto(id)" />
-			<listheader label="Status" sort="auto(status)" />
+			<listheader label="Rapporto di Lavoro" sort="auto(status)" />
 			<listheader label="Abilitato" />
 			<listheader label="Nome" sort="auto(individualName)" />
 			<listheader label="Città" sort="auto(city)" />

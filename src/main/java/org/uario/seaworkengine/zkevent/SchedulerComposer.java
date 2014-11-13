@@ -1753,7 +1753,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// get all user to schedule
-		final List<Person> users_schedule = this.personDAO.listAllPersons();
+		final List<Person> users_schedule = this.personDAO.listWorkerPersons();
 
 		for (final Person person : users_schedule) {
 			if (sign_scheduled.containsKey(person.getId())) {
@@ -1870,7 +1870,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// get all user to schedule
-		final List<Person> users_schedule = this.personDAO.listAllPersons();
+		final List<Person> users_schedule = this.personDAO.listWorkerPersons();
 
 		for (final Person person : users_schedule) {
 			if (sign_scheduled.containsKey(person.getId())) {
