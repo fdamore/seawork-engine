@@ -51,8 +51,14 @@ public interface PersonDAO extends UserDetailsService {
 	 * @return
 	 * @throws GenericExceptionInDAO
 	 */
-
 	public List<Person> listAllPersons(String full_text_search);
+
+	/**
+	 * List all worker persons
+	 *
+	 * @return Return a list of worker persons
+	 */
+	public List<Person> listWorkerPersons();
 
 	/**
 	 * Load a person

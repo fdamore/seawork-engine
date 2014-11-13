@@ -133,8 +133,7 @@
 
 
 
-	<select id="selectAllPerson" parameterType="string"
-		resultType="org.uario.seaworkengine.model.Person">
+	<select id="selectAllPerson" resultType="org.uario.seaworkengine.model.Person">
 		SELECT
 		u.id,
 		u.enabled,
@@ -168,6 +167,46 @@
 		user
 		u order by u.status asc
 	</select>
+
+	<select id="selectWorkerPerson" resultType="org.uario.seaworkengine.model.Person">
+	<![CDATA[
+		SELECT 
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM user u 
+		order by u.status asc
+		WHERE
+		u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
+		]]>
+
+	</select>
+
 
 	<select id="selectAllPersonFulltextSearchLike" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Person">
@@ -203,7 +242,8 @@
 		FROM
 		user u
 		<if test="my_full_text_search != null">
-			WHERE u.firstname like #{my_full_text_search} or u.lastname =
+			WHERE u.firstname like #{my_full_text_search} or
+			u.lastname =
 			#{my_full_text_search}
 		</if>
 		order by u.status asc
