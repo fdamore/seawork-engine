@@ -12,6 +12,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.UserDetailsComposerCons.ContestationMessage;
 import org.zkoss.spring.SpringUtil;
@@ -253,7 +254,10 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 						public void onEvent(final Event e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
 								UserDetailsComposerStatus.this.onUpdateStatus();
-								UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(idUser, dateStatus);
+								if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED)) {
+									UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(idUser, dateStatus);
+									UserDetailsComposerStatus.this.scheduleDao.removeDayScheduleUserFired(idUser, dateStatus);
+								}
 					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 								// Cancel is clicked
 							}

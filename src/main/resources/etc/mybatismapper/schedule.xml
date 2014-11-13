@@ -254,6 +254,24 @@ where u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 		WHERE user=#{idUser} and date_schedule>=#{firedDate};
 		]]>
 	</delete>
+	
+	
+	<delete id="removeDayScheduleUserFired" parameterType="map">
+		<![CDATA[
+		DELETE FROM
+		dayschedule
+		WHERE id_user=#{idUser} and date_scheduled>=#{firedDate};
+		]]>
+	</delete>
+	
+	<delete id="removeDayScheduleUserSuspended" parameterType="map">
+		<![CDATA[
+		DELETE FROM
+		dayschedule
+		WHERE id_user=#{idUser} and date_scheduled>=#{initialDate} and #{finalDate}>=date_scheduled;
+		]]>
+	</delete>
+	
 
 	<delete id="removeAllDetailFinalScheduleByScheduleAndShift"
 		parameterType="map">
