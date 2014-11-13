@@ -483,6 +483,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// set preprocessing item in combo selection
 				SchedulerComposer.this.scheduler_type_selector.setSelectedItem(SchedulerComposer.this.preprocessing_item);
 
+				SchedulerComposer.this.defineSchedulerType();
+
 				// define shift combo
 				final List<UserShift> shifts = SchedulerComposer.this.configurationDAO.loadShifts();
 				SchedulerComposer.this.shift_popup.setModel(new ListModelList<UserShift>(shifts));
