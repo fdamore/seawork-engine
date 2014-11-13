@@ -147,9 +147,8 @@ s.date_scheduled,
     concat(u.firstname, ' ', u.lastname) AS name_user
 from
     user u left join
-    dayschedule s ON (u.id = s.id_user and s.date_scheduled >= #{date_from} and s.date_scheduled < #{date_to} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO')    
-
-    
+    dayschedule s ON (u.id = s.id_user and s.date_scheduled >= #{date_from} and s.date_scheduled < #{date_to})  
+where u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'    
 
 ]]>
 	</select>
