@@ -53,7 +53,7 @@ from
         left join
     detailinitialschedule ds ON (s.id = ds.id_schedule)        
 where
-    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to}
+    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 group by user , s.id , ds.shift
 order by user, s.date_schedule asc
 ]]>
@@ -78,7 +78,7 @@ from
         left join
     detailfinalschedule ds ON (s.id = ds.id_schedule)        
 where
-    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to}
+    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 group by user , s.id , ds.shift
 order by user, s.date_schedule asc
 ]]>
@@ -103,13 +103,13 @@ from
         left join
     detailinitialschedule ds ON (s.id = ds.id_schedule)        
 where
-    u.id = s.user and s.date_schedule = #{date_from}
+    u.id = s.user and s.date_schedule = #{date_from} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 group by user , s.id , ds.shift
 order by user, s.date_schedule asc
 ]]>
 	</select>
-	
-		<select id="selectAggregateScheduleByDateRevision" resultType="org.uario.seaworkengine.model.Schedule"
+
+	<select id="selectAggregateScheduleByDateRevision" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 	<![CDATA[
 select 
@@ -128,7 +128,7 @@ from
         left join
     detailfinalschedule ds ON (s.id = ds.id_schedule)        
 where
-    u.id = s.user and s.date_schedule = #{date_from}
+    u.id = s.user and s.date_schedule = #{date_from} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 group by user , s.id , ds.shift
 order by user, s.date_schedule asc
 ]]>
@@ -147,7 +147,7 @@ s.date_scheduled,
     concat(u.firstname, ' ', u.lastname) AS name_user
 from
     user u left join
-    dayschedule s ON (u.id = s.id_user and s.date_scheduled >= #{date_from} and s.date_scheduled < #{date_to})    
+    dayschedule s ON (u.id = s.id_user and s.date_scheduled >= #{date_from} and s.date_scheduled < #{date_to} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO')    
 
     
 
@@ -238,7 +238,7 @@ from
 		#{id_schedule} and shift
 		= #{shift};
 	</delete>
-	
+
 	<delete id="removeScheduleUserSuspended" parameterType="map">
 		<![CDATA[
 		DELETE FROM
@@ -246,8 +246,8 @@ from
 		WHERE user=#{idUser} and date_schedule>=#{initialDate} and #{finalDate}>=date_schedule;
 		]]>
 	</delete>
-		
-	
+
+
 	<delete id="removeScheduleUserFired" parameterType="map">
 		<![CDATA[
 		DELETE FROM
