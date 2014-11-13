@@ -169,9 +169,54 @@
 		u order by u.status asc
 	</select>
 
+	<select id="selectAllPersonFulltextSearchLike" parameterType="map"
+		resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status
+		FROM
+		user u
+		<if test="my_full_text_search != null">
+			WHERE u.firstname like #{my_full_text_search} or u.lastname =
+			#{my_full_text_search}
+		</if>
+		order by u.status asc
+	</select>
 
-	<select id="selectSuspendedUsers" parameterType="string" 
-	resultType="org.uario.seaworkengine.model.Person">
+
+
+
+
+
+
+	<select id="selectSuspendedUsers" parameterType="string"
+		resultType="org.uario.seaworkengine.model.Person">
 		SELECT
 		u.id,
 		u.enabled,
@@ -203,7 +248,7 @@
 		u.status
 		FROM
 		user
-		u 
+		u
 		WHERE
 		u.status = #{idSuspended}
 	</select>
@@ -259,7 +304,7 @@
 		phone,
 		country,
 		enabled,
-		status,		
+		status,
 		ncfl,
 		birth_place,
 		birth_date,
@@ -288,7 +333,7 @@
 		#{phone},
 		#{country},
 		#{enabled},
-		#{status},		
+		#{status},
 		#{ncfl},
 		#{birth_place},
 		#{birth_date},
@@ -325,8 +370,9 @@
 		phone =
 		#{phone},
 		country = #{country},
-		birth_date	= #{birth_date},
-		birth_place = #{birth_place},
+		birth_date = #{birth_date},
+		birth_place =
+		#{birth_place},
 		current_position =
 		#{current_position},
 		department =

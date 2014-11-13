@@ -4,6 +4,7 @@
  */
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -68,6 +69,19 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPerson");
 		return list_person;
 
+	}
+
+	@Override
+	public List<Person> listAllPersons(final String full_text_search) {
+		MyBatisPersonDAO.logger.info("listAllPersons with like..");
+
+		final String my_full_text_search = "%" + full_text_search + "%";
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", my_full_text_search);
+
+		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike", map);
+		return list_person;
 	}
 
 	@Override

@@ -117,6 +117,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox				fiscalcode_user;
 
 	@Wire
+	private Textbox				full_text_search;
+
+	@Wire
 	private Component			grid_user_details;
 
 	@Wire
@@ -616,8 +619,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_refresh_list, #shows_rows; onOK = #shows_rows")
+	@Listen("onClick = #sw_refresh_list;")
 	public void refreshListUser() {
+
+		this.full_text_search.setValue(null);
 
 		// set user listbox
 		this.setUserListBox();
@@ -626,7 +631,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_deleteuser")
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -739,6 +744,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	 */
 	public void setInitialView() {
 
+		this.full_text_search.setValue(null);
+
 		// set user listbox
 		this.setUserListBox();
 
@@ -750,12 +757,21 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 * Set user list box with initial events
 	 */
-	private void setUserListBox() {
+	@Listen("onOK = #shows_rows, #full_text_search")
+	public void setUserListBox() {
 
-		final List<Person> list_person = this.personDao.listAllPersons();
+		List<Person> list_person = null;
+
+		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
+			list_person = this.personDao.listAllPersons(this.full_text_search.getValue());
+		} else {
+			list_person = this.personDao.listAllPersons();
+		}
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_user.setPageSize(this.shows_rows.getValue());
+		} else {
+			this.sw_list_user.setPageSize(10);
 		}
 
 		this.sw_list_user.setModel(new ListModelList<Person>(list_person));

@@ -500,14 +500,18 @@
 		<separator></separator>
 	</div>
 
-	<!-- SHOW ROWS -->
+	<!-- SHOW ROWS AND SEARCH -->
 	<hbox>
 		<a label="Righe da visualizzare: "
 			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		<intbox id="shows_rows" constraint="no negative, no zero"
 			value="10">
 		</intbox>
+
+		<textbox placeholder="Cerca..." id="full_text_search"></textbox>
+
 	</hbox>
+
 
 	<separator></separator>
 

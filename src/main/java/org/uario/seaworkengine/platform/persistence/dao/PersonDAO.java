@@ -46,6 +46,15 @@ public interface PersonDAO extends UserDetailsService {
 	public List<Person> listAllPersons();
 
 	/**
+	 * List all person in the persistence engine
+	 *
+	 * @return
+	 * @throws GenericExceptionInDAO
+	 */
+
+	public List<Person> listAllPersons(String full_text_search);
+
+	/**
 	 * Load a person
 	 *
 	 * @param id
