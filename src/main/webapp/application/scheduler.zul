@@ -84,6 +84,10 @@
 								</datebox>
 							</hbox>
 							<separator></separator>
+							<button id="cancel_day_definition"
+										label="Cancella Configurazione" sclass="btn-danger">
+							</button>
+							<separator></separator>
 						</vbox>
 					</panelchildren>
 				</panel>

@@ -356,6 +356,60 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #cancel_day_definition")
+	public void cancelDayConfiguration() {
+
+		if ((this.selectedDay == null)) {
+			return;
+		}
+
+		if (this.grid_scheduler_day == null) {
+			return;
+		}
+
+		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
+		final DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay);
+		final Date dayScheduleDate = daySchedule.getDate_scheduled();
+
+		if (dayScheduleDate != null) {
+
+			final Date dayAfterConfig = this.day_after_config.getValue();
+
+			if (dayAfterConfig != null) {
+
+				final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
+
+				if (dayScheduleDate.after(to_day)) {
+					Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					return;
+				}
+
+				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
+
+				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
+					Messagebox
+					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					return;
+				}
+				// remove day schedule in interval date
+				this.scheduleDAO.removeDayScheduleUserSuspended(daySchedule.getId_user(), dayScheduleDate, dayAfterConfig);
+			} else {
+				// Remove only current day schedule
+				this.scheduleDAO.removeDayScheduleUserSuspended(daySchedule.getId_user(), dayScheduleDate, dayScheduleDate);
+			}
+
+			// refresh grid
+			this.setupGlobalSchedulerGridForDay();
+		} else {
+			return;
+		}
+
+		// Messagebox.show("Il programma giornaliero è stato cancellato",
+		// "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.day_definition_popup.close();
+	}
+
 	/**
 	 * Define anchor content on shift schedule
 	 *
