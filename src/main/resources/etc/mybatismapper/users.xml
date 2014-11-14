@@ -199,10 +199,10 @@
 		u.npass,
 		u.provincia,
 		u.status
-		FROM user u 
-		order by u.status asc
+		FROM user u 		
 		WHERE
 		u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
+		order by u.status asc
 		]]>
 
 	</select>
@@ -243,7 +243,7 @@
 		user u
 		<if test="my_full_text_search != null">
 			WHERE u.firstname like #{my_full_text_search} or
-			u.lastname =
+			u.lastname like
 			#{my_full_text_search}
 		</if>
 		order by u.status asc

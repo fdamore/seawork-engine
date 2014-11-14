@@ -36,10 +36,10 @@
 					<rows>
 
 						<row>
-							<label value="Status"></label>
+							<label value="Rapporto di Lavoro"></label>
 							<combobox id="status"
 								placeholder="Seleziona lo stato utente" readonly="true">
-								
+
 							</combobox>
 						</row>
 
@@ -85,7 +85,7 @@
 				<separator></separator>
 			</div>
 
-			
+
 			<listbox id="sw_list" pagingPosition="both" mold="paging"
 				onSelect="grid_details.setVisible(false)"
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
@@ -100,8 +100,7 @@
 
 				<listitem self="@{each='item'}" value="@{item}">
 
-					<listcell
-						label="@{item.status}" />
+					<listcell label="@{item.status}" />
 					<listcell
 						label="@{item.date_modified, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 

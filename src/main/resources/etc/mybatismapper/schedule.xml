@@ -36,27 +36,40 @@
 
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-	<![CDATA[
-select 
-    s.id,
-    ds.shift,
-    sum(ds.time) as program_time,    
-    s.date_schedule,
-    s.note,
-    s.editor,
-    s.controller,
-    u.id as user,
-    concat(u.firstname, ' ', u.lastname) AS name_user
-from
-    user u,
-    schedule s
-        left join
-    detailinitialschedule ds ON (s.id = ds.id_schedule)        
-where
-    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
-group by user , s.id , ds.shift
-order by user, s.date_schedule asc
-]]>
+
+		select
+		s.id,
+		ds.shift,
+		sum(ds.time) as program_time,
+		s.date_schedule,
+		s.note,
+		s.editor,
+		s.controller,
+		u.id as user,
+		concat(u.firstname, ' ',
+		u.lastname) AS name_user
+		from
+		user u,
+		schedule s
+		left join
+		detailinitialschedule ds ON (s.id = ds.id_schedule)
+		where
+		u.id = s.user
+		and s.date_schedule >= #{date_from} and s.date_schedule <![CDATA[<]]>
+		#{date_to} and u.status <![CDATA[<>]]>
+		'LICENZIATO' and u.status <![CDATA[<>]]>
+		'SOSPESO'
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like #{my_full_text_search} or
+			u.lastname
+			like
+			#{my_full_text_search})
+		</if>
+
+		group by user , s.id , ds.shift
+		order by user, s.date_schedule asc
+
 	</select>
 
 	<select id="selectAggregateScheduleRevision" resultType="org.uario.seaworkengine.model.Schedule"
@@ -139,18 +152,28 @@ order by user, s.date_schedule asc
 
 	<select id="selectDaySchedulers" resultType="org.uario.seaworkengine.model.DaySchedule"
 		parameterType="map">
-	<![CDATA[
-select s.id, 
-u.id as id_user, 
-s.shift, 
-s.date_scheduled,
-    concat(u.firstname, ' ', u.lastname) AS name_user
-from
-    user u left join
-    dayschedule s ON (u.id = s.id_user and s.date_scheduled >= #{date_from} and s.date_scheduled < #{date_to})  
-where u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'    
 
-]]>
+		select s.id,
+		u.id as id_user,
+		s.shift,
+		s.date_scheduled,
+		concat(u.firstname, ' ', u.lastname) AS name_user
+		from
+		user u left join
+		dayschedule s ON (u.id = s.id_user and s.date_scheduled >=
+		#{date_from} and
+		s.date_scheduled <![CDATA[<]]>
+		#{date_to})
+		where u.status <![CDATA[<>]]>
+		'LICENZIATO' and u.status <![CDATA[<>]]>
+		'SOSPESO'
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like #{my_full_text_search} or
+			u.lastname
+			like
+			#{my_full_text_search})
+		</if>
 	</select>
 
 
@@ -254,8 +277,8 @@ where u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 		WHERE user=#{idUser} and date_schedule>=#{firedDate};
 		]]>
 	</delete>
-	
-	
+
+
 	<delete id="removeDayScheduleUserFired" parameterType="map">
 		<![CDATA[
 		DELETE FROM
@@ -263,7 +286,7 @@ where u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 		WHERE id_user=#{idUser} and date_scheduled>=#{firedDate};
 		]]>
 	</delete>
-	
+
 	<delete id="removeDayScheduleUserSuspended" parameterType="map">
 		<![CDATA[
 		DELETE FROM
@@ -271,7 +294,7 @@ where u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
 		WHERE id_user=#{idUser} and date_scheduled>=#{initialDate} and #{finalDate}>=date_scheduled;
 		]]>
 	</delete>
-	
+
 
 	<delete id="removeAllDetailFinalScheduleByScheduleAndShift"
 		parameterType="map">
