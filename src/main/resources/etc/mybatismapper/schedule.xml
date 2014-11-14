@@ -74,77 +74,118 @@
 
 	<select id="selectAggregateScheduleRevision" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-	<![CDATA[
-select 
-    s.id,
-    ds.shift,
-    sum(ds.time) as revision_time,    
-    s.date_schedule,
-    s.note,
-    s.editor,
-    s.controller,
-    u.id as user,
-    concat(u.firstname, ' ', u.lastname) AS name_user
-from
-    user u,
-    schedule s
-        left join
-    detailfinalschedule ds ON (s.id = ds.id_schedule)        
-where
-    u.id = s.user and s.date_schedule >= #{date_from} and s.date_schedule < #{date_to} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
-group by user , s.id , ds.shift
-order by user, s.date_schedule asc
-]]>
+
+		select
+		s.id,
+		ds.shift,
+		sum(ds.time) as revision_time,
+		s.date_schedule,
+		s.note,
+		s.editor,
+		s.controller,
+		u.id as user,
+		concat(u.firstname, ' ',
+		u.lastname) AS name_user
+		from
+		user u,
+		schedule s
+		left join
+		detailfinalschedule ds ON (s.id = ds.id_schedule)
+		where
+		u.id = s.user
+		and s.date_schedule >= #{date_from} and s.date_schedule  <![CDATA[<]]>
+		#{date_to}
+		and u.status <![CDATA[<>]]>
+		'LICENZIATO' and u.status  <![CDATA[<>]]>
+		'SOSPESO'
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like #{my_full_text_search} or
+			u.lastname
+			like
+			#{my_full_text_search})
+		</if>
+
+		group by user , s.id , ds.shift
+		order by user, s.date_schedule
+		asc
+
 	</select>
 
 	<select id="selectAggregateScheduleByDateProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-	<![CDATA[
-select 
-    s.id,
-    ds.shift,
-    sum(ds.time) as program_time,    
-    s.date_schedule,
-    s.note,
-    s.editor,
-    s.controller,
-    u.id as user,
-    concat(u.firstname, ' ', u.lastname) AS name_user
-from
-    user u,
-    schedule s
-        left join
-    detailinitialschedule ds ON (s.id = ds.id_schedule)        
-where
-    u.id = s.user and s.date_schedule = #{date_from} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
-group by user , s.id , ds.shift
-order by user, s.date_schedule asc
-]]>
+
+		select
+		s.id,
+		ds.shift,
+		sum(ds.time) as program_time,
+		s.date_schedule,
+		s.note,
+		s.editor,
+		s.controller,
+		u.id as user,
+		concat(u.firstname, ' ',
+		u.lastname) AS name_user
+		from
+		user u,
+		schedule s
+		left join
+		detailinitialschedule ds ON (s.id = ds.id_schedule)
+		where
+		u.id = s.user
+		and s.date_schedule = #{date_from} and u.status <![CDATA[<>]]>
+		'LICENZIATO' and u.status <![CDATA[<>]]>
+		'SOSPESO'
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like #{my_full_text_search} or
+			u.lastname
+			like
+			#{my_full_text_search})
+		</if>
+
+
+		group by user , s.id , ds.shift
+		order by user, s.date_schedule asc
+
 	</select>
 
 	<select id="selectAggregateScheduleByDateRevision" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-	<![CDATA[
-select 
-    s.id,
-    ds.shift,
-    sum(ds.time) as revision_time,    
-    s.date_schedule,
-    s.note,
-    s.editor,
-    s.controller,
-    u.id as user,
-    concat(u.firstname, ' ', u.lastname) AS name_user
-from
-    user u,
-    schedule s
-        left join
-    detailfinalschedule ds ON (s.id = ds.id_schedule)        
-where
-    u.id = s.user and s.date_schedule = #{date_from} and u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
-group by user , s.id , ds.shift
-order by user, s.date_schedule asc
-]]>
+
+		select
+		s.id,
+		ds.shift,
+		sum(ds.time) as revision_time,
+		s.date_schedule,
+		s.note,
+		s.editor,
+		s.controller,
+		u.id as user,
+		concat(u.firstname, ' ',
+		u.lastname) AS name_user
+		from
+		user u,
+		schedule s
+		left join
+		detailfinalschedule ds ON (s.id = ds.id_schedule)
+		where
+		u.id = s.user
+		and s.date_schedule = #{date_from} and u.status <![CDATA[<>]]>
+		'LICENZIATO' and u.status <![CDATA[<>]]>
+		'SOSPESO'
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like #{my_full_text_search} or
+			u.lastname
+			like
+			#{my_full_text_search})
+		</if>
+
+
+		group by user , s.id , ds.shift
+		order by user, s.date_schedule asc
+
 	</select>
 
 

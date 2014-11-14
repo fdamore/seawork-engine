@@ -46,13 +46,13 @@ public interface ISchedule {
 
 	public void saveOrUpdateSchedule(Schedule currentSchedule);
 
-	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid);
+	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
 
 	public List<Schedule> selectAggregateSchedulersProgram(Date initial_date, Date final_date, String full_text_search);
 
-	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid);
+	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 
-	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date);
+	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
 
 	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date, String my_full_text_search);
 

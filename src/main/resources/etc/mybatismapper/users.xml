@@ -168,9 +168,10 @@
 		u order by u.status asc
 	</select>
 
-	<select id="selectWorkerPerson" resultType="org.uario.seaworkengine.model.Person">
-	<![CDATA[
-		SELECT 
+	<select id="selectWorkerPerson" resultType="org.uario.seaworkengine.model.Person"
+		parameterType="map">
+
+		SELECT
 		u.id,
 		u.enabled,
 		u.email,
@@ -199,11 +200,21 @@
 		u.npass,
 		u.provincia,
 		u.status
-		FROM user u 		
+		FROM user u
 		WHERE
-		u.status <> 'LICENZIATO' and u.status <> 'SOSPESO'
+		u.status <![CDATA[<>]]>
+		'LICENZIATO' and u.status <![CDATA[<>]]>
+		'SOSPESO'
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like #{my_full_text_search} or
+			u.lastname
+			like
+			#{my_full_text_search})
+		</if>
+
 		order by u.status asc
-		]]>
+
 
 	</select>
 

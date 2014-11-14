@@ -55,10 +55,11 @@ public interface PersonDAO extends UserDetailsService {
 
 	/**
 	 * List all worker persons
+	 * @param full_text_search TODO
 	 *
 	 * @return Return a list of worker persons
 	 */
-	public List<Person> listWorkerPersons();
+	public List<Person> listWorkerPersons(String full_text_search);
 
 	/**
 	 * Load a person

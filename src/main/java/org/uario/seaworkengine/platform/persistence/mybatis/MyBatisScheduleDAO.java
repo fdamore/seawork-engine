@@ -205,7 +205,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createDaySchedule", day_schedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateDaySchedule", day_schedule);
 
 		}
@@ -218,22 +219,12 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}
 
-	}
-
-	@Override
-	public List<Schedule> selectAggregateSchedulersProgram(final Date firstDateInGrid) {
-		MyBatisScheduleDAO.logger.info("selectSchedulers..");
-
-		final HashMap<String, Date> map = new HashMap<String, Date>();
-		map.put("date_from", firstDateInGrid);
-
-		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleByDateProgram", map);
-		return list;
 	}
 
 	@Override
@@ -256,25 +247,57 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<Schedule> selectAggregateSchedulersRevision(final Date firstDateInGrid) {
+	public List<Schedule> selectAggregateSchedulersProgram(final Date firstDateInGrid, final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
-		final HashMap<String, Date> map = new HashMap<String, Date>();
-		map.put("date_from", firstDateInGrid);
+		// set like
+		String my_full_text_search = null;
+		if (full_text_search != null) {
+			my_full_text_search = "%" + full_text_search + "%";
+		}
 
-		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleByDateRevision", map);
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date_from", firstDateInGrid);
+		map.put("my_full_text_search", my_full_text_search);
+
+		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleByDateProgram", map);
 		return list;
 	}
 
 	@Override
-	public List<Schedule> selectAggregateSchedulersRevision(final Date initial_date, final Date final_date) {
+	public List<Schedule> selectAggregateSchedulersRevision(final Date initial_date, final Date final_date, final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
-		final HashMap<String, Date> map = new HashMap<String, Date>();
+		// set like
+		String my_full_text_search = null;
+		if (full_text_search != null) {
+			my_full_text_search = "%" + full_text_search + "%";
+		}
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", initial_date);
 		map.put("date_to", final_date);
+		map.put("my_full_text_search", my_full_text_search);
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleRevision", map);
+		return list;
+	}
+
+	@Override
+	public List<Schedule> selectAggregateSchedulersRevision(final Date firstDateInGrid, final String full_text_search) {
+		MyBatisScheduleDAO.logger.info("selectSchedulers..");
+
+		// set like
+		String my_full_text_search = null;
+		if (full_text_search != null) {
+			my_full_text_search = "%" + full_text_search + "%";
+		}
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date_from", firstDateInGrid);
+		map.put("my_full_text_search", my_full_text_search);
+
+		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleByDateRevision", map);
 		return list;
 	}
 
