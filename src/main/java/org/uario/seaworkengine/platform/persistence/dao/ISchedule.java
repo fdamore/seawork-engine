@@ -34,6 +34,8 @@ public interface ISchedule {
 
 	public void removeDayScheduleUserSuspended(Integer idUser, Date initialDate, Date finalDate);
 
+	public void removeSchedule(Date date_scheduler, Integer id_user);
+
 	public void removeScheduleUserFired(Integer idUser, Date firedDate);
 
 	public void removeScheduleUserSuspended(Integer idUser, Date initialDate, Date finalDate);
@@ -46,13 +48,13 @@ public interface ISchedule {
 
 	public void saveOrUpdateSchedule(Schedule currentSchedule);
 
-	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
-
 	public List<Schedule> selectAggregateSchedulersProgram(Date initial_date, Date final_date, String full_text_search);
 
-	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
+	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
 
 	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
+
+	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 
 	public List<DaySchedule> selectDaySchedulers(Date initial_date, Date final_date, String my_full_text_search);
 

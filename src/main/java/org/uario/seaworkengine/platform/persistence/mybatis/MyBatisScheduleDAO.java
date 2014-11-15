@@ -147,6 +147,17 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
+	public void removeSchedule(final Date date_scheduler, final Integer id_user) {
+		MyBatisScheduleDAO.logger.info("removeSchedule");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date_schedule", date_scheduler);
+		map.put("id_user", id_user);
+
+		this.getSqlSession().delete("schedule.removeScheduleByDateAndUser", map);
+	}
+
+	@Override
 	public void removeScheduleUserFired(final Integer idUser, final Date firedDate) {
 		MyBatisScheduleDAO.logger.info("remove schedule user fired");
 
@@ -205,8 +216,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createDaySchedule", day_schedule);
 
-		}
-		else {
+		} else {
 			this.getSqlSession().update("schedule.updateDaySchedule", day_schedule);
 
 		}
@@ -219,8 +229,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		}
-		else {
+		} else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}

@@ -34,6 +34,17 @@
 		#{date_schedule};
 	</select>
 
+	<delete id="removeScheduleByDateAndUser" parameterType="map">
+		DELETE FROM
+		schedule
+		WHERE
+		user = #{id_user} and
+		date_schedule =
+		#{date_schedule};
+	</delete>
+
+
+
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 
