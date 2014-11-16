@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="statistics">
+
+	<cache />
+
+
+
+	<select id="selectAvgShiftByUser" resultType="org.uario.seaworkengine.statistics.AverageShift"
+		parameterType="map">
+		select shift, avg(dis.time) as avg_program_time
+		from schedule s,
+		detailinitialschedule dis
+		where s.user = #{id_user} and s.id =
+		dis.id_schedule and s.date_schedule <![CDATA[<=]]>
+		#{date_schedule}
+		group by dis.shift order by avg_program_time asc
+
+	</select>
+</mapper>

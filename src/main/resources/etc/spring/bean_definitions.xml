@@ -168,6 +168,12 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+	<bean id="myStatisticsDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisStatisticsDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 
 
