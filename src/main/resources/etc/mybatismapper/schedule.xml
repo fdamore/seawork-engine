@@ -35,7 +35,8 @@
 	</select>
 
 	<delete id="removeScheduleByDateAndUser" parameterType="map">
-		DELETE FROM
+		DELETE
+		FROM
 		schedule
 		WHERE
 		user = #{id_user} and
@@ -313,6 +314,32 @@
 		= #{shift};
 	</delete>
 
+	<delete id="removeAllDetailFinalScheduleByScheduleAndShift"
+		parameterType="map">
+		DELETE FROM
+		detailfinalschedule
+		WHERE id_schedule =
+		#{id_schedule} and shift
+		= #{shift};
+	</delete>
+	
+	
+	<delete id="removeAllDetailInitialScheduleBySchedule"
+		parameterType="map">
+		DELETE FROM
+		detailinitialschedule
+		WHERE id_schedule =
+		#{id_schedule};
+	</delete>
+
+	<delete id="removeAllDetailFinalScheduleBySchedule"
+		parameterType="map">
+		DELETE FROM
+		detailfinalschedule
+		WHERE id_schedule =
+		#{id_schedule};
+	</delete>
+
 	<delete id="removeScheduleUserSuspended" parameterType="map">
 		<![CDATA[
 		DELETE FROM
@@ -348,14 +375,7 @@
 	</delete>
 
 
-	<delete id="removeAllDetailFinalScheduleByScheduleAndShift"
-		parameterType="map">
-		DELETE FROM
-		detailfinalschedule
-		WHERE id_schedule =
-		#{id_schedule} and shift
-		= #{shift};
-	</delete>
+
 
 
 

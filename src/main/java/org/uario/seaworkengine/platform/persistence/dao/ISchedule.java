@@ -26,7 +26,11 @@ public interface ISchedule {
 
 	public Schedule loadSchedule(Date date_scheduler, Integer id_user);
 
+	public void removeAllDetailFinalScheduleBySchedule(Integer id_schedule);
+
 	public void removeAllDetailFinalScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
+
+	public void removeAllDetailInitialScheduleBySchedule(Integer id_schedule);
 
 	public void removeAllDetailInitialScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 

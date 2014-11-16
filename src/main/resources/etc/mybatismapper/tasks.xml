@@ -49,15 +49,20 @@
 		#{id_usertask};
 
 	</update>
-	
-	<select id="getDefault" parameterType="Integer" resultType="org.uario.seaworkengine.model.UserTask">
-	
-		SELECT id, id_user, id_usertask, task_default
-		FROM user_usertask
-		WHERE task_default = 1 and id_user=#{id_user};
-	
+
+	<select id="getDefault" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.UserTask">
+
+		SELECT t.id,
+		t.code,
+		t.description
+		FROM user_usertask ut, usertask t
+		WHERE
+		ut.task_default = 1 and ut.id_user = #{id_user} and t.id =
+		ut.id_usertask
+
 	</select>
-		
+
 	<update id="removeAllDefault" parameterType="map">
 
 		UPDATE user_usertask

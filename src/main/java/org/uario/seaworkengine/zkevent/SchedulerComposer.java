@@ -22,8 +22,10 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.statistics.AverageShift;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -55,153 +57,155 @@ import org.zkoss.zul.Timebox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
-	private static final int				DAYS_BEFORE_TODAY_IN_PROGRAM	= -1;
+	private static final int DAYS_BEFORE_TODAY_IN_PROGRAM = -1;
 
-	private static final int				DAYS_IN_GRID_PREPROCESSING		= 31;
+	private static final int DAYS_IN_GRID_PREPROCESSING = 31;
 
-	private static final int				DAYS_IN_GRID_PROGRAM			= 5;
+	private static final int DAYS_IN_GRID_PROGRAM = 5;
 
-	private static final int				DAYS_TO_SHOW_IN_REVIEW			= 2;
+	private static final int DAYS_TO_SHOW_IN_REVIEW = 2;
 
 	// format
-	private static final SimpleDateFormat	formatter_dd					= new SimpleDateFormat("dd");
+	private static final SimpleDateFormat formatter_dd = new SimpleDateFormat("dd");
 
-	private static final SimpleDateFormat	formatter_ddmmm					= new SimpleDateFormat("dd/MMM");
+	private static final SimpleDateFormat formatter_ddmmm = new SimpleDateFormat("dd/MMM");
 
-	private static final SimpleDateFormat	formatter_e						= new SimpleDateFormat("E");
-	private static final SimpleDateFormat	formatter_eeee					= new SimpleDateFormat("EEEE");
-	private static final SimpleDateFormat	formatter_scheduler_info		= new SimpleDateFormat("EEEE dd MMM");
+	private static final SimpleDateFormat formatter_e = new SimpleDateFormat("E");
+	private static final SimpleDateFormat formatter_eeee = new SimpleDateFormat("EEEE");
+	private static final SimpleDateFormat formatter_scheduler_info = new SimpleDateFormat("EEEE dd MMM");
 	/**
 	 *
 	 */
-	private static final long				serialVersionUID				= 1L;
-	private ConfigurationDAO				configurationDAO;
-	private Schedule						currentSchedule;
+	private static final long serialVersionUID = 1L;
+	private ConfigurationDAO configurationDAO;
+	private Schedule currentSchedule;
 	@Wire
-	private Datebox							date_init_scheduler;
+	private Datebox date_init_scheduler;
 
 	@Wire
-	private Datebox							date_init_scheduler_review;
+	private Datebox date_init_scheduler_review;
 
 	@Wire
-	private Datebox							day_after_config;
+	private Datebox day_after_config;
 
 	@Wire
-	private Popup							day_definition_popup;
+	private Popup day_definition_popup;
 
 	/**
 	 * First date in grid
 	 */
-	private Date							firstDateInGrid;
+	private Date firstDateInGrid;
 
 	@Wire
-	private Textbox							full_text_search;
+	private Textbox full_text_search;
 
 	@Wire
-	private Listbox							grid_scheduler;
+	private Listbox grid_scheduler;
 
 	@Wire
-	private Listbox							grid_scheduler_day;
+	private Listbox grid_scheduler_day;
 
 	@Wire
-	private Listbox							grid_scheduler_review;
+	private Listbox grid_scheduler_review;
 
 	@Wire
-	private A								label_date_popup;
+	private A label_date_popup;
 
 	// initial program and revision
-	private List<DetailInitialSchedule>		list_details_program;
-	private List<DetailFinalSchedule>		list_details_review;
+	private List<DetailInitialSchedule> list_details_program;
+	private List<DetailFinalSchedule> list_details_review;
 
 	@Wire
-	private Listbox							listbox_program;
+	private Listbox listbox_program;
 
 	@Wire
-	private Listbox							listbox_review;
+	private Listbox listbox_review;
 
-	private final Logger					logger							= Logger.getLogger(SchedulerComposer.class);
-
-	@Wire
-	private Textbox							note;
+	private final Logger logger = Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
-	private Textbox							note_review;
-
-	private PersonDAO						personDAO;
+	private Textbox note;
 
 	@Wire
-	private Div								preprocessing_div;
+	private Textbox note_review;
+
+	private PersonDAO personDAO;
 
 	@Wire
-	private Comboitem						preprocessing_item;
+	private Div preprocessing_div;
 
 	@Wire
-	private Div								program_div;
+	private Comboitem preprocessing_item;
 
 	@Wire
-	private Comboitem						program_item;
+	private Div program_div;
 
 	@Wire
-	private Combobox						program_task;
+	private Comboitem program_item;
 
 	@Wire
-	private Intbox							program_time;
+	private Combobox program_task;
 
 	@Wire
-	private Div								review_div;
+	private Intbox program_time;
 
 	@Wire
-	private Comboitem						review_item;
+	private Div review_div;
 
 	@Wire
-	private Combobox						review_task;
+	private Comboitem review_item;
 
 	@Wire
-	private Intbox							review_time;
-
-	private ISchedule						scheduleDAO;
+	private Combobox review_task;
 
 	@Wire
-	private A								scheduler_label;
+	private Intbox review_time;
+
+	private ISchedule scheduleDAO;
 
 	@Wire
-	private A								scheduler_label_review;
+	private A scheduler_label;
 
 	@Wire
-	private Combobox						scheduler_type_selector;
+	private A scheduler_label_review;
+
+	@Wire
+	private Combobox scheduler_type_selector;
 
 	// selected day
-	private Integer							selectedDay;
+	private Integer selectedDay;
 
 	// selected shift
-	private Integer							selectedShift;
+	private Integer selectedShift;
 
 	/**
 	 * User selected to schedule
 	 */
-	private Integer							selectedUser;
+	private Integer selectedUser;
 
-	private IShiftCache						shift_cache;
-
-	@Wire
-	private Popup							shift_definition_popup;
+	private IShiftCache shift_cache;
 
 	@Wire
-	private Popup							shift_definition_popup_review;
+	private Popup shift_definition_popup;
 
 	@Wire
-	private Combobox						shift_popup;
+	private Popup shift_definition_popup_review;
 
 	@Wire
-	private Intbox							shows_rows;
-
-	private TasksDAO						taskDAO;
+	private Combobox shift_popup;
 
 	@Wire
-	private Timebox							time_from;
+	private Intbox shows_rows;
+
+	private IStatistics statisticDAO;
+
+	private TasksDAO taskDAO;
 
 	@Wire
-	private Timebox							time_to;
+	private Timebox time_from;
+
+	@Wire
+	private Timebox time_to;
 
 	@Listen("onClick= #add_program_item")
 	public void addProgramItem() {
@@ -270,7 +274,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// update program list
 		this.list_details_program.add(new_item);
-		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(
+				this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
@@ -353,7 +358,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// update program list
 		this.list_details_review.add(new_item);
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(
+				this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
 
@@ -383,22 +389,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
 
 				if (dayScheduleDate.after(to_day)) {
-					Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK,
+							Messagebox.EXCLAMATION);
 					return;
 				}
 
 				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-					Messagebox
-							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE",
+							Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
-				this.scheduleDAO.removeDayScheduleUserSuspended(daySchedule.getId_user(), dayScheduleDate, dayAfterConfig);
+				this.scheduleDAO.removeDayScheduleUserSuspended(daySchedule.getId_user(), dayScheduleDate,
+						dayAfterConfig);
 			} else {
 				// Remove only current day schedule
-				this.scheduleDAO.removeDayScheduleUserSuspended(daySchedule.getId_user(), dayScheduleDate, dayScheduleDate);
+				this.scheduleDAO.removeDayScheduleUserSuspended(daySchedule.getId_user(), dayScheduleDate,
+						dayScheduleDate);
 			}
 
 			// refresh grid
@@ -534,6 +543,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 		this.personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
 
@@ -548,7 +558,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				SchedulerComposer.this.shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
 
 				// set preprocessing item in combo selection
-				SchedulerComposer.this.scheduler_type_selector.setSelectedItem(SchedulerComposer.this.preprocessing_item);
+				SchedulerComposer.this.scheduler_type_selector
+				.setSelectedItem(SchedulerComposer.this.preprocessing_item);
 
 				SchedulerComposer.this.defineSchedulerType();
 
@@ -648,8 +659,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param schedule
 	 */
-	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule,
-			final boolean program) {
+	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar,
+			final Schedule schedule, final boolean program) {
 
 		ItemRowSchedule itemsRow = null;
 
@@ -813,7 +824,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK,
+					Messagebox.ERROR);
 			return;
 		}
 
@@ -835,7 +847,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set label
 		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
-				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: "
+				+ SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
@@ -844,8 +857,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
-			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(),
-					this.selectedShift);
+			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(
+					this.currentSchedule.getId(), this.selectedShift);
 
 		} else {
 			// if we haven't information about schedule
@@ -858,7 +871,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(
+				this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
@@ -913,7 +927,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK,
+					Messagebox.ERROR);
 			return;
 		}
 
@@ -935,7 +950,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set label
 		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: "
-				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: "
+				+ SchedulerComposer.this.selectedShift);
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
@@ -944,7 +960,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
-			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(
+					this.currentSchedule.getId(), this.selectedShift);
 
 		} else {
 			// if we haven't information about schedule
@@ -957,7 +974,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(
+				this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
 
@@ -1008,7 +1026,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.currentSchedule != null) {
-			this.scheduleDAO.removeAllDetailInitialScheduleByScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+			this.scheduleDAO.removeAllDetailInitialScheduleByScheduleAndShift(this.currentSchedule.getId(),
+					this.selectedShift);
 
 			// refresh grid
 			this.setupGlobalSchedulerGridForShift();
@@ -1037,7 +1056,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(
+				this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
@@ -1054,7 +1074,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.currentSchedule != null) {
-			this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+			this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(this.currentSchedule.getId(),
+					this.selectedShift);
 
 			// refresh grid
 			this.setupGlobalSchedulerGridForShiftReview();
@@ -1084,7 +1105,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(
+				this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
 
@@ -1154,7 +1176,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final int count = (int) ((to_day.getTime() - date_scheduled.getTime()) / (1000 * 60 * 60 * 24));
 
 			if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE",
+						Messagebox.OK, Messagebox.EXCLAMATION);
 				return;
 			}
 
@@ -1207,7 +1230,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		this.scheduleDAO.saveListDetailInitialScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_program);
+		this.scheduleDAO.saveListDetailInitialScheduler(this.currentSchedule.getId(), this.selectedShift,
+				this.list_details_program);
 
 		// refresh grid
 		this.setupGlobalSchedulerGridForShift();
@@ -1275,7 +1299,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_review);
+		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift,
+				this.list_details_review);
 
 		// refresh grid
 		this.setupGlobalSchedulerGridForShiftReview();
@@ -1476,6 +1501,58 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// if the shift is an absence, delete all schedule
 		if (!shift.getPresence().booleanValue()) {
 			this.scheduleDAO.removeSchedule(current_date_scheduled, row_item.getUser());
+		} else {
+
+			final UserTask task_default = this.taskDAO.getDefault(row_item.getUser());
+			if (task_default == null) {
+				return;
+			}
+
+			final List<AverageShift> list_averages = this.statisticDAO.getAverageForShift(row_item.getUser(),
+					current_date_scheduled);
+
+			// get a shift
+			Integer my_shift = -1;
+			if ((list_averages == null) || (list_averages.size() == 0)) {
+
+				my_shift = 1 + (int) (Math.random() * 4);
+
+			} else {
+				my_shift = list_averages.get(0).getShift();
+			}
+
+			Schedule schedule = this.scheduleDAO.loadSchedule(current_date_scheduled, row_item.getUser());
+			if (schedule == null) {
+				// get current person as editor
+				final Person current_person = (Person) SecurityContextHolder.getContext().getAuthentication()
+						.getPrincipal();
+
+				schedule = new Schedule();
+				schedule.setDate_schedule(current_date_scheduled);
+				schedule.setUser(row_item.getUser());
+				schedule.setEditor(current_person.getId());
+
+				this.scheduleDAO.saveOrUpdateSchedule(schedule);
+
+				// get info just stored
+				schedule = this.scheduleDAO.loadSchedule(current_date_scheduled, row_item.getUser());
+			}
+
+			final List<DetailInitialSchedule> details = new ArrayList<DetailInitialSchedule>();
+
+			final DetailInitialSchedule item = new DetailInitialSchedule();
+			item.setId_schedule(schedule.getId());
+			item.setShift(my_shift);
+			item.setTask(task_default.getId());
+			item.setTime(6);
+			details.add(item);
+
+			// remove all detail in any shift
+			this.scheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+
+			// create detail
+			this.scheduleDAO.createDetailInitialSchedule(item);
+
 		}
 
 	}
@@ -1496,7 +1573,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if ((this.full_text_search.getValue() == null) || this.full_text_search.getValue().equals("")) {
 			list = this.scheduleDAO.selectDaySchedulers(this.firstDateInGrid, final_date, null);
 		} else {
-			list = this.scheduleDAO.selectDaySchedulers(this.firstDateInGrid, final_date, this.full_text_search.getValue());
+			list = this.scheduleDAO.selectDaySchedulers(this.firstDateInGrid, final_date,
+					this.full_text_search.getValue());
 		}
 
 		final ArrayList<RowDaySchedule> list_row = new ArrayList<RowDaySchedule>();
@@ -1745,8 +1823,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		} else {
 			text_search_person = this.full_text_search.getValue();
 		}
-		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program,
-				text_search_person);
+		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program,
+				final_date_program, text_search_person);
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -1784,7 +1862,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set correct day
 			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
-			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule, true);
+			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule,
+					true);
 
 			if (day_on_current_calendar == 3) {
 				currentRow.setItem_3(itemsRow);
@@ -1801,8 +1880,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// get info
-		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(this.firstDateInGrid, final_date_program,
-				text_search_person);
+		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(this.firstDateInGrid,
+				final_date_program, text_search_person);
 
 		// under revision
 		for (int i = 0; i < list_revision.size(); i++) {
@@ -1912,7 +1991,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// get info on program
-		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(date_schedule, text_search_person);
+		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(date_schedule,
+				text_search_person);
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -1943,7 +2023,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// get info on program
-		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(date_schedule, text_search_person);
+		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(date_schedule,
+				text_search_person);
 
 		for (int i = 0; i < list_program.size(); i++) {
 
