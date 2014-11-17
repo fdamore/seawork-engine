@@ -96,6 +96,9 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	@XmlTransient
 	private String				password;
 
+	@XmlTransient
+	private String				personal_code;
+
 	private String				phone;
 
 	@XmlTransient
@@ -284,6 +287,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	@Override
 	public String getPassword() {
 		return this.password;
+	}
+
+	public String getPersonal_code() {
+		return this.personal_code;
 	}
 
 	public String getPhone() {
@@ -506,6 +513,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setPassword(final String password) {
 		this.password = password;
+	}
+
+	public void setPersonal_code(final String personal_code) {
+		this.personal_code = personal_code;
 	}
 
 	public void setPhone(final String phone) {

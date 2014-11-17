@@ -170,6 +170,11 @@
 											id="employee_identification_user" />
 									</row>
 
+									<row>
+										<label value="Codice Personale:"/>
+										<textbox id="personal_code_user"/>
+									</row>
+
 
 									<row>
 										<label

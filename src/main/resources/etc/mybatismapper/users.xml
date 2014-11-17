@@ -39,7 +39,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM
 		user u where u.authority =
 		'ROLE_SUPERVISOR' or u.authority =
@@ -79,7 +80,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM
 		user
 		u
@@ -118,7 +120,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM
 		user
 		u
@@ -162,7 +165,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM
 		user
 		u order by u.status asc
@@ -199,7 +203,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM user u
 		WHERE
 		u.status <![CDATA[<>]]>
@@ -249,7 +254,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -296,7 +302,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM
 		user
 		u
@@ -337,7 +344,8 @@
 		u.ncfl,
 		u.npass,
 		u.provincia,
-		u.status
+		u.status,
+		u.personal_code
 		FROM
 		user
 		u
@@ -370,7 +378,8 @@
 		current_position,
 		department,
 		npass,
-		nbudge
+		nbudge,
+		personal_code
 		)
 		VALUES
 		(#{email},
@@ -399,7 +408,8 @@
 		#{current_position},
 		#{department},
 		#{npass},
-		#{nbudge})
+		#{nbudge},
+		#{personal_code})
 	</insert>
 
 	<delete id="deletePerson" parameterType="int">
@@ -445,7 +455,8 @@
 		npass =
 		#{npass},
 		provincia = #{provincia},
-		status = #{status}
+		status = #{status},
+		personal_code = #{personal_code}
 		WHERE id =
 		#{id}
 	</update>

@@ -171,6 +171,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	Person						person_selected		= null;
 
+	@Wire
+	private Textbox				personal_code_user;
+
 	// the dao used for db interaction
 	private PersonDAO			personDao;
 
@@ -263,6 +266,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		person.setCity(this.city_user.getValue());
 		person.setEmail(mail);
 		person.setFirstname(this.firstname_user.getValue());
+		person.setPersonal_code(this.personal_code_user.getValue());
 		person.setLastname(this.lastname_user.getValue());
 		person.setPassword(this.password_user.getValue());
 		person.setPhone(this.phone_user.getValue());
@@ -447,6 +451,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.row_password_user_retype.setVisible(false);
 
 		this.firstname_user.setValue(person_selected.getFirstname());
+		this.personal_code_user.setValue(person_selected.getPersonal_code());
 		this.lastname_user.setValue(person_selected.getLastname());
 		this.city_user.setValue(person_selected.getCity());
 		this.address_user.setValue(person_selected.getAddress());
@@ -560,6 +565,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		}
 
 		this.person_selected.setFirstname(this.firstname_user.getValue());
+		this.person_selected.setPersonal_code(this.personal_code_user.getValue());
 		this.person_selected.setLastname(this.lastname_user.getValue());
 		this.person_selected.setCity(this.city_user.getValue());
 		this.person_selected.setAddress(this.address_user.getValue());
@@ -670,6 +676,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.ncfl_user.setValue("");
 		this.department_user.setValue("");
 		this.current_position_user.setValue("");
+		this.personal_code_user.setValue("");
 
 		this.nbudje_user.setValue("");
 
