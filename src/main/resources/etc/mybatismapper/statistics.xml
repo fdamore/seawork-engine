@@ -7,7 +7,7 @@
 
 
 
-	<select id="selectAvgShiftByUser" resultType="org.uario.seaworkengine.statistics.AverageShift"
+	<select id="selectAvgShiftByUserProgram" resultType="org.uario.seaworkengine.statistics.AverageShift"
 		parameterType="map">
 		select shift, avg(dis.time) as avg_program_time
 		from schedule s,
@@ -18,4 +18,17 @@
 		group by dis.shift order by avg_program_time asc
 
 	</select>
+
+	<select id="selectAvgShiftByUserReviewd" resultType="org.uario.seaworkengine.statistics.AverageShift"
+		parameterType="map">
+		select shift, avg(dis.time) as avg_program_time
+		from schedule s,
+		detailfinalschedule dis
+		where s.user = #{id_user} and s.id =
+		dis.id_schedule and s.date_schedule <![CDATA[<=]]>
+		#{date_schedule}
+		group by dis.shift order by avg_program_time asc
+
+	</select>
+
 </mapper>
