@@ -297,7 +297,7 @@
 
 									<row>
 										<label
-											value="Licenze di guida:">
+											value="Tipo patenti:">
 										</label>
 										<textbox
 											id="driving_license_user" />
