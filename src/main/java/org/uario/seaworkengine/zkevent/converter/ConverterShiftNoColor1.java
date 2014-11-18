@@ -1,10 +1,8 @@
 package org.uario.seaworkengine.zkevent.converter;
 
-import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
-import org.zkoss.zul.Toolbarbutton;
 
 public class ConverterShiftNoColor1 implements TypeConverter {
 
@@ -24,15 +22,6 @@ public class ConverterShiftNoColor1 implements TypeConverter {
 		}
 
 		final ItemRowSchedule item_schedule = (ItemRowSchedule) arg0;
-
-		// after define color.... check if disabled
-		final String status = item_schedule.getRowSchedule().getUser_status();
-		if (status != null) {
-			final Toolbarbutton button = (Toolbarbutton) arg1;
-			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
-				button.setDisabled(true);
-			}
-		}
 
 		// return info
 		if (item_schedule.getAnchor1() == null) {

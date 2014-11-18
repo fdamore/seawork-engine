@@ -57,6 +57,8 @@ import org.zkoss.zul.Timebox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
+	private static final int				DAY_REVIEW_IN_PROGRAM_SHIFT		= 1;
+
 	private static final int				DAYS_BEFORE_TODAY_IN_PROGRAM	= -1;
 
 	private static final int				DAYS_IN_GRID_PREPROCESSING		= 31;
@@ -440,7 +442,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review;onClick = #refresh_command;onOK = #shows_rows, #full_text_search")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review;onOK = #shows_rows, #full_text_search")
 	public void defineSchedulerType() {
 
 		if (this.scheduler_type_selector.getSelectedItem() == null) {
@@ -667,7 +669,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		} else {
 
-			if ((day == 1) || (day == 2)) {
+			if (day == 1) {
 				version_program = false;
 			} else {
 				version_program = true;
@@ -1805,7 +1807,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// setup initial day for program
 		final Calendar initial_calendar = Calendar.getInstance();
 		initial_calendar.setTime(this.firstDateInGrid);
-		initial_calendar.add(Calendar.DAY_OF_YEAR, 2);
+		initial_calendar.add(Calendar.DAY_OF_YEAR, SchedulerComposer.DAY_REVIEW_IN_PROGRAM_SHIFT);
 		final Date initial_date_program = initial_calendar.getTime();
 
 		// take info about person
@@ -1838,6 +1840,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				list_row.add(currentRow);
 
 				// set items for current row
+				currentRow.setItem_2(new ItemRowSchedule(currentRow, schedule));
 				currentRow.setItem_3(new ItemRowSchedule(currentRow, schedule));
 				currentRow.setItem_4(new ItemRowSchedule(currentRow, schedule));
 				currentRow.setItem_5(new ItemRowSchedule(currentRow, schedule));
@@ -1856,6 +1859,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule, true);
 
+			if (day_on_current_calendar == 2) {
+				currentRow.setItem_2(itemsRow);
+			}
+
 			if (day_on_current_calendar == 3) {
 				currentRow.setItem_3(itemsRow);
 			}
@@ -1871,7 +1878,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// get info
-		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(this.firstDateInGrid, final_date_program,
+		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(this.firstDateInGrid, initial_date_program,
 				text_search_person);
 
 		// under revision
@@ -1892,7 +1899,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// set items for current row
 				myrow.setItem_1(new ItemRowSchedule(myrow, schedule));
-				myrow.setItem_2(new ItemRowSchedule(myrow, schedule));
 
 				// set user type for available
 				if (map_status.containsKey(schedule.getUser())) {
@@ -1910,10 +1916,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			if (day_on_current_calendar == 1) {
 				myrow.setItem_1(itemsRow);
-			}
-
-			if (day_on_current_calendar == 2) {
-				myrow.setItem_2(itemsRow);
 			}
 
 		}
