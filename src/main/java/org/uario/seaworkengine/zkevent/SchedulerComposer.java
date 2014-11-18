@@ -365,6 +365,122 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Set the day with correct shift.
+	 *
+	 * @param row_item
+	 *            the row
+	 * @param shift
+	 *            the id shift to set
+	 * @param offset
+	 *            the day after selected day. for current day use 0
+	 */
+	private void assignShiftFromDayScheduler(final RowDaySchedule row_item, final UserShift shift, final int offset) {
+
+		DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay + offset);
+		if (daySchedule == null) {
+			daySchedule = new DaySchedule();
+		}
+		// reset day schedule
+		final Date current_date_scheduled = this.getDateScheduled(this.selectedDay + offset);
+
+		daySchedule.setDate_scheduled(current_date_scheduled);
+		daySchedule.setId_user(row_item.getUser());
+		daySchedule.setShift(shift.getId());
+
+		this.scheduleDAO.saveOrUpdateDaySchedule(daySchedule);
+
+		// if the shift is an absence, delete all schedule
+		if (!shift.getPresence().booleanValue()) {
+			this.scheduleDAO.removeSchedule(current_date_scheduled, row_item.getUser());
+		} else {
+
+			final UserTask task_default = this.taskDAO.getDefault(row_item.getUser());
+			if (task_default == null) {
+				return;
+			}
+
+			// get info from last shift
+			final Calendar calendar = Calendar.getInstance();
+			calendar.setTime(current_date_scheduled);
+			calendar.add(Calendar.DAY_OF_YEAR, -1);
+			final Integer last_shift = this.scheduleDAO.getLastShift(calendar.getTime());
+
+			final List<AverageShift> list_averages = this.statisticDAO.getAverageForShift(row_item.getUser(), current_date_scheduled);
+
+			// get a shift - 12 after last shift
+			Integer my_shift = -1;
+			if ((list_averages == null) || (list_averages.size() == 0)) {
+
+				int min = 1;
+				if (((last_shift != null) && (last_shift == 3))) {
+					min = 2;
+				} else if (((last_shift != null) && (last_shift == 4))) {
+					min = 3;
+				}
+
+				my_shift = min + (int) (Math.random() * 4);
+
+			} else {
+				if ((last_shift == null) || (last_shift == 1) || (last_shift == 2)) {
+					my_shift = list_averages.get(0).getShift();
+				}
+
+				else {
+
+					// set current shift
+					my_shift = list_averages.get(0).getShift();
+
+					final int cutoff = last_shift - 2;
+
+					for (int i = 0; i < list_averages.size(); i++) {
+
+						final AverageShift current_shift = list_averages.get(i);
+						if (current_shift.getShift() > cutoff) {
+							my_shift = list_averages.get(i).getShift();
+							break;
+						}
+
+					}
+
+				}
+			}
+
+			Schedule schedule = this.scheduleDAO.loadSchedule(current_date_scheduled, row_item.getUser());
+			if (schedule == null) {
+				// get current person as editor
+				final Person current_person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+				schedule = new Schedule();
+				schedule.setDate_schedule(current_date_scheduled);
+				schedule.setUser(row_item.getUser());
+				schedule.setEditor(current_person.getId());
+
+				this.scheduleDAO.saveOrUpdateSchedule(schedule);
+
+				// get info just stored
+				schedule = this.scheduleDAO.loadSchedule(current_date_scheduled, row_item.getUser());
+			}
+
+			final List<DetailInitialSchedule> details = new ArrayList<DetailInitialSchedule>();
+
+			final DetailInitialSchedule item = new DetailInitialSchedule();
+			item.setId_schedule(schedule.getId());
+			item.setShift(my_shift);
+			item.setTask(task_default.getId());
+			item.setTime(6);
+			details.add(item);
+
+			// remove all detail in any shift
+			this.scheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+
+			// create detail
+			this.scheduleDAO.createDetailInitialSchedule(item);
+
+		}
+
+	}
+
 	@Listen("onClick = #cancel_day_definition")
 	public void cancelDayConfiguration() {
 
@@ -1145,7 +1261,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (this.day_after_config.getValue() == null) {
 
 			// set only current day
-			this.setShiftInDayScheduler(row_item, shift, 0);
+			this.assignShiftFromDayScheduler(row_item, shift, 0);
 
 		} else {
 
@@ -1169,7 +1285,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			for (int i = 0; i <= count; i++) {
 
 				// set day with offest i
-				this.setShiftInDayScheduler(row_item, shift, i);
+				this.assignShiftFromDayScheduler(row_item, shift, i);
 			}
 
 		}
@@ -1465,88 +1581,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			week_head.setLabel(day_w.toUpperCase());
 			month_head.setLabel(day_m.toUpperCase());
-
-		}
-
-	}
-
-	/**
-	 * Set the day with correct shift.
-	 *
-	 * @param row_item
-	 *            the row
-	 * @param shift
-	 *            the id shift to set
-	 * @param offset
-	 *            the day after selected day. for current day use 0
-	 */
-	private void setShiftInDayScheduler(final RowDaySchedule row_item, final UserShift shift, final int offset) {
-
-		DaySchedule daySchedule = row_item.getDaySchedule(this.selectedDay + offset);
-		if (daySchedule == null) {
-			daySchedule = new DaySchedule();
-		}
-		// reset day schedule
-		final Date current_date_scheduled = this.getDateScheduled(this.selectedDay + offset);
-
-		daySchedule.setDate_scheduled(current_date_scheduled);
-		daySchedule.setId_user(row_item.getUser());
-		daySchedule.setShift(shift.getId());
-
-		this.scheduleDAO.saveOrUpdateDaySchedule(daySchedule);
-
-		// if the shift is an absence, delete all schedule
-		if (!shift.getPresence().booleanValue()) {
-			this.scheduleDAO.removeSchedule(current_date_scheduled, row_item.getUser());
-		} else {
-
-			final UserTask task_default = this.taskDAO.getDefault(row_item.getUser());
-			if (task_default == null) {
-				return;
-			}
-
-			final List<AverageShift> list_averages = this.statisticDAO.getAverageForShift(row_item.getUser(), current_date_scheduled);
-
-			// get a shift
-			Integer my_shift = -1;
-			if ((list_averages == null) || (list_averages.size() == 0)) {
-
-				my_shift = 1 + (int) (Math.random() * 4);
-
-			} else {
-				my_shift = list_averages.get(0).getShift();
-			}
-
-			Schedule schedule = this.scheduleDAO.loadSchedule(current_date_scheduled, row_item.getUser());
-			if (schedule == null) {
-				// get current person as editor
-				final Person current_person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-				schedule = new Schedule();
-				schedule.setDate_schedule(current_date_scheduled);
-				schedule.setUser(row_item.getUser());
-				schedule.setEditor(current_person.getId());
-
-				this.scheduleDAO.saveOrUpdateSchedule(schedule);
-
-				// get info just stored
-				schedule = this.scheduleDAO.loadSchedule(current_date_scheduled, row_item.getUser());
-			}
-
-			final List<DetailInitialSchedule> details = new ArrayList<DetailInitialSchedule>();
-
-			final DetailInitialSchedule item = new DetailInitialSchedule();
-			item.setId_schedule(schedule.getId());
-			item.setShift(my_shift);
-			item.setTask(task_default.getId());
-			item.setTime(6);
-			details.add(item);
-
-			// remove all detail in any shift
-			this.scheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-
-			// create detail
-			this.scheduleDAO.createDetailInitialSchedule(item);
 
 		}
 

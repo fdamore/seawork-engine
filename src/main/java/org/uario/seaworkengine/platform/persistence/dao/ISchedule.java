@@ -14,6 +14,8 @@ public interface ISchedule {
 
 	public void createDetailInitialSchedule(DetailInitialSchedule detail_schedule);
 
+	public Integer getLastShift(Date date_scheduled);
+
 	public List<DaySchedule> loadDaySchedule(Date date_scheduled);
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(Integer id_schedule);
@@ -56,7 +58,7 @@ public interface ISchedule {
 
 	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
 
-	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
+	public List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
 
 	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 

@@ -21,8 +21,22 @@
 		WHERE date_scheduled = #{dt_arg};
 	</select>
 
+	<select id="getLastShiftProgram" parameterType="map" resultType="int">
+		select max(dfs.shift)
+		from detailinitialschedule dfs, schedule s
+		where
+		s.id = dfs.id_schedule and s.date_schedule = #{date_schedule}
+	</select>
 
-
+	<select id="getLastShiftRevision" parameterType="map"
+		resultType="int">
+		select
+		max(dfs.shift)
+		from detailfinalschedule dfs, schedule
+		s
+		where s.id
+		= dfs.id_schedule and s.date_schedule = #{date_schedule}
+	</select>
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
@@ -322,8 +336,8 @@
 		#{id_schedule} and shift
 		= #{shift};
 	</delete>
-	
-	
+
+
 	<delete id="removeAllDetailInitialScheduleBySchedule"
 		parameterType="map">
 		DELETE FROM
