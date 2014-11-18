@@ -25,6 +25,8 @@ public interface ConfigurationDAO {
 
 	public List<String> selectAllStatus();
 
+	public void setShiftAsBreak(final Integer id_usershift);
+
 	public void updateShift(UserShift shift);
 
 	public void updateTask(UserTask task);

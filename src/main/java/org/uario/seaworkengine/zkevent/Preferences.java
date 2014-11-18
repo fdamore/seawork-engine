@@ -439,15 +439,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeShift() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteShift();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteShift();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -460,15 +460,15 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteStatus();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -476,15 +476,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeTask() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -540,6 +540,21 @@ public class Preferences extends SelectorComposer<Component> {
 		this.label_max_meomry.setValue(max_memory_info);
 		this.label_free_meomry.setValue(free_memory_info);
 		this.label_allocated_meomry.setValue(allocated_memory_info);
+	}
+
+	@Listen("onClick = #sw_setBreakShift")
+	public void sw_setBreakShift() {
+		if (this.sw_list_shift.getSelectedItem() == null) {
+			return;
+		}
+
+		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
+
+		this.configurationDao.setShiftAsBreak(shift.getId());
+
+		// Refresh list shift
+		this.refreshShiftList();
+
 	}
 
 	@Listen("onClick = #update_doc_repo")

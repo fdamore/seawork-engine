@@ -20,7 +20,7 @@
 		SELECT id,
 		code,
 		description,
-		presence, forceable
+		presence, forceable, break_shift
 		FROM usershift
 		ORDER BY description;
 	</select>
@@ -50,9 +50,9 @@
 		usershift
 		(code,
 		description,
-		presence, forceable)
+		presence, forceable, break_shift)
 		VALUES
-		(#{code},#{description},#{presence},#{forceable});
+		(#{code},#{description},#{presence},#{forceable},#{break_shift});
 	</insert>
 
 
@@ -80,7 +80,9 @@
 		presence =
 		#{presence},
 		forceable = 
-		#{forceable}
+		#{forceable},
+		break_shift =
+		#{break_shift}
 		WHERE id = #{id};
 
 
@@ -105,6 +107,17 @@
 		UPDATE status
 		SET description = #{description}
 		WHERE d
+	</update>
+
+	<update id="removeAllBreakShift">
+		UPDATE usershift
+		SET break_shift = 0;
+	</update>
+	
+	<update id="setShiftAsBreak" parameterType="Integer">
+		UPDATE usershift
+		SET break_shift = 1, forceable = 0, presence = 0
+		WHERE id = #{id_usershift};
 	</update>
 
 

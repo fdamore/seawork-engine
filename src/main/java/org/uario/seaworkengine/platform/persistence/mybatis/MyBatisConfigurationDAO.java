@@ -106,6 +106,17 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 		this.shift_cache = shift_cache;
 	}
 
+	@Override
+	public void setShiftAsBreak(final Integer id_usershift) {
+		MyBatisConfigurationDAO.logger.info("setShiftAsBreak");
+
+		// remove all break shift
+		this.getSqlSession().update("configuration.removeAllBreakShift");
+
+		this.getSqlSession().update("configuration.setShiftAsBreak", id_usershift);
+
+	}
+
 	public void setTask_cache(final ITaskCache task_cache) {
 		this.task_cache = task_cache;
 	}

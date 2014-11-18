@@ -9,6 +9,8 @@ public class UserShift implements Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	private Boolean				break_shift;
+
 	private String				code;
 
 	private String				description;
@@ -18,6 +20,10 @@ public class UserShift implements Serializable {
 	private Integer				id;
 
 	private Boolean				presence;
+
+	public Boolean getBreak_shift() {
+		return this.break_shift;
+	}
 
 	public String getCode() {
 		return this.code;
@@ -37,6 +43,10 @@ public class UserShift implements Serializable {
 
 	public Boolean getPresence() {
 		return this.presence;
+	}
+
+	public void setBreak_shift(final Boolean break_shift) {
+		this.break_shift = break_shift;
 	}
 
 	public void setCode(final String code) {
