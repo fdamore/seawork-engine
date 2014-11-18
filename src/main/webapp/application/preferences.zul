@@ -329,6 +329,11 @@
 														id="description_shift" mold="rounded" />
 												</row>
 
+												<row id="row_breakshift">
+												<label value="Turno di riposo"/>
+												<checkbox id="breakshift"/>
+												</row>
+
 												<row
 													id="row_type_shift">
 													<label
@@ -358,6 +363,10 @@
 														id="forceable" />
 
 												</row>
+												
+												
+												
+												
 											</rows>
 										</grid>
 

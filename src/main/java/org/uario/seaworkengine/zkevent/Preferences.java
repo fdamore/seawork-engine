@@ -37,6 +37,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private static final long	serialVersionUID	= 1L;
 
 	@Wire
+	private Checkbox			breakshift;
+
+	@Wire
 	private Textbox				code_shift;
 
 	@Wire
@@ -126,7 +129,12 @@ public class Preferences extends SelectorComposer<Component> {
 		} else {
 			shift.setForceable(false);
 		}
+
 		this.configurationDao.createShift(shift);
+
+		if (this.breakshift.isChecked()) {
+			this.configurationDao.setShiftAsBreak(shift.getId());
+		}
 
 		this.refreshShiftList();
 		this.resetShiftInfo();
@@ -291,6 +299,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
+		if (shift.getBreak_shift()) {
+			this.breakshift.setChecked(true);
+
+		} else {
+			this.breakshift.setChecked(false);
+			this.type_shift.setDisabled(false);
+			this.forceable.setDisabled(false);
+		}
+
 		this.code_shift.setValue(shift.getCode());
 		this.description_shift.setValue(shift.getDescription());
 		if (shift.getForceable()) {
@@ -349,6 +366,13 @@ public class Preferences extends SelectorComposer<Component> {
 			shift.setForceable(true);
 		} else {
 			shift.setForceable(false);
+		}
+
+		if (this.breakshift.isChecked()) {
+			shift.setBreak_shift(true);
+			this.configurationDao.setShiftAsBreak(shift.getId());
+		} else {
+			shift.setBreak_shift(false);
 		}
 
 		this.configurationDao.updateShift(shift);
@@ -439,15 +463,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeShift() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteShift();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteShift();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 
@@ -460,15 +484,15 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteStatus();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteStatus();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 
@@ -476,15 +500,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeTask() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteTask();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteTask();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 
@@ -502,6 +526,20 @@ public class Preferences extends SelectorComposer<Component> {
 	private void resetTaskInfo() {
 		this.code_task.setValue("");
 		this.description_task.setValue("");
+	}
+
+	@Listen("onClick = #breakshift")
+	public void setBreakShift() {
+		if (this.breakshift.isChecked()) {
+			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(1));
+			this.type_shift.setDisabled(true);
+			this.forceable.setChecked(false);
+			this.forceable.setDisabled(true);
+		} else {
+
+			this.type_shift.setDisabled(false);
+			this.forceable.setDisabled(false);
+		}
 	}
 
 	/**
