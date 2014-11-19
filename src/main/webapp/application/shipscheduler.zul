@@ -1,4 +1,4 @@
-<?page id="scheduler" title="Seawork Admin"?>
+<?page id="shipscheduler" title="Seawork Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 
 <zk>
@@ -6,15 +6,10 @@
 
 
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
-		apply="org.uario.seaworkengine.zkevent.SchedulerComposer"
+		apply="org.uario.seaworkengine.zkevent.ShipSchedulerComposer"
 		id="page_ship_scheduler">
 
-		<div sclass="page-header">
-			<label value="Programma " />
-			<a label="Sistema di programmazione lavoro Seawork"
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-		</div>
+		<label value="ciao"/>
 
 		<space></space>
 

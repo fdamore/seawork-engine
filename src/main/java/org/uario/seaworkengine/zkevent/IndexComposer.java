@@ -160,7 +160,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_scheduler.setVisible(false);
 		this.include_ship_scheduler.setVisible(true);
 
-		final Component comp = Path.getComponent("//scheduler/page_ship_scheduler");
+		final Component comp = Path.getComponent("//shipscheduler/page_ship_scheduler");
 		// send event to show users
 		Events.sendEvent(ZkEventsTag.onShowShipScheduler, comp, null);
 
