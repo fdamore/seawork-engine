@@ -4,6 +4,8 @@ public interface ZkEventsTag {
 
 	public static String	onDayClick				= "onDayClick";
 
+	public static String	onDayNameClick			= "onDayNameClick";
+
 	public static String	onShiftClick			= "onShiftClick";
 
 	public static String	onShiftClickReview		= "onShiftClickReview";

@@ -18,4 +18,12 @@ public interface IStatistics {
 	 */
 	public List<AverageShift> getAverageForShift(Integer user, Date date);
 
+	/**
+	 * Get percentage working sunday
+	 * 
+	 * @param id_user
+	 * @return
+	 */
+	public Double getSundayWorkPercentage(Integer id_user);
+
 }

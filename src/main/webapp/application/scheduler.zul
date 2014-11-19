@@ -95,6 +95,24 @@
 				</panel>
 			</popup>
 
+			<popup id="day_name_popup">
+				<panel border="none" collapsible="false"
+					style="margin: 5px 5px 5px 5px">
+					<panelchildren>
+						<vbox align="end">
+							<hbox align="center">
+								<label
+									value="Percentuale di lavoro domenicale: ">
+								</label>
+								<label id="work_sunday_perc"
+									value="Percentuale di lavoro domenicale: ">
+								</label>
+							</hbox>
+						</vbox>
+					</panelchildren>
+				</panel>
+			</popup>
+
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 				<panelchildren>
@@ -243,8 +261,18 @@
 							value="@{dayitem}">
 
 
-							<listcell label="@{dayitem.name_user}"
-								style="font-weight:bold; color:black;" />
+							<listcell>
+								<a label="@{dayitem.name_user}">
+									<attribute name="onClick">
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onDayNameClick", page_panel, null);
+</attribute>
+								</a>
+
+							</listcell>
+
+
+
 
 							<listcell>
 								<toolbarbutton
@@ -706,7 +734,7 @@
 
 			</popup>
 
-			
+
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 				<panelchildren>
@@ -1055,27 +1083,32 @@
 			</panel>
 
 			<space></space>
-			
-			<panel width="800px" border="normal">	
-	    	<panelchildren>
-	    		<grid  >
-	    		<auxhead >
-            		<auxheader style="background-color: #FAFAFA" colspan="8" label="Legenda Colori" />
-        		</auxhead>
-	    		
-	    		<columns>
-		    		<column style="background:#87B87F" width="40pt"/>
-		    		<column  label="Turno di Lavoro"/>
-		    		<column style="background:#FFB752" width="40pt"/>
-		    		<column  label="Turno Forzabile"/>
-		    		<column style="background:#D15B47" width="40pt"/>
-		    		<column label="Turno Non Forzabile" />
-		    		<column style="background:#70B8FF" width="40pt"/>
-		    		<column label="Giorno attuale" />
-	    		</columns>
-	    		</grid>
-	    		</panelchildren>
-	    	</panel>
+
+			<panel width="800px" border="normal">
+				<panelchildren>
+					<grid>
+						<auxhead>
+							<auxheader style="background-color: #FAFAFA"
+								colspan="8" label="Legenda Colori" />
+						</auxhead>
+
+						<columns>
+							<column style="background:#87B87F"
+								width="40pt" />
+							<column label="Turno di Lavoro" />
+							<column style="background:#FFB752"
+								width="40pt" />
+							<column label="Turno Forzabile" />
+							<column style="background:#D15B47"
+								width="40pt" />
+							<column label="Turno Non Forzabile" />
+							<column style="background:#70B8FF"
+								width="40pt" />
+							<column label="Giorno attuale" />
+						</columns>
+					</grid>
+				</panelchildren>
+			</panel>
 
 
 
@@ -1273,7 +1306,8 @@
 
 
 
-							<listcell style="background-color:#F0F0F0" >
+							<listcell
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview1'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
@@ -1283,7 +1317,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell style="background-color:#F0F0F0">
+							<listcell
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview2'}"
@@ -1294,7 +1329,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell style="background-color:#F0F0F0">
+							<listcell
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview3'}"
@@ -1305,7 +1341,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell style="background-color:#F0F0F0">
+							<listcell
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview4'}"
@@ -1316,7 +1353,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell style="background-color:#70B8FF">
+							<listcell
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview1'}"
@@ -1327,7 +1365,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell style="background-color:#70B8FF">
+							<listcell
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview2'}"
@@ -1337,8 +1376,9 @@
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
 </attribute>
 								</toolbarbutton>
-							</listcell >
-							<listcell style="background-color:#70B8FF">
+							</listcell>
+							<listcell
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview3'}"
@@ -1349,7 +1389,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell style="background-color:#70B8FF">
+							<listcell
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview4'}"
@@ -1370,22 +1411,24 @@
 
 				</panelchildren>
 			</panel>
-		<space></space>
-			
-			<panel width="200px" border="normal">	
-	    	<panelchildren>
-	    		<grid  >
-	    		<auxhead >
-            		<auxheader style="background-color: #FAFAFA" colspan="2" label="Legenda Colori" />
-        		</auxhead>
-	    		
-	    		<columns>
-		    		<column style="background:#70B8FF" width="40pt"/>
-		    		<column label="Dati a consuntivo" />
-	    		</columns>
-	    		</grid>
-	    		</panelchildren>
-	    	</panel>
+			<space></space>
+
+			<panel width="200px" border="normal">
+				<panelchildren>
+					<grid>
+						<auxhead>
+							<auxheader style="background-color: #FAFAFA"
+								colspan="2" label="Legenda Colori" />
+						</auxhead>
+
+						<columns>
+							<column style="background:#70B8FF"
+								width="40pt" />
+							<column label="Dati a consuntivo" />
+						</columns>
+					</grid>
+				</panelchildren>
+			</panel>
 
 		</div>
 

@@ -14,6 +14,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class Utility {
 
 	private static SimpleDateFormat	dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
+
 	private static SimpleDateFormat	dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
 	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
 

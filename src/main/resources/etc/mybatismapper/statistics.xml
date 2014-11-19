@@ -31,4 +31,29 @@
 
 	</select>
 
+	<select id="selectPercentageSunday" resultType="double"
+		parameterType="map">
+		select
+		count(ds.id_user) / (select
+		count(dd.id_user)
+		from
+		dayschedule dd,
+		usershift uu
+		where
+		DAYOFWEEK(dd.date_scheduled) = 1 and uu.presence = 1 and dd.shift =
+		uu.id) * 100 as perc
+		from
+		dayschedule ds,
+		usershift us
+		where
+		ds.shift =
+		us.id and us.presence = 1
+		and DAYOFWEEK(ds.date_scheduled) = 1
+		group by
+		id_user
+		having id_user = #{id_user}
+	</select>
+
+
+
 </mapper>

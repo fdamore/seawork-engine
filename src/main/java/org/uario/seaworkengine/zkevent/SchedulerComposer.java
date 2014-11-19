@@ -28,6 +28,7 @@ import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.AverageShift;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ShiftTag;
+import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
@@ -46,6 +47,7 @@ import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Intbox;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
@@ -93,6 +95,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Popup							day_definition_popup;
 
+	@Wire
+	private Popup							day_name_popup;
+
 	/**
 	 * First date in grid
 	 */
@@ -112,9 +117,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_popup;
-
 	// initial program and revision
 	private List<DetailInitialSchedule>		list_details_program;
+
 	private List<DetailFinalSchedule>		list_details_review;
 
 	@Wire
@@ -208,6 +213,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Timebox							time_to;
+
+	@Wire
+	private Label							work_sunday_perc;
 
 	@Listen("onClick= #add_program_item")
 	public void addProgramItem() {
@@ -513,7 +521,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
@@ -657,6 +665,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
+
+		this.getSelf().addEventListener(ZkEventsTag.onDayNameClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final RowDaySchedule row_schedule = SchedulerComposer.this.grid_scheduler_day.getSelectedItem().getValue();
+				if (row_schedule == null) {
+					return;
+				}
+				final Double perc = SchedulerComposer.this.statisticDAO.getSundayWorkPercentage(row_schedule.getUser());
+
+				String perc_info = "";
+				if (perc != null) {
+					perc_info = "" + Utility.roundTwo(perc) + "%";
+				}
+
+				// set perc
+				SchedulerComposer.this.work_sunday_perc.setValue(perc_info);
+
+				SchedulerComposer.this.day_name_popup.open(SchedulerComposer.this.grid_scheduler_day, "after_pointer");
+
+			}
+		});
 
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
 
