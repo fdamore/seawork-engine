@@ -9,14 +9,13 @@
 		apply="org.uario.seaworkengine.zkevent.ShipSchedulerComposer"
 		id="page_ship_scheduler">
 
-		<label value="ciao"/>
+		<div sclass="page-header">
+			<label value="Programma Navi" />
+			<a label="Sistema di programmazione navi Seawork"
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+		</div>
 
 		<space></space>
-
-
-
-
-
 
 	</vlayout>
 
