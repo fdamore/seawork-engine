@@ -616,7 +616,6 @@
 						<a id="scheduler_label"></a>
 						<space></space>
 
-
 						<listbox id="listbox_program" sclass="domain"
 							checkmark="true" multiple="true">
 							<auxhead>
@@ -707,23 +706,7 @@
 
 			</popup>
 
-			<hlayout>
-				<div width="150px"
-					style="background:#87B87F; text-align: center;">
-					<label value="   Turno Forzabile" />
-				</div>
-				<div width="150px"
-					style="background:#FFB752; text-align: center;">
-					<label value="Turno di Lavoro" />
-				</div>
-				<div width="150px"
-					style="background: #D15B47; text-align: center;">
-					<label value="Turno Non Forzabile" />
-				</div>
-			</hlayout>
-
-			<space></space>
-
+			
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 				<panelchildren>
@@ -821,7 +804,7 @@
 								style="font-weight:bold; color:black;" />
 
 							<listcell
-								style="background-color:#B2CDE8">
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									label="@{item.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor1'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
@@ -832,7 +815,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#B2CDE8">
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor2'}"
@@ -844,7 +827,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#B2CDE8">
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor3'}"
@@ -856,7 +839,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#B2CDE8">
+								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor4'}"
@@ -868,7 +851,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor1'}"
@@ -880,7 +863,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor2'}"
@@ -892,7 +875,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor3'}"
@@ -904,7 +887,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor4'}"
@@ -960,7 +943,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor1'}"
@@ -972,7 +955,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor2'}"
@@ -984,7 +967,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor3'}"
@@ -996,7 +979,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor4'}"
@@ -1012,7 +995,7 @@
 
 
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor1'}"
@@ -1024,7 +1007,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor2'}"
@@ -1036,7 +1019,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor3'}"
@@ -1048,7 +1031,7 @@
 								</toolbarbutton>
 							</listcell>
 							<listcell
-								style="background-color:#7D7D7D">
+								style="background-color:#B3C9E6">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_5, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor4'}"
@@ -1072,7 +1055,27 @@
 			</panel>
 
 			<space></space>
-
+			
+			<panel width="800px" border="normal">	
+	    	<panelchildren>
+	    		<grid  >
+	    		<auxhead >
+            		<auxheader style="background-color: #FAFAFA" colspan="8" label="Legenda Colori" />
+        		</auxhead>
+	    		
+	    		<columns>
+		    		<column style="background:#87B87F" width="40pt"/>
+		    		<column  label="Turno di Lavoro"/>
+		    		<column style="background:#FFB752" width="40pt"/>
+		    		<column  label="Turno Forzabile"/>
+		    		<column style="background:#D15B47" width="40pt"/>
+		    		<column label="Turno Non Forzabile" />
+		    		<column style="background:#70B8FF" width="40pt"/>
+		    		<column label="Giorno attuale" />
+	    		</columns>
+	    		</grid>
+	    		</panelchildren>
+	    	</panel>
 
 
 
@@ -1270,7 +1273,7 @@
 
 
 
-							<listcell>
+							<listcell style="background-color:#F0F0F0" >
 								<toolbarbutton disabled="true"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview1'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
@@ -1280,7 +1283,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell>
+							<listcell style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview2'}"
@@ -1291,7 +1294,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell>
+							<listcell style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview3'}"
@@ -1302,7 +1305,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell>
+							<listcell style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview4'}"
@@ -1313,7 +1316,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell>
+							<listcell style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview1'}"
@@ -1324,7 +1327,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell>
+							<listcell style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview2'}"
@@ -1334,8 +1337,8 @@
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
 </attribute>
 								</toolbarbutton>
-							</listcell>
-							<listcell>
+							</listcell >
+							<listcell style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview3'}"
@@ -1346,7 +1349,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell>
+							<listcell style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview4'}"
@@ -1367,7 +1370,22 @@
 
 				</panelchildren>
 			</panel>
-
+		<space></space>
+			
+			<panel width="200px" border="normal">	
+	    	<panelchildren>
+	    		<grid  >
+	    		<auxhead >
+            		<auxheader style="background-color: #FAFAFA" colspan="2" label="Legenda Colori" />
+        		</auxhead>
+	    		
+	    		<columns>
+		    		<column style="background:#70B8FF" width="40pt"/>
+		    		<column label="Giorno in revisione" />
+	    		</columns>
+	    		</grid>
+	    		</panelchildren>
+	    	</panel>
 
 		</div>
 
