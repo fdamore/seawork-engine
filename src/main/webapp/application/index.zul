@@ -47,7 +47,8 @@
 							tooltiptext="Gestione Utenti" id="sw_user_button"
 							iconSclass="z-icon-group" />
 						<button type="button" class="btn-danger"
-							tooltiptext="Programmazione Navi" iconSclass="z-icon-cogs" />
+							tooltiptext="Programmazione Navi" id="sw_shipScheduler_button"
+							iconSclass="z-icon-cogs" />
 						<button type="button" class="btn-info"
 							tooltiptext="Programmazione Turni" id="sw_scheduler_button"
 							iconSclass="z-icon-pencil" />
@@ -80,6 +81,9 @@
 
 			<include mode="defer" src="scheduler.zul"
 				id="include_scheduler" visible="false" />
+				
+			<include mode="defer" src="shipscheduler.zul"
+				id="include_ship_scheduler" visible="false" />
 
 		</vlayout>
 	</hlayout>

@@ -14,6 +14,8 @@ public interface ZkEventsTag {
 
 	public static String	onShowScheduler			= "onShowScheduler";
 
+	public static String	onShowShipScheduler		= "onShowShipScheduler";
+
 	public static String	onShowUsers				= "onShowUsers";
 
 	public static String	onUpdateGeneralDetails	= "onUpdateGeneralDetails";
