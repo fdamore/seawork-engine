@@ -1381,7 +1381,7 @@
 	    		
 	    		<columns>
 		    		<column style="background:#70B8FF" width="40pt"/>
-		    		<column label="Giorno in revisione" />
+		    		<column label="Dati a consuntivo" />
 	    		</columns>
 	    		</grid>
 	    		</panelchildren>
