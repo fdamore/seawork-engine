@@ -58,24 +58,48 @@
 						<a label=" " id="label_statistic_popup" sclass="header" iconSclass="z-icon-check" />
 							<separator></separator>
 							<hbox align="center">
-								<label
-									value="Percentuale di lavoro domenicale: ">
-								</label>
-								<label id="work_sunday_perc"
-									value="Percentuale di lavoro domenicale: ">
-								</label>
-								<space/>
-								<label value="Media turno 1:"/>
-								<label id="shift_perc_1" value=" "/>
-								<space/>
-								<label value="Media turno 2:"/>
-								<label id="shift_perc_2" value=" "/>
-								<space/>
-								<label value="Media turno 3:"/>
-								<label id="shift_perc_3" value=" "/>
-								<space/>
-								<label value="Media turno 4:"/>
-								<label id="shift_perc_4" value=" "/>
+							<auxhead>								
+								<auxheader>
+									<label value="Percentuale di lavoro domenicale: "/>
+								</auxheader>	
+								<auxheader>
+									<label id="work_sunday_perc" value="Percentuale di lavoro domenicale: "/>
+								</auxheader>
+							</auxhead>
+							<auxhead>
+									<auxheader align="right">
+									<label value="Media turno 1:"/>
+									</auxheader>
+									<auxheader>
+									<label id="shift_perc_1" value=" "/>
+									</auxheader>																	
+							</auxhead>
+							<auxhead>
+									<auxheader align="right">
+									<label value="Media turno 2:"/>
+									</auxheader>
+									<auxheader>
+									<label id="shift_perc_2" value=" "/>
+									</auxheader>																	
+							</auxhead>
+							<auxhead>
+									<auxheader align="right">
+									<label value="Media turno 3:"/>
+									</auxheader>
+									<auxheader>
+									<label id="shift_perc_3" value=" "/>
+									</auxheader>																	
+							</auxhead>
+							<auxhead>
+									<auxheader align="right">
+									<label value="Media turno 4:"/>
+									</auxheader>
+									<auxheader>
+									<label id="shift_perc_4" value=" "/>
+									</auxheader>																	
+							</auxhead>
+								
+																
 								
 							</hbox>
 						</vbox>
