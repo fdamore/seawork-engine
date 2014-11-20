@@ -263,26 +263,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// check about sum of time
-		boolean check_sum = true;
-		if (time > 6) {
-			check_sum = false;
-		}
-		if (this.list_details_program.size() != 0) {
-			int sum = time;
-			for (final DetailInitialSchedule detail : this.list_details_program) {
-				final int current_time = detail.getTime();
-				sum = sum + current_time;
-				if (sum > 6) {
-					check_sum = false;
-					break;
-				}
-			}
-		}
-		if (!check_sum) {
-			// Messagebox.show("Non si possono assegnare più di sei ore per turno",
-			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
-			return;
-		}
+		/*
+		 * boolean check_sum = true; if (time > 6) { check_sum = false; } if
+		 * (this.list_details_program.size() != 0) { int sum = time; for (final
+		 * DetailInitialSchedule detail : this.list_details_program) { final int
+		 * current_time = detail.getTime(); sum = sum + current_time; if (sum >
+		 * 6) { check_sum = false; break; } } } if (!check_sum) { //
+		 * Messagebox.show("Non si possono assegnare più di sei ore per turno",
+		 * // "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return; }
+		 */
 
 		if (this.currentSchedule == null) {
 			// save scheduler
@@ -336,26 +325,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// check about sum of time
-		boolean check_sum = true;
-		if (time > 6) {
-			check_sum = false;
-		}
-		if (this.list_details_review.size() != 0) {
-			int sum = time;
-			for (final DetailFinalSchedule detail : this.list_details_review) {
-				final int current_time = detail.getTime();
-				sum = sum + current_time;
-				if (sum > 6) {
-					check_sum = false;
-					break;
-				}
-			}
-		}
-		if (!check_sum) {
-			// Messagebox.show("Non si possono assegnare più di sei ore per turno",
-			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
-			return;
-		}
+		/*
+		 * boolean check_sum = true; if (time > 6) { check_sum = false; } if
+		 * (this.list_details_review.size() != 0) { int sum = time; for (final
+		 * DetailFinalSchedule detail : this.list_details_review) { final int
+		 * current_time = detail.getTime(); sum = sum + current_time; if (sum >
+		 * 6) { check_sum = false; break; } } } if (!check_sum) { //
+		 * Messagebox.show("Non si possono assegnare più di sei ore per turno",
+		 * // "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return; }
+		 */
 
 		if (this.currentSchedule == null) {
 			// save scheduler
@@ -1389,19 +1367,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// check about sum of time
-
-		int sum = 0;
-		if (this.list_details_program.size() != 0) {
-			for (final DetailInitialSchedule detail : this.list_details_program) {
-				sum = sum + detail.getTime();
-			}
-		}
-		if (sum < 6) {
-			// Messagebox.show("Non si possono assegnare meno di sei ore per turno",
-			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
-			return;
-
-		}
+		final int sum = 0;
+		/*
+		 * if (this.list_details_program.size() != 0) { for (final
+		 * DetailInitialSchedule detail : this.list_details_program) { sum = sum
+		 * + detail.getTime(); } } if (sum < 6) { //
+		 * Messagebox.show("Non si possono assegnare meno di sei ore per turno",
+		 * // "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return;
+		 *
+		 * }
+		 */
 
 		// check max 12 h in a day
 		final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule.getId());
@@ -1472,20 +1447,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// check about sum of time
-
-		int sum = 0;
-		if (this.list_details_review.size() != 0) {
-			for (final DetailFinalSchedule detail : this.list_details_review) {
-				sum = sum + detail.getTime();
-			}
-		}
-		if (sum < 6) {
-			// Messagebox.show("Non si possono assegnare meno di sei ore per turno",
-			// "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
-			return;
-
-		}
-
+		/*
+		 * int sum = 0; if (this.list_details_review.size() != 0) { for (final
+		 * DetailFinalSchedule detail : this.list_details_review) { sum = sum +
+		 * detail.getTime(); } } if (sum < 6) { //
+		 * Messagebox.show("Non si possono assegnare meno di sei ore per turno",
+		 * // "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return;
+		 * 
+		 * }
+		 */
 		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_review);
 
 		// refresh grid
