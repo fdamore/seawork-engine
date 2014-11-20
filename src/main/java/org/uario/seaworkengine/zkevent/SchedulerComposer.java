@@ -117,6 +117,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_popup;
+
+	@Wire
+	private A								label_statistic_popup;
+
 	// initial program and revision
 	private List<DetailInitialSchedule>		list_details_program;
 
@@ -197,6 +201,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Popup							shift_definition_popup_review;
+
+	@Wire
+	private Label							shift_perc_1;
+	@Wire
+	private Label							shift_perc_2;
+	@Wire
+	private Label							shift_perc_3;
+	@Wire
+	private Label							shift_perc_4;
 
 	@Wire
 	private Combobox						shift_popup;
@@ -521,7 +534,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
@@ -672,6 +685,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			public void onEvent(final Event arg0) throws Exception {
 
 				final RowDaySchedule row_schedule = SchedulerComposer.this.grid_scheduler_day.getSelectedItem().getValue();
+
 				if (row_schedule == null) {
 					return;
 				}
@@ -686,6 +700,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				SchedulerComposer.this.work_sunday_perc.setValue(perc_info);
 
 				SchedulerComposer.this.day_name_popup.open(SchedulerComposer.this.grid_scheduler_day, "after_pointer");
+
+				// set name
+				final String msg = row_schedule.getName_user();
+				SchedulerComposer.this.label_statistic_popup.setLabel(msg);
+
+				final Calendar c = Calendar.getInstance();
+				c.add(Calendar.DATE, 1);
+
+				final List<AverageShift> statistic = SchedulerComposer.this.statisticDAO.getAverageForShift(row_schedule.getUser(), c.getTime());
+
+				if (statistic != null) {
+					for (final AverageShift av : statistic) {
+
+						if (av.getShift() == 1) {
+							SchedulerComposer.this.shift_perc_1.setValue(av.getAvg_program_time().toString());
+						}
+						if (av.getShift() == 2) {
+							SchedulerComposer.this.shift_perc_2.setValue(av.getAvg_program_time().toString());
+						}
+						if (av.getShift() == 3) {
+							SchedulerComposer.this.shift_perc_3.setValue(av.getAvg_program_time().toString());
+						}
+						if (av.getShift() == 4) {
+							SchedulerComposer.this.shift_perc_4.setValue(av.getAvg_program_time().toString());
+						}
+					}
+				}
 
 			}
 		});

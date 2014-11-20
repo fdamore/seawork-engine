@@ -50,6 +50,42 @@
 
 		<space></space>
 
+		<popup id="day_name_popup">
+				<panel border="none" collapsible="false"
+					style="margin: 5px 5px 5px 5px">
+					<panelchildren>
+						<vbox align="end">
+						<a label=" " id="label_statistic_popup" sclass="header" iconSclass="z-icon-check" />
+							<separator></separator>
+							<hbox align="center">
+								<label
+									value="Percentuale di lavoro domenicale: ">
+								</label>
+								<label id="work_sunday_perc"
+									value="Percentuale di lavoro domenicale: ">
+								</label>
+								<space/>
+								<label value="Media turno 1:"/>
+								<label id="shift_perc_1" value=" "/>
+								<space/>
+								<label value="Media turno 2:"/>
+								<label id="shift_perc_2" value=" "/>
+								<space/>
+								<label value="Media turno 3:"/>
+								<label id="shift_perc_3" value=" "/>
+								<space/>
+								<label value="Media turno 4:"/>
+								<label id="shift_perc_4" value=" "/>
+								
+							</hbox>
+						</vbox>
+					</panelchildren>
+				</panel>
+			</popup>
+
+
+
+
 		<!-- PREPROCESSING -->
 		<div id="preprocessing_div" visible="true">
 
@@ -95,23 +131,7 @@
 				</panel>
 			</popup>
 
-			<popup id="day_name_popup">
-				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px">
-					<panelchildren>
-						<vbox align="end">
-							<hbox align="center">
-								<label
-									value="Percentuale di lavoro domenicale: ">
-								</label>
-								<label id="work_sunday_perc"
-									value="Percentuale di lavoro domenicale: ">
-								</label>
-							</hbox>
-						</vbox>
-					</panelchildren>
-				</panel>
-			</popup>
+			
 
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
@@ -827,9 +847,15 @@
 							value="@{item}">
 
 
-							<listcell
-								label="@{item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftName'}"
-								style="font-weight:bold; color:black;" />
+							<listcell>
+								<a label="@{item.name_user}">
+									<attribute name="onClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onDayNameClick", page_panel, null);
+</attribute>
+								</a>
+
+							</listcell>
 
 							<listcell
 								style="background-color:#F0F0F0">
@@ -1301,9 +1327,15 @@
 							value="@{itemreview}">
 
 
-							<listcell label="@{itemreview.name_user}"
-								style="font-weight:bold; color:black;" />
+							<listcell>
+								<a label="@{itemreview.name_user}">
+									<attribute name="onClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onDayNameClick", page_panel, null);
+</attribute>
+								</a>
 
+							</listcell>
 
 
 							<listcell
