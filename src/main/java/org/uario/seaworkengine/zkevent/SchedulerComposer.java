@@ -2184,6 +2184,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param title
 	 */
 	private void showStatisticsPopup(final Integer id_user, final Component anchorComponent, final String title) {
+
+		// reset old values
+		SchedulerComposer.this.shift_perc_1.setValue("");
+		SchedulerComposer.this.shift_perc_2.setValue("");
+		SchedulerComposer.this.shift_perc_3.setValue("");
+		SchedulerComposer.this.shift_perc_4.setValue("");
+
 		final Double perc = SchedulerComposer.this.statisticDAO.getSundayWorkPercentage(id_user);
 
 		String perc_info = "";
