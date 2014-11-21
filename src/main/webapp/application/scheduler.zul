@@ -50,62 +50,58 @@
 
 		<space></space>
 
+		<!-- STATISTIC POPUP -->
 		<popup id="day_name_popup">
-				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px">
-					<panelchildren>
-						<vbox align="end">
-						<a label=" " id="label_statistic_popup" sclass="header" iconSclass="z-icon-check" />
-							<separator></separator>
-							<hbox align="center">
-							<auxhead>								
-								<auxheader>
-									<label value="Percentuale di lavoro domenicale: "/>
-								</auxheader>	
-								<auxheader>
-									<label id="work_sunday_perc" value="Percentuale di lavoro domenicale: "/>
-								</auxheader>
-							</auxhead>
-							<auxhead>
-									<auxheader align="right">
-									<label value="Media turno 1:"/>
-									</auxheader>
-									<auxheader>
-									<label id="shift_perc_1" value=" "/>
-									</auxheader>																	
-							</auxhead>
-							<auxhead>
-									<auxheader align="right">
-									<label value="Media turno 2:"/>
-									</auxheader>
-									<auxheader>
-									<label id="shift_perc_2" value=" "/>
-									</auxheader>																	
-							</auxhead>
-							<auxhead>
-									<auxheader align="right">
-									<label value="Media turno 3:"/>
-									</auxheader>
-									<auxheader>
-									<label id="shift_perc_3" value=" "/>
-									</auxheader>																	
-							</auxhead>
-							<auxhead>
-									<auxheader align="right">
-									<label value="Media turno 4:"/>
-									</auxheader>
-									<auxheader>
-									<label id="shift_perc_4" value=" "/>
-									</auxheader>																	
-							</auxhead>
-								
-																
-								
-							</hbox>
-						</vbox>
-					</panelchildren>
-				</panel>
-			</popup>
+			<panel border="none" collapsible="false"
+				style="margin: 5px 5px 5px 5px">
+				<panelchildren>
+					<vbox align="end">
+						<a label=" " id="label_statistic_popup"
+							sclass="header" iconSclass="z-icon-check" />
+						<separator></separator>
+						<hbox align="center">
+
+							<grid sizedByContent="true">
+								<columns>
+									<column></column>
+									<column></column>
+								</columns>
+								<rows>
+									<row>
+										<label
+											value="Lavoro domenicale: " />
+										<label id="work_sunday_perc" />
+									</row>
+
+									<row>
+										<label value="Media turno 1:" />
+										<label id="shift_perc_1" />
+									</row>
+
+									<row>
+										<label value="Media turno 2:" />
+										<label id="shift_perc_2" />
+									</row>
+
+									<row>
+										<label value="Media turno 3:" />
+										<label id="shift_perc_3" />
+									</row>
+
+									<row>
+										<label value="Media turno 4:" />
+										<label id="shift_perc_4" />
+									</row>
+
+								</rows>
+
+							</grid>
+
+						</hbox>
+					</vbox>
+				</panelchildren>
+			</panel>
+		</popup>
 
 
 
@@ -155,7 +151,7 @@
 				</panel>
 			</popup>
 
-			
+
 
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
@@ -875,7 +871,7 @@
 								<a label="@{item.name_user}">
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onDayNameClick", page_panel, null);
+	Events.sendEvent("onProgramNameClick", page_panel, null);
 </attribute>
 								</a>
 
@@ -1355,7 +1351,7 @@
 								<a label="@{itemreview.name_user}">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onDayNameClick", page_panel, null);
+	Events.sendEvent("onReviewNameClick", page_panel, null);
 </attribute>
 								</a>
 

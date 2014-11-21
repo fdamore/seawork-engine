@@ -512,7 +512,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
@@ -667,46 +667,60 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (row_schedule == null) {
 					return;
 				}
-				final Double perc = SchedulerComposer.this.statisticDAO.getSundayWorkPercentage(row_schedule.getUser());
 
-				String perc_info = "";
-				if (perc != null) {
-					perc_info = "" + Utility.roundTwo(perc) + "%";
-				}
-
-				// set perc
-				SchedulerComposer.this.work_sunday_perc.setValue(perc_info);
-
-				SchedulerComposer.this.day_name_popup.open(SchedulerComposer.this.grid_scheduler_day, "after_pointer");
-
+				final Integer id_user = row_schedule.getUser();
 				// set name
 				final String msg = row_schedule.getName_user();
-				SchedulerComposer.this.label_statistic_popup.setLabel(msg);
 
-				final Calendar c = Calendar.getInstance();
-				c.add(Calendar.DATE, 1);
-
-				final List<AverageShift> statistic = SchedulerComposer.this.statisticDAO.getAverageForShift(row_schedule.getUser(), c.getTime());
-
-				if (statistic != null) {
-					for (final AverageShift av : statistic) {
-
-						if (av.getShift() == 1) {
-							SchedulerComposer.this.shift_perc_1.setValue(av.getAvg_program_time().toString());
-						}
-						if (av.getShift() == 2) {
-							SchedulerComposer.this.shift_perc_2.setValue(av.getAvg_program_time().toString());
-						}
-						if (av.getShift() == 3) {
-							SchedulerComposer.this.shift_perc_3.setValue(av.getAvg_program_time().toString());
-						}
-						if (av.getShift() == 4) {
-							SchedulerComposer.this.shift_perc_4.setValue(av.getAvg_program_time().toString());
-						}
-					}
-				}
+				// show statistic popup
+				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.grid_scheduler_day, msg);
 
 			}
+
+		});
+
+		this.getSelf().addEventListener(ZkEventsTag.onProgramNameClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final RowSchedule row_schedule = SchedulerComposer.this.grid_scheduler.getSelectedItem().getValue();
+
+				if (row_schedule == null) {
+					return;
+				}
+
+				final Integer id_user = row_schedule.getUser();
+				// set name
+				final String msg = row_schedule.getName_user();
+
+				// show statistic popup
+				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.grid_scheduler, msg);
+
+			}
+
+		});
+
+		this.getSelf().addEventListener(ZkEventsTag.onReviewNameClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final RowSchedule row_schedule = SchedulerComposer.this.grid_scheduler_review.getSelectedItem().getValue();
+
+				if (row_schedule == null) {
+					return;
+				}
+
+				final Integer id_user = row_schedule.getUser();
+				// set name
+				final String msg = row_schedule.getName_user();
+
+				// show statistic popup
+				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.grid_scheduler_review, msg);
+
+			}
+
 		});
 
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
@@ -1367,16 +1381,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// check about sum of time
-		final int sum = 0;
-		/*
-		 * if (this.list_details_program.size() != 0) { for (final
-		 * DetailInitialSchedule detail : this.list_details_program) { sum = sum
-		 * + detail.getTime(); } } if (sum < 6) { //
-		 * Messagebox.show("Non si possono assegnare meno di sei ore per turno",
-		 * // "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return;
-		 *
-		 * }
-		 */
+		int sum = 0;
+		if (this.list_details_program.size() != 0) {
+			for (final DetailInitialSchedule detail : this.list_details_program) {
+				sum = sum + detail.getTime();
+			}
+		}
 
 		// check max 12 h in a day
 		final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule.getId());
@@ -1447,15 +1457,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// check about sum of time
-		/*
-		 * int sum = 0; if (this.list_details_review.size() != 0) { for (final
-		 * DetailFinalSchedule detail : this.list_details_review) { sum = sum +
-		 * detail.getTime(); } } if (sum < 6) { //
-		 * Messagebox.show("Non si possono assegnare meno di sei ore per turno",
-		 * // "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return;
-		 * 
-		 * }
-		 */
+		int sum = 0;
+		if (this.list_details_review.size() != 0) {
+			for (final DetailFinalSchedule detail : this.list_details_review) {
+				sum = sum + detail.getTime();
+			}
+		}
+
+		// check max 12 h in a day
+		final List<DetailFinalSchedule> list_detail_schedule = this.scheduleDAO.loadDetailFinalScheduleByIdSchedule(this.currentSchedule.getId());
+		int count = sum;
+		for (final DetailFinalSchedule dt : list_detail_schedule) {
+			count = count + dt.getTime();
+			if (count > 12) {
+				break;
+			}
+		}
+		if (count > 12) {
+			Messagebox.show("Non si possono assegnare più di 12 ore al giorno", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+
+		}
+
 		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_review);
 
 		// refresh grid
@@ -2151,5 +2174,51 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.grid_scheduler_review.setModel(new ListModelList<RowSchedule>(list_row));
 
+	}
+
+	/**
+	 * Show statistic popup
+	 *
+	 * @param id_user
+	 * @param anchorComponent
+	 * @param title
+	 */
+	private void showStatisticsPopup(final Integer id_user, final Component anchorComponent, final String title) {
+		final Double perc = SchedulerComposer.this.statisticDAO.getSundayWorkPercentage(id_user);
+
+		String perc_info = "";
+		if (perc != null) {
+			perc_info = "" + Utility.roundTwo(perc) + "%";
+		}
+
+		// set perc
+		SchedulerComposer.this.work_sunday_perc.setValue(perc_info);
+
+		SchedulerComposer.this.label_statistic_popup.setLabel(title);
+
+		final Calendar c = Calendar.getInstance();
+		c.add(Calendar.DATE, 1);
+
+		final List<AverageShift> statistic = SchedulerComposer.this.statisticDAO.getAverageForShift(id_user, c.getTime());
+
+		if (statistic != null) {
+			for (final AverageShift av : statistic) {
+
+				if (av.getShift() == 1) {
+					SchedulerComposer.this.shift_perc_1.setValue(av.getAvg_program_time().toString());
+				}
+				if (av.getShift() == 2) {
+					SchedulerComposer.this.shift_perc_2.setValue(av.getAvg_program_time().toString());
+				}
+				if (av.getShift() == 3) {
+					SchedulerComposer.this.shift_perc_3.setValue(av.getAvg_program_time().toString());
+				}
+				if (av.getShift() == 4) {
+					SchedulerComposer.this.shift_perc_4.setValue(av.getAvg_program_time().toString());
+				}
+			}
+		}
+
+		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");
 	}
 }
