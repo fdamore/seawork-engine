@@ -17,7 +17,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
 
 	@Override
-	public List<AverageShift> getAverageForShift(final Integer user, final Date date) {
+	public AverageShift[] getAverageForShift(final Integer user, final Date date) {
 		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -31,7 +31,74 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			lists = this.getSqlSession().selectList("statistics.selectAvgShiftByUserProgram", map);
 		}
 
-		return lists;
+		if (lists != null) {
+			final AverageShift[] ret = new AverageShift[4];
+
+			// signal
+			boolean shift_1 = false;
+			boolean shift_2 = false;
+			boolean shift_3 = false;
+			boolean shift_4 = false;
+
+			int i = 0;
+			for (; (i < lists.size()) && (i < 4); i++) {
+				final AverageShift averageShift = lists.get(i);
+
+				ret[i] = averageShift;
+
+				if (averageShift.getShift() == 1) {
+					shift_1 = true;
+				}
+				else
+					if (averageShift.getShift() == 2) {
+						shift_2 = true;
+					}
+					else
+						if (averageShift.getShift() == 3) {
+							shift_3 = true;
+						}
+						else
+							if (averageShift.getShift() == 4) {
+								shift_4 = true;
+							}
+
+			}
+
+			for (; i < 4; i++) {
+				final AverageShift averageShift = new AverageShift();
+				averageShift.setAvg_program_time(0.0);
+
+				if (!shift_1) {
+					averageShift.setShift(1);
+					shift_1 = true;
+				}
+				else
+					if (!shift_2) {
+						averageShift.setShift(2);
+						shift_2 = true;
+					}
+					else
+						if (!shift_3) {
+							averageShift.setShift(3);
+							shift_3 = true;
+						}
+						else
+							if (!shift_4) {
+								averageShift.setShift(4);
+								shift_4 = true;
+							}
+
+				ret[i] = averageShift;
+
+			}
+
+			return ret;
+
+		}
+		else {
+			return null;
+		}
+
 	}
 
 	@Override
