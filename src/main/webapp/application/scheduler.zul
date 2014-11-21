@@ -774,6 +774,34 @@
 
 			</popup>
 
+		<space/>
+		<panel width="800px" border="normal">
+				<panelchildren>
+					<grid style="border-spacing:0px;">
+						<auxhead>
+							<auxheader style="background-color: #FAFAFA"
+								colspan="8" label="Legenda Colori" />
+						</auxhead>
+
+						<columns>
+							<column style="background:#FFFFFF"
+								width="40pt" />
+							<column label="Turno di Lavoro" />
+							<column style="background:#FFB752"
+								width="40pt" />
+							<column label="Turno Forzabile" />
+							<column style="background:#D15B47"
+								width="40pt" />
+							<column label="Turno Non Forzabile" />
+							<column style="background:#70B8FF"
+								width="40pt" />
+							<column label="Giorno attuale" />
+						</columns>
+					</grid>
+				</panelchildren>
+		</panel>
+		<space/>
+			
 
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
@@ -1130,31 +1158,7 @@
 
 			<space></space>
 
-			<panel width="800px" border="normal">
-				<panelchildren>
-					<grid>
-						<auxhead>
-							<auxheader style="background-color: #FAFAFA"
-								colspan="8" label="Legenda Colori" />
-						</auxhead>
-
-						<columns>
-							<column style="background:#87B87F"
-								width="40pt" />
-							<column label="Turno di Lavoro" />
-							<column style="background:#FFB752"
-								width="40pt" />
-							<column label="Turno Forzabile" />
-							<column style="background:#D15B47"
-								width="40pt" />
-							<column label="Turno Non Forzabile" />
-							<column style="background:#70B8FF"
-								width="40pt" />
-							<column label="Giorno attuale" />
-						</columns>
-					</grid>
-				</panelchildren>
-			</panel>
+			
 
 
 
