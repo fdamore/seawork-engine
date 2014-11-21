@@ -775,29 +775,31 @@
 			</popup>
 
 		<space/>
+		
 		<panel width="800px" border="normal">
 				<panelchildren>
 					<grid>
 						<auxhead>
-							<auxheader style="background:#F0F0F0"
-								colspan="8" label="Legenda Colori" align="center"/>
+							<auxheader style="background-color: #FAFAFA"
+								colspan="8" label="Legenda Colori" />
 						</auxhead>
 
-						<columns>
-							<column style="background:#FFFFFF"
-								width="40pt" />
-							<column style="background:#F0F0F0" label="Turno di Lavoro" />
+						    <columns>
+							<column label="Turno di Lavoro" />
+							<column style="background:#FFFFFF" width="40pt" />
+							<column label="Turno Forzabile" />
 							<column style="background:#FFB752" width="40pt" />
-							<column style="background:#F0F0F0" label="Turno Forzabile" />
+							<column label="Turno Non Forzabile" />
 							<column style="background:#D15B47" width="40pt" />
-							<column style="background:#F0F0F0" label="Turno Non Forzabile" />
+							<column label="Giorno attuale" />
 							<column style="background:#70B8FF" width="40pt" />
-							<column style="background:#F0F0F0" label="Giorno attuale" />
-						</columns>
+							</columns>
 					</grid>
 				</panelchildren>
-		</panel>
-		<space/>
+			</panel>
+			<space/>
+			
+		
 			
 
 			<panel border="normal" collapsible="false"
@@ -1282,7 +1284,22 @@
 
 			</popup>
 
+			<panel width="200px" border="normal">
+				<panelchildren>
+					<grid>
+						<auxhead>
+							<auxheader style="background-color: #FAFAFA"
+								colspan="2" label="Legenda Colori" />
+						</auxhead>
 
+						<columns>
+							<column label="Dati a consuntivo" />
+							<column style="background:#70B8FF" width="40pt" />
+							</columns>
+					</grid>
+				</panelchildren>
+			</panel>
+			<space/>
 
 			<hbox align="center">
 				<a label="Seleziona data iniziale: "></a>
@@ -1466,22 +1483,7 @@
 			</panel>
 			<space></space>
 
-			<panel width="200px" border="normal">
-				<panelchildren>
-					<grid>
-						<auxhead>
-							<auxheader style="background-color: #FAFAFA"
-								colspan="2" label="Legenda Colori" />
-						</auxhead>
-
-						<columns>
-							<column style="background:#70B8FF"
-								width="40pt" />
-							<column label="Dati a consuntivo" />
-						</columns>
-					</grid>
-				</panelchildren>
-			</panel>
+			
 
 		</div>
 
