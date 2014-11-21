@@ -4,6 +4,7 @@
  */
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +92,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 				ret[i] = averageShift;
 
 			}
+
+			// sort array
+			Arrays.sort(ret);
 
 			return ret;
 
