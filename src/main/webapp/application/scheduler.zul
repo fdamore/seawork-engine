@@ -61,10 +61,10 @@
 						<separator></separator>
 						<hbox align="center">
 
-							<grid sizedByContent="true">
+							<grid width="200px">
 								<columns>
-									<column></column>
-									<column></column>
+									<column width="130px"></column>
+									<column width="50px"></column>
 								</columns>
 								<rows>
 									<row>
