@@ -785,14 +785,14 @@
 						</auxhead>
 
 						    <columns>
+						    <column style="background:#91B98A" width="40pt" />
 							<column label="Turno di Lavoro" />
-							<column style="background:#FFFFFF" width="40pt" />
-							<column label="Turno Forzabile" />
 							<column style="background:#FFB752" width="40pt" />
-							<column label="Turno Non Forzabile" />
+							<column label="Turno Forzabile" />
 							<column style="background:#D15B47" width="40pt" />
-							<column label="Giorno attuale" />
+							<column label="Turno Non Forzabile" />
 							<column style="background:#70B8FF" width="40pt" />
+							<column label="Giorno attuale" />
 							</columns>
 					</grid>
 				</panelchildren>
@@ -1293,8 +1293,10 @@
 						</auxhead>
 
 						<columns>
-							<column label="Dati a consuntivo" />
+							
 							<column style="background:#70B8FF" width="40pt" />
+							<column label="Dati a consuntivo" />
+							
 							</columns>
 					</grid>
 				</panelchildren>
