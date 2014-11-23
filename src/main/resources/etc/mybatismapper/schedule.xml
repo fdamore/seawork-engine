@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="schedule">
 
-	<cache />
+	<cache  />
 
 	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO

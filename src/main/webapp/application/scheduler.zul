@@ -74,22 +74,32 @@
 									</row>
 
 									<row>
-										<label value="Media turno 1:" />
+										<label
+											value="Ore Settimanali: " />
+										<label id="work_current_week" />
+									</row>
+
+									<row>
+										<label
+											value="Lavoro su Turno 1:" />
 										<label id="shift_perc_1" />
 									</row>
 
 									<row>
-										<label value="Media turno 2:" />
+										<label
+											value="Lavoro su Turno 2:" />
 										<label id="shift_perc_2" />
 									</row>
 
 									<row>
-										<label value="Media turno 3:" />
+										<label
+											value="Lavoro su Turno 3:" />
 										<label id="shift_perc_3" />
 									</row>
 
 									<row>
-										<label value="Media turno 4:" />
+										<label
+											value="Lavoro su Turno 4:" />
 										<label id="shift_perc_4" />
 									</row>
 
@@ -774,9 +784,9 @@
 
 			</popup>
 
-		<space/>
-		
-		<panel width="800px" border="normal">
+			<space />
+
+			<panel width="800px" border="normal">
 				<panelchildren>
 					<grid>
 						<auxhead>
@@ -784,23 +794,27 @@
 								colspan="8" label="Legenda Colori" />
 						</auxhead>
 
-						    <columns>
-						    <column style="background:#91B98A" width="40pt" />
+						<columns>
+							<column style="background:#91B98A"
+								width="40pt" />
 							<column label="Turno di Lavoro" />
-							<column style="background:#FFB752" width="40pt" />
+							<column style="background:#FFB752"
+								width="40pt" />
 							<column label="Turno Forzabile" />
-							<column style="background:#D15B47" width="40pt" />
+							<column style="background:#D15B47"
+								width="40pt" />
 							<column label="Turno Non Forzabile" />
-							<column style="background:#70B8FF" width="40pt" />
+							<column style="background:#70B8FF"
+								width="40pt" />
 							<column label="Giorno attuale" />
-							</columns>
+						</columns>
 					</grid>
 				</panelchildren>
 			</panel>
-			<space/>
-			
-		
-			
+			<space />
+
+
+
 
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
@@ -1157,7 +1171,7 @@
 
 			<space></space>
 
-			
+
 
 
 
@@ -1293,15 +1307,16 @@
 						</auxhead>
 
 						<columns>
-							
-							<column style="background:#70B8FF" width="40pt" />
+
+							<column style="background:#70B8FF"
+								width="40pt" />
 							<column label="Dati a consuntivo" />
-							
-							</columns>
+
+						</columns>
 					</grid>
 				</panelchildren>
 			</panel>
-			<space/>
+			<space />
 
 			<hbox align="center">
 				<a label="Seleziona data iniziale: "></a>
@@ -1485,7 +1500,7 @@
 			</panel>
 			<space></space>
 
-			
+
 
 		</div>
 
