@@ -75,13 +75,8 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	public List<Person> listAllPersons(final String full_text_search) {
 		MyBatisPersonDAO.logger.info("listAllPersons with like..");
 
-		String my_full_text_search = null;
-		if (full_text_search != null) {
-			my_full_text_search = "%" + full_text_search + "%";
-		}
-
 		final HashMap<String, String> map = new HashMap<String, String>();
-		map.put("my_full_text_search", my_full_text_search);
+		map.put("my_full_text_search", full_text_search);
 
 		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike", map);
 		return list_person;
@@ -91,13 +86,8 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	public List<Person> listWorkerPersons(final String full_text_search) {
 		MyBatisPersonDAO.logger.info("list all worker persons...");
 
-		String my_full_text_search = null;
-		if (full_text_search != null) {
-			my_full_text_search = "%" + full_text_search + "%";
-		}
-
 		final HashMap<String, String> map = new HashMap<String, String>();
-		map.put("my_full_text_search", my_full_text_search);
+		map.put("my_full_text_search", full_text_search);
 
 		return this.getSqlSession().selectList("person.selectWorkerPerson", map);
 	}
