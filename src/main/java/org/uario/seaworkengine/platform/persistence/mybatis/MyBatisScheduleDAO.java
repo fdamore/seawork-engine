@@ -46,7 +46,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		final Integer ret_int = this.getSqlSession().selectOne("schedule.getLastShiftRevision", map);
 		if (ret_int != null) {
 			return ret_int;
-		} else {
+		}
+		else {
 			return this.getSqlSession().selectOne("schedule.getLastShiftProgram", map);
 		}
 
@@ -258,7 +259,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createDaySchedule", day_schedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateDaySchedule", day_schedule);
 
 		}
@@ -271,7 +273,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}

@@ -51,13 +51,19 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 				if (averageShift.getShift() == 1) {
 					shift_1 = true;
-				} else if (averageShift.getShift() == 2) {
-					shift_2 = true;
-				} else if (averageShift.getShift() == 3) {
-					shift_3 = true;
-				} else if (averageShift.getShift() == 4) {
-					shift_4 = true;
 				}
+				else
+					if (averageShift.getShift() == 2) {
+						shift_2 = true;
+					}
+					else
+						if (averageShift.getShift() == 3) {
+							shift_3 = true;
+						}
+						else
+							if (averageShift.getShift() == 4) {
+								shift_4 = true;
+							}
 
 			}
 
@@ -68,16 +74,22 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 				if (!shift_1) {
 					averageShift.setShift(1);
 					shift_1 = true;
-				} else if (!shift_2) {
-					averageShift.setShift(2);
-					shift_2 = true;
-				} else if (!shift_3) {
-					averageShift.setShift(3);
-					shift_3 = true;
-				} else if (!shift_4) {
-					averageShift.setShift(4);
-					shift_4 = true;
 				}
+				else
+					if (!shift_2) {
+						averageShift.setShift(2);
+						shift_2 = true;
+					}
+					else
+						if (!shift_3) {
+							averageShift.setShift(3);
+							shift_3 = true;
+						}
+						else
+							if (!shift_4) {
+								averageShift.setShift(4);
+								shift_4 = true;
+							}
 
 				ret[i] = averageShift;
 
@@ -88,9 +100,23 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 			return ret;
 
-		} else {
+		}
+		else {
 			return null;
 		}
+
+	}
+
+	@Override
+	public List<Date> getDatesBreak(final Integer id_user, final Date date_from, final Date date_to) {
+		MyBatisStatisticsDAO.logger.info("getDatesBreak");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id_user", id_user);
+		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
+		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
+
+		return this.getSqlSession().selectList("statistics.datesBreak", map);
 
 	}
 
@@ -120,7 +146,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		if (ret != null) {
 			return ret;
-		} else {
+		}
+		else {
 
 			return this.getSqlSession().selectOne("statistics.timeWorkedProgram", map);
 		}

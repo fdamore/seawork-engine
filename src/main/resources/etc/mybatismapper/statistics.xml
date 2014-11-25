@@ -6,6 +6,25 @@
 	<cache-ref namespace="schedule" />
 
 
+
+	<select id="datesBreak" resultType="java.util.Date"
+		parameterType="map">
+		select
+		d.date_scheduled as date_break
+		from
+		dayschedule d,
+		usershift s
+		where
+		d.date_scheduled <![CDATA[>=]]>
+		#{date_schedule_from}
+		and d.date_scheduled <![CDATA[<=]]>
+		#{date_schedule_to}
+		and s.break_shift = 1
+		and d.shift = s.id and
+		d.id_user = #{id_user}
+	</select>
+
+
 	<select id="timeWorkedProgram" resultType="int" parameterType="map">
 		select
 		sum(d_1.time)

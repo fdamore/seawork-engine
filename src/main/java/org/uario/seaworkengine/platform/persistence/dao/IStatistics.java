@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.uario.seaworkengine.statistics.RateShift;
 
@@ -16,6 +17,16 @@ public interface IStatistics {
 	 * @return Averages
 	 */
 	public RateShift[] getAverageForShift(Integer user, Date date);
+
+	/**
+	 * Get Date break for a user in period
+	 * 
+	 * @param id_user
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public List<Date> getDatesBreak(Integer id_user, Date date_from, Date date_to);
 
 	/**
 	 * Get percentage working sunday
