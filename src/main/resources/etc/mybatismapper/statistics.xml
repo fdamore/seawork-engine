@@ -10,7 +10,7 @@
 	<select id="datesBreak" resultType="java.util.Date"
 		parameterType="map">
 		select
-		d.date_scheduled as date_break
+		max(d.date_scheduled) as date_break
 		from
 		dayschedule d,
 		usershift s

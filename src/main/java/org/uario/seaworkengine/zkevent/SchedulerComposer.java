@@ -77,7 +77,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private static final SimpleDateFormat	formatter_e						= new SimpleDateFormat("E");
 
 	private static final SimpleDateFormat	formatter_eeee					= new SimpleDateFormat("EEEE");
+
 	private static final SimpleDateFormat	formatter_scheduler_info		= new SimpleDateFormat("EEEE dd MMM");
+
+	private static final int				MAX_DAYS_WITHOUT_BREAK			= 10;
 	/**
 	 *
 	 */
@@ -402,6 +405,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// getting information
 		final Date current_date_scheduled = this.getDateScheduled(this.selectedDay + offset);
 		final Integer user = row_item.getUser();
+
+		// if shift is a break shift, check if is possible to assign it
+		if (shift.getBreak_shift().booleanValue()) {
+
+			// check previous data break
+			final Date max_date_to_break = this.getMaxDateBreak(current_date_scheduled, user);
+			if (max_date_to_break != null) {
+
+				// check with current date
+				final Calendar currentCalendar = Calendar.getInstance();
+				currentCalendar.setTime(current_date_scheduled);
+				final Date dateCurrent = DateUtils.truncate(currentCalendar.getTime(), Calendar.DATE);
+				final Date maxDate = DateUtils.truncate(max_date_to_break, Calendar.DATE);
+
+				if (dateCurrent.after(maxDate)) {
+					Messagebox.show("Non puoi assegnare un turno di riposo dopo più di 10 Giorni", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+					return;
+				}
+			}
+
+		}
 
 		// reset day schedule
 		daySchedule.setDate_scheduled(current_date_scheduled);
@@ -886,6 +910,34 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		return itemsRow;
+	}
+
+	/**
+	 * Return the last break day in week
+	 *
+	 * @param current_date_scheduled
+	 * @param user
+	 * @return get last break day in week
+	 */
+	private Date getMaxDateBreak(final Date current_date_scheduled, final Integer user) {
+		final Calendar checkPeriod = Calendar.getInstance();
+		checkPeriod.setTime(current_date_scheduled);
+		checkPeriod.add(Calendar.DAY_OF_YEAR, -7);
+		checkPeriod.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		final Date date_from = checkPeriod.getTime();
+		checkPeriod.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		final Date date_to = checkPeriod.getTime();
+		final Date date_break = this.statisticDAO.getDatesBreak(user, date_from, date_to);
+		if (date_break != null) {
+			final Calendar calendarDateBreak = Calendar.getInstance();
+			calendarDateBreak.setTime(date_break);
+			calendarDateBreak.add(Calendar.DAY_OF_YEAR, SchedulerComposer.MAX_DAYS_WITHOUT_BREAK);
+
+			return calendarDateBreak.getTime();
+
+		}
+
+		return null;
 	}
 
 	/**

@@ -108,7 +108,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<Date> getDatesBreak(final Integer id_user, final Date date_from, final Date date_to) {
+	public Date getDatesBreak(final Integer id_user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("getDatesBreak");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -116,7 +116,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
 		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
 
-		return this.getSqlSession().selectList("statistics.datesBreak", map);
+		return this.getSqlSession().selectOne("statistics.datesBreak", map);
 
 	}
 
