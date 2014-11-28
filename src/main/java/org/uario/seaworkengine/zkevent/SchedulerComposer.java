@@ -143,6 +143,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Textbox							note_review;
 
+	@Wire
+	private Div								overview_div;
+
+	@Wire
+	private Comboitem						overview_item;
+
 	private PersonDAO						personDAO;
 
 	@Wire
@@ -410,20 +416,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (shift.getBreak_shift().booleanValue()) {
 
 			// check previous data break
-			final Date max_date_to_break = this.getMaxDateBreak(current_date_scheduled, user);
-			if (max_date_to_break != null) {
-
-				// check with current date
-				final Calendar currentCalendar = Calendar.getInstance();
-				currentCalendar.setTime(current_date_scheduled);
-				final Date dateCurrent = DateUtils.truncate(currentCalendar.getTime(), Calendar.DATE);
-				final Date maxDate = DateUtils.truncate(max_date_to_break, Calendar.DATE);
-
-				if (dateCurrent.after(maxDate)) {
-					Messagebox.show("Non puoi assegnare un turno di riposo dopo più di 10 Giorni", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
-					return;
-				}
-			}
+			/*
+			 * final Date max_date_to_break =
+			 * this.getMaxDateBreak(current_date_scheduled, user); if
+			 * (max_date_to_break != null) {
+			 * 
+			 * // check with current date final Calendar currentCalendar =
+			 * Calendar.getInstance();
+			 * currentCalendar.setTime(current_date_scheduled); final Date
+			 * dateCurrent = DateUtils.truncate(currentCalendar.getTime(),
+			 * Calendar.DATE); final Date maxDate =
+			 * DateUtils.truncate(max_date_to_break, Calendar.DATE);
+			 * 
+			 * if (dateCurrent.after(maxDate)) { Messagebox.show(
+			 * "Non puoi assegnare un turno di riposo dopo più di 10 Giorni",
+			 * "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return; } }
+			 */
 
 		}
 
@@ -576,6 +584,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.preprocessing_div.setVisible(true);
 			this.program_div.setVisible(false);
 			this.review_div.setVisible(false);
+			this.overview_div.setVisible(false);
 
 			// set initial structure for program
 			this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
@@ -587,6 +596,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.preprocessing_div.setVisible(false);
 			this.program_div.setVisible(true);
 			this.review_div.setVisible(false);
+			this.overview_div.setVisible(false);
 
 			// set initial structure for program
 			this.setGridStructureForShift();
@@ -598,6 +608,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.preprocessing_div.setVisible(false);
 			this.program_div.setVisible(false);
 			this.review_div.setVisible(true);
+			this.overview_div.setVisible(false);
+
+			// set initial structure for program
+			this.setGridStructureForShiftReview(SchedulerComposer.this.date_init_scheduler_review.getValue());
+			this.setupGlobalSchedulerGridForShiftReview();
+			return;
+		}
+
+		if (selected == this.overview_item) {
+			this.preprocessing_div.setVisible(false);
+			this.program_div.setVisible(false);
+			this.review_div.setVisible(false);
+			this.overview_div.setVisible(true);
 
 			// set initial structure for program
 			this.setGridStructureForShiftReview(SchedulerComposer.this.date_init_scheduler_review.getValue());
@@ -2294,7 +2317,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Double perc = SchedulerComposer.this.statisticDAO.getSundayWorkPercentage(id_user);
 
-		String perc_info = "";
+		String perc_info = "0%";
 		if (perc != null) {
 			perc_info = "" + Utility.roundTwo(perc) + "%";
 		}
@@ -2333,7 +2356,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		current.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		final Date date_from = current.getTime();
 
-		final Integer week_current_hours = this.statisticDAO.getTimeWorked(id_user, date_from, date_to);
+		Integer week_current_hours = this.statisticDAO.getTimeWorked(id_user, date_from, date_to);
+		if (week_current_hours == null) {
+			week_current_hours = 0;
+		}
 
 		this.work_current_week.setValue("" + week_current_hours);
 

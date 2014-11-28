@@ -31,6 +31,10 @@
 					id="review_item">
 				</comboitem>
 
+				<comboitem label="RIEPILOGO" value="RIEPILOGO"
+					id="overview_item">
+				</comboitem>
+
 
 			</combobox>
 
@@ -1505,6 +1509,62 @@
 		</div>
 
 
+		<!-- OVERVIEW -->
+		<div id="overview_div" visible="false">
+
+			<button id="refresh_overview" label="Aggiorna"
+				sclass="btn-info" />
+
+			<separator></separator>
+
+			<hbox align="center">
+				<a label="Filtra su periodo: "></a>
+				<datebox id="date_from_overview"
+					placeholder="Selezione data iniziale" width="200px">
+				</datebox>
+
+				<datebox id="date_to_overview"
+					placeholder="Selezione data finale" width="200px">
+				</datebox>
+
+				<button id="overview_month" label="Mese corrente"
+					sclass="btn-info" />
+
+			</hbox>
+
+			<separator></separator>
+
+			<hbox align="center">
+
+				<a label="Filtra su turno: "></a>
+				<combobox placeholder="Scegli tuno" readonly="true">
+					<comboitem value="TUTTI" label="TUTTI"></comboitem>
+					<comboitem value="1" label="1"></comboitem>
+					<comboitem value="2" label="2"></comboitem>
+					<comboitem value="3" label="3"></comboitem>
+					<comboitem value="4" label="4"></comboitem>
+				</combobox>
+
+
+			</hbox>
+
+
+
+			<separator></separator>
+
+			<tabbox>
+				<tabs>
+					<tab label="CONSUNTIVO"></tab>
+					<tab label="PROGRAMMATO"></tab>
+				</tabs>
+				<tabpanels>
+					<tabpanel></tabpanel>
+					<tabpanel></tabpanel>
+				</tabpanels>
+
+			</tabbox>
+
+		</div>
 
 
 	</vlayout>
