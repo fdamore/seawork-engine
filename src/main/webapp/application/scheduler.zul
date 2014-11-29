@@ -143,8 +143,9 @@
 							<a label="Configurazione gionaliera: "
 								id="label_date_popup" sclass="header" iconSclass="z-icon-check" />
 							<separator></separator>
-							<combobox id="shift_popup"
-								placeholder="Seleziona un turno..." readonly="true">
+							<combobox id="shift_popup" autodrop="false"
+								autocomplete="true" placeholder="Seleziona un turno..."
+								readonly="false">
 							</combobox>
 							<separator></separator>
 							<hbox>
