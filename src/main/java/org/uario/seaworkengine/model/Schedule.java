@@ -34,11 +34,11 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	// used for visualize
 	@XmlTransient
-	private Integer				program_time;
+	private Double				program_time;
 
 	// used for visualize
 	@XmlTransient
-	private Integer				revision_time;
+	private Double				revision_time;
 
 	// only for engine and visualize purpose
 	@XmlTransient
@@ -89,11 +89,11 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.note;
 	}
 
-	public Integer getProgram_time() {
+	public Double getProgram_time() {
 		return this.program_time;
 	}
 
-	public Integer getRevision_time() {
+	public Double getRevision_time() {
 		return this.revision_time;
 	}
 
@@ -129,11 +129,11 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		this.note = note;
 	}
 
-	public void setProgram_time(final Integer program_time) {
+	public void setProgram_time(final Double program_time) {
 		this.program_time = program_time;
 	}
 
-	public void setRevision_time(final Integer revision_time) {
+	public void setRevision_time(final Double revision_time) {
 		this.revision_time = revision_time;
 	}
 

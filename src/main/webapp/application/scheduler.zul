@@ -703,15 +703,27 @@
 							<auxhead>
 								<auxheader colspan="2">
 									<label
-										value="Definizione del turno">
+										value="Definizione del turno: ">
 									</label>
 
 									<combobox readonly="true"
 										placeholder="Mansioni" id="program_task">
 									</combobox>
 
-									<intbox
-										placeholder="Ore da lavorare" id="program_time">
+								</auxheader>
+							</auxhead>
+							<auxhead>
+								<auxheader colspan="2">
+
+									<label value="Tempo lavorato: ">
+									</label>
+
+									<intbox placeholder="Ore..."
+										id="program_time_hours">
+									</intbox>
+
+									<intbox placeholder="Minuti..."
+										id="program_time_minuts">
 									</intbox>
 
 								</auxheader>
@@ -749,7 +761,7 @@
 								</listcell>
 								<listcell>
 									<label width="200px"
-										value="@{item_program.time}">
+										value="@{item_program.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
 									</label>
 								</listcell>
 
@@ -764,10 +776,10 @@
 				<space></space>
 
 				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" title="Rapporto Giornaliero"
+					style="margin: 5px 5px 5px 5px" title="Nota Giornaliera"
 					sclass="transparent">
 					<caption>
-						<button id="save_report" label="Salva Rapporto"
+						<button id="save_report" label="Salva Nota"
 							sclass="btn-info" />
 
 					</caption>
@@ -1203,10 +1215,6 @@
 										placeholder="Mansioni" id="review_task">
 									</combobox>
 
-									<intbox placeholder="Ore lavorate"
-										id="review_time">
-									</intbox>
-
 									<timebox placeholder="Ora inizio"
 										id="time_from">
 									</timebox>
@@ -1217,6 +1225,24 @@
 
 								</auxheader>
 							</auxhead>
+
+							<auxhead>
+								<auxheader colspan="4">
+
+									<label value="Tempo lavorato: ">
+									</label>
+
+									<intbox placeholder="Ore..."
+										id="review_time_hours">
+									</intbox>
+
+									<intbox placeholder="Minuti..."
+										id="review_time_minuts">
+									</intbox>
+
+								</auxheader>
+							</auxhead>
+
 							<auxhead>
 								<auxheader colspan="4">
 
@@ -1253,7 +1279,7 @@
 								</listcell>
 								<listcell>
 									<label width="200px"
-										value="@{itemreview.time}">
+										value="@{itemreview.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
 									</label>
 								</listcell>
 								<listcell>
@@ -1278,11 +1304,11 @@
 				<space></space>
 
 				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" title="Rapporto Giornaliero"
+					style="margin: 5px 5px 5px 5px" title="Nota Giornaliera"
 					sclass="transparent">
 					<caption>
 						<button id="save_report_review"
-							label="Salva Rapporto" sclass="btn-info" />
+							label="Salva Nota" sclass="btn-info" />
 
 					</caption>
 					<panelchildren>

@@ -21,7 +21,7 @@ public class DetailInitialSchedule implements Serializable {
 	private Integer				id_schedule;
 	private Integer				shift;
 	private Integer				task;
-	private Integer				time;
+	private Double				time;
 
 	public Integer getId() {
 		return this.id;
@@ -39,7 +39,7 @@ public class DetailInitialSchedule implements Serializable {
 		return this.task;
 	}
 
-	public Integer getTime() {
+	public Double getTime() {
 		return this.time;
 	}
 
@@ -59,7 +59,7 @@ public class DetailInitialSchedule implements Serializable {
 		this.task = task_initial;
 	}
 
-	public void setTime(final int time_initial) {
+	public void setTime(final Double time_initial) {
 		this.time = time_initial;
 	}
 
