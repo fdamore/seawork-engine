@@ -133,8 +133,8 @@ public class Preferences extends SelectorComposer<Component> {
 		final String typeOfBreakShift = this.typeofbreak.getSelectedItem().getValue().toString();
 
 		shift.setBreak_shift(false);
-		shift.setExpectedBreak_shift(false);
-		shift.setInjury_shift(false);
+		shift.setWaitbreak_shift(false);
+		shift.setAccident_shift(false);
 		shift.setDisease_shift(false);
 
 		if (!typeOfBreakShift.equals("Non definito")) {
@@ -142,10 +142,10 @@ public class Preferences extends SelectorComposer<Component> {
 				shift.setBreak_shift(true);
 				this.configurationDao.removeAllBreakShift();
 			} else if (typeOfBreakShift.equals("Riposo Atteso")) {
-				shift.setExpectedBreak_shift(true);
+				shift.setWaitbreak_shift(true);
 				this.configurationDao.removeAllExpectedBreakShift();
 			} else if (typeOfBreakShift.equals("Riposo Infortunio")) {
-				shift.setInjury_shift(true);
+				shift.setAccident_shift(true);
 				this.configurationDao.removeAllInjuryShift();
 			} else if (typeOfBreakShift.equals("Riposo Malattia")) {
 				shift.setDisease_shift(true);
@@ -322,11 +322,11 @@ public class Preferences extends SelectorComposer<Component> {
 			this.typeofbreak.setSelectedIndex(1);
 			this.type_shift.setDisabled(true);
 			this.forceable.setDisabled(true);
-		} else if (shift.getExpectedBreak_shift()) {
+		} else if (shift.getWaitBreak_shift()) {
 			this.typeofbreak.setSelectedIndex(2);
 			this.type_shift.setDisabled(true);
 			this.forceable.setDisabled(true);
-		} else if (shift.getInjury_shift()) {
+		} else if (shift.getAccident_shift()) {
 			this.typeofbreak.setSelectedIndex(3);
 			this.type_shift.setDisabled(true);
 			this.forceable.setDisabled(true);
@@ -402,8 +402,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 		shift.setBreak_shift(false);
 		shift.setDisease_shift(false);
-		shift.setInjury_shift(false);
-		shift.setExpectedBreak_shift(false);
+		shift.setAccident_shift(false);
+		shift.setWaitbreak_shift(false);
 
 		if (this.typeofbreak.getSelectedItem() != null) {
 			final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
@@ -411,10 +411,10 @@ public class Preferences extends SelectorComposer<Component> {
 				shift.setBreak_shift(true);
 				this.configurationDao.setShiftAsBreak(shift.getId());
 			} else if (typeOfBreak.equals("Riposo Atteso")) {
-				shift.setExpectedBreak_shift(true);
+				shift.setWaitbreak_shift(true);
 				this.configurationDao.setShiftAsExpectedBreak(shift.getId());
 			} else if (typeOfBreak.equals("Riposo Infortunio")) {
-				shift.setInjury_shift(true);
+				shift.setAccident_shift(true);
 				this.configurationDao.setShiftAsInjury(shift.getId());
 			} else if (typeOfBreak.equals("Riposo Malattia")) {
 				shift.setDisease_shift(true);

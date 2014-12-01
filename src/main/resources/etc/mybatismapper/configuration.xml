@@ -17,7 +17,7 @@
 	</select>
 
 	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, injury_shift, expectedbreak_shift
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift
 		FROM usershift
 		ORDER BY description;
 	</select>
@@ -47,9 +47,9 @@
 		usershift
 		(code,
 		description,
-		presence, forceable, break_shift, disease_shift, injury_shift, expectedbreak_shift)
+		presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift)
 		VALUES
-		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{injury_shift}, #{expectedbreak_shift});
+		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{accident_shift}, #{waitbreak_shift});
 	</insert>
 
 
@@ -78,8 +78,8 @@
 		forceable = #{forceable},
 		break_shift = #{break_shift},
 		disease_shift = #{disease_shift}, 
-		injury_shift = #{injury_shift}, 
-		expectedbreak_shift = #{expectedbreak_shift}
+		accident_shift = #{accident_shift}, 
+		waitbreak_shift = #{waitbreak_shift}
 		WHERE id = #{id};
 
 
@@ -128,25 +128,25 @@
 		WHERE id = #{id_usershift};
 	</update>
 	
-	<update id="removeAllInjuryShift">
+	<update id="removeAllAccidentShift">
 		UPDATE usershift
-		SET injury_shift = 0;
+		SET accident_shift = 0;
 	</update>
 	
-	<update id="setShiftAsInjury" parameterType="Integer">
+	<update id="setShiftAsAccident" parameterType="Integer">
 		UPDATE usershift
-		SET injury_shift = 1, forceable = 0, presence = 0
+		SET accident_shift = 1, forceable = 0, presence = 0
 		WHERE id = #{id_usershift};
 	</update>
 	
 	<update id="removeAllExpectedBreakShift">
 		UPDATE usershift
-		SET expectedbreak_shift = 0;
+		SET waitbreak_shift = 0;
 	</update>
 	
 	<update id="setShiftAsExpectedBreak" parameterType="Integer">
 		UPDATE usershift
-		SET expectedbreak_shift = 1, forceable = 0, presence = 0
+		SET waitbreak_shift = 1, forceable = 0, presence = 0
 		WHERE id = #{id_usershift};
 	</update>
 

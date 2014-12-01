@@ -9,21 +9,25 @@ public class UserShift implements Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
-	private Boolean				break_shift;
+	private Boolean				accident_shift;
 
+	private Boolean				break_shift;
 	private String				code;
 	private String				description;
-	private Boolean				disease_shift;
 
-	private Boolean				expectedbreak_shift;
+	private Boolean				disease_shift;
 
 	private Boolean				forceable;
 
 	private Integer				id;
 
-	private Boolean				injury_shift;
-
 	private Boolean				presence;
+
+	private Boolean				waitbreak_shift;
+
+	public Boolean getAccident_shift() {
+		return this.accident_shift;
+	}
 
 	public Boolean getBreak_shift() {
 		return this.break_shift;
@@ -41,10 +45,6 @@ public class UserShift implements Serializable {
 		return this.disease_shift;
 	}
 
-	public Boolean getExpectedBreak_shift() {
-		return this.expectedbreak_shift;
-	}
-
 	public Boolean getForceable() {
 		return this.forceable;
 	}
@@ -53,12 +53,16 @@ public class UserShift implements Serializable {
 		return this.id;
 	}
 
-	public Boolean getInjury_shift() {
-		return this.injury_shift;
-	}
-
 	public Boolean getPresence() {
 		return this.presence;
+	}
+
+	public Boolean getWaitBreak_shift() {
+		return this.waitbreak_shift;
+	}
+
+	public void setAccident_shift(final Boolean accident_shift) {
+		this.accident_shift = accident_shift;
 	}
 
 	public void setBreak_shift(final Boolean break_shift) {
@@ -77,10 +81,6 @@ public class UserShift implements Serializable {
 		this.disease_shift = disease_shift;
 	}
 
-	public void setExpectedBreak_shift(final Boolean expected_shift) {
-		this.expectedbreak_shift = expected_shift;
-	}
-
 	public void setForceable(final Boolean forceable) {
 		this.forceable = forceable;
 	}
@@ -89,13 +89,13 @@ public class UserShift implements Serializable {
 		this.id = id;
 	}
 
-	public void setInjury_shift(final Boolean injury_shift) {
-		this.injury_shift = injury_shift;
-	}
-
 	public void setPresence(final Boolean presence) {
 		this.presence = presence;
 
+	}
+
+	public void setWaitbreak_shift(final Boolean waitbreak_shift) {
+		this.waitbreak_shift = waitbreak_shift;
 	}
 
 	@Override

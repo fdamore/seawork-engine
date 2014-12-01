@@ -428,9 +428,10 @@
 									<listheader label="Tipo di Turno" />
 									<listheader label="Forzabile" />
 									<listheader label="Riposo Programmato" />
-									<listheader	label="Riposo Atteso" />
+									
 									<listheader label="Riposo Infortunio" />
 									<listheader label="Riposo Malattia" />
+									<listheader	label="Riposo Atteso" />
 									<listheader label="" />
 								</listhead>
 
@@ -445,14 +446,16 @@
 									<listcell>
 										<image src="@{shift_item.break_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell> 
-										<image src="@{shift_item.expectedbreak_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
-									</listcell>
+									
 									<listcell>
-										<image src="@{shift_item.injury_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+										<image src="@{shift_item.accident_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
 									<listcell>
 										<image src="@{shift_item.disease_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+									</listcell>
+									<listcell label="@{shift_item.waitbreak_shift}" > 
+									
+									<!-- <image src="@{shift_item.waitbreak_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" /> -->	
 									</listcell>
 									<listcell>
 
