@@ -17,6 +17,14 @@ public interface ConfigurationDAO {
 
 	public List<UserTask> loadTasks();
 
+	public void removeAllBreakShift();
+
+	public void removeAllDiseaseShift();
+
+	public void removeAllExpectedBreakShift();
+
+	public void removeAllInjuryShift();
+
 	public void removeShift(Integer id);
 
 	public void removeStatus(String description);
@@ -26,6 +34,12 @@ public interface ConfigurationDAO {
 	public List<String> selectAllStatus();
 
 	public void setShiftAsBreak(final Integer id_usershift);
+
+	public void setShiftAsDisease(final Integer id_usershift);
+
+	public void setShiftAsExpectedBreak(final Integer id_usershift);
+
+	public void setShiftAsInjury(final Integer id_usershift);
 
 	public void updateShift(UserShift shift);
 

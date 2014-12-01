@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.zkevent.converter;
 
-import org.uario.seaworkengine.model.UserShift;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 import org.zkoss.zul.Image;
@@ -22,15 +21,15 @@ public class ShiftBreakConverter implements TypeConverter {
 			return "";
 		}
 
-		if (!(arg0 instanceof UserShift)) {
+		if (!(arg0 instanceof Boolean)) {
 			return "";
 		}
 
-		final UserShift shift = (UserShift) arg0;
-		if (shift.getBreak_shift() == null) {
+		final Boolean isBreak = (Boolean) arg0;
+		if (isBreak == null) {
 			return "";
 		}
-		if (shift.getBreak_shift().booleanValue()) {
+		if (isBreak) {
 			return ShiftBreakConverter.img;
 		} else {
 

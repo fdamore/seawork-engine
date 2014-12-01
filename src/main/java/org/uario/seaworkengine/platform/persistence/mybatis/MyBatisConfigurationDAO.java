@@ -71,6 +71,29 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void removeAllBreakShift() {
+		this.getSqlSession().update("configuration.removeAllBreakShift");
+	}
+
+	@Override
+	public void removeAllDiseaseShift() {
+		this.getSqlSession().update("configuration.removeAllDiseaseShift");
+
+	}
+
+	@Override
+	public void removeAllExpectedBreakShift() {
+		this.getSqlSession().update("configuration.removeAllExpectedBreakShift");
+
+	}
+
+	@Override
+	public void removeAllInjuryShift() {
+		this.getSqlSession().update("configuration.removeAllInjuryShift");
+
+	}
+
+	@Override
 	public void removeShift(final Integer id) {
 		MyBatisConfigurationDAO.logger.info("Remove shift with id " + id);
 		this.getSqlSession().delete("configuration.deleteShift", id);
@@ -114,6 +137,39 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 		this.getSqlSession().update("configuration.removeAllBreakShift");
 
 		this.getSqlSession().update("configuration.setShiftAsBreak", id_usershift);
+
+	}
+
+	@Override
+	public void setShiftAsDisease(final Integer id_usershift) {
+		MyBatisConfigurationDAO.logger.info("setShiftAsDisease");
+
+		// remove all break shift
+		this.getSqlSession().update("configuration.removeAllDiseaseShift");
+
+		this.getSqlSession().update("configuration.setShiftAsDisease", id_usershift);
+
+	}
+
+	@Override
+	public void setShiftAsExpectedBreak(final Integer id_usershift) {
+		MyBatisConfigurationDAO.logger.info("setShiftAsExpectedBreak");
+
+		// remove all break shift
+		this.getSqlSession().update("configuration.removeAllExpectedBreakShift");
+
+		this.getSqlSession().update("configuration.setShiftAsExpectedBreak", id_usershift);
+
+	}
+
+	@Override
+	public void setShiftAsInjury(final Integer id_usershift) {
+		MyBatisConfigurationDAO.logger.info("setShiftAsInjury");
+
+		// remove all break shift
+		this.getSqlSession().update("configuration.removeAllInjuryShift");
+
+		this.getSqlSession().update("configuration.setShiftAsInjury", id_usershift);
 
 	}
 

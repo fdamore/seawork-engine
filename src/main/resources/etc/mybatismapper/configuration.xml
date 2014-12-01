@@ -17,10 +17,7 @@
 	</select>
 
 	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id,
-		code,
-		description,
-		presence, forceable, break_shift
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, injury_shift, expectedbreak_shift
 		FROM usershift
 		ORDER BY description;
 	</select>
@@ -50,12 +47,13 @@
 		usershift
 		(code,
 		description,
-		presence, forceable, break_shift)
+		presence, forceable, break_shift, disease_shift, injury_shift, expectedbreak_shift)
 		VALUES
-		(#{code},#{description},#{presence},#{forceable},#{break_shift});
+		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{injury_shift}, #{expectedbreak_shift});
 	</insert>
 
 
+	
 
 	<update id="updateTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		UPDATE
@@ -73,16 +71,15 @@
 		UPDATE
 		usershift
 		SET
-		id =
-		#{id},
+		id = #{id},
 		code = #{code},
 		description = #{description},
-		presence =
-		#{presence},
-		forceable = 
-		#{forceable},
-		break_shift =
-		#{break_shift}
+		presence = #{presence},
+		forceable = #{forceable},
+		break_shift = #{break_shift},
+		disease_shift = #{disease_shift}, 
+		injury_shift = #{injury_shift}, 
+		expectedbreak_shift = #{expectedbreak_shift}
 		WHERE id = #{id};
 
 
@@ -117,6 +114,39 @@
 	<update id="setShiftAsBreak" parameterType="Integer">
 		UPDATE usershift
 		SET break_shift = 1, forceable = 0, presence = 0
+		WHERE id = #{id_usershift};
+	</update>
+	
+	<update id="removeAllDiseaseShift">
+		UPDATE usershift
+		SET disease_shift = 0;
+	</update>
+	
+	<update id="setShiftAsDisease" parameterType="Integer">
+		UPDATE usershift
+		SET disease_shift = 1, forceable = 0, presence = 0
+		WHERE id = #{id_usershift};
+	</update>
+	
+	<update id="removeAllInjuryShift">
+		UPDATE usershift
+		SET injury_shift = 0;
+	</update>
+	
+	<update id="setShiftAsInjury" parameterType="Integer">
+		UPDATE usershift
+		SET injury_shift = 1, forceable = 0, presence = 0
+		WHERE id = #{id_usershift};
+	</update>
+	
+	<update id="removeAllExpectedBreakShift">
+		UPDATE usershift
+		SET expectedbreak_shift = 0;
+	</update>
+	
+	<update id="setShiftAsExpectedBreak" parameterType="Integer">
+		UPDATE usershift
+		SET expectedbreak_shift = 1, forceable = 0, presence = 0
 		WHERE id = #{id_usershift};
 	</update>
 

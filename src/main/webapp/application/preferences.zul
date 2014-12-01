@@ -332,9 +332,27 @@
 												<row
 													id="row_breakshift">
 													<label
-														value="Turno di riposo" />
-													<checkbox
-														id="breakshift" />
+														value="Tipo di riposo" />
+													<combobox
+														id="typeofbreak" placeholder="Seleziona il tipo di turno di riposo"
+														readonly="true">
+														<comboitem 
+															label="--" value="Non definito">
+														</comboitem>
+														<comboitem
+															label="Riposo Programmato" value="Riposo Programmato">
+														</comboitem>
+														<comboitem
+															label="Riposo Atteso" value="Riposo Atteso">
+														</comboitem>
+														<comboitem
+															label="Riposo Infortunio" value="Riposo Infortunio">
+														</comboitem>
+														<comboitem
+															label="Riposo Malattia" value="Riposo Malattia">
+														</comboitem>
+														
+													</combobox>	
 												</row>
 
 												<row
@@ -406,38 +424,36 @@
 								multiple="false" pageSize="20">
 								<listhead sizable="true">
 									<listheader label="Codice" />
-									<listheader label="Descrizione"
-										sort="auto(description)" />
+									<listheader label="Descrizione" sort="auto(description)" />
 									<listheader label="Tipo di Turno" />
 									<listheader label="Forzabile" />
-									<listheader
-										label="Riposo Programmato" />
+									<listheader label="Riposo Programmato" />
+									<listheader	label="Riposo Atteso" />
+									<listheader label="Riposo Infortunio" />
+									<listheader label="Riposo Malattia" />
 									<listheader label="" />
 								</listhead>
 
 								<listitem self="@{each='shift_item'}"
 									value="@{shift_item}">
-
-
-
-									<listcell
-										label="@{shift_item.code}" />
-
-									<listcell
-										label="@{shift_item.description}" />
-									<listcell
-										label="@{shift_item.presence, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
-
+									<listcell label="@{shift_item.code}" />
+									<listcell label="@{shift_item.description}" />
+									<listcell label="@{shift_item.presence, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
 									<listcell>
-										<checkbox
-											checked="@{shift_item.forceable}" disabled="true" />
+										<checkbox checked="@{shift_item.forceable}" disabled="true" />
 									</listcell>
-
 									<listcell>
-										<image
-											src="@{shift_item, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+										<image src="@{shift_item.break_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-
+									<listcell> 
+										<image src="@{shift_item.expectedbreak_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+									</listcell>
+									<listcell>
+										<image src="@{shift_item.injury_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+									</listcell>
+									<listcell>
+										<image src="@{shift_item.disease_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+									</listcell>
 									<listcell>
 
 										<toolbarbutton
@@ -452,11 +468,7 @@
 											label="Modifica">
 										</toolbarbutton>
 
-										<toolbarbutton
-											id="sw_setBreakShift" style="color:blue"
-											onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());"
-											label="Imposta Turno di Riposo">
-										</toolbarbutton>
+										
 
 									</listcell>
 

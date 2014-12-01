@@ -37,9 +37,6 @@ public class Preferences extends SelectorComposer<Component> {
 	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Checkbox			breakshift;
-
-	@Wire
 	private Textbox				code_shift;
 
 	@Wire
@@ -101,6 +98,9 @@ public class Preferences extends SelectorComposer<Component> {
 	@Wire
 	private Combobox			type_shift;
 
+	@Wire
+	private Combobox			typeofbreak;
+
 	@Listen("onClick = #add_shifts_command")
 	public void addShift() {
 
@@ -130,17 +130,30 @@ public class Preferences extends SelectorComposer<Component> {
 			shift.setForceable(false);
 		}
 
-		if (this.breakshift.isChecked()) {
-			shift.setBreak_shift(true);
-		} else {
-			shift.setBreak_shift(false);
+		final String typeOfBreakShift = this.typeofbreak.getSelectedItem().getValue().toString();
+
+		shift.setBreak_shift(false);
+		shift.setExpectedBreak_shift(false);
+		shift.setInjury_shift(false);
+		shift.setDisease_shift(false);
+
+		if (!typeOfBreakShift.equals("Non definito")) {
+			if (typeOfBreakShift.equals("Riposo Programmato")) {
+				shift.setBreak_shift(true);
+				this.configurationDao.removeAllBreakShift();
+			} else if (typeOfBreakShift.equals("Riposo Atteso")) {
+				shift.setExpectedBreak_shift(true);
+				this.configurationDao.removeAllExpectedBreakShift();
+			} else if (typeOfBreakShift.equals("Riposo Infortunio")) {
+				shift.setInjury_shift(true);
+				this.configurationDao.removeAllInjuryShift();
+			} else if (typeOfBreakShift.equals("Riposo Malattia")) {
+				shift.setDisease_shift(true);
+				this.configurationDao.removeAllDiseaseShift();
+			}
 		}
 
 		this.configurationDao.createShift(shift);
-
-		if (this.breakshift.isChecked()) {
-			this.configurationDao.setShiftAsBreak(shift.getId());
-		}
 
 		this.refreshShiftList();
 		this.resetShiftInfo();
@@ -306,11 +319,23 @@ public class Preferences extends SelectorComposer<Component> {
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
 		if (shift.getBreak_shift()) {
-			this.breakshift.setChecked(true);
+			this.typeofbreak.setSelectedIndex(1);
+			this.type_shift.setDisabled(true);
+			this.forceable.setDisabled(true);
+		} else if (shift.getExpectedBreak_shift()) {
+			this.typeofbreak.setSelectedIndex(2);
+			this.type_shift.setDisabled(true);
+			this.forceable.setDisabled(true);
+		} else if (shift.getInjury_shift()) {
+			this.typeofbreak.setSelectedIndex(3);
+			this.type_shift.setDisabled(true);
+			this.forceable.setDisabled(true);
+		} else if (shift.getDisease_shift()) {
+			this.typeofbreak.setSelectedIndex(4);
 			this.type_shift.setDisabled(true);
 			this.forceable.setDisabled(true);
 		} else {
-			this.breakshift.setChecked(false);
+			this.typeofbreak.setSelectedItem(null);
 			this.type_shift.setDisabled(false);
 			this.forceable.setDisabled(false);
 		}
@@ -375,11 +400,27 @@ public class Preferences extends SelectorComposer<Component> {
 			shift.setForceable(false);
 		}
 
-		if (this.breakshift.isChecked()) {
-			shift.setBreak_shift(true);
-			this.configurationDao.setShiftAsBreak(shift.getId());
-		} else {
-			shift.setBreak_shift(false);
+		shift.setBreak_shift(false);
+		shift.setDisease_shift(false);
+		shift.setInjury_shift(false);
+		shift.setExpectedBreak_shift(false);
+
+		if (this.typeofbreak.getSelectedItem() != null) {
+			final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
+			if (typeOfBreak.equals("Riposo Programmato")) {
+				shift.setBreak_shift(true);
+				this.configurationDao.setShiftAsBreak(shift.getId());
+			} else if (typeOfBreak.equals("Riposo Atteso")) {
+				shift.setExpectedBreak_shift(true);
+				this.configurationDao.setShiftAsExpectedBreak(shift.getId());
+			} else if (typeOfBreak.equals("Riposo Infortunio")) {
+				shift.setInjury_shift(true);
+				this.configurationDao.setShiftAsInjury(shift.getId());
+			} else if (typeOfBreak.equals("Riposo Malattia")) {
+				shift.setDisease_shift(true);
+				this.configurationDao.setShiftAsDisease(shift.getId());
+			}
+
 		}
 
 		this.configurationDao.updateShift(shift);
@@ -470,15 +511,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeShift() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteShift();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteShift();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -491,15 +532,15 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteStatus();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -507,15 +548,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeTask() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -523,6 +564,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_shift.setValue("");
 		this.description_shift.setValue("");
 		this.type_shift.setSelectedItem(null);
+		this.typeofbreak.setSelectedIndex(0);
 	}
 
 	private void resetStatusInfo() {
@@ -535,15 +577,14 @@ public class Preferences extends SelectorComposer<Component> {
 		this.description_task.setValue("");
 	}
 
-	@Listen("onClick = #breakshift")
+	@Listen("onSelect = #typeofbreak")
 	public void setBreakShift() {
-		if (this.breakshift.isChecked()) {
+		if (!this.typeofbreak.getSelectedItem().getValue().toString().equals("Non definito")) {
 			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(1));
 			this.type_shift.setDisabled(true);
 			this.forceable.setChecked(false);
 			this.forceable.setDisabled(true);
 		} else {
-
 			this.type_shift.setDisabled(false);
 			this.forceable.setDisabled(false);
 		}
@@ -585,21 +626,6 @@ public class Preferences extends SelectorComposer<Component> {
 		this.label_max_meomry.setValue(max_memory_info);
 		this.label_free_meomry.setValue(free_memory_info);
 		this.label_allocated_meomry.setValue(allocated_memory_info);
-	}
-
-	@Listen("onClick = #sw_setBreakShift")
-	public void sw_setBreakShift() {
-		if (this.sw_list_shift.getSelectedItem() == null) {
-			return;
-		}
-
-		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
-
-		this.configurationDao.setShiftAsBreak(shift.getId());
-
-		// Refresh list shift
-		this.refreshShiftList();
-
 	}
 
 	@Listen("onClick = #update_doc_repo")
