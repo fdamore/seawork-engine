@@ -15,6 +15,8 @@ import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
  */
 public class ShiftCacheImpl implements IShiftCache {
 
+	private UserShift							breakShift;
+
 	// internal hash
 	private final HashMap<Integer, UserShift>	hash	= new HashMap<Integer, UserShift>();
 
@@ -26,8 +28,19 @@ public class ShiftCacheImpl implements IShiftCache {
 
 		for (final UserShift item : caches) {
 			this.hash.put(item.getId(), item);
+
+			// check if item have to be added as beaskShift
+			if (item.getBreak_shift().booleanValue()) {
+				this.breakShift = item;
+			}
+
 		}
 
+	}
+
+	@Override
+	public UserShift getBreakShift() {
+		return this.breakShift;
 	}
 
 	@Override

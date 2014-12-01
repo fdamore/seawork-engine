@@ -42,9 +42,11 @@
 		u.status,
 		u.personal_code
 		FROM
-		user u where u.authority =
+		user u where
+		u.authority =
 		'ROLE_SUPERVISOR' or u.authority =
-		'ROLE_BACKOFFICE' order by u.status
+		'ROLE_BACKOFFICE' order
+		by u.status
 		asc
 
 	</select>
@@ -87,7 +89,8 @@
 		u
 		WHERE
 		u.email =
-		#{username} order by u.status asc
+		#{username} order by u.status
+		asc
 	</select>
 
 	<select id="selectUsersByUsernameAndPassword" parameterType="string"
@@ -169,7 +172,8 @@
 		u.personal_code
 		FROM
 		user
-		u order by u.status asc
+		u order by
+		u.status asc
 	</select>
 
 	<select id="selectWorkerPerson" resultType="org.uario.seaworkengine.model.Person"
@@ -212,10 +216,10 @@
 		'SOSPESO'
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like #{my_full_text_search} or
-			u.lastname
-			like
-			#{my_full_text_search})
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
+			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
+			u.employee_identification = #{my_full_text_search})
 		</if>
 
 		order by u.status asc
@@ -259,9 +263,11 @@
 		FROM
 		user u
 		<if test="my_full_text_search != null">
-			WHERE u.firstname like #{my_full_text_search} or
-			u.lastname like
-			#{my_full_text_search}
+			WHERE (u.firstname like CONCAT('%',
+			#{my_full_text_search}, '%') or
+			u.lastname like CONCAT('%',
+			#{my_full_text_search}, '%') or u.employee_identification =
+			#{my_full_text_search})
 		</if>
 		order by u.status asc
 	</select>

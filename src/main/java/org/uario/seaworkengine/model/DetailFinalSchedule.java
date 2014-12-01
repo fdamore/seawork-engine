@@ -19,7 +19,7 @@ public class DetailFinalSchedule implements Serializable {
 	private Integer				id_schedule;
 	private Integer				shift;
 	private Integer				task;
-	private Integer				time;
+	private Double				time;
 	private Timestamp			time_from;
 	private Timestamp			time_to;
 
@@ -39,7 +39,7 @@ public class DetailFinalSchedule implements Serializable {
 		return this.task;
 	}
 
-	public Integer getTime() {
+	public Double getTime() {
 		return this.time;
 	}
 
@@ -67,7 +67,7 @@ public class DetailFinalSchedule implements Serializable {
 		this.task = task;
 	}
 
-	public void setTime(final Integer time) {
+	public void setTime(final Double time) {
 		this.time = time;
 	}
 

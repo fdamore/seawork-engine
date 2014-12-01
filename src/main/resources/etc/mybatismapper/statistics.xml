@@ -3,31 +3,125 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="statistics">
 
-	<cache />
+	<cache-ref namespace="schedule" />
 
 
 
-	<select id="selectAvgShiftByUserProgram" resultType="org.uario.seaworkengine.statistics.AverageShift"
+	<select id="datesBreak" resultType="java.util.Date"
 		parameterType="map">
-		select shift, avg(dis.time) as avg_program_time
-		from schedule s,
-		detailinitialschedule dis
-		where s.user = #{id_user} and s.id =
-		dis.id_schedule and s.date_schedule <![CDATA[<=]]>
+		select
+		max(d.date_scheduled) as date_break
+		from
+		dayschedule d,
+		usershift s
+		where
+		d.date_scheduled <![CDATA[>=]]>
+		#{date_schedule_from}
+		and d.date_scheduled <![CDATA[<=]]>
+		#{date_schedule_to}
+		and s.break_shift = 1
+		and d.shift = s.id and
+		d.id_user = #{id_user}
+	</select>
+
+
+	<select id="timeWorkedProgram" resultType="int" parameterType="map">
+		select
+		sum(d_1.time)
+		from
+		schedule s_1,
+		detailinitialschedule d_1
+		where
+		s_1.user = #{id_user}
+		and s_1.id =
+		d_1.id_schedule
+		and s_1.date_schedule <![CDATA[<=]]>
+		#{date_schedule_to}
+		and s_1.date_schedule <![CDATA[>=]]>
+		#{date_schedule_from}
+	</select>
+
+	<select id="timeWorkedReviewd" resultType="int" parameterType="map">
+		select
+		sum(d_1.time)
+		from
+		schedule s_1,
+		detailfinalschedule d_1
+		where
+		s_1.user = #{id_user}
+		and s_1.id =
+		d_1.id_schedule
+		and s_1.date_schedule <![CDATA[<=]]>
+		#{date_schedule_to}
+		and s_1.date_schedule <![CDATA[>=]]>
+		#{date_schedule_from}
+	</select>
+
+
+
+
+
+
+
+	<select id="selectRateShiftByUserProgram" resultType="org.uario.seaworkengine.statistics.RateShift"
+		parameterType="map">
+		select
+		shift,
+		sum(d_1.time) / (select
+		sum(d_2.time) as global_sum
+		from
+		schedule s_2,
+		detailinitialschedule d_2
+		where
+		s_2.user = #{id_user}
+		and
+		s_2.id =
+		d_2.id_schedule
+		and s_2.date_schedule <![CDATA[<=]]>
+		#{date_schedule}) * 100 as rate
+		from
+		schedule s_1,
+		detailinitialschedule
+		d_1
+		where
+		s_1.user = #{id_user}
+		and s_1.id = d_1.id_schedule
+		and
+		s_1.date_schedule <![CDATA[<=]]>
 		#{date_schedule}
-		group by dis.shift order by avg_program_time asc
+		group by d_1.shift
+		order by rate asc
 
 	</select>
 
-	<select id="selectAvgShiftByUserReviewd" resultType="org.uario.seaworkengine.statistics.AverageShift"
+	<select id="selectRateShiftByUserReviewd" resultType="org.uario.seaworkengine.statistics.RateShift"
 		parameterType="map">
-		select shift, avg(dis.time) as avg_program_time
-		from schedule s,
-		detailfinalschedule dis
-		where s.user = #{id_user} and s.id =
-		dis.id_schedule and s.date_schedule <![CDATA[<=]]>
+		select
+		shift,
+		sum(d_1.time) / (select
+		sum(d_2.time) as global_sum
+		from
+		schedule s_2,
+		detailfinalschedule d_2
+		where
+		s_2.user = #{id_user}
+		and
+		s_2.id =
+		d_2.id_schedule
+		and s_2.date_schedule <![CDATA[<=]]>
+		#{date_schedule}) * 100 as rate
+		from
+		schedule s_1,
+		detailfinalschedule
+		d_1
+		where
+		s_1.user = #{id_user}
+		and s_1.id = d_1.id_schedule
+		and
+		s_1.date_schedule <![CDATA[<=]]>
 		#{date_schedule}
-		group by dis.shift order by avg_program_time asc
+		group by d_1.shift
+		order by rate asc
 
 	</select>
 
@@ -40,7 +134,8 @@
 		dayschedule dd,
 		usershift uu
 		where
-		DAYOFWEEK(dd.date_scheduled) = 1 and uu.presence = 1 and dd.shift =
+		DAYOFWEEK(dd.date_scheduled) = 1 and
+		uu.presence = 1 and dd.shift =
 		uu.id) * 100 as perc
 		from
 		dayschedule ds,
@@ -48,10 +143,12 @@
 		where
 		ds.shift =
 		us.id and us.presence = 1
-		and DAYOFWEEK(ds.date_scheduled) = 1
+		and
+		DAYOFWEEK(ds.date_scheduled) = 1
 		group by
 		id_user
-		having id_user = #{id_user}
+		having id_user =
+		#{id_user}
 	</select>
 
 

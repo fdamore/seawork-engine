@@ -87,9 +87,13 @@
 		'SOSPESO'
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like #{my_full_text_search} or
+			and (u.firstname like CONCAT('%',
+			#{my_full_text_search},'%') or
 			u.lastname
 			like
+			CONCAT('%',
+			#{my_full_text_search}, '%') or
+			u.employee_identification =
 			#{my_full_text_search})
 		</if>
 
@@ -126,9 +130,13 @@
 		'SOSPESO'
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like #{my_full_text_search} or
+			and (u.firstname like CONCAT('%',
+			#{my_full_text_search},'%') or
 			u.lastname
 			like
+			CONCAT('%',
+			#{my_full_text_search},'%') or
+			u.employee_identification =
 			#{my_full_text_search})
 		</if>
 
@@ -164,10 +172,12 @@
 		'SOSPESO'
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like #{my_full_text_search} or
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
 			u.lastname
 			like
-			#{my_full_text_search})
+			CONCAT('%', #{my_full_text_search}, '%') or
+			u.employee_identification = #{my_full_text_search})
 		</if>
 
 
@@ -202,9 +212,13 @@
 		'SOSPESO'
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like #{my_full_text_search} or
+			and (u.firstname like CONCAT('%',
+			#{my_full_text_search},'%') or
 			u.lastname
 			like
+			CONCAT('%',
+			#{my_full_text_search}, '%') or
+			u.employee_identification =
 			#{my_full_text_search})
 		</if>
 
@@ -236,10 +250,12 @@
 		'SOSPESO'
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like #{my_full_text_search} or
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
 			u.lastname
 			like
-			#{my_full_text_search})
+			CONCAT('%', #{my_full_text_search},'%') or
+			u.employee_identification = #{my_full_text_search})
 		</if>
 	</select>
 

@@ -46,7 +46,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		final Integer ret_int = this.getSqlSession().selectOne("schedule.getLastShiftRevision", map);
 		if (ret_int != null) {
 			return ret_int;
-		} else {
+		}
+		else {
 			return this.getSqlSession().selectOne("schedule.getLastShiftProgram", map);
 		}
 
@@ -258,7 +259,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createDaySchedule", day_schedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateDaySchedule", day_schedule);
 
 		}
@@ -271,7 +273,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}
@@ -282,16 +285,10 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public List<Schedule> selectAggregateSchedulersProgram(final Date initial_date, final Date final_date, final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
-		// set like
-		String my_full_text_search = null;
-		if (full_text_search != null) {
-			my_full_text_search = "%" + full_text_search + "%";
-		}
-
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", initial_date);
 		map.put("date_to", final_date);
-		map.put("my_full_text_search", my_full_text_search);
+		map.put("my_full_text_search", full_text_search);
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleProgram", map);
 		return list;
@@ -301,15 +298,9 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public List<Schedule> selectAggregateSchedulersProgram(final Date firstDateInGrid, final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
-		// set like
-		String my_full_text_search = null;
-		if (full_text_search != null) {
-			my_full_text_search = "%" + full_text_search + "%";
-		}
-
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", firstDateInGrid);
-		map.put("my_full_text_search", my_full_text_search);
+		map.put("my_full_text_search", full_text_search);
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleByDateProgram", map);
 		return list;
@@ -319,16 +310,10 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public List<Schedule> selectAggregateSchedulersRevision(final Date initial_date, final Date final_date, final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
-		// set like
-		String my_full_text_search = null;
-		if (full_text_search != null) {
-			my_full_text_search = "%" + full_text_search + "%";
-		}
-
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", initial_date);
 		map.put("date_to", final_date);
-		map.put("my_full_text_search", my_full_text_search);
+		map.put("my_full_text_search", full_text_search);
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleRevision", map);
 		return list;
@@ -338,15 +323,9 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public List<Schedule> selectAggregateSchedulersRevision(final Date firstDateInGrid, final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
-		// set like
-		String my_full_text_search = null;
-		if (full_text_search != null) {
-			my_full_text_search = "%" + full_text_search + "%";
-		}
-
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", firstDateInGrid);
-		map.put("my_full_text_search", my_full_text_search);
+		map.put("my_full_text_search", full_text_search);
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleByDateRevision", map);
 		return list;
@@ -356,16 +335,10 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public List<DaySchedule> selectDaySchedulers(final Date initial_date, final Date final_date, final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectDaySchedulers..");
 
-		// set like
-		String my_full_text_search = null;
-		if (full_text_search != null) {
-			my_full_text_search = "%" + full_text_search + "%";
-		}
-
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", initial_date);
 		map.put("date_to", final_date);
-		map.put("my_full_text_search", my_full_text_search);
+		map.put("my_full_text_search", full_text_search);
 
 		final List<DaySchedule> list = this.getSqlSession().selectList("schedule.selectDaySchedulers", map);
 		return list;

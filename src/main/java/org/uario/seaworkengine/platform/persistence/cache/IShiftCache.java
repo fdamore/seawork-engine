@@ -14,6 +14,13 @@ public interface IShiftCache {
 	public void buildCache(List<UserShift> caches);
 
 	/**
+	 * Get break shift
+	 * 
+	 * @return
+	 */
+	public UserShift getBreakShift();
+
+	/**
 	 * Get UserShift
 	 *
 	 * @param id

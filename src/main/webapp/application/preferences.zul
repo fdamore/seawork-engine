@@ -329,9 +329,12 @@
 														id="description_shift" mold="rounded" />
 												</row>
 
-												<row id="row_breakshift">
-												<label value="Turno di riposo"/>
-												<checkbox id="breakshift"/>
+												<row
+													id="row_breakshift">
+													<label
+														value="Turno di riposo" />
+													<checkbox
+														id="breakshift" />
 												</row>
 
 												<row
@@ -363,10 +366,10 @@
 														id="forceable" />
 
 												</row>
-												
-												
-												
-												
+
+
+
+
 											</rows>
 										</grid>
 
@@ -407,7 +410,8 @@
 										sort="auto(description)" />
 									<listheader label="Tipo di Turno" />
 									<listheader label="Forzabile" />
-									<listheader label="Riposo"/>
+									<listheader
+										label="Riposo Programmato" />
 									<listheader label="" />
 								</listhead>
 
@@ -430,7 +434,8 @@
 									</listcell>
 
 									<listcell>
-										<image src="@{shift_item, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}"/>
+										<image
+											src="@{shift_item, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
 
 									<listcell>
@@ -446,11 +451,11 @@
 											onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());add_shifts_command.setVisible(false);modify_shifts_command.setVisible(true);grid_shift_details.setVisible(true);"
 											label="Modifica">
 										</toolbarbutton>
-										
-										<toolbarbutton id="sw_setBreakShift"
-										style="color:blue"
-										onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());"
-										label="Imposta Turno di Riposo">
+
+										<toolbarbutton
+											id="sw_setBreakShift" style="color:blue"
+											onClick="sw_list_shift.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Imposta Turno di Riposo">
 										</toolbarbutton>
 
 									</listcell>
