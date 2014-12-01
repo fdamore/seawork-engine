@@ -19,6 +19,20 @@ public class Utility {
 	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
 
 	/**
+	 * Decimal to time
+	 * 
+	 * @param source
+	 * @return
+	 */
+	public static String decimatToTime(final Double source) {
+		final int hours = (int) source.doubleValue();
+		final double decimal = source - hours;
+		final int minuts = (int) Utility.roundOne(decimal * 60);
+
+		return "" + hours + "h " + minuts + "m";
+	}
+
+	/**
 	 * Encode string on sha
 	 *
 	 * @param str

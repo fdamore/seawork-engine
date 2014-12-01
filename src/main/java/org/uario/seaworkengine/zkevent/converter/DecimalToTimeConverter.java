@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.zkevent.converter;
 
+import org.uario.seaworkengine.utility.Utility;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
@@ -20,10 +21,6 @@ public class DecimalToTimeConverter implements TypeConverter {
 
 		final Double source = (Double) arg0;
 
-		final int hours = (int) source.doubleValue();
-		final int cents = (int) ((source - hours) * 100);
-		final int minuts = (cents * 60) / 100;
-
-		return "" + hours + "h " + minuts + "m";
+		return Utility.decimatToTime(source);
 	}
 }

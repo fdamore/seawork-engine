@@ -595,7 +595,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (time != null) {
-			return "" + time;
+			return Utility.decimatToTime(time);
 		}
 
 		return null;
@@ -1004,16 +1004,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private Double getProgrammedTime() {
 
-		final Integer hours = this.program_time_hours.getValue();
-		final Integer minuts = this.program_time_minuts.getValue();
+		Integer hours = this.program_time_hours.getValue();
+		Integer minuts = this.program_time_minuts.getValue();
 
-		if ((hours == null) || (minuts == null)) {
-			return null;
+		if (hours == null) {
+			hours = 0;
+		}
+
+		if (minuts == null) {
+			minuts = 0;
 		}
 
 		final Double ret = hours + (((double) minuts) / 60);
 
-		return Utility.roundTwo(ret);
+		return ret;
 
 	}
 
