@@ -17,13 +17,13 @@ public interface ConfigurationDAO {
 
 	public List<UserTask> loadTasks();
 
+	public void removeAllAccidentShift();
+
 	public void removeAllBreakShift();
 
 	public void removeAllDiseaseShift();
 
-	public void removeAllExpectedBreakShift();
-
-	public void removeAllInjuryShift();
+	public void removeAllWaitBreakShift();
 
 	public void removeShift(Integer id);
 

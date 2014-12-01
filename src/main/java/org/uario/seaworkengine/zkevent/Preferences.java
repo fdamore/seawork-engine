@@ -143,10 +143,10 @@ public class Preferences extends SelectorComposer<Component> {
 				this.configurationDao.removeAllBreakShift();
 			} else if (typeOfBreakShift.equals("Riposo Atteso")) {
 				shift.setWaitbreak_shift(true);
-				this.configurationDao.removeAllExpectedBreakShift();
+				this.configurationDao.removeAllWaitBreakShift();
 			} else if (typeOfBreakShift.equals("Riposo Infortunio")) {
 				shift.setAccident_shift(true);
-				this.configurationDao.removeAllInjuryShift();
+				this.configurationDao.removeAllAccidentShift();
 			} else if (typeOfBreakShift.equals("Riposo Malattia")) {
 				shift.setDisease_shift(true);
 				this.configurationDao.removeAllDiseaseShift();

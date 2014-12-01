@@ -332,10 +332,10 @@
 												<row
 													id="row_breakshift">
 													<label
-														value="Tipo di riposo" />
+														value="Turno giornaliero" />
 													<combobox
 														id="typeofbreak"
-														placeholder="Seleziona il tipo di turno di riposo"
+														placeholder="Seleziona il tipo di turno"
 														readonly="true">
 														<comboitem
 															label="--" value="Non definito">
@@ -351,6 +351,9 @@
 														</comboitem>
 														<comboitem
 															label="Riposo Malattia" value="Riposo Malattia">
+														</comboitem>
+														<comboitem
+															label="Turno Standard" value="Turno Standard">
 														</comboitem>
 
 													</combobox>

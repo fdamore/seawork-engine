@@ -71,6 +71,12 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void removeAllAccidentShift() {
+		this.getSqlSession().update("configuration.removeAllAccidentShift");
+
+	}
+
+	@Override
 	public void removeAllBreakShift() {
 		this.getSqlSession().update("configuration.removeAllBreakShift");
 	}
@@ -82,14 +88,8 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
-	public void removeAllExpectedBreakShift() {
-		this.getSqlSession().update("configuration.removeAllExpectedBreakShift");
-
-	}
-
-	@Override
-	public void removeAllInjuryShift() {
-		this.getSqlSession().update("configuration.removeAllInjuryShift");
+	public void removeAllWaitBreakShift() {
+		this.getSqlSession().update("configuration.removeAllWaitBreakShift");
 
 	}
 
@@ -153,23 +153,23 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 	@Override
 	public void setShiftAsExpectedBreak(final Integer id_usershift) {
-		MyBatisConfigurationDAO.logger.info("setShiftAsExpectedBreak");
+		MyBatisConfigurationDAO.logger.info("setShiftAsWaitBreak");
 
 		// remove all break shift
-		this.getSqlSession().update("configuration.removeAllExpectedBreakShift");
+		this.getSqlSession().update("configuration.removeAllWaitBreakShift");
 
-		this.getSqlSession().update("configuration.setShiftAsExpectedBreak", id_usershift);
+		this.getSqlSession().update("configuration.setShiftAsWaitBreak", id_usershift);
 
 	}
 
 	@Override
 	public void setShiftAsInjury(final Integer id_usershift) {
-		MyBatisConfigurationDAO.logger.info("setShiftAsInjury");
+		MyBatisConfigurationDAO.logger.info("setShiftAsAccident");
 
 		// remove all break shift
-		this.getSqlSession().update("configuration.removeAllInjuryShift");
+		this.getSqlSession().update("configuration.removeAllAccidentShift");
 
-		this.getSqlSession().update("configuration.setShiftAsInjury", id_usershift);
+		this.getSqlSession().update("configuration.setShiftAsAccident", id_usershift);
 
 	}
 

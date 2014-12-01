@@ -139,12 +139,12 @@
 		WHERE id = #{id_usershift};
 	</update>
 	
-	<update id="removeAllExpectedBreakShift">
+	<update id="removeAllWaitBreakShift">
 		UPDATE usershift
 		SET waitbreak_shift = 0;
 	</update>
 	
-	<update id="setShiftAsExpectedBreak" parameterType="Integer">
+	<update id="setShiftAsWaitBreak" parameterType="Integer">
 		UPDATE usershift
 		SET waitbreak_shift = 1, forceable = 0, presence = 0
 		WHERE id = #{id_usershift};

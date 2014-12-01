@@ -23,6 +23,8 @@ public class UserShift implements Serializable {
 
 	private Boolean				presence;
 
+	private Boolean				standard_shift;
+
 	private Boolean				waitbreak_shift;
 
 	public Boolean getAccident_shift() {
@@ -55,6 +57,10 @@ public class UserShift implements Serializable {
 
 	public Boolean getPresence() {
 		return this.presence;
+	}
+
+	public Boolean getStandard_shift() {
+		return this.standard_shift;
 	}
 
 	public Boolean getWaitbreak_shift() {
@@ -103,6 +109,10 @@ public class UserShift implements Serializable {
 	public void setPresence(final Boolean presence) {
 		this.presence = presence;
 
+	}
+
+	public void setStandard_shift(final Boolean standard_shift) {
+		this.standard_shift = standard_shift;
 	}
 
 	public void setWaitbreak_shift(final Boolean waitbreak_shift) {
