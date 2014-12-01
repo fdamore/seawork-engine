@@ -57,8 +57,19 @@ public class UserShift implements Serializable {
 		return this.presence;
 	}
 
+	public Boolean getWaitbreak_shift() {
+		return this.waitbreak_shift;
+	}
+
 	public Boolean getWaitBreak_shift() {
 		return this.waitbreak_shift;
+	}
+
+	public Boolean isDefault() {
+		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift) {
+			return true;
+		}
+		return false;
 	}
 
 	public void setAccident_shift(final Boolean accident_shift) {
