@@ -23,6 +23,10 @@ public class DetailInitialSchedule implements Serializable {
 	private Integer				task;
 	private Double				time;
 
+	// to show in overview
+	@XmlTransient
+	private String				user;
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -43,6 +47,10 @@ public class DetailInitialSchedule implements Serializable {
 		return this.time;
 	}
 
+	public String getUser() {
+		return this.user;
+	}
+
 	public void setId(final int id) {
 		this.id = id;
 	}
@@ -61,6 +69,10 @@ public class DetailInitialSchedule implements Serializable {
 
 	public void setTime(final Double time_initial) {
 		this.time = time_initial;
+	}
+
+	public void setUser(final String user) {
+		this.user = user;
 	}
 
 }

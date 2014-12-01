@@ -13,6 +13,8 @@ import java.util.List;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.statistics.RateShift;
 
@@ -152,5 +154,19 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			return this.getSqlSession().selectOne("statistics.timeWorkedProgram", map);
 		}
 
+	}
+
+	@Override
+	public List<DetailFinalSchedule> listDetailFinalSchedule() {
+		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
+
+		return this.getSqlSession().selectList("statistics.overviewFinalSchedule");
+	}
+
+	@Override
+	public List<DetailInitialSchedule> listDetailInitialSchedule() {
+		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
+
+		return this.getSqlSession().selectList("statistics.overviewInitalSchedule");
 	}
 }

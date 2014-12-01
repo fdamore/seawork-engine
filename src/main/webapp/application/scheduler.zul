@@ -1539,11 +1539,6 @@
 		<!-- OVERVIEW -->
 		<div id="overview_div" visible="false">
 
-			<button id="refresh_overview" label="Aggiorna"
-				sclass="btn-info" />
-
-			<separator></separator>
-
 			<hbox align="center">
 				<a label="Filtra su periodo: "></a>
 				<datebox id="date_from_overview"
@@ -1564,8 +1559,11 @@
 			<hbox align="center">
 
 				<a label="Filtra su turno: "></a>
-				<combobox placeholder="Scegli tuno" readonly="true">
-					<comboitem value="TUTTI" label="TUTTI"></comboitem>
+				<combobox placeholder="Scegli tuno" readonly="true"
+					id="select_shift_overview">
+					<comboitem value="TUTTI" label="TUTTI"
+						id="item_all_shift_overview">
+					</comboitem>
 					<comboitem value="1" label="1"></comboitem>
 					<comboitem value="2" label="2"></comboitem>
 					<comboitem value="3" label="3"></comboitem>
@@ -1579,14 +1577,108 @@
 
 			<separator></separator>
 
-			<tabbox>
+			<tabbox id="overview_tab">
 				<tabs>
 					<tab label="CONSUNTIVO"></tab>
 					<tab label="PROGRAMMATO"></tab>
 				</tabs>
 				<tabpanels>
-					<tabpanel></tabpanel>
-					<tabpanel></tabpanel>
+					<tabpanel id="overview_review">
+
+						<listbox sclass="domain" mold="paging"
+							pageSize="10" pagingPosition="both" id="list_overview_review">
+
+							<listhead>
+
+								<listheader label="Nome" hflex="2" />
+
+								<listheader label="Turno" hflex="1"
+									align="center" />
+								<listheader label="Mansione" hflex="1"
+									align="center" />
+								<listheader label="Ore lavorate"
+									hflex="1" align="center" />
+								<listheader label="Ingresso" hflex="1"
+									align="center" />
+								<listheader label="Usscita" hflex="1"
+									align="center" />
+
+							</listhead>
+
+							<listitem
+								self="@{each='itemoverviewreview'}"
+								value="@{itemoverviewreview}">
+
+
+								<listcell
+									label="@{itemoverviewreview.user}" />
+
+								<listcell
+									label="@{itemoverviewreview.shift}" />
+
+								<listcell
+									label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}" />
+
+								<listcell
+									label="@{itemoverviewreview.time}" />
+
+								<listcell
+									label="@{itemoverviewreview.time_from}" />
+
+								<listcell
+									label="@{itemoverviewreview.time_to}" />
+
+							</listitem>
+
+						</listbox>
+
+
+					</tabpanel>
+					<tabpanel id="overview_program">
+
+
+						<listbox sclass="domain" mold="paging"
+							pageSize="10" pagingPosition="both" id="list_overview_program">
+
+							<listhead>
+
+								<listheader label="Nome" hflex="2" />
+
+								<listheader label="Turno" hflex="1"
+									align="center" />
+								<listheader label="Mansione" hflex="1"
+									align="center" />
+								<listheader label="Ore lavorate"
+									hflex="1" align="center" />
+
+
+							</listhead>
+
+							<listitem
+								self="@{each='itemoverviewprogram'}"
+								value="@{itemoverviewprogram}">
+
+
+								<listcell
+									label="@{itemoverviewprogram.user}" />
+
+								<listcell
+									label="@{itemoverviewprogram.shift}" />
+
+								<listcell
+									label="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}" />
+
+								<listcell
+									label="@{itemoverviewprogram.time}" />
+
+
+							</listitem>
+
+						</listbox>
+
+
+
+					</tabpanel>
 				</tabpanels>
 
 			</tabbox>

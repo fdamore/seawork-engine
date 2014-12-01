@@ -1,7 +1,10 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
 import java.util.Date;
+import java.util.List;
 
+import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.statistics.RateShift;
 
 public interface IStatistics {
@@ -44,5 +47,19 @@ public interface IStatistics {
 	 * @return
 	 */
 	public Integer getTimeWorked(Integer id_user, Date date_from, Date date_to);
+
+	/**
+	 * List detail initial schedule
+	 *
+	 * @return
+	 */
+	public List<DetailFinalSchedule> listDetailFinalSchedule();
+
+	/**
+	 * List detail initial schedule
+	 *
+	 * @return
+	 */
+	public List<DetailInitialSchedule> listDetailInitialSchedule();
 
 }

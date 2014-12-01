@@ -23,6 +23,10 @@ public class DetailFinalSchedule implements Serializable {
 	private Timestamp			time_from;
 	private Timestamp			time_to;
 
+	// to show in overview
+	@XmlTransient
+	private String				user;
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -51,6 +55,10 @@ public class DetailFinalSchedule implements Serializable {
 		return this.time_to;
 	}
 
+	public String getUser() {
+		return this.user;
+	}
+
 	public void setId(final Integer id) {
 		this.id = id;
 	}
@@ -77,6 +85,10 @@ public class DetailFinalSchedule implements Serializable {
 
 	public void setTime_to(final Timestamp time_to) {
 		this.time_to = time_to;
+	}
+
+	public void setUser(final String user) {
+		this.user = user;
 	}
 
 }
