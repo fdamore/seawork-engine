@@ -198,8 +198,14 @@
 									sclass="btn-info" label="Ricarica Lista Mansioni">
 								</button>
 
-								<textbox placeholder="Cerca..." id="full_text_searchTask"/>
+								
 
+								<separator></separator>
+								
+								<a label="Righe da visualizzare: " iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+								<intbox id="shows_rowsTask" constraint="no negative, no zero" value="10"/>
+								<textbox placeholder="Cerca..." id="full_text_searchTask"/>
+								
 								<separator></separator>
 							</div>
 
@@ -209,7 +215,7 @@
 							<listbox id="sw_list_task"
 								pagingPosition="both" mold="paging"
 								style="border: 1px solid #CCCCCC;" checkmark="true"
-								multiple="false" pageSize="20">
+								multiple="false" pageSize="10">
 								<listhead sizable="true">
 									<listheader label="Codice" />
 									<listheader label="Descrizione"
@@ -418,20 +424,27 @@
 									sclass="btn-info" label="Ricarica Lista Turni">
 								</button>
 
-								<textbox placeholder="Cerca..." id="full_text_searchShift"/>
+								
 								
 								<button id="sw_return_defaultshift"
 									sclass="btn-info" label="Visualizza Turni Default">
 								</button>
 
 								<separator></separator>
+								
+								<a label="Righe da visualizzare: " iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+								<intbox id="shows_rowsShift" constraint="no negative, no zero" value="10"/>
+								<textbox placeholder="Cerca..." id="full_text_searchShift"/>
+								
+								<separator></separator>
+								
 							</div>
 
 
 							<listbox id="sw_list_shift"
 								pagingPosition="both" mold="paging"
 								style="border: 1px solid #CCCCCC;" checkmark="true"
-								multiple="false" pageSize="20">
+								multiple="false" pageSize="10">
 								<listhead sizable="true">
 									<listheader label="Codice" />
 									<listheader label="Descrizione"

@@ -23,6 +23,7 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -91,6 +92,12 @@ public class Preferences extends SelectorComposer<Component> {
 	private IParams				paramsDAO;
 
 	private final Runtime		runtime				= Runtime.getRuntime();
+
+	@Wire
+	private Intbox				shows_rowsShift;
+
+	@Wire
+	private Intbox				shows_rowsTask;
 
 	@Wire
 	private Listbox				sw_list_shift;
@@ -668,7 +675,7 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 	}
 
-	@Listen("onOK = #full_text_searchShift")
+	@Listen("onOK = #shows_rowsShift, #full_text_searchShift")
 	public void setShiftListBox() {
 		List<UserShift> list_usershift = null;
 
@@ -678,10 +685,16 @@ public class Preferences extends SelectorComposer<Component> {
 			list_usershift = this.configurationDao.loadShifts();
 		}
 
+		if ((this.shows_rowsShift.getValue() != null) && (this.shows_rowsShift.getValue() != 0)) {
+			this.sw_list_shift.setPageSize(this.shows_rowsShift.getValue());
+		} else {
+			this.sw_list_shift.setPageSize(10);
+		}
+
 		this.sw_list_shift.setModel(new ListModelList<UserShift>(list_usershift));
 	}
 
-	@Listen("onOK = #full_text_searchTask")
+	@Listen("onOK = #shows_rowsTask, #full_text_searchTask")
 	public void setTaskListBox() {
 		List<UserTask> list_usertask = null;
 
@@ -689,6 +702,12 @@ public class Preferences extends SelectorComposer<Component> {
 			list_usertask = this.configurationDao.listAllTasks(this.full_text_searchTask.getValue());
 		} else {
 			list_usertask = this.configurationDao.loadTasks();
+		}
+
+		if ((this.shows_rowsTask.getValue() != null) && (this.shows_rowsTask.getValue() != 0)) {
+			this.sw_list_task.setPageSize(this.shows_rowsTask.getValue());
+		} else {
+			this.sw_list_task.setPageSize(10);
 		}
 
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
