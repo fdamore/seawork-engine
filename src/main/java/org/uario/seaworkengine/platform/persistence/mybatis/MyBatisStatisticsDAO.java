@@ -157,16 +157,22 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<DetailFinalSchedule> listDetailFinalSchedule() {
+	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
-		return this.getSqlSession().selectList("statistics.overviewFinalSchedule");
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", full_text_search);
+
+		return this.getSqlSession().selectList("statistics.overviewFinalSchedule", map);
 	}
 
 	@Override
-	public List<DetailInitialSchedule> listDetailInitialSchedule() {
+	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
-		return this.getSqlSession().selectList("statistics.overviewInitalSchedule");
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", full_text_search);
+
+		return this.getSqlSession().selectList("statistics.overviewInitalSchedule", map);
 	}
 }
