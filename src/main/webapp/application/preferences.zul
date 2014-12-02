@@ -419,6 +419,10 @@
 								</button>
 
 								<textbox placeholder="Cerca..." id="full_text_searchShift"/>
+								
+								<button id="sw_return_defaultshift"
+									sclass="btn-info" label="Visualizza Turni Default">
+								</button>
 
 								<separator></separator>
 							</div>

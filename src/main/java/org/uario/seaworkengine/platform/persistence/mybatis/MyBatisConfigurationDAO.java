@@ -58,6 +58,14 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserShift> listAllDefaultShift() {
+		MyBatisConfigurationDAO.logger.info("listAllDefaultShifts");
+
+		final List<UserShift> list_shift = this.getSqlSession().selectList("configuration.selectAllDefaultShifts");
+		return list_shift;
+	}
+
+	@Override
 	public List<UserShift> listAllShifts(final String full_text_search) {
 		MyBatisConfigurationDAO.logger.info("listAllShifts like full_text_search");
 

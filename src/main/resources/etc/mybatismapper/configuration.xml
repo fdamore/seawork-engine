@@ -26,6 +26,13 @@
 		</if>
 		ORDER BY description;
 	</select>
+	
+	<select id="selectAllDefaultShifts" resultType="org.uario.seaworkengine.model.UserShift">
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
+		FROM usershift
+		WHERE (break_shift='1' or disease_shift='1' or accident_shift='1' or waitbreak_shift='1' or standard_shift='1' or daily_shift='1')
+		ORDER BY description;
+	</select>
 
 	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
 		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
