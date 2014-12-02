@@ -50,16 +50,18 @@ public interface IStatistics {
 
 	/**
 	 * List detail initial schedule
+	 * @param full_text_search TODO
 	 *
 	 * @return
 	 */
-	public List<DetailFinalSchedule> listDetailFinalSchedule();
+	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search);
 
 	/**
 	 * List detail initial schedule
+	 * @param full_text_search TODO
 	 *
 	 * @return
 	 */
-	public List<DetailInitialSchedule> listDetailInitialSchedule();
+	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search);
 
 }

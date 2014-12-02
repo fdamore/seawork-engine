@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,15 +18,24 @@ public class DetailInitialSchedule implements Serializable {
 	@XmlTransient
 	private static final long	serialVersionUID	= 1L;
 
+	// to show in overview
+	@XmlTransient
+	private Date				date_schedule;
+
 	private Integer				id;
+
 	private Integer				id_schedule;
+
 	private Integer				shift;
 	private Integer				task;
 	private Double				time;
-
 	// to show in overview
 	@XmlTransient
 	private String				user;
+
+	public Date getDate_schedule() {
+		return this.date_schedule;
+	}
 
 	public Integer getId() {
 		return this.id;
@@ -49,6 +59,10 @@ public class DetailInitialSchedule implements Serializable {
 
 	public String getUser() {
 		return this.user;
+	}
+
+	public void setDate_schedule(final Date date_schedule) {
+		this.date_schedule = date_schedule;
 	}
 
 	public void setId(final int id) {
