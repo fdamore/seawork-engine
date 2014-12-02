@@ -63,6 +63,12 @@ public class Preferences extends SelectorComposer<Component> {
 	private Checkbox			forceable;
 
 	@Wire
+	private Textbox				full_text_searchShift;
+
+	@Wire
+	private Textbox				full_text_searchTask;
+
+	@Wire
 	private Div					grid_shift_details;
 
 	@Wire
@@ -506,6 +512,7 @@ public class Preferences extends SelectorComposer<Component> {
 		final List<UserShift> list = this.configurationDao.loadShifts();
 		Preferences.this.sw_list_shift.setModel(new ListModelList<UserShift>(list));
 
+		this.full_text_searchShift.setValue(null);
 	}
 
 	@Listen("onClick = #sw_refresh_status_list")
@@ -657,6 +664,19 @@ public class Preferences extends SelectorComposer<Component> {
 		} else {
 			this.forceable.setDisabled(false);
 		}
+	}
+
+	@Listen("onOK = #full_text_searchShift")
+	public void setUserListBox() {
+		List<UserShift> list_usershift = null;
+
+		if ((this.full_text_searchShift.getValue() != null) && !this.full_text_searchShift.getValue().equals("")) {
+			list_usershift = this.configurationDao.listAllShifts(this.full_text_searchShift.getValue());
+		} else {
+			list_usershift = this.configurationDao.loadShifts();
+		}
+
+		this.sw_list_shift.setModel(new ListModelList<UserShift>(list_usershift));
 	}
 
 	/**

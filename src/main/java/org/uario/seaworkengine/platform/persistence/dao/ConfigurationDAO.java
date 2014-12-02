@@ -13,6 +13,8 @@ public interface ConfigurationDAO {
 
 	public void createTask(UserTask task);
 
+	public List<UserShift> listAllShifts(String full_text_search);
+
 	public List<UserShift> loadShifts();
 
 	public List<UserTask> loadTasks();
