@@ -72,7 +72,7 @@ public class UserShift implements Serializable {
 	}
 
 	public Boolean isDefault() {
-		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift) {
+		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift || this.standard_shift) {
 			return true;
 		}
 		return false;

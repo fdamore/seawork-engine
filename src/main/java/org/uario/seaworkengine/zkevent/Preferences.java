@@ -136,6 +136,7 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setWaitbreak_shift(false);
 		shift.setAccident_shift(false);
 		shift.setDisease_shift(false);
+		shift.setStandard_shift(false);
 
 		if (!typeOfBreakShift.equals("Non definito")) {
 			if (typeOfBreakShift.equals("Riposo Programmato")) {
@@ -150,6 +151,9 @@ public class Preferences extends SelectorComposer<Component> {
 			} else if (typeOfBreakShift.equals("Riposo Malattia")) {
 				shift.setDisease_shift(true);
 				this.configurationDao.removeAllDiseaseShift();
+			} else if (typeOfBreakShift.equals("Turno Standard")) {
+				shift.setStandard_shift(true);
+				this.configurationDao.removeAllStandardShift();
 			}
 		}
 
@@ -334,6 +338,10 @@ public class Preferences extends SelectorComposer<Component> {
 			this.typeofbreak.setSelectedIndex(4);
 			this.type_shift.setDisabled(true);
 			this.forceable.setDisabled(true);
+		} else if (shift.getStandard_shift()) {
+			this.typeofbreak.setSelectedIndex(5);
+			this.type_shift.setDisabled(true);
+			this.forceable.setDisabled(true);
 		} else {
 			this.typeofbreak.setSelectedItem(null);
 			this.type_shift.setDisabled(false);
@@ -404,6 +412,7 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setDisease_shift(false);
 		shift.setAccident_shift(false);
 		shift.setWaitbreak_shift(false);
+		shift.setStandard_shift(false);
 
 		if (this.typeofbreak.getSelectedItem() != null) {
 			final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
@@ -415,10 +424,13 @@ public class Preferences extends SelectorComposer<Component> {
 				this.configurationDao.setShiftAsExpectedBreak(shift.getId());
 			} else if (typeOfBreak.equals("Riposo Infortunio")) {
 				shift.setAccident_shift(true);
-				this.configurationDao.setShiftAsInjury(shift.getId());
+				this.configurationDao.setShiftAsAccident(shift.getId());
 			} else if (typeOfBreak.equals("Riposo Malattia")) {
 				shift.setDisease_shift(true);
 				this.configurationDao.setShiftAsDisease(shift.getId());
+			} else if (typeOfBreak.equals("Turno Standard")) {
+				shift.setStandard_shift(true);
+				this.configurationDao.setShiftAsStandardShift(shift.getId());
 			}
 
 		}
@@ -519,15 +531,15 @@ public class Preferences extends SelectorComposer<Component> {
 		if (!shift.isDefault()) {
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 					new org.zkoss.zk.ui.event.EventListener() {
-				@Override
-				public void onEvent(final Event e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						Preferences.this.deleteShift();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
-					}
-				}
-			});
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								Preferences.this.deleteShift();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					});
 		} else {
 			Messagebox.show("Prima di rimuovere il turno, assegnare la specificità ad un altro turno.");
 		}
@@ -543,15 +555,15 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteStatus();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -560,15 +572,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -591,7 +603,14 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onSelect = #typeofbreak")
 	public void setBreakShift() {
-		if (!this.typeofbreak.getSelectedItem().getValue().toString().equals("Non definito")) {
+		if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Turno Standard")) {
+			// job shift
+			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(0));
+			this.type_shift.setDisabled(true);
+			this.forceable.setChecked(false);
+			this.forceable.setDisabled(true);
+		} else if (!this.typeofbreak.getSelectedItem().getValue().toString().equals("Non definito")) {
+			// absence shift
 			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(1));
 			this.type_shift.setDisabled(true);
 			this.forceable.setChecked(false);

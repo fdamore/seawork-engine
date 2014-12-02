@@ -23,6 +23,8 @@ public interface ConfigurationDAO {
 
 	public void removeAllDiseaseShift();
 
+	public void removeAllStandardShift();
+
 	public void removeAllWaitBreakShift();
 
 	public void removeShift(Integer id);
@@ -33,13 +35,15 @@ public interface ConfigurationDAO {
 
 	public List<String> selectAllStatus();
 
+	public void setShiftAsAccident(final Integer id_usershift);
+
 	public void setShiftAsBreak(final Integer id_usershift);
 
 	public void setShiftAsDisease(final Integer id_usershift);
 
 	public void setShiftAsExpectedBreak(final Integer id_usershift);
 
-	public void setShiftAsInjury(final Integer id_usershift);
+	public void setShiftAsStandardShift(final Integer id_usershift);
 
 	public void updateShift(UserShift shift);
 

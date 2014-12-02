@@ -84,6 +84,12 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	@Override
 	public void removeAllDiseaseShift() {
 		this.getSqlSession().update("configuration.removeAllDiseaseShift");
+	}
+
+	@Override
+	public void removeAllStandardShift() {
+		MyBatisConfigurationDAO.logger.info("removeAllStandardShift");
+		this.getSqlSession().update("configuration.removeAllStandardShift");
 
 	}
 
@@ -130,6 +136,17 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void setShiftAsAccident(final Integer id_usershift) {
+		MyBatisConfigurationDAO.logger.info("setShiftAsAccident");
+
+		// remove all break shift
+		this.getSqlSession().update("configuration.removeAllAccidentShift");
+
+		this.getSqlSession().update("configuration.setShiftAsAccident", id_usershift);
+
+	}
+
+	@Override
 	public void setShiftAsBreak(final Integer id_usershift) {
 		MyBatisConfigurationDAO.logger.info("setShiftAsBreak");
 
@@ -163,13 +180,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
-	public void setShiftAsInjury(final Integer id_usershift) {
-		MyBatisConfigurationDAO.logger.info("setShiftAsAccident");
+	public void setShiftAsStandardShift(final Integer id_usershift) {
+		MyBatisConfigurationDAO.logger.info("setShiftAsStandard");
 
 		// remove all break shift
-		this.getSqlSession().update("configuration.removeAllAccidentShift");
+		this.getSqlSession().update("configuration.removeAllStandardShift");
 
-		this.getSqlSession().update("configuration.setShiftAsAccident", id_usershift);
+		this.getSqlSession().update("configuration.setShiftAsStandardShift", id_usershift);
 
 	}
 
