@@ -4,6 +4,12 @@
 <vlayout sclass="page-content" xmlns:n="native" spacing="0"
 	id="page_preferences"
 	apply="org.uario.seaworkengine.zkevent.Preferences">
+	
+<style>
+
+.myCell { border:1px solid; border-color:#CFCFCF;}
+
+</style>
 
 	<div sclass="page-header">
 		<label value="Parametri di sistema" />
@@ -223,14 +229,14 @@
 									<listheader label="" />
 								</listhead>
 
-								<listitem self="@{each='task_item'}"
+								<listitem sclass="myCell" self="@{each='task_item'}"
 									value="@{task_item}">
 
 
 
 									<listcell label="@{task_item.code}" />
 
-									<listcell
+									<listcell 
 										label="@{task_item.description}" />
 
 
@@ -441,7 +447,7 @@
 							</div>
 
 
-							<listbox id="sw_list_shift"
+							<listbox sclass="myCell" id="sw_list_shift"
 								pagingPosition="both" mold="paging"
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="10">
@@ -460,7 +466,7 @@
 									<listheader label="" />
 								</listhead>
 
-								<listitem self="@{each='shift_item'}"
+								<listitem sclass="myCell" self="@{each='shift_item'}"
 									value="@{shift_item}">
 									<listcell
 										label="@{shift_item.code}" />
@@ -472,16 +478,16 @@
 										<checkbox
 											checked="@{shift_item.forceable}" disabled="true" />
 									</listcell>
-									<listcell>
+									<listcell >
 										<image
 											src="@{shift_item.break_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
 
-									<listcell>
+									<listcell >
 										<image
 											src="@{shift_item.accident_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell>
+									<listcell >
 										<image
 											src="@{shift_item.disease_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
@@ -614,7 +620,7 @@
 									<listheader label="" />
 								</listhead>
 
-								<listitem self="@{each='status_item'}"
+								<listitem sclass="myCell" self="@{each='status_item'}"
 									value="@{status_item}">
 
 

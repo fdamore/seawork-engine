@@ -4,6 +4,12 @@
 <vlayout sclass="page-content" xmlns:n="native" spacing="0"
 	id="page_user_detail"
 	apply="org.uario.seaworkengine.zkevent.UserDetailsComposer">
+	
+	<style>
+
+	.myCell { border:1px solid; border-color:#CFCFCF;}
+
+	</style>
 
 	<div sclass="page-header">
 		<label value="Dettagli Utente" />
@@ -539,7 +545,7 @@
 			<listheader label="" />
 		</listhead>
 
-		<listitem self="@{each='user_item'}" value="@{user_item}">
+		<listitem sclass="myCell"  self="@{each='user_item'}" value="@{user_item}">
 
 			<listcell label="@{user_item.id}" />
 			<listcell label="@{user_item.status}" />
