@@ -4,6 +4,7 @@
  */
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -54,6 +55,29 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 	public ITaskCache getTask_cache() {
 		return this.task_cache;
+	}
+
+	@Override
+	public List<UserShift> listAllShifts(final String full_text_search) {
+		MyBatisConfigurationDAO.logger.info("listAllShifts like full_text_search");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", full_text_search);
+
+		final List<UserShift> list_shift = this.getSqlSession().selectList("configuration.selectAllShiftsFulltextSearchLike", map);
+		return list_shift;
+
+	}
+
+	@Override
+	public List<UserTask> listAllTasks(final String full_text_search) {
+		MyBatisConfigurationDAO.logger.info("listAllTasks like full_text_search");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", full_text_search);
+
+		final List<UserTask> list_task = this.getSqlSession().selectList("configuration.selectAllTasksFulltextSearchLike", map);
+		return list_task;
 	}
 
 	@Override
