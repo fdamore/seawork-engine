@@ -370,10 +370,10 @@
 														id="type_shift" placeholder="Seleziona il tipo di turno"
 														readonly="true">
 														<comboitem
-															label="TURNO DI LAVORO" value="TURNO DI LAVORO">
+															label="LAVORO" value="TURNO DI LAVORO">
 														</comboitem>
 														<comboitem
-															label="TURNO DI ASSENZA" value="TURNO DI ASSENZA">
+															label="ASSENZA" value="TURNO DI ASSENZA">
 														</comboitem>
 
 													</combobox>
