@@ -70,6 +70,17 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserTask> listAllTasks(final String full_text_search) {
+		MyBatisConfigurationDAO.logger.info("listAllTasks like full_text_search");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", full_text_search);
+
+		final List<UserTask> list_task = this.getSqlSession().selectList("configuration.selectAllTasksFulltextSearchLike", map);
+		return list_task;
+	}
+
+	@Override
 	public List<UserShift> loadShifts() {
 		MyBatisConfigurationDAO.logger.info("Get all shifts..");
 		final List<UserShift> list_shifts = this.getSqlSession().selectList("configuration.selectAllShifts");

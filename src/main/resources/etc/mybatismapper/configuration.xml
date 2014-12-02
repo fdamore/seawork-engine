@@ -12,6 +12,20 @@
 		FROM usertask;
 
 	</select>
+	
+	<select id="selectAllTasksFulltextSearchLike" parameterType="map" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT id,
+		code,
+		description
+		FROM usertask
+		<if test="my_full_text_search != null">
+			WHERE (
+			code like CONCAT('%', #{my_full_text_search}, '%') or
+			description like CONCAT('%', #{my_full_text_search}, '%')
+			)
+		</if>
+		ORDER BY description;
+	</select>
 
 	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
 		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift

@@ -15,6 +15,8 @@ public interface ConfigurationDAO {
 
 	public List<UserShift> listAllShifts(String full_text_search);
 
+	public List<UserTask> listAllTasks(String full_text_search);
+
 	public List<UserShift> loadShifts();
 
 	public List<UserTask> loadTasks();
