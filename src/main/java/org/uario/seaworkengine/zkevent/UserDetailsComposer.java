@@ -8,6 +8,7 @@ import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.CFGenerator;
 import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.UserTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -317,6 +318,22 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.grid_user_details.setVisible(false);
 		this.add_users_command.setVisible(false);
 		this.modify_users_command.setVisible(false);
+
+	}
+
+	@Listen("onClick=#cfgenerator")
+	public void calculateFiscalCode() {
+		final String n = this.firstname_user.getValue().toString();
+		final String c = this.lastname_user.getValue().toString();
+		final String cc = this.city_user.getValue().toString();
+		final int g = this.birth_date_user.getValue().getDay();
+		final int a = this.birth_date_user.getValue().getYear();
+		final int m1 = this.birth_date_user.getValue().getMonth();
+		final String s = "M";
+
+		final CFGenerator cfg = new CFGenerator(n, c, cc, "Novembre", a, g, s);
+
+		this.fiscalcode_user.setValue(cfg.getCodiceFiscale());
 
 	}
 
@@ -638,15 +655,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener<Event>() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposer.this.deleteUserCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposer.this.deleteUserCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 

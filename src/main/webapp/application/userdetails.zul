@@ -228,7 +228,18 @@
 											value="Codice Fiscale:">
 										</label>
 										<textbox id="fiscalcode_user" />
+										
 									</row>
+									
+									<row>
+										<label
+											value="Calcola Codice Fiscale:">
+										</label>
+										
+										<button id="cfgenerator" label="Calcola Codice Fiscale" sclass="btn-danger"/>
+												
+									</row>
+									
 
 									<row>
 										<label
