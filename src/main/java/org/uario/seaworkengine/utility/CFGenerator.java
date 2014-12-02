@@ -35,7 +35,7 @@ public class CFGenerator {
 		this.sesso = sesso;
 
 	} // Fine costruttore
-	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	// Aggiunge le vocali alla stringa passata per parametro
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ public class CFGenerator {
 	private String elaboraCodiceComune() {
 		String cc = "";
 		try {
-			final Scanner scanner = new Scanner(new File("Comuni.txt"));
+			final Scanner scanner = new Scanner(new File("/img/Comuni.txt"));
 			scanner.useDelimiter("\r\n");
 
 			while (scanner.hasNext()) {

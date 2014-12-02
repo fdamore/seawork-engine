@@ -105,6 +105,9 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	private String				provincia;
 
 	@XmlTransient
+	private Boolean				sex;
+
+	@XmlTransient
 	private String				status;
 
 	@XmlTransient
@@ -301,6 +304,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.provincia;
 	}
 
+	public Boolean getSex() {
+		return this.sex;
+	}
+
 	public String getStatus() {
 		return this.status;
 	}
@@ -452,11 +459,11 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setDriving_license(final String driving_license) {
 		this.driving_license = driving_license;
-	}
+	};
 
 	public void setDriving_license_emission(final java.util.Date driving_license_emission) {
 		this.driving_license_emission = driving_license_emission;
-	};
+	}
 
 	public void setEducation(final String education) {
 		this.education = education;
@@ -525,6 +532,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setProvincia(final String provincia) {
 		this.provincia = provincia;
+	}
+
+	public void setSex(final Boolean sex) {
+		this.sex = sex;
 	}
 
 	public void setStatus(final String status) {

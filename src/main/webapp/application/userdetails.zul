@@ -247,6 +247,23 @@
 										</label>
 										<datebox id="birth_date_user" />
 									</row>
+									
+									<row>
+										<label value="Sesso"/>
+										<combobox
+														id="sex_user"
+														placeholder="Seleziona sesso"
+														readonly="true">													
+														<comboitem
+															label="M" value="M">
+														</comboitem>
+														<comboitem
+															label="F" value="F">
+														</comboitem>
+																											
+													</combobox>
+									
+									</row>
 
 									<row>
 										<label
