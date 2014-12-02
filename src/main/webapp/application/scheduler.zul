@@ -8,7 +8,7 @@
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.SchedulerComposer"
 		id="page_panel">
-		
+
 		<style>
 			.myCell { border:1px solid; border-color:#CFCFCF;}
 		</style>
@@ -328,8 +328,8 @@
 
 						</listhead>
 
-						<listitem sclass="myCell" self="@{each='dayitem'}"
-							value="@{dayitem}">
+						<listitem sclass="myCell"
+							self="@{each='dayitem'}" value="@{dayitem}">
 
 
 							<listcell>
@@ -769,8 +769,8 @@
 								<listheader label="Tempo programmato" />
 							</listhead>
 
-							<listitem sclass="myCell" self="@{each='item_program'}"
-								value="@{item_program}">
+							<listitem sclass="myCell"
+								self="@{each='item_program'}" value="@{item_program}">
 								<listcell>
 									<label width="200px"
 										value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
@@ -855,7 +855,7 @@
 
 					<listbox sclass="domain" id="grid_scheduler"
 						mold="paging" pageSize="10" pagingPosition="both">
-						<auxhead style="myStyle">
+						<auxhead>
 							<auxheader label="" colspan="1" />
 
 							<auxheader colspan="4" align="center"
@@ -1278,8 +1278,8 @@
 								<listheader label="Orario di uscita" />
 							</listhead>
 
-							<listitem sclass="myCell" self="@{each='itemreview'}"
-								value="@{itemreview}">
+							<listitem sclass="myCell"
+								self="@{each='itemreview'}" value="@{itemreview}">
 
 								<listcell>
 									<label width="200px"
@@ -1417,8 +1417,8 @@
 
 						</listhead>
 
-						<listitem sclass="myCell" self="@{each='itemreview'}"
-							value="@{itemreview}">
+						<listitem sclass="myCell"
+							self="@{each='itemreview'}" value="@{itemreview}">
 
 
 							<listcell>
