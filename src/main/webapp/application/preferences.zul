@@ -354,6 +354,9 @@
 														</comboitem>
 														<comboitem
 															label="Turno Standard" value="Turno Standard">
+														</comboitem>
+														<comboitem
+															label="Turno Giornaliero" value="Turno Giornaliero">
 														</comboitem>														
 													</combobox>
 												</row>
@@ -436,6 +439,7 @@
 									<listheader label="Riposo Malattia" />
 									<listheader label="Riposo Atteso" />
 									<listheader label="Turno Standard"/>
+									<listheader label="Turno Giornaliero"/>
 									<listheader label="" />
 								</listhead>
 
@@ -471,6 +475,10 @@
 									<listcell>
 										<image
 											src="@{shift_item.standard_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+									</listcell>
+									<listcell>
+										<image
+											src="@{shift_item.daily_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
 									<listcell>
 

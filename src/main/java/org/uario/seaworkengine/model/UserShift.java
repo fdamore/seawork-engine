@@ -13,6 +13,8 @@ public class UserShift implements Serializable {
 
 	private Boolean				break_shift;
 	private String				code;
+	private Boolean				daily_shift;
+
 	private String				description;
 
 	private Boolean				disease_shift;
@@ -37,6 +39,10 @@ public class UserShift implements Serializable {
 
 	public String getCode() {
 		return this.code;
+	}
+
+	public Boolean getDaily_shift() {
+		return this.daily_shift;
 	}
 
 	public String getDescription() {
@@ -72,7 +78,7 @@ public class UserShift implements Serializable {
 	}
 
 	public Boolean isDefault() {
-		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift || this.standard_shift) {
+		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift || this.standard_shift || this.daily_shift) {
 			return true;
 		}
 		return false;
@@ -88,6 +94,10 @@ public class UserShift implements Serializable {
 
 	public void setCode(final String code) {
 		this.code = code;
+	}
+
+	public void setDaily_shift(final Boolean daily_shift) {
+		this.daily_shift = daily_shift;
 	}
 
 	public void setDescription(final String description) {

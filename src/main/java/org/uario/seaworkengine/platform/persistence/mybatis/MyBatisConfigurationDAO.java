@@ -72,17 +72,27 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 	@Override
 	public void removeAllAccidentShift() {
+		MyBatisConfigurationDAO.logger.info("removeAllAccidentShift");
 		this.getSqlSession().update("configuration.removeAllAccidentShift");
 
 	}
 
 	@Override
 	public void removeAllBreakShift() {
+		MyBatisConfigurationDAO.logger.info("removeAllBreakShift");
 		this.getSqlSession().update("configuration.removeAllBreakShift");
 	}
 
 	@Override
+	public void removeAllDailyShift() {
+		MyBatisConfigurationDAO.logger.info("removeAllDailyShift");
+		this.getSqlSession().update("configuration.removeAllDailyShift");
+
+	}
+
+	@Override
 	public void removeAllDiseaseShift() {
+		MyBatisConfigurationDAO.logger.info("removeAllDiseaseShift");
 		this.getSqlSession().update("configuration.removeAllDiseaseShift");
 	}
 
@@ -154,6 +164,17 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 		this.getSqlSession().update("configuration.removeAllBreakShift");
 
 		this.getSqlSession().update("configuration.setShiftAsBreak", id_usershift);
+
+	}
+
+	@Override
+	public void setShiftAsDailyShift(final Integer id_usershift) {
+		MyBatisConfigurationDAO.logger.info("setShiftAsDailyShift");
+
+		// remove all break shift
+		this.getSqlSession().update("configuration.removeAllDailyShift");
+
+		this.getSqlSession().update("configuration.setShiftAsDailyShift", id_usershift);
 
 	}
 

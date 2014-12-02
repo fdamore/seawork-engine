@@ -137,6 +137,7 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setAccident_shift(false);
 		shift.setDisease_shift(false);
 		shift.setStandard_shift(false);
+		shift.setDaily_shift(false);
 
 		if (!typeOfBreakShift.equals("Non definito")) {
 			if (typeOfBreakShift.equals("Riposo Programmato")) {
@@ -154,6 +155,9 @@ public class Preferences extends SelectorComposer<Component> {
 			} else if (typeOfBreakShift.equals("Turno Standard")) {
 				shift.setStandard_shift(true);
 				this.configurationDao.removeAllStandardShift();
+			} else if (typeOfBreakShift.equals("Turno Giornaliero")) {
+				shift.setDaily_shift(true);
+				this.configurationDao.removeAllDailyShift();
 			}
 		}
 
@@ -342,6 +346,10 @@ public class Preferences extends SelectorComposer<Component> {
 			this.typeofbreak.setSelectedIndex(5);
 			this.type_shift.setDisabled(true);
 			this.forceable.setDisabled(true);
+		} else if (shift.getDaily_shift()) {
+			this.typeofbreak.setSelectedIndex(6);
+			this.type_shift.setDisabled(true);
+			this.forceable.setDisabled(true);
 		} else {
 			this.typeofbreak.setSelectedItem(null);
 			this.type_shift.setDisabled(false);
@@ -413,6 +421,7 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setAccident_shift(false);
 		shift.setWaitbreak_shift(false);
 		shift.setStandard_shift(false);
+		shift.setDaily_shift(false);
 
 		if (this.typeofbreak.getSelectedItem() != null) {
 			final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
@@ -431,6 +440,9 @@ public class Preferences extends SelectorComposer<Component> {
 			} else if (typeOfBreak.equals("Turno Standard")) {
 				shift.setStandard_shift(true);
 				this.configurationDao.setShiftAsStandardShift(shift.getId());
+			} else if (typeOfBreak.equals("Turno Giornaliero")) {
+				shift.setDaily_shift(true);
+				this.configurationDao.setShiftAsDailyShift(shift.getId());
 			}
 
 		}
@@ -603,7 +615,13 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onSelect = #typeofbreak")
 	public void setBreakShift() {
-		if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Turno Standard")) {
+		if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Turno Giornaliero")) {
+			// job shift
+			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(0));
+			this.type_shift.setDisabled(true);
+			this.forceable.setChecked(true);
+			this.forceable.setDisabled(true);
+		} else if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Turno Standard")) {
 			// job shift
 			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(0));
 			this.type_shift.setDisabled(true);

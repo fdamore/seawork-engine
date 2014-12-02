@@ -5,9 +5,6 @@
 
 	<cache />
 
-
-
-
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
@@ -17,7 +14,7 @@
 	</select>
 
 	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
 		FROM usershift
 		ORDER BY description;
 	</select>
@@ -47,9 +44,9 @@
 		usershift
 		(code,
 		description,
-		presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift)
+		presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift)
 		VALUES
-		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{accident_shift}, #{waitbreak_shift}, #{standard_shift});
+		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{accident_shift}, #{waitbreak_shift}, #{standard_shift}, #{daily_shift});
 	</insert>
 	
 
@@ -78,7 +75,8 @@
 		disease_shift = #{disease_shift}, 
 		accident_shift = #{accident_shift}, 
 		waitbreak_shift = #{waitbreak_shift},
-		standard_shift = #{standard_shift}
+		standard_shift = #{standard_shift},
+		daily_shift = #{daily_shift}
 		WHERE id = #{id};
 
 
@@ -141,12 +139,7 @@
 	<update id="removeAllWaitBreakShift">
 		UPDATE usershift
 		SET waitbreak_shift = 0;
-	</update>
-	
-	<update id="removeAllStandardShift">
-		UPDATE usershift
-		SET standard_shift = 0;
-	</update>
+	</update>		
 	
 	<update id="setShiftAsWaitBreak" parameterType="Integer">
 		UPDATE usershift
@@ -154,9 +147,25 @@
 		WHERE id = #{id_usershift};
 	</update>
 	
+	<update id="removeAllStandardShift">
+		UPDATE usershift
+		SET standard_shift = 0;
+	</update>
+	
 	<update id="setShiftAsStandardShift" parameterType="Integer">
 		UPDATE usershift
 		SET standard_shift = 1, forceable = 0, presence = 1
+		WHERE id = #{id_usershift};
+	</update>
+	
+	<update id="removeAllDailyShift">
+		UPDATE usershift
+		SET daily_shift = 0;
+	</update>
+	
+	<update id="setShiftAsDailyShift" parameterType="Integer">
+		UPDATE usershift
+		SET daily_shift = 1, forceable = 1, presence = 1
 		WHERE id = #{id_usershift};
 	</update>
 
