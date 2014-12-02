@@ -82,13 +82,13 @@
 											value="Ore Settimana corrente: " />
 										<label id="work_current_week" />
 									</row>
-									
+
 									<row>
 										<label
 											value="Ore Mese corrente: " />
 										<label id="work_current_month" />
 									</row>
-									
+
 									<row>
 										<label
 											value="Ore Anno corrente: " />
@@ -1596,6 +1596,8 @@
 
 								<listheader label="Nome" hflex="2" />
 
+								<listheader label="Data" hflex="1" />
+
 								<listheader label="Turno" hflex="1"
 									align="center" />
 								<listheader label="Mansione" hflex="1"
@@ -1616,6 +1618,9 @@
 
 								<listcell
 									label="@{itemoverviewreview.user}" />
+
+								<listcell
+									label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
 								<listcell
 									label="@{itemoverviewreview.shift}" />
@@ -1648,6 +1653,8 @@
 
 								<listheader label="Nome" hflex="2" />
 
+								<listheader label="Data" hflex="1" />
+
 								<listheader label="Turno" hflex="1"
 									align="center" />
 								<listheader label="Mansione" hflex="1"
@@ -1665,6 +1672,9 @@
 
 								<listcell
 									label="@{itemoverviewprogram.user}" />
+
+								<listcell
+									label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
 								<listcell
 									label="@{itemoverviewprogram.shift}" />

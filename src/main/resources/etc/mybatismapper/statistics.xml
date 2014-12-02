@@ -15,13 +15,21 @@
 		dfs.task,
 		dfs.time,
 		dfs.time_from,
-		dfs.time_to
+		dfs.time_to,
+		s.date_schedule
 		from
 		detailfinalschedule dfs,
 		schedule s,
 		user u
 		where
-		dfs.id_schedule = s.id and s.user = u.id
+		dfs.id_schedule =
+		s.id and s.user = u.id
+		<if test="my_full_text_search != null">
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
+			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
+			u.employee_identification = #{my_full_text_search})
+		</if>
 	</select>
 
 	<select id="overviewInitalSchedule" resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
@@ -32,13 +40,22 @@
 		dfs.id_schedule,
 		dfs.shift,
 		dfs.task,
-		dfs.time
+		dfs.time,
+		s.date_schedule
 		from
-		detailinitialschedule dfs,
+		detailinitialschedule
+		dfs,
 		schedule s,
 		user u
 		where
-		dfs.id_schedule = s.id and s.user = u.id
+		dfs.id_schedule = s.id
+		and s.user = u.id
+		<if test="my_full_text_search != null">
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
+			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
+			u.employee_identification = #{my_full_text_search})
+		</if>
 	</select>
 
 
