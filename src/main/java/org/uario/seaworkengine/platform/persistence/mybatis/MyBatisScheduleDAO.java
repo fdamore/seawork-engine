@@ -9,7 +9,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
-import org.uario.seaworkengine.model.DaySchedule;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
@@ -54,19 +53,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DaySchedule> loadDaySchedule(final Date date_scheduled) {
-		MyBatisScheduleDAO.logger.info("loadDayScheduleByDate");
-
-		final Date dt_arg = DateUtils.truncate(date_scheduled, Calendar.DATE);
-
-		final HashMap<String, Date> map = new HashMap<String, Date>();
-		map.put("dt_arg", dt_arg);
-
-		return this.getSqlSession().selectList("schedule.loadDayScheduleByDate", map);
-
-	}
-
-	@Override
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(final Integer id_schedule) {
 		MyBatisScheduleDAO.logger.info("loadDetailFinalScheduleByIdSchedule");
 
@@ -100,6 +86,19 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		map.put("shift", shift);
 
 		return this.getSqlSession().selectList("schedule.loadDetailInitialScheduleByIdScheduleAndShift", map);
+	}
+
+	@Override
+	public List<Schedule> loadSchedule(final Date date_scheduled) {
+		MyBatisScheduleDAO.logger.info("loadDayScheduleByDate");
+
+		final Date dt_arg = DateUtils.truncate(date_scheduled, Calendar.DATE);
+
+		final HashMap<String, Date> map = new HashMap<String, Date>();
+		map.put("dt_arg", dt_arg);
+
+		return this.getSqlSession().selectList("schedule.loadDayScheduleByDate", map);
+
 	}
 
 	@Override
@@ -165,31 +164,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public void removeDayScheduleUserFired(final Integer idUser, final Date firedDate) {
-		MyBatisScheduleDAO.logger.info("remove day schedule user fired");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("idUser", idUser);
-		map.put("firedDate", firedDate);
-
-		this.getSqlSession().delete("schedule.removeDayScheduleUserFired", map);
-
-	}
-
-	@Override
-	public void removeDayScheduleUserSuspended(final Integer idUser, final Date initialDate, final Date finalDate) {
-		MyBatisScheduleDAO.logger.info("remove day schedule user suspended");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("idUser", idUser);
-		map.put("initialDate", initialDate);
-		map.put("finalDate", finalDate);
-
-		this.getSqlSession().delete("schedule.removeDayScheduleUserSuspended", map);
-
-	}
-
-	@Override
 	public void removeSchedule(final Date date_scheduler, final Integer id_user) {
 		MyBatisScheduleDAO.logger.info("removeSchedule");
 
@@ -249,20 +223,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		// add all details
 		for (final DetailInitialSchedule item_detail : details) {
 			this.createDetailInitialSchedule(item_detail);
-		}
-
-	}
-
-	@Override
-	public void saveOrUpdateDaySchedule(final DaySchedule day_schedule) {
-		if (day_schedule.getId() == null) {
-			// save
-			this.getSqlSession().insert("schedule.createDaySchedule", day_schedule);
-
-		}
-		else {
-			this.getSqlSession().update("schedule.updateDaySchedule", day_schedule);
-
 		}
 
 	}
@@ -332,15 +292,15 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DaySchedule> selectDaySchedulers(final Date initial_date, final Date final_date, final String full_text_search) {
+	public List<Schedule> selectSchedulers(final Date initial_date, final Date final_date, final String my_full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectDaySchedulers..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", initial_date);
 		map.put("date_to", final_date);
-		map.put("my_full_text_search", full_text_search);
+		map.put("my_full_text_search", my_full_text_search);
 
-		final List<DaySchedule> list = this.getSqlSession().selectList("schedule.selectDaySchedulers", map);
+		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectDaySchedulers", map);
 		return list;
 	}
 }

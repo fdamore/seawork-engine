@@ -1,6 +1,6 @@
 package org.uario.seaworkengine.zkevent.converter;
 
-import org.uario.seaworkengine.model.DaySchedule;
+import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -21,13 +21,13 @@ public class ShiftConverter implements TypeConverter {
 	@Override
 	public Object coerceToUi(final Object arg0, final Component arg1) {
 
-		if (!(arg0 instanceof DaySchedule) || (arg0 == null)) {
+		if (!(arg0 instanceof Schedule) || (arg0 == null)) {
 			return arg0;
 		}
 
 		final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
 
-		final DaySchedule day_schedule = (DaySchedule) arg0;
+		final Schedule day_schedule = (Schedule) arg0;
 
 		final Integer id_shift = day_schedule.getShift();
 		if (id_shift == null) {

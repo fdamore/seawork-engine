@@ -218,7 +218,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			Messagebox.show("Status aggiunto all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		} else {
+		}
+		else {
 
 			// modify a status
 
@@ -253,7 +254,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			 * "Vuoi cambiare lo status attuale? In caso di sospensione o licenziamento sarà cancellata la programmazione."
 			 * , "CONFERMA STATUS ATTUALE", Messagebox.OK | Messagebox.CANCEL,
 			 * Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
-			 * 
+			 *
 			 * @Override public void onEvent(final Event e) { if
 			 *           (Messagebox.ON_OK.equals(e.getName())) {
 			 *           UserDetailsComposerStatus.this.onUpdateStatus(); if
@@ -271,7 +272,6 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			UserDetailsComposerStatus.this.onUpdateStatus();
 			if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED)) {
 				UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(idUser, dateStatus);
-				UserDetailsComposerStatus.this.scheduleDao.removeDayScheduleUserFired(idUser, dateStatus);
 			}
 
 			this.status_upload = item.getStatus();
@@ -296,15 +296,16 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
 			@Override
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
 					UserDetailsComposerStatus.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
 				}
+				else
+					if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
+					}
 			}
 		});
 
@@ -351,7 +352,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		if (this.status.getSelectedItem() != null) {
 			final String status_val = this.status.getSelectedItem().getValue();
 			item.setStatus(status_val);
-		} else {
+		}
+		else {
 			Messagebox.show("Selezionare Status Utente!", "Info", Messagebox.OK, Messagebox.INFORMATION);
 			return false;
 		}

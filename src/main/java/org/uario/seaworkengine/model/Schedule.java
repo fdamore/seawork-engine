@@ -40,7 +40,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	@XmlTransient
 	private Double				revision_time;
 
-	// only for engine and visualize purpose
 	@XmlTransient
 	private Integer				shift;
 
