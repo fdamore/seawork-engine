@@ -21,7 +21,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	private Date				date_schedule;
 
-	@XmlTransient
 	private Integer				editor;
 
 	private Integer				id;
@@ -40,10 +39,8 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	@XmlTransient
 	private Double				revision_time;
 
-	@XmlTransient
 	private Integer				shift;
 
-	@XmlTransient
 	private Integer				user;
 
 	@Override

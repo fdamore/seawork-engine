@@ -45,8 +45,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		final Integer ret_int = this.getSqlSession().selectOne("schedule.getLastShiftRevision", map);
 		if (ret_int != null) {
 			return ret_int;
-		}
-		else {
+		} else {
 			return this.getSqlSession().selectOne("schedule.getLastShiftProgram", map);
 		}
 
@@ -90,20 +89,20 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 	@Override
 	public List<Schedule> loadSchedule(final Date date_scheduled) {
-		MyBatisScheduleDAO.logger.info("loadDayScheduleByDate");
+		MyBatisScheduleDAO.logger.info("loadSchedule by date");
 
 		final Date dt_arg = DateUtils.truncate(date_scheduled, Calendar.DATE);
 
 		final HashMap<String, Date> map = new HashMap<String, Date>();
 		map.put("dt_arg", dt_arg);
 
-		return this.getSqlSession().selectList("schedule.loadDayScheduleByDate", map);
+		return this.getSqlSession().selectList("schedule.loadScheduleByDate", map);
 
 	}
 
 	@Override
 	public Schedule loadSchedule(final Date date_schedule, final Integer id_user) {
-		MyBatisScheduleDAO.logger.info("selectSchedulers..");
+		MyBatisScheduleDAO.logger.info("loadSchedule by date and id_user..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_schedule", date_schedule);
@@ -233,8 +232,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		}
-		else {
+		} else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}
@@ -292,15 +290,15 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<Schedule> selectSchedulers(final Date initial_date, final Date final_date, final String my_full_text_search) {
-		MyBatisScheduleDAO.logger.info("selectDaySchedulers..");
+	public List<Schedule> selectSchedulersForPreprocessing(final Date initial_date, final Date final_date, final String my_full_text_search) {
+		MyBatisScheduleDAO.logger.info("selectSchedulersForPreprocessing..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_from", initial_date);
 		map.put("date_to", final_date);
 		map.put("my_full_text_search", my_full_text_search);
 
-		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectDaySchedulers", map);
+		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectSchedulersForPreprocessing", map);
 		return list;
 	}
 }

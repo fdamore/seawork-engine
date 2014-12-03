@@ -4,29 +4,30 @@
 <mapper namespace="schedule">
 
 	<cache />
-	
-	
-	<select id="loadDayScheduleByDate" parameterType="map"
-		resultType="org.uario.seaworkengine.model.DaySchedule">
-		SELECT id, id_user, shift, date_scheduled
-		FROM dayschedule
+
+
+	<select id="loadScheduleByDate" parameterType="map"
+		resultType="org.uario.seaworkengine.model.Schedule">
+		SELECT id, date_schedule, user, note, editor, controller,
+		shift
+		FROM schedule
 		WHERE date_scheduled = #{dt_arg};
 	</select>
-	
-	
-	<select id="selectDaySchedulers" resultType="org.uario.seaworkengine.model.DaySchedule"
+
+
+	<select id="selectSchedulersForPreprocessing" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 
 		select s.id,
-		u.id as id_user,
+		u.id as user,
 		s.shift,
-		s.date_scheduled,
+		s.date_schedule,
 		concat(u.firstname, ' ', u.lastname) AS name_user
 		from
 		user u left join
-		dayschedule s ON (u.id = s.id_user and s.date_scheduled >=
+		schedule s ON (u.id = s.user and s.date_schedule >=
 		#{date_from} and
-		s.date_scheduled <![CDATA[<]]>
+		s.date_schedule <![CDATA[<]]>
 		#{date_to})
 		where u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
@@ -41,50 +42,39 @@
 			u.employee_identification = #{my_full_text_search})
 		</if>
 	</select>
-	
-	
-	<insert id="createDaySchedule" parameterType="org.uario.seaworkengine.model.DaySchedule">
-		INSERT INTO
-		dayschedule (id_user, shift, date_scheduled)
-		VALUES (#{id_user},
-		#{shift}, #{date_scheduled});
-	</insert>
-	
-	
-	<select id="loadDaySchedule" parameterType="Integer"
-		resultType="org.uario.seaworkengine.model.DaySchedule">
-		SELECT id, id_user, shift, date_scheduled
-		FROM dayschedule
-		WHERE id=#{id};
-	</select>
-	
 
-	
-	
-	
-		<update id="updateDaySchedule" parameterType="org.uario.seaworkengine.model.DetailInitialSchedule">
-	UPDATE
-	dayschedule
-	SET
-	id_user = #{id_user},
-	shift = #{shift},
-	date_scheduled =
-	#{date_scheduled}
-	WHERE id = #{id};
-	</update>
-	
-	
-	
+
 	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO
 		schedule
-		(date_schedule, user, editor, controller, note)
+		(date_schedule, user, editor, controller, note,shift)
 		VALUES
 		(#{date_schedule}, #{user}, #{editor}, #{controller},
-		#{note});
+		#{note},
+		#{shift});
 	</insert>
 
-	
+
+
+	<update id="updateSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
+		UPDATE schedule
+		SET
+		id =
+		#{id},
+		date_schedule = #{date_schedule},
+		user = #{user},
+		editor =
+		#{editor},
+		controller = #{controller},
+		note = #{note},
+		shift = #{shift}
+		WHERE id = #{id};
+	</update>
+
+
+
+
+
 
 	<select id="getLastShiftProgram" parameterType="map" resultType="int">
 		select max(dfs.shift)
@@ -296,22 +286,10 @@
 
 
 
-	
 
 
-	<update id="updateSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
-		UPDATE schedule
-		SET
-		id =
-		#{id},
-		date_schedule = #{date_schedule},
-		user = #{user},
-		editor =
-		#{editor},
-		controller = #{controller},
-		note = #{note}
-		WHERE id = #{id};
-	</update>
+
+
 
 	<insert id="createDetailInitialSchedule" parameterType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		INSERT
@@ -426,7 +404,7 @@
 		]]>
 	</delete>
 
-	
+
 
 
 

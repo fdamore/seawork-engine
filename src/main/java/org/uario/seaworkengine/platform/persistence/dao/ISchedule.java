@@ -55,6 +55,6 @@ public interface ISchedule {
 
 	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 
-	public List<Schedule> selectSchedulers(Date initial_date, Date final_date, String my_full_text_search);
+	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
 
 }
