@@ -24,6 +24,7 @@
 		where
 		dfs.id_schedule =
 		s.id and s.user = u.id
+
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or
@@ -33,6 +34,13 @@
 
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
+		</if>
+
+		<if test="date_from != null and date_to != null">
+			and (s.date_schedule <![CDATA[>=]]>
+			#{date_from} and s.date_schedule
+			<![CDATA[<=]]>
+			#{date_to})
 		</if>
 
 	</select>
@@ -55,18 +63,18 @@
 		where
 		dfs.id_schedule = s.id
 		and s.user = u.id
-		
+
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or
 			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
 			u.employee_identification = #{my_full_text_search})
 		</if>
-		
+
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
-		
+
 	</select>
 
 

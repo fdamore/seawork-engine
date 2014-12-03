@@ -1620,6 +1620,10 @@
 					<comboitem value="3" label="3"></comboitem>
 					<comboitem value="4" label="4"></comboitem>
 				</combobox>
+				
+				<space></space>
+
+				<a label="Scarica dati in CSV" id="overview_download"></a>
 
 
 			</hbox>

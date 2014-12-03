@@ -55,10 +55,11 @@ public interface IStatistics {
 	 *            TODO
 	 * @param shift_number
 	 *            TODO
-	 *
+	 * @param date_from TODO
+	 * @param date_to TODO
 	 * @return
 	 */
-	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number);
+	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule
@@ -67,9 +68,10 @@ public interface IStatistics {
 	 *            TODO
 	 * @param shift_number
 	 *            TODO
-	 *
+	 * @param date_from TODO
+	 * @param date_to TODO
 	 * @return
 	 */
-	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number);
+	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Date date_from, Date date_to);
 
 }
