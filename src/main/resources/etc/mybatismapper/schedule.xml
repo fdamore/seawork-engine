@@ -11,7 +11,7 @@
 		SELECT id, date_schedule, user, note, editor, controller,
 		shift
 		FROM schedule
-		WHERE date_scheduled = #{dt_arg};
+		WHERE date_schedule = #{dt_arg};
 	</select>
 
 
