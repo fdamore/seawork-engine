@@ -215,7 +215,7 @@
 	<bean id="serviceAssign" init-method="init"
 		class="org.uario.seaworkengine.service.impl.WorkAssignService">
 
-		<property name="initialDelay" value="0"></property>
+		<property name="initialDelay" value="2"></property>
 
 		<!-- PERIOD in HOURS - RATE POOL TO CHECK IF IS THE DAY TO BILL -->
 		<property name="period" value="2"></property>

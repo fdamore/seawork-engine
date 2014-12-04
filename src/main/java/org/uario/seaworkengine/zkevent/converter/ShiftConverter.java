@@ -10,7 +10,9 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class ShiftConverter implements TypeConverter {
 
-	private static final String	NO_DATA	= "_";
+	private static final String	NO_DATA			= "_";
+
+	private static final String	STANDARD_WORK	= "_";
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -35,8 +37,12 @@ public class ShiftConverter implements TypeConverter {
 		}
 
 		final UserShift shift = shiftCache.getUserShift(id_shift);
-
-		return shift.getCode();
+		final UserShift standardWork = shiftCache.getStandardWorkShift();
+		if (shift.equals(standardWork)) {
+			return ShiftConverter.STANDARD_WORK;
+		} else {
+			return shift.getCode();
+		}
 
 	}
 }

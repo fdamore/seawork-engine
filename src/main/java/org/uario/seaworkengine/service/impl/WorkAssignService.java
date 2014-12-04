@@ -83,20 +83,20 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 		// date today
 		calendar.add(Calendar.DATE, 1);
-		final Date date_today = calendar.getTime();
+		final Date date_tomorrow = calendar.getTime();
 
 		// get all persons
 		final List<Person> list_person = this.personDAO.listWorkerPersons(null);
 		for (final Person person : list_person) {
 
-			Schedule schedule = this.scheduleDAO.loadSchedule(current_day, person.getId());
+			Schedule schedule = this.scheduleDAO.loadSchedule(date_tomorrow, person.getId());
 
 			if (schedule == null) {
 				schedule = new Schedule();
 			}
 
 			if ((schedule == null) || (schedule.getShift() == null)) {
-				schedule.setDate_schedule(date_today);
+				schedule.setDate_schedule(date_tomorrow);
 				schedule.setUser(person.getId());
 				schedule.setShift(work_shift.getId());
 				this.scheduleDAO.saveOrUpdateSchedule(schedule);
