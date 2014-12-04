@@ -138,7 +138,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A								label_date_popup;
 
 	@Wire
-	private A								label_date_shift;
+	private A								label_date_shift_preprocessing;
+
+	@Wire
+	private A								label_date_shift_program;
+
+	@Wire
+	private A								label_date_shift_review;
 
 	@Wire
 	private A								label_statistic_popup;
@@ -1255,10 +1261,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.label_date_popup.setLabel(msg);
 		if (current_shift != null) {
-			this.label_date_shift.setLabel(current_shift.toString());
+			this.label_date_shift_preprocessing.setLabel(current_shift.toString());
 		}
 		else {
-			this.label_date_shift.setLabel(null);
+			this.label_date_shift_preprocessing.setLabel(null);
 		}
 
 		this.shift_popup.setSelectedItem(null);
@@ -1345,6 +1351,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set label
 		SchedulerComposer.this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+
+		// set label current shift
+		if (this.currentSchedule != null) {
+			final UserShift myshift = this.shift_cache.getUserShift(this.currentSchedule.getShift());
+			if (myshift != null) {
+				this.label_date_shift_program.setLabel(myshift.toString());
+			}
+			else {
+				if (this.shift_cache.getStandardWorkShift() != null) {
+					this.label_date_shift_program.setLabel(this.shift_cache.getStandardWorkShift().toString());
+				}
+				else {
+					this.label_date_shift_program.setLabel(null);
+				}
+			}
+		}
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
@@ -1444,6 +1466,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set label
 		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+
+		// set label current shift
+		if (this.currentSchedule != null) {
+			final UserShift myshift = this.shift_cache.getUserShift(this.currentSchedule.getShift());
+			if (myshift != null) {
+				this.label_date_shift_review.setLabel(myshift.toString());
+			}
+			else {
+				if (this.shift_cache.getStandardWorkShift() != null) {
+					this.label_date_shift_review.setLabel(this.shift_cache.getStandardWorkShift().toString());
+				}
+				else {
+					this.label_date_shift_review.setLabel(null);
+				}
+			}
+		}
 
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
@@ -1624,6 +1662,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set user
 		this.currentSchedule.setUser(this.selectedUser);
+
+		// if shift not assigned, assign default one
+		if ((this.shift_cache.getStandardWorkShift() != null) && (this.currentSchedule.getShift() == null)) {
+			this.currentSchedule.setShift(this.shift_cache.getStandardWorkShift().getId());
+		}
 
 		this.scheduleDAO.saveOrUpdateSchedule(this.currentSchedule);
 

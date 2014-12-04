@@ -20,6 +20,8 @@ public class ShiftCacheImpl implements IShiftCache {
 	// internal hash
 	private final HashMap<Integer, UserShift>	hash	= new HashMap<Integer, UserShift>();
 
+	private UserShift							standardWorkShift;
+
 	@Override
 	public void buildCache(final List<UserShift> caches) {
 
@@ -34,6 +36,10 @@ public class ShiftCacheImpl implements IShiftCache {
 				this.breakShift = item;
 			}
 
+			if (item.getStandard_shift().booleanValue()) {
+				this.standardWorkShift = item;
+			}
+
 		}
 
 	}
@@ -44,7 +50,16 @@ public class ShiftCacheImpl implements IShiftCache {
 	}
 
 	@Override
+	public UserShift getStandardWorkShift() {
+		return this.standardWorkShift;
+	}
+
+	@Override
 	public UserShift getUserShift(final Integer id) {
 		return this.hash.get(id);
+	}
+
+	public void setStandardWorkShift(final UserShift standardWorkShift) {
+		this.standardWorkShift = standardWorkShift;
 	}
 }

@@ -15,10 +15,17 @@ public interface IShiftCache {
 
 	/**
 	 * Get break shift
-	 * 
+	 *
 	 * @return
 	 */
 	public UserShift getBreakShift();
+
+	/**
+	 * Standard work shift
+	 * 
+	 * @return
+	 */
+	public UserShift getStandardWorkShift();
 
 	/**
 	 * Get UserShift

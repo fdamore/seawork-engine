@@ -163,7 +163,8 @@
 							<a label="Configurazione gionaliera: "
 								id="label_date_popup" sclass="header" iconSclass="z-icon-check" />
 							<a label="Turno Corrente: "
-								id="label_date_shift" sclass="header" iconSclass="z-icon-check" />
+								id="label_date_shift_preprocessing" sclass="header"
+								iconSclass="z-icon-check" />
 
 							<separator></separator>
 							<combobox id="shift_popup" autodrop="false"
@@ -773,8 +774,16 @@
 				<panel border="normal" collapsible="false"
 					style="margin: 5px 5px 5px 5px" sclass="transparent">
 					<panelchildren>
-						<a id="scheduler_label"></a>
+
+						<vbox align="start">
+							<a id="scheduler_label"></a>
+							<a id="label_date_shift_program"
+								sclass="header" iconSclass="z-icon-check" />
+
+						</vbox>
+
 						<space></space>
+
 
 						<listbox id="listbox_program" sclass="domain"
 							checkmark="true" multiple="true">
@@ -1284,8 +1293,14 @@
 				<panel border="normal" collapsible="false"
 					style="margin: 5px 5px 5px 5px" sclass="transparent">
 					<panelchildren>
-						<a id="scheduler_label_review"></a>
+
+						<vbox align="start">
+							<a id="scheduler_label_review"></a>
+							<a id="label_date_shift_review"
+								sclass="header" iconSclass="z-icon-check" />
+						</vbox>
 						<space></space>
+
 						<listbox id="listbox_review" sclass="domain"
 							checkmark="true" multiple="true">
 							<auxhead>
