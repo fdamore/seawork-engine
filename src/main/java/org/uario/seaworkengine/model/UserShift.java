@@ -12,9 +12,9 @@ public class UserShift implements Serializable {
 	private Boolean				accident_shift;
 
 	private Boolean				break_shift;
+
 	private String				code;
 	private Boolean				daily_shift;
-
 	private String				description;
 
 	private Boolean				disease_shift;
@@ -28,6 +28,22 @@ public class UserShift implements Serializable {
 	private Boolean				standard_shift;
 
 	private Boolean				waitbreak_shift;
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof UserShift) {
+
+			final UserShift itm = (UserShift) obj;
+			return this.getCode().equals(itm.getCode());
+
+		}
+		else {
+			return false;
+		}
+	}
 
 	public Boolean getAccident_shift() {
 		return this.accident_shift;

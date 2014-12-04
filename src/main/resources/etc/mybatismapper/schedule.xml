@@ -22,10 +22,12 @@
 		u.id as user,
 		s.shift,
 		s.date_schedule,
-		concat(u.firstname, ' ', u.lastname) AS name_user
+		concat(u.firstname, '
+		', u.lastname) AS name_user
 		from
 		user u left join
-		schedule s ON (u.id = s.user and s.date_schedule >=
+		schedule s ON (u.id =
+		s.user and s.date_schedule >=
 		#{date_from} and
 		s.date_schedule <![CDATA[<]]>
 		#{date_to})
@@ -96,6 +98,7 @@
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 		SELECT id, date_schedule, user, editor, controller,
+		shift,
 		note
 		FROM schedule
 		WHERE user = #{id_user} and

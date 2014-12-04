@@ -142,7 +142,7 @@
 		<!-- PREPROCESSING -->
 		<div id="preprocessing_div" visible="true">
 
-			<hbox align="center">
+			<hbox align="left">
 				<a label="Seleziona data iniziale: "></a>
 				<datebox id="date_init_scheduler"
 					placeholder="Selezione data iniziale" width="200px">
@@ -158,31 +158,63 @@
 				<panel border="none" collapsible="false"
 					style="margin: 5px 5px 5px 5px">
 					<panelchildren>
-						<vbox align="end">
+						<vbox align="start">
+
 							<a label="Configurazione gionaliera: "
 								id="label_date_popup" sclass="header" iconSclass="z-icon-check" />
+							<a label="Turno Corrente: "
+								id="label_date_shift" sclass="header" iconSclass="z-icon-check" />
+
 							<separator></separator>
 							<combobox id="shift_popup" autodrop="false"
-								autocomplete="true" placeholder="Seleziona un turno..."
-								readonly="false">
+								width="300px" autocomplete="true"
+								placeholder="Seleziona un turno..." readonly="false">
 							</combobox>
 							<separator></separator>
 							<hbox>
-								<button label="OK" sclass="btn-info"
-									id="ok_day_shift">
-								</button>
 								<datebox placeholder="Fino a..."
 									id="day_after_config">
 								</datebox>
+
 							</hbox>
-							<separator></separator>
-							<button id="cancel_day_definition"
-								label="Cancella Configurazione" sclass="btn-danger">
-							</button>
 							<separator></separator>
 						</vbox>
 					</panelchildren>
 				</panel>
+
+				<panel border="none" collapsible="false"
+					style="margin: 5px 5px 5px 5px" title="Nota Giornaliera"
+					sclass="transparent">
+					<panelchildren>
+						<separator></separator>
+
+						<textbox placeholder="Inserisci nota..."
+							width="300px" id="note_preprocessing" rows="5">
+						</textbox>
+
+					</panelchildren>
+				</panel>
+
+				<panel border="none" collapsible="false"
+					style="margin: 5px 5px 5px 5px" sclass="transparent">
+					<panelchildren>
+						<separator></separator>
+
+						<button id="cancel_day_definition"
+							label="Cancella Configurazione" sclass="btn-danger">
+						</button>
+
+						<button label="Salva" sclass="btn-info"
+							id="ok_day_shift">
+						</button>
+
+						<separator></separator>
+
+					</panelchildren>
+				</panel>
+
+
+
 			</popup>
 
 
@@ -834,9 +866,8 @@
 						<separator></separator>
 
 
-						<textbox
-							placeholder="Inserisci note di programmazione e revisione"
-							width="400px" id="note" rows="5">
+						<textbox placeholder="Inserisci nota..."
+							width="400px" id="note_program" rows="5">
 						</textbox>
 
 					</panelchildren>
@@ -1368,8 +1399,7 @@
 						<separator></separator>
 
 
-						<textbox
-							placeholder="Inserisci note di consuntivazione e revisione"
+						<textbox placeholder="Inserisci nota..."
 							width="400px" id="note_review" rows="5">
 						</textbox>
 
@@ -1620,7 +1650,7 @@
 					<comboitem value="3" label="3"></comboitem>
 					<comboitem value="4" label="4"></comboitem>
 				</combobox>
-				
+
 				<space></space>
 
 				<a label="Scarica dati in CSV" id="overview_download"></a>

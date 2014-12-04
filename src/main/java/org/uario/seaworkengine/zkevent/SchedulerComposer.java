@@ -138,10 +138,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A								label_date_popup;
 
 	@Wire
-	private A								label_statistic_popup;
+	private A								label_date_shift;
 
+	@Wire
+	private A								label_statistic_popup;
 	// initial program and revision - USED IN POPUP
 	private List<DetailInitialSchedule>		list_details_program;
+
 	private List<DetailFinalSchedule>		list_details_review;
 
 	@Wire
@@ -155,15 +158,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox							listbox_review;
-
 	// initial program and revision - USED DOWNLOAD
 	private List<DetailInitialSchedule>		listDetailProgram				= null;
+
 	private List<DetailFinalSchedule>		listDetailRevision				= null;
 
 	private final Logger					logger							= Logger.getLogger(SchedulerComposer.class);
 
 	@Wire
-	private Textbox							note;
+	private Textbox							note_preprocessing;
+
+	@Wire
+	private Textbox							note_program;
 
 	@Wire
 	private Textbox							note_review;
@@ -222,19 +228,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								scheduler_label;
-
 	@Wire
 	private A								scheduler_label_review;
-
 	@Wire
 	private Combobox						scheduler_type_selector;
-
 	@Wire
 	private Combobox						select_shift_overview;
+
 	// selected day
 	private Integer							selectedDay;
+
 	// selected shift
 	private Integer							selectedShift;
+
 	/**
 	 * User selected to schedule
 	 */
@@ -471,6 +477,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		schedule.setShift(shift.getId());
 		// set editor
 		schedule.setEditor(person_logged.getId());
+		// set note
+		schedule.setNote(this.note_preprocessing.getValue());
 
 		this.scheduleDAO.saveOrUpdateSchedule(schedule);
 
@@ -807,7 +815,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final String data_info = arg0.getData().toString();
 
 				// configure shift
-				SchedulerComposer.this.onShiftClick(data_info);
+				SchedulerComposer.this.onShiftClickProgram(data_info);
 
 			}
 
@@ -1215,6 +1223,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (this.selectedDay == null) {
 			return;
 		}
+
+		final RowDaySchedule row_scheduler = this.grid_scheduler_day.getSelectedItem().getValue();
+		this.selectedUser = row_scheduler.getUser();
+		if (this.selectedUser == null) {
+			return;
+		}
+
 		final Date current_day = this.getDateScheduled(this.selectedDay);
 		String msg = "" + SchedulerComposer.formatter_scheduler_info.format(current_day);
 
@@ -1227,10 +1242,48 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		this.label_date_popup.setLabel(msg);
+		// take the right scheduler
+		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(current_day, this.selectedUser);
 
-		// set initial selected item
+		UserShift current_shift = null;
+		if (this.currentSchedule != null) {
+			final UserShift myshift = this.shift_cache.getUserShift(this.currentSchedule.getShift());
+			if (myshift != null) {
+				current_shift = myshift;
+			}
+		}
+
+		this.label_date_popup.setLabel(msg);
+		if (current_shift != null) {
+			this.label_date_shift.setLabel(current_shift.toString());
+		}
+		else {
+			this.label_date_shift.setLabel(null);
+		}
+
 		this.shift_popup.setSelectedItem(null);
+
+		if (current_shift != null) {
+			// set initial selected item
+			for (final Comboitem item : this.shift_popup.getItems()) {
+				if (item.getValue() instanceof UserShift) {
+					if (item.getValue().equals(current_shift)) {
+						this.shift_popup.setSelectedItem(item);
+						break;
+					}
+				}
+			}
+		}
+
+		// show note
+		if (SchedulerComposer.this.currentSchedule != null) {
+			// set note_program
+			SchedulerComposer.this.note_preprocessing.setValue(SchedulerComposer.this.currentSchedule.getNote());
+		}
+		else {
+			// if we haven't information about schedule
+			this.note_preprocessing.setValue(null);
+		}
 
 		this.day_definition_popup.open(this.grid_scheduler_day, "after_pointer");
 	}
@@ -1257,7 +1310,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param data_info
 	 */
-	private void onShiftClick(final String data_info) {
+	private void onShiftClickProgram(final String data_info) {
 
 		this.shift_definition_popup.open(this.program_div, "after_pointer");
 
@@ -1296,8 +1349,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 
-			// set note
-			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
+			// set note_program
+			SchedulerComposer.this.note_program.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
 			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
@@ -1305,7 +1358,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		else {
 			// if we haven't information about schedule
-			this.note.setValue(null);
+			this.note_program.setValue(null);
 			this.listbox_program.getItems().clear();
 
 			// set list program and revision
@@ -1395,8 +1448,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// if any information about schedule...
 		if (SchedulerComposer.this.currentSchedule != null) {
 
-			// set note
-			SchedulerComposer.this.note.setValue(SchedulerComposer.this.currentSchedule.getNote());
+			// set note_program
+			SchedulerComposer.this.note_review.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
 			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
@@ -1404,7 +1457,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		else {
 			// if we haven't information about schedule
-			this.note.setValue(null);
+			this.note_review.setValue(null);
 			this.listbox_review.getItems().clear();
 
 			// set list revision
@@ -1636,6 +1689,35 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #save_report, #save_report_review")
+	public void saveNoteInSchedule() {
+
+		if (this.currentSchedule == null) {
+			this.currentSchedule = new Schedule();
+		}
+
+		// save note_program
+		String note = "";
+
+		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
+
+		if (selected == this.program_item) {
+			note = this.note_program.getValue();
+			this.shift_definition_popup.close();
+		}
+
+		if (selected == this.review_item) {
+			note = this.note_review.getValue();
+			this.shift_definition_popup_review.close();
+		}
+
+		this.currentSchedule.setNote(note);
+
+		// save scheduler
+		this.saveCurrentScheduler();
+
+	}
+
 	/**
 	 * Save program
 	 */
@@ -1689,29 +1771,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #save_report")
-	public void saveReport() {
-
-		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
-			return;
-		}
-
-		if (this.currentSchedule == null) {
-			this.currentSchedule = new Schedule();
-		}
-
-		// save note
-		this.currentSchedule.setNote(this.note.getValue());
-
-		// save scheduler
-		this.saveCurrentScheduler();
-
-		// Messagebox.show("Il Report è stato aggiornato", "INFO",
-		// Messagebox.OK, Messagebox.INFORMATION);
-		this.shift_definition_popup.close();
-
-	}
-
 	/**
 	 * Save review
 	 */
@@ -1760,29 +1819,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.setupGlobalSchedulerGridForShiftReview();
 
 		// Messagebox.show("Il consuntivo è stato aggiornato", "INFO",
-		// Messagebox.OK, Messagebox.INFORMATION);
-		this.shift_definition_popup_review.close();
-
-	}
-
-	@Listen("onClick = #save_report_review")
-	public void saveReviewReport() {
-
-		if ((this.selectedShift == null) || (this.selectedUser == null)) {
-			return;
-		}
-
-		if (this.currentSchedule == null) {
-			this.currentSchedule = new Schedule();
-		}
-
-		// save note
-		this.currentSchedule.setNote(this.note_review.getValue());
-
-		// save scheduler
-		this.saveCurrentScheduler();
-
-		// Messagebox.show("Il Report è stato aggiornato", "INFO",
 		// Messagebox.OK, Messagebox.INFORMATION);
 		this.shift_definition_popup_review.close();
 
