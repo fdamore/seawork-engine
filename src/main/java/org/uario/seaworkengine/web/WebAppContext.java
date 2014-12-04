@@ -69,6 +69,8 @@ public class WebAppContext implements ServletContextListener {
 		final List<UserShift> list_shift = configuration.loadShifts();
 		shift_cache.buildCache(list_shift);
 
+		// init here the service for worker initialization
+
 	}
 
 }

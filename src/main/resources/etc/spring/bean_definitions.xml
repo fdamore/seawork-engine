@@ -168,7 +168,7 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myStatisticsDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisStatisticsDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
@@ -210,6 +210,22 @@
 		<property name="prot" value="smtp" />
 	</bean>
 
+
+	<!-- BEGIN COMMENTS TASK DEFINITION -->
+	<bean id="serviceAssign" init-method="init"
+		class="org.uario.seaworkengine.service.impl.WorkAssignService">
+
+		<property name="initialDelay" value="0"></property>
+
+		<!-- PERIOD in HOURS - RATE POOL TO CHECK IF IS THE DAY TO BILL -->
+		<property name="period" value="2"></property>
+
+		<property name="params" ref="myParamDAO"></property>
+		<property name="scheduleDAO" ref="myScheduleDAO"></property>
+		<property name="shiftCache" ref="myShiftCache"></property>
+		<property name="personDAO" ref="myPersonDAO"></property>
+
+	</bean>
 
 
 
