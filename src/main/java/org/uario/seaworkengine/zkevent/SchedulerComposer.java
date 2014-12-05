@@ -437,40 +437,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Set the day with correct shift.
+	 * assign info scheduler
 	 *
-	 * @param row_item
-	 *            the row
 	 * @param shift
-	 *            the id shift to set
-	 * @param offset
-	 *            the day after selected day. for current day use 0
+	 * @param current_date_scheduled
+	 * @param user
+	 * @param schedule
+	 * @param editor
+	 * @param note
 	 */
-	private void assignShiftFromDayScheduler(final RowDaySchedule row_item, final UserShift shift, final int offset) {
+	private void assignShiftForDaySchedule(final UserShift shift, Date current_date_scheduled, final Integer user, Schedule schedule, final Person editor, final String note) {
 
-		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (person_logged == null) {
-			return;
-		}
-
-		// getting information
-		final Date current_date_scheduled = this.getDateScheduled(this.selectedDay + offset);
-		final Integer user = row_item.getUser();
-
-		Schedule schedule = row_item.getSchedule(this.selectedDay + offset);
-		if (schedule == null) {
-			schedule = new Schedule();
-		}
+		// truncate current date
+		current_date_scheduled = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
 		// reset day schedule
 		schedule.setDate_schedule(current_date_scheduled);
 		schedule.setUser(user);
 		schedule.setShift(shift.getId());
 		// set editor
-		schedule.setEditor(person_logged.getId());
+		schedule.setEditor(editor.getId());
 		// set note
-		schedule.setNote(this.note_preprocessing.getValue());
+		schedule.setNote(note);
 
+		// save schedule
 		this.scheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// refresh info about just saved schedule
@@ -507,100 +497,36 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.scheduleDAO.createDetailInitialSchedule(item);
 
 		}
-
 	}
 
-	@Listen("onClick = #cancel_day_definition")
-	public void cancelDayConfiguration() {
+	/**
+	 * Set the day with correct shift.
+	 *
+	 * @param row_item
+	 *            the row
+	 * @param shift
+	 *            the id shift to set
+	 * @param offset
+	 *            the day after selected day. for current day use 0
+	 */
+	private void assignShiftFromDaySchedule(final RowDaySchedule row_item, final UserShift shift, final int offset) {
 
-		if ((this.selectedDay == null)) {
+		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (person_logged == null) {
 			return;
 		}
 
-		if (this.grid_scheduler_day == null) {
-			return;
+		// getting information
+		final Date current_date_scheduled = this.getDateScheduled(this.selectedDay + offset);
+		final Integer user = row_item.getUser();
+
+		Schedule schedule = row_item.getSchedule(this.selectedDay + offset);
+		if (schedule == null) {
+			schedule = new Schedule();
 		}
 
-		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
-		final Date dayScheduleDate = this.getDateScheduled(this.selectedDay);
+		this.assignShiftForDaySchedule(shift, current_date_scheduled, user, schedule, person_logged, this.note_preprocessing.getValue());
 
-		if (dayScheduleDate != null) {
-
-			final Date dayAfterConfig = this.day_after_config.getValue();
-
-			if (dayAfterConfig != null) {
-
-				final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
-
-				if (dayScheduleDate.after(to_day)) {
-					Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
-					return;
-				}
-
-				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
-
-				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-					Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
-					return;
-				}
-				// remove day schedule in interval date
-				this.scheduleDAO.removeScheduleUserSuspended(row_item.getUser(), dayScheduleDate, dayAfterConfig);
-
-				// set standard work
-				if (this.shift_cache.getStandardWorkShift() != null) {
-					final UserShift shiftStandard = this.shift_cache.getStandardWorkShift();
-
-					final Calendar calendar = DateUtils.toCalendar(dayScheduleDate);
-					for (int i = 0; i <= count; i++) {
-
-						if (i != 0) {
-							calendar.add(Calendar.DAY_OF_YEAR, 1);
-						}
-
-						final Schedule item = new Schedule();
-						item.setDate_schedule(DateUtils.truncate(calendar.getTime(), Calendar.DATE));
-						item.setUser(row_item.getUser());
-						item.setShift(shiftStandard.getId());
-
-						// set..
-						this.scheduleDAO.saveOrUpdateSchedule(item);
-
-					}
-
-				}
-
-			}
-			else {
-				// Remove only current day schedule
-				this.scheduleDAO.removeScheduleUserSuspended(row_item.getUser(), dayScheduleDate, dayScheduleDate);
-
-				// set standard work
-				if (this.shift_cache.getStandardWorkShift() != null) {
-					final UserShift shiftStandard = this.shift_cache.getStandardWorkShift();
-
-					final Schedule item = new Schedule();
-					item.setDate_schedule(dayScheduleDate);
-					item.setUser(row_item.getUser());
-					item.setShift(shiftStandard.getId());
-
-					// set..
-					this.scheduleDAO.saveOrUpdateSchedule(item);
-
-				}
-
-			}
-
-			// refresh grid
-			this.setupGlobalSchedulerGridForDay();
-		}
-		else {
-			return;
-		}
-
-		// Messagebox.show("Il programma giornaliero è stato cancellato",
-		// "INFO",
-		// Messagebox.OK, Messagebox.INFORMATION);
-		this.day_definition_popup.close();
 	}
 
 	/**
@@ -1578,6 +1504,95 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #cancel_day_definition")
+	public void removeDayConfiguration() {
+
+		if ((this.selectedDay == null)) {
+			return;
+		}
+
+		if (this.grid_scheduler_day == null) {
+			return;
+		}
+
+		// info to the row
+		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
+		final Date dayScheduleDate = this.getDateScheduled(this.selectedDay);
+
+		// info to the users
+		final UserShift shiftStandard = this.shift_cache.getStandardWorkShift();
+
+		// check for day after tomorrow...remove means assign standard
+		// work
+		final Calendar tomorrow_cal = Calendar.getInstance();
+		tomorrow_cal.add(Calendar.DATE, 1);
+		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		// business metod
+		if (dayScheduleDate != null) {
+
+			final Date dayAfterConfig = this.day_after_config.getValue();
+
+			if (dayAfterConfig != null) {
+
+				final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
+
+				if (dayScheduleDate.after(to_day)) {
+					Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					return;
+				}
+
+				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
+
+				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
+					Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					return;
+				}
+				// remove day schedule in interval date
+				this.scheduleDAO.removeScheduleUserSuspended(row_item.getUser(), dayScheduleDate, dayAfterConfig);
+
+				// check for info worker for tomorrw
+				final Calendar calendar = DateUtils.toCalendar(dayScheduleDate);
+				for (int i = 0; i <= count; i++) {
+
+					if (i != 0) {
+						calendar.add(Calendar.DAY_OF_YEAR, 1);
+					}
+
+					if (DateUtils.isSameDay(tomorrow_cal, calendar)) {
+						final Schedule schedule = new Schedule();
+						this.assignShiftForDaySchedule(shiftStandard, tomorrow_cal.getTime(), row_item.getUser(), schedule, person_logged, null);
+						break;
+					}
+
+				}
+
+			}
+			else {
+				// Remove only current day schedule
+				this.scheduleDAO.removeScheduleUserSuspended(row_item.getUser(), dayScheduleDate, dayScheduleDate);
+
+				// check for tomorrw
+				if (DateUtils.isSameDay(tomorrow_cal.getTime(), dayScheduleDate)) {
+					final Schedule schedule = new Schedule();
+					this.assignShiftForDaySchedule(shiftStandard, tomorrow_cal.getTime(), row_item.getUser(), schedule, person_logged, null);
+				}
+
+			}
+
+			// refresh grid
+			this.setupGlobalSchedulerGridForDay();
+		}
+		else {
+			return;
+		}
+
+		// Messagebox.show("Il programma giornaliero è stato cancellato",
+		// "INFO",
+		// Messagebox.OK, Messagebox.INFORMATION);
+		this.day_definition_popup.close();
+	}
+
 	@Listen("onClick = #cancel_program")
 	public void removeProgram() {
 		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
@@ -1724,7 +1739,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (this.day_after_config.getValue() == null) {
 
 			// set only current day
-			this.assignShiftFromDayScheduler(row_item, shift, 0);
+			this.assignShiftFromDaySchedule(row_item, shift, 0);
 
 		}
 		else {
@@ -1749,7 +1764,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			for (int i = 0; i <= count; i++) {
 
 				// set day with offest i
-				this.assignShiftFromDayScheduler(row_item, shift, i);
+				this.assignShiftFromDaySchedule(row_item, shift, i);
 			}
 
 		}
