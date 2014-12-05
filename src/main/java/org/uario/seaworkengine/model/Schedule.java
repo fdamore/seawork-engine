@@ -29,6 +29,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	@XmlTransient
 	private String				name_user;
 
+	// used for visualize - number of shift (1,2,3,4)
+	@XmlTransient
+	private Integer				no_shift;
+
 	private String				note;
 
 	// used for visualize
@@ -81,6 +85,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.name_user;
 	}
 
+	public Integer getNo_shift() {
+		return this.no_shift;
+	}
+
 	public String getNote() {
 		return this.note;
 	}
@@ -119,6 +127,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setName_user(final String name_user) {
 		this.name_user = name_user;
+	}
+
+	public void setNo_shift(final Integer no_shift) {
+		this.no_shift = no_shift;
 	}
 
 	public void setNote(final String note) {

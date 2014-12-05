@@ -1,7 +1,11 @@
 package org.uario.seaworkengine.zkevent.converter;
 
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
+import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 import org.zkoss.zul.Listcell;
@@ -37,6 +41,24 @@ public class ConverterShift2 implements TypeConverter {
 			final Toolbarbutton button = (Toolbarbutton) arg1;
 			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
 				button.setDisabled(true);
+			}
+		}
+
+		// return info
+		if (status != null) {
+			final Toolbarbutton button = (Toolbarbutton) arg1;
+			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
+				if ((item_schedule.getSchedule() != null) && (item_schedule.getSchedule().getShift() != null)) {
+					final Integer shift = item_schedule.getSchedule().getShift();
+					final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+					final UserShift myShift = shiftCache.getUserShift(shift);
+					if (myShift != null) {
+						return myShift.getCode();
+					} else {
+						return ConverterShift2.NO_DATA;
+					}
+
+				}
 			}
 		}
 

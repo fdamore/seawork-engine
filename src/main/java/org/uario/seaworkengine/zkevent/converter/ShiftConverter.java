@@ -37,7 +37,9 @@ public class ShiftConverter implements TypeConverter {
 		}
 
 		final UserShift shift = shiftCache.getUserShift(id_shift);
+
 		final UserShift standardWork = shiftCache.getStandardWorkShift();
+
 		if (shift.equals(standardWork)) {
 			return ShiftConverter.STANDARD_WORK;
 		} else {

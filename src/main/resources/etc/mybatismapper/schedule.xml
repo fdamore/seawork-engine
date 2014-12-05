@@ -123,7 +123,8 @@
 
 		select
 		s.id,
-		ds.shift,
+		s.shift,
+		ds.shift as no_shift,		
 		sum(ds.time) as program_time,
 		s.date_schedule,
 		s.note,
@@ -155,7 +156,7 @@
 			#{my_full_text_search})
 		</if>
 
-		group by user , s.id , ds.shift
+		group by user , s.id , no_shift
 		order by user, s.date_schedule asc
 
 	</select>
@@ -165,7 +166,8 @@
 
 		select
 		s.id,
-		ds.shift,
+		s.shift,
+		ds.shift as no_shift,
 		sum(ds.time) as revision_time,
 		s.date_schedule,
 		s.note,
@@ -198,7 +200,7 @@
 			#{my_full_text_search})
 		</if>
 
-		group by user , s.id , ds.shift
+		group by user , s.id , no_shift
 		order by user, s.date_schedule
 		asc
 
@@ -209,7 +211,8 @@
 
 		select
 		s.id,
-		ds.shift,
+		s.shift,
+		ds.shift as no_shift,
 		sum(ds.time) as program_time,
 		s.date_schedule,
 		s.note,
@@ -239,7 +242,7 @@
 		</if>
 
 
-		group by user , s.id , ds.shift
+		group by user , s.id , no_shift
 		order by user, s.date_schedule asc
 
 	</select>
@@ -249,7 +252,8 @@
 
 		select
 		s.id,
-		ds.shift,
+		s.shift,
+		ds.shift as no_shift,
 		sum(ds.time) as revision_time,
 		s.date_schedule,
 		s.note,
@@ -281,7 +285,7 @@
 		</if>
 
 
-		group by user , s.id , ds.shift
+		group by user , s.id , no_shift
 		order by user, s.date_schedule asc
 
 	</select>
