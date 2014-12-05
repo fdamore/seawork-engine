@@ -186,6 +186,14 @@
 		class="org.uario.seaworkengine.platform.persistence.cache.task.ShiftCacheImpl">
 	</bean>
 
+	<!-- STAT PROCEDURE -->
+	<bean id="myStatProcedure"
+		class="org.uario.seaworkengine.statistics.impl.StatProceduresImpl">
+		<property name="myScheduleDAO" ref="myScheduleDAO"></property>
+		<property name="myTaskDAO" ref="myTasksDAO"></property>
+		<property name="statisticDAO" ref="myStatisticsDAO"></property>
+	</bean>
+
 
 
 
@@ -224,6 +232,7 @@
 		<property name="scheduleDAO" ref="myScheduleDAO"></property>
 		<property name="shiftCache" ref="myShiftCache"></property>
 		<property name="personDAO" ref="myPersonDAO"></property>
+		<property name="statProcedure" ref="myStatProcedure"></property>
 
 	</bean>
 

@@ -25,6 +25,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ShiftTag;
@@ -93,12 +94,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 */
 	private static final long				serialVersionUID				= 1L;
+
 	private ConfigurationDAO				configurationDAO;
 	private Schedule						currentSchedule;
 	@Wire
 	private Datebox							date_from_overview;
 	@Wire
 	private Datebox							date_init_scheduler;
+
 	@Wire
 	private Datebox							date_init_scheduler_review;
 
@@ -145,9 +148,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_shift_review;
-
 	@Wire
 	private A								label_statistic_popup;
+
 	// initial program and revision - USED IN POPUP
 	private List<DetailInitialSchedule>		list_details_program;
 
@@ -161,9 +164,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox							listbox_program;
-
 	@Wire
 	private Listbox							listbox_review;
+
 	// initial program and revision - USED DOWNLOAD
 	private List<DetailInitialSchedule>		listDetailProgram				= null;
 
@@ -231,13 +234,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Intbox							review_time_minuts;
 
 	private ISchedule						scheduleDAO;
-
 	@Wire
 	private A								scheduler_label;
 	@Wire
 	private A								scheduler_label_review;
 	@Wire
 	private Combobox						scheduler_type_selector;
+
 	@Wire
 	private Combobox						select_shift_overview;
 
@@ -279,6 +282,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Intbox							shows_rows;
 
 	private IStatistics						statisticDAO;
+
+	private IStatProcedure					statProcedure;
 
 	protected ITaskCache					task_cache;
 
@@ -446,7 +451,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param editor
 	 * @param note
 	 */
-	private void assignShiftForDaySchedule(final UserShift shift, Date current_date_scheduled, final Integer user, Schedule schedule,
+	private void assignShiftForDaySchedule(final UserShift shift, Date current_date_scheduled, final Integer user, final Schedule schedule,
 			final Person editor, final String note) {
 
 		// truncate current date
@@ -464,39 +469,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// save schedule
 		this.scheduleDAO.saveOrUpdateSchedule(schedule);
 
-		// refresh info about just saved schedule
-		schedule = this.scheduleDAO.loadSchedule(current_date_scheduled, user);
-
-		// if the shift is an absence, delete all details
-		if (!shift.getPresence().booleanValue()) {
-			this.scheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-		} else {
-
-			// check if there is any default task (MANSIONE STANDARD)
-			final UserTask task_default = this.taskDAO.getDefault(user);
-			if (task_default == null) {
-				return;
-			}
-
-			// get a shift for a day
-			final Integer my_no_shift = this.getShiftForDay(current_date_scheduled, user);
-
-			final List<DetailInitialSchedule> details = new ArrayList<DetailInitialSchedule>();
-
-			final DetailInitialSchedule item = new DetailInitialSchedule();
-			item.setId_schedule(schedule.getId());
-			item.setShift(my_no_shift);
-			item.setTask(task_default.getId());
-			item.setTime(6.0);
-			details.add(item);
-
-			// remove all detail in any shift
-			this.scheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-
-			// create detail
-			this.scheduleDAO.createDetailInitialSchedule(item);
-
-		}
+		// assign
+		this.statProcedure.workAssignProcedure(shift, current_date_scheduled, user);
 	}
 
 	/**
@@ -669,6 +643,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
+		this.statProcedure = (IStatProcedure) SpringUtil.getBean(BeansTag.STAT_PROCEDURE);
 
 		this.getSelf().addEventListener(ZkEventsTag.onDayNameClick, new EventListener<Event>() {
 
@@ -1050,62 +1025,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Double ret = hours + (((double) minuts) / 60);
 
 		return Utility.roundTwo(ret);
-	}
-
-	/**
-	 * Get the right shift for a given day
-	 *
-	 * @param current_date_scheduled
-	 * @param user
-	 * @return
-	 */
-	private Integer getShiftForDay(final Date current_date_scheduled, final Integer user) {
-		// get info from last shift
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(current_date_scheduled);
-		calendar.add(Calendar.DAY_OF_YEAR, -1);
-		final Integer last_shift = this.scheduleDAO.getLastShift(calendar.getTime());
-
-		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled);
-
-		// get a shift - 12 after last shift
-		Integer my_shift = -1;
-		if ((averages == null) || (averages.length == 0)) {
-
-			int min = 1;
-			if (((last_shift != null) && (last_shift == 3))) {
-				min = 2;
-			} else if (((last_shift != null) && (last_shift == 4))) {
-				min = 3;
-			}
-
-			my_shift = min + (int) (Math.random() * 4);
-
-		} else {
-			if ((last_shift == null) || (last_shift == 1) || (last_shift == 2)) {
-				my_shift = averages[0].getShift();
-			}
-
-			else {
-
-				// set current shift
-				my_shift = averages[0].getShift();
-
-				final int cutoff = last_shift - 2;
-
-				for (int i = 0; i < averages.length; i++) {
-
-					final RateShift current_shift = averages[i];
-					if (current_shift.getShift() > cutoff) {
-						my_shift = averages[i].getShift();
-						break;
-					}
-
-				}
-
-			}
-		}
-		return my_shift;
 	}
 
 	@Listen("onClick = #go_today_preprocessing, #go_today_review")
@@ -1532,7 +1451,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date

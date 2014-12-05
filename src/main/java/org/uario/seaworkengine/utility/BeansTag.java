@@ -22,6 +22,8 @@ public interface BeansTag {
 
 	public static String	SHIFT_CACHE				= "myShiftCache";
 
+	public static String	STAT_PROCEDURE			= "myStatProcedure";
+
 	public static String	STATISTICS				= "myStatisticsDAO";
 
 	public static String	TASK_CACHE				= "myTaskCache";

@@ -19,6 +19,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IParams;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.service.IWorkShiftAssign;
+import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.utility.ParamsTag;
 
 public class WorkAssignService implements IWorkShiftAssign {
@@ -55,6 +56,8 @@ public class WorkAssignService implements IWorkShiftAssign {
 	private ISchedule				scheduleDAO;
 
 	private IShiftCache				shiftCache;
+
+	private IStatProcedure			statProcedure;
 
 	@Override
 	public void assignStandardWork() {
@@ -100,6 +103,10 @@ public class WorkAssignService implements IWorkShiftAssign {
 				schedule.setUser(person.getId());
 				schedule.setShift(work_shift.getId());
 				this.scheduleDAO.saveOrUpdateSchedule(schedule);
+
+				// assign work
+				this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId());
+
 			}
 
 		}
@@ -132,6 +139,10 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 	public IShiftCache getShiftCache() {
 		return this.shiftCache;
+	}
+
+	public IStatProcedure getStatProcedure() {
+		return this.statProcedure;
 	}
 
 	/**
@@ -167,6 +178,10 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 	public void setShiftCache(final IShiftCache shiftCache) {
 		this.shiftCache = shiftCache;
+	}
+
+	public void setStatProcedure(final IStatProcedure statProcedure) {
+		this.statProcedure = statProcedure;
 	}
 
 }
