@@ -167,10 +167,20 @@
 								iconSclass="z-icon-check" />
 
 							<separator></separator>
-							<combobox id="shift_popup" autodrop="false"
-								width="300px" autocomplete="true"
+							<combobox id="shifts_combo_select"
+								autodrop="false" width="300px" autocomplete="true"
 								placeholder="Seleziona un turno..." readonly="false">
 							</combobox>
+
+							<hbox align="center">
+								<a label="Turno di Lavoro"
+									id="preprocessing_select_tl">
+								</a>
+								<a label="Turno di Riposo Programmato"
+									id="preprocessing_select_rp">
+								</a>
+							</hbox>
+
 							<separator></separator>
 							<hbox>
 								<datebox placeholder="Fino a..."

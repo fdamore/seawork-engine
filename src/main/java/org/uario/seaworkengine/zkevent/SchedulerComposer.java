@@ -276,7 +276,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label							shift_perc_4;
 
 	@Wire
-	private Combobox						shift_popup;
+	private Combobox						shifts_combo_select;
 
 	@Wire
 	private Intbox							shows_rows;
@@ -718,7 +718,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// define shift combo
 				final List<UserShift> shifts = SchedulerComposer.this.configurationDAO.loadShifts();
-				SchedulerComposer.this.shift_popup.setModel(new ListModelList<UserShift>(shifts));
+				SchedulerComposer.this.shifts_combo_select.setModel(new ListModelList<UserShift>(shifts));
 
 				// get the shift cache
 				SchedulerComposer.this.shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
@@ -1130,14 +1130,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.label_date_shift_preprocessing.setLabel(null);
 		}
 
-		this.shift_popup.setSelectedItem(null);
+		this.shifts_combo_select.setSelectedItem(null);
 
 		if (current_shift != null) {
 			// set initial selected item
-			for (final Comboitem item : this.shift_popup.getItems()) {
+			for (final Comboitem item : this.shifts_combo_select.getItems()) {
 				if (item.getValue() instanceof UserShift) {
 					if (item.getValue().equals(current_shift)) {
-						this.shift_popup.setSelectedItem(item);
+						this.shifts_combo_select.setSelectedItem(item);
 						break;
 					}
 				}
@@ -1451,7 +1451,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
@@ -1626,7 +1626,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		if (this.shift_popup.getSelectedItem() == null) {
+		if (this.shifts_combo_select.getSelectedItem() == null) {
 			return;
 		}
 
@@ -1635,7 +1635,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
-		final UserShift shift = this.shift_popup.getSelectedItem().getValue();
+		final UserShift shift = this.shifts_combo_select.getSelectedItem().getValue();
 
 		// get day schedule
 		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
@@ -1811,6 +1811,48 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// Messagebox.OK, Messagebox.INFORMATION);
 		this.shift_definition_popup_review.close();
 
+	}
+
+	@Listen("onClick= #preprocessing_select_rp")
+	public void selectBreakShiftInCombo() {
+
+		final UserShift break_shift = this.shift_cache.getBreakShift();
+
+		if (break_shift == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.shifts_combo_select.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (break_shift.equals(current_shift_item)) {
+					this.shifts_combo_select.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
+	}
+
+	@Listen("onClick= #preprocessing_select_tl")
+	public void selectStandardWorkInCombo() {
+
+		final UserShift stw = this.shift_cache.getStandardWorkShift();
+
+		if (stw == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.shifts_combo_select.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (stw.equals(current_shift_item)) {
+					this.shifts_combo_select.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
 	}
 
 	/**
