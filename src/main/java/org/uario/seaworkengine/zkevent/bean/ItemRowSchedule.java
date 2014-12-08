@@ -34,6 +34,63 @@ public class ItemRowSchedule implements Serializable {
 
 	}
 
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (!(obj instanceof ItemRowSchedule)) {
+			return false;
+		}
+
+		boolean check_1 = false;
+		boolean check_2 = false;
+		boolean check_3 = false;
+		boolean check_4 = false;
+
+		final ItemRowSchedule compare_itm = (ItemRowSchedule) obj;
+
+		if ((this.getAnchor1() == null) && (compare_itm.getAnchor1() != null)) {
+			return false;
+		} else if (this.getAnchor1() != null) {
+			check_1 = this.getAnchor1().equals(compare_itm.getAnchor1());
+		} else if ((this.getAnchor1() == null) && (compare_itm.getAnchor1() == null)) {
+			check_1 = true;
+		}
+
+		if ((this.getAnchor2() == null) && (compare_itm.getAnchor2() != null)) {
+			return false;
+		} else if (this.getAnchor2() != null) {
+			check_2 = this.getAnchor2().equals(compare_itm.getAnchor2());
+		} else if ((this.getAnchor2() == null) && (compare_itm.getAnchor2() == null)) {
+			check_2 = true;
+		}
+
+		if ((this.getAnchor3() == null) && (compare_itm.getAnchor3() != null)) {
+			return false;
+		} else if (this.getAnchor3() != null) {
+			check_3 = this.getAnchor3().equals(compare_itm.getAnchor3());
+		} else if ((this.getAnchor3() == null) && (compare_itm.getAnchor3() == null)) {
+			check_3 = true;
+		}
+
+		if ((this.getAnchor4() == null) && (compare_itm.getAnchor4() != null)) {
+			return false;
+		} else if (this.getAnchor4() != null) {
+			check_4 = this.getAnchor4().equals(compare_itm.getAnchor4());
+		} else if ((this.getAnchor4() == null) && (compare_itm.getAnchor4() == null)) {
+			check_4 = true;
+		}
+
+		if (check_1 && check_2 && check_3 && check_4) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	public String getAnchor1() {
 		return this.anchor1;
 	}
@@ -52,7 +109,7 @@ public class ItemRowSchedule implements Serializable {
 
 	/**
 	 * Row Schedule
-	 * 
+	 *
 	 * @return
 	 */
 	public RowSchedule getRowSchedule() {
