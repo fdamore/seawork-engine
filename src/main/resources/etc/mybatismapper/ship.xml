@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ship">
+
+	<cache />
+
+	<insert id="createShip" parameterType="org.uario.seaworkengine.model.Ship">
+		INSERT INTO ship
+		(name, line, shiptype, condition, twtype)
+		VALUES
+		(#{name}, #{line}, #{shiptype}, #{condition}, #{twtype});
+	</insert>
+	
+	<delete id="deleteShip" parameterType="Integer">
+		delete from
+		ship
+		where
+		id = #{id_ship}
+	</delete>
+	
+	<select id="loadShip" parameterType="Integer" resultType="org.uario.seaworkengine.model.Ship">
+		SELECT id, name, line, shiptype, condition, twtype
+		FROM
+		ship where
+		id = #{id_ship};		
+	</select>
+	
+	<update id="updateShip" parameterType="org.uario.seaworkengine.model.Ship" >
+		UPDATE ship SET
+		name = #{name},
+		line = #{line},
+		shiptype = #{shiptype},
+		condition = #{condition},
+		twtype = #{twtype}
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+	
+</mapper>

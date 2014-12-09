@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ship">
+
+	<cache />
+
+	<insert id="createScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip">
+		INSERT INTO scheduleship
+		(idship, volume, note, arrivaldate)
+		VALUES
+		#{idship}, #{volume}, #{note}, #{arrivaldate});
+	</insert>
+	
+	<delete id="deleteScheduleShip" parameterType="Integer">
+		delete from
+		scheduleship
+		where
+		id = #{id_scheduleShip}
+	</delete>
+	
+	<select id="loadScheduleShip" parameterType="Integer" resultType="org.uario.seaworkengine.model.ScheduleShip">
+		SELECT id, idship, volume, note, arrivaldate
+		FROM
+		scheduleship where
+		id = #{id_scheduleShip};		
+	</select>
+	
+	<update id="updateScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip" >
+		UPDATE scheduleship SET
+		idship = #{idship},
+		volume = #{volume},
+		note = #{note},
+		arrivaldate = #{arrivaldate},
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+	
+	<insert id="createDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
+		INSERT INTO detailscheduleship
+		(idscheduleship, shift, operation, iduser)
+		VALUES
+		#{idscheduleship}, #{shift}, #{operation}, #{iduser});
+	</insert>
+	
+	<delete id="deleteDetailScheduleShip" parameterType="Integer">
+		delete from
+		detailscheduleship
+		where
+		id = #{id_detailScheduleShip}
+	</delete>
+	
+	<select id="loadDetailScheduleShip" parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+		SELECT id, idscheduleship, shift, operation, iduser
+		FROM
+		detailscheduleship where
+		id = #{id_detailScheduleShip};		
+	</select>
+	
+	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer">
+		SELECT id, idscheduleship, shift, operation, iduser
+		FROM
+		detailscheduleship where
+		idscheduleship = #{id_scheduleShip};	
+	</select>
+	
+	<select id="loadScheduleShipByIdShipAndArrivalDate" parameterType="map" >
+		SELECT id, idship, volume, note, arrivaldate
+		FROM
+		scheduleship where
+		idship = #{id_ship} and DATE(arrivaldate) = DATE(#{arrivalDate});		
+	</select>
+	
+	<update id="updateDetailScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip" >
+		UPDATE detailscheduleship SET
+		idscheduleship = #{idscheduleship},
+		shift = #{shift},
+		operation = #{operation},
+		iduser = #{iduser},
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+</mapper>
