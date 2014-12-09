@@ -424,6 +424,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		new_item.setTask(task.getId());
 
 		java.util.Date now = this.time_from.getValue();
+
+		// now.setDate(this.currentSchedule.getDate_schedule().getDate());
+
 		if (now != null) {
 
 			final java.sql.Timestamp t_from = new java.sql.Timestamp(now.getTime());

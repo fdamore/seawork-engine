@@ -10,16 +10,12 @@ public class Ship {
 		return Ship.serialVersionUID;
 	}
 
-	private String	condition;
 	private Integer	id;
 	private String	line;
 	private String	name;
+	private String	shipcondition;
 	private String	shiptype;
 	private String	twtype;
-
-	public String getCondition() {
-		return this.condition;
-	}
 
 	public int getId() {
 		return this.id;
@@ -33,16 +29,16 @@ public class Ship {
 		return this.name;
 	}
 
+	public String getShipcondition() {
+		return this.shipcondition;
+	}
+
 	public String getShiptype() {
 		return this.shiptype;
 	}
 
 	public String getTwtype() {
 		return this.twtype;
-	}
-
-	public void setCondition(final String condition) {
-		this.condition = condition;
 	}
 
 	public void setId(final int id) {
@@ -55,6 +51,10 @@ public class Ship {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public void setShipcondition(final String shipcondition) {
+		this.shipcondition = shipcondition;
 	}
 
 	public void setShiptype(final String shiptype) {

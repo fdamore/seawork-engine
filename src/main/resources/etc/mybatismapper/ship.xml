@@ -6,10 +6,9 @@
 	<cache />
 
 	<insert id="createShip" parameterType="org.uario.seaworkengine.model.Ship">
-		INSERT INTO ship
-		(name, line, shiptype, condition, twtype)
+		INSERT INTO ship (name, line, shiptype, shipcondition, twtype)
 		VALUES
-		(#{name}, #{line}, #{shiptype}, #{condition}, #{twtype});
+		(#{name}, #{line}, #{shiptype}, #{shipcondition}, #{twtype});
 	</insert>
 	
 	<delete id="deleteShip" parameterType="Integer">
@@ -20,7 +19,7 @@
 	</delete>
 	
 	<select id="loadShip" parameterType="Integer" resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, condition, twtype
+		SELECT id, name, line, shiptype, shipcondition, twtype
 		FROM
 		ship where
 		id = #{id_ship};		
@@ -31,7 +30,7 @@
 		name = #{name},
 		line = #{line},
 		shiptype = #{shiptype},
-		condition = #{condition},
+		shipcondition = #{shipcondition},
 		twtype = #{twtype}
 		WHERE id = #{id}
 	</update>

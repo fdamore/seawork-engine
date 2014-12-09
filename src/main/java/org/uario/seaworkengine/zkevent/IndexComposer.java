@@ -30,6 +30,8 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	private static String		SHIP_SCHEDULER_PAGE_NAME	= "Schedulatore Navi";
 
+	private static String		SHIPDETAILS_PAGE_NAME		= "Dettagli Navi";
+
 	private static String		USERDETAILS_PAGE_NAME		= "Dettagli Utente";
 
 	@Wire
@@ -43,6 +45,9 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Include				include_scheduler;
+
+	@Wire
+	private Include				include_ship_detail;
 
 	@Wire
 	private Include				include_ship_scheduler;
@@ -87,6 +92,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_myprofile.setVisible(false);
 		this.include_scheduler.setVisible(false);
 		this.include_ship_scheduler.setVisible(false);
+		this.include_ship_detail.setVisible(false);
 
 		this.sw_brec_position.setValue(IndexComposer.HOME_PAGE_NAME);
 
@@ -105,6 +111,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_myprofile.setVisible(true);
 		this.include_scheduler.setVisible(false);
 		this.include_ship_scheduler.setVisible(false);
+		this.include_ship_detail.setVisible(false);
 
 		final Component comp = Path.getComponent("//myprofile/page_user_detail");
 
@@ -123,6 +130,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_myprofile.setVisible(false);
 		this.include_scheduler.setVisible(false);
 		this.include_ship_scheduler.setVisible(false);
+		this.include_ship_detail.setVisible(false);
 
 		final Component comp = Path.getComponent("//preferences/page_preferences");
 
@@ -142,6 +150,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_myprofile.setVisible(false);
 		this.include_scheduler.setVisible(true);
 		this.include_ship_scheduler.setVisible(false);
+		this.include_ship_detail.setVisible(false);
 
 		final Component comp = Path.getComponent("//scheduler/page_panel");
 		// send event to show users
@@ -152,19 +161,37 @@ public class IndexComposer extends SelectorComposer<Component> {
 	}
 
 	@Listen("onClick = #sw_shipScheduler_button")
-	public void showShipScheduler(final Event event) {
+	public void showShipDetails(final Event event) {
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
 		this.include_myprofile.setVisible(false);
 		this.include_scheduler.setVisible(false);
 		this.include_ship_scheduler.setVisible(true);
+		this.include_ship_detail.setVisible(false);
 
 		final Component comp = Path.getComponent("//shipscheduler/page_ship_scheduler");
 		// send event to show users
 		Events.sendEvent(ZkEventsTag.onShowShipScheduler, comp, null);
 
 		this.sw_brec_position.setValue(IndexComposer.SHIP_SCHEDULER_PAGE_NAME);
+	}
+
+	@Listen("onClick = #sw_ship_button")
+	public void showShipScheduler(final Event event) {
+		this.include_home.setVisible(false);
+		this.include_user_detail.setVisible(false);
+		this.include_preferences.setVisible(false);
+		this.include_myprofile.setVisible(false);
+		this.include_scheduler.setVisible(false);
+		this.include_ship_scheduler.setVisible(false);
+		this.include_ship_detail.setVisible(true);
+
+		final Component comp = Path.getComponent("//ship/page_ship_detail");
+		// send event to show users
+		Events.sendEvent(ZkEventsTag.onShowShips, comp, null);
+
+		this.sw_brec_position.setValue(IndexComposer.SHIPDETAILS_PAGE_NAME);
 
 	}
 
@@ -177,6 +204,7 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.include_myprofile.setVisible(false);
 		this.include_scheduler.setVisible(false);
 		this.include_ship_scheduler.setVisible(false);
+		this.include_ship_detail.setVisible(false);
 
 		final Component comp = Path.getComponent("//user/page_user_detail");
 

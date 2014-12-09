@@ -11,11 +11,16 @@ public class DetailScheduleShip {
 		return DetailScheduleShip.serialVersionUID;
 	}
 
+	private Integer	handswork;
 	private Integer	id;
 	private Integer	idscheduleship;
 	private Integer	iduser;
 	private String	operation;
 	private Integer	shift;
+
+	public Integer getHandswork() {
+		return this.handswork;
+	}
 
 	public Integer getId() {
 		return this.id;
@@ -35,6 +40,10 @@ public class DetailScheduleShip {
 
 	public Integer getShift() {
 		return this.shift;
+	}
+
+	public void setHandswork(final Integer handswork) {
+		this.handswork = handswork;
 	}
 
 	public void setId(final Integer id) {
