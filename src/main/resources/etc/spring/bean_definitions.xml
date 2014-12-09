@@ -176,6 +176,18 @@
 	</bean>
 
 
+	<bean id="myShipDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisShipDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+	
+	<bean id="myScheduleShipDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisScheduleShipDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+
 
 	<!-- SETUP PLATFORM CACHES -->
 	<bean id="myTaskCache"
