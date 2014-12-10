@@ -8,6 +8,12 @@
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.ShipSchedulerComposer"
 		id="page_ship_scheduler">
+		
+		<style>
+
+		.myCell { border:1px solid; border-color:#CFCFCF;}
+
+		</style>
 
 		<div sclass="page-header">
 			<label value="Programma Navi" />
@@ -17,6 +23,197 @@
 
 		<space></space>
 		
+		<!-- SHIP EDITOR -->
+	<div id="grid_scheduleShip_details" visible="false">
+
+
+		<a id="shipName" iconSclass="z-icon-angle-double-right"
+			sclass="subtitle" />
+
+
+		<button label="Chiudi Programmazione" sclass="btn-danger"
+			onClick="grid_scheduleShip_details.setVisible(false);add_scheduleShips_command.setVisible(false);modify_Scheduleships_command.setVisible(false);ship_name.setValue(null);ship_volume.setValue(null);note.setValue(null);ship_arrivalDate.setValue(null);ship_arrivalTime.setValue(null);">
+		</button>
+
+		<separator></separator>
+
+		<tabbox>
+			<tabs>
+				<tab label="Informazioni Generali" id="detail_scheduleShip_tab"
+					selected="true" />
+				
+				<tab label="Tipo" visible="false"
+					id="type_ship_tab" />
+							
+			</tabs>
+			<tabpanels>
+				<!-- Tab Comments Content -->
+				<tabpanel>
+					<panel border="normal" collapsible="false"
+						sclass="transparent">
+						<caption iconSclass="z-icon-star orange"
+							label="Dettagli programma">
+
+							<toolbarbutton id="add_scheduleShips_command"
+								label="Aggiungi Programmazione"  style="color: blue" visible="false">
+							</toolbarbutton>
+
+							<toolbarbutton id="modify_Scheduleships_command"
+								label="Modifica Programmazione" style="color: blue" visible="false">
+							</toolbarbutton>
+
+						</caption>
+
+						<panelchildren>
+
+							<grid sclass="domain">
+								<columns>
+									<column label="Type" />
+									<column label="Informazioni" />
+								</columns>
+								<rows>
+									<row>
+										<label
+											value="Nome nave:">
+										</label>
+										<combobox id="ship_name" readonly="true" placeholder="Seleziona Nome Nave"
+											mold="rounded" />
+
+									</row>
+
+									<row>
+										<label
+											value="Volume">
+										</label>
+										<doublebox id="ship_volume"
+											mold="rounded" />
+
+									</row>									
+									
+									<row>
+										<label value="Note"></label>
+										<textbox id="note" />
+									</row>
+
+									<row>
+										<label
+											value="Data di arrivo">
+										</label>
+										<datebox id="ship_arrivalDate" />
+									</row>
+									
+									<row>
+										<label
+											value="Orario di arrivo">
+										</label>
+										<timebox id="ship_arrivalTime" />
+									</row>
+
+									
+
+								</rows>
+							</grid>
+
+
+						</panelchildren>
+
+					</panel>
+
+				</tabpanel>
+
+				
+
+
+
+			</tabpanels>
+		</tabbox>
+
+
+
+	</div>
+
+	<space></space>
+
+	<a label="Lista Programmazione" iconSclass="z-icon-list"
+		sclass="green lighter rcaption" />
+
+	<div>
+		<separator></separator>
+
+		<button id="sw_addSchedulerShip" sclass="btn-info"
+			label="Aggiungi Programmazione">
+		</button>
+
+		<button id="sw_refresh_list" sclass="btn-info"
+			label="Aggiorna Lista Programmazione">
+		</button>
+
+		
+
+		<separator></separator>
+	</div>
+
+	<!-- SHOW ROWS AND SEARCH -->
+	<hbox>
+		<a label="Righe da visualizzare: "
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+		<intbox id="shows_rows" constraint="no negative, no zero"
+			value="10">
+		</intbox>
+
+		<textbox placeholder="Cerca..." id="full_text_search"></textbox>
+
+	</hbox>
+
+
+	<separator></separator>
+
+	<listbox id="sw_list_scheduleShip" pagingPosition="both" mold="paging"
+		onSelect="grid_scheduleShip_details.setVisible(false)"
+		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+		pageSize="10">
+		<listhead sizable="true">
+			<listheader label="Id" sort="auto(id)" />
+			<listheader label="Id Nave" />
+			<listheader label="Volume" />
+			<listheader label="Note" />
+			<listheader label="Data di arrivo"  />
+			
+			
+			<listheader label="" />
+		</listhead>
+
+		<listitem sclass="myCell"  self="@{each='scheduleship_item'}" value="@{scheduleship_item}">
+
+			<listcell label="@{scheduleship_item.id}" />
+			<listcell label="@{scheduleship_item.name}" />
+			<listcell label="@{scheduleship_item.volume}" />
+			<listcell label="@{scheduleship_item.note}" />
+			<listcell label="@{scheduleship_item.arrivaldate}" />
+
+
+			<listcell>
+
+				<toolbarbutton id="sw_link_deleteship"
+					style="color:blue"
+					onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
+					label="Cancella">
+				</toolbarbutton>
+
+				<toolbarbutton id="sw_link_modifyscheduleship"
+					style="color:blue"
+					onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
+					label="Visualizza e Modifica">
+				</toolbarbutton>
+
+			</listcell>
+
+
+
+
+		</listitem>
+
+	</listbox>
 		
 		
 

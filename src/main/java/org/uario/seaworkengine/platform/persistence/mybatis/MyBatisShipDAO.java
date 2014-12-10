@@ -36,6 +36,14 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	}
 
 	@Override
+	public List<String> listAllNameShip() {
+		MyBatisShipDAO.logger.info("listAllNameShip");
+
+		return this.getSqlSession().selectList("ship.listAllNameShip");
+
+	}
+
+	@Override
 	public List<Ship> listAllShip(final String full_text_search) {
 		MyBatisShipDAO.logger.info("selectAllShipFulltextSearchLike");
 
@@ -43,6 +51,13 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		map.put("my_full_text_search", full_text_search);
 
 		return this.getSqlSession().selectList("ship.selectAllShipFulltextSearchLike", map);
+	}
+
+	@Override
+	public List<Integer> listIdShipByName(final String shipName) {
+		MyBatisShipDAO.logger.info("listIdShipByName");
+
+		return this.getSqlSession().selectList("ship.listIdShipByName", shipName);
 	}
 
 	@Override
@@ -67,5 +82,4 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		this.getSqlSession().update("ship.updateShip", ship);
 
 	}
-
 }

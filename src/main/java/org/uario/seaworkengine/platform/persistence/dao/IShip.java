@@ -10,7 +10,11 @@ public interface IShip {
 
 	public void deleteShip(Integer id_ship);
 
+	public List<String> listAllNameShip();
+
 	public List<Ship> listAllShip(String full_text_search);
+
+	public List<Integer> listIdShipByName(String shipName);
 
 	public List<Ship> loadAllShip();
 

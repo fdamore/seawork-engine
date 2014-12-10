@@ -13,11 +13,33 @@ public class Ship implements Serializable {
 	}
 
 	private Integer	id;
+
 	private String	line;
+
 	private String	name;
 	private String	shipcondition;
 	private String	shiptype;
 	private String	twtype;
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof Ship)) {
+			return false;
+		}
+
+		final Ship item = (Ship) obj;
+
+		return this.getName().equals(item.getName());
+
+	}
 
 	public int getId() {
 		return this.id;
@@ -65,6 +87,11 @@ public class Ship implements Serializable {
 
 	public void setTwtype(final String twtype) {
 		this.twtype = twtype;
+	}
+
+	@Override
+	public String toString() {
+		return "" + this.name;
 	}
 
 }

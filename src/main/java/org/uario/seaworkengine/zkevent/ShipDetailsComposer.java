@@ -304,7 +304,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	}
 
 	@Listen("onClick = #sw_link_modifyship")
-	public void showModifyUserPanel() {
+	public void showModifyShipPanel() {
 
 		// command
 		this.add_ships_command.setVisible(false);

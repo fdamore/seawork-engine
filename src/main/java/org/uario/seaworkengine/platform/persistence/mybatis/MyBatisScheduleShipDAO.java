@@ -55,6 +55,13 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
+	public List<ScheduleShip> loadAllScheduleShip() {
+		MyBatisScheduleShipDAO.logger.info("loadAllScheduleShip");
+
+		return this.getSqlSession().selectList("scheduleship.loadAllScheduleShip");
+	}
+
+	@Override
 	public DetailScheduleShip loadDetailScheduleShip(final Integer id_detailScheduleShip) {
 		MyBatisScheduleShipDAO.logger.info("loadDetailScheduleShip");
 
@@ -84,6 +91,16 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("arrivalDate", arrivalDate);
 
 		return this.getSqlSession().selectOne("scheduleship.loadScheduleShipByIdShipAndArrivalDate", map);
+	}
+
+	@Override
+	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(final String full_text_search) {
+		MyBatisScheduleShipDAO.logger.info("selectAllScheduleShipFulltextSearchLike");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", full_text_search);
+
+		return this.getSqlSession().selectList("scheduleship.selectAllScheduleShipFulltextSearchLike", map);
 	}
 
 	@Override
