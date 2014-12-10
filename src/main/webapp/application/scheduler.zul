@@ -83,6 +83,13 @@
 											value="Lavoro domenicale: " />
 										<label id="work_sunday_perc" />
 									</row>
+									
+									<row>
+										<label
+											value="Domenica e festivi: " />
+										<label id="work_sundayandholiday_perc" />
+									</row>									
+									
 
 									<row>
 										<label

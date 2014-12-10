@@ -123,8 +123,20 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public Double getSundayAndHolidaysWorkPercentage(final Integer id_user) {
+		MyBatisStatisticsDAO.logger.info("getSundayAndHolidaysWorkPercentage..");
+
+		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("id_user", id_user);
+
+		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageSundayAndHoliday", map);
+
+		return ret;
+	}
+
+	@Override
 	public Double getSundayWorkPercentage(final Integer id_user) {
-		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
+		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
 
 		final HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("id_user", id_user);

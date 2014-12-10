@@ -31,6 +31,14 @@ public interface IStatistics {
 	public Date getDatesBreak(Integer id_user, Date date_from, Date date_to);
 
 	/**
+	 * Get percentage working sunday and holidays
+	 *
+	 * @param id_user
+	 * @return
+	 */
+	public Double getSundayAndHolidaysWorkPercentage(Integer id_user);
+
+	/**
 	 * Get percentage working sunday
 	 *
 	 * @param id_user
@@ -50,26 +58,30 @@ public interface IStatistics {
 
 	/**
 	 * List detail initial schedule
-	 * 
+	 *
 	 * @param full_text_search
 	 *            TODO
 	 * @param shift_number
 	 *            TODO
-	 * @param date_from TODO
-	 * @param date_to TODO
+	 * @param date_from
+	 *            TODO
+	 * @param date_to
+	 *            TODO
 	 * @return
 	 */
 	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule
-	 * 
+	 *
 	 * @param full_text_search
 	 *            TODO
 	 * @param shift_number
 	 *            TODO
-	 * @param date_from TODO
-	 * @param date_to TODO
+	 * @param date_from
+	 *            TODO
+	 * @param date_to
+	 *            TODO
 	 * @return
 	 */
 	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Date date_from, Date date_to);

@@ -218,11 +218,45 @@
 		ds.shift =
 		us.id and us.presence = 1
 		and
-		DAYOFWEEK(ds.date_schedule) = 1
-		group by
-		ds.user
-		having ds.user =
-		#{id_user}
+		DAYOFWEEK(ds.date_schedule) = 1 and ds.user = #{id_user}		
+	</select>
+
+	<select id="selectPercentageSundayAndHoliday" resultType="double">
+		select
+		count(s.id) / (select
+		count(s.id)
+		from
+		schedule s,
+		usershift us
+		where
+		s.shift = us.id and us.presence = 1
+		and (date_format(s.date_schedule, '%m-%d') in ('01-01' , '01-06',
+		'04-25',
+		'05-01',
+		'06-02',
+		'08-15',
+		'11-01',
+		'12-08',
+		'12-25',
+		'12-26')
+		or DAYOFWEEK(s.date_schedule) = 1)) * 100 as perc
+		from
+		schedule s,
+		usershift us
+		where
+		s.user = #{id_user} and s.shift = us.id
+		and us.presence = 1
+		and (date_format(s.date_schedule, '%m-%d') in ('01-01' , '01-06',
+		'04-25',
+		'05-01',
+		'06-02',
+		'08-15',
+		'11-01',
+		'12-08',
+		'12-25',
+		'12-26')
+		or DAYOFWEEK(s.date_schedule) = 1)
+
 	</select>
 
 
