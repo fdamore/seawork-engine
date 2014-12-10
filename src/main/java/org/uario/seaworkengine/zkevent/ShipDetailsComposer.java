@@ -5,15 +5,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
-import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -35,9 +32,6 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	private Component			add_ships_command;
 
 	@Wire
-	private Component			condition_ship_tab;
-
-	@Wire
 	private Tab					detail_ship_tab;
 
 	@Wire
@@ -46,16 +40,10 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Wire
 	private Component			grid_ship_details;
 
-	@Wire
-	private Component			line_ship_tab;
-
 	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
 	private Component			modify_ships_command;
-
-	@Wire
-	private Component			name_ship_tab;
 
 	@Wire
 	private Textbox				ship_condition;
@@ -82,14 +70,8 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Wire
 	private Listbox				sw_list_ship;
 
-	@Wire
-	private Component			twtype_ship_tab;
-
-	@Wire
-	private Component			type_ship_tab;
-
 	@Listen("onClick = #add_ships_command")
-	public void addShipCommand() throws UserNameJustPresentExcpetion {
+	public void addShipCommand() {
 
 		final Ship ship = new Ship();
 		ship.setName(this.ship_name.getValue());
@@ -98,26 +80,30 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		ship.setShipcondition(this.ship_condition.getValue());
 		ship.setTwtype(this.ship_twtype.getValue());
 
-		this.shipDao.createShip(ship);
+		if (ship.getName() == "" || ship.getLine() == "" || ship.getShiptype() == "" || ship.getShipcondition() == "" || ship.getTwtype() == "") {
+			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+		} else {
+			this.shipDao.createShip(ship);
 
-		// reset data info
-		this.resetDataInfo();
+			// reset data info
+			this.resetDataInfo();
 
-		Messagebox.show("Aggiunto elemento", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Nave aggiunta", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		// set user ListBox
-		this.setShipListBox();
+			// set ship ListBox
+			this.setShipListBox();
 
-		this.grid_ship_details.setVisible(false);
-		this.add_ships_command.setVisible(false);
-		this.modify_ships_command.setVisible(false);
+			this.grid_ship_details.setVisible(false);
+			this.add_ships_command.setVisible(false);
+			this.modify_ships_command.setVisible(false);
+		}
 
 	}
 
 	@Listen("onClick = #sw_link_deleteship")
 	public void defineDeleteView() {
 
-		// take person
+		// take ship
 		this.ship_selected = this.sw_list_ship.getSelectedItem().getValue();
 
 	}
@@ -130,10 +116,10 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		// take person
+		// take ship
 		this.ship_selected = this.sw_list_ship.getSelectedItem().getValue();
 
-		// get the last person from database
+		// get the last ship from database
 		this.ship_selected = this.shipDao.loadShip(this.ship_selected.getId());
 
 		// general details
@@ -141,11 +127,6 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	/**
-	 * define user details view for modify
-	 *
-	 * @param person_selected
-	 */
 	private void defineShipDetailsView(final Ship ship_selected) {
 		this.ship_name.setValue(ship_selected.getName());
 		this.ship_line.setValue(ship_selected.getLine());
@@ -153,12 +134,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		this.ship_condition.setValue(ship_selected.getShipcondition());
 		this.ship_twtype.setValue(ship_selected.getTwtype());
 
-		// send mail to components
-		this.sendShipToUserComponents(ship_selected);
-
 	}
 
-	private void deleteUserCommand() {
+	private void deleteShipCommand() {
 
 		try {
 			if (this.ship_selected == null) {
@@ -174,9 +152,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		} catch (final Exception e) {
 
-			this.logger.error("Error removing user. " + e.getMessage());
+			this.logger.error("Error removing ship. " + e.getMessage());
 
-			Messagebox.show("Non è possibile eliminare questa nave.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
+			Messagebox.show("Non è possibile eliminare questa nave.\nControlla che non ci siano azioni legate a questa anagrafica.", "INFO",
 					Messagebox.OK, Messagebox.ERROR);
 
 		}
@@ -199,65 +177,42 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			}
 		});
 
-		this.getSelf().addEventListener(ZkEventsTag.onUpdateGeneralDetails, new EventListener<Event>() {
-
-			@Override
-			public void onEvent(final Event event) throws Exception {
-
-			}
-
-			/**
-			 * @Override public void onEvent(final Event arg0) throws Exception
-			 *           {
-			 *
-			 *           if (UserDetailsComposer.this.person_selected == null) {
-			 *           return; }
-			 *
-			 *           final String status = (String) arg0.getData();
-			 *
-			 *           UserDetailsComposer.this.person_selected.setStatus(
-			 *           status);
-			 *
-			 *           UserDetailsComposer.this.personDao.updatePerson(
-			 *           UserDetailsComposer.this.person_selected);
-			 *
-			 *           // set status
-			 *           UserDetailsComposer.this.user_status.setValue(status);
-			 *
-			 *           // set user listbox
-			 *           UserDetailsComposer.this.setUserListBox();
-			 *
-			 *           }
-			 **/
-		});
-
 	}
 
-	@Listen("onClick = #modify_users_command")
-	public void modifyCommand() {
-
+	@Listen("onClick = #modify_ships_command")
+	public void mofifyShipsCommand() {
 		if (this.ship_selected == null) {
 			return;
 		}
 
-		this.ship_name.setValue(this.ship_name.getValue());
-		this.ship_line.setValue(this.ship_line.getValue());
-		this.ship_type.setValue(this.ship_type.getValue());
-		this.ship_condition.setValue(this.ship_condition.getValue());
-		this.ship_twtype.setValue(this.ship_twtype.getValue());
+		if (this.ship_name.getValue() == "" || this.ship_line.getValue() == "" || this.ship_type.getValue() == ""
+				|| this.ship_condition.getValue() == "" || this.ship_twtype.getValue() == "") {
+			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+		} else {
+			this.ship_selected.setName(this.ship_name.getValue());
+			this.ship_selected.setLine(this.ship_line.getValue());
+			this.ship_selected.setShiptype(this.ship_type.getValue());
+			this.ship_selected.setShipcondition(this.ship_condition.getValue());
+			this.ship_selected.setTwtype(this.ship_twtype.getValue());
 
-		// update
-		this.shipDao.updateShip(this.ship_selected);
+			// update
+			this.shipDao.updateShip(this.ship_selected);
 
-		// update list
-		this.setShipListBox();
+			// update list
+			this.setShipListBox();
 
-		Messagebox.show("Dati Nave aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			this.grid_ship_details.setVisible(false);
+
+			this.resetDataInfo();
+
+			Messagebox.show("Dati Navi aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+
+		}
 
 	}
 
 	@Listen("onClick = #sw_refresh_list;")
-	public void refreshListUser() {
+	public void refreshListShip() {
 
 		this.full_text_search.setValue(null);
 
@@ -272,7 +227,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			@Override
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipDetailsComposer.this.deleteUserCommand();
+					ShipDetailsComposer.this.deleteShipCommand();
 				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 					// Cancel is clicked
 				}
@@ -282,7 +237,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Reset data on user grid
+	 * Reset data on ship grid
 	 */
 	private void resetDataInfo() {
 		this.ship_name.setValue(null);
@@ -296,49 +251,13 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Send person_selected to other component
-	 *
-	 * @param ship_selected
-	 */
-	private void sendShipToUserComponents(final Ship ship_selected) {
-
-		// send event to show user task
-		final Component comp = Path.getComponent("//usertask/panel_task");
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp, ship_selected);
-
-		// send event to show user task
-		final Component comp_tfr = Path.getComponent("//usertfr/panel");
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp_tfr, ship_selected);
-
-		// send event to show user fc
-		final Component comp_fc = Path.getComponent("//userfc/panel");
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp_fc, ship_selected);
-
-		// send event to show user td
-		final Component comp_td = Path.getComponent("//usertd/panel");
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp_td, ship_selected);
-
-		// send event to show user status
-		final Component comp_status = Path.getComponent("//userstatus/panel");
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp_status, ship_selected);
-
-		// send event to show contestations
-		final Component comp_cons = Path.getComponent("//cons/panel");
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp_cons, ship_selected);
-
-		final Component comp_jc = Path.getComponent("//userjobcost/panel");
-		Events.sendEvent(ZkEventsTag.onShowUsers, comp_jc, ship_selected);
-
-	}
-
-	/**
-	 * Show users
+	 * Show ships
 	 */
 	public void setInitialView() {
 
 		this.full_text_search.setValue(null);
 
-		// set user listbox
+		// set ship listbox
 		this.setShipListBox();
 
 		// initial view
@@ -347,18 +266,17 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Set user list box with initial events
+	 * Set ship list box with initial events
 	 */
 	@Listen("onOK = #shows_rows, #full_text_search")
 	public void setShipListBox() {
 
-		final List<Ship> list_ship = null;
+		List<Ship> list_ship = null;
 
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
-			// list_person =
-			// this.shipDao.listAllShip(this.full_text_search.getValue());
+			list_ship = this.shipDao.listAllShip(this.full_text_search.getValue());
 		} else {
-			// list_person = this.shipDao.listAllShip();
+			list_ship = this.shipDao.loadAllShip();
 		}
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
@@ -379,21 +297,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		// configure tab
 		this.grid_ship_details.setVisible(true);
-		this.name_ship_tab.setVisible(false);
-		this.line_ship_tab.setVisible(false);
-		this.type_ship_tab.setVisible(false);
-		this.condition_ship_tab.setVisible(false);
-		this.twtype_ship_tab.setVisible(false);
 
 		// set detail to selection
 		this.detail_ship_tab.getTabbox().setSelectedTab(this.detail_ship_tab);
-
-	}
-
-	@Listen("onClick = #sw_adduser")
-	public void showGridAddUser() {
-
-		this.resetDataInfo();
 
 	}
 
@@ -406,11 +312,6 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		// configure tab
 		this.grid_ship_details.setVisible(true);
-		this.name_ship_tab.setVisible(true);
-		this.line_ship_tab.setVisible(true);
-		this.type_ship_tab.setVisible(true);
-		this.condition_ship_tab.setVisible(true);
-		this.twtype_ship_tab.setVisible(true);
 
 		// set detail to selection
 		this.detail_ship_tab.getTabbox().setSelectedTab(this.detail_ship_tab);

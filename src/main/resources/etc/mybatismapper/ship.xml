@@ -25,6 +25,30 @@
 		id = #{id_ship};		
 	</select>
 	
+	<select id="loadAllShip" resultType="org.uario.seaworkengine.model.Ship">
+		SELECT id, name, line, shiptype, shipcondition, twtype
+		FROM
+		ship;		
+	</select>
+	
+	<select id="selectAllShipFulltextSearchLike" parameterType="String"
+		resultType="org.uario.seaworkengine.model.Ship">
+		SELECT id, name, line, shiptype, shipcondition, twtype
+		FROM
+		ship
+		<if test="my_full_text_search != null">
+			WHERE (
+			id like CONCAT('%', #{my_full_text_search}, '%') or
+			name like CONCAT('%', #{my_full_text_search}, '%') or
+			line like CONCAT('%', #{my_full_text_search}, '%') or
+			shiptype like CONCAT('%', #{my_full_text_search}, '%') or
+			shipcondition like CONCAT('%', #{my_full_text_search}, '%') or
+			twtype like CONCAT('%',	#{my_full_text_search}, '%')
+			)
+		</if>
+		order by id
+	</select>
+	
 	<update id="updateShip" parameterType="org.uario.seaworkengine.model.Ship" >
 		UPDATE ship SET
 		name = #{name},

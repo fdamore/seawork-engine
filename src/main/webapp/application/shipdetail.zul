@@ -32,7 +32,7 @@
 
 
 		<button label="Chiudi Anagrafica" sclass="btn-danger"
-			onClick="grid_ship_details.setVisible(false);add_ships_command.setVisible(false);modify_ships_command.setVisible(false);">
+			onClick="grid_ship_details.setVisible(false);add_ships_command.setVisible(false);modify_ships_command.setVisible(false);ship_name.setValue(null);ship_type.setValue(null);ship_line.setValue(null);ship_condition.setValue(null);ship_twtype.setValue(null); ">
 		</button>
 
 		<separator></separator>
@@ -41,16 +41,10 @@
 			<tabs>
 				<tab label="Informazioni Generali" id="detail_ship_tab"
 					selected="true" />
-				<tab label="Nome" visible="false"
-					id="name_ship_tab" />
-				<tab label="Linea" visible="false"
-					id="line_ship_tab" />
+				
 				<tab label="Tipo" visible="false"
 					id="type_ship_tab" />
-				<tab label="Condizioni" visible="false"
-					id="condition_ship_tab" />
-				<tab label="Tipo Twist" visible="false"
-					id="twtype_ship_tab" />				
+							
 			</tabs>
 			<tabpanels>
 				<!-- Tab Comments Content -->
@@ -61,7 +55,7 @@
 							label="Dettagli navi">
 
 							<toolbarbutton id="add_ships_command"
-								label="Aggiungi Nave" style="color: blue" visible="false">
+								label="Aggiungi Nave"  style="color: blue" visible="false">
 							</toolbarbutton>
 
 							<toolbarbutton id="modify_ships_command"
@@ -171,16 +165,16 @@
 	<separator></separator>
 
 	<listbox id="sw_list_ship" pagingPosition="both" mold="paging"
-		onSelect="grid_user_details.setVisible(false)"
+		onSelect="grid_ship_details.setVisible(false)"
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 		pageSize="10">
 		<listhead sizable="true">
 			<listheader label="Id" sort="auto(id)" />
-			<listheader label="Nome" sort="auto(status)" />
+			<listheader label="Nome" />
 			<listheader label="Linea" />
-			<listheader label="Tipo" sort="auto(individualName)" />
-			<listheader label="Consizioni" sort="auto(city)" />
-			<listheader label="Tipo Twist" sort="auto(phone)" />
+			<listheader label="Tipo" />
+			<listheader label="Condizioni"  />
+			<listheader label="Tipo Twist"  />
 			
 			<listheader label="" />
 		</listhead>
@@ -191,7 +185,7 @@
 			<listcell label="@{ship_item.name}" />
 			<listcell label="@{ship_item.line}" />
 			<listcell label="@{ship_item.shiptype}" />
-			<listcell label="@{ship_item.condition}" />
+			<listcell label="@{ship_item.shipcondition}" />
 			<listcell label="@{ship_item.twtype}" />
 
 

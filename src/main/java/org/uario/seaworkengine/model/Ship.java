@@ -1,6 +1,8 @@
 package org.uario.seaworkengine.model;
 
-public class Ship {
+import java.io.Serializable;
+
+public class Ship implements Serializable {
 	/**
 	 *
 	 */

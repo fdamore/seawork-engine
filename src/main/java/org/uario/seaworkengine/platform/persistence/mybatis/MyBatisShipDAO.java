@@ -1,5 +1,8 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.Ship;
@@ -29,6 +32,24 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		MyBatisShipDAO.logger.info("deleteShip");
 
 		this.getSqlSession().delete("ship.deleteShip", id_ship);
+
+	}
+
+	@Override
+	public List<Ship> listAllShip(final String full_text_search) {
+		MyBatisShipDAO.logger.info("selectAllShipFulltextSearchLike");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("my_full_text_search", full_text_search);
+
+		return this.getSqlSession().selectList("ship.selectAllShipFulltextSearchLike", map);
+	}
+
+	@Override
+	public List<Ship> loadAllShip() {
+		MyBatisShipDAO.logger.info("loadAllShip");
+
+		return this.getSqlSession().selectList("ship.loadAllShip");
 
 	}
 

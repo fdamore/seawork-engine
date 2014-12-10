@@ -24,6 +24,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
@@ -196,6 +197,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Row					row_password_user_retype;
 
 	@Wire
+	private Combobox			sex_user;
+
+	@Wire
 	private Intbox				shows_rows;
 
 	@Wire
@@ -261,62 +265,72 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		final Person person = new Person();
-		person.setAddress(this.address_user.getValue());
-		person.setCity(this.city_user.getValue());
-		person.setEmail(mail);
-		person.setFirstname(this.firstname_user.getValue());
-		person.setPersonal_code(this.personal_code_user.getValue());
-		person.setLastname(this.lastname_user.getValue());
-		person.setPassword(this.password_user.getValue());
-		person.setPhone(this.phone_user.getValue());
-		person.setZip(this.postalCode_user.getValue());
-		person.setCountry(this.country_user.getValue());
-		person.setEnabled(this.user_enabled.isChecked());
-		person.setEmployee_identification(this.employee_identification_user.getValue());
-		person.setProvincia(this.provincia_user.getValue());
-		person.setFiscal_code(this.fiscalcode_user.getValue());
-		person.setBirth_date(this.birth_date_user.getValue());
-		person.setBirth_place(this.birth_place_user.getValue());
-		person.setEducation(this.education_user.getValue());
-		person.setNcfl(this.ncfl_user.getValue());
-		person.setDepartment(this.department_user.getValue());
-		person.setCurrent_position(this.current_position_user.getValue());
-		person.setNbudge(this.nbudje_user.getValue());
-		person.setNpass(this.npass_user.getValue());
-		person.setMarital_status(this.marital_status_user.getValue());
-		person.setFamily_charge(this.family_charge_user.getValue());
-		person.setDriving_license(this.driving_license_user.getValue());
-		person.setDriving_license_emission(this.driving_license_emission_user.getValue());
+		if (!(this.email_user.getValue() == null || this.password_user.getValue() == null || this.sex_user.getSelectedItem() == null)) {
+			final Person person = new Person();
+			person.setAddress(this.address_user.getValue());
+			person.setCity(this.city_user.getValue());
+			person.setEmail(mail);
+			person.setFirstname(this.firstname_user.getValue());
+			person.setPersonal_code(this.personal_code_user.getValue());
+			person.setLastname(this.lastname_user.getValue());
+			person.setPassword(this.password_user.getValue());
+			person.setPhone(this.phone_user.getValue());
+			person.setZip(this.postalCode_user.getValue());
+			person.setCountry(this.country_user.getValue());
+			person.setEnabled(this.user_enabled.isChecked());
+			person.setEmployee_identification(this.employee_identification_user.getValue());
+			person.setProvincia(this.provincia_user.getValue());
+			person.setFiscal_code(this.fiscalcode_user.getValue());
+			person.setBirth_date(this.birth_date_user.getValue());
+			person.setBirth_place(this.birth_place_user.getValue());
+			person.setEducation(this.education_user.getValue());
+			person.setNcfl(this.ncfl_user.getValue());
+			person.setDepartment(this.department_user.getValue());
+			person.setCurrent_position(this.current_position_user.getValue());
+			person.setNbudge(this.nbudje_user.getValue());
+			person.setNpass(this.npass_user.getValue());
+			person.setMarital_status(this.marital_status_user.getValue());
+			person.setFamily_charge(this.family_charge_user.getValue());
+			person.setDriving_license(this.driving_license_user.getValue());
+			person.setDriving_license_emission(this.driving_license_emission_user.getValue());
 
-		// add initial status
-		person.setStatus(UserStatusTag.OPEN);
+			if (this.sex_user.getSelectedItem().toString() == "M") {
+				person.setSex(true);
+			} else {
+				person.setSex(false);
+			}
 
-		// set authority
-		person.setAuthority(UserTag.ROLE_USER);
+			// add initial status
+			person.setStatus(UserStatusTag.OPEN);
 
-		final boolean admin = this.admin_user.isChecked();
+			// set authority
+			person.setAuthority(UserTag.ROLE_USER);
 
-		if (admin) {
-			person.setAuthority(UserTag.ROLE_SUPERVISOR);
+			final boolean admin = this.admin_user.isChecked();
+
+			if (admin) {
+				person.setAuthority(UserTag.ROLE_SUPERVISOR);
+			}
+
+			// set enable true by default
+			person.setEnabled(Boolean.TRUE);
+
+			this.personDao.savePerson(person);
+
+			// reset data info
+			this.resetDataInfo();
+
+			Messagebox.show("Aggiunto elemento", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+
+			// set user ListBox
+			this.setUserListBox();
+
+			this.grid_user_details.setVisible(false);
+			this.add_users_command.setVisible(false);
+			this.modify_users_command.setVisible(false);
+		} else {
+			Messagebox.show("Controllare valori inseriti (email, password). ", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 		}
-
-		// set enable true by default
-		person.setEnabled(Boolean.TRUE);
-
-		this.personDao.savePerson(person);
-
-		// reset data info
-		this.resetDataInfo();
-
-		Messagebox.show("Aggiunto elemento", "INFO", Messagebox.OK, Messagebox.INFORMATION);
-
-		// set user ListBox
-		this.setUserListBox();
-
-		this.grid_user_details.setVisible(false);
-		this.add_users_command.setVisible(false);
-		this.modify_users_command.setVisible(false);
 
 	}
 
@@ -698,6 +712,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.department_user.setValue("");
 		this.current_position_user.setValue("");
 		this.personal_code_user.setValue("");
+		this.sex_user.setSelectedIndex(0);
 
 		this.nbudje_user.setValue("");
 
@@ -823,6 +838,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.tradeunion_user_tab.setVisible(false);
 		this.contestations_user_tab.setVisible(false);
 		this.userName.setVisible(false);
+
+		this.resetDataInfo();
 
 		// set detail to selection
 		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
