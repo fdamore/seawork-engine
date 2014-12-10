@@ -426,16 +426,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		new_item.setTime(time);
 		new_item.setTask(task.getId());
 
-		java.util.Date now = this.time_from.getValue();
+		final java.util.Date now_from = this.time_from.getValue();
+		if (now_from != null) {
 
-		// now.setDate(this.currentSchedule.getDate_schedule().getDate());
+			final Calendar current_calendar = DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
+			final Calendar from_calendar = DateUtils.toCalendar(now_from);
+			current_calendar.set(Calendar.HOUR_OF_DAY, from_calendar.get(Calendar.HOUR_OF_DAY));
+			current_calendar.set(Calendar.MINUTE, from_calendar.get(Calendar.MINUTE));
+			current_calendar.set(Calendar.SECOND, from_calendar.get(Calendar.SECOND));
 
-		if (now != null) {
-
-			final java.sql.Timestamp t_from = new java.sql.Timestamp(now.getTime());
+			final java.sql.Timestamp t_from = new java.sql.Timestamp(current_calendar.getTimeInMillis());
 			new_item.setTime_from(t_from);
-			now = this.time_to.getValue();
-			final java.sql.Timestamp t_to = new java.sql.Timestamp(now.getTime());
+		}
+
+		final java.util.Date now_to = this.time_to.getValue();
+		if (now_to != null) {
+			final Calendar current_calendar = DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
+			final Calendar to_calendar = DateUtils.toCalendar(now_to);
+			current_calendar.set(Calendar.HOUR_OF_DAY, to_calendar.get(Calendar.HOUR_OF_DAY));
+			current_calendar.set(Calendar.MINUTE, to_calendar.get(Calendar.MINUTE));
+			current_calendar.set(Calendar.SECOND, to_calendar.get(Calendar.SECOND));
+
+			final java.sql.Timestamp t_to = new java.sql.Timestamp(current_calendar.getTimeInMillis());
 			new_item.setTime_to(t_to);
 		}
 
