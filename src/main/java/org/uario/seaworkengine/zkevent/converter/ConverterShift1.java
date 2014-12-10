@@ -46,7 +46,6 @@ public class ConverterShift1 implements TypeConverter {
 
 		// return info
 		if (status != null) {
-			final Toolbarbutton button = (Toolbarbutton) arg1;
 			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
 				if ((item_schedule.getSchedule() != null) && (item_schedule.getSchedule().getShift() != null)) {
 					final Integer shift = item_schedule.getSchedule().getShift();
@@ -54,7 +53,8 @@ public class ConverterShift1 implements TypeConverter {
 					final UserShift myShift = shiftCache.getUserShift(shift);
 					if (myShift != null) {
 						return myShift.getCode();
-					} else {
+					}
+					else {
 						return ConverterShift1.NO_DATA;
 					}
 
@@ -64,7 +64,8 @@ public class ConverterShift1 implements TypeConverter {
 
 		if (item_schedule.getAnchor1() == null) {
 			return ConverterShift1.NO_DATA;
-		} else {
+		}
+		else {
 			return item_schedule.getAnchor1();
 		}
 

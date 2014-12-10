@@ -942,6 +942,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			itemsRow = currentRow.getItem_5();
 		}
 
+		// get item row if null
+		if (itemsRow == null) {
+			itemsRow = new ItemRowSchedule(currentRow);
+		}
+
+		// set current schedule... in any case
+		itemsRow.setSchedule(schedule);
+
 		if (schedule.getId() != null) {
 			if (schedule.getNo_shift() != null) {
 
@@ -2371,12 +2379,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow.setName_user(schedule.getName_user());
 				list_row.add(currentRow);
 
-				// set items for current row
-				currentRow.setItem_2(new ItemRowSchedule(currentRow, schedule));
-				currentRow.setItem_3(new ItemRowSchedule(currentRow, schedule));
-				currentRow.setItem_4(new ItemRowSchedule(currentRow, schedule));
-				currentRow.setItem_5(new ItemRowSchedule(currentRow, schedule));
-
 				// set user type for available
 				if (map_status.containsKey(schedule.getUser())) {
 					final String status = map_status.get(schedule.getUser());
@@ -2427,9 +2429,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				myrow.setUser(schedule.getUser());
 				myrow.setName_user(schedule.getName_user());
 				list_row.add(myrow);
-
-				// set items for current row
-				myrow.setItem_1(new ItemRowSchedule(myrow, schedule));
 
 				// set user type for available
 				if (map_status.containsKey(schedule.getUser())) {
@@ -2533,9 +2532,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow.setName_user(schedule.getName_user());
 				list_row.add(currentRow);
 
-				// set items for current row
-				currentRow.setItem_2(new ItemRowSchedule(currentRow, schedule));
-
 				// sign person scheduled
 				sign_scheduled.put(schedule.getUser(), currentRow);
 			}
@@ -2563,9 +2559,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				myRow.setUser(schedule.getUser());
 				myRow.setName_user(schedule.getName_user());
 				list_row.add(myRow);
-
-				// set items for current row
-				myRow.setItem_1(new ItemRowSchedule(myRow, schedule));
 
 				// sign person scheduled
 				sign_scheduled.put(schedule.getUser(), myRow);
