@@ -32,12 +32,12 @@
 			sclass="subtitle" />
 
 
-		<button label="Chiudi Programmazione" sclass="btn-danger"
+		<button label="Chiudi Senza Salvare" sclass="btn-danger"
 			onClick="grid_scheduleShip_details.setVisible(false);add_scheduleShips_command.setVisible(false);modify_Scheduleships_command.setVisible(false);ship_name.setValue(null);ship_volume.setValue(null);note.setValue(null);ship_arrivalDate.setValue(null);ship_arrivalTime.setValue(null);">
 		</button>
-		<button label="Aggiungi Programmazione" sclass="btn-success" id="add_scheduleShips_command">
+		<button label="Salva Programmazione" sclass="btn-success" id="add_scheduleShips_command">
 		</button>
-		<button label="Modifica Programmazione" sclass="btn-success" id="modify_Scheduleships_command" visible="false">
+		<button label="Salva Modifiche Programmazione" sclass="btn-success" id="modify_Scheduleships_command" visible="false">
 		</button>
 
 		<separator></separator>
@@ -162,7 +162,7 @@
 									
 									<row>
 										<label value="Nome Preposto"></label>
-										<textbox id="user" />
+										<combobox id="user" />
 									</row>
 
 									<row>
@@ -182,6 +182,8 @@
 
 								</rows>
 							</grid>
+							
+							
 							
 							<listbox id="sw_list_scheduleDetailShip" pagingPosition="both" mold="paging"
 											onSelect="grid_scheduleShip_details.setVisible(false)"

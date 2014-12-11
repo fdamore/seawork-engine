@@ -16,8 +16,11 @@ public class ScheduleShip implements Serializable {
 	}
 
 	private Timestamp	arrivaldate;
+
 	private Integer		id;
+
 	private Integer		idship;
+
 	/**
 	 * Used only in view mode
 	 */

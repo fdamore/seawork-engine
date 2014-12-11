@@ -70,7 +70,6 @@
 
 
 
-
 	<insert id="createDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		INSERT INTO
 		detailscheduleship
@@ -90,11 +89,11 @@
 
 	<select id="loadDetailScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT id, idscheduleship, shift, operation, iduser,
-		handswork
+		SELECT d.id, d.idscheduleship, d.shift, d.operation, d.iduser,
+		d.handswork, s.firstname, s.lastname
 		FROM
-		detailscheduleship where
-		id = #{id_detailScheduleShip};
+		detailscheduleship d, user u where
+		d.id = #{id_detailScheduleShip} and d.iduser = u.id;
 	</select>
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer">

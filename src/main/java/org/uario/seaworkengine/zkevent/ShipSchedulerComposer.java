@@ -1,13 +1,17 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.uario.seaworkengine.model.DetailScheduleShip;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
+import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
@@ -49,6 +53,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Component			grid_scheduleShip_details;
 
+	@Wire
+	private Textbox				handswork;
+
 	private final Logger		logger					= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
@@ -57,14 +64,21 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Textbox				note;
 
+	@Wire
+	private Textbox				operation;
+
+	protected PersonDAO			personDao;
+
 	ScheduleShip				scheduleShip_selected	= null;
+
+	@Wire
+	private Combobox			shift;
 
 	@Wire
 	private Datebox				ship_arrivalDate;
 
 	@Wire
 	private Timebox				ship_arrivalTime;
-
 	@Wire
 	private Combobox			ship_name;
 
@@ -72,13 +86,37 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Doublebox			ship_volume;
 
 	protected IShip				shipDao;
+
 	protected IScheduleShip		shipSchedulerDao;
 
 	@Wire
 	private Intbox				shows_rows;
 
 	@Wire
+	private Listbox				sw_list_scheduleDetailShip;
+
+	@Wire
 	private Listbox				sw_list_scheduleShip;
+
+	@Wire
+	private Combobox			user;
+
+	protected PersonDAO			userPrep;
+
+	@Listen("onClick = #add_scheduleShipsDetail_command")
+	public void addScheduleShipsDetailCommand() {
+		if (this.shift.getSelectedItem() == null || this.operation.getValue() == null || this.user.getSelectedItem() == null
+				|| this.handswork.getValue() == null) {
+			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			return;
+		} else {
+			final DetailScheduleShip detailScheduleShip = new DetailScheduleShip();
+
+			detailScheduleShip.setShift((Integer) this.shift.getSelectedItem().getValue());
+			detailScheduleShip.setOperation(this.operation.getValue());
+
+		}
+	}
 
 	@Listen("onClick = #add_scheduleShips_command")
 	public void addShipCommand() {
@@ -226,15 +264,32 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// get the DAOs
 				ShipSchedulerComposer.this.shipSchedulerDao = (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
 				ShipSchedulerComposer.this.shipDao = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
+				ShipSchedulerComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
-				final ListModel<Ship> modelComboBox = new ListModelList<Ship>(ShipSchedulerComposer.this.shipDao.listAllShip(null));
+				final ListModel<Ship> modelComboBox_ShipName = new ListModelList<Ship>(ShipSchedulerComposer.this.shipDao.listAllShip(null));
 
-				if (modelComboBox.getSize() == 0) {
+				// add item in combobox ship name
+				if (modelComboBox_ShipName.getSize() == 0) {
 					Messagebox
-					.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+							.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 				}
 
-				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox);
+				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox_ShipName);
+
+				// add item in combobox shift
+				final List<Integer> shiftList = new ArrayList<Integer>();
+				shiftList.add(1);
+				shiftList.add(2);
+				shiftList.add(3);
+				shiftList.add(4);
+
+				final ListModel<Integer> modelComboBox_Shift = new ListModelList<Integer>(shiftList);
+
+				ShipSchedulerComposer.this.shift.setModel(modelComboBox_Shift);
+
+				// add item in combobox user
+				final ListModel<Person> modelComboBox_User = new ListModelList<Person>(ShipSchedulerComposer.this.personDao.listAllPersons(null));
+				ShipSchedulerComposer.this.user.setModel(modelComboBox_User);
 
 				ShipSchedulerComposer.this.setInitialView();
 
@@ -300,15 +355,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener<Event>() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteScheduleShipCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteScheduleShipCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 

@@ -1,5 +1,7 @@
 package org.uario.seaworkengine.model;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public class DetailScheduleShip {
 
 	/**
@@ -11,12 +13,27 @@ public class DetailScheduleShip {
 		return DetailScheduleShip.serialVersionUID;
 	}
 
+	/**
+	 * Used only in view mode
+	 */
+	@XmlTransient
+	private String	firstname;
 	private Integer	handswork;
 	private Integer	id;
 	private Integer	idscheduleship;
 	private Integer	iduser;
 	private String	operation;
+
+	/**
+	 * Used only in view mode
+	 */
+	@XmlTransient
+	private String	secondname;
 	private Integer	shift;
+
+	public String getFirstname() {
+		return this.firstname;
+	}
 
 	public Integer getHandswork() {
 		return this.handswork;
@@ -38,8 +55,16 @@ public class DetailScheduleShip {
 		return this.operation;
 	}
 
+	public String getSecondname() {
+		return this.secondname;
+	}
+
 	public Integer getShift() {
 		return this.shift;
+	}
+
+	public void setFirstname(final String firstname) {
+		this.firstname = firstname;
 	}
 
 	public void setHandswork(final Integer handswork) {
@@ -60,6 +85,10 @@ public class DetailScheduleShip {
 
 	public void setOperation(final String operation) {
 		this.operation = operation;
+	}
+
+	public void setSecondname(final String secondname) {
+		this.secondname = secondname;
 	}
 
 	public void setShift(final Integer shift) {
