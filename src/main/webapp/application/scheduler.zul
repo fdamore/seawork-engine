@@ -1735,7 +1735,7 @@
 											<a label="@{itemoverviewreview.user}">
 											<attribute name="onClick">
 											list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
-											Events.sendEvent("onOverviewNameClick", page_panel, null);
+											Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
 											</attribute>
 											</a>
 										</listcell>
@@ -1797,8 +1797,16 @@
 										value="@{itemoverviewprogram}">
 
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.user}" />
+										<listcell sclass="myBottonCell">
+											<a label="@{itemoverviewprogram.user}">
+											<attribute name="onClick">
+											list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+											Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
+											</attribute>
+											</a>
+											</listcell>
+											
+											
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />

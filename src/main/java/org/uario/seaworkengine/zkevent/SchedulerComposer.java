@@ -729,7 +729,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		});
 
-		this.getSelf().addEventListener(ZkEventsTag.onOverviewNameClick, new EventListener<Event>() {
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewReviewNameClick, new EventListener<Event>() {
 
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
@@ -746,6 +746,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// show statistic popup
 				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.list_overview_review, msg);
+
+			}
+
+		});
+
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewProgramNameClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final DetailInitialSchedule detailFinalSchedule = SchedulerComposer.this.list_overview_program.getSelectedItem().getValue();
+
+				if (detailFinalSchedule == null) {
+					return;
+				}
+
+				final Integer id_user = SchedulerComposer.this.scheduleDAO.loadScheduleById(detailFinalSchedule.getId_schedule()).getUser();
+				// set name
+				final String msg = detailFinalSchedule.getUser();
+
+				// show statistic popup
+				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.list_overview_program, msg);
 
 			}
 
@@ -1503,7 +1525,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
