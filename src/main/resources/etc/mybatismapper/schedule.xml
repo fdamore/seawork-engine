@@ -13,6 +13,14 @@
 		FROM schedule
 		WHERE date_schedule = #{dt_arg};
 	</select>
+	
+	<select id="loadScheduleById" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.Schedule">
+		SELECT id, date_schedule, user, note, editor, controller,
+		shift
+		FROM schedule
+		WHERE id = #{id};
+	</select>
 
 
 	<select id="selectSchedulersForPreprocessing" resultType="org.uario.seaworkengine.model.Schedule"

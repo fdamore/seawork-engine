@@ -113,6 +113,13 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
+	public Schedule loadScheduleById(final Integer id) {
+		MyBatisScheduleDAO.logger.info("loadScheduleById");
+
+		return this.getSqlSession().selectOne("schedule.loadScheduleById", id);
+	}
+
+	@Override
 	public void removeAllDetailFinalScheduleBySchedule(final Integer id_schedule) {
 		MyBatisScheduleDAO.logger.info("removeAllDetailFinalScheduleBySchedule");
 
