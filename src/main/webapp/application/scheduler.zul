@@ -83,13 +83,14 @@
 											value="Lavoro domenicale: " />
 										<label id="work_sunday_perc" />
 									</row>
-									
+
 									<row>
 										<label
 											value="Domenica e festivi: " />
-										<label id="work_sundayandholiday_perc" />
-									</row>									
-									
+										<label
+											id="work_sundayandholiday_perc" />
+									</row>
+
 
 									<row>
 										<label
@@ -149,14 +150,90 @@
 		<!-- PREPROCESSING -->
 		<div id="preprocessing_div" visible="true">
 
+
+			<panel border="normal" collapsible="false" visible="false"
+				id="panel_shift_period" style="margin: 5px 5px 5px 5px">
+				<caption>
+					<hbox align="center">
+						<label value="Imposta Turni Speciale"></label>
+						<a label="Close" style="color:blue"
+							sclass="pull-right"
+							onClick="panel_shift_period.setVisible(false)">
+						</a>
+					</hbox>
+				</caption>
+
+
+				<panelchildren>
+
+
+
+					<vbox style="margin: 5px 5px 5px 5px">
+
+						<hbox align="center">
+							<a label="Nome Utente: "
+								style="color:blue">
+							</a>
+							<label id="shift_period_name"></label>
+						</hbox>
+
+						<hbox align="center">
+							<a label="Scelta Rapida: "
+								style="color:blue">
+							</a>
+							<a label="Turno di Lavoro"
+								id="shift_period_select_tl">
+							</a>
+							<space></space>
+							<a label="Turno di Riposo Programmato"
+								id="shift_period_select_rp">
+							</a>
+						</hbox>
+
+						<hbox align="center">
+
+							<combobox mold="rounded"
+								id="shift_period_combo" placeholder="Segli Turno...">
+							</combobox>
+
+							<datebox placeholder="Data iniziale..."
+								id="shift_period_from">
+							</datebox>
+
+							<datebox placeholder="Data finale..."
+								id="shift_period_to">
+							</datebox>
+
+						</hbox>
+
+						<button id="shift_period_ok" label="OK"
+							sclass="btn-info" />
+
+
+					</vbox>
+				</panelchildren>
+			</panel>
+
+
+
+			<space></space>
+
 			<hbox align="left">
 				<a label="Seleziona data iniziale: "></a>
+
 				<datebox id="date_init_scheduler"
 					placeholder="Selezione data iniziale" width="200px">
 				</datebox>
 
 				<button id="go_today_preprocessing" label="Vai ad oggi"
 					sclass="btn-info" />
+
+				<a label="Imposta Turni Speciale"
+					id="set_panel_shift_period">
+				</a>
+
+
+
 			</hbox>
 
 			<space></space>
@@ -242,7 +319,8 @@
 				<panelchildren>
 
 					<listbox sclass="domain" id="grid_scheduler_day"
-						mold="paging" pageSize="10" pagingPosition="both">
+						checkmark="true" multiple="false" mold="paging" pageSize="10"
+						pagingPosition="both">
 						<auxhead>
 							<auxheader label="" colspan="1" />
 
@@ -1466,6 +1544,8 @@
 
 				<button id="go_today_review" label="Vai ad oggi"
 					sclass="btn-info" />
+
+
 			</hbox>
 
 			<space></space>
@@ -1731,12 +1811,14 @@
 										value="@{itemoverviewreview}">
 
 
-										<listcell sclass="myBottonCell" >
-											<a label="@{itemoverviewreview.user}">
-											<attribute name="onClick">
-											list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
-											Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
-											</attribute>
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{itemoverviewreview.user}">
+												<attribute name="onClick">
+	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
 
@@ -1797,16 +1879,18 @@
 										value="@{itemoverviewprogram}">
 
 
-										<listcell sclass="myBottonCell">
-											<a label="@{itemoverviewprogram.user}">
-											<attribute name="onClick">
-											list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
-											Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
-											</attribute>
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{itemoverviewprogram.user}">
+												<attribute name="onClick">
+	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
+</attribute>
 											</a>
-											</listcell>
-											
-											
+										</listcell>
+
+
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />

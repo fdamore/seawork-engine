@@ -108,7 +108,7 @@ public class WorkAssignService implements IWorkShiftAssign {
 				this.scheduleDAO.saveOrUpdateSchedule(schedule);
 
 				// assign work
-				this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId());
+				this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
 
 			}
 
