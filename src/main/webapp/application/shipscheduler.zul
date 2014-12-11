@@ -193,7 +193,7 @@
 			<listcell sclass="myBottonCell" label="@{scheduleship_item.arrivaldate}" />
 
 
-			<listcell>
+			<listcell sclass="myBottonCell">
 
 				<toolbarbutton id="sw_link_deleteship"
 					style="color:blue"

@@ -1525,7 +1525,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
@@ -2705,6 +2705,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set info about week working
 		final Calendar current = Calendar.getInstance();
 		final Date date_to = current.getTime();
+
 		current.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		Date date_from = current.getTime();
 
