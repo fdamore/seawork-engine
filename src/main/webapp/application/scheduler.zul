@@ -1037,8 +1037,7 @@
 
 							</listcell>
 
-							<listcell sclass="myBottonCell"
-								style="background-color:#70B8FF">
+							<listcell sclass="myBottonCell">
 
 								<toolbarbutton disabled="true"
 									label="@{item.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColor1'}"
@@ -1050,8 +1049,7 @@
 								</toolbarbutton>
 							</listcell>
 
-							<listcell sclass="myBottonCell"
-								style="background-color:#70B8FF">
+							<listcell sclass="myBottonCell">
 
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1064,8 +1062,7 @@
 								</toolbarbutton>
 							</listcell>
 
-							<listcell sclass="myBottonCell"
-								style="background-color:#70B8FF">
+							<listcell sclass="myBottonCell">
 
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1078,8 +1075,7 @@
 								</toolbarbutton>
 							</listcell>
 
-							<listcell sclass="myBottonCell"
-								style="background-color:#70B8FF">
+							<listcell sclass="myBottonCell">
 
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
