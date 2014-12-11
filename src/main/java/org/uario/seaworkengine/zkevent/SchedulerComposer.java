@@ -756,15 +756,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
 
-				final DetailInitialSchedule detailFinalSchedule = SchedulerComposer.this.list_overview_program.getSelectedItem().getValue();
+				final DetailInitialSchedule detailInitialSchedule = SchedulerComposer.this.list_overview_program.getSelectedItem().getValue();
 
-				if (detailFinalSchedule == null) {
+				if (detailInitialSchedule == null) {
 					return;
 				}
 
-				final Integer id_user = SchedulerComposer.this.scheduleDAO.loadScheduleById(detailFinalSchedule.getId_schedule()).getUser();
+				final Integer id_user = SchedulerComposer.this.scheduleDAO.loadScheduleById(detailInitialSchedule.getId_schedule()).getUser();
 				// set name
-				final String msg = detailFinalSchedule.getUser();
+				final String msg = detailInitialSchedule.getUser();
 
 				// show statistic popup
 				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.list_overview_program, msg);
