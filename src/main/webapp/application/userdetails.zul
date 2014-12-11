@@ -132,7 +132,7 @@
 
 									<row>
 										<label
-											value="Ruolo Amministratore">
+											value="Ruolo Amministratore di Sistema">
 										</label>
 										<checkbox id="admin_user" />
 									</row>
