@@ -7,9 +7,12 @@
 	
 	<style>
 
-	.myCell { border:1px solid; border-color:#CFCFCF;}
+	.myBottonCell { border-bottom: 1px solid; border-right: 1px
+			solid; border-color:#CFCFCF;}
 
 	</style>
+	
+	
 
 	<div sclass="page-header">
 		<label value="Dettagli Utente" />
@@ -151,11 +154,6 @@
 										<checkbox id="viewer_user" />
 									</row>
 
-
-
-
-
-
 									<row>
 										<label value="Nome:"></label>
 										<textbox id="firstname_user"
@@ -278,8 +276,6 @@
 										</label>
 										<textbox id="education_user" />
 									</row>
-
-
 
 
 									<row>
@@ -573,22 +569,22 @@
 			<listheader label="" />
 		</listhead>
 
-		<listitem sclass="myCell"  self="@{each='user_item'}" value="@{user_item}">
+		<listitem sclass="myBottonCell" self="@{each='user_item'}" value="@{user_item}">
 
-			<listcell label="@{user_item.id}" />
-			<listcell label="@{user_item.status}" />
+			<listcell sclass="myBottonCell" label="@{user_item.id}" />
+			<listcell sclass="myBottonCell" label="@{user_item.status}" />
 
-			<listcell
+			<listcell sclass="myBottonCell"
 				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />
 
-			<listcell label="@{user_item.individualName}" />
+			<listcell sclass="myBottonCell" label="@{user_item.individualName}" />
 
-			<listcell label="@{user_item.city}" />
-			<listcell label="@{user_item.phone}" />
-			<listcell
+			<listcell sclass="myBottonCell" label="@{user_item.city}" />
+			<listcell sclass="myBottonCell" label="@{user_item.phone}" />
+			<listcell sclass="myBottonCell"
 				label="@{user_item.authority, converter='org.uario.seaworkengine.zkevent.converter.UserRoleConverter'}" />
 
-			<listcell>
+			<listcell sclass="myBottonCell">
 
 				<toolbarbutton id="sw_link_deleteuser"
 					style="color:blue"

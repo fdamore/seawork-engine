@@ -11,7 +11,8 @@
 		
 		<style>
 
-		.myCell { border:1px solid; border-color:#CFCFCF;}
+		.myBottonCell { border-bottom: 1px solid; border-right: 1px
+			solid; border-color:#CFCFCF;}
 
 		</style>
 
@@ -179,17 +180,17 @@
 			<listheader label="" />
 		</listhead>
 
-		<listitem sclass="myCell"  self="@{each='ship_item'}" value="@{ship_item}">
+		<listitem  self="@{each='ship_item'}" value="@{ship_item}">
 
-			<listcell label="@{ship_item.id}" />
-			<listcell label="@{ship_item.name}" />
-			<listcell label="@{ship_item.line}" />
-			<listcell label="@{ship_item.shiptype}" />
-			<listcell label="@{ship_item.shipcondition}" />
-			<listcell label="@{ship_item.twtype}" />
+			<listcell sclass="myBottonCell" label="@{ship_item.id}" />
+			<listcell sclass="myBottonCell" label="@{ship_item.name}" />
+			<listcell sclass="myBottonCell" label="@{ship_item.line}" />
+			<listcell sclass="myBottonCell" label="@{ship_item.shiptype}" />
+			<listcell sclass="myBottonCell" label="@{ship_item.shipcondition}" />
+			<listcell sclass="myBottonCell" label="@{ship_item.twtype}" />
 
 
-			<listcell>
+			<listcell sclass="myBottonCell">
 
 				<toolbarbutton id="sw_link_deleteship"
 					style="color:blue"

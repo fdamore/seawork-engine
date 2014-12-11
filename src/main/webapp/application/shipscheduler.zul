@@ -11,7 +11,8 @@
 		
 		<style>
 
-		.myCell { border:1px solid; border-color:#CFCFCF;}
+		.myBottonCell { border-bottom: 1px solid; border-right: 1px
+			solid; border-color:#CFCFCF;}
 
 		</style>
 
@@ -183,13 +184,13 @@
 			<listheader label="" />
 		</listhead>
 
-		<listitem sclass="myCell"  self="@{each='scheduleship_item'}" value="@{scheduleship_item}">
+		<listitem  self="@{each='scheduleship_item'}" value="@{scheduleship_item}">
 
-			<listcell label="@{scheduleship_item.id}" />
-			<listcell label="@{scheduleship_item.name}" />
-			<listcell label="@{scheduleship_item.volume}" />
-			<listcell label="@{scheduleship_item.note}" />
-			<listcell label="@{scheduleship_item.arrivaldate}" />
+			<listcell sclass="myBottonCell" label="@{scheduleship_item.id}" />
+			<listcell sclass="myBottonCell" label="@{scheduleship_item.name}" />
+			<listcell sclass="myBottonCell" label="@{scheduleship_item.volume}" />
+			<listcell sclass="myBottonCell" label="@{scheduleship_item.note}" />
+			<listcell sclass="myBottonCell" label="@{scheduleship_item.arrivaldate}" />
 
 
 			<listcell>
