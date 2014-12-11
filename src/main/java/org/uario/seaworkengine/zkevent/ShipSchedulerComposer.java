@@ -165,12 +165,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Ship ship = this.shipDao.loadShip(scheduleShip_selected.getIdship());
 
+		final List<Comboitem> listItem = this.ship_name.getItems();
+
 		if (ship != null) {
-			for (final Comboitem item : this.ship_name.getItems()) {
+			for (final Comboitem item : listItem) {
 				if (item.getValue() instanceof Ship) {
 					final Ship current_ship = item.getValue();
 					if (ship.equals(current_ship)) {
 						this.ship_name.setSelectedItem(item);
+						break;
 					}
 				}
 
@@ -253,8 +256,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		} else {
 
-			final String shipName = this.ship_name.getSelectedItem().toString();
-			final int idShip = this.shipDao.listIdShipByName(shipName).get(0);
+			final int idShip = ((Ship) this.ship_name.getSelectedItem().getValue()).getId();
 
 			this.scheduleShip_selected.setIdship(idShip);
 			this.scheduleShip_selected.setVolume(this.ship_volume.getValue());
@@ -314,7 +316,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	 * Reset data on ship grid
 	 */
 	private void resetDataInfo() {
-		this.ship_name.setValue(null);
+		this.ship_name.setSelectedItem(null);
 		this.ship_volume.setValue(null);
 		this.note.setValue(null);
 		this.ship_arrivalDate.setValue(null);

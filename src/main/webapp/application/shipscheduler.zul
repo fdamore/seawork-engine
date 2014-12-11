@@ -35,6 +35,10 @@
 		<button label="Chiudi Programmazione" sclass="btn-danger"
 			onClick="grid_scheduleShip_details.setVisible(false);add_scheduleShips_command.setVisible(false);modify_Scheduleships_command.setVisible(false);ship_name.setValue(null);ship_volume.setValue(null);note.setValue(null);ship_arrivalDate.setValue(null);ship_arrivalTime.setValue(null);">
 		</button>
+		<button label="Aggiungi Programmazione" sclass="btn-success" id="add_scheduleShips_command">
+		</button>
+		<button label="Modifica Programmazione" sclass="btn-success" id="modify_Scheduleships_command" visible="false">
+		</button>
 
 		<separator></separator>
 
@@ -53,15 +57,7 @@
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<caption iconSclass="z-icon-star orange"
-							label="Programmazione Nave">
-
-							<toolbarbutton id="add_scheduleShips_command"
-								label="Aggiungi Programmazione"  style="color: blue" visible="false">
-							</toolbarbutton>
-
-							<toolbarbutton id="modify_Scheduleships_command"
-								label="Modifica Programmazione" style="color: blue" visible="false">
-							</toolbarbutton>
+							label="Programmazione Nave">													
 
 						</caption>
 
