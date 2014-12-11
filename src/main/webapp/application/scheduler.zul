@@ -1731,8 +1731,14 @@
 										value="@{itemoverviewreview}">
 
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.user}" />
+										<listcell sclass="myBottonCell" >
+											<a label="@{itemoverviewreview.user}">
+											<attribute name="onClick">
+											list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+											Events.sendEvent("onOverviewNameClick", page_panel, null);
+											</attribute>
+											</a>
+										</listcell>
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />

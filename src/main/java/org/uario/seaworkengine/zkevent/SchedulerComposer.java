@@ -729,6 +729,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		});
 
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewNameClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final RowSchedule row_schedule = SchedulerComposer.this.list_overview_review.getSelectedItem().getValue();
+
+				if (row_schedule == null) {
+					return;
+				}
+
+				final Integer id_user = row_schedule.getUser();
+				// set name
+				final String msg = row_schedule.getName_user();
+
+				// show statistic popup
+				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.list_overview_review, msg);
+
+			}
+
+		});
+
 		this.getSelf().addEventListener(ZkEventsTag.onShowScheduler, new EventListener<Event>() {
 
 			@Override

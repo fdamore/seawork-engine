@@ -48,11 +48,10 @@
 		sh.name
 		FROM
 		scheduleship s, ship sh
-		WHERE
 		<if test="my_full_text_search != null">
-			note s.like CONCAT('%',#{my_full_text_search}, '%')			
+		WHERE (sh.name like CONCAT('%',#{my_full_text_search}, '%') and s.idship = sh.id)			
 		</if>
-		s.idship = sh.id order by s.id;
+		order by s.id;
 	</select>
 
 

@@ -51,7 +51,6 @@
 		ship
 		<if test="my_full_text_search != null">
 			WHERE (
-			id like CONCAT('%', #{my_full_text_search}, '%') or
 			name like CONCAT('%', #{my_full_text_search}, '%') or
 			line like CONCAT('%', #{my_full_text_search}, '%') or
 			shiptype like CONCAT('%', #{my_full_text_search}, '%') or

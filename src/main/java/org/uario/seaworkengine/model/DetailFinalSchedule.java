@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(namespace = "org.uario.seaworkengine.model")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DetailFinalSchedule implements Serializable {
+public class DetailFinalSchedule implements Serializable, Comparable<DetailFinalSchedule> {
 
 	@XmlTransient
 	private static final long	serialVersionUID	= 1L;
@@ -34,6 +34,24 @@ public class DetailFinalSchedule implements Serializable {
 	// to show in overview
 	@XmlTransient
 	private String				user;
+
+	@Override
+	public int compareTo(final DetailFinalSchedule o) {
+		if (o == null) {
+			return -1;
+		}
+		if (!(o instanceof DetailFinalSchedule)) {
+			return -1;
+		}
+		if (this.getDate_schedule() == null) {
+			return -1;
+		}
+		final DetailFinalSchedule item = o;
+		if (item.getDate_schedule() == null) {
+			return 1;
+		}
+		return this.getDate_schedule().compareTo(item.getDate_schedule());
+	}
 
 	public Date getDate_schedule() {
 		return this.date_schedule;
