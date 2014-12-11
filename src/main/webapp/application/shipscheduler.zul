@@ -43,17 +43,17 @@
 				<tab label="Informazioni Generali" id="detail_scheduleShip_tab"
 					selected="true" />
 				
-				<tab label="Tipo" visible="false"
+				<tab label="Dettagli di programmazione" visible="true"
 					id="type_ship_tab" />
 							
 			</tabs>
 			<tabpanels>
-				<!-- Tab Comments Content -->
+				<!-- Tab Ship Program -->
 				<tabpanel>
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<caption iconSclass="z-icon-star orange"
-							label="Dettagli programma">
+							label="Programmazione Nave">
 
 							<toolbarbutton id="add_scheduleShips_command"
 								label="Aggiungi Programmazione"  style="color: blue" visible="false">
@@ -121,8 +121,123 @@
 					</panel>
 
 				</tabpanel>
-
 				
+				<!-- Tab Ship Program Detail -->
+				<tabpanel>
+					<panel border="normal" collapsible="false"
+						sclass="transparent">
+						<caption iconSclass="z-icon-star orange"
+							label="Dettagli di Programmazione Nave">
+
+							<toolbarbutton id="add_scheduleShipsDetail_command"
+								label="Aggiungi Dettaglio"  style="color: blue" visible="true">
+							</toolbarbutton>
+
+							<toolbarbutton id="modify_ScheduleshipsDetail_command"
+								label="Modifica Dettaglio" style="color: blue" visible="false">
+							</toolbarbutton>
+
+						</caption>
+
+						<panelchildren>
+
+							<grid sclass="domain">
+								<columns>
+									<column label="Type" />
+									<column label="Informazioni" />
+								</columns>
+								<rows>
+									<row>
+										<label
+											value="Turno:">
+										</label>
+										<combobox id="shift" readonly="true" placeholder="Seleziona Turno"
+											mold="rounded" />
+									</row>
+
+									<row>
+										<label
+											value="Operazione">
+										</label>
+										<textbox id="operation"
+											mold="rounded" />
+
+									</row>									
+									
+									<row>
+										<label value="Nome Preposto"></label>
+										<textbox id="user" />
+									</row>
+
+									<row>
+										<label
+											value="Mani di lavoro">
+										</label>
+										<textbox id="handswork" />
+									</row>
+									
+									
+									
+		
+									
+									
+
+									
+
+								</rows>
+							</grid>
+							
+							<listbox id="sw_list_scheduleDetailShip" pagingPosition="both" mold="paging"
+											onSelect="grid_scheduleShip_details.setVisible(false)"
+											style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+											pageSize="10">
+											<listhead sizable="true">
+												<listheader label="Turno" sort="auto(id)" />
+												<listheader label="Operazione" />
+												<listheader label="Nome preposto" />
+												<listheader label="Mani di lavoro" />
+												
+												
+												
+												<listheader label="" />
+											</listhead>
+									
+											<listitem  self="@{each='scheduleship_item'}" value="@{scheduleship_item}">
+									
+												<listcell sclass="myBottonCell" label="@{scheduleship_item.id}" />
+												<listcell sclass="myBottonCell" label="@{scheduleship_item.name}" />
+												<listcell sclass="myBottonCell" label="@{scheduleship_item.volume}" />
+												<listcell sclass="myBottonCell" label="@{scheduleship_item.note}" />
+												
+									
+									
+												<listcell sclass="myBottonCell">
+									
+													<toolbarbutton id="sw_link_deleteDetailship"
+														style="color:blue"
+														onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
+														label="Cancella">
+													</toolbarbutton>
+									
+													<toolbarbutton id="sw_link_modifyscheduleDetailship"
+														style="color:blue"
+														onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
+														label="Visualizza e Modifica">
+													</toolbarbutton>
+													
+													
+									
+												</listcell>
+
+											</listitem>
+									
+										</listbox>
+
+						</panelchildren>
+
+					</panel>
+
+				</tabpanel>
 
 
 
@@ -205,6 +320,12 @@
 					style="color:blue"
 					onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
 					label="Visualizza e Modifica">
+				</toolbarbutton>
+				
+				<toolbarbutton id="sw_link_previewDetailship"
+					style="color:blue"
+					onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
+					label="Anteprima Dettagli">
 				</toolbarbutton>
 
 			</listcell>
