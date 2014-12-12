@@ -30,8 +30,7 @@
 		u.id as user,
 		s.shift,
 		s.date_schedule,
-		concat(u.firstname, '
-		', u.lastname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =
@@ -51,6 +50,9 @@
 			CONCAT('%', #{my_full_text_search},'%') or
 			u.employee_identification = #{my_full_text_search})
 		</if>
+		
+		order by u.lastname asc
+		
 	</select>
 
 
@@ -139,8 +141,7 @@
 		s.editor,
 		s.controller,
 		u.id as user,
-		concat(u.firstname, ' ',
-		u.lastname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
 		schedule s
@@ -182,8 +183,7 @@
 		s.editor,
 		s.controller,
 		u.id as user,
-		concat(u.firstname, ' ',
-		u.lastname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
 		schedule s
@@ -227,8 +227,7 @@
 		s.editor,
 		s.controller,
 		u.id as user,
-		concat(u.firstname, ' ',
-		u.lastname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
 		schedule s
@@ -268,8 +267,7 @@
 		s.editor,
 		s.controller,
 		u.id as user,
-		concat(u.firstname, ' ',
-		u.lastname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
 		schedule s
