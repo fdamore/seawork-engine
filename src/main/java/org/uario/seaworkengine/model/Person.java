@@ -93,6 +93,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private String				npass;
 
+	private Boolean				out_schedule;
+
 	@XmlTransient
 	private String				password;
 
@@ -287,6 +289,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.npass;
 	}
 
+	public Boolean getOut_schedule() {
+		return this.out_schedule;
+	}
+
 	@Override
 	public String getPassword() {
 		return this.password;
@@ -455,11 +461,11 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setDepartment(final String department) {
 		this.department = department;
-	}
+	};
 
 	public void setDriving_license(final String driving_license) {
 		this.driving_license = driving_license;
-	};
+	}
 
 	public void setDriving_license_emission(final java.util.Date driving_license_emission) {
 		this.driving_license_emission = driving_license_emission;
@@ -516,6 +522,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setNpass(final String npass) {
 		this.npass = npass;
+	}
+
+	public void setOut_schedule(final Boolean out_schedule) {
+		this.out_schedule = out_schedule;
 	}
 
 	public void setPassword(final String password) {

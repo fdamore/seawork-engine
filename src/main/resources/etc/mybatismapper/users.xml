@@ -41,7 +41,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM
 		user u where
 		u.authority =
@@ -85,7 +86,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM
 		user
 		u
@@ -127,7 +129,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM
 		user
 		u
@@ -173,7 +176,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM
 		user
 		u order by
@@ -213,7 +217,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM user u
 		WHERE
 		u.status <![CDATA[<>]]>
@@ -265,7 +270,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -316,7 +322,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM
 		user
 		u
@@ -359,7 +366,8 @@
 		u.provincia,
 		u.status,
 		u.personal_code,
-		u.sex
+		u.sex,
+		u.out_schedule
 		FROM
 		user
 		u
@@ -394,7 +402,8 @@
 		npass,
 		nbudge,
 		personal_code,
-		sex
+		sex,
+		out_schedule
 		)
 		VALUES
 		(#{email},
@@ -425,7 +434,8 @@
 		#{npass},
 		#{nbudge},
 		#{personal_code},
-		#{sex})
+		#{sex},
+		#{out_schedule})
 	</insert>
 
 	<delete id="deletePerson" parameterType="int">
@@ -473,7 +483,8 @@
 		provincia = #{provincia},
 		status = #{status},
 		personal_code = #{personal_code},
-		sex = #{sex}
+		sex = #{sex},
+		out_schedule = #{out_schedule}
 		WHERE id =
 		#{id}
 	</update>
