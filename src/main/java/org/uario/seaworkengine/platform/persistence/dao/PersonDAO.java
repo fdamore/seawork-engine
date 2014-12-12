@@ -46,6 +46,8 @@ public interface PersonDAO extends UserDetailsService {
 	 */
 	public List<Person> listAllPersons(String full_text_search);
 
+	public List<Person> listOperativePerson();
+
 	/**
 	 * List all person in the persistence engine
 	 *
@@ -57,7 +59,7 @@ public interface PersonDAO extends UserDetailsService {
 
 	/**
 	 * List all worker persons
-	 * 
+	 *
 	 * @param full_text_search
 	 *            TODO
 	 *
