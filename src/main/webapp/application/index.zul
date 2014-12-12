@@ -43,18 +43,18 @@
 						<button type="button" class="btn-success"
 							tooltiptext="Home e Dashboard" id="sw_home_button"
 							iconSclass="z-icon-signal" />
-							
+
 						<button type="button" class="btn-warning"
 							tooltiptext="Gestione Utenti" id="sw_user_button"
-							iconSclass="z-icon-group" />						
+							iconSclass="z-icon-group" />
 						<button type="button" class="btn-info"
 							tooltiptext="Programmazione Turni" id="sw_scheduler_button"
 							iconSclass="z-icon-pencil" />
-							
+
 						<button type="button" class="btn-primary"
 							tooltiptext="Gestione Navi" id="sw_ship_button"
-							iconSclass="z-icon-cogs" />	
-													
+							iconSclass="z-icon-cogs" />
+
 						<button type="button" class="btn-danger"
 							tooltiptext="Programmazione Navi" id="sw_shipScheduler_button"
 							iconSclass="z-icon-cogs" />
@@ -62,12 +62,7 @@
 					</div>
 
 
-					<!-- Search input-->
-					<!-- 
-						<div sclass="nav-search">
-						<bandbox placeholder="Search ..." sclass="input-prepend"/>
-						</div>
-					-->
+
 
 				</hlayout>
 			</div>
@@ -87,10 +82,10 @@
 
 			<include mode="defer" src="scheduler.zul"
 				id="include_scheduler" visible="false" />
-				
+
 			<include mode="defer" src="shipdetail.zul"
-				id="include_ship_detail" visible="false"/>
-				
+				id="include_ship_detail" visible="false" />
+
 			<include mode="defer" src="shipscheduler.zul"
 				id="include_ship_scheduler" visible="false" />
 

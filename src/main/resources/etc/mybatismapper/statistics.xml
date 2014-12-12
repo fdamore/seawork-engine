@@ -8,7 +8,7 @@
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
 		select
-		concat(u.firstname, ' ', u.lastname) as user,
+		concat(u.lastname, ' ', u.firstname) as user,
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
@@ -42,13 +42,15 @@
 			<![CDATA[<=]]>
 			#{date_to})
 		</if>
+		
+		order by u.lastname asc
 
 	</select>
 
 	<select id="overviewInitalSchedule" resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
 		parameterType="map">
 		select
-		concat(u.firstname, ' ', u.lastname) as user,
+		concat(u.lastname, ' ', u.firstname) as user,
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
@@ -74,6 +76,8 @@
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
+		
+		order by u.lastname asc
 
 	</select>
 
