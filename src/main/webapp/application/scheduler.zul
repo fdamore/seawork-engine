@@ -866,114 +866,141 @@
 		<!-- PROGRAM -->
 		<div id="program_div" visible="false">
 			<popup id="shift_definition_popup" width="450px">
+
 				<vlayout style="margin: 5px 5px 5px 5px">
+
+					<vbox align="start">
+						<a id="scheduler_label"></a>
+						<a id="label_date_shift_program" sclass="header"
+							iconSclass="z-icon-check" />
+
+					</vbox>
+
+					<separator></separator>
 
 					<button id="ok_program" label="Salva Programmazione"
 						sclass="btn-info">
 					</button>
 
-					<panel border="normal" collapsible="false"
-						sclass="transparent">
-						<panelchildren>
+					<div id="div_force_shift">
+						<separator></separator>
+						<combobox id="force_shift_combo"
+							placeholder="Seleziona un turno...">
+						</combobox>
 
-							<vbox align="start">
-								<a id="scheduler_label"></a>
-								<a id="label_date_shift_program"
-									sclass="header" iconSclass="z-icon-check" />
+						<hbox align="center">
+							<a label="Turno di Lavoro"
+								id="programpopup_select_tl">
+							</a>
+							<a label="Turno di Riposo Programmato"
+								id="programpopup_select_rp">
+							</a>
+						</hbox>
 
-							</vbox>
+					</div>
 
-							<space></space>
+					<separator></separator>
 
-
-							<listbox id="listbox_program"
-								sclass="domain" checkmark="true" multiple="true">
-								<auxhead>
-									<auxheader colspan="2">
-										<label
-											value="Definizione del turno: ">
-										</label>
-
-										<combobox readonly="true"
-											placeholder="Mansioni" id="program_task">
-										</combobox>
-
-									</auxheader>
-								</auxhead>
-								<auxhead>
-									<auxheader colspan="2">
-
-										<label
-											value="Tempo lavorato: ">
-										</label>
-
-										<intbox placeholder="Ore..."
-											id="program_time_hours">
-										</intbox>
-
-										<intbox placeholder="Minuti..."
-											id="program_time_minuts">
-										</intbox>
-
-									</auxheader>
-								</auxhead>
-								<auxhead>
-									<auxheader colspan="2">
-
-										<button label="Aggiungi"
-											id="add_program_item" sclass="btn-info">
-										</button>
-
-										<button label="Cancella"
-											id="remove_program_item" sclass="btn-info">
-										</button>
-										<button id="cancel_program"
-											label="Cancella Programmazione" sclass="btn-danger">
-										</button>
-									</auxheader>
-								</auxhead>
-
-								<listhead>
-									<listheader label="Mansioni"></listheader>
-									<listheader
-										label="Tempo programmato" />
-								</listhead>
-
-								<listitem sclass="myCell"
-									self="@{each='item_program'}" value="@{item_program}">
-									<listcell>
-										<label width="200px"
-											value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
-										</label>
-									</listcell>
-									<listcell>
-										<label width="200px"
-											value="@{item_program.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
-										</label>
-									</listcell>
+					<div id="define_program_body">
 
 
-								</listitem>
+						<panel border="normal" collapsible="false"
+							sclass="transparent">
+							<panelchildren>
 
-							</listbox>
+								<separator></separator>
 
-						</panelchildren>
-					</panel>
 
-					<space></space>
+								<listbox id="listbox_program"
+									sclass="domain" checkmark="true" multiple="true">
+									<auxhead>
+										<auxheader colspan="2">
+											<label
+												value="Definizione del turno: ">
+											</label>
 
-					<panel border="none" collapsible="false"
-						title="Nota Giornaliera" sclass="transparent">
+											<combobox readonly="true"
+												placeholder="Mansioni" id="program_task">
+											</combobox>
 
-						<panelchildren>
-							<separator></separator>
+										</auxheader>
+									</auxhead>
+									<auxhead>
+										<auxheader colspan="2">
 
-							<textbox placeholder="Inserisci nota..."
-								width="400px" id="note_program" rows="5">
-							</textbox>
+											<label
+												value="Tempo lavorato: ">
+											</label>
 
-						</panelchildren>
-					</panel>
+											<intbox placeholder="Ore..."
+												id="program_time_hours">
+											</intbox>
+
+											<intbox
+												placeholder="Minuti..." id="program_time_minuts">
+											</intbox>
+
+										</auxheader>
+									</auxhead>
+									<auxhead>
+										<auxheader colspan="2">
+
+											<button label="Aggiungi"
+												id="add_program_item" sclass="btn-info">
+											</button>
+
+											<button label="Cancella"
+												id="remove_program_item" sclass="btn-info">
+											</button>
+											<button id="cancel_program"
+												label="Cancella Programmazione" sclass="btn-danger">
+											</button>
+										</auxheader>
+									</auxhead>
+
+									<listhead>
+										<listheader label="Mansioni"></listheader>
+										<listheader
+											label="Tempo programmato" />
+									</listhead>
+
+									<listitem sclass="myCell"
+										self="@{each='item_program'}" value="@{item_program}">
+										<listcell>
+											<label width="200px"
+												value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
+											</label>
+										</listcell>
+										<listcell>
+											<label width="200px"
+												value="@{item_program.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
+											</label>
+										</listcell>
+
+
+									</listitem>
+
+								</listbox>
+
+							</panelchildren>
+						</panel>
+
+						<space></space>
+
+						<panel border="none" collapsible="false"
+							title="Nota Giornaliera" sclass="transparent">
+
+							<panelchildren>
+								<separator></separator>
+
+								<textbox placeholder="Inserisci nota..."
+									width="400px" id="note_program" rows="5">
+								</textbox>
+
+							</panelchildren>
+						</panel>
+
+					</div>
 
 				</vlayout>
 

@@ -101,11 +101,6 @@ public class WorkAssignService implements IWorkShiftAssign {
 			}
 
 			if ((schedule == null) || (schedule.getShift() == null)) {
-				schedule.setDate_schedule(date_tomorrow);
-				schedule.setUser(person.getId());
-				schedule.setShift(work_shift.getId());
-
-				this.scheduleDAO.saveOrUpdateSchedule(schedule);
 
 				// assign work
 				this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
