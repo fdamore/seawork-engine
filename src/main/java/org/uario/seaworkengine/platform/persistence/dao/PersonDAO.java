@@ -36,13 +36,6 @@ public interface PersonDAO extends UserDetailsService {
 	 */
 	public List<Person> getSuspendendUsers();
 
-	/**
-	 * List all person in the persistence engine
-	 *
-	 * @return
-	 * @throws GenericExceptionInDAO
-	 */
-
 	public List<Person> listAllPersons();
 
 	/**
@@ -54,8 +47,19 @@ public interface PersonDAO extends UserDetailsService {
 	public List<Person> listAllPersons(String full_text_search);
 
 	/**
+	 * List all person in the persistence engine
+	 *
+	 * @return
+	 * @throws GenericExceptionInDAO
+	 */
+
+	public List<Person> listPersonInSchedule();
+
+	/**
 	 * List all worker persons
-	 * @param full_text_search TODO
+	 * 
+	 * @param full_text_search
+	 *            TODO
 	 *
 	 * @return Return a list of worker persons
 	 */

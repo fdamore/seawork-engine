@@ -136,6 +136,13 @@
 										</label>
 										<checkbox id="admin_user" />
 									</row>
+									
+									<row>
+										<label
+											value="Non in schedula">
+										</label>
+										<checkbox id="out_schedule_user" />
+									</row>
 
 									<row>
 										<label value="Ruolo Preposto"></label>

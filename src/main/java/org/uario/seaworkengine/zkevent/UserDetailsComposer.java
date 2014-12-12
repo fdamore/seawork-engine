@@ -156,6 +156,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Checkbox			operative_user;
 
 	@Wire
+	private Checkbox			out_schedule_user;
+
+	@Wire
 	private Textbox				password_editor_user;
 
 	@Wire
@@ -307,6 +310,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			person.setAuthority(UserTag.ROLE_USER);
 
 			final boolean admin = this.admin_user.isChecked();
+			person.setOut_schedule(this.out_schedule_user.isChecked());
 
 			if (admin) {
 				person.setAuthority(UserTag.ROLE_SUPERVISOR);
@@ -516,6 +520,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// set users
 		this.admin_user.setChecked(person_selected.isAdministrator());
+		this.out_schedule_user.setChecked(person_selected.getOut_schedule());
 		this.viewer_user.setChecked(person_selected.isViewer());
 		this.backoffice_user.setChecked(person_selected.isBackoffice());
 		this.operative_user.setChecked(person_selected.isOperative());
@@ -621,6 +626,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.person_selected.setFamily_charge(this.family_charge_user.getValue());
 		this.person_selected.setDriving_license(this.driving_license_user.getValue());
 		this.person_selected.setDriving_license_emission(this.driving_license_emission_user.getValue());
+		this.person_selected.setOut_schedule(this.out_schedule_user.isChecked());
 
 		// set authority
 		String auth = UserTag.ROLE_USER;
@@ -671,15 +677,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener<Event>() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposer.this.deleteUserCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposer.this.deleteUserCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -725,6 +731,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.operative_user.setChecked(Boolean.FALSE);
 		this.backoffice_user.setChecked(Boolean.FALSE);
 		this.viewer_user.setChecked(Boolean.FALSE);
+		this.out_schedule_user.setChecked(Boolean.FALSE);
 
 		// set enable email (due becouse modify process)
 		this.email_user.setDisabled(false);
