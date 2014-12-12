@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="person">
 
-	<cache />
+	<cache-ref namespace="schedule" />
 
 
 
@@ -44,10 +44,11 @@
 		u.sex,
 		u.out_schedule
 		FROM
-		user u 
-		where (	u.authority like CONCAT('%', 'ROLE_SUPERVISOR', '%') )
+		user u
+		where ( u.authority like CONCAT('%', 'ROLE_SUPERVISOR', '%') )
 		order
-		by u.status
+		by
+		u.status
 		asc
 
 	</select>
@@ -87,10 +88,11 @@
 		u.sex,
 		u.out_schedule
 		FROM
-		user u 
-		where (	u.authority like CONCAT('%', 'ROLE_OPERATIVE', '%') )
+		user u
+		where ( u.authority like CONCAT('%', 'ROLE_OPERATIVE', '%') )
 		order
-		by u.status
+		by
+		u.status
 		asc
 
 	</select>
@@ -133,7 +135,7 @@
 		user
 		u
 		WHERE
-		u.out_schedule = 0 
+		u.out_schedule = 0
 		order by u.firstname
 		asc
 	</select>
@@ -306,11 +308,12 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule
-		FROM user u
+		FROM
+		user u
 		WHERE
 		u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO'
+		'SOSPESO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -415,7 +418,8 @@
 		user
 		u
 		WHERE
-		u.status = #{idSuspended}
+		u.status =
+		#{idSuspended}
 	</select>
 
 
@@ -571,7 +575,8 @@
 		status = #{status},
 		personal_code = #{personal_code},
 		sex = #{sex},
-		out_schedule = #{out_schedule}
+		out_schedule =
+		#{out_schedule}
 		WHERE id =
 		#{id}
 	</update>

@@ -13,7 +13,7 @@
 		FROM schedule
 		WHERE date_schedule = #{dt_arg};
 	</select>
-	
+
 	<select id="loadScheduleById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.Schedule">
 		SELECT id, date_schedule, user, note, editor, controller,
@@ -30,7 +30,8 @@
 		u.id as user,
 		s.shift,
 		s.date_schedule,
-		concat(u.lastname, ' ', u.firstname) AS name_user
+		concat(u.lastname, '
+		', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =
@@ -40,7 +41,7 @@
 		#{date_to})
 		where u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO'
+		'SOSPESO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -50,9 +51,9 @@
 			CONCAT('%', #{my_full_text_search},'%') or
 			u.employee_identification = #{my_full_text_search})
 		</if>
-		
+
 		order by u.lastname asc
-		
+
 	</select>
 
 
@@ -134,13 +135,14 @@
 		select
 		s.id,
 		s.shift,
-		ds.shift as no_shift,		
+		ds.shift as no_shift,
 		sum(ds.time) as program_time,
 		s.date_schedule,
 		s.note,
 		s.editor,
 		s.controller,
-		u.id as user,
+		u.id as
+		user,
 		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
@@ -148,11 +150,13 @@
 		left join
 		detailinitialschedule ds ON (s.id = ds.id_schedule)
 		where
-		u.id = s.user
-		and s.date_schedule >= #{date_from} and s.date_schedule <![CDATA[<]]>
+		u.id
+		= s.user
+		and s.date_schedule >= #{date_from} and
+		s.date_schedule <![CDATA[<]]>
 		#{date_to} and u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO'
+		'SOSPESO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%',
@@ -190,12 +194,13 @@
 		left join
 		detailfinalschedule ds ON (s.id = ds.id_schedule)
 		where
-		u.id = s.user
+		u.id =
+		s.user
 		and s.date_schedule >= #{date_from} and s.date_schedule  <![CDATA[<]]>
 		#{date_to}
 		and u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status  <![CDATA[<>]]>
-		'SOSPESO'
+		'SOSPESO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%',
@@ -234,10 +239,11 @@
 		left join
 		detailinitialschedule ds ON (s.id = ds.id_schedule)
 		where
-		u.id = s.user
+		u.id
+		= s.user
 		and s.date_schedule = #{date_from} and u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO'
+		'SOSPESO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -274,10 +280,11 @@
 		left join
 		detailfinalschedule ds ON (s.id = ds.id_schedule)
 		where
-		u.id = s.user
+		u.id =
+		s.user
 		and s.date_schedule = #{date_from} and u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO'
+		'SOSPESO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%',
