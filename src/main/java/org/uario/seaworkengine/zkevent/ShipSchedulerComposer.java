@@ -2,8 +2,11 @@ package org.uario.seaworkengine.zkevent;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
@@ -29,79 +32,79 @@ import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Timebox;
 
 public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID		= 1L;
+	private static final long				serialVersionUID		= 1L;
 
 	@Wire
-	private Component			add_scheduleShips_command;
+	private Component						add_scheduleShips_command;
 
 	@Wire
-	private Tab					detail_scheduleShip_tab;
+	private Tab								detail_scheduleShip_tab;
 
 	@Wire
-	private Textbox				full_text_search;
+	private Textbox							full_text_search;
 
 	@Wire
-	private Component			grid_scheduleShip_details;
+	private Component						grid_scheduleShip_details;
 
 	@Wire
-	private Textbox				handswork;
+	private Intbox							handswork;
 
-	private final Logger		logger					= Logger.getLogger(UserDetailsComposer.class);
+	private final List<DetailScheduleShip>	listDetailScheduleShip	= new ArrayList<DetailScheduleShip>();
 
-	@Wire
-	private Component			modify_Scheduleships_command;
-
-	@Wire
-	private Textbox				note;
+	private final Logger					logger					= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox				operation;
-
-	protected PersonDAO			personDao;
-
-	ScheduleShip				scheduleShip_selected	= null;
+	private Component						modify_Scheduleships_command;
 
 	@Wire
-	private Combobox			shift;
+	private Textbox							note;
 
 	@Wire
-	private Datebox				ship_arrivalDate;
+	private Textbox							operation;
+
+	protected PersonDAO						personDao;
+
+	ScheduleShip							scheduleShip_selected	= null;
 
 	@Wire
-	private Timebox				ship_arrivalTime;
-	@Wire
-	private Combobox			ship_name;
+	private Combobox						shift;
 
 	@Wire
-	private Doublebox			ship_volume;
-
-	protected IShip				shipDao;
-
-	protected IScheduleShip		shipSchedulerDao;
+	private Datebox							ship_arrival;
 
 	@Wire
-	private Intbox				shows_rows;
+	private Combobox						ship_name;
 
 	@Wire
-	private Listbox				sw_list_scheduleDetailShip;
+	private Doublebox						ship_volume;
+
+	protected IShip							shipDao;
+
+	protected IScheduleShip					shipSchedulerDao;
 
 	@Wire
-	private Listbox				sw_list_scheduleShip;
+	private Intbox							shows_rows;
 
 	@Wire
-	private Combobox			user;
+	private Listbox							sw_list_scheduleDetailShip;
 
-	protected PersonDAO			userPrep;
+	@Wire
+	private Listbox							sw_list_scheduleShip;
+
+	@Wire
+	private Combobox						user;
+
+	protected PersonDAO						userPrep;
 
 	@Listen("onClick = #add_scheduleShipsDetail_command")
 	public void addScheduleShipsDetailCommand() {
@@ -112,8 +115,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		} else {
 			final DetailScheduleShip detailScheduleShip = new DetailScheduleShip();
 
+			final Person userOperative = (Person) this.user.getSelectedItem().getValue();
+
 			detailScheduleShip.setShift((Integer) this.shift.getSelectedItem().getValue());
 			detailScheduleShip.setOperation(this.operation.getValue());
+			detailScheduleShip.setIduser(userOperative.getId());
+			detailScheduleShip.setHandswork(this.handswork.getValue());
+			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+			this.listDetailScheduleShip.add(detailScheduleShip);
+
+			final ListModelList<DetailScheduleShip> model = new ListModelList<DetailScheduleShip>(this.listDetailScheduleShip);
+			model.setMultiple(false);
+			this.sw_list_scheduleDetailShip.setModel(model);
 
 		}
 	}
@@ -122,10 +135,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void addShipCommand() {
 
 		if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.note.getValue() == ""
-				|| this.ship_arrivalTime.getValue() == null || this.ship_arrivalDate.getValue() == null) {
-			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+				|| this.ship_arrival.getValue() == null) {
+			Messagebox.show("Controllare i valori inseriti in Informazioni Generali.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		} else {
+
 			final ScheduleShip shipSchedule = new ScheduleShip();
 
 			final String shipName = this.ship_name.getSelectedItem().getValue().toString();
@@ -137,18 +151,29 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			shipSchedule.setNote(this.note.getValue());
 
 			// set arrival date and time
+			final Date arival = this.ship_arrival.getValue();
 
-			final Timestamp arrivalDate = new Timestamp(0);
-			arrivalDate.setTime(this.ship_arrivalTime.getValue().getTime());
-			arrivalDate.setDate(this.ship_arrivalDate.getValue().getDate());
-			arrivalDate.setMonth(this.ship_arrivalDate.getValue().getMonth());
-			arrivalDate.setYear(this.ship_arrivalDate.getValue().getYear());
-			shipSchedule.setArrivaldate(arrivalDate);
+			final Date arrivale_truncate = DateUtils.truncate(arival, Calendar.MINUTE);
+			final Timestamp timestamp = new Timestamp(arrivale_truncate.getTime());
+			shipSchedule.setArrivaldate(timestamp);
 
-			this.shipSchedulerDao.createScheduleShip(shipSchedule);
+			try {
+				this.shipSchedulerDao.createScheduleShip(shipSchedule);
+			} catch (final Exception e) {
+				Messagebox.show("Nome nave ed ora arrivo già presenti", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+				return;
+			}
+
+			final ScheduleShip myScheduleShip = this.shipSchedulerDao.loadScheduleShipByIdShipAndArrivalDate(shipSchedule.getIdship(),
+					shipSchedule.getArrivaldate());
+
+			for (final DetailScheduleShip item : this.listDetailScheduleShip) {
+				item.setIdscheduleship(myScheduleShip.getId());
+				this.shipSchedulerDao.createDetailScheduleShip(item);
+			}
 
 			// reset data info
-			this.resetDataInfo();
+			this.resetDataInfoTabProgram();
 
 			Messagebox.show("Programmazione aggiunta", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -160,6 +185,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.modify_Scheduleships_command.setVisible(false);
 
 		}
+	}
+
+	@Listen("onClick = #closeNoSave")
+	public void closeNoSave() {
+		this.resetDataInfoTabProgram();
 	}
 
 	@Listen("onClick = #sw_link_deleteship")
@@ -201,6 +231,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	private void defineScheduleShipDetailsView(final ScheduleShip scheduleShip_selected) {
 
+		if (scheduleShip_selected.getArrivaldate() == null) {
+			return;
+		}
+
 		final Ship ship = this.shipDao.loadShip(scheduleShip_selected.getIdship());
 
 		final List<Comboitem> listItem = this.ship_name.getItems();
@@ -223,10 +257,24 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.ship_volume.setValue(scheduleShip_selected.getVolume());
 		this.note.setValue(scheduleShip_selected.getNote());
+
 		// set arrival date and time
 		final Timestamp arrivalDate = scheduleShip_selected.getArrivaldate();
-		this.ship_arrivalDate.setValue(arrivalDate);
-		this.ship_arrivalTime.setValue(arrivalDate);
+		this.ship_arrival.setValue(arrivalDate);
+
+	}
+
+	@Listen("onClick = #sw_link_deleteDetailship")
+	public void deleteDetailship() {
+
+		for (final Listitem itm : this.sw_list_scheduleDetailShip.getSelectedItems()) {
+			final DetailScheduleShip detail_item = itm.getValue();
+			this.listDetailScheduleShip.remove(detail_item);
+		}
+
+		final ListModelList<DetailScheduleShip> model = new ListModelList<DetailScheduleShip>(this.listDetailScheduleShip);
+		model.setMultiple(false);
+		this.sw_list_scheduleDetailShip.setModel(model);
 
 	}
 
@@ -271,7 +319,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// add item in combobox ship name
 				if (modelComboBox_ShipName.getSize() == 0) {
 					Messagebox
-							.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+					.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 				}
 
 				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox_ShipName);
@@ -287,9 +335,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				ShipSchedulerComposer.this.shift.setModel(modelComboBox_Shift);
 
-				// add item in combobox user
-				final ListModel<Person> modelComboBox_User = new ListModelList<Person>(ShipSchedulerComposer.this.personDao.listAllPersons(null));
+				// add item operative users in combobox user
+				final ListModel<Person> modelComboBox_User = new ListModelList<Person>(ShipSchedulerComposer.this.personDao.listOperativePerson());
 				ShipSchedulerComposer.this.user.setModel(modelComboBox_User);
+
+				ShipSchedulerComposer.this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
 
 				ShipSchedulerComposer.this.setInitialView();
 
@@ -306,7 +356,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.note.getValue() == ""
-				|| this.ship_arrivalTime.getValue() == null || this.ship_arrivalDate.getValue() == null) {
+				|| this.ship_arrival == null) {
 			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		} else {
@@ -318,13 +368,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.scheduleShip_selected.setNote(this.note.getValue());
 
 			// set arrival date and time
-			final Timestamp arrivalDate = new Timestamp(0);
-			arrivalDate.setTime(this.ship_arrivalTime.getValue().getTime());
-			arrivalDate.setDate(this.ship_arrivalDate.getValue().getDate());
-			arrivalDate.setMonth(this.ship_arrivalDate.getValue().getMonth());
-			arrivalDate.setYear(this.ship_arrivalDate.getValue().getYear());
+			// set arrival date and time
+			final Date arival = this.ship_arrival.getValue();
 
-			this.scheduleShip_selected.setArrivaldate(arrivalDate);
+			final Date arrivale_truncate = DateUtils.truncate(arival, Calendar.MINUTE);
+			final Timestamp timestamp = new Timestamp(arrivale_truncate.getTime());
+			this.scheduleShip_selected.setArrivaldate(timestamp);
 
 			// update
 			this.shipSchedulerDao.updateScheduleShip(this.scheduleShip_selected);
@@ -334,7 +383,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.grid_scheduleShip_details.setVisible(false);
 
-			this.resetDataInfo();
+			this.resetDataInfoTabProgram();
 
 			Messagebox.show("Dati Programmazione aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
@@ -368,14 +417,27 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Reset data on ship grid
+	 * Reset data on ship detail program tab
 	 */
-	private void resetDataInfo() {
+	private void resetDataInfoTabDetail() {
+		this.shift.setSelectedItem(null);
+		this.operation.setValue("");
+		this.user.setSelectedItem(null);
+		this.handswork.setValue(null);
+	}
+
+	/**
+	 * Reset data on ship program tab
+	 */
+	private void resetDataInfoTabProgram() {
 		this.ship_name.setSelectedItem(null);
 		this.ship_volume.setValue(null);
 		this.note.setValue(null);
-		this.ship_arrivalDate.setValue(null);
-		this.ship_arrivalTime.setValue(null);
+		this.ship_arrival.setValue(null);
+
+		this.listDetailScheduleShip.clear();
+		this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
+
 	}
 
 	/**

@@ -1,8 +1,10 @@
 package org.uario.seaworkengine.model;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlTransient;
 
-public class DetailScheduleShip {
+public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	/**
 	 *
@@ -18,6 +20,7 @@ public class DetailScheduleShip {
 	 */
 	@XmlTransient
 	private String	firstname;
+
 	private Integer	handswork;
 	private Integer	id;
 	private Integer	idscheduleship;
@@ -29,7 +32,14 @@ public class DetailScheduleShip {
 	 */
 	@XmlTransient
 	private String	secondname;
+
 	private Integer	shift;
+
+	@Override
+	public int compareTo(final Person o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	public String getFirstname() {
 		return this.firstname;

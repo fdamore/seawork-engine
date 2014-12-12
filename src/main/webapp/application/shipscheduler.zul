@@ -32,8 +32,8 @@
 			sclass="subtitle" />
 
 
-		<button label="Chiudi Senza Salvare" sclass="btn-danger"
-			onClick="grid_scheduleShip_details.setVisible(false);add_scheduleShips_command.setVisible(false);modify_Scheduleships_command.setVisible(false);ship_name.setValue(null);ship_volume.setValue(null);note.setValue(null);ship_arrivalDate.setValue(null);ship_arrivalTime.setValue(null);">
+		<button label="Chiudi Senza Salvare" sclass="btn-danger" id="closeNoSave"
+			onClick="grid_scheduleShip_details.setVisible(false);add_scheduleShips_command.setVisible(false);modify_Scheduleships_command.setVisible(false);ship_name.setValue(null);ship_volume.setValue(null);note.setValue(null);ship_arrival.setValue(null);">
 		</button>
 		<button label="Salva Programmazione" sclass="btn-success" id="add_scheduleShips_command">
 		</button>
@@ -96,16 +96,10 @@
 										<label
 											value="Data di arrivo">
 										</label>
-										<datebox id="ship_arrivalDate" />
+										<datebox id="ship_arrival" format="medium+long" onCreate="self.setValue(new Date())" />
 									</row>
-									
-									<row>
-										<label
-											value="Orario di arrivo">
-										</label>
-										<timebox id="ship_arrivalTime" />
-									</row>
-
+								
+								
 									
 
 								</rows>
@@ -169,28 +163,19 @@
 										<label
 											value="Mani di lavoro">
 										</label>
-										<textbox id="handswork" />
+										<intbox id="handswork" />
 									</row>
-									
-									
-									
 		
-									
-									
-
-									
-
 								</rows>
 							</grid>
 							
 							
 							
 							<listbox id="sw_list_scheduleDetailShip" pagingPosition="both" mold="paging"
-											onSelect="grid_scheduleShip_details.setVisible(false)"
-											style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+											style="border: 1px solid #CCCCCC;" multiple="false"
 											pageSize="10">
 											<listhead sizable="true">
-												<listheader label="Turno" sort="auto(id)" />
+												<listheader label="Turno" />
 												<listheader label="Operazione" />
 												<listheader label="Nome preposto" />
 												<listheader label="Mani di lavoro" />
@@ -200,12 +185,12 @@
 												<listheader label="" />
 											</listhead>
 									
-											<listitem  self="@{each='scheduleship_item'}" value="@{scheduleship_item}">
+											<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
 									
-												<listcell sclass="myBottonCell" label="@{scheduleship_item.id}" />
-												<listcell sclass="myBottonCell" label="@{scheduleship_item.name}" />
-												<listcell sclass="myBottonCell" label="@{scheduleship_item.volume}" />
-												<listcell sclass="myBottonCell" label="@{scheduleship_item.note}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
 												
 									
 									
@@ -213,17 +198,9 @@
 									
 													<toolbarbutton id="sw_link_deleteDetailship"
 														style="color:blue"
-														onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
+														onClick="sw_list_scheduleDetailShip.selectItem((Listitem)self.getParent().getParent());sw_list_scheduleDetailShip.setSelectedItem((Listitem)self.getParent().getParent());"
 														label="Cancella">
 													</toolbarbutton>
-									
-													<toolbarbutton id="sw_link_modifyscheduleDetailship"
-														style="color:blue"
-														onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
-														label="Visualizza e Modifica">
-													</toolbarbutton>
-													
-													
 									
 												</listcell>
 
