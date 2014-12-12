@@ -46,8 +46,7 @@ public class ConverterShift4 implements TypeConverter {
 
 		// return info
 		if (status != null) {
-			final Toolbarbutton button = (Toolbarbutton) arg1;
-			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
+			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE) || status.equals(ShiftTag.USER_WORKER_FORZABLE)) {
 				if ((item_schedule.getSchedule() != null) && (item_schedule.getSchedule().getShift() != null)) {
 					final Integer shift = item_schedule.getSchedule().getShift();
 					final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
