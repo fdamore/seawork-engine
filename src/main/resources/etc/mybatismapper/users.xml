@@ -44,10 +44,52 @@
 		u.sex,
 		u.out_schedule
 		FROM
-		user u where
-		u.authority =
-		'ROLE_SUPERVISOR' or u.authority =
-		'ROLE_BACKOFFICE' order
+		user u 
+		where (	u.authority like CONCAT('%', 'ROLE_SUPERVISOR', '%') )
+		order
+		by u.status
+		asc
+
+	</select>
+
+	<select id="usersOperative" resultType="org.uario.seaworkengine.model.Person">
+
+		select
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status,
+		u.personal_code,
+		u.sex,
+		u.out_schedule
+		FROM
+		user u 
+		where (	u.authority like CONCAT('%', 'ROLE_OPERATIVE', '%') )
+		order
 		by u.status
 		asc
 

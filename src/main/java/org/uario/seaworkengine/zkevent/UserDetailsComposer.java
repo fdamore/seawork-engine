@@ -303,18 +303,44 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				person.setSex(false);
 			}
 
+			person.setOut_schedule(this.out_schedule_user.isChecked());
+
 			// add initial status
 			person.setStatus(UserStatusTag.OPEN);
 
 			// set authority
-			person.setAuthority(UserTag.ROLE_USER);
-
-			final boolean admin = this.admin_user.isChecked();
-			person.setOut_schedule(this.out_schedule_user.isChecked());
-
-			if (admin) {
-				person.setAuthority(UserTag.ROLE_SUPERVISOR);
+			String auth = UserTag.ROLE_USER;
+			if (this.admin_user.isChecked()) {
+				auth = UserTag.ROLE_SUPERVISOR;
 			}
+
+			if (this.operative_user.isChecked()) {
+				if (!auth.equals(UserTag.ROLE_USER)) {
+					auth = auth + "," + UserTag.ROLE_OPERATIVE;
+				} else {
+					auth = UserTag.ROLE_OPERATIVE;
+				}
+
+			}
+
+			if (this.backoffice_user.isChecked()) {
+				if (!auth.equals(UserTag.ROLE_USER)) {
+					auth = auth + "," + UserTag.ROLE_BACKOFFICE;
+				} else {
+					auth = UserTag.ROLE_BACKOFFICE;
+				}
+
+			}
+
+			if (this.viewer_user.isChecked()) {
+				if (!auth.equals(UserTag.ROLE_USER)) {
+					auth = auth + "," + UserTag.ROLE_VIEWER;
+				} else {
+					auth = UserTag.ROLE_VIEWER;
+				}
+			}
+
+			person.setAuthority(auth);
 
 			// set enable true by default
 			person.setEnabled(Boolean.TRUE);
@@ -637,21 +663,29 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		if (this.operative_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_OPERATIVE;
+			} else {
+				auth = UserTag.ROLE_OPERATIVE;
 			}
+
 		}
 
 		if (this.backoffice_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_BACKOFFICE;
-
+			} else {
+				auth = UserTag.ROLE_BACKOFFICE;
 			}
+
 		}
 
 		if (this.viewer_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_VIEWER;
+			} else {
+				auth = UserTag.ROLE_VIEWER;
 			}
 		}
+
 		this.person_selected.setAuthority(auth);
 
 		// update
@@ -677,15 +711,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener<Event>() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposer.this.deleteUserCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposer.this.deleteUserCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		});
 
 	}
 
