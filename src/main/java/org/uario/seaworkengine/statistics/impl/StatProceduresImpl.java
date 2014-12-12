@@ -56,16 +56,13 @@ public class StatProceduresImpl implements IStatProcedure {
 			int min = 1;
 			if (((last_shift != null) && (last_shift == 3))) {
 				min = 2;
+			} else if (((last_shift != null) && (last_shift == 4))) {
+				min = 3;
 			}
-			else
-				if (((last_shift != null) && (last_shift == 4))) {
-					min = 3;
-				}
 
 			my_shift = min + (int) (Math.random() * 4);
 
-		}
-		else {
+		} else {
 			if ((last_shift == null) || (last_shift == 1) || (last_shift == 2)) {
 				my_shift = averages[0].getShift();
 			}
@@ -117,6 +114,44 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * java.lang.Integer)
 	 */
 	@Override
+	public void shiftAssign(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
+
+		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
+
+		// refresh info about just saved schedule
+		Schedule schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
+
+		// if schedule == null, create it
+		if (schedule == null) {
+			schedule = new Schedule();
+		}
+
+		// override info
+		schedule.setShift(shift.getId());
+		schedule.setDate_schedule(truncDate);
+		schedule.setUser(user);
+		if (editor != null) {
+			schedule.setEditor(editor);
+		}
+
+		// override
+		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
+
+		// refresh info about just saved schedule
+		schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
+
+		this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
+	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
+	 * java.lang.Integer)
+	 */
+	@Override
 	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
@@ -126,25 +161,27 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		// if schedule == null, create it
 		if (schedule == null) {
-			final Schedule current_scheudule = new Schedule();
-			current_scheudule.setShift(shift.getId());
-			current_scheudule.setDate_schedule(truncDate);
-			current_scheudule.setUser(user);
-			if (editor != null) {
-				current_scheudule.setEditor(editor);
-			}
-
-			this.myScheduleDAO.saveOrUpdateSchedule(current_scheudule);
-
-			// refresh info about just saved schedule
-			schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
+			schedule = new Schedule();
 		}
+
+		// override info
+		schedule.setShift(shift.getId());
+		schedule.setDate_schedule(truncDate);
+		schedule.setUser(user);
+		if (editor != null) {
+			schedule.setEditor(editor);
+		}
+
+		// override
+		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
+
+		// refresh info about just saved schedule
+		schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
 
 		// if the shift is an absence, delete all details
 		if (!shift.getPresence().booleanValue()) {
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-		}
-		else {
+		} else {
 
 			// check if there is any default task (MANSIONE STANDARD)
 			final UserTask task_default = this.myTaskDAO.getDefault(user);

@@ -253,7 +253,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	}
 
 	public String getIndividualName() {
-		final String ret = this.getFirstname() + " " + this.getLastname();
+		final String ret = this.getLastname() + " " + this.getFirstname();
 		if (ret.trim().equals("")) {
 			return this.getEmail();
 		} else {

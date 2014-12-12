@@ -866,118 +866,143 @@
 		<!-- PROGRAM -->
 		<div id="program_div" visible="false">
 			<popup id="shift_definition_popup" width="450px">
-				<panel border="normal" collapsible="false"
-					style="margin: 5px 5px 5px 5px" sclass="transparent">
-					<panelchildren>
 
-						<vbox align="start">
-							<a id="scheduler_label"></a>
-							<a id="label_date_shift_program"
-								sclass="header" iconSclass="z-icon-check" />
+				<vlayout style="margin: 5px 5px 5px 5px">
 
-						</vbox>
+					<vbox align="start">
+						<a id="scheduler_label"></a>
+						<a id="label_date_shift_program" sclass="header"
+							iconSclass="z-icon-check" />
+
+					</vbox>
+
+					<separator></separator>
+
+					<button id="ok_program" label="Salva Programmazione"
+						sclass="btn-info">
+					</button>
+
+					<div id="div_force_shift">
+						<separator></separator>
+						<combobox id="force_shift_combo"
+							placeholder="Seleziona un turno...">
+						</combobox>
+
+						<hbox align="center">
+							<a label="Turno di Lavoro"
+								id="programpopup_select_tl">
+							</a>
+							<a label="Turno di Riposo Programmato"
+								id="programpopup_select_rp">
+							</a>
+						</hbox>
+
+					</div>
+
+					<separator></separator>
+
+					<div id="define_program_body">
+
+
+						<panel border="normal" collapsible="false"
+							sclass="transparent">
+							<panelchildren>
+
+								<separator></separator>
+
+
+								<listbox id="listbox_program"
+									sclass="domain" checkmark="true" multiple="true">
+									<auxhead>
+										<auxheader colspan="2">
+											<label
+												value="Definizione del turno: ">
+											</label>
+
+											<combobox readonly="true"
+												placeholder="Mansioni" id="program_task">
+											</combobox>
+
+										</auxheader>
+									</auxhead>
+									<auxhead>
+										<auxheader colspan="2">
+
+											<label
+												value="Tempo lavorato: ">
+											</label>
+
+											<intbox placeholder="Ore..."
+												id="program_time_hours">
+											</intbox>
+
+											<intbox
+												placeholder="Minuti..." id="program_time_minuts">
+											</intbox>
+
+										</auxheader>
+									</auxhead>
+									<auxhead>
+										<auxheader colspan="2">
+
+											<button label="Aggiungi"
+												id="add_program_item" sclass="btn-info">
+											</button>
+
+											<button label="Cancella"
+												id="remove_program_item" sclass="btn-info">
+											</button>
+											<button id="cancel_program"
+												label="Cancella Programmazione" sclass="btn-danger">
+											</button>
+										</auxheader>
+									</auxhead>
+
+									<listhead>
+										<listheader label="Mansioni"></listheader>
+										<listheader
+											label="Tempo programmato" />
+									</listhead>
+
+									<listitem sclass="myCell"
+										self="@{each='item_program'}" value="@{item_program}">
+										<listcell>
+											<label width="200px"
+												value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
+											</label>
+										</listcell>
+										<listcell>
+											<label width="200px"
+												value="@{item_program.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
+											</label>
+										</listcell>
+
+
+									</listitem>
+
+								</listbox>
+
+							</panelchildren>
+						</panel>
 
 						<space></space>
 
+						<panel border="none" collapsible="false"
+							title="Nota Giornaliera" sclass="transparent">
 
-						<listbox id="listbox_program" sclass="domain"
-							checkmark="true" multiple="true">
-							<auxhead>
-								<auxheader colspan="2">
-									<label
-										value="Definizione del turno: ">
-									</label>
+							<panelchildren>
+								<separator></separator>
 
-									<combobox readonly="true"
-										placeholder="Mansioni" id="program_task">
-									</combobox>
+								<textbox placeholder="Inserisci nota..."
+									width="400px" id="note_program" rows="5">
+								</textbox>
 
-								</auxheader>
-							</auxhead>
-							<auxhead>
-								<auxheader colspan="2">
+							</panelchildren>
+						</panel>
 
-									<label value="Tempo lavorato: ">
-									</label>
+					</div>
 
-									<intbox placeholder="Ore..."
-										id="program_time_hours">
-									</intbox>
-
-									<intbox placeholder="Minuti..."
-										id="program_time_minuts">
-									</intbox>
-
-								</auxheader>
-							</auxhead>
-							<auxhead>
-								<auxheader colspan="2">
-
-									<button label="Aggiungi"
-										id="add_program_item" sclass="btn-info">
-									</button>
-
-									<button label="Cancella"
-										id="remove_program_item" sclass="btn-info">
-									</button>
-									<button id="ok_program"
-										label="Salva" sclass="btn-info">
-									</button>
-									<button id="cancel_program"
-										label="Cancella Programmazione" sclass="btn-danger">
-									</button>
-								</auxheader>
-							</auxhead>
-
-							<listhead>
-								<listheader label="Mansioni"></listheader>
-								<listheader label="Tempo programmato" />
-							</listhead>
-
-							<listitem sclass="myCell"
-								self="@{each='item_program'}" value="@{item_program}">
-								<listcell>
-									<label width="200px"
-										value="@{item_program.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
-									</label>
-								</listcell>
-								<listcell>
-									<label width="200px"
-										value="@{item_program.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
-									</label>
-								</listcell>
-
-
-							</listitem>
-
-						</listbox>
-
-					</panelchildren>
-				</panel>
-
-				<space></space>
-
-				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" title="Nota Giornaliera"
-					sclass="transparent">
-					<caption>
-						<button id="save_report" label="Salva Nota"
-							sclass="btn-info" />
-
-					</caption>
-					<panelchildren>
-
-						<separator></separator>
-
-
-						<textbox placeholder="Inserisci nota..."
-							width="400px" id="note_program" rows="5">
-						</textbox>
-
-					</panelchildren>
-				</panel>
-
-
+				</vlayout>
 
 			</popup>
 
@@ -1381,138 +1406,137 @@
 
 			<!-- POPUP -->
 			<popup id="shift_definition_popup_review" width="800px">
-				<panel border="normal" collapsible="false"
-					style="margin: 5px 5px 5px 5px" sclass="transparent">
-					<panelchildren>
+				<vlayout style="margin: 5px 5px 5px 5px">
 
-						<vbox align="start">
-							<a id="scheduler_label_review"></a>
-							<a id="label_date_shift_review"
-								sclass="header" iconSclass="z-icon-check" />
-						</vbox>
-						<space></space>
+					<button id="ok_review" label="Salva Consuntivo"
+						sclass="btn-info">
+					</button>
 
-						<listbox id="listbox_review" sclass="domain"
-							checkmark="true" multiple="true">
-							<auxhead>
-								<auxheader colspan="4">
-									<label
-										value="Consuntivazione del turno">
-									</label>
+					<panel border="normal" collapsible="false"
+						sclass="transparent">
+						<panelchildren>
 
-									<combobox readonly="true"
-										placeholder="Mansioni" id="review_task">
-									</combobox>
+							<vbox align="start">
+								<a id="scheduler_label_review"></a>
+								<a id="label_date_shift_review"
+									sclass="header" iconSclass="z-icon-check" />
+							</vbox>
+							<space></space>
 
-									<timebox placeholder="Ora inizio"
-										id="time_from">
-									</timebox>
+							<listbox id="listbox_review" sclass="domain"
+								checkmark="true" multiple="true">
+								<auxhead>
+									<auxheader colspan="4">
+										<label
+											value="Consuntivazione del turno">
+										</label>
 
-									<timebox placeholder="Ora fine"
-										id="time_to">
-									</timebox>
+										<combobox readonly="true"
+											placeholder="Mansioni" id="review_task">
+										</combobox>
 
-								</auxheader>
-							</auxhead>
+										<timebox
+											placeholder="Ora inizio" id="time_from">
+										</timebox>
 
-							<auxhead>
-								<auxheader colspan="4">
+										<timebox placeholder="Ora fine"
+											id="time_to">
+										</timebox>
 
-									<label value="Tempo lavorato: ">
-									</label>
+									</auxheader>
+								</auxhead>
 
-									<intbox placeholder="Ore..."
-										id="review_time_hours">
-									</intbox>
+								<auxhead>
+									<auxheader colspan="4">
 
-									<intbox placeholder="Minuti..."
-										id="review_time_minuts">
-									</intbox>
+										<label
+											value="Tempo lavorato: ">
+										</label>
 
-								</auxheader>
-							</auxhead>
+										<intbox placeholder="Ore..."
+											id="review_time_hours">
+										</intbox>
 
-							<auxhead>
-								<auxheader colspan="4">
+										<intbox placeholder="Minuti..."
+											id="review_time_minuts">
+										</intbox>
 
-									<button label="Aggiungi"
-										id="add_review_item" sclass="btn-info">
-									</button>
+									</auxheader>
+								</auxhead>
 
-									<button label="Cancella"
-										id="remove_review_item" sclass="btn-info">
-									</button>
-									<button id="ok_review" label="Salva"
-										sclass="btn-info">
-									</button>
-									<button id="cancel_review"
-										label="Cancella Consuntivazione" sclass="btn-danger">
-									</button>
-								</auxheader>
-							</auxhead>
+								<auxhead>
+									<auxheader colspan="4">
 
-							<listhead>
-								<listheader label="Mansioni" />
-								<listheader label="Tempo Lavorato" />
-								<listheader label="Orario di ingresso" />
-								<listheader label="Orario di uscita" />
-							</listhead>
+										<button label="Aggiungi"
+											id="add_review_item" sclass="btn-info">
+										</button>
 
-							<listitem self="@{each='itemreview'}"
-								value="@{itemreview}">
+										<button label="Cancella"
+											id="remove_review_item" sclass="btn-info">
+										</button>
 
-								<listcell>
-									<label width="200px"
-										value="@{itemreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
-									</label>
-								</listcell>
-								<listcell>
-									<label width="200px"
-										value="@{itemreview.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
-									</label>
-								</listcell>
-								<listcell>
-									<label width="200px"
-										value="@{itemreview.time_from}">
-									</label>
-								</listcell>
-								<listcell>
-									<label width="200px"
-										value="@{itemreview.time_to}">
-									</label>
-								</listcell>
+										<button id="cancel_review"
+											label="Cancella Consuntivazione" sclass="btn-danger">
+										</button>
+									</auxheader>
+								</auxhead>
 
+								<listhead>
+									<listheader label="Mansioni" />
+									<listheader label="Tempo Lavorato" />
+									<listheader
+										label="Orario di ingresso" />
+									<listheader
+										label="Orario di uscita" />
+								</listhead>
 
-							</listitem>
+								<listitem self="@{each='itemreview'}"
+									value="@{itemreview}">
 
-						</listbox>
-
-					</panelchildren>
-				</panel>
-
-				<space></space>
-
-				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" title="Nota Giornaliera"
-					sclass="transparent">
-					<caption>
-						<button id="save_report_review"
-							label="Salva Nota" sclass="btn-info" />
-
-					</caption>
-					<panelchildren>
-
-						<separator></separator>
+									<listcell>
+										<label width="200px"
+											value="@{itemreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
+										</label>
+									</listcell>
+									<listcell>
+										<label width="200px"
+											value="@{itemreview.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
+										</label>
+									</listcell>
+									<listcell>
+										<label width="200px"
+											value="@{itemreview.time_from}">
+										</label>
+									</listcell>
+									<listcell>
+										<label width="200px"
+											value="@{itemreview.time_to}">
+										</label>
+									</listcell>
 
 
-						<textbox placeholder="Inserisci nota..."
-							width="400px" id="note_review" rows="5">
-						</textbox>
+								</listitem>
 
-					</panelchildren>
-				</panel>
+							</listbox>
 
+						</panelchildren>
+					</panel>
 
+					<space></space>
+
+					<panel border="none" collapsible="false"
+						title="Nota Giornaliera" sclass="transparent">
+						<panelchildren>
+							<separator></separator>
+
+							<textbox placeholder="Inserisci nota..."
+								width="400px" id="note_review" rows="5">
+							</textbox>
+
+						</panelchildren>
+					</panel>
+
+				</vlayout>
 
 			</popup>
 
