@@ -1,19 +1,12 @@
 package org.uario.seaworkengine.zkevent.converter;
 
 import org.uario.seaworkengine.model.UserShift;
-import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
-import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
-import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Toolbarbutton;
 
 public class ConverterShift4 implements TypeConverter {
-
-	private static final String	NO_DATA	= "_";
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -30,31 +23,23 @@ public class ConverterShift4 implements TypeConverter {
 
 		final ItemRowSchedule item_schedule = (ItemRowSchedule) arg0;
 
-		final Listcell listcell = (Listcell) arg1.getParent();
+		// get status
+		final String status = UtilityProgramRow.getCurrentStatus(item_schedule);
 
-		// define color
-		UtilityProgramRow.defineColorShiftConverter(listcell, item_schedule);
+		// define behavior
+		UtilityProgramRow.defineRowBeahvior(arg1, item_schedule, status);
 
-		// after define color.... check if disabled
-		final String status = item_schedule.getRowSchedule().getUser_status();
-		if (status != null) {
-			final Toolbarbutton button = (Toolbarbutton) arg1;
-			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
-				button.setDisabled(true);
-			}
-		}
+		// get user shift
+		final UserShift myShift = UtilityProgramRow.getCurrentUserShift(item_schedule);
 
 		// return info
 		if (status != null) {
 			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE) || status.equals(ShiftTag.USER_WORKER_FORZABLE)) {
 				if ((item_schedule.getSchedule() != null) && (item_schedule.getSchedule().getShift() != null)) {
-					final Integer shift = item_schedule.getSchedule().getShift();
-					final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
-					final UserShift myShift = shiftCache.getUserShift(shift);
 					if (myShift != null) {
 						return myShift.getCode();
 					} else {
-						return ConverterShift4.NO_DATA;
+						return UtilityProgramRow.NO_DATA;
 					}
 
 				}
@@ -62,7 +47,7 @@ public class ConverterShift4 implements TypeConverter {
 		}
 
 		if (item_schedule.getAnchor4() == null) {
-			return ConverterShift4.NO_DATA;
+			return UtilityProgramRow.NO_DATA;
 		} else {
 			return item_schedule.getAnchor4();
 		}

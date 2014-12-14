@@ -8,7 +8,7 @@ import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
-public class ShiftConverter implements TypeConverter {
+public class DayShiftConverter implements TypeConverter {
 
 	private static final String	NO_DATA			= "_";
 
@@ -33,7 +33,7 @@ public class ShiftConverter implements TypeConverter {
 
 		final Integer id_shift = day_schedule.getShift();
 		if (id_shift == null) {
-			return ShiftConverter.NO_DATA;
+			return DayShiftConverter.NO_DATA;
 		}
 
 		final UserShift shift = shiftCache.getUserShift(id_shift);
@@ -41,7 +41,7 @@ public class ShiftConverter implements TypeConverter {
 		final UserShift standardWork = shiftCache.getStandardWorkShift();
 
 		if (shift.equals(standardWork)) {
-			return ShiftConverter.STANDARD_WORK;
+			return DayShiftConverter.STANDARD_WORK;
 		} else {
 			return shift.getCode();
 		}

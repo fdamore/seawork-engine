@@ -1,27 +1,46 @@
 package org.uario.seaworkengine.zkevent.converter;
 
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ProgramColorTag;
 import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
-import org.uario.seaworkengine.zkevent.bean.RowSchedule;
+import org.zkoss.spring.SpringUtil;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Toolbarbutton;
 
 public class UtilityProgramRow {
+
+	public static final String	NO_DATA	= "_";
 
 	/**
 	 * color scheduler shift
 	 *
-	 * @param arg1
 	 * @param item_schedule
+	 * @param status
+	 *            TODO
+	 * @param arg1
 	 */
-	public static void defineColorShiftConverter(final Listcell listcell, final ItemRowSchedule item_schedule) {
-		final RowSchedule row = item_schedule.getRowSchedule();
-		final String status = row.getUser_status();
+	public static void defineRowBeahvior(final Component comp, final ItemRowSchedule item_schedule, final String status) {
+
 		if (status == null) {
 			return;
 		}
 
 		String color_stye = "background-color:" + ProgramColorTag.COLOR_WORKER;
+
+		// define worker not available - disable
+		if (status != null) {
+			final Toolbarbutton button = (Toolbarbutton) comp;
+			if (status.equals(ShiftTag.USER_WORKER_NOT_AVAILABLE)) {
+				button.setDisabled(true);
+			}
+		}
+
+		// define color
+		final Listcell listcell = (Listcell) comp.getParent();
 
 		if (status.equals(ShiftTag.USER_WORKER_AVAILABLE)) {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_WORKER;
@@ -33,6 +52,55 @@ public class UtilityProgramRow {
 
 		listcell.setStyle(color_stye);
 
+	}
+
+	/**
+	 * Get current status
+	 *
+	 * @param item_schedule
+	 * @return
+	 */
+	public static String getCurrentStatus(final ItemRowSchedule item_schedule) {
+		// define status
+		String status = ShiftTag.USER_WORKER_AVAILABLE;
+
+		UserShift myShift = null;
+
+		// define shift
+		if (item_schedule.getSchedule() != null) {
+			final Integer shift = item_schedule.getSchedule().getShift();
+			final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+			myShift = shiftCache.getUserShift(shift);
+
+			if (!myShift.getPresence().booleanValue()) {
+				status = ShiftTag.USER_WORKER_NOT_AVAILABLE;
+			}
+			if (myShift.getForceable().booleanValue()) {
+				status = ShiftTag.USER_WORKER_FORZABLE;
+			}
+		}
+
+		return status;
+
+	}
+
+	/**
+	 * Get current user shift
+	 *
+	 * @param item_schedule
+	 * @return
+	 */
+	public static UserShift getCurrentUserShift(final ItemRowSchedule item_schedule) {
+		UserShift myShift = null;
+
+		// define shift
+		if (item_schedule.getSchedule() != null) {
+			final Integer shift = item_schedule.getSchedule().getShift();
+			final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+			myShift = shiftCache.getUserShift(shift);
+		}
+
+		return myShift;
 	}
 
 }

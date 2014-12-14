@@ -26,7 +26,7 @@ public class ConverterShiftName implements TypeConverter {
 
 		// define color
 		final Listcell listcell = (Listcell) arg1;
-		UtilityProgramRow.defineColorShiftConverter(listcell, row.getItem_3());
+		UtilityProgramRow.defineRowBeahvior(listcell, row.getItem_3(), null);
 
 		return row.getName_user();
 
