@@ -26,7 +26,8 @@
     
     .z-button-users {
     	border-radius: 8px;
-    	background:#438EB9;    	
+    	background:#438EB9;
+    	    	
 	}
 	
 	.z-button-users:hover {
@@ -35,11 +36,13 @@
 	
 	.z-button-ships {
     	border-radius: 8px;
-    	background:#FFB752;    	
+    	background:#FFB752;   
+    	border-color:#FFB752; 	
 	}
 	
 	.z-button-ships:hover {
-		background:#CC9242;         
+		background:#CC9242;   
+		border-color:#FFB752;       
 	}
 		
     </style>
@@ -59,7 +62,7 @@
               <groupbox style="border: 1px solid grey" closable="false" mold="3d">
                     <caption iconSclass="z-icon-group" label="UTENTI" />                   
                     <hlayout>
-                        <vlayout width="260px" spacing="20px" style="padding-left: 30px;padding-top: 30px;padding-bottom: 30px; ">
+                        <vlayout width="260px" spacing="20px" style="padding-left: 30px;padding-top: 30px;padding-bottom: 30px; margin-right: 12px ">
                             <button class="z-button-users" label="GESTIONE UTENTI" id="sw_user_button_main" height="200px" width="210px" style="font-weight : bold;" iconSclass="z-icon-group" />
                             <button class="z-button-users" label="PROGRAMMAZIONE TURNI" id="sw_scheduler_button_main"  height="200px" width="210px" style="font-weight : bold;" iconSclass="z-icon-list" />
                         </vlayout>                                               
@@ -69,7 +72,7 @@
             <groupbox style="border: 1px solid grey; " closable="false" mold="3d" >
                     <caption iconSclass="z-icon-anchor" label="NAVI" />                   
                     <hlayout>
-                        <vlayout width="260px" spacing="20px" style="padding-left: 30px;padding-top: 30px;padding-bottom: 30px; ">
+                        <vlayout width="260px" spacing="20px" style="padding-left: 30px;padding-top: 30px;padding-bottom: 30px; margin-right: 12px">
                             <button class="z-button-ships" label="GESTIONE NAVI" id="sw_ship_button_main" height="200px" width="210px" style="font-weight : bold;" iconSclass="z-icon-anchor" />
                             <button class="z-button-ships" label="PROGRAMMAZIONE NAVI" id="sw_shipScheduler_button_main" height="200px" width="210px" style="font-weight : bold;" iconSclass="z-icon-th" />
                         </vlayout>                                               
