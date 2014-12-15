@@ -11,6 +11,7 @@
 <!-- Google Open Sans font -->
 <!-- Load fonts from local -->
 <?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
 
 <!-- Unmark if we want to use fonts from google server
 	<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
@@ -42,22 +43,23 @@
 					<div sclass="breadcrumb">
 						<button type="button" class="btn-success"
 							tooltiptext="Home e Dashboard" id="sw_home_button"
-							iconSclass="z-icon-signal" />
+							iconSclass="z-icon-home" visible="false"/>
 
-						<button type="button" class="btn-warning"
+						<button type="button" class="btn-info sw-btn-margin"
 							tooltiptext="Gestione Utenti" id="sw_user_button"
-							iconSclass="z-icon-group" />
+							iconSclass="z-icon-group"  visible="false" />
+						
 						<button type="button" class="btn-info"
 							tooltiptext="Programmazione Turni" id="sw_scheduler_button"
-							iconSclass="z-icon-pencil" />
+							iconSclass="z-icon-list"  visible="false" />
 
-						<button type="button" class="btn-primary"
+						<button type="button" class="btn-warning sw-btn-margin"
 							tooltiptext="Gestione Navi" id="sw_ship_button"
-							iconSclass="z-icon-cogs" />
+							iconSclass="z-icon-anchor"  visible="false"/>
 
-						<button type="button" class="btn-danger"
+						<button type="button" class="btn-warning"
 							tooltiptext="Programmazione Navi" id="sw_shipScheduler_button"
-							iconSclass="z-icon-cogs" />
+							iconSclass="z-icon-th"  visible="false"/>
 
 					</div>
 

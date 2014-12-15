@@ -59,6 +59,18 @@ public class IndexComposer extends SelectorComposer<Component> {
 	private Label				sw_brec_position;
 
 	@Wire
+	private Button				sw_home_button;
+
+	@Wire
+	private Button				sw_scheduler_button;
+
+	@Wire
+	private Button				sw_ship_button;
+
+	@Wire
+	private Button				sw_shipScheduler_button;
+
+	@Wire
 	private Button				sw_user_button;
 
 	@Override
@@ -85,6 +97,8 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_home_button")
 	public void showHome(final Event event) {
+
+		this.showNavigationButton(false);
 
 		this.include_home.setVisible(true);
 		this.include_user_detail.setVisible(false);
@@ -122,6 +136,14 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void showNavigationButton(final Boolean visible) {
+		this.sw_home_button.setVisible(visible);
+		this.sw_user_button.setVisible(visible);
+		this.sw_scheduler_button.setVisible(visible);
+		this.sw_ship_button.setVisible(visible);
+		this.sw_shipScheduler_button.setVisible(visible);
+	}
+
 	private void showPreferences(final Event event) {
 
 		this.include_home.setVisible(false);
@@ -141,8 +163,10 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_scheduler_button")
+	@Listen("onClick = #sw_scheduler_button, #sw_scheduler_button_main")
 	public void showProgramConfigurator(final Event event) {
+
+		this.showNavigationButton(true);
 
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(false);
@@ -160,8 +184,10 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_shipScheduler_button")
+	@Listen("onClick = #sw_shipScheduler_button, #sw_shipScheduler_button_main")
 	public void showShipDetails(final Event event) {
+
+		this.showNavigationButton(true);
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
@@ -177,8 +203,10 @@ public class IndexComposer extends SelectorComposer<Component> {
 		this.sw_brec_position.setValue(IndexComposer.SHIP_SCHEDULER_PAGE_NAME);
 	}
 
-	@Listen("onClick = #sw_ship_button")
+	@Listen("onClick = #sw_ship_button, #sw_ship_button_main")
 	public void showShipScheduler(final Event event) {
+
+		this.showNavigationButton(true);
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
@@ -195,8 +223,10 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_user_button")
+	@Listen("onClick = #sw_user_button, #sw_user_button_main")
 	public void showUserDetais(final Event event) {
+
+		this.showNavigationButton(true);
 
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(true);
