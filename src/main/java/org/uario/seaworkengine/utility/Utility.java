@@ -19,8 +19,28 @@ public class Utility {
 	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
 
 	/**
+	 * days betwewn date
+	 *
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static int daysBetweenDate(final Date date1, final Date date2) {
+
+		final long time_m_1 = date1.getTime();
+		final long time_m_2 = date2.getTime();
+
+		final long diff = Math.abs(time_m_2 - time_m_1);
+
+		final int ret = (int) diff / (1000 * 60 * 60 * 24);
+
+		return ret;
+
+	}
+
+	/**
 	 * Decimal to time
-	 * 
+	 *
 	 * @param source
 	 * @return
 	 */

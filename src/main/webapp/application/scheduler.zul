@@ -109,6 +109,12 @@
 											value="Ore Anno corrente: " />
 										<label id="work_current_year" />
 									</row>
+									
+									<row>
+										<label
+											value="Giorni consecutivi: " />
+										<label id="working_series" />
+									</row>
 
 									<row>
 										<label

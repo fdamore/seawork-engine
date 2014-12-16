@@ -2,6 +2,7 @@ package org.uario.seaworkengine.statistics.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
@@ -96,8 +98,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			my_shift = min_shift + (int) (Math.random() * 4);
 
-		}
-		else {
+		} else {
 			if ((last_shift == null) || (last_shift == 1) || (last_shift == 2)) {
 				my_shift = averages[0].getShift();
 			}
@@ -136,6 +137,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * @return how many day the user worked consequentially. 15 is mas countable
 	 *         number
 	 */
+	@Override
 	public Integer getWorkingSeries(final Date date, final Integer user) {
 
 		final Date my_pick_date = DateUtils.truncate(date, Calendar.DATE);
@@ -148,27 +150,45 @@ public class StatProceduresImpl implements IStatProcedure {
 		// get date_working
 		final List<Date> list = this.statisticDAO.getDateAtWork(user, date_begin, my_pick_date);
 
-		final int lenght_series = 0;
-
 		// current head series
-		Date currentHead = null;
+		Date currentdate = null;
 
-		for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
-			final Date item = (Date) iterator.next();
+		// collection integer
+		final ArrayList<Integer> int_array = new ArrayList<Integer>();
+
+		// the current length
+		int lenght_series = 0;
+
+		for (final Iterator<Date> iterator = list.iterator(); iterator.hasNext();) {
+
+			// get date
+			final Date item = iterator.next();
 
 			if (lenght_series == 0) {
-				currentHead = item;
+				lenght_series++;
+				currentdate = DateUtils.truncate(item, Calendar.DATE);
 				continue;
 			}
 
-			// TODO
-			// get series
+			final Date item_date = DateUtils.truncate(item, Calendar.DATE);
 
-			// if(DateUtils.)
+			// Difference between date
+			final int diff = Utility.daysBetweenDate(item_date, currentdate);
+
+			if (diff == 1) {
+				lenght_series++;
+				currentdate = DateUtils.truncate(item, Calendar.DATE);
+
+			} else {
+				int_array.add(new Integer(lenght_series));
+				lenght_series = 1;
+				currentdate = DateUtils.truncate(item, Calendar.DATE);
+
+			}
 
 		}
 
-		return lenght_series;
+		return Collections.max(int_array);
 
 	}
 
@@ -186,7 +206,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -224,7 +244,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -260,8 +280,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		// if the shift is an absence, delete all details
 		if (!shift.getPresence().booleanValue()) {
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-		}
-		else {
+		} else {
 
 			// check if there is any default task (MANSIONE STANDARD)
 			final UserTask task_default = this.myTaskDAO.getDefault(user);

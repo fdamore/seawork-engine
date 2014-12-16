@@ -337,6 +337,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Label							work_sundayandholiday_perc;
 
+	@Wire
+	private Label							working_series;
+
 	@Listen("onClick= #add_program_item")
 	public void addProgramItem() {
 
@@ -496,7 +499,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param editor
 	 * @param note
 	 */
-	private void assignShiftForDaySchedule(final UserShift shift, Date current_date_scheduled, final Integer user, final Schedule schedule, final Person editor, final String note) {
+	private void assignShiftForDaySchedule(final UserShift shift, Date current_date_scheduled, final Integer user, final Schedule schedule,
+			final Person editor, final String note) {
 
 		// truncate current date
 		current_date_scheduled = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
@@ -585,8 +589,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// to do
 			this.statProcedure.workAssignProcedure(shift, index_calendar.getTime(), user, editor.getId());
 			index_calendar.add(Calendar.DAY_OF_YEAR, 1);
-		}
-		while (!index_calendar.after(calendar_to));
+		} while (!index_calendar.after(calendar_to));
 
 		// hide panel if all is ok
 		this.panel_shift_period.setVisible(false);
@@ -604,8 +607,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Double time = null;
 		if (program) {
 			time = schedule.getProgram_time();
-		}
-		else {
+		} else {
 			time = schedule.getRevision_time();
 		}
 
@@ -727,16 +729,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final boolean presence = shift.getPresence();
 			if (presence) {
 				status = ShiftTag.USER_WORKER_AVAILABLE;
+			} else if (!presence && forzable) {
+				status = ShiftTag.USER_WORKER_FORZABLE;
 			}
-			else
-				if (!presence && forzable) {
-					status = ShiftTag.USER_WORKER_FORZABLE;
-				}
 
-				else
-					if (!presence && !forzable) {
-						status = ShiftTag.USER_WORKER_NOT_AVAILABLE;
-					}
+			else if (!presence && !forzable) {
+				status = ShiftTag.USER_WORKER_NOT_AVAILABLE;
+			}
 
 			map_status.put(id_user, status);
 
@@ -973,38 +972,37 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					code_task = task.getCode();
 				}
 
-				final String line = "" + item.getUser() + ";" + date + ";" + item.getShift() + ";" + code_task + ";" + item.getTime() + ";" + time_from + ";" + time_to + ";\n";
+				final String line = "" + item.getUser() + ";" + date + ";" + item.getShift() + ";" + code_task + ";" + item.getTime() + ";"
+						+ time_from + ";" + time_to + ";\n";
 				builder.append(line);
 			}
 
 			Filedownload.save(builder.toString(), "application/text", "revision.csv");
-		}
-		else
-			if (this.listDetailProgram != null) {
+		} else if (this.listDetailProgram != null) {
 
-				final StringBuilder builder = new StringBuilder();
-				final String header = "nome;data;turno;mansione;ore;\n";
-				builder.append(header);
+			final StringBuilder builder = new StringBuilder();
+			final String header = "nome;data;turno;mansione;ore;\n";
+			builder.append(header);
 
-				for (final DetailInitialSchedule item : this.listDetailProgram) {
-					String date = "";
-					if (item.getDate_schedule() != null) {
-						date = SchedulerComposer.formatDateOverview.format(item.getDate_schedule());
-					}
-
-					String code_task = "";
-					final UserTask task = this.task_cache.getUserTask(item.getTask());
-					if (task != null) {
-						code_task = task.getCode();
-					}
-
-					final String line = "" + item.getUser() + ";" + date + ";" + item.getShift() + ";" + code_task + ";" + item.getTime() + ";\n";
-					builder.append(line);
+			for (final DetailInitialSchedule item : this.listDetailProgram) {
+				String date = "";
+				if (item.getDate_schedule() != null) {
+					date = SchedulerComposer.formatDateOverview.format(item.getDate_schedule());
 				}
 
-				Filedownload.save(builder.toString(), "application/text", "program.csv");
+				String code_task = "";
+				final UserTask task = this.task_cache.getUserTask(item.getTask());
+				if (task != null) {
+					code_task = task.getCode();
+				}
 
+				final String line = "" + item.getUser() + ";" + date + ";" + item.getShift() + ";" + code_task + ";" + item.getTime() + ";\n";
+				builder.append(line);
 			}
+
+			Filedownload.save(builder.toString(), "application/text", "program.csv");
+
+		}
 
 	}
 
@@ -1017,8 +1015,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (my_shift.getPresence()) {
 			this.define_program_body.setVisible(true);
-		}
-		else {
+		} else {
 			this.define_program_body.setVisible(false);
 		}
 	}
@@ -1069,7 +1066,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param schedule
 	 */
-	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule, final boolean program) {
+	private ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule,
+			final boolean program) {
 
 		ItemRowSchedule itemsRow = null;
 
@@ -1080,13 +1078,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (day == 1) {
 				version_program = true;
 			}
-		}
-		else {
+		} else {
 
 			if (day == 1) {
 				version_program = false;
-			}
-			else {
+			} else {
 				version_program = true;
 			}
 		}
@@ -1318,8 +1314,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.label_date_popup.setLabel(msg);
 		if (current_shift != null) {
 			this.label_date_shift_preprocessing.setLabel(current_shift.toString());
-		}
-		else {
+		} else {
 			this.label_date_shift_preprocessing.setLabel(null);
 		}
 
@@ -1341,8 +1336,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (SchedulerComposer.this.currentSchedule != null) {
 			// set note_program
 			SchedulerComposer.this.note_preprocessing.setValue(SchedulerComposer.this.currentSchedule.getNote());
-		}
-		else {
+		} else {
 			// if we haven't information about schedule
 			this.note_preprocessing.setValue(null);
 		}
@@ -1404,7 +1398,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule)
+				+ ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// reset editor tools
 		this.program_time_hours.setValue(null);
@@ -1432,12 +1427,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				}
 
-			}
-			else {
+			} else {
 				if (this.shift_cache.getStandardWorkShift() != null) {
 					this.label_date_shift_program.setLabel(this.shift_cache.getStandardWorkShift().toString());
-				}
-				else {
+				} else {
 					this.label_date_shift_program.setLabel(null);
 				}
 			}
@@ -1446,10 +1439,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.note_program.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
 			// set initial program and revision
-			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
+			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(),
+					this.selectedShift);
 
-		}
-		else {
+		} else {
 			// if we haven't information about schedule
 			this.note_program.setValue(null);
 			this.listbox_program.getItems().clear();
@@ -1540,19 +1533,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
 		// set label
-		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+		this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: "
+				+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		// set label current shift
 		if (this.currentSchedule != null) {
 			final UserShift myshift = this.shift_cache.getUserShift(this.currentSchedule.getShift());
 			if (myshift != null) {
 				this.label_date_shift_review.setLabel(myshift.toString());
-			}
-			else {
+			} else {
 				if (this.shift_cache.getStandardWorkShift() != null) {
 					this.label_date_shift_review.setLabel(this.shift_cache.getStandardWorkShift().toString());
-				}
-				else {
+				} else {
 					this.label_date_shift_review.setLabel(null);
 				}
 			}
@@ -1567,8 +1559,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial program and revision
 			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
 
-		}
-		else {
+		} else {
 			// if we haven't information about schedule
 			this.note_review.setValue(null);
 			this.listbox_review.getItems().clear();
@@ -1666,7 +1657,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-					Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					Messagebox
+							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
@@ -1688,8 +1680,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				}
 
-			}
-			else {
+			} else {
 				// Remove only current day schedule
 				this.scheduleDAO.removeScheduleUserSuspended(row_item.getUser(), dayScheduleDate, dayScheduleDate);
 
@@ -1703,8 +1694,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// refresh grid
 			this.setupGlobalSchedulerGridForDay();
-		}
-		else {
+		} else {
 			return;
 		}
 
@@ -1862,8 +1852,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set only current day
 			this.assignShiftFromDaySchedule(row_item, shift, 0);
 
-		}
-		else {
+		} else {
 
 			// set multiple day..... check date before...
 
@@ -1919,7 +1908,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// assign shift ---- FORCE
 			final UserShift my_shift = this.force_shift_combo.getSelectedItem().getValue();
-			this.statProcedure.shiftAssign(my_shift, this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser(), this.currentSchedule.getEditor());
+			this.statProcedure.shiftAssign(my_shift, this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser(),
+					this.currentSchedule.getEditor());
 
 			// refresh current schedule
 			this.currentSchedule = this.scheduleDAO.loadSchedule(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
@@ -1952,7 +1942,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// check max 12 h in a day
-			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule.getId());
+			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule
+					.getId());
 			Double count = sum;
 			for (final DetailInitialSchedule dt : list_detail_schedule) {
 				count = count + dt.getTime();
@@ -2213,8 +2204,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				day_number.setStyle("color:red");
 				day_label.setStyle("color:red");
-			}
-			else {
+			} else {
 				day_number.setStyle("color:black");
 				day_label.setStyle("color:black");
 			}
@@ -2258,8 +2248,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -2309,8 +2298,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 				week_head.setStyle("color:red");
 				month_head.setStyle("color:red");
-			}
-			else {
+			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
 			}
@@ -2376,8 +2364,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_review.setPageSize(this.shows_rows.getValue());
 			}
-		}
-		else {
+		} else {
 
 			this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, date_from, date_to);
 
@@ -2405,8 +2392,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if ((this.full_text_search.getValue() == null) || this.full_text_search.getValue().equals("")) {
 			list = this.scheduleDAO.selectSchedulersForPreprocessing(this.firstDateInGrid, final_date, null);
-		}
-		else {
+		} else {
 			list = this.scheduleDAO.selectSchedulersForPreprocessing(this.firstDateInGrid, final_date, this.full_text_search.getValue());
 		}
 
@@ -2653,11 +2639,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		String text_search_person = null;
 		if ((this.full_text_search.getValue() == null) || this.full_text_search.getValue().equals("")) {
 			text_search_person = null;
-		}
-		else {
+		} else {
 			text_search_person = this.full_text_search.getValue();
 		}
-		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program, text_search_person);
+		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program,
+				text_search_person);
 
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -2711,7 +2697,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// get info
-		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(this.firstDateInGrid, initial_date_program, text_search_person);
+		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(this.firstDateInGrid, initial_date_program,
+				text_search_person);
 
 		// under revision
 		for (int i = 0; i < list_revision.size(); i++) {
@@ -2808,8 +2795,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		String text_search_person = null;
 		if ((this.full_text_search.getValue() == null) || this.full_text_search.getValue().equals("")) {
 			text_search_person = null;
-		}
-		else {
+		} else {
 			text_search_person = this.full_text_search.getValue();
 		}
 
@@ -2995,6 +2981,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.work_current_year.setValue("" + year_current_hours);
+
+		// working series
+		final Calendar take_tioday = Calendar.getInstance();
+		final Integer day_series = this.statProcedure.getWorkingSeries(take_tioday.getTime(), id_user);
+		String message = "0";
+		if (day_series <= 15) {
+			message = "" + day_series;
+		} else {
+			message = ">=" + day_series;
+		}
+		this.working_series.setValue(message);
 
 		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");
 	}

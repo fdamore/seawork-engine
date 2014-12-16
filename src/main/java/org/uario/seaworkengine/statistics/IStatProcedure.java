@@ -8,12 +8,21 @@ public interface IStatProcedure {
 
 	/**
 	 * Get minumim shift
-	 * 
+	 *
 	 * @param date_calendar_schedule
 	 * @param user
 	 * @return
 	 */
 	public Integer getMinimumShift(final Date date_calendar_schedule, Integer user);
+
+	/**
+	 * Get series
+	 * 
+	 * @param date
+	 * @param user
+	 * @return
+	 */
+	public Integer getWorkingSeries(final Date date, final Integer user);
 
 	/**
 	 * Assign shift... remove all details

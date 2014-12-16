@@ -136,16 +136,16 @@
 	</select>
 
 
-	<select id="dateAtWork" resultType="int" parameterType="map">
+	<select id="dateAtWork" resultType="java.util.Date" parameterType="map">
 		select
 		s.date_schedule
 		from
 		schedule s,
 		usershift us
 		where
-		s.date_schedule <![CDATA[>=]]>
+		s.date_schedule <![CDATA[<=]]>
 		#{date_schedule_to}
-		and s.date_schedule <![CDATA[<=]]>
+		and s.date_schedule <![CDATA[>=]]>
 		#{date_schedule_from}
 		and s.user = #{id_user}
 		and s.shift = us.id
