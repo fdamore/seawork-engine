@@ -24,6 +24,29 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	private IStatistics	statisticDAO;
 
+	/**
+	 * Get Minimum Shift
+	 * 
+	 * @return
+	 */
+	@Override
+	public Integer getMinimumShift(final Date date_calendar_schedule) {
+		// get a shift - 12 after last shift
+		final Integer last_shift = this.myScheduleDAO.getLastShift(date_calendar_schedule);
+		int min_shift = 1;
+		if (last_shift != null) {
+			if (last_shift == 3) {
+				min_shift = 2;
+			}
+			if (last_shift == 4) {
+				min_shift = 3;
+			}
+		}
+
+		return min_shift;
+
+	}
+
 	public ISchedule getMyScheduleDAO() {
 		return this.myScheduleDAO;
 	}
@@ -45,24 +68,29 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(current_date_scheduled);
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
-		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime());
 
 		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled);
 
 		// get a shift - 12 after last shift
+		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime());
+		int min_shift = 1;
+		if (last_shift != null) {
+			if (last_shift == 3) {
+				min_shift = 2;
+			}
+			if (last_shift == 4) {
+				min_shift = 3;
+			}
+		}
+
+		// get my shift
 		Integer my_shift = -1;
 		if ((averages == null) || (averages.length == 0)) {
 
-			int min = 1;
-			if (((last_shift != null) && (last_shift == 3))) {
-				min = 2;
-			} else if (((last_shift != null) && (last_shift == 4))) {
-				min = 3;
-			}
+			my_shift = min_shift + (int) (Math.random() * 4);
 
-			my_shift = min + (int) (Math.random() * 4);
-
-		} else {
+		}
+		else {
 			if ((last_shift == null) || (last_shift == 1) || (last_shift == 2)) {
 				my_shift = averages[0].getShift();
 			}
@@ -107,7 +135,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -145,7 +173,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -181,7 +209,8 @@ public class StatProceduresImpl implements IStatProcedure {
 		// if the shift is an absence, delete all details
 		if (!shift.getPresence().booleanValue()) {
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-		} else {
+		}
+		else {
 
 			// check if there is any default task (MANSIONE STANDARD)
 			final UserTask task_default = this.myTaskDAO.getDefault(user);

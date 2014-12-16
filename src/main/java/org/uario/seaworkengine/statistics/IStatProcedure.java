@@ -27,4 +27,6 @@ public interface IStatProcedure {
 	 */
 	public abstract void workAssignProcedure(UserShift shift, Date current_date_scheduled, Integer user, Integer editor);
 
+	public abstract Integer getMinimumShift(final Date date_calendar_schedule);
+
 }
