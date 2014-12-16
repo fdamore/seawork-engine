@@ -93,7 +93,9 @@
 		select max(dfs.shift)
 		from detailinitialschedule dfs, schedule s
 		where
-		s.id = dfs.id_schedule and s.date_schedule = #{date_schedule}
+		s.user = #{id_user} and
+		s.id = dfs.id_schedule and s.date_schedule =
+		#{date_schedule}
 	</select>
 
 	<select id="getLastShiftRevision" parameterType="map"
@@ -102,8 +104,8 @@
 		max(dfs.shift)
 		from detailfinalschedule dfs, schedule
 		s
-		where s.id
-		= dfs.id_schedule and s.date_schedule = #{date_schedule}
+		where s.user = #{id_user} and s.id = dfs.id_schedule and
+		s.date_schedule = #{date_schedule}
 	</select>
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"

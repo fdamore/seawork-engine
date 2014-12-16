@@ -110,6 +110,21 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public List<Date> getDateAtWork(final Integer id_user, final Date date_from, final Date date_to) {
+		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id_user", id_user);
+		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
+		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
+
+		final List<Date> ret = this.getSqlSession().selectOne("statistics.dateAtWork", map);
+
+		return ret;
+
+	}
+
+	@Override
 	public Date getDatesBreak(final Integer id_user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("getDatesBreak");
 
@@ -199,4 +214,5 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		return this.getSqlSession().selectList("statistics.overviewInitalSchedule", map);
 	}
+
 }

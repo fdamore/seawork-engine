@@ -42,7 +42,7 @@
 			<![CDATA[<=]]>
 			#{date_to})
 		</if>
-		
+
 		order by u.lastname asc
 
 	</select>
@@ -76,7 +76,7 @@
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
-		
+
 		order by u.lastname asc
 
 	</select>
@@ -134,6 +134,26 @@
 		and s_1.date_schedule <![CDATA[>=]]>
 		#{date_schedule_from}
 	</select>
+
+
+	<select id="dateAtWork" resultType="int" parameterType="map">
+		select
+		s.date_schedule
+		from
+		schedule s,
+		usershift us
+		where
+		s.date_schedule <![CDATA[>=]]>
+		#{date_schedule_to}
+		and s.date_schedule <![CDATA[<=]]>
+		#{date_schedule_from}
+		and s.user = #{id_user}
+		and s.shift = us.id
+		and us.presence = 1
+		order by s.date_schedule asc
+	</select>
+
+
 
 
 

@@ -34,18 +34,20 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public Integer getLastShift(final Date date_scheduled) {
+	public Integer getLastShift(final Date date_scheduled, final Integer user) {
 		MyBatisScheduleDAO.logger.info("getLastShift");
 
 		final Date dt_arg = DateUtils.truncate(date_scheduled, Calendar.DATE);
 
-		final HashMap<String, Date> map = new HashMap<String, Date>();
+		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("date_schedule", dt_arg);
+		map.put("id_user", user);
 
 		final Integer ret_int = this.getSqlSession().selectOne("schedule.getLastShiftRevision", map);
 		if (ret_int != null) {
 			return ret_int;
-		} else {
+		}
+		else {
 			return this.getSqlSession().selectOne("schedule.getLastShiftProgram", map);
 		}
 
@@ -239,7 +241,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		} else {
+		}
+		else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}

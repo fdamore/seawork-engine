@@ -1942,7 +1942,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// check for 12h constraits
 			if (sum != 0.0) {
-				final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule());
+				final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
 				if (this.selectedShift.compareTo(min_shift) < 0) {
 					Messagebox.show("Ci deve essere uno stacco di almeno 2 turni.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
@@ -2012,7 +2012,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// check for 12h constraits
 		if (sum != 0.0) {
-			final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule());
+			final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
 			if (this.selectedShift.compareTo(min_shift) < 0) {
 				Messagebox.show("Ci deve essere uno stacco di almeno 2 turni.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
 				return;

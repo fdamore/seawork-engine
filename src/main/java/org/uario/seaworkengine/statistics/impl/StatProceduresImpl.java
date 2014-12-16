@@ -3,6 +3,7 @@ package org.uario.seaworkengine.statistics.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -26,13 +27,19 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/**
 	 * Get Minimum Shift
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
-	public Integer getMinimumShift(final Date date_calendar_schedule) {
+	public Integer getMinimumShift(final Date date_calendar_schedule, final Integer user) {
+
+		// get info from last shift
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date_calendar_schedule);
+		calendar.add(Calendar.DAY_OF_YEAR, -1);
+
 		// get a shift - 12 after last shift
-		final Integer last_shift = this.myScheduleDAO.getLastShift(date_calendar_schedule);
+		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
 		int min_shift = 1;
 		if (last_shift != null) {
 			if (last_shift == 3) {
@@ -64,15 +71,15 @@ public class StatProceduresImpl implements IStatProcedure {
 	 */
 	private Integer getShiftNoForDay(final Date current_date_scheduled, final Integer user) {
 
+		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled);
+
 		// get info from last shift
 		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(current_date_scheduled);
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
 
-		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled);
-
 		// get a shift - 12 after last shift
-		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime());
+		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
 		int min_shift = 1;
 		if (last_shift != null) {
 			if (last_shift == 3) {
@@ -121,6 +128,50 @@ public class StatProceduresImpl implements IStatProcedure {
 		return this.statisticDAO;
 	}
 
+	/**
+	 * get working series lenght
+	 *
+	 * @param date
+	 * @param user
+	 * @return how many day the user worked consequentially. 15 is mas countable
+	 *         number
+	 */
+	public Integer getWorkingSeries(final Date date, final Integer user) {
+
+		final Date my_pick_date = DateUtils.truncate(date, Calendar.DATE);
+
+		// get begin date
+		final Calendar calendar = DateUtils.toCalendar(my_pick_date);
+		calendar.add(Calendar.DAY_OF_YEAR, -15);
+		final Date date_begin = calendar.getTime();
+
+		// get date_working
+		final List<Date> list = this.statisticDAO.getDateAtWork(user, date_begin, my_pick_date);
+
+		final int lenght_series = 0;
+
+		// current head series
+		Date currentHead = null;
+
+		for (final Iterator iterator = list.iterator(); iterator.hasNext();) {
+			final Date item = (Date) iterator.next();
+
+			if (lenght_series == 0) {
+				currentHead = item;
+				continue;
+			}
+
+			// TODO
+			// get series
+
+			// if(DateUtils.)
+
+		}
+
+		return lenght_series;
+
+	}
+
 	public void setMyScheduleDAO(final ISchedule myScheduleDAO) {
 		this.myScheduleDAO = myScheduleDAO;
 	}
@@ -135,7 +186,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -173,7 +224,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
