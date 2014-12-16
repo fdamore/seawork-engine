@@ -1997,12 +1997,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.saveCurrentScheduler();
 		}
 
+		// save note:
+		final String note = this.note_review.getValue();
+		this.currentSchedule.setNote(note);
+		this.saveCurrentScheduler();
+
 		// check about sum of time
 		Double sum = 0.0;
 		if (this.list_details_review.size() != 0) {
 			for (final DetailFinalSchedule detail : this.list_details_review) {
 				sum = sum + detail.getTime();
 			}
+		}
+
+		// check for 12h constraits
+		if (sum != 0.0) {
+			final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule());
+			if (this.selectedShift.compareTo(min_shift) < 0) {
+				Messagebox.show("Ci deve essere uno stacco di almeno 2 turni.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+				return;
+
+			}
+
 		}
 
 		// check max 12 h in a day
@@ -2019,11 +2035,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 
 		}
-
-		// save note:
-		final String note = this.note_review.getValue();
-		this.currentSchedule.setNote(note);
-		this.saveCurrentScheduler();
 
 		// save details
 		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_review);
