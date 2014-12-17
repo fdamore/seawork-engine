@@ -27,6 +27,14 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	// used form visualize
 	@XmlTransient
+	private String				name_controller;
+
+	// used form visualize
+	@XmlTransient
+	private String				name_editor;
+
+	// used form visualize
+	@XmlTransient
 	private String				name_user;
 
 	// used for visualize - number of shift (1,2,3,4)
@@ -81,6 +89,14 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.id;
 	}
 
+	public String getName_controller() {
+		return this.name_controller;
+	}
+
+	public String getName_editor() {
+		return this.name_editor;
+	}
+
 	public String getName_user() {
 		return this.name_user;
 	}
@@ -123,6 +139,14 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setName_controller(final String name_controller) {
+		this.name_controller = name_controller;
+	}
+
+	public void setName_editor(final String name_editor) {
+		this.name_editor = name_editor;
 	}
 
 	public void setName_user(final String name_user) {

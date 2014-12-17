@@ -17,6 +17,8 @@ public class ShiftCacheImpl implements IShiftCache {
 
 	private UserShift							breakShift;
 
+	private UserShift							dailyShift;
+
 	// internal hash
 	private final HashMap<Integer, UserShift>	hash	= new HashMap<Integer, UserShift>();
 
@@ -46,6 +48,10 @@ public class ShiftCacheImpl implements IShiftCache {
 				this.waitedBreakShift = item;
 			}
 
+			if (item.getDaily_shift().booleanValue()) {
+				this.dailyShift = item;
+			}
+
 		}
 
 	}
@@ -53,6 +59,11 @@ public class ShiftCacheImpl implements IShiftCache {
 	@Override
 	public UserShift getBreakShift() {
 		return this.breakShift;
+	}
+
+	@Override
+	public UserShift getDailyShift() {
+		return this.dailyShift;
 	}
 
 	@Override
@@ -68,6 +79,10 @@ public class ShiftCacheImpl implements IShiftCache {
 	@Override
 	public UserShift getWaitedBreakShift() {
 		return this.waitedBreakShift;
+	}
+
+	public void setDailyShift(final UserShift dailyShift) {
+		this.dailyShift = dailyShift;
 	}
 
 	public void setStandardWorkShift(final UserShift standardWorkShift) {

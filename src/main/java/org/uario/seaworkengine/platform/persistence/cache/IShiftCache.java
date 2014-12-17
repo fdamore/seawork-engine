@@ -37,4 +37,6 @@ public interface IShiftCache {
 
 	public abstract UserShift getWaitedBreakShift();
 
+	public abstract UserShift getDailyShift();
+
 }

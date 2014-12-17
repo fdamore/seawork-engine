@@ -35,7 +35,7 @@
 		from
 		user u left join
 		schedule s ON (u.id =
-		s.user and s.date_schedule >=
+		s.user and s.date_schedule <![CDATA[>=]]>
 		#{date_from} and
 		s.date_schedule <![CDATA[<]]>
 		#{date_to})

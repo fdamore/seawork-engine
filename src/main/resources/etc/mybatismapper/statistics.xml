@@ -5,6 +5,54 @@
 
 	<cache-ref namespace="schedule" />
 
+
+
+	<select id="listSchedule" resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="map">
+
+		select s.id,
+		u.id as user,
+		s.shift,
+		s.date_schedule,
+		concat(u.lastname, ' ', u.firstname) AS name_user,
+		s.editor,
+		s.controller
+		from
+		user u,
+		schedule s
+		where (u.id =
+		s.user)
+
+		<if test="date_from != null and date_to != null">
+			and (s.date_schedule <![CDATA[>=]]>
+			#{date_from} and s.date_schedule
+			<![CDATA[<=]]>
+			#{date_to})
+		</if>
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
+			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
+			u.employee_identification = #{my_full_text_search})
+		</if>
+
+		<if test="date_from != null and date_to != null">
+			and (s.date_schedule <![CDATA[>=]]>
+			#{date_from} and s.date_schedule
+			<![CDATA[<=]]>
+			#{date_to})
+		</if>
+		
+		<if test="shift_number != null">
+			and (s.shift = #{shift_number})
+		</if>
+
+		order by u.lastname asc
+	</select>
+
+
+
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
 		select
@@ -136,7 +184,8 @@
 	</select>
 
 
-	<select id="dateAtWork" resultType="java.util.Date" parameterType="map">
+	<select id="dateAtWork" resultType="java.util.Date"
+		parameterType="map">
 		select
 		s.date_schedule
 		from
@@ -149,7 +198,8 @@
 		#{date_schedule_from}
 		and s.user = #{id_user}
 		and s.shift = us.id
-		and us.presence = 1
+		and
+		us.presence = 1
 		order by s.date_schedule asc
 	</select>
 

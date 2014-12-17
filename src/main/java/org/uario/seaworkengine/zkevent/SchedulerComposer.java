@@ -151,9 +151,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_popup;
+
 	@Wire
 	private A								label_date_shift_preprocessing;
-
 	@Wire
 	private A								label_date_shift_program;
 
@@ -167,6 +167,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private List<DetailInitialSchedule>		list_details_program;
 
 	private List<DetailFinalSchedule>		list_details_review;
+
+	@Wire
+	private Listbox							list_overview_preprocessing;
+
 	@Wire
 	private Listbox							list_overview_program;
 
@@ -182,7 +186,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	// initial program and revision - USED DOWNLOAD
 	private List<DetailInitialSchedule>		listDetailProgram				= null;
 
+	// review program and revision - USED DOWNLOAD
 	private List<DetailFinalSchedule>		listDetailRevision				= null;
+
+	// review program and revision - USED DOWNLOAD
+	private List<Schedule>					listSchedule					= null;
 
 	private final Logger					logger							= Logger.getLogger(SchedulerComposer.class);
 
@@ -200,6 +208,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Comboitem						overview_item;
+
+	@Wire
+	private Tabpanel						overview_preprocessing;
+
+	@Wire
+	private Tabpanel						overview_program;
 
 	@Wire
 	private Tabpanel						overview_review;
@@ -232,16 +246,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Div								review_div;
-
 	@Wire
 	private Comboitem						review_item;
-
 	@Wire
 	private Combobox						review_task;
 	@Wire
 	private Intbox							review_time;
+
 	@Wire
 	private Intbox							review_time_hours;
+
 	@Wire
 	private Intbox							review_time_minuts;
 
@@ -258,6 +272,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox						select_shift_overview;
+
+	@Wire
+	private Combobox						select_shifttype_overview;
 
 	// selected day
 	private Integer							selectedDay;
@@ -886,6 +903,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// set info in force combo
 				SchedulerComposer.this.force_shift_combo.setModel(new ListModelList<UserShift>(shifts));
 
+				// set in overview
+				SchedulerComposer.this.select_shifttype_overview.setModel(new ListModelList<UserShift>(shifts));
+
 				// get the shift cache
 				SchedulerComposer.this.shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
 				SchedulerComposer.this.task_cache = (ITaskCache) SpringUtil.getBean(BeansTag.TASK_CACHE);
@@ -1008,6 +1028,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Filedownload.save(builder.toString(), "application/text", "program.csv");
 
 			}
+
+			else
+				if (this.listSchedule != null) {
+
+					final StringBuilder builder = new StringBuilder();
+					final String header = "nome;data;turno;\n";
+					builder.append(header);
+
+					for (final Schedule item : this.listSchedule) {
+						String date = "";
+						if (item.getDate_schedule() != null) {
+							date = SchedulerComposer.formatDateOverview.format(item.getDate_schedule());
+						}
+
+						String code_shift = "";
+						final UserShift task = this.shift_cache.getUserShift(item.getShift());
+						if (task != null) {
+							code_shift = task.getCode();
+						}
+
+						final String line = "" + item.getName_user() + ";" + date + ";" + code_shift + ";\n";
+						builder.append(line);
+					}
+
+					Filedownload.save(builder.toString(), "application/text", "preprocessing.csv");
+
+				}
 
 	}
 
@@ -2051,6 +2098,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick= #overview_selector_select_all")
+	public void selectAllShiftsInComboOverview() {
+
+		this.select_shifttype_overview.setSelectedItem(null);
+
+		// force refresh
+		this.setOverviewLists();
+
+	}
+
 	@Listen("onClick= #preprocessing_select_rp")
 	public void selectBreakShiftInCombo() {
 
@@ -2070,6 +2127,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			}
 		}
+	}
+
+	@Listen("onClick= #overview_selector_select_rp")
+	public void selectBreakShiftInComboOverview() {
+
+		final UserShift bshift = this.shift_cache.getBreakShift();
+
+		if (bshift == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.select_shifttype_overview.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (bshift.equals(current_shift_item)) {
+					this.select_shifttype_overview.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
+
+		// force refresh
+		this.setOverviewLists();
 	}
 
 	@Listen("onClick= #programpopup_select_rp")
@@ -2160,6 +2241,31 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// some thing is changed
 		this.forceProgramShift();
+	}
+
+	@Listen("onClick= #overview_selector_select_tl")
+	public void selectStandardWorkInComboOverview() {
+
+		final UserShift stw = this.shift_cache.getStandardWorkShift();
+
+		if (stw == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.select_shifttype_overview.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (stw.equals(current_shift_item)) {
+					this.select_shifttype_overview.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
+
+		// force refresh
+		this.setOverviewLists();
+
 	}
 
 	@Listen("onClick= #shift_period_select_tl")
@@ -2380,17 +2486,39 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				this.list_overview_review.setPageSize(this.shows_rows.getValue());
 			}
 		}
-		else {
+		else
+			if (this.overview_program.isSelected()) {
 
-			this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, date_from, date_to);
+				this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, date_from, date_to);
 
-			// set number of row showed
-			this.list_overview_program.setModel(new ListModelList<DetailInitialSchedule>(this.listDetailProgram));
-			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-				this.list_overview_program.setPageSize(this.shows_rows.getValue());
+				// set number of row showed
+				this.list_overview_program.setModel(new ListModelList<DetailInitialSchedule>(this.listDetailProgram));
+				if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+					this.list_overview_program.setPageSize(this.shows_rows.getValue());
+				}
+
 			}
+			else
+				if (this.overview_preprocessing.isSelected()) {
 
-		}
+					Integer shift_type = null;
+
+					if ((this.select_shifttype_overview.getSelectedItem() != null) && (this.select_shifttype_overview.getSelectedItem().getValue() instanceof UserShift)) {
+						final UserShift shift = this.select_shifttype_overview.getSelectedItem().getValue();
+						if (shift != null) {
+							shift_type = shift.getId();
+						}
+					}
+
+					this.listSchedule = this.statisticDAO.listSchedule(full_text_search, shift_type, date_from, date_to);
+
+					// set number of row showed
+					this.list_overview_preprocessing.setModel(new ListModelList<Schedule>(this.listSchedule));
+					if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+						this.list_overview_preprocessing.setPageSize(this.shows_rows.getValue());
+					}
+
+				}
 	}
 
 	/**
