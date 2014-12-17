@@ -1195,34 +1195,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Return the last break day in week
-	 *
-	 * @param current_date_scheduled
-	 * @param user
-	 * @return get last break day in week
-	 */
-	private Date getMaxDateBreak(final Date current_date_scheduled, final Integer user) {
-		final Calendar checkPeriod = Calendar.getInstance();
-		checkPeriod.setTime(current_date_scheduled);
-		checkPeriod.add(Calendar.DAY_OF_YEAR, -7);
-		checkPeriod.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		final Date date_from = checkPeriod.getTime();
-		checkPeriod.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-		final Date date_to = checkPeriod.getTime();
-		final Date date_break = this.statisticDAO.getDatesBreak(user, date_from, date_to);
-		if (date_break != null) {
-			final Calendar calendarDateBreak = Calendar.getInstance();
-			calendarDateBreak.setTime(date_break);
-			calendarDateBreak.add(Calendar.DAY_OF_YEAR, SchedulerComposer.MAX_DAYS_WITHOUT_BREAK);
-
-			return calendarDateBreak.getTime();
-
-		}
-
-		return null;
-	}
-
-	/**
 	 * Programmed time in decimal
 	 *
 	 * @return
