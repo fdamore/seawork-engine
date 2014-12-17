@@ -306,8 +306,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		// set link to current document
 		if (item.getFile_name() == null) {
 			this.current_document.setVisible(false);
-		}
-		else {
+		} else {
 			this.current_document.setVisible(true);
 
 		}
@@ -369,8 +368,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			Messagebox.show("Contestazione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 
-		}
-		else {
+		} else {
 
 			// modify branch
 
@@ -473,13 +471,14 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 					UserDetailsComposerCons.this.onUpdateStatus();
 					if (UserDetailsComposerCons.this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
-						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserSuspended(item.getId_user(), UserDetailsComposerCons.this.stop_from.getValue(), UserDetailsComposerCons.this.stop_to.getValue());
-						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserSuspended(item.getId_user(), UserDetailsComposerCons.this.stop_from.getValue(), UserDetailsComposerCons.this.stop_to.getValue());
+						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserSuspended(item.getId_user(),
+								UserDetailsComposerCons.this.stop_from.getValue(), UserDetailsComposerCons.this.stop_to.getValue());
+						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserSuspended(item.getId_user(),
+								UserDetailsComposerCons.this.stop_from.getValue(), UserDetailsComposerCons.this.stop_to.getValue());
+					} else if (UserDetailsComposerCons.this.typ.getSelectedItem().getValue().equals(ContestationTag.LICENZIAMENTO)) {
+						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserFired(item.getId_user(),
+								UserDetailsComposerCons.this.date_contestation.getValue());
 					}
-					else
-						if (UserDetailsComposerCons.this.typ.getSelectedItem().getValue().equals(ContestationTag.LICENZIAMENTO)) {
-							UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserFired(item.getId_user(), UserDetailsComposerCons.this.date_contestation.getValue());
-						}
 
 					if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)) {
 						this.status_upload = UserStatusTag.FIRED;
@@ -517,18 +516,17 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerCons.this.deleteItemToUser();
-				}
-				else
-					if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerCons.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
 					}
-			}
-		});
+				});
 
 	}
 
@@ -542,8 +540,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			this.stop_from.setDisabled(false);
 			this.stop_to.setDisabled(false);
 
-		}
-		else {
+		} else {
 			this.stop_from.setDisabled(true);
 			this.stop_to.setDisabled(true);
 			this.stop_from.setValue(null);
@@ -597,13 +594,11 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				stream = new FileOutputStream(global_file_name);
 				IOUtils.write(this.currentDoc.getFile_doc(), stream);
 
-			}
-			finally {
+			} finally {
 				if (stream != null) {
 					try {
 						stream.close();
-					}
-					catch (final IOException ignore) {
+					} catch (final IOException ignore) {
 
 					}
 				}
@@ -631,20 +626,17 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final String info = evt.getMedia().getStringData();
 					byteDoc = info.getBytes();
 
-				}
-				else {
+				} else {
 					reader = evt.getMedia().getReaderData();
 					byteDoc = IOUtils.toByteArray(reader);
 
 				}
-			}
-			else {
+			} else {
 				if (evt.getMedia().inMemory()) {
 
 					byteDoc = evt.getMedia().getByteData();
 
-				}
-				else {
+				} else {
 
 					stream = evt.getMedia().getStreamData();
 					byteDoc = IOUtils.toByteArray(stream);
@@ -659,8 +651,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			// set initial sclass
 			this.docupload.setSclass(UserDetailsComposerCons.BUTTON_FINAL_SCLASS);
 
-		}
-		finally {
+		} finally {
 
 			try {
 
