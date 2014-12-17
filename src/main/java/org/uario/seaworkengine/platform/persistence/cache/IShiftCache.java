@@ -35,4 +35,6 @@ public interface IShiftCache {
 	 */
 	public UserShift getUserShift(Integer id);
 
+	public abstract UserShift getWaitedBreakShift();
+
 }

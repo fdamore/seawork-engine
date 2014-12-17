@@ -71,7 +71,8 @@ public class WorkAssignService implements IWorkShiftAssign {
 			Date date_to_check = null;
 			try {
 				date_to_check = this.date_fromatter.parse(date_assign);
-			} catch (final ParseException ignore) {
+			}
+			catch (final ParseException ignore) {
 				// in this case, run the project
 			}
 			if ((date_to_check != null) && date_to_check.equals(current_day)) {
@@ -81,6 +82,11 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 		final UserShift work_shift = this.shiftCache.getStandardWorkShift();
 		if (work_shift == null) {
+			return;
+		}
+
+		final UserShift waited_work_shift = this.shiftCache.getWaitedBreakShift();
+		if (waited_work_shift == null) {
 			return;
 		}
 
@@ -96,15 +102,20 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 			if (schedule == null) {
 				schedule = new Schedule();
-			} else {
-				continue;
 			}
 
-			if ((schedule == null) || (schedule.getShift() == null)) {
+			// check for day working
+			final Integer lenght_series = this.statProcedure.getWorkingSeries(current_day, person.getId());
 
+			if (lenght_series >= 10) {
 				// assign work
-				this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
-
+				this.statProcedure.workAssignProcedure(waited_work_shift, date_tomorrow, person.getId(), null);
+			}
+			else {
+				if (schedule.getShift() == null) {
+					// assign work
+					this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
+				}
 			}
 
 		}

@@ -89,10 +89,6 @@ public class UserShift implements Serializable {
 		return this.waitbreak_shift;
 	}
 
-	public Boolean getWaitBreak_shift() {
-		return this.waitbreak_shift;
-	}
-
 	public Boolean isDefault() {
 		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift || this.standard_shift || this.daily_shift) {
 			return true;

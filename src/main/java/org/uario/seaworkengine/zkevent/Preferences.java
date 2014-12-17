@@ -133,13 +133,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
 			shift.setPresence(false);
-		} else {
+		}
+		else {
 			shift.setPresence(true);
 		}
 
 		if (this.forceable.isChecked()) {
 			shift.setForceable(true);
-		} else {
+		}
+		else {
 			shift.setForceable(false);
 		}
 
@@ -156,22 +158,32 @@ public class Preferences extends SelectorComposer<Component> {
 			if (typeOfBreakShift.equals("Riposo Programmato")) {
 				shift.setBreak_shift(true);
 				this.configurationDao.removeAllBreakShift();
-			} else if (typeOfBreakShift.equals("Riposo Atteso")) {
-				shift.setWaitbreak_shift(true);
-				this.configurationDao.removeAllWaitBreakShift();
-			} else if (typeOfBreakShift.equals("Riposo Infortunio")) {
-				shift.setAccident_shift(true);
-				this.configurationDao.removeAllAccidentShift();
-			} else if (typeOfBreakShift.equals("Riposo Malattia")) {
-				shift.setDisease_shift(true);
-				this.configurationDao.removeAllDiseaseShift();
-			} else if (typeOfBreakShift.equals("Turno Standard")) {
-				shift.setStandard_shift(true);
-				this.configurationDao.removeAllStandardShift();
-			} else if (typeOfBreakShift.equals("Turno Giornaliero")) {
-				shift.setDaily_shift(true);
-				this.configurationDao.removeAllDailyShift();
 			}
+			else
+				if (typeOfBreakShift.equals("Riposo Atteso")) {
+					shift.setWaitbreak_shift(true);
+					this.configurationDao.removeAllWaitBreakShift();
+				}
+				else
+					if (typeOfBreakShift.equals("Riposo Infortunio")) {
+						shift.setAccident_shift(true);
+						this.configurationDao.removeAllAccidentShift();
+					}
+					else
+						if (typeOfBreakShift.equals("Riposo Malattia")) {
+							shift.setDisease_shift(true);
+							this.configurationDao.removeAllDiseaseShift();
+						}
+						else
+							if (typeOfBreakShift.equals("Turno Standard")) {
+								shift.setStandard_shift(true);
+								this.configurationDao.removeAllStandardShift();
+							}
+							else
+								if (typeOfBreakShift.equals("Turno Giornaliero")) {
+									shift.setDaily_shift(true);
+									this.configurationDao.removeAllDailyShift();
+								}
 		}
 
 		this.configurationDao.createShift(shift);
@@ -343,37 +355,49 @@ public class Preferences extends SelectorComposer<Component> {
 			this.typeofbreak.setSelectedIndex(1);
 			this.type_shift.setDisabled(true);
 			this.forceable.setDisabled(true);
-		} else if (shift.getWaitBreak_shift()) {
-			this.typeofbreak.setSelectedIndex(2);
-			this.type_shift.setDisabled(true);
-			this.forceable.setDisabled(true);
-		} else if (shift.getAccident_shift()) {
-			this.typeofbreak.setSelectedIndex(3);
-			this.type_shift.setDisabled(true);
-			this.forceable.setDisabled(true);
-		} else if (shift.getDisease_shift()) {
-			this.typeofbreak.setSelectedIndex(4);
-			this.type_shift.setDisabled(true);
-			this.forceable.setDisabled(true);
-		} else if (shift.getStandard_shift()) {
-			this.typeofbreak.setSelectedIndex(5);
-			this.type_shift.setDisabled(true);
-			this.forceable.setDisabled(true);
-		} else if (shift.getDaily_shift()) {
-			this.typeofbreak.setSelectedIndex(6);
-			this.type_shift.setDisabled(true);
-			this.forceable.setDisabled(true);
-		} else {
-			this.typeofbreak.setSelectedItem(null);
-			this.type_shift.setDisabled(false);
-			this.forceable.setDisabled(false);
 		}
+		else
+			if (shift.getWaitbreak_shift()) {
+				this.typeofbreak.setSelectedIndex(2);
+				this.type_shift.setDisabled(true);
+				this.forceable.setDisabled(true);
+			}
+			else
+				if (shift.getAccident_shift()) {
+					this.typeofbreak.setSelectedIndex(3);
+					this.type_shift.setDisabled(true);
+					this.forceable.setDisabled(true);
+				}
+				else
+					if (shift.getDisease_shift()) {
+						this.typeofbreak.setSelectedIndex(4);
+						this.type_shift.setDisabled(true);
+						this.forceable.setDisabled(true);
+					}
+					else
+						if (shift.getStandard_shift()) {
+							this.typeofbreak.setSelectedIndex(5);
+							this.type_shift.setDisabled(true);
+							this.forceable.setDisabled(true);
+						}
+						else
+							if (shift.getDaily_shift()) {
+								this.typeofbreak.setSelectedIndex(6);
+								this.type_shift.setDisabled(true);
+								this.forceable.setDisabled(true);
+							}
+							else {
+								this.typeofbreak.setSelectedItem(null);
+								this.type_shift.setDisabled(false);
+								this.forceable.setDisabled(false);
+							}
 
 		this.code_shift.setValue(shift.getCode());
 		this.description_shift.setValue(shift.getDescription());
 		if (shift.getForceable()) {
 			this.forceable.setChecked(true);
-		} else {
+		}
+		else {
 			this.forceable.setChecked(false);
 		}
 
@@ -383,14 +407,16 @@ public class Preferences extends SelectorComposer<Component> {
 		if (shift.getPresence() != null) {
 			if (!shift.getPresence()) {
 				shft = ShiftTag.ABSENCE_SHIFT;
-			} else {
+			}
+			else {
 				shft = ShiftTag.WORK_SHIFT;
 			}
 		}
 
 		if ((shft == null) || shft.equals("")) {
 			this.type_shift.setSelectedItem(null);
-		} else {
+		}
+		else {
 			final List<Comboitem> lists = this.type_shift.getItems();
 			for (final Comboitem item : lists) {
 				if (item.getValue().equals(shft)) {
@@ -419,13 +445,15 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setDescription(this.description_shift.getValue());
 		if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
 			shift.setPresence(false);
-		} else {
+		}
+		else {
 			shift.setPresence(true);
 		}
 
 		if (this.forceable.isChecked()) {
 			shift.setForceable(true);
-		} else {
+		}
+		else {
 			shift.setForceable(false);
 		}
 
@@ -441,22 +469,32 @@ public class Preferences extends SelectorComposer<Component> {
 			if (typeOfBreak.equals("Riposo Programmato")) {
 				shift.setBreak_shift(true);
 				this.configurationDao.setShiftAsBreak(shift.getId());
-			} else if (typeOfBreak.equals("Riposo Atteso")) {
-				shift.setWaitbreak_shift(true);
-				this.configurationDao.setShiftAsExpectedBreak(shift.getId());
-			} else if (typeOfBreak.equals("Riposo Infortunio")) {
-				shift.setAccident_shift(true);
-				this.configurationDao.setShiftAsAccident(shift.getId());
-			} else if (typeOfBreak.equals("Riposo Malattia")) {
-				shift.setDisease_shift(true);
-				this.configurationDao.setShiftAsDisease(shift.getId());
-			} else if (typeOfBreak.equals("Turno Standard")) {
-				shift.setStandard_shift(true);
-				this.configurationDao.setShiftAsStandardShift(shift.getId());
-			} else if (typeOfBreak.equals("Turno Giornaliero")) {
-				shift.setDaily_shift(true);
-				this.configurationDao.setShiftAsDailyShift(shift.getId());
 			}
+			else
+				if (typeOfBreak.equals("Riposo Atteso")) {
+					shift.setWaitbreak_shift(true);
+					this.configurationDao.setShiftAsExpectedBreak(shift.getId());
+				}
+				else
+					if (typeOfBreak.equals("Riposo Infortunio")) {
+						shift.setAccident_shift(true);
+						this.configurationDao.setShiftAsAccident(shift.getId());
+					}
+					else
+						if (typeOfBreak.equals("Riposo Malattia")) {
+							shift.setDisease_shift(true);
+							this.configurationDao.setShiftAsDisease(shift.getId());
+						}
+						else
+							if (typeOfBreak.equals("Turno Standard")) {
+								shift.setStandard_shift(true);
+								this.configurationDao.setShiftAsStandardShift(shift.getId());
+							}
+							else
+								if (typeOfBreak.equals("Turno Giornaliero")) {
+									shift.setDaily_shift(true);
+									this.configurationDao.setShiftAsDailyShift(shift.getId());
+								}
 
 		}
 
@@ -557,18 +595,20 @@ public class Preferences extends SelectorComposer<Component> {
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
 		if (!shift.isDefault()) {
-			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-					new org.zkoss.zk.ui.event.EventListener() {
+			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
 				@Override
 				public void onEvent(final Event e) {
 					if (Messagebox.ON_OK.equals(e.getName())) {
 						Preferences.this.deleteShift();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
 					}
+					else
+						if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
 				}
 			});
-		} else {
+		}
+		else {
 			Messagebox.show("Prima di rimuovere il turno, assegnare la specificità ad un altro turno.");
 		}
 
@@ -581,15 +621,16 @@ public class Preferences extends SelectorComposer<Component> {
 			Messagebox.show("Status di sistema, impossibile eliminare!", "Error", Messagebox.OK, Messagebox.ERROR);
 			return;
 		}
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
 			@Override
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
 					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
 				}
+				else
+					if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
+					}
 			}
 		});
 
@@ -598,15 +639,16 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_deletetask")
 	public void removeTask() {
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
 			@Override
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
 					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
 				}
+				else
+					if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
+					}
 			}
 		});
 
@@ -637,28 +679,35 @@ public class Preferences extends SelectorComposer<Component> {
 			this.type_shift.setDisabled(true);
 			this.forceable.setChecked(true);
 			this.forceable.setDisabled(true);
-		} else if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Turno Standard")) {
-			// job shift
-			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(0));
-			this.type_shift.setDisabled(true);
-			this.forceable.setChecked(false);
-			this.forceable.setDisabled(true);
-		} else if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Riposo Programmato")) {
-			// absence shift, forceable
-			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(1));
-			this.type_shift.setDisabled(true);
-			this.forceable.setChecked(true);
-			this.forceable.setDisabled(true);
-		} else if (!this.typeofbreak.getSelectedItem().getValue().toString().equals("Non definito")) {
-			// absence shift
-			this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(1));
-			this.type_shift.setDisabled(true);
-			this.forceable.setChecked(false);
-			this.forceable.setDisabled(true);
-		} else {
-			this.type_shift.setDisabled(false);
-			this.forceable.setDisabled(false);
 		}
+		else
+			if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Turno Standard")) {
+				// job shift
+				this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(0));
+				this.type_shift.setDisabled(true);
+				this.forceable.setChecked(false);
+				this.forceable.setDisabled(true);
+			}
+			else
+				if (this.typeofbreak.getSelectedItem().getValue().toString().equals("Riposo Programmato")) {
+					// absence shift, forceable
+					this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(1));
+					this.type_shift.setDisabled(true);
+					this.forceable.setChecked(true);
+					this.forceable.setDisabled(true);
+				}
+				else
+					if (!this.typeofbreak.getSelectedItem().getValue().toString().equals("Non definito")) {
+						// absence shift
+						this.type_shift.setSelectedItem(this.type_shift.getItemAtIndex(1));
+						this.type_shift.setDisabled(true);
+						this.forceable.setChecked(false);
+						this.forceable.setDisabled(true);
+					}
+					else {
+						this.type_shift.setDisabled(false);
+						this.forceable.setDisabled(false);
+					}
 	}
 
 	/**
@@ -676,7 +725,8 @@ public class Preferences extends SelectorComposer<Component> {
 		if (typeShift.equals(ShiftTag.WORK_SHIFT)) {
 			this.forceable.setChecked(false);
 			this.forceable.setDisabled(true);
-		} else {
+		}
+		else {
 			this.forceable.setDisabled(false);
 		}
 	}
@@ -687,13 +737,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		if ((this.full_text_searchShift.getValue() != null) && !this.full_text_searchShift.getValue().equals("")) {
 			list_usershift = this.configurationDao.listAllShifts(this.full_text_searchShift.getValue());
-		} else {
+		}
+		else {
 			list_usershift = this.configurationDao.loadShifts();
 		}
 
 		if ((this.shows_rowsShift.getValue() != null) && (this.shows_rowsShift.getValue() != 0)) {
 			this.sw_list_shift.setPageSize(this.shows_rowsShift.getValue());
-		} else {
+		}
+		else {
 			this.sw_list_shift.setPageSize(10);
 		}
 
@@ -706,13 +758,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		if ((this.full_text_searchTask.getValue() != null) && !this.full_text_searchTask.getValue().equals("")) {
 			list_usertask = this.configurationDao.listAllTasks(this.full_text_searchTask.getValue());
-		} else {
+		}
+		else {
 			list_usertask = this.configurationDao.loadTasks();
 		}
 
 		if ((this.shows_rowsTask.getValue() != null) && (this.shows_rowsTask.getValue() != 0)) {
 			this.sw_list_task.setPageSize(this.shows_rowsTask.getValue());
-		} else {
+		}
+		else {
 			this.sw_list_task.setPageSize(10);
 		}
 

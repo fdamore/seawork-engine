@@ -22,6 +22,8 @@ public class ShiftCacheImpl implements IShiftCache {
 
 	private UserShift							standardWorkShift;
 
+	private UserShift							waitedBreakShift;
+
 	@Override
 	public void buildCache(final List<UserShift> caches) {
 
@@ -38,6 +40,10 @@ public class ShiftCacheImpl implements IShiftCache {
 
 			if (item.getStandard_shift().booleanValue()) {
 				this.standardWorkShift = item;
+			}
+
+			if (item.getWaitbreak_shift().booleanValue()) {
+				this.waitedBreakShift = item;
 			}
 
 		}
@@ -59,7 +65,16 @@ public class ShiftCacheImpl implements IShiftCache {
 		return this.hash.get(id);
 	}
 
+	@Override
+	public UserShift getWaitedBreakShift() {
+		return this.waitedBreakShift;
+	}
+
 	public void setStandardWorkShift(final UserShift standardWorkShift) {
 		this.standardWorkShift = standardWorkShift;
+	}
+
+	public void setWaitedBreakShift(final UserShift waitedBreakShift) {
+		this.waitedBreakShift = waitedBreakShift;
 	}
 }
