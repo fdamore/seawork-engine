@@ -158,6 +158,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		// the current length
 		int lenght_series = 0;
+		int_array.add(lenght_series);
 
 		for (final Iterator<Date> iterator = list.iterator(); iterator.hasNext();) {
 
@@ -188,7 +189,11 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		}
 
-		return Collections.max(int_array);
+		if (int_array.size() != 0) {
+			return Collections.max(int_array);
+		} else {
+			return 0;
+		}
 
 	}
 

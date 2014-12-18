@@ -89,8 +89,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private static final SimpleDateFormat	formatter_scheduler_info		= new SimpleDateFormat("EEEE dd MMM");
 	private static final SimpleDateFormat	formatTimeOverview				= new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final int				MAX_DAYS_WITHOUT_BREAK			= 10;
-
 	/**
 	 *
 	 */
@@ -639,7 +637,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * define the view in function of the type of the view required
 	 */
-	@Listen("onClick = #shift_period_ok; onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview, #date_to_overview, #date_from_overview;onOK = #shows_rows, #full_text_search; onSelect = #overview_tab")
+	@Listen("onClick = #shift_period_ok; onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #date_to_overview, #date_from_overview;onOK = #shows_rows, #full_text_search; onSelect = #overview_tab")
 	public void defineSchedulerView() {
 
 		if (this.scheduler_type_selector.getSelectedItem() == null) {
