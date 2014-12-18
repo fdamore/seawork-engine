@@ -28,6 +28,27 @@ public class StatProceduresImpl implements IStatProcedure {
 	private IStatistics	statisticDAO;
 
 	/**
+	 * Get a random day from current day to current_day+borderday
+	 *
+	 * @param current_day
+	 * @param border_day
+	 *            days to add at current day
+	 * @return a random day between current day and current_day + border_days
+	 */
+	@Override
+	public Date getARandomDay(final Date current_day, final Integer border_day) {
+
+		final Integer adding_int = 1 + (int) (Math.random() * border_day);
+
+		final Date pick_date = DateUtils.truncate(current_day, Calendar.DATE);
+		final Calendar calendar = DateUtils.toCalendar(pick_date);
+		calendar.add(Calendar.DAY_OF_YEAR, adding_int);
+
+		return calendar.getTime();
+
+	}
+
+	/**
 	 * Get Minimum Shift
 	 *
 	 * @return
@@ -211,7 +232,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -249,7 +270,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,

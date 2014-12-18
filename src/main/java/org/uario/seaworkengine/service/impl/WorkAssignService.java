@@ -82,6 +82,7 @@ public class WorkAssignService implements IWorkShiftAssign {
 				}
 			}
 
+			// take info shift
 			final UserShift work_shift = this.shiftCache.getStandardWorkShift();
 			if (work_shift == null) {
 				return;
@@ -90,6 +91,17 @@ public class WorkAssignService implements IWorkShiftAssign {
 			final UserShift waited_work_shift = this.shiftCache.getWaitedBreakShift();
 			if (waited_work_shift == null) {
 				return;
+			}
+
+			final UserShift break_shift = this.shiftCache.getBreakShift();
+			if (break_shift == null) {
+				return;
+			}
+
+			// check i Sunday. is needed ion order to set programmed break
+			boolean isSunaday = false;
+			if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+				isSunaday = true;
 			}
 
 			// date today
@@ -116,6 +128,18 @@ public class WorkAssignService implements IWorkShiftAssign {
 					if (schedule.getShift() == null) {
 						// assign work
 						this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
+					}
+				}
+
+				// assign programmed break
+				if (isSunaday) {
+					final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
+					if (DateUtils.isSameDay(date_break, date_tomorrow)) {
+						if (lenght_series < 10) {
+							this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+						}
+					} else {
+						this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 					}
 				}
 
