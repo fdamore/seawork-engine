@@ -176,7 +176,14 @@
 														id="description_task" mold="rounded" />
 												</row>
 
-
+												<row
+													id="row_isabsence_task">
+													<label
+														value="Mansione di assenza:">
+													</label>
+													<checkbox
+														id="isabsence_task" />
+												</row>
 
 
 
@@ -205,7 +212,9 @@
 									sclass="btn-info" label="Ricarica Lista Mansioni">
 								</button>
 
-
+								<button id="sw_return_defaulttask"
+									sclass="btn-info" label="Visualizza Mansioni di Assenza">
+								</button>
 
 								<separator></separator>
 
@@ -230,6 +239,7 @@
 									<listheader label="Codice" />
 									<listheader label="Descrizione"
 										sort="auto(description)" />
+										<listheader label="Mansione di assenza" />
 									<listheader label="" />
 								</listhead>
 
@@ -243,7 +253,9 @@
 									<listcell sclass="myBottonCell" 
 										label="@{task_item.description}" />
 
-
+									<listcell sclass="myBottonCell" >										
+										<image src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
 
 									<listcell sclass="myBottonCell" >
 

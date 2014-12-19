@@ -4,11 +4,22 @@
 <mapper namespace="configuration">
 
 	<cache />
+	
+	<select id="listAllAbsenceTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT t.id,
+		t.code,
+		t.description,
+		t.isabsence
+		FROM usertask t
+		WHERE t.isabsence = 1;
+
+	</select>
+
 
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description
+		description, isabsence
 		FROM usertask;
 
 	</select>
@@ -16,7 +27,7 @@
 	<select id="selectAllTasksFulltextSearchLike" parameterType="map" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description
+		description, isabsence
 		FROM usertask
 		<if test="my_full_text_search != null">
 			WHERE (
@@ -66,9 +77,9 @@
 	<insert id="insertTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		INSERT INTO usertask
 		(code,
-		description)
+		description, isabsence)
 		VALUES
-		(#{code},#{description});
+		(#{code},#{description}, #{isabsence});
 
 	</insert>
 
@@ -90,7 +101,8 @@
 		id =
 		#{id},
 		code = #{code},
-		description = #{description} 
+		description = #{description} ,
+		isabsence = #{isabsence}
 		WHERE id = #{id}
 
 	</update>

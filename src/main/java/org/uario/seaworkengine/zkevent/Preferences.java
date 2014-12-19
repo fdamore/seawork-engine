@@ -79,6 +79,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Div					grid_task_details;
 
 	@Wire
+	private Checkbox			isabsence_task;
+
+	@Wire
 	private Label				label_allocated_meomry;
 
 	@Wire
@@ -223,6 +226,7 @@ public class Preferences extends SelectorComposer<Component> {
 		final UserTask task = new UserTask();
 		task.setCode(this.code_task.getValue());
 		task.setDescription(this.description_task.getValue());
+		task.setIsabsence(this.isabsence_task.isChecked());
 		this.configurationDao.createTask(task);
 
 		this.refreshTaskList();
@@ -480,6 +484,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.code_task.setValue(task.getCode());
 		this.description_task.setValue(task.getDescription());
+		this.isabsence_task.setChecked(task.getIsabsence());
 
 	}
 
@@ -494,6 +499,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 		task.setCode(this.code_task.getValue());
 		task.setDescription(this.description_task.getValue());
+		task.setIsabsence(this.isabsence_task.isChecked());
 
 		this.configurationDao.updateTask(task);
 
@@ -627,6 +633,7 @@ public class Preferences extends SelectorComposer<Component> {
 	private void resetTaskInfo() {
 		this.code_task.setValue("");
 		this.description_task.setValue("");
+		this.isabsence_task.setChecked(false);
 	}
 
 	@Listen("onSelect = #typeofbreak")
@@ -715,6 +722,15 @@ public class Preferences extends SelectorComposer<Component> {
 		} else {
 			this.sw_list_task.setPageSize(10);
 		}
+
+		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
+	}
+
+	@Listen("onClick = #sw_return_defaulttask")
+	public void showAbsenceTask() {
+		List<UserTask> list_usertask = null;
+
+		list_usertask = this.configurationDao.listAllAbsenceTask();
 
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
 	}

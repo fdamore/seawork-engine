@@ -15,6 +15,8 @@ public class UserTask implements Serializable {
 
 	private Integer				id;
 
+	private Boolean				isabsence;
+
 	// used in join with user
 	private Boolean				task_default;
 
@@ -28,6 +30,10 @@ public class UserTask implements Serializable {
 
 	public Integer getId() {
 		return this.id;
+	}
+
+	public Boolean getIsabsence() {
+		return this.isabsence;
 	}
 
 	public Boolean getTask_default() {
@@ -44,6 +50,10 @@ public class UserTask implements Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setIsabsence(final Boolean isabsence) {
+		this.isabsence = isabsence;
 	}
 
 	public void setTask_default(final Boolean task_default) {

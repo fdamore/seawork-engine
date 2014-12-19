@@ -4,12 +4,16 @@
 <mapper namespace="tasks">
 
 	<cache />
+	
+	
+	
 
 	<select id="selectAllTasksByUser" resultType="org.uario.seaworkengine.model.UserTask"
 		parameterType="map">
 		SELECT t.id,
 		t.code,
 		t.description,
+		t.isabsence,
 		ut.task_default
 		FROM
 		usertask t,
@@ -23,7 +27,8 @@
 		parameterType="map">
 		SELECT t.id,
 		t.code,
-		t.description
+		t.description,
+		t.isabsence
 		FROM usertask t,
 		user_usertask ut where t.id = ut.id_user and ut.id_user = #{id_user}
 		and ut.id_usertask =
@@ -55,7 +60,7 @@
 
 		SELECT t.id,
 		t.code,
-		t.description
+		t.description, t.isabsence
 		FROM user_usertask ut, usertask t
 		WHERE
 		ut.task_default = 1 and ut.id_user = #{id_user} and t.id =
