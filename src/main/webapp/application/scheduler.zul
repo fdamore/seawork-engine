@@ -188,11 +188,15 @@
 								style="color:blue">
 							</a>
 							<a label="Turno di Lavoro"
-								id="shift_period_select_tl">
+								style="color:green" id="shift_period_select_tl">
 							</a>
 							<space></space>
-							<a label="Turno di Riposo Programmato"
-								id="shift_period_select_rp">
+							<a label="Riposo Programmato"
+								style="color:green" id="shift_period_select_rp">
+							</a>
+							<space></space>
+							<a label="Giornaliero" style="color:green"
+								id="shift_period_select_dl">
 							</a>
 						</hbox>
 
@@ -264,10 +268,13 @@
 
 							<hbox align="center">
 								<a label="Turno di Lavoro"
-									id="preprocessing_select_tl">
+									style="color:green" id="preprocessing_select_tl">
 								</a>
-								<a label="Turno di Riposo Programmato"
-									id="preprocessing_select_rp">
+								<a label="Riposo Programmato"
+									style="color:green" id="preprocessing_select_rp">
+								</a>
+								<a label="Giornaliero"
+									style="color:green" id="preprocessing_select_dl">
 								</a>
 							</hbox>
 
@@ -896,10 +903,13 @@
 
 						<hbox align="center">
 							<a label="Turno di Lavoro"
-								id="programpopup_select_tl">
+								style="color:green" id="programpopup_select_tl">
 							</a>
-							<a label="Turno di Riposo Programmato"
-								id="programpopup_select_rp">
+							<a label="Riposo Programmato"
+								style="color:green" id="programpopup_select_rp">
+							</a>
+							<a label="Giornaliero" style="color:green"
+								id="programpopup_select_dl">
 							</a>
 						</hbox>
 
@@ -1803,10 +1813,13 @@
 						<a label="Riposo Programmato"
 							style="color:green" id="overview_selector_select_rp">
 						</a>
-						<a label="Tutti"
-							style="color:green" id="overview_selector_select_all">
+						<a label="Giornaliero"
+							style="color:green" id="overview_selector_select_dl">
 						</a>
-						
+						<a label="Tutti" style="color:green"
+							id="overview_selector_select_all">
+						</a>
+
 					</hbox>
 				</vbox>
 

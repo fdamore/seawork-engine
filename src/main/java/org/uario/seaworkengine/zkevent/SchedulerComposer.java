@@ -2170,6 +2170,96 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	@Listen("onClick= #overview_selector_select_dl")
+	public void selectDailyInComboOverview() {
+
+		final UserShift daily = this.shift_cache.getDailyShift();
+
+		if (daily == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.select_shifttype_overview.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (daily.equals(current_shift_item)) {
+					this.select_shifttype_overview.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
+
+		// force refresh
+		this.setOverviewLists();
+	}
+
+	@Listen("onClick= #shift_period_select_dl")
+	public void selectDailyInComboShiftPeriodAssign() {
+
+		final UserShift daily = this.shift_cache.getDailyShift();
+
+		if (daily == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.shift_period_combo.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (daily.equals(current_shift_item)) {
+					this.shift_period_combo.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
+	}
+
+	@Listen("onClick= #preprocessing_select_dl")
+	public void selectDailySgiftInCombo() {
+
+		final UserShift daily = this.shift_cache.getDailyShift();
+
+		if (daily == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.shifts_combo_select.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (daily.equals(current_shift_item)) {
+					this.shifts_combo_select.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
+	}
+
+	@Listen("onClick= #programpopup_select_dl")
+	public void selectDailyShiftInComboShiftForceProgram() {
+
+		final UserShift daily = this.shift_cache.getDailyShift();
+
+		if (daily == null) {
+			return;
+		}
+
+		for (final Comboitem item : this.force_shift_combo.getItems()) {
+			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
+				final UserShift current_shift_item = item.getValue();
+				if (daily.equals(current_shift_item)) {
+					this.force_shift_combo.setSelectedItem(item);
+					break;
+				}
+
+			}
+		}
+
+		// some thing is changed
+		this.forceProgramShift();
+	}
+
 	@Listen("onClick= #preprocessing_select_tl")
 	public void selectStandardWorkInCombo() {
 
