@@ -1014,12 +1014,12 @@
 
 			<space />
 
-			<panel width="800px" border="normal">
+			<panel width="1000px" border="normal">
 				<panelchildren>
 					<grid>
 						<auxhead>
 							<auxheader style="background-color: #FAFAFA"
-								colspan="8" label="Legenda Colori" />
+								colspan="10" label="Legenda Colori" />
 						</auxhead>
 
 						<columns>
@@ -1030,11 +1030,15 @@
 								width="40pt" />
 							<column label="Turno Forzabile" />
 							<column style="background:#D15B47"
-								width="40pt" />
+								width="40pt" />								
 							<column label="Turno Non Forzabile" />
+							<column style="background:#8E8EA5"
+								width="40pt" />
+							<column label="Turno giornaliero" />
 							<column style="background:#70B8FF"
 								width="40pt" />
 							<column label="Giorno attuale" />
+							
 						</columns>
 					</grid>
 				</panelchildren>
