@@ -50,6 +50,16 @@ public class UtilityProgramRow {
 			color_stye = "background-color:" + ProgramColorTag.COLOR_NOT_AVAILABLE;
 		}
 
+		// color DAILY
+		if ((item_schedule != null) && (item_schedule.getSchedule() != null) && (item_schedule.getSchedule().getShift() != null)) {
+			final IShiftCache shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+			if (shift_cache.getDailyShift() != null) {
+				if (shift_cache.getDailyShift().getId().equals(item_schedule.getSchedule().getShift())) {
+					color_stye = "background-color:" + ProgramColorTag.DAILY_COLOR;
+				}
+			}
+		}
+
 		listcell.setStyle(color_stye);
 
 	}
