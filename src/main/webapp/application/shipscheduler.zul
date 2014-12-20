@@ -96,7 +96,7 @@
 										<label
 											value="Data di arrivo">
 										</label>
-										<datebox id="ship_arrival" format="medium+long" onCreate="self.setValue(new Date())" />
+										<datebox id="ship_arrival" format="dd-MM-yyyy HH:mm" onCreate="self.setValue(new Date())" />
 									</row>
 								
 								

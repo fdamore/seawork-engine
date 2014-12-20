@@ -20,7 +20,7 @@
 		where
 		id = #{id_scheduleShip}
 	</delete>
-
+	
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
@@ -86,6 +86,14 @@
 		where
 		id = #{id_detailScheduleShip}
 	</delete>
+
+	<delete id="deteleDetailSchedueleShipByIdSchedule" parameterType="Integer">
+		delete from
+		detailscheduleship
+		where
+		idscheduleship = #{id_scheduleShip};
+	</delete>
+
 
 	<select id="loadDetailScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">

@@ -16,6 +16,8 @@ public interface IScheduleShip {
 
 	public void deleteScheduleShip(Integer id_scheduleShip);
 
+	public void deteleDetailSchedueleShipByIdSchedule(Integer id_scheduleShip);
+
 	public List<ScheduleShip> loadAllScheduleShip();
 
 	public DetailScheduleShip loadDetailScheduleShip(Integer id_detailScheduleShip);
