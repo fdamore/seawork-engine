@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
@@ -32,7 +33,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final List<InitialSchedule> ret = new ArrayList<InitialSchedule>();
 
-		final Date date_schedule = Calendar.getInstance().getTime();
+		final Date date_schedule = DateUtils.truncate(Calendar.getInstance().getTime(), Calendar.DATE);
 
 		final List<Person> list = this.personDAO.listAllPersons();
 		for (final Person person : list) {
@@ -45,6 +46,9 @@ public class WebControllerImpl implements IWebServiceController {
 			}
 
 			final List<DetailInitialSchedule> details = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
+			if ((details == null) || (details.size() == 0)) {
+				continue;
+			}
 
 			// set current object
 			item.setPerson(person);
