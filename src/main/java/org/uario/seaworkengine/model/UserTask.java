@@ -2,7 +2,7 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 
-public class UserTask implements Serializable {
+public class UserTask implements Serializable, Comparable<UserTask> {
 
 	/**
 	 *
@@ -19,6 +19,49 @@ public class UserTask implements Serializable {
 
 	// used in join with user
 	private Boolean				task_default;
+
+	@Override
+	public int compareTo(final UserTask o) {
+		if (o == null) {
+			return -1;
+		}
+
+		if (this == o) {
+			return 0;
+		}
+
+		if (o.isabsence) {
+			return -1;
+		}
+
+		if (this.isabsence) {
+			return 1;
+		}
+
+		return this.getCode().compareTo(o.getCode());
+
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+
+		if (obj == null) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof UserTask)) {
+			return false;
+		}
+
+		final UserTask task = (UserTask) obj;
+
+		return this.getId().equals(task.getId());
+
+	}
 
 	public String getCode() {
 		return this.code;
@@ -37,6 +80,9 @@ public class UserTask implements Serializable {
 	}
 
 	public Boolean getTask_default() {
+		if (this.task_default == null) {
+			return Boolean.FALSE;
+		}
 		return this.task_default;
 	}
 

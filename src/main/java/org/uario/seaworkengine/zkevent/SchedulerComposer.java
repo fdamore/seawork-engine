@@ -1185,6 +1185,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * Get list of task to include in combo popup
+	 * 
+	 * @param user
+	 * @return
+	 */
+	private List<UserTask> getListTaskForComboPopup(final Integer user) {
+		final List<UserTask> list_task_user = this.taskDAO.loadTasksByUser(user);
+		final List<UserTask> list_task_absence = this.configurationDAO.listAllAbsenceTask();
+
+		final List<UserTask> list = new ArrayList<UserTask>();
+		list.addAll(list_task_user);
+		list.addAll(list_task_absence);
+		Collections.sort(list);
+		return list;
+	}
+
+	/**
 	 * Programmed time in decimal
 	 *
 	 * @return
@@ -1406,7 +1423,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.selectedDay = Integer.parseInt(info[1]);
 		this.selectedShift = Integer.parseInt(info[2]);
-		this.selectedUser = row_scheduler.getUser();
+		final Integer user = row_scheduler.getUser();
+		this.selectedUser = user;
 
 		final Date date_schedule = this.getDateScheduled(SchedulerComposer.this.selectedDay);
 
@@ -1474,7 +1492,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.listbox_program.setModel(model);
 
 		// set combo task
-		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
+		final List<UserTask> list = this.getListTaskForComboPopup(user);
 
 		this.program_task.setSelectedItem(null);
 		this.program_task.getChildren().clear();
@@ -1541,7 +1559,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.selectedDay = Integer.parseInt(info[1]);
 		this.selectedShift = Integer.parseInt(info[2]);
-		this.selectedUser = row_scheduler.getUser();
+		final Integer user = row_scheduler.getUser();
+		this.selectedUser = user;
 
 		final Date date_schedule = DateUtils.truncate(date_to_configure, Calendar.DATE);
 
@@ -1591,7 +1610,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.listbox_review.setModel(model);
 
 		// set combo task
-		final List<UserTask> list = this.taskDAO.loadTasksByUser(row_scheduler.getUser());
+		final List<UserTask> list = this.getListTaskForComboPopup(user);
 
 		this.review_task.setSelectedItem(null);
 		this.review_task.getChildren().clear();
