@@ -7,6 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
@@ -14,6 +16,16 @@ import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 public class RestControllerImpl implements IWebServiceController {
 
 	private IWebServiceController	webcontroller;
+
+	@Override
+	public List<UserShift> getUserShiftConfiguration() {
+		return this.webcontroller.getUserShiftConfiguration();
+	}
+
+	@Override
+	public List<UserTask> getUserTaskConfiguration() {
+		return this.getUserTaskConfiguration();
+	}
 
 	public IWebServiceController getWebcontroller() {
 		return this.webcontroller;

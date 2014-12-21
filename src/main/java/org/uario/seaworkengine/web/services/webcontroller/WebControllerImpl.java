@@ -9,6 +9,10 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.web.services.IWebServiceController;
@@ -18,7 +22,12 @@ import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 public class WebControllerImpl implements IWebServiceController {
 
 	private PersonDAO	personDAO;
+
 	private ISchedule	scheduleDAO;
+
+	private IShiftCache	shiftCache;
+
+	private ITaskCache	taskCache;
 
 	public PersonDAO getPersonDAO() {
 		return this.personDAO;
@@ -26,6 +35,25 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public ISchedule getScheduleDAO() {
 		return this.scheduleDAO;
+	}
+
+	public IShiftCache getShiftCache() {
+		return this.shiftCache;
+	}
+
+	public ITaskCache getTaskCache() {
+		return this.taskCache;
+	}
+
+	@Override
+	public List<UserShift> getUserShiftConfiguration() {
+		return new ArrayList<UserShift>(this.shiftCache.getHash().values());
+
+	}
+
+	@Override
+	public List<UserTask> getUserTaskConfiguration() {
+		return new ArrayList<UserTask>(this.taskCache.getHash().values());
 	}
 
 	@Override
@@ -79,6 +107,14 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public void setScheduleDAO(final ISchedule scheduleDAO) {
 		this.scheduleDAO = scheduleDAO;
+	}
+
+	public void setShiftCache(final IShiftCache shiftCache) {
+		this.shiftCache = shiftCache;
+	}
+
+	public void setTaskCache(final ITaskCache taskCache) {
+		this.taskCache = taskCache;
 	}
 
 }

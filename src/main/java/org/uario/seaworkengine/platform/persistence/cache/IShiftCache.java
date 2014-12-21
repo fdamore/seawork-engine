@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.platform.persistence.cache;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.uario.seaworkengine.model.UserShift;
@@ -21,8 +22,20 @@ public interface IShiftCache {
 	public UserShift getBreakShift();
 
 	/**
+	 * @return
+	 */
+	public UserShift getDailyShift();
+
+	/**
+	 * Get current hash
+	 *
+	 * @return
+	 */
+	public HashMap<Integer, UserShift> getHash();
+
+	/**
 	 * Standard work shift
-	 * 
+	 *
 	 * @return
 	 */
 	public UserShift getStandardWorkShift();
@@ -35,8 +48,9 @@ public interface IShiftCache {
 	 */
 	public UserShift getUserShift(Integer id);
 
-	public abstract UserShift getWaitedBreakShift();
-
-	public abstract UserShift getDailyShift();
+	/**
+	 * @return
+	 */
+	public UserShift getWaitedBreakShift();
 
 }

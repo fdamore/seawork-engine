@@ -19,7 +19,7 @@ public class TaskCacheImpl implements ITaskCache {
 	private final HashMap<Integer, UserTask>	hash	= new HashMap<Integer, UserTask>();
 
 	@Override
-	public void buildCache(final List<UserTask> caches) {
+	public synchronized void buildCache(final List<UserTask> caches) {
 
 		// clear internal cache
 		this.hash.clear();
@@ -28,6 +28,11 @@ public class TaskCacheImpl implements ITaskCache {
 			this.hash.put(item.getId(), item);
 		}
 
+	}
+
+	@Override
+	public HashMap<Integer, UserTask> getHash() {
+		return this.hash;
 	}
 
 	@Override

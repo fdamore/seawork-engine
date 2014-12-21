@@ -19,7 +19,7 @@
 
 	<bean id="soapservice"
 		class="org.uario.seaworkengine.web.services.soap.SoapControllerImpl">
-		<property name="webcontroller" ref="webcontroller" />		
+		<property name="webcontroller" ref="webcontroller" />
 	</bean>
 
 	<!-- END SOAP SERVICE -->
@@ -47,6 +47,8 @@
 		class="org.uario.seaworkengine.web.services.webcontroller.WebControllerImpl">
 		<property name="personDAO" ref="myPersonDAO"></property>
 		<property name="scheduleDAO" ref="myScheduleDAO"></property>
+		<property name="shiftCache" ref="myShiftCache"></property>
+		<property name="taskCache" ref="myTaskCache"></property>
 
 	</bean>
 

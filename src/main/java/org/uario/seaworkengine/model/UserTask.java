@@ -2,6 +2,9 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(namespace = "org.uario.seaworkengine.model")
 public class UserTask implements Serializable, Comparable<UserTask> {
 
 	/**

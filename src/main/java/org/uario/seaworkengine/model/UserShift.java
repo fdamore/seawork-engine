@@ -2,6 +2,9 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(namespace = "org.uario.seaworkengine.model")
 public class UserShift implements Serializable {
 
 	/**
@@ -39,8 +42,7 @@ public class UserShift implements Serializable {
 			final UserShift itm = (UserShift) obj;
 			return this.getCode().equals(itm.getCode());
 
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

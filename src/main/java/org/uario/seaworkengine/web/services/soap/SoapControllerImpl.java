@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
@@ -11,6 +13,16 @@ import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 public class SoapControllerImpl implements ISoapServiceInterface {
 
 	private IWebServiceController	webcontroller;
+
+	@Override
+	public List<UserShift> getUserShiftConfiguration() {
+		return this.webcontroller.getUserShiftConfiguration();
+	}
+
+	@Override
+	public List<UserTask> getUserTaskConfiguration() {
+		return this.webcontroller.getUserTaskConfiguration();
+	}
 
 	public IWebServiceController getWebcontroller() {
 		return this.webcontroller;

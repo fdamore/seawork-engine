@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.platform.persistence.cache;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.uario.seaworkengine.model.UserTask;
@@ -12,6 +13,13 @@ public interface ITaskCache {
 	 * @param caches
 	 */
 	public void buildCache(List<UserTask> caches);
+
+	/**
+	 * get current hash
+	 *
+	 * @return
+	 */
+	public HashMap<Integer, UserTask> getHash();
 
 	/**
 	 * Get UserTask

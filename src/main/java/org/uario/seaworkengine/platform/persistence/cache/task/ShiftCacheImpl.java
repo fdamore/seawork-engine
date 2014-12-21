@@ -27,7 +27,7 @@ public class ShiftCacheImpl implements IShiftCache {
 	private UserShift							waitedBreakShift;
 
 	@Override
-	public void buildCache(final List<UserShift> caches) {
+	public synchronized void buildCache(final List<UserShift> caches) {
 
 		// clear internal cache
 		this.hash.clear();
@@ -64,6 +64,11 @@ public class ShiftCacheImpl implements IShiftCache {
 	@Override
 	public UserShift getDailyShift() {
 		return this.dailyShift;
+	}
+
+	@Override
+	public HashMap<Integer, UserShift> getHash() {
+		return this.hash;
 	}
 
 	@Override
