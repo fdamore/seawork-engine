@@ -34,6 +34,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Popup;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 
@@ -42,69 +43,75 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long				serialVersionUID		= 1L;
+	private static final long			serialVersionUID		= 1L;
 
 	@Wire
-	private Component						add_scheduleShips_command;
+	private Component					add_scheduleShips_command;
 
 	@Wire
-	private Tab								detail_scheduleShip_tab;
+	private Tab							detail_scheduleShip_tab;
 
 	@Wire
-	private Textbox							full_text_search;
+	private Textbox						full_text_search;
 
 	@Wire
-	private Component						grid_scheduleShip_details;
+	private Component					grid_scheduleShip_details;
 
 	@Wire
-	private Intbox							handswork;
+	private Intbox						handswork;
 
-	private final List<DetailScheduleShip>	listDetailScheduleShip	= new ArrayList<DetailScheduleShip>();
+	private List<DetailScheduleShip>	listDetailScheduleShip	= new ArrayList<DetailScheduleShip>();
 
-	private final Logger					logger					= Logger.getLogger(UserDetailsComposer.class);
-
-	@Wire
-	private Component						modify_Scheduleships_command;
+	private final Logger				logger					= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox							note;
+	private Component					modify_Scheduleships_command;
 
 	@Wire
-	private Textbox							operation;
-
-	protected PersonDAO						personDao;
-
-	ScheduleShip							scheduleShip_selected	= null;
+	private Textbox						note;
 
 	@Wire
-	private Combobox						shift;
+	private Textbox						operation;
+
+	protected PersonDAO					personDao;
 
 	@Wire
-	private Datebox							ship_arrival;
+	private Popup						popup_detailscheduleship;
 
 	@Wire
-	private Combobox						ship_name;
+	private Listbox						popup_sw_list_scheduleDetailShip;
+
+	ScheduleShip						scheduleShip_selected	= null;
 
 	@Wire
-	private Doublebox						ship_volume;
-
-	protected IShip							shipDao;
-
-	protected IScheduleShip					shipSchedulerDao;
+	private Combobox					shift;
 
 	@Wire
-	private Intbox							shows_rows;
+	private Datebox						ship_arrival;
 
 	@Wire
-	private Listbox							sw_list_scheduleDetailShip;
+	private Combobox					ship_name;
 
 	@Wire
-	private Listbox							sw_list_scheduleShip;
+	private Doublebox					ship_volume;
+
+	protected IShip						shipDao;
+
+	protected IScheduleShip				shipSchedulerDao;
 
 	@Wire
-	private Combobox						user;
+	private Intbox						shows_rows;
 
-	protected PersonDAO						userPrep;
+	@Wire
+	private Listbox						sw_list_scheduleDetailShip;
+
+	@Wire
+	private Listbox						sw_list_scheduleShip;
+
+	@Wire
+	private Combobox					user;
+
+	protected PersonDAO					userPrep;
 
 	@Listen("onClick = #add_scheduleShipsDetail_command")
 	public void addScheduleShipsDetailCommand() {
@@ -128,6 +135,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			model.setMultiple(false);
 			this.sw_list_scheduleDetailShip.setModel(model);
 
+			this.resetDataInfoTabDetail();
 		}
 	}
 
@@ -218,7 +226,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// set detail to selection
 		this.detail_scheduleShip_tab.getTabbox().setSelectedTab(this.detail_scheduleShip_tab);
 
-		// take ship
+		// take schedule ship
 		this.scheduleShip_selected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
 		// get the last ship from database
@@ -226,6 +234,20 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// general details
 		this.defineScheduleShipDetailsView(this.scheduleShip_selected);
+
+		final List<DetailScheduleShip> detailList = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
+
+		for (final DetailScheduleShip detailScheduleShip : detailList) {
+			final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
+			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+		}
+
+		this.listDetailScheduleShip.clear();
+		this.listDetailScheduleShip = new ArrayList<DetailScheduleShip>(detailList);
+
+		final ListModelList<DetailScheduleShip> detailModelList = new ListModelList<DetailScheduleShip>(detailList);
+
+		this.sw_list_scheduleDetailShip.setModel(detailModelList);
 
 	}
 
@@ -378,6 +400,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			// update
 			this.shipSchedulerDao.updateScheduleShip(this.scheduleShip_selected);
 
+			this.shipSchedulerDao.deteleDetailSchedueleShipByIdSchedule(this.scheduleShip_selected.getId());
+
+			for (final DetailScheduleShip item : this.listDetailScheduleShip) {
+				item.setIdscheduleship(this.scheduleShip_selected.getId());
+				this.shipSchedulerDao.createDetailScheduleShip(item);
+			}
+
 			// update list
 			this.setScheduleShipListBox();
 
@@ -491,6 +520,55 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// set detail to selection
 		this.detail_scheduleShip_tab.getTabbox().setSelectedTab(this.detail_scheduleShip_tab);
 
+	}
+
+	@Listen("onClick = #sw_link_previewDetailship")
+	public void showDetailScheduleShipInPopup() {
+
+		this.scheduleShip_selected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		if (this.scheduleShip_selected != null) {
+			final List<DetailScheduleShip> detailList = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
+
+			this.popup_sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>(detailList));
+			// show name of operative user
+			for (final DetailScheduleShip detailScheduleShip : detailList) {
+				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
+				detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+			}
+
+		}
+
+	}
+
+	@Listen("onClick = #sw_shipArrivalToday")
+	public void showScheduleShipTodayInArrival() {
+		List<ScheduleShip> list_scheduleShip = null;
+
+		Date date = new Date();
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		date = cal.getTime();
+
+		final Timestamp today = new Timestamp(date.getTime());
+
+		list_scheduleShip = this.shipSchedulerDao.loadScheduleShipByArrivalDate(today);
+
+		for (final ScheduleShip scheduleShip : list_scheduleShip) {
+			scheduleShip.setName(this.shipDao.loadShip(scheduleShip.getIdship()).getName());
+		}
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
+		} else {
+			this.sw_list_scheduleShip.setPageSize(10);
+		}
+
+		this.sw_list_scheduleShip.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
 	}
 
 }

@@ -20,7 +20,7 @@
 		where
 		id = #{id_scheduleShip}
 	</delete>
-
+	
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
@@ -87,6 +87,14 @@
 		id = #{id_detailScheduleShip}
 	</delete>
 
+	<delete id="deteleDetailSchedueleShipByIdSchedule" parameterType="Integer">
+		delete from
+		detailscheduleship
+		where
+		idscheduleship = #{id_scheduleShip};
+	</delete>
+
+
 	<select id="loadDetailScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT d.id, d.idscheduleship, d.shift, d.operation, d.iduser,
@@ -109,6 +117,13 @@
 		scheduleship where
 		idship = #{idship} and
 		arrivaldate = #{arrivaldate};
+	</select>
+		
+	<select id="loadScheduleShipByArrivalDate" parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip" >
+		SELECT id, idship, volume, note, arrivaldate
+		FROM
+		scheduleship where
+		date(arrivaldate) = date(#{arrivaldate});
 	</select>
 
 	<update id="updateDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
