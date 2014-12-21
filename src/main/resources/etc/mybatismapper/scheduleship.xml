@@ -129,11 +129,15 @@
 	
 	
 	<select id="loadScheduleShipInDate" parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip" >
+		<![CDATA[
+		
 		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, s.name
 		FROM
 		scheduleship ss, ship s 
 		where
 		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) and s.id = ss.idship;
+		
+		]]>		
 	</select>
 
 	<update id="updateDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
