@@ -341,7 +341,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// add item in combobox ship name
 				if (modelComboBox_ShipName.getSize() == 0) {
 					Messagebox
-					.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+							.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 				}
 
 				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox_ShipName);
@@ -433,15 +433,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void removeItem() {
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener<Event>() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipSchedulerComposer.this.deleteScheduleShipCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipSchedulerComposer.this.deleteScheduleShipCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				});
 
 	}
 
@@ -527,18 +527,48 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.scheduleShip_selected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
-		final List<DetailScheduleShip> detailList = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
-
 		if (this.scheduleShip_selected != null) {
+			final List<DetailScheduleShip> detailList = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
+
 			this.popup_sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>(detailList));
+			// show name of operative user
+			for (final DetailScheduleShip detailScheduleShip : detailList) {
+				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
+				detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+			}
+
 		}
 
-		// show name of operative user
-		for (final DetailScheduleShip detailScheduleShip : detailList) {
-			final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
-			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+	}
+
+	@Listen("onClick = #sw_shipArrivalToday")
+	public void showScheduleShipTodayInArrival() {
+		List<ScheduleShip> list_scheduleShip = null;
+
+		Date date = new Date();
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		date = cal.getTime();
+
+		final Timestamp today = new Timestamp(date.getTime());
+
+		list_scheduleShip = this.shipSchedulerDao.loadScheduleShipByArrivalDate(today);
+
+		for (final ScheduleShip scheduleShip : list_scheduleShip) {
+			scheduleShip.setName(this.shipDao.loadShip(scheduleShip.getIdship()).getName());
 		}
 
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
+		} else {
+			this.sw_list_scheduleShip.setPageSize(10);
+		}
+
+		this.sw_list_scheduleShip.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
 	}
 
 }

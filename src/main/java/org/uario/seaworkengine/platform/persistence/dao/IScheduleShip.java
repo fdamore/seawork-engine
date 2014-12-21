@@ -26,6 +26,8 @@ public interface IScheduleShip {
 
 	public ScheduleShip loadScheduleShip(Integer id_scheduleShip);
 
+	public List<ScheduleShip> loadScheduleShipByArrivalDate(Timestamp arrivaldate);
+
 	public ScheduleShip loadScheduleShipByIdShipAndArrivalDate(Integer idship, Timestamp arrivaldate);
 
 	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);

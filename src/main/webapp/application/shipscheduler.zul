@@ -271,7 +271,9 @@
 			label="Aggiorna Lista Programmazione">
 		</button>
 
-		
+		<button id="sw_shipArrivalToday" sclass="btn-info"
+			label="Visualizza Navi in arrivo oggi">
+		</button>
 
 		<separator></separator>
 	</div>
