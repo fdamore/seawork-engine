@@ -40,6 +40,7 @@
 		scheduleship s,
 		ship sh
 		where s.idship = sh.id
+		order by s.arrivaldate DESC;
 	</select>
 
 	<select id="selectAllScheduleShipFulltextSearchLike"
@@ -51,7 +52,7 @@
 		<if test="my_full_text_search != null">
 		WHERE (sh.name like CONCAT('%',#{my_full_text_search}, '%') and s.idship = sh.id)			
 		</if>
-		order by s.id;
+		order by s.arrivaldate DESC;
 	</select>
 
 
@@ -124,6 +125,15 @@
 		FROM
 		scheduleship where
 		date(arrivaldate) = date(#{arrivaldate});
+	</select>
+	
+	
+	<select id="loadScheduleShipInDate" parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip" >
+		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, s.name
+		FROM
+		scheduleship ss, ship s 
+		where
+		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) and s.id = ss.idship;
 	</select>
 
 	<update id="updateDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">

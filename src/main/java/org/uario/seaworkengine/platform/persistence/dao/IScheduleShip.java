@@ -30,6 +30,8 @@ public interface IScheduleShip {
 
 	public ScheduleShip loadScheduleShipByIdShipAndArrivalDate(Integer idship, Timestamp arrivaldate);
 
+	public List<ScheduleShip> loadScheduleShipInDate(Timestamp dateFrom, Timestamp dateTo);
+
 	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);
 
 	public void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);

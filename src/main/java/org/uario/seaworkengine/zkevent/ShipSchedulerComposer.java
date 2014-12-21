@@ -84,6 +84,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	ScheduleShip						scheduleShip_selected	= null;
 
 	@Wire
+	private Datebox						searchArrivalDateShipFrom;
+
+	@Wire
+	private Datebox						searchArrivalDateShipTo;
+
+	@Wire
 	private Combobox					shift;
 
 	@Wire
@@ -423,6 +429,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_refresh_list;")
 	public void refreshListShip() {
 
+		this.searchArrivalDateShipFrom.setValue(null);
+		this.searchArrivalDateShipTo.setValue(null);
+
 		this.full_text_search.setValue(null);
 
 		// set user listbox
@@ -466,6 +475,34 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.listDetailScheduleShip.clear();
 		this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
+
+	}
+
+	@Listen("onClick = #sw_searchScheduleShip")
+	public void searchScheduleShipByDate() {
+		List<ScheduleShip> list_scheduleShip = null;
+
+		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
+
+		final Date dateTo = this.searchArrivalDateShipTo.getValue();
+
+		if ((dateFrom != null && dateTo != null) && (dateTo.compareTo(dateFrom) >= 0)) {
+			final Timestamp dateFromTS = new Timestamp(dateFrom.getTime());
+
+			final Timestamp dateToTS = new Timestamp(dateTo.getTime());
+
+			list_scheduleShip = this.shipSchedulerDao.loadScheduleShipInDate(dateFromTS, dateToTS);
+
+			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+				this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
+			} else {
+				this.sw_list_scheduleShip.setPageSize(10);
+			}
+
+			this.sw_list_scheduleShip.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
+		} else {
+			Messagebox.show("Verificare valori inseriti");
+		}
 
 	}
 
@@ -569,6 +606,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.sw_list_scheduleShip.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
+
 	}
 
 }

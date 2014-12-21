@@ -277,7 +277,23 @@
 
 		<separator></separator>
 	</div>
+	
 
+	<hbox>
+		<a label="Ricerca Navi in arrivo: "
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+		<datebox id="searchArrivalDateShipFrom" placeholder="dalla data..." />
+		
+		<datebox id="searchArrivalDateShipTo" placeholder="alla data..." />
+		
+		<button id="sw_searchScheduleShip" sclass="btn-info"
+			label="Visualizza Navi in intervallo">
+		</button>
+
+	</hbox>
+	
+	<space/>
+	
 	<!-- SHOW ROWS AND SEARCH -->
 	<hbox>
 		<a label="Righe da visualizzare: "
@@ -287,9 +303,8 @@
 		</intbox>
 
 		<textbox placeholder="Cerca..." id="full_text_search"></textbox>
-
+				
 	</hbox>
-
 
 	<separator></separator>
 
@@ -298,11 +313,11 @@
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 		pageSize="10">
 		<listhead sizable="true">
-			<listheader label="Id" sort="auto(id)" />
+			<listheader label="Id" />
 			<listheader label="Id Nave" />
 			<listheader label="Volume" />
 			<listheader label="Note" />
-			<listheader label="Data di arrivo"  />
+			<listheader label="Data di arrivo" sort="auto(arrivaldate)" sortDirection="ascending"   />
 			
 			
 			<listheader label="" />
