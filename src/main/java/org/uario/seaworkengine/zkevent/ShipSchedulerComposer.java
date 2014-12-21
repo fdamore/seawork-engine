@@ -34,6 +34,7 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Popup;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 
@@ -73,6 +74,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Textbox						operation;
 
 	protected PersonDAO					personDao;
+
+	@Wire
+	private Popup						popup_detailscheduleship;
+
+	@Wire
+	private Listbox						popup_sw_list_scheduleDetailShip;
 
 	ScheduleShip						scheduleShip_selected	= null;
 
@@ -219,7 +226,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// set detail to selection
 		this.detail_scheduleShip_tab.getTabbox().setSelectedTab(this.detail_scheduleShip_tab);
 
-		// take ship
+		// take schedule ship
 		this.scheduleShip_selected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
 		// get the last ship from database
@@ -512,6 +519,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// set detail to selection
 		this.detail_scheduleShip_tab.getTabbox().setSelectedTab(this.detail_scheduleShip_tab);
+
+	}
+
+	@Listen("onClick = #sw_link_previewDetailship")
+	public void showDetailScheduleShipInPopup() {
+
+		this.scheduleShip_selected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		final List<DetailScheduleShip> detailList = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
+
+		if (this.scheduleShip_selected != null) {
+			this.popup_sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>(detailList));
+		}
+
+		// show name of operative user
+		for (final DetailScheduleShip detailScheduleShip : detailList) {
+			final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
+			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+		}
 
 	}
 

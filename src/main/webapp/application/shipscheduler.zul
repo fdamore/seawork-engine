@@ -24,9 +24,41 @@
 
 		<space></space>
 		
+		<popup id="popup_detailscheduleship" >
+				<panel border="none" collapsible="false"
+					style="margin: 5px 5px 5px 5px" width="400px">
+					<panelchildren>
+						<vbox align="start">
+							<listbox id="popup_sw_list_scheduleDetailShip" pagingPosition="both" mold="paging"
+											style="border: 1px solid #CCCCCC;" multiple="false"
+											pageSize="10">
+											<listhead sizable="true">
+												<listheader label="Turno" width="50px" />
+												<listheader label="Operazione" />
+												<listheader label="Nome preposto" />
+												<listheader label="Mani di lavoro" width="100px" />
+											</listhead>									
+											<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
+											</listitem>									
+										</listbox>														
+						</vbox>
+					</panelchildren>
+				</panel>				
+			</popup>
+		
+		
+		
+				
+		
+		
 		<!-- SHIP EDITOR -->
 	<div id="grid_scheduleShip_details" visible="false">
 
+		
 
 		<a id="shipName" iconSclass="z-icon-angle-double-right"
 			sclass="subtitle" />
@@ -299,7 +331,7 @@
 				
 				<toolbarbutton id="sw_link_previewDetailship"
 					style="color:blue"
-					onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
+					onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent()); popup_detailscheduleship.open(self,"after_pointer");'
 					label="Anteprima Dettagli">
 				</toolbarbutton>
 
