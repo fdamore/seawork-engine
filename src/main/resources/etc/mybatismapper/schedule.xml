@@ -110,12 +110,11 @@
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-		SELECT id, date_schedule, user, editor, controller,
-		shift,
-		note
-		FROM schedule
-		WHERE user = #{id_user} and
-		date_schedule =
+		SELECT s.id, s.date_schedule, s.user, s.editor, s.controller,
+		s.shift,s.note
+		FROM schedule s
+		WHERE s.user = #{id_user} and
+		s.date_schedule =
 		#{date_schedule};
 	</select>
 

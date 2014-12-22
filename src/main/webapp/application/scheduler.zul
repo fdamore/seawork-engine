@@ -259,6 +259,8 @@
 							<a label="Turno Corrente: "
 								id="label_date_shift_preprocessing" sclass="header"
 								iconSclass="z-icon-check" />
+							<a id="editor_label_daydefinition"/>
+							<a id="controller_label_daydefinition"/>
 
 							<separator></separator>
 							<combobox id="shifts_combo_select"
@@ -886,6 +888,8 @@
 						<a id="scheduler_label"></a>
 						<a id="label_date_shift_program" sclass="header"
 							iconSclass="z-icon-check" />
+						<a id="editor_label"/>
+						<a id="controller_label"/>
 
 					</vbox>
 
@@ -1440,6 +1444,8 @@
 								<a id="scheduler_label_review"></a>
 								<a id="label_date_shift_review"
 									sclass="header" iconSclass="z-icon-check" />
+								<a id="editor_label_review"/>
+								<a id="controller_label_review"/>
 							</vbox>
 							<space></space>
 

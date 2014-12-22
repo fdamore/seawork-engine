@@ -95,6 +95,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private static final long				serialVersionUID				= 1L;
 
 	private ConfigurationDAO				configurationDAO;
+	@Wire
+	private A								controller_label;
+
+	@Wire
+	private A								controller_label_daydefinition;
+
+	@Wire
+	private A								controller_label_review;
+
 	private Schedule						currentSchedule;
 
 	@Wire
@@ -124,6 +133,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Component						div_force_shift;
 
+	@Wire
+	private A								editor_label;
+
+	@Wire
+	private A								editor_label_daydefinition;
+
+	@Wire
+	private A								editor_label_review;
+
 	/**
 	 * First date in grid
 	 */
@@ -146,12 +164,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Comboitem						item_all_shift_overview;
-
 	@Wire
 	private A								label_date_popup;
 
 	@Wire
 	private A								label_date_shift_preprocessing;
+
 	@Wire
 	private A								label_date_shift_program;
 
@@ -238,16 +256,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox							program_time_hours;
-
 	@Wire
 	private Intbox							program_time_minuts;
-
 	@Wire
 	private Div								review_div;
 	@Wire
 	private Comboitem						review_item;
+
 	@Wire
 	private Combobox						review_task;
+
 	@Wire
 	private Intbox							review_time;
 
@@ -1186,7 +1204,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	/**
 	 * Get list of task to include in combo popup
-	 * 
+	 *
 	 * @param user
 	 * @return
 	 */
@@ -1374,6 +1392,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.note_preprocessing.setValue(null);
 		}
 
+		// show programmer and controller
+		this.editor_label_daydefinition.setLabel("");
+		this.controller_label_daydefinition.setLabel("");
+
+		if (this.currentSchedule != null) {
+
+			if (this.currentSchedule.getEditor() != null) {
+				final Person editor = this.personDAO.loadPerson(this.currentSchedule.getEditor());
+				if (editor != null) {
+					this.editor_label_daydefinition.setLabel("Programmatore: " + editor.getFirstname() + " " + editor.getLastname());
+				}
+			}
+
+			if (this.currentSchedule.getController() != null) {
+				final Person controller = this.personDAO.loadPerson(this.currentSchedule.getController());
+				if (controller != null) {
+					this.controller_label_daydefinition.setLabel("Controllore: " + controller.getFirstname() + " " + controller.getLastname());
+				}
+			}
+
+		}
+
 		this.day_definition_popup.open(this.grid_scheduler_day, "after_pointer");
 	}
 
@@ -1434,6 +1474,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set label
 		this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule)
 				+ ". Turno: " + SchedulerComposer.this.selectedShift);
+
+		// show programmer and controller
+		this.editor_label.setLabel("");
+		this.controller_label.setLabel("");
+
+		if (this.currentSchedule != null) {
+
+			if (this.currentSchedule.getEditor() != null) {
+				final Person editor = this.personDAO.loadPerson(this.currentSchedule.getEditor());
+				if (editor != null) {
+					this.editor_label.setLabel("Programmatore: " + editor.getFirstname() + " " + editor.getLastname());
+				}
+			}
+
+			if (this.currentSchedule.getController() != null) {
+				final Person controller = this.personDAO.loadPerson(this.currentSchedule.getController());
+				if (controller != null) {
+					this.controller_label.setLabel("Controllore: " + controller.getFirstname() + " " + controller.getLastname());
+				}
+			}
+
+		}
 
 		// reset editor tools
 		this.program_time_hours.setValue(null);
@@ -1635,6 +1697,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
+		// show programmer and controller
+		this.editor_label_review.setLabel("");
+		this.controller_label_review.setLabel("");
+
+		if (this.currentSchedule != null) {
+
+			if (this.currentSchedule.getEditor() != null) {
+				final Person editor = this.personDAO.loadPerson(this.currentSchedule.getEditor());
+				if (editor != null) {
+					this.editor_label_review.setLabel("Programmatore: " + editor.getFirstname() + " " + editor.getLastname());
+				}
+			}
+
+			if (this.currentSchedule.getController() != null) {
+				final Person controller = this.personDAO.loadPerson(this.currentSchedule.getController());
+				if (controller != null) {
+					this.controller_label_review.setLabel("Controllore: " + controller.getFirstname() + " " + controller.getLastname());
+				}
+			}
+
+		}
+
 	}
 
 	@Listen("onClick = #refresh_command")
@@ -1693,7 +1777,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 					Messagebox
-					.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
 					return;
 				}
 				// remove day schedule in interval date
@@ -1990,22 +2074,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 							"CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 							new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
 
-								SchedulerComposer.this.saveProgramFinalStep();
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
+										SchedulerComposer.this.saveProgramFinalStep();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
 
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
 
-							}
-						}
-					});
+									}
+								}
+							});
 
 					return;
 
