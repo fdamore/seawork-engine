@@ -200,6 +200,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Row					row_password_user_retype;
 
 	@Wire
+	private Combobox			select_specific_user;
+
+	@Wire
 	private Combobox			sex_user;
 
 	@Wire
@@ -702,6 +705,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void refreshListUser() {
 
 		this.full_text_search.setValue(null);
+		this.select_specific_user.setSelectedItem(null);
 
 		// set user listbox
 		this.setUserListBox();
@@ -776,13 +780,30 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.row_password_user_retype.setVisible(true);
 	}
 
-	@Listen("onClick = #sw_select_admins")
-	public void selectAdmins() {
+	private void selectAdmins() {
 
 		final List<Person> list_person = this.personDao.usersAdmin();
 
 		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
 
+	}
+
+	private void selectOperatives() {
+		final List<Person> list_person = this.personDao.listOperativePerson();
+
+		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+	}
+
+	@Listen("onChange=#select_specific_user")
+	public void selectSpecificUser() {
+		final String selected = this.select_specific_user.getSelectedItem().getValue().toString();
+		if (selected.equals("Amministratori di Sistema")) {
+			this.selectAdmins();
+		} else if (selected.equals("Preposti")) {
+			this.selectOperatives();
+		} else {
+			this.refreshListUser();
+		}
 	}
 
 	/**
@@ -828,6 +849,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		this.full_text_search.setValue(null);
 
+		this.select_specific_user.setSelectedItem(null);
+
 		// set user listbox
 		this.setUserListBox();
 
@@ -841,6 +864,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	 */
 	@Listen("onOK = #shows_rows, #full_text_search")
 	public void setUserListBox() {
+
+		this.select_specific_user.setSelectedItem(null);
 
 		List<Person> list_person = null;
 

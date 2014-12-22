@@ -539,9 +539,13 @@
 			label="Aggiorna Lista Utenti">
 		</button>
 
-		<button id="sw_select_admins" sclass="btn-info"
-			label="Seleziona Amministratori di Sistema">
-		</button>
+				
+		<combobox id="select_specific_user" readonly="true" placeholder="Seleziona Utenti Default"
+											mold="rounded" >
+			<comboitem label="--" value="--"/>
+			<comboitem label="Amministratori di Sistema" value="Amministratori di Sistema"/>
+			<comboitem label="Preposti" value="Preposti"/>
+		</combobox>
 
 		<separator></separator>
 	</div>

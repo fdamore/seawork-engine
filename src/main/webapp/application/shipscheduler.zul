@@ -107,6 +107,7 @@
 										</label>
 										<combobox id="ship_name" readonly="true" placeholder="Seleziona Nome Nave"
 											mold="rounded" />
+											
 
 									</row>
 
