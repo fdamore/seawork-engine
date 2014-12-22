@@ -1,5 +1,6 @@
 <?page id="preferences" title="Preferences"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
 
 <vlayout sclass="page-content" xmlns:n="native" spacing="0"
 	id="page_preferences"

@@ -1,6 +1,8 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.FiscalControl;
@@ -90,7 +92,13 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 		final FiscalControl item = this.sw_list.getSelectedItem().getValue();
 
 		this.fcDAO.removeFiscalControl(item.getId());
-		Messagebox.show("Visita Fiscale rimossa", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Visita Fiscale rimossa", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.setInitialView();
@@ -176,7 +184,12 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 
 			this.fcDAO.createFCForUser(this.person_selected.getId(), item);
 
-			Messagebox.show("Visita fiscale aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Visita fiscale aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		} else {
 
@@ -199,8 +212,16 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
 			@Override
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
@@ -209,7 +230,7 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 					// Cancel is clicked
 				}
 			}
-		});
+		}, params);
 
 	}
 

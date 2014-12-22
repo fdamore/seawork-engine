@@ -2,7 +2,9 @@ package org.uario.seaworkengine.zkevent;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -95,7 +97,12 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		this.employmentDao.removeEmployment(item.getId());
 
-		Messagebox.show("Informazione rimossa", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Informazione rimossa", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.setInitialView();
@@ -216,10 +223,14 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			this.employmentDao.createEmploymentForUser(this.person_selected.getId(), item);
 			item.setId_user(this.person_selected.getId());
 
-			Messagebox.show("Status aggiunto all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
 
-		}
-		else {
+			Messagebox.show("Status aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+
+		} else {
 
 			// modify a status
 
@@ -296,18 +307,24 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerStatus.this.deleteItemToUser();
-				}
-				else
-					if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerStatus.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
 					}
-			}
-		});
+				}, params);
 
 	}
 
@@ -322,7 +339,12 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(item.getId_user(), item.getDate_modified());
 
-		Messagebox.show("Status Utente Assegnato", "Info", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Status utente assegnato", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 	}
 
@@ -352,14 +374,24 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		if (this.status.getSelectedItem() != null) {
 			final String status_val = this.status.getSelectedItem().getValue();
 			item.setStatus(status_val);
-		}
-		else {
-			Messagebox.show("Selezionare Status Utente!", "Info", Messagebox.OK, Messagebox.INFORMATION);
+		} else {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Selezionare Status utente!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+
 			return false;
 		}
 
 		if (this.date_modifiled.getValue() == null) {
-			Messagebox.show("Selezionare una data!", "Info", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Selezionare una data!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 			return false;
 		}
 

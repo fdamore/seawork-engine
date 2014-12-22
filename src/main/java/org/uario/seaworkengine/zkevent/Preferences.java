@@ -1,7 +1,9 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -130,7 +132,13 @@ public class Preferences extends SelectorComposer<Component> {
 		shift.setDescription(this.description_shift.getValue());
 
 		if (us_type == null) {
-			Messagebox.show("Selezionare tipo di turno", "Error", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Selezionare tipo di turno", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 			return;
 		}
 
@@ -197,12 +205,22 @@ public class Preferences extends SelectorComposer<Component> {
 		final String status = this.description_status.getValue().toString();
 
 		if (status == "") {
-			Messagebox.show("Inserire uno status!", "Error", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Inserire uno status", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
 		if (this.configurationDao.selectAllStatus().contains(status)) {
-			Messagebox.show("Status già presente!", "Error", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Status già presente!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
@@ -563,8 +581,16 @@ public class Preferences extends SelectorComposer<Component> {
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
 		if (!shift.isDefault()) {
-			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-					new org.zkoss.zk.ui.event.EventListener() {
+
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+
+			final Messagebox.Button[] buttons = new Messagebox.Button[2];
+			buttons[0] = Messagebox.Button.OK;
+			buttons[1] = Messagebox.Button.CANCEL;
+
+			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					new EventListener() {
 						@Override
 						public void onEvent(final Event e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
@@ -573,9 +599,17 @@ public class Preferences extends SelectorComposer<Component> {
 								// Cancel is clicked
 							}
 						}
-					});
+					}, params);
+
 		} else {
-			Messagebox.show("Prima di rimuovere il turno, assegnare la specificità ad un altro turno.");
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Prima di rimuovere il turno, assegnare la specificità ad un altro turno.", "ATTENZIONE", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
+
 		}
 
 	}
@@ -584,11 +618,25 @@ public class Preferences extends SelectorComposer<Component> {
 	public void removeStatus() {
 		final String status = this.sw_list_status.getSelectedItem().getValue().toString();
 		if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED) || status.equals(UserStatusTag.OPEN)) {
-			Messagebox.show("Status di sistema, impossibile eliminare!", "Error", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Status di sistema, impossibile eliminare!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 			return;
 		}
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -597,15 +645,21 @@ public class Preferences extends SelectorComposer<Component> {
 							// Cancel is clicked
 						}
 					}
-				});
+				}, params);
 
 	}
 
 	@Listen("onClick = #sw_link_deletetask")
 	public void removeTask() {
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -614,7 +668,7 @@ public class Preferences extends SelectorComposer<Component> {
 							// Cancel is clicked
 						}
 					}
-				});
+				}, params);
 
 	}
 
@@ -767,7 +821,13 @@ public class Preferences extends SelectorComposer<Component> {
 		final String value = this.docrepo.getValue();
 		this.paramsDAO.setParam(ParamsTag.REPO_DOC, value);
 
-		Messagebox.show("Doc Repository Aggiornato con successo", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Doc Repository Aggiornato con successo", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+
 	}
 
 }

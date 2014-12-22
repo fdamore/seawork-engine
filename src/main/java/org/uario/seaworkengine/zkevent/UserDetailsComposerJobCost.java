@@ -1,7 +1,9 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.uario.seaworkengine.model.JobCost;
 import org.uario.seaworkengine.model.Person;
@@ -136,7 +138,12 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		final JobCost item = this.sw_list.getSelectedItem().getValue();
 
 		this.jobCostDAO.removeJobCost(item.getId());
-		Messagebox.show("Centro di costo rimosso", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Centro di costo rimosso", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.setInitialView();
@@ -209,12 +216,24 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	public void okCommand() {
 
 		if (this.bill_center.getSelectedItem() == null) {
-			Messagebox.show("Inserire centro di costo!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Inserire centro di costo!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+
 			return;
 		}
 
 		if (!this.controlDate(this.date_from.getValue(), this.date_to.getValue())) {
-			Messagebox.show("Controllare date inserite!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controllare date inserite!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+
 			return;
 		}
 
@@ -232,7 +251,12 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 			this.jobCostDAO.createJobCost(item);
 			// this.createFCForUser(this.person_selected.getId(), item);
 
-			Messagebox.show("Costo orario aggiunto all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Costo orario aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		} else {
 
@@ -255,17 +279,24 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerJobCost.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerJobCost.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 

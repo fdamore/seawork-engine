@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -606,7 +607,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar_to = DateUtils.truncate(calendar_to, Calendar.DATE);
 
 		if (calendar_from.after(calendar_to)) {
-			Messagebox.show("Controlla le date inserite", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controlla le date inserite.", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 			return;
 		}
 
@@ -1450,14 +1457,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+
 			return;
 		}
 
 		// info check
 		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 			return;
 		}
 
@@ -1608,14 +1625,26 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+
 			return;
 		}
 
 		// info check
 		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
 
-			Messagebox.show("Check Status Scheduler. Contact Uario S.r.L.", "INFO", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Check Scheduler ZUL Strucutre. Contact Uario S.r.L.", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+
 			return;
 		}
 
@@ -1769,15 +1798,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
 
 				if (dayScheduleDate.after(to_day)) {
-					Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+
+					Messagebox.show("Attenzione alla data inserita", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 					return;
 				}
 
 				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-					Messagebox
-							.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+
+					Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ERROR", buttons, null, Messagebox.EXCLAMATION,
+							null, null, params);
+
 					return;
 				}
 				// remove day schedule in interval date
@@ -1978,14 +2019,26 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final Date to_day = DateUtils.truncate(this.day_after_config.getValue(), Calendar.DATE);
 
 			if (date_scheduled.after(to_day)) {
-				Messagebox.show("Attenzione alla data inserita", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Attenzione alla data inserita", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
 
 			final int count = (int) ((to_day.getTime() - date_scheduled.getTime()) / (1000 * 60 * 60 * 24));
 
 			if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ERROR", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
+
 				return;
 			}
 
@@ -2060,7 +2113,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 			if (count > 12) {
-				Messagebox.show("Non si possono assegnare più di 12 ore al giorno", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Non si possono assegnare più di 12 ore al giorno", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
+
 				return;
 
 			}
@@ -2070,26 +2130,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
 				if (this.selectedShift.compareTo(min_shift) < 0) {
 
-					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
-							"CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-							new org.zkoss.zk.ui.event.EventListener<Event>() {
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
 
+					final Messagebox.Button[] buttons = new Messagebox.Button[2];
+					buttons[0] = Messagebox.Button.OK;
+					buttons[1] = Messagebox.Button.CANCEL;
+
+					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
+							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 								@Override
 								public void onEvent(final Event e) {
 									if (Messagebox.ON_OK.equals(e.getName())) {
-
 										SchedulerComposer.this.saveProgramFinalStep();
 										// close popup
 										SchedulerComposer.this.shift_definition_popup.close();
-
 									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-
 										// close popup
 										SchedulerComposer.this.shift_definition_popup.close();
-
 									}
 								}
-							});
+							}, params);
 
 					return;
 
@@ -2156,7 +2217,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 		if (count > 12) {
-			Messagebox.show("Non si possono assegnare più di 12 ore al giorno", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Non si possono assegnare più di 12 ore al giorno", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 			return;
 
 		}
@@ -2633,7 +2701,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			date_to = date_from;
 		}
 		if ((date_from != null) && date_from.after(date_to)) {
-			Messagebox.show("Controlla le date inserite", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 			return;
 		}
 

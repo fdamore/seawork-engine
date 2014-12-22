@@ -1,6 +1,6 @@
 <?page id="usertd" title="Seawork Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
-
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
 <zk>
 
 	<panel id="panel" border="none" collapsible="false"

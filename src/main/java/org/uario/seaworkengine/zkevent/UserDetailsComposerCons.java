@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -213,7 +215,12 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 		this.contestationDAO.removeContestation(item.getId());
 
-		Messagebox.show("Informazione rimossa", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Informazione rimossa", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// remove doc
 		if (item.getFile_name() != null) {
@@ -264,7 +271,12 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		final Contestation item = this.sw_list.getSelectedItem().getValue();
 
 		if (item.getFile_name() == null) {
-			Messagebox.show("Nessun documento associato", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Nessun documento associato", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
@@ -335,24 +347,44 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			item = new Contestation();
 
 			if (this.typ.getSelectedItem().getValue() == null) {
-				Messagebox.show("Inserire un tipo di contestazione!");
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
 			if (this.date_contestation.getValue() == null) {
-				Messagebox.show("Data della contestazione mancante!");
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
 				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
-					Messagebox.show("Intervallo date sospensione non completo!");
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+
+					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 
 				if (this.stop_from.getValue().compareTo(this.stop_to.getValue()) > 0) {
-					Messagebox.show("Intervallo date sospensione errato!");
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+
+					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 			}
@@ -366,14 +398,25 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			// create contestation
 			this.contestationDAO.createContestation(item);
 
-			Messagebox.show("Contestazione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Contestazione aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		} else {
 
 			// modify branch
 
 			if (this.typ.getSelectedItem() == null) {
-				Messagebox.show("Inserire un tipo di contestazione!");
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+
 				return;
 			}
 
@@ -384,19 +427,34 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			}
 
 			if (this.date_contestation.getValue() == null) {
-				Messagebox.show("Data della contestazione mancante!");
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
 				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
-					Messagebox.show("Intervallo date sospensione non completo!");
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+
+					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 
 				if (this.stop_from.getValue().compareTo(this.stop_to.getValue()) > 0) {
-					Messagebox.show("Intervallo date sospensione errato!");
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+
+					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 			}
@@ -516,17 +574,24 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerCons.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerCons.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 

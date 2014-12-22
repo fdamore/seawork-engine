@@ -1,6 +1,8 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Person;
@@ -60,7 +62,12 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 		this.tfrDao.createTGRForUser(this.person_selected.getId(), item);
 
-		Messagebox.show("TFR aggiunto all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("TFR aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.setInitialView();
@@ -80,7 +87,13 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 		final TfrUser item = this.sw_list.getSelectedItem().getValue();
 
 		this.tfrDao.removeTFR(item.getId());
-		Messagebox.show("Scelta TFR rimossa", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Scelta TFR rimossa", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.setInitialView();
@@ -113,8 +126,16 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
 			@Override
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
@@ -123,7 +144,7 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 					// Cancel is clicked
 				}
 			}
-		});
+		}, params);
 
 	}
 

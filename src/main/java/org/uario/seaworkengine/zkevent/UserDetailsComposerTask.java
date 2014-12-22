@@ -1,6 +1,8 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Person;
@@ -66,13 +68,24 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 		// check for task assignment
 		final Boolean check = this.taskDAO.isTaskAssigned(this.person_selected.getId(), task.getId());
 		if (check.booleanValue()) {
-			Messagebox.show("Mansione già presente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Mansione già presente", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 			return;
 		}
 
 		this.taskDAO.assignTaskToUser(this.person_selected.getId(), task.getId());
 
-		Messagebox.show("Mansione aggiunta all'utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Mansione aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.refreshListTaskUser();
@@ -106,7 +119,12 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 
 		this.taskDAO.deleteTaskToUser(this.person_selected.getId(), task.getId());
 
-		Messagebox.show("Mansione rimossa dall'elenco utente", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Mansione rimossa dall'elenco utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.refreshListTaskUser();
@@ -153,8 +171,15 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_deletetask")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener() {
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
 			@Override
 			public void onEvent(final Event e) {
 				if (Messagebox.ON_OK.equals(e.getName())) {
@@ -163,7 +188,7 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 					// Cancel is clicked
 				}
 			}
-		});
+		}, params);
 
 	}
 

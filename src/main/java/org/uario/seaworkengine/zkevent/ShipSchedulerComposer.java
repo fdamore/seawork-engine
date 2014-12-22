@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -123,7 +125,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void addScheduleShipsDetailCommand() {
 		if (this.shift.getSelectedItem() == null || this.operation.getValue() == null || this.user.getSelectedItem() == null
 				|| this.handswork.getValue() == null) {
-			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 			return;
 		} else {
 			final DetailScheduleShip detailScheduleShip = new DetailScheduleShip();
@@ -150,7 +158,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.note.getValue() == ""
 				|| this.ship_arrival.getValue() == null) {
-			Messagebox.show("Controllare i valori inseriti in Informazioni Generali.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controllare i valori inseriti in Informazioni Generali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
 			return;
 		} else {
 
@@ -174,7 +188,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			try {
 				this.shipSchedulerDao.createScheduleShip(shipSchedule);
 			} catch (final Exception e) {
-				Messagebox.show("Nome nave ed ora arrivo già presenti", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Nome nave ed ora arrivo già presenti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
 
@@ -189,7 +208,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			// reset data info
 			this.resetDataInfoTabProgram();
 
-			Messagebox.show("Programmazione aggiunta", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Programmazione aggiunta", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 			// set ship ListBox
 			this.setScheduleShipListBox();
@@ -245,7 +269,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		for (final DetailScheduleShip detailScheduleShip : detailList) {
 			final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
-			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+			if (userOperative != null) {
+				detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+			}
 		}
 
 		this.listDetailScheduleShip.clear();
@@ -265,9 +291,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Ship ship = this.shipDao.loadShip(scheduleShip_selected.getIdship());
 
-		final List<Comboitem> listItem = this.ship_name.getItems();
-
 		if (ship != null) {
+			final List<Comboitem> listItem = this.ship_name.getItems();
 			for (final Comboitem item : listItem) {
 				if (item.getValue() instanceof Ship) {
 					final Ship current_ship = item.getValue();
@@ -322,8 +347,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.logger.error("Error removing programmation. " + e.getMessage());
 
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
 			Messagebox.show("Non è possibile eliminare questa programmazione.\nControlla che non ci siano azioni legate a questa programmazione.",
-					"INFO", Messagebox.OK, Messagebox.ERROR);
+					"ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -385,7 +415,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.note.getValue() == ""
 				|| this.ship_arrival == null) {
-			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controllare i valori inseriti..", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		} else {
 
@@ -420,7 +455,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.resetDataInfoTabProgram();
 
-			Messagebox.show("Dati Programmazione aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Dati programmazione aggiornati", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -440,8 +480,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_deleteship")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -450,7 +497,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							// Cancel is clicked
 						}
 					}
-				});
+				}, params);
 
 	}
 
@@ -501,7 +548,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.sw_list_scheduleShip.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
 		} else {
-			Messagebox.show("Verificare valori inseriti");
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Verificare i valori inseriti.", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+
 		}
 
 	}
@@ -571,7 +624,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			// show name of operative user
 			for (final DetailScheduleShip detailScheduleShip : detailList) {
 				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
-				detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+				if (userOperative != null) {
+					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+				}
 			}
 
 		}

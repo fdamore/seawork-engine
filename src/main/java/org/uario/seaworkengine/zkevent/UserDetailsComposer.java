@@ -1,7 +1,9 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Person;
@@ -245,7 +247,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			final String retype_mail = this.email_user_retype.getValue();
 			if (!retype_mail.equals(mail)) {
-				Messagebox.show("Ridigita Username!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Ridigita Username!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 		} else {
@@ -255,7 +263,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// check mail single....
 		final Object ob = this.personDao.loadUserByUsernameIfAny(mail);
 		if ((ob != null) && (ob instanceof Person)) {
-			Messagebox.show("Mail già presente", "ERROR", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Mail già presente!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 			return;
 		}
 
@@ -266,7 +279,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final String retype_password = this.password_user_retype.getValue();
 
 			if (retype_password.equals("") || !retype_password.equals(password)) {
-				Messagebox.show("Ridigita la password!", "ERROR", Messagebox.OK, Messagebox.ERROR);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Ridigita la password!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 		}
@@ -353,7 +371,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			// reset data info
 			this.resetDataInfo();
 
-			Messagebox.show("Aggiunto elemento", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Aggiunto elemento", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 			// set user ListBox
 			this.setUserListBox();
@@ -362,7 +385,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.add_users_command.setVisible(false);
 			this.modify_users_command.setVisible(false);
 		} else {
-			Messagebox.show("Controllare valori inseriti (email, password). ", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controllare valori inseriti (email, password). ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+
 		}
 
 	}
@@ -400,7 +429,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			// check over password
 			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), this.person_selected.getEmail());
 			if (!hashing_password.equals(this.person_selected.getPassword())) {
-				Messagebox.show("la password inserita non è corretta", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -410,7 +444,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			if (!this.email_editor_user.getValue().equals(this.email_editor_user_retype.getValue())) {
-				Messagebox.show("Le mail devono essere uguali", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -429,13 +468,22 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			this.email_user.setValue(this.person_selected.getEmail());
 
-			Messagebox.show("Mail Cambiata", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Mail cambiata ", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		}
 
 		catch (final WrongValueException e) {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Dati digitati non corretti", "INFO", Messagebox.OK, Messagebox.ERROR);
+			Messagebox.show("Dati digitati non corretti!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 		}
 
@@ -451,7 +499,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			// WARNING
 			if (!this.password_editor_user.getValue().equals(this.password_editor_user_retype.getValue())) {
-				Messagebox.show("Le Password devono essere uguali", "ATTENZIONE", Messagebox.OK, Messagebox.EXCLAMATION);
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
 
@@ -462,13 +515,23 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.password_editor_user.setValue("");
 			this.password_editor_user_retype.setValue("");
 
-			Messagebox.show("Password Aggiornata", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Password Aggiornata ", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		}
 
 		catch (final WrongValueException e) {
 
-			Messagebox.show("Errore nell'inserimento dei valori", "INFO", Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 		}
 
@@ -575,8 +638,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
 			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
-					Messagebox.OK, Messagebox.ERROR);
+					buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -697,7 +765,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// update list
 		this.setUserListBox();
 
-		Messagebox.show("Dati Utente aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[1];
+		buttons[0] = Messagebox.Button.OK;
+
+		Messagebox.show("Dati utente aggiornati.", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 	}
 
@@ -713,17 +786,25 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_deleteuser")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposer.this.deleteUserCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		});
+
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposer.this.deleteUserCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 

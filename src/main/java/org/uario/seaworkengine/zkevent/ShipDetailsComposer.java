@@ -1,6 +1,8 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Ship;
@@ -81,14 +83,24 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		ship.setTwtype(this.ship_twtype.getValue());
 
 		if (ship.getName() == "" || ship.getLine() == "" || ship.getShiptype() == "" || ship.getShipcondition() == "" || ship.getTwtype() == "") {
-			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 		} else {
 			this.shipDao.createShip(ship);
 
 			// reset data info
 			this.resetDataInfo();
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Nave aggiunta", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Nave aggiunta", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 			// set ship ListBox
 			this.setShipListBox();
@@ -152,8 +164,13 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 			this.logger.error("Error removing ship. " + e.getMessage());
 
-			Messagebox.show("Non è possibile eliminare questa nave.\nControlla che non ci siano azioni legate a questa anagrafica.", "INFO",
-					Messagebox.OK, Messagebox.ERROR);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Non è possibile eliminare questa nave.\nControlla che non ci siano azioni legate a questa anagrafica.", "ATTENZIONE",
+					buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -185,7 +202,14 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		if (this.ship_name.getValue() == "" || this.ship_line.getValue() == "" || this.ship_type.getValue() == ""
 				|| this.ship_condition.getValue() == "" || this.ship_twtype.getValue() == "") {
-			Messagebox.show("Controllare i valori inseriti.", "INFO", Messagebox.OK, Messagebox.EXCLAMATION);
+
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Controllare i valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
 		} else {
 			this.ship_selected.setName(this.ship_name.getValue());
 			this.ship_selected.setLine(this.ship_line.getValue());
@@ -203,7 +227,12 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 			this.resetDataInfo();
 
-			Messagebox.show("Dati Navi aggiornati", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Dati Nave aggiornati", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		}
 
@@ -220,17 +249,24 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_deleteship")
 	public void removeItem() {
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipDetailsComposer.this.deleteShipCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				});
+		final Map<String, String> params = new HashMap();
+		params.put("sclass", "mybutton Button");
+
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipDetailsComposer.this.deleteShipCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 

@@ -1,6 +1,8 @@
 <?page id="user" title="Seawork Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
+
 <vlayout sclass="page-content" xmlns:n="native" spacing="0"
 	id="page_user_detail"
 	apply="org.uario.seaworkengine.zkevent.UserDetailsComposer">
@@ -10,6 +12,7 @@
 	.myBottonCell { border-bottom: 1px solid; border-right: 1px
 			solid; border-color:#CFCFCF;}
 
+	    
 	</style>
 	
 	
