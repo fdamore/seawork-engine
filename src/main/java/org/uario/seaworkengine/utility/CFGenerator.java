@@ -1,14 +1,15 @@
 package org.uario.seaworkengine.utility;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.Scanner;
+
+import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
+import org.zkoss.spring.SpringUtil;
 
 public class CFGenerator {
 	private final int			anno, giorno;
+
 	private final int[]			elencoDispari	= { 1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8,
 			12, 14, 16, 10, 22, 25, 24, 23		};
-
 	// Array statici
 	private final char[]		elencoPari		= { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
 			'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -20,12 +21,15 @@ public class CFGenerator {
 
 	// Variabili di istanza
 	// -------------------------------------------------------------------------------------------------------------------------------------------------------------
-	private final String		nome, cognome, comune, m, sesso;
+	private final String		nome, cognome, comune, m, sesso, provincia;
+
+	// the dao used for db interaction
+	private final PersonDAO		personDao;
 
 	// Inizializza le variabili di istanza della classe
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------
 	public CFGenerator(final String nome, final String cognome, final String comune, final String m, final int anno, final int giorno,
-			final String sesso) {
+			final String sesso, final String provincia) {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.comune = comune;
@@ -33,6 +37,9 @@ public class CFGenerator {
 		this.anno = anno;
 		this.giorno = giorno;
 		this.sesso = sesso;
+		this.provincia = provincia;
+		// get the DAOs
+		this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
 	} // Fine costruttore
 		// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -63,6 +70,7 @@ public class CFGenerator {
 	// Calcolo del Codice di Controllo
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	private String calcolaCodice() {
+		final int kk = 0;
 		final String str = this.getCognome().toUpperCase() + this.getNome().toUpperCase() + this.getAnno() + this.getMese() + this.getGiorno()
 				+ this.getComune();
 		int pari = 0, dispari = 0;
@@ -91,25 +99,28 @@ public class CFGenerator {
 	// ------
 	// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	private String elaboraCodiceComune() {
-		String cc = "";
-		try {
-			final Scanner scanner = new Scanner(new File("/img/Comuni.txt"));
-			scanner.useDelimiter("\r\n");
+		final String cc = this.personDao.loadCodComune(this.provincia, this.comune);
 
-			while (scanner.hasNext()) {
-				final String s1 = scanner.nextLine();
-				final String s2 = s1.substring(0, s1.indexOf('-') - 1);
-				System.out.println(s2);
-				if (s2.equalsIgnoreCase(this.comune)) {
-					cc = s1.substring(s1.lastIndexOf(' ') + 1);
-				}
-			}
-
-			scanner.close();
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
 		return cc;
+		// String cc = "";
+		// try {
+		// final Scanner scanner = new Scanner(new File("/img/Comuni.txt"));
+		// scanner.useDelimiter("\r\n");
+		//
+		// while (scanner.hasNext()) {
+		// final String s1 = scanner.nextLine();
+		// final String s2 = s1.substring(0, s1.indexOf('-') - 1);
+		// System.out.println(s2);
+		// if (s2.equalsIgnoreCase(this.comune)) {
+		// cc = s1.substring(s1.lastIndexOf(' ') + 1);
+		// }
+		// }
+		//
+		// scanner.close();
+		// } catch (final Exception e) {
+		// e.printStackTrace();
+		// }
+		// return cc;
 	}
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -212,6 +223,7 @@ public class CFGenerator {
 	private String modificaNC(String stringa, final boolean cod) {
 		String nuovastringa = "";
 		stringa = stringa.replaceAll(" ", ""); // Rimuovo eventuali spazi
+		stringa = stringa.replaceAll("'", "");
 		stringa = stringa.toLowerCase();
 
 		final String consonanti = this.getConsonanti(stringa); // Ottengo tutte

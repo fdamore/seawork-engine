@@ -1,6 +1,8 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.CFGenerator;
 import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.UserTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -27,6 +30,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
@@ -60,10 +64,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Datebox				birth_date_user;
 
 	@Wire
-	private Textbox				birth_place_user;
+	private Combobox			birth_place_user;
+
+	@Wire
+	private Combobox			birth_province_user;
 
 	@Wire
 	private Textbox				city_user;
+
+	public Comboitem			comuneSelected;
 
 	@Wire
 	private Component			contestations_user_tab;
@@ -289,7 +298,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		if (!(this.email_user.getValue() == null || this.password_user.getValue() == null || this.sex_user.getSelectedItem() == null)) {
+		if (!(this.email_user.getValue() == null || this.password_user.getValue() == null)) {
 			final Person person = new Person();
 			person.setAddress(this.address_user.getValue());
 			person.setCity(this.city_user.getValue());
@@ -306,7 +315,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			person.setProvincia(this.provincia_user.getValue());
 			person.setFiscal_code(this.fiscalcode_user.getValue());
 			person.setBirth_date(this.birth_date_user.getValue());
-			person.setBirth_place(this.birth_place_user.getValue());
+			if (this.birth_place_user.getSelectedItem() != null) {
+				person.setBirth_place(this.birth_place_user.getSelectedItem().getValue().toString());
+			}
+			if (this.birth_province_user.getSelectedItem() != null) {
+				person.setBirth_province(this.birth_province_user.getSelectedItem().getValue().toString());
+			}
 			person.setEducation(this.education_user.getValue());
 			person.setNcfl(this.ncfl_user.getValue());
 			person.setDepartment(this.department_user.getValue());
@@ -318,10 +332,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			person.setDriving_license(this.driving_license_user.getValue());
 			person.setDriving_license_emission(this.driving_license_emission_user.getValue());
 
-			if (this.sex_user.getSelectedItem().toString() == "M") {
-				person.setSex(true);
+			if (this.sex_user.getSelectedItem() != null) {
+				if (this.sex_user.getSelectedItem().toString() == "M") {
+					person.setSex(true);
+				} else {
+					person.setSex(false);
+				}
 			} else {
-				person.setSex(false);
+				person.setSex(true);
 			}
 
 			person.setOut_schedule(this.out_schedule_user.isChecked());
@@ -390,7 +408,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare valori inseriti (email, password). ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 
 		}
 
@@ -398,22 +417,94 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
-		// final String n = this.firstname_user.getValue().toString();
-		// final String c = this.lastname_user.getValue().toString();
-		// final String cc = this.city_user.getValue().toString();
-		// final int g = this.birth_date_user.getValue().getDay();
-		// final int a = this.birth_date_user.getValue().getYear();
-		// final int m1 = this.birth_date_user.getValue().getMonth();
-		// final String s = "M";
-		//
-		//
-		//
-		// final CFGenerator cfg = new CFGenerator(n, c, cc, "Novembre", a, g,
-		// s);
-		//
-		//
-		//
-		// this.fiscalcode_user.setValue(cfg.getCodiceFiscale());
+
+		if (this.firstname_user.getValue() == null || this.lastname_user.getValue() == null || this.birth_place_user.getSelectedItem() == null
+				|| this.birth_province_user.getSelectedItem() == null || this.birth_date_user.getValue() == null
+				|| this.sex_user.getSelectedItem() == null) {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			return;
+		}
+
+		final String n = this.firstname_user.getValue().toString();
+		final String c = this.lastname_user.getValue().toString();
+		String cc = "";
+
+		cc = this.birth_place_user.getSelectedItem().getValue().toString();
+		final String prov = this.birth_province_user.getSelectedItem().getValue().toString();
+
+		final Date data = this.birth_date_user.getValue();
+
+		String s = null;
+		if (this.sex_user.getSelectedIndex() == 0) {
+			s = "M";
+		} else {
+			s = "F";
+		}
+
+		try {
+			final SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+			final String dt = sd.format(data);
+			final int g = Integer.parseInt(dt.substring(0, 2));
+			final int m = Integer.parseInt(dt.substring(3, 5));
+			final int a = Integer.parseInt(dt.substring(6));
+			String month = "";
+			switch (m) {
+			case 1:
+				month = "Gennaio";
+				break;
+			case 2:
+				month = "Febbraio";
+				break;
+			case 3:
+				month = "Marzo";
+				break;
+			case 4:
+				month = "Aprile";
+				break;
+			case 5:
+				month = "Maggio";
+				break;
+			case 6:
+				month = "Giugno";
+				break;
+			case 7:
+				month = "Luglio";
+				break;
+			case 8:
+				month = "Agosto";
+				break;
+			case 9:
+				month = "Settembre";
+				break;
+			case 10:
+				month = "Ottobre";
+				break;
+			case 11:
+				month = "Novembre";
+				break;
+			case 12:
+				month = "Dicembre";
+				break;
+			default:
+				break;
+			}
+
+			final CFGenerator cfg = new CFGenerator(n, c, cc, month, a, g, s, prov);
+			final String cf = cfg.getCodiceFiscale();
+			this.fiscalcode_user.setValue(cf);
+		} catch (final Exception e) {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			return;
+		}
 
 	}
 
@@ -548,6 +639,11 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_modifyeuser")
 	public void defineModifyView() {
 
+		this.birth_place_user.setSelectedItem(null);
+		this.birth_place_user.setModel(new ListModelList<String>());
+		this.birth_place_user.setValue("");
+		this.birth_province_user.setSelectedItem(null);
+
 		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
 				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
@@ -594,7 +690,36 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.employee_identification_user.setValue(person_selected.getEmployee_identification());
 		this.fiscalcode_user.setValue(person_selected.getFiscal_code());
 		this.birth_date_user.setValue(person_selected.getBirth_date());
-		this.birth_place_user.setValue(person_selected.getBirth_place());
+
+		if (person_selected.getSex()) {
+			this.sex_user.setSelectedIndex(0);
+		} else {
+			this.sex_user.setSelectedIndex(1);
+		}
+
+		if (person_selected.getBirth_province() != null) {
+
+			final List<Comboitem> listItem = this.birth_province_user.getItems();
+			for (final Comboitem item : listItem) {
+				if (item.getValue() instanceof String) {
+					if (item.getValue().toString().equals(person_selected.getBirth_province())) {
+						this.birth_province_user.setSelectedItem(item);
+						break;
+					}
+				}
+
+			}
+
+		}
+
+		if (person_selected.getBirth_place() != null) {
+
+			this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
+			this.birth_place_user.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
+			this.birth_place_user.setValue(person_selected.getBirth_place());
+
+		}
+
 		this.education_user.setValue(person_selected.getEducation());
 		this.ncfl_user.setValue(person_selected.getNcfl());
 		this.department_user.setValue(person_selected.getDepartment());
@@ -692,6 +817,26 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	private Comboitem getComboItem(final Combobox combo, final String value) {
+		Comboitem item = null;
+
+		for (int i = 0; i < combo.getItems().size(); i++) {
+			if (combo.getItems().get(i) != null) {
+				item = combo.getItems().get(i);
+				if (value.equals(item.getValue().toString())) {
+					break;
+				}
+			}
+		}
+		return item;
+	}
+
+	@Listen("onSelect=#birth_province_user")
+	public void loadComuni() {
+		this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem()
+				.getValue().toString())));
+	}
+
 	@Listen("onClick = #modify_users_command")
 	public void modifyCommand() {
 
@@ -711,7 +856,23 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.person_selected.setProvincia(this.provincia_user.getValue());
 		this.person_selected.setFiscal_code(this.fiscalcode_user.getValue());
 		this.person_selected.setBirth_date(this.birth_date_user.getValue());
-		this.person_selected.setBirth_place(this.birth_place_user.getValue());
+
+		if (this.birth_place_user.getSelectedItem() != null) {
+			this.person_selected.setBirth_place(this.birth_place_user.getSelectedItem().getValue().toString());
+		}
+
+		if (this.birth_province_user.getSelectedItem() != null) {
+			this.person_selected.setBirth_province(this.birth_province_user.getSelectedItem().getValue().toString());
+		}
+
+		if (this.sex_user.getSelectedItem() != null) {
+			if (this.sex_user.getSelectedItem().getValue().toString().equals("M")) {
+				this.person_selected.setSex(true);
+			} else {
+				this.person_selected.setSex(false);
+			}
+		}
+
 		this.person_selected.setEducation(this.education_user.getValue());
 		this.person_selected.setNcfl(this.ncfl_user.getValue());
 		this.person_selected.setDepartment(this.department_user.getValue());
@@ -828,15 +989,17 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.user_status.setValue(null);
 		this.fiscalcode_user.setValue("");
 		this.birth_date_user.setValue(null);
+		this.birth_place_user.setSelectedItem(null);
+		this.birth_place_user.setModel(new ListModelList<String>());
 		this.birth_place_user.setValue("");
+		this.birth_province_user.setSelectedItem(null);
 		this.education_user.setValue("");
 		this.country_user.setValue("");
 		this.ncfl_user.setValue("");
 		this.department_user.setValue("");
 		this.current_position_user.setValue("");
 		this.personal_code_user.setValue("");
-		this.sex_user.setSelectedIndex(0);
-
+		this.sex_user.setSelectedItem(null);
 		this.nbudje_user.setValue("");
 
 		this.npass_user.setValue("");
@@ -934,6 +1097,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// set user listbox
 		this.setUserListBox();
+
+		this.birth_province_user.setModel(new ListModelList<String>(this.personDao.loadAllProvincia()));
 
 		// initial view
 		this.grid_user_details.setVisible(false);

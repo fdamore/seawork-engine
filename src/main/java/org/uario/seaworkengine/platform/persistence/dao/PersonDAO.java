@@ -67,6 +67,12 @@ public interface PersonDAO extends UserDetailsService {
 	 */
 	public List<Person> listWorkerPersons(String full_text_search);
 
+	public List<String> loadAllProvincia();
+
+	public String loadCodComune(String provincia, String comune);
+
+	public List<String> loadComuniByProvincia(String provincia);
+
 	/**
 	 * Load a person
 	 *

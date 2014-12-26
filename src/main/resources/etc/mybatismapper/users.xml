@@ -42,7 +42,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user u
 		where ( u.authority like CONCAT('%', 'ROLE_SUPERVISOR', '%') )
@@ -86,7 +87,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user u
 		where ( u.authority like CONCAT('%', 'ROLE_OPERATIVE', '%') )
@@ -130,7 +132,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user
 		u
@@ -176,7 +179,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user
 		u
@@ -219,7 +223,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user
 		u
@@ -266,7 +271,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user
 		u order by
@@ -307,7 +313,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user u
 		WHERE
@@ -361,7 +368,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -413,7 +421,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user
 		u
@@ -458,7 +467,8 @@
 		u.status,
 		u.personal_code,
 		u.sex,
-		u.out_schedule
+		u.out_schedule,
+		u.birth_province
 		FROM
 		user
 		u
@@ -494,7 +504,8 @@
 		nbudge,
 		personal_code,
 		sex,
-		out_schedule
+		out_schedule,
+		birth_province
 		)
 		VALUES
 		(#{email},
@@ -526,7 +537,8 @@
 		#{nbudge},
 		#{personal_code},
 		#{sex},
-		#{out_schedule})
+		#{out_schedule},
+		#{birth_province})
 	</insert>
 
 	<delete id="deletePerson" parameterType="int">
@@ -576,7 +588,9 @@
 		personal_code = #{personal_code},
 		sex = #{sex},
 		out_schedule =
-		#{out_schedule}
+		#{out_schedule},
+		birth_province =
+		#{birth_province}
 		WHERE id =
 		#{id}
 	</update>
@@ -594,5 +608,29 @@
 		password = #{password}
 		WHERE email = #{email}
 	</update>
+	
+	<select id="loadCodComune" parameterType="map" resultType="String">
+		select codice
+		from comuni
+		where comune=#{comune} and provincia=#{provincia};
+	</select>
+	
+	<select id="loadAllProvincia" resultType="String">
+		select DISTINCT provincia
+		from comuni
+		order by provincia asc;
+	</select>
+	
+	
+	
+	<select id="loadComuniByProvincia" resultType="String" parameterType="String">
+		select comune
+		from comuni
+		where provincia=#{provincia}
+		order by comune asc;
+	</select>
+	
+	
+	
 
 </mapper>

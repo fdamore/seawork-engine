@@ -178,6 +178,60 @@
 
 									<row>
 										<label
+											value="Data di nascita:">
+										</label>
+										<datebox id="birth_date_user"  />
+									</row>
+									
+									<row>
+										<label
+											value="Provincia di Nascita:">
+										</label>
+										<combobox readonly="true" placeholder="Seleziona Provincia"
+										id="birth_province_user">
+										</combobox>
+									</row>
+																		
+									<row>
+										<label
+											value="Luogo di Nascita:">
+										</label>
+										<combobox 
+										readonly="true" placeholder="Seleziona Comune" id="birth_place_user" />
+									</row>	
+									<row>
+										<label value="Sesso"/>
+										<combobox
+														id="sex_user"
+														placeholder="Seleziona sesso"
+														readonly="true">													
+														<comboitem
+															label="M" value="M">
+														</comboitem>
+														<comboitem
+															label="F" value="F">
+														</comboitem>
+										</combobox>
+									</row>
+									<row>
+										<label
+											value="Codice Fiscale:">
+										</label>
+										<textbox id="fiscalcode_user" />
+										
+									</row>
+									
+									<row>
+										<label
+											value="Calcola Codice Fiscale:">
+										</label>
+										
+										<button id="cfgenerator" label="Calcola Codice Fiscale" sclass="btn-danger"/>
+												
+									</row>		
+
+									<row>
+										<label
 											value="Matricola Aziendale:">
 										</label>
 										<textbox
@@ -231,55 +285,8 @@
 										<textbox id="postalCode_user" />
 									</row>
 
-									<row>
-										<label
-											value="Codice Fiscale:">
-										</label>
-										<textbox id="fiscalcode_user" />
-										
-									</row>
 									
-									<row>
-										<label
-											value="Calcola Codice Fiscale:">
-										</label>
-										
-										<button id="cfgenerator" label="Calcola Codice Fiscale" sclass="btn-danger"/>
-												
-									</row>
 									
-
-									<row>
-										<label
-											value="Data di nascita:">
-										</label>
-										<datebox id="birth_date_user" />
-									</row>
-									
-									<row>
-										<label value="Sesso"/>
-										<combobox
-														id="sex_user"
-														placeholder="Seleziona sesso"
-														readonly="true">													
-														<comboitem
-															label="M" value="M">
-														</comboitem>
-														<comboitem
-															label="F" value="F">
-														</comboitem>
-																											
-													</combobox>
-									
-									</row>
-
-									<row>
-										<label
-											value="Luogo di Nascita:">
-										</label>
-										<textbox id="birth_place_user" />
-									</row>
-
 									<row>
 										<label
 											value="Titolo di Studio:">

@@ -105,6 +105,27 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
+	public List<String> loadAllProvincia() {
+
+		return this.getSqlSession().selectList("person.loadAllProvincia");
+	}
+
+	@Override
+	public String loadCodComune(final String provincia, final String comune) {
+		MyBatisPersonDAO.logger.info("Get cod comune by provincia e nome comune");
+		final HashMap<String, String> map = new HashMap<String, String>();
+
+		map.put("comune", comune);
+		map.put("provincia", provincia);
+		return this.getSqlSession().selectOne("person.loadCodComune", map);
+	}
+
+	@Override
+	public List<String> loadComuniByProvincia(final String provincia) {
+		return this.getSqlSession().selectList("person.loadComuniByProvincia", provincia);
+	}
+
+	@Override
 	public Person loadPerson(final Integer id) {
 
 		MyBatisPersonDAO.logger.info("Get person by id: " + id);

@@ -45,6 +45,9 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	private String				birth_place;
 
 	@XmlTransient
+	private String				birth_province;
+
+	@XmlTransient
 	private String				city;
 
 	@XmlTransient
@@ -191,6 +194,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public String getBirth_place() {
 		return this.birth_place;
+	}
+
+	public String getBirth_province() {
+		return this.birth_province;
 	}
 
 	public String getCity() {
@@ -447,13 +454,17 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		this.birth_place = birth_place;
 	}
 
+	public void setBirth_province(final String birth_province) {
+		this.birth_province = birth_province;
+	}
+
 	public void setCity(final String city) {
 		this.city = city;
 	}
 
 	public void setCountry(final String country) {
 		this.country = country;
-	}
+	};
 
 	public void setCurrent_position(final String current_position) {
 		this.current_position = current_position;
@@ -461,7 +472,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setDepartment(final String department) {
 		this.department = department;
-	};
+	}
 
 	public void setDriving_license(final String driving_license) {
 		this.driving_license = driving_license;
