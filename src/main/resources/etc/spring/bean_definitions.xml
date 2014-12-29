@@ -181,7 +181,7 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myScheduleShipDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisScheduleShipDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
@@ -211,6 +211,26 @@
 
 
 	<!-- END DAO -->
+
+	<!-- BANK HOLIDAYS -->
+	<bean id="bank_holidays" class="org.uario.seaworkengine.statistics.impl.ItalianBankHolidays">
+		<property name="days">
+			<list>
+				<value>01-01</value>
+				<value>01-06</value>
+				<value>04-25</value>
+				<value>05-01</value>
+				<value>06-02</value>
+				<value>08-15</value>
+				<value>11-01</value>
+				<value>12-08</value>
+				<value>12-25</value>
+				<value>12-26</value>
+				<value>08-13</value>
+			</list>
+		</property>
+
+	</bean>
 
 	<!-- Mail Wrapper -->
 	<bean id="mailWrapper" class="org.uario.seaworkengine.platform.mail.SendMailSMTP">

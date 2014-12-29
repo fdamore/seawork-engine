@@ -26,6 +26,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -87,6 +88,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private static final SimpleDateFormat	formatter_eeee					= new SimpleDateFormat("EEEE");
 
+	private static final SimpleDateFormat	formatter_MMdd					= new SimpleDateFormat("MM-dd");
+
 	private static final SimpleDateFormat	formatter_scheduler_info		= new SimpleDateFormat("EEEE dd MMM");
 	private static final SimpleDateFormat	formatTimeOverview				= new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
@@ -95,7 +98,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private static final long				serialVersionUID				= 1L;
 
+	private IBankHolidays					bank_holiday;
+
 	private ConfigurationDAO				configurationDAO;
+
 	@Wire
 	private A								controller_label;
 
@@ -162,9 +168,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox							grid_scheduler_review;
-
 	@Wire
 	private Comboitem						item_all_shift_overview;
+
 	@Wire
 	private A								label_date_popup;
 
@@ -254,13 +260,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox						program_task;
-
 	@Wire
 	private Intbox							program_time_hours;
 	@Wire
 	private Intbox							program_time_minuts;
 	@Wire
 	private Div								review_div;
+
 	@Wire
 	private Comboitem						review_item;
 
@@ -796,6 +802,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 		this.statProcedure = (IStatProcedure) SpringUtil.getBean(BeansTag.STAT_PROCEDURE);
+		this.bank_holiday = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
 
 		this.getSelf().addEventListener(ZkEventsTag.onDayNameClick, new EventListener<Event>() {
 
@@ -2139,18 +2146,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 
@@ -2560,6 +2567,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				day_label.setStyle("color:black");
 			}
 
+			// color bank holidays
+			final String day_MMdd = SchedulerComposer.formatter_MMdd.format(current_calendar.getTime());
+			if (this.bank_holiday.getDays().contains(day_MMdd)) {
+				day_number.setStyle("color:red");
+				day_label.setStyle("color:red");
+			}
+
 			day_number.setLabel(day_n.toUpperCase());
 			day_label.setLabel(day_l.toUpperCase());
 
@@ -2602,6 +2616,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
+			}
+
+			// color bank holidays
+			final String day_MMdd = SchedulerComposer.formatter_MMdd.format(current_calendar.getTime());
+			if (this.bank_holiday.getDays().contains(day_MMdd)) {
+				week_head.setStyle("color:red");
+				month_head.setStyle("color:red");
 			}
 
 			week_head.setLabel(day_w.toUpperCase());
@@ -2652,6 +2673,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			} else {
 				week_head.setStyle("color:black");
 				month_head.setStyle("color:black");
+			}
+
+			// color bank holidays
+			final String day_MMdd = SchedulerComposer.formatter_MMdd.format(current_calendar.getTime());
+			if (this.bank_holiday.getDays().contains(day_MMdd)) {
+				week_head.setStyle("color:red");
+				month_head.setStyle("color:red");
 			}
 
 			week_head.setLabel(day_w.toUpperCase());

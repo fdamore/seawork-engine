@@ -4,6 +4,8 @@ public interface BeansTag {
 
 	public static String	ASSIGN_SHIFT_DATE_BEAN	= "serviceAssign";
 
+	public static String	BANK_HOLIDAYS			= "bank_holidays";
+
 	public static String	CONFIGURATION_DAO		= "myConfigurationDAO";
 
 	public static String	CONTESTATION_DAO		= "myContestationDAO";

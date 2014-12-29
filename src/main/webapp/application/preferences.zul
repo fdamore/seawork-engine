@@ -9,9 +9,9 @@
 	<style>
 
 		.myBottonCell { border-bottom: 1px solid; border-right: 1px
-			solid; border-color:#CFCFCF;}
+		solid; border-color:#CFCFCF;}
 
-		</style>
+	</style>
 
 	<div sclass="page-header">
 		<label value="Parametri di sistema" />
@@ -96,6 +96,36 @@
 
 	<space></space>
 
+	<!-- BANK HOLIDAYS -->
+	<div>
+
+
+		<a label="Lista dei giorni festivi" iconSclass="z-icon-list"
+			sclass="green lighter rcaption" />
+
+		<listbox id="list_bankholiday" width="100px"
+			style="border: 1px solid #CCCCCC;">
+			<listhead width="300px">
+				<listheader label="Mese e Giorno" />
+			</listhead>
+
+			<listitem sclass="myBottonCell" self="@{each='itm'}">
+				<listcell sclass="myBottonCell" label="@{itm}" />
+			</listitem>
+		</listbox>
+
+
+		<separator></separator>
+
+
+
+	</div>
+
+	<space></space>
+
+
+	<a label="Parametri di configurazione lavoro"
+		iconSclass="z-icon-list" sclass="green lighter rcaption" />
 	<tabbox>
 
 		<tabs>
@@ -240,25 +270,28 @@
 									<listheader label="Codice" />
 									<listheader label="Descrizione"
 										sort="auto(description)" />
-										<listheader label="Mansione di assenza" />
+									<listheader
+										label="Mansione di assenza" />
 									<listheader label="" />
 								</listhead>
 
-								<listitem 
-									self="@{each='task_item'}" value="@{task_item}">
+								<listitem self="@{each='task_item'}"
+									value="@{task_item}">
 
 
 
-									<listcell sclass="myBottonCell"  label="@{task_item.code}" />
+									<listcell sclass="myBottonCell"
+										label="@{task_item.code}" />
 
-									<listcell sclass="myBottonCell" 
+									<listcell sclass="myBottonCell"
 										label="@{task_item.description}" />
 
-									<listcell sclass="myBottonCell" >										
-										<image src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									<listcell sclass="myBottonCell">
+										<image
+											src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 
 										<toolbarbutton
 											id="sw_link_deletetask" style="color:blue"
@@ -466,7 +499,7 @@
 							</div>
 
 
-							<listbox  id="sw_list_shift"
+							<listbox id="sw_list_shift"
 								pagingPosition="both" mold="paging"
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="10">
@@ -488,44 +521,44 @@
 									<listheader label="" />
 								</listhead>
 
-								<listitem 
-									self="@{each='shift_item'}" value="@{shift_item}">
-									<listcell  sclass="myBottonCell" 
+								<listitem self="@{each='shift_item'}"
+									value="@{shift_item}">
+									<listcell sclass="myBottonCell"
 										label="@{shift_item.code}" />
-									<listcell  sclass="myBottonCell" 
+									<listcell sclass="myBottonCell"
 										label="@{shift_item.description}" />
-									<listcell  sclass="myBottonCell" 
+									<listcell sclass="myBottonCell"
 										label="@{shift_item.presence, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
-									<listcell sclass="myBottonCell"  >
+									<listcell sclass="myBottonCell">
 										<checkbox
 											checked="@{shift_item.forceable}" disabled="true" />
 									</listcell>
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 										<image
 											src="@{shift_item.break_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
 
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 										<image
 											src="@{shift_item.accident_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 										<image
 											src="@{shift_item.disease_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 										<image
 											src="@{shift_item.waitbreak_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 										<image
 											src="@{shift_item.standard_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 										<image
 											src="@{shift_item.daily_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 
 										<toolbarbutton
 											id="sw_link_deleteshift" style="color:blue"
@@ -642,18 +675,18 @@
 									<listheader label="" />
 								</listhead>
 
-								<listitem 
-									self="@{each='status_item'}" value="@{status_item}">
+								<listitem self="@{each='status_item'}"
+									value="@{status_item}">
 
 
 
 
 
-									<listcell sclass="myBottonCell" 
+									<listcell sclass="myBottonCell"
 										label="@{status_item.description}" />
 
 
-									<listcell sclass="myBottonCell" >
+									<listcell sclass="myBottonCell">
 
 										<toolbarbutton
 											id="sw_link_deletestatus" style="color:blue"

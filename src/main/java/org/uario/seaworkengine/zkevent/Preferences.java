@@ -9,6 +9,7 @@ import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
+import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ParamsTag;
 import org.uario.seaworkengine.utility.ShiftTag;
@@ -38,6 +39,8 @@ public class Preferences extends SelectorComposer<Component> {
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
+
+	private IBankHolidays		bank_holiday;
 
 	@Wire
 	private Textbox				code_shift;
@@ -91,6 +94,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Label				label_max_meomry;
+
+	@Wire
+	private Listbox				list_bankholiday;
 
 	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
 
@@ -319,6 +325,7 @@ public class Preferences extends SelectorComposer<Component> {
 				// get the configuration dao
 				Preferences.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 				Preferences.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
+				Preferences.this.bank_holiday = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
 
 				// define memory info
 				Preferences.this.showMemory();
@@ -337,6 +344,9 @@ public class Preferences extends SelectorComposer<Component> {
 				// refresh status list
 				Preferences.this.refreshStatusList();
 				Preferences.this.resetStatusInfo();
+
+				// show bank holiday
+				Preferences.this.showBankHolidays();
 
 			}
 
@@ -787,6 +797,14 @@ public class Preferences extends SelectorComposer<Component> {
 		list_usertask = this.configurationDao.listAllAbsenceTask();
 
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
+	}
+
+	/**
+	 * Show Bank Holiday
+	 */
+	private void showBankHolidays() {
+		final List<String> list_bnk = Preferences.this.bank_holiday.getDays();
+		Preferences.this.list_bankholiday.setModel(new ListModelList<String>(list_bnk));
 	}
 
 	@Listen("onClick = #sw_return_defaultshift")
