@@ -1039,6 +1039,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void selectDailyEmployee() {
+		final List<Person> list_person = this.personDao.listDailyEmployee();
+
+		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+	}
+
 	private void selectOperatives() {
 		final List<Person> list_person = this.personDao.listOperativePerson();
 
@@ -1052,6 +1058,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.selectAdmins();
 		} else if (selected.equals("Preposti")) {
 			this.selectOperatives();
+		} else if (selected.equals("dailyemployee")) {
+			this.selectDailyEmployee();
 		} else {
 			this.refreshListUser();
 		}
