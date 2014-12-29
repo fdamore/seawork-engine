@@ -83,6 +83,12 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
+	public List<Person> listDailyEmployee() {
+		MyBatisPersonDAO.logger.info("Get all daily employee");
+		return this.getSqlSession().selectList("person.listDailyEmployee");
+	}
+
+	@Override
 	public List<Person> listOperativePerson() {
 		MyBatisPersonDAO.logger.info("Get operative person");
 		return this.getSqlSession().selectList("person.usersOperative");

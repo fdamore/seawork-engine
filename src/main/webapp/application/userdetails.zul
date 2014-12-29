@@ -163,6 +163,10 @@
 										<label value="Ruolo Visore"></label>
 										<checkbox id="viewer_user" />
 									</row>
+									<row>
+										<label value="Dipendente Giornaliero"></label>
+										<checkbox id="dailyemployee" />
+									</row>
 
 									<row>
 										<label value="Nome:"></label>

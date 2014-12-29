@@ -84,6 +84,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox				current_position_user;
 
 	@Wire
+	private Checkbox			dailyemployee;
+
+	@Wire
 	private Textbox				department_user;
 
 	@Wire
@@ -315,6 +318,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			person.setProvincia(this.provincia_user.getValue());
 			person.setFiscal_code(this.fiscalcode_user.getValue());
 			person.setBirth_date(this.birth_date_user.getValue());
+			person.setDailyemployee(this.dailyemployee.isChecked());
 			if (this.birth_place_user.getSelectedItem() != null) {
 				person.setBirth_place(this.birth_place_user.getSelectedItem().getValue().toString());
 			}
@@ -690,6 +694,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.employee_identification_user.setValue(person_selected.getEmployee_identification());
 		this.fiscalcode_user.setValue(person_selected.getFiscal_code());
 		this.birth_date_user.setValue(person_selected.getBirth_date());
+		this.dailyemployee.setChecked(person_selected.getDailyemployee());
 
 		if (person_selected.getSex()) {
 			this.sex_user.setSelectedIndex(0);
@@ -856,6 +861,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.person_selected.setProvincia(this.provincia_user.getValue());
 		this.person_selected.setFiscal_code(this.fiscalcode_user.getValue());
 		this.person_selected.setBirth_date(this.birth_date_user.getValue());
+		this.person_selected.setDailyemployee(this.dailyemployee.isChecked());
 
 		if (this.birth_place_user.getSelectedItem() != null) {
 			this.person_selected.setBirth_place(this.birth_place_user.getSelectedItem().getValue().toString());
@@ -992,6 +998,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_place_user.setSelectedItem(null);
 		this.birth_place_user.setModel(new ListModelList<String>());
 		this.birth_place_user.setValue("");
+		this.dailyemployee.setChecked(Boolean.FALSE);
 		this.birth_province_user.setSelectedItem(null);
 		this.education_user.setValue("");
 		this.country_user.setValue("");

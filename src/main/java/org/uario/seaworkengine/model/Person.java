@@ -56,6 +56,9 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	@XmlTransient
 	private String				current_position;
 
+	@XmlTransient
+	private Boolean				dailyemployee;
+
 	private String				department;
 
 	private String				driving_license;
@@ -210,6 +213,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public String getCurrent_position() {
 		return this.current_position;
+	}
+
+	public Boolean getDailyemployee() {
+		return this.dailyemployee;
 	}
 
 	public String getDepartment() {
@@ -460,14 +467,18 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setCity(final String city) {
 		this.city = city;
-	}
+	};
 
 	public void setCountry(final String country) {
 		this.country = country;
-	};
+	}
 
 	public void setCurrent_position(final String current_position) {
 		this.current_position = current_position;
+	}
+
+	public void setDailyemployee(final Boolean dailyemployee) {
+		this.dailyemployee = dailyemployee;
 	}
 
 	public void setDepartment(final String department) {

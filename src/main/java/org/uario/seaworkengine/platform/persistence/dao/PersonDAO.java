@@ -46,6 +46,8 @@ public interface PersonDAO extends UserDetailsService {
 	 */
 	public List<Person> listAllPersons(String full_text_search);
 
+	public List<Person> listDailyEmployee();
+
 	public List<Person> listOperativePerson();
 
 	/**

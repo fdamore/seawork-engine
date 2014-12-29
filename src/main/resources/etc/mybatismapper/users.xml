@@ -43,7 +43,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user u
 		where ( u.authority like CONCAT('%', 'ROLE_SUPERVISOR', '%') )
@@ -88,7 +89,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user u
 		where ( u.authority like CONCAT('%', 'ROLE_OPERATIVE', '%') )
@@ -133,7 +135,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user
 		u
@@ -144,6 +147,49 @@
 	</select>
 
 
+	<select id="listDailyEmployee" resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status,
+		u.personal_code,
+		u.sex,
+		u.out_schedule,
+		u.birth_province,
+		u.dailyemployee
+		FROM
+		user
+		u
+		WHERE
+		u.dailyemployee = 1 
+		order by u.firstname
+		asc
+	</select>
 
 
 	<select id="selectUsersByUsername" parameterType="string"
@@ -180,7 +226,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user
 		u
@@ -224,7 +271,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user
 		u
@@ -272,7 +320,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user
 		u order by
@@ -314,7 +363,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user u
 		WHERE
@@ -369,7 +419,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -422,7 +473,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user
 		u
@@ -468,7 +520,8 @@
 		u.personal_code,
 		u.sex,
 		u.out_schedule,
-		u.birth_province
+		u.birth_province,
+		u.dailyemployee
 		FROM
 		user
 		u
@@ -505,7 +558,8 @@
 		personal_code,
 		sex,
 		out_schedule,
-		birth_province
+		birth_province,
+		dailyemployee
 		)
 		VALUES
 		(#{email},
@@ -538,7 +592,8 @@
 		#{personal_code},
 		#{sex},
 		#{out_schedule},
-		#{birth_province})
+		#{birth_province},
+		#{dailyemployee})
 	</insert>
 
 	<delete id="deletePerson" parameterType="int">
@@ -590,7 +645,9 @@
 		out_schedule =
 		#{out_schedule},
 		birth_province =
-		#{birth_province}
+		#{birth_province},
+		dailyemployee = 
+		#{dailyemployee}
 		WHERE id =
 		#{id}
 	</update>
