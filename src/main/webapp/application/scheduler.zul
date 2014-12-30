@@ -259,8 +259,8 @@
 							<a label="Turno Corrente: "
 								id="label_date_shift_preprocessing" sclass="header"
 								iconSclass="z-icon-check" />
-							<a id="editor_label_daydefinition"/>
-							<a id="controller_label_daydefinition"/>
+							<a id="editor_label_daydefinition" />
+							<a id="controller_label_daydefinition" />
 
 							<separator></separator>
 							<combobox id="shifts_combo_select"
@@ -888,8 +888,8 @@
 						<a id="scheduler_label"></a>
 						<a id="label_date_shift_program" sclass="header"
 							iconSclass="z-icon-check" />
-						<a id="editor_label"/>
-						<a id="controller_label"/>
+						<a id="editor_label" />
+						<a id="controller_label" />
 
 					</vbox>
 
@@ -1044,7 +1044,7 @@
 								width="40pt" />
 							<column label="Turno Forzabile" />
 							<column style="background:#D15B47"
-								width="40pt" />								
+								width="40pt" />
 							<column label="Turno Non Forzabile" />
 							<column style="background:#8E8EA5"
 								width="40pt" />
@@ -1052,7 +1052,7 @@
 							<column style="background:#70B8FF"
 								width="40pt" />
 							<column label="Giorno attuale" />
-							
+
 						</columns>
 					</grid>
 				</panelchildren>
@@ -1444,9 +1444,18 @@
 								<a id="scheduler_label_review"></a>
 								<a id="label_date_shift_review"
 									sclass="header" iconSclass="z-icon-check" />
-								<a id="editor_label_review"/>
-								<a id="controller_label_review"/>
+								<a id="editor_label_review" />
+								<a id="controller_label_review" />
 							</vbox>
+							<space></space>
+
+							<hbox align="center" id="day_shift_over">
+								<a label="Finisce il Giorno seguente: "></a>
+								<checkbox checked="true"
+									id="day_shift_over_control">
+								</checkbox>
+							</hbox>
+
 							<space></space>
 
 							<listbox id="listbox_review" sclass="domain"
@@ -1461,34 +1470,17 @@
 											placeholder="Mansioni" id="review_task">
 										</combobox>
 
-										<timebox
+										<timebox cols="10"
 											placeholder="Ora inizio" id="time_from">
 										</timebox>
 
 										<timebox placeholder="Ora fine"
-											id="time_to">
+											cols="10" id="time_to">
 										</timebox>
 
 									</auxheader>
 								</auxhead>
 
-								<auxhead>
-									<auxheader colspan="4">
-
-										<label
-											value="Tempo lavorato: ">
-										</label>
-
-										<intbox placeholder="Ore..."
-											id="review_time_hours">
-										</intbox>
-
-										<intbox placeholder="Minuti..."
-											id="review_time_minuts">
-										</intbox>
-
-									</auxheader>
-								</auxhead>
 
 								<auxhead>
 									<auxheader colspan="4">
@@ -1823,8 +1815,8 @@
 						<a label="Riposo Programmato"
 							style="color:green" id="overview_selector_select_rp">
 						</a>
-						<a label="Giornaliero"
-							style="color:green" id="overview_selector_select_dl">
+						<a label="Giornaliero" style="color:green"
+							id="overview_selector_select_dl">
 						</a>
 						<a label="Tutti" style="color:green"
 							id="overview_selector_select_all">

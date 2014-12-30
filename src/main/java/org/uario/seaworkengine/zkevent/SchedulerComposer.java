@@ -45,6 +45,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Auxheader;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
@@ -135,7 +136,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Popup							day_name_popup;
 
 	@Wire
-	private Component						define_program_body;
+	private Component						day_shift_over;
+
+	@Wire
+	private Checkbox						day_shift_over_control;
+
+	@Wire
+	private Component						define_program_body;															;
 
 	@Wire
 	private Component						div_force_shift;
@@ -272,15 +279,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox						review_task;
-
-	@Wire
-	private Intbox							review_time;
-
-	@Wire
-	private Intbox							review_time_hours;
-
-	@Wire
-	private Intbox							review_time_minuts;
 
 	private ISchedule						scheduleDAO;
 
@@ -513,6 +511,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (now_to != null) {
 			final Calendar current_calendar = DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
 			final Calendar to_calendar = DateUtils.toCalendar(now_to);
+
+			if ((this.selectedShift == 4) && this.day_shift_over_control.isChecked()) {
+				current_calendar.add(Calendar.DAY_OF_YEAR, 1);
+			}
+
 			current_calendar.set(Calendar.HOUR_OF_DAY, to_calendar.get(Calendar.HOUR_OF_DAY));
 			current_calendar.set(Calendar.MINUTE, to_calendar.get(Calendar.MINUTE));
 			current_calendar.set(Calendar.SECOND, to_calendar.get(Calendar.SECOND));
@@ -613,7 +616,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar_to = DateUtils.truncate(calendar_to, Calendar.DATE);
 
 		if (calendar_from.after(calendar_to)) {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1264,18 +1267,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private Double getRevisionTime() {
 
-		Integer hours = this.review_time_hours.getValue();
-		Integer minuts = this.review_time_minuts.getValue();
+		final boolean check_day_over = this.day_shift_over_control.isChecked();
 
-		if (hours == null) {
-			hours = 0;
+		final Date date_from = this.time_from.getValue();
+		Date date_to = this.time_to.getValue();
+
+		if ((this.selectedShift == 4) && check_day_over) {
+			final Calendar calednar = DateUtils.toCalendar(date_to);
+			calednar.add(Calendar.DAY_OF_YEAR, 1);
+			date_to = calednar.getTime();
 		}
 
-		if (minuts == null) {
-			minuts = 0;
+		if ((date_from == null) || (date_to == null)) {
+			return null;
 		}
 
-		final Double ret = hours + (((double) minuts) / 60);
+		final Date time_from_date = date_from;
+		final Date time_to_date = date_to;
+		if (time_from_date.after(time_to_date)) {
+			return null;
+		}
+
+		final Long long_time = time_to_date.getTime() - time_from_date.getTime();
+
+		final Double millis = long_time.doubleValue();
+
+		final Double ret = millis / (1000 * 60 * 60);
 
 		return ret;
 	}
@@ -1464,7 +1481,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1476,7 +1493,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// info check
 		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1632,7 +1649,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1645,7 +1662,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// info check
 		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1659,6 +1676,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.selectedShift = Integer.parseInt(info[2]);
 		final Integer user = row_scheduler.getUser();
 		this.selectedUser = user;
+
+		// show day over
+		if (this.selectedShift != 4) {
+			this.day_shift_over.setVisible(false);
+		} else {
+			this.day_shift_over.setVisible(true);
+		}
 
 		final Date date_schedule = DateUtils.truncate(date_to_configure, Calendar.DATE);
 
@@ -1805,7 +1829,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
 
 				if (dayScheduleDate.after(to_day)) {
-					final Map<String, String> params = new HashMap();
+					final Map<String, String> params = new HashMap<String, String>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
@@ -1818,7 +1842,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
 
 				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-					final Map<String, String> params = new HashMap();
+					final Map<String, String> params = new HashMap<String, String>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
@@ -2026,7 +2050,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final Date to_day = DateUtils.truncate(this.day_after_config.getValue(), Calendar.DATE);
 
 			if (date_scheduled.after(to_day)) {
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -2038,7 +2062,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final int count = (int) ((to_day.getTime() - date_scheduled.getTime()) / (1000 * 60 * 60 * 24));
 
 			if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -2120,7 +2144,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 			if (count > 12) {
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -2137,7 +2161,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
 				if (this.selectedShift.compareTo(min_shift) < 0) {
 
-					final Map<String, String> params = new HashMap();
+					final Map<String, String> params = new HashMap<String, String>();
 					params.put("sclass", "mybutton Button");
 
 					final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -2146,18 +2170,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								SchedulerComposer.this.saveProgramFinalStep();
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							}
-						}
-					}, params);
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										SchedulerComposer.this.saveProgramFinalStep();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									}
+								}
+							}, params);
 
 					return;
 
@@ -2225,7 +2249,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		if (count > 12) {
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -2729,7 +2753,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			date_to = date_from;
 		}
 		if ((date_from != null) && date_from.after(date_to)) {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
