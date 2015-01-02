@@ -150,12 +150,6 @@ public class WorkAssignService implements IWorkShiftAssign {
 						this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
 						this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
 
-						// check is tomorrow is a bank holiday
-						final String date_t_info = WorkAssignService.formatter_MMdd.format(date_tomorrow);
-						if (this.bank_holiday.getDays().contains(date_t_info)) {
-							this.statProcedure.workAssignProcedure(break_shift, date_tomorrow, person.getId(), null);
-						}
-
 					} else {
 
 						final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
@@ -166,6 +160,14 @@ public class WorkAssignService implements IWorkShiftAssign {
 						} else {
 							this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 						}
+					}
+				}
+
+				// check is tomorrow is a bank holiday
+				if (person.getDailyemployee().booleanValue()) {
+					final String date_t_info = WorkAssignService.formatter_MMdd.format(date_tomorrow);
+					if (this.bank_holiday.getDays().contains(date_t_info)) {
+						this.statProcedure.workAssignProcedure(break_shift, date_tomorrow, person.getId(), null);
 					}
 				}
 
