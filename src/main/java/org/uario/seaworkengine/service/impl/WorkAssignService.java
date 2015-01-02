@@ -19,6 +19,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IParams;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.service.IWorkShiftAssign;
+import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.utility.ParamsTag;
 
@@ -40,24 +41,28 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 	}
 
+	private static final SimpleDateFormat	formatter_MMdd	= new SimpleDateFormat("MM-dd");
+
 	// logger
-	private static Logger			logger			= Logger.getLogger(WorkAssignService.class);
+	private static Logger					logger			= Logger.getLogger(WorkAssignService.class);
 
-	private final SimpleDateFormat	date_fromatter	= new SimpleDateFormat("yyyy-MM-dd");
+	private IBankHolidays					bank_holiday;
 
-	private long					initialDelay;
+	private final SimpleDateFormat			date_fromatter	= new SimpleDateFormat("yyyy-MM-dd");
 
-	private IParams					params;
+	private long							initialDelay;
 
-	private long					period;
+	private IParams							params;
 
-	private PersonDAO				personDAO;
+	private long							period;
 
-	private ISchedule				scheduleDAO;
+	private PersonDAO						personDAO;
 
-	private IShiftCache				shiftCache;
+	private ISchedule						scheduleDAO;
 
-	private IStatProcedure			statProcedure;
+	private IShiftCache						shiftCache;
+
+	private IStatProcedure					statProcedure;
 
 	@Override
 	public void assignStandardWork() {
@@ -133,13 +138,34 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 				// assign programmed break
 				if (isSunaday) {
-					final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
-					if (DateUtils.isSameDay(date_break, date_tomorrow)) {
-						if (lenght_series < 10) {
+
+					// for daily employee, Saturday and Sunday is bank holiday
+					if (person.getDailyemployee().booleanValue()) {
+
+						final Calendar saturday = DateUtils.toCalendar(current_day);
+						saturday.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+						final Calendar sunday = DateUtils.toCalendar(current_day);
+						sunday.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+						this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
+						this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
+
+						// check is tomorrow is a bank holiday
+						final String date_t_info = WorkAssignService.formatter_MMdd.format(date_tomorrow);
+						if (this.bank_holiday.getDays().contains(date_t_info)) {
+							this.statProcedure.workAssignProcedure(break_shift, date_tomorrow, person.getId(), null);
+						}
+
+					} else {
+
+						final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
+						if (DateUtils.isSameDay(date_break, date_tomorrow)) {
+							if (lenght_series < 10) {
+								this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+							}
+						} else {
 							this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 						}
-					} else {
-						this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 					}
 				}
 
@@ -156,6 +182,10 @@ public class WorkAssignService implements IWorkShiftAssign {
 			throw e;
 		}
 
+	}
+
+	public IBankHolidays getBank_holiday() {
+		return this.bank_holiday;
 	}
 
 	public long getInitialDelay() {
@@ -195,6 +225,10 @@ public class WorkAssignService implements IWorkShiftAssign {
 
 		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 		scheduler.scheduleAtFixedRate(runnable, this.initialDelay, this.period, TimeUnit.HOURS);
+	}
+
+	public void setBank_holiday(final IBankHolidays bank_holiday) {
+		this.bank_holiday = bank_holiday;
 	}
 
 	public void setInitialDelay(final long initialDelay) {

@@ -265,6 +265,7 @@
 		<property name="shiftCache" ref="myShiftCache"></property>
 		<property name="personDAO" ref="myPersonDAO"></property>
 		<property name="statProcedure" ref="myStatProcedure"></property>
+		<property name="bank_holiday" ref="bank_holidays"></property>
 
 	</bean>
 

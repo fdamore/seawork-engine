@@ -1450,7 +1450,9 @@
 							<space></space>
 
 							<hbox align="center" id="day_shift_over">
-								<a label="Finisce il Giorno seguente: "></a>
+								<a
+									label="Finisce il Giorno seguente: ">
+								</a>
 								<checkbox checked="true"
 									id="day_shift_over_control">
 								</checkbox>
@@ -1782,6 +1784,10 @@
 				<button id="overview_month" label="Mese corrente"
 					sclass="btn-info" />
 
+				<a label="Scarica dati in CSV" id="overview_download"
+					style="color:green">
+				</a>
+
 			</hbox>
 
 			<separator></separator>
@@ -1802,7 +1808,8 @@
 
 				<space></space>
 
-				<vbox align="start">
+
+				<vbox align="start" id="type_shift_filter_overview">
 					<a label="Filtra su tipo turno: "></a>
 					<combobox placeholder="Scegli tipo tuno..."
 						readonly="false" id="select_shifttype_overview">
@@ -1828,9 +1835,7 @@
 
 				<space></space>
 
-				<a label="Scarica dati in CSV" id="overview_download"
-					style="color:green">
-				</a>
+
 
 
 			</hbox>
