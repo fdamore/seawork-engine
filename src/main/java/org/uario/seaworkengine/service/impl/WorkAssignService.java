@@ -143,9 +143,9 @@ public class WorkAssignService implements IWorkShiftAssign {
 					if (person.getDailyemployee().booleanValue()) {
 
 						final Calendar saturday = DateUtils.toCalendar(current_day);
-						saturday.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+						saturday.add(Calendar.DAY_OF_YEAR, 6);
 						final Calendar sunday = DateUtils.toCalendar(current_day);
-						sunday.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+						sunday.add(Calendar.DAY_OF_YEAR, 7);
 
 						this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
 						this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
