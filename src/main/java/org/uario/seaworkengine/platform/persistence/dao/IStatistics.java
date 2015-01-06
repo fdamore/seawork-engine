@@ -7,6 +7,7 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.beans.GlobalProgramResult;
 
 public interface IStatistics {
 
@@ -96,6 +97,17 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Date date_from, Date date_to);
+
+	/**
+	 * Get global program result
+	 * 
+	 * @param full_text_search
+	 * @param shift_number
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public List<GlobalProgramResult> listGlobalProgramResult(String full_text_search, Integer shift_number, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule

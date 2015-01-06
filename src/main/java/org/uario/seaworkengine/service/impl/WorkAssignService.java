@@ -103,6 +103,11 @@ public class WorkAssignService implements IWorkShiftAssign {
 				return;
 			}
 
+			final UserShift daily_employee_shift = this.shiftCache.getDailyShift();
+			if (daily_employee_shift == null) {
+				return;
+			}
+
 			// check i Sunday. is needed ion order to set programmed break
 			boolean isSunaday = false;
 			if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
@@ -131,8 +136,22 @@ public class WorkAssignService implements IWorkShiftAssign {
 					this.statProcedure.workAssignProcedure(waited_work_shift, date_tomorrow, person.getId(), null);
 				} else {
 					if (schedule.getShift() == null) {
-						// assign work
-						this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
+						// assign work, only if nobody assigned it
+						if (!person.getDailyemployee().booleanValue()) {
+							this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
+						} else {
+
+							// BUSINESS LOGIC FOR DAILY WORKER
+							final String date_t_info = WorkAssignService.formatter_MMdd.format(date_tomorrow);
+							if (this.bank_holiday.getDays().contains(date_t_info)) {
+								// if is a bank holiday, set a break
+								this.statProcedure.workAssignProcedure(break_shift, date_tomorrow, person.getId(), null);
+							} else {
+								// work for daily worker
+								this.statProcedure.workAssignProcedure(daily_employee_shift, date_tomorrow, person.getId(), null);
+							}
+
+						}
 					}
 				}
 
@@ -151,23 +170,12 @@ public class WorkAssignService implements IWorkShiftAssign {
 						this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
 
 					} else {
-
-						final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
-						if (DateUtils.isSameDay(date_break, date_tomorrow)) {
-							if (lenght_series < 10) {
-								this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
-							}
-						} else {
+						if (lenght_series < 10) {
+							// only if you not assign waited work
+							final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
 							this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
-						}
-					}
-				}
 
-				// check is tomorrow is a bank holiday
-				if (person.getDailyemployee().booleanValue()) {
-					final String date_t_info = WorkAssignService.formatter_MMdd.format(date_tomorrow);
-					if (this.bank_holiday.getDays().contains(date_t_info)) {
-						this.statProcedure.workAssignProcedure(break_shift, date_tomorrow, person.getId(), null);
+						}
 					}
 				}
 
