@@ -1033,7 +1033,7 @@
 					<grid>
 						<auxhead>
 							<auxheader style="background-color: #FAFAFA"
-								colspan="10" label="Legenda Colori" />
+								colspan="8" label="Legenda Colori" />
 						</auxhead>
 
 						<columns>
@@ -1049,9 +1049,7 @@
 							<column style="background:#8E8EA5"
 								width="40pt" />
 							<column label="Turno giornaliero" />
-							<column style="background:#70B8FF"
-								width="40pt" />
-							<column label="Giorno attuale" />
+							
 
 						</columns>
 					</grid>
