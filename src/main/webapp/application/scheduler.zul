@@ -1864,10 +1864,14 @@
 									<listhead>
 
 										<listheader label="Nome"
-											sort="auto(user)" hflex="2" />
+											sort="auto(user, date_schedule, shift)" hflex="2" />
 
 										<listheader label="Data"
-											hflex="1" />
+											align="center" hflex="1" />
+
+										<listheader label="Tipo Turno"
+											align="center" hflex="1" />
+
 
 										<listheader label="Numero Turno"
 											hflex="1" align="center" />
@@ -1900,6 +1904,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.shift}" />
@@ -1935,10 +1942,13 @@
 									<listhead>
 
 										<listheader label="Nome"
-											sort="auto(user)" hflex="2" />
+											sort="auto(user, date_schedule, shift)" hflex="2" />
 
 										<listheader label="Data"
-											hflex="1" />
+											align="center" hflex="1" />
+
+										<listheader label="Tipo Turno"
+											align="center" hflex="1" />
 
 										<listheader label="Numero Turno"
 											hflex="1" align="center" />
@@ -1970,6 +1980,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.shift}" />
@@ -2034,7 +2047,7 @@
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewpreprocessing, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
+											label="@{itemoverviewpreprocessing.shift, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
 										</listcell>
 
 

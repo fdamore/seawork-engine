@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -24,11 +25,17 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	private Integer				id_schedule;
 
+	@XmlElement(name = "no_shift")
 	private Integer				shift;
+
+	// to show in overview
+	@XmlTransient
+	private Integer				shift_type;
 
 	private Integer				task;
 
 	private Double				time;
+
 	private Timestamp			time_from;
 	private Timestamp			time_to;
 	// to show in overview
@@ -69,6 +76,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.shift;
 	}
 
+	public Integer getShift_type() {
+		return this.shift_type;
+	}
+
 	public Integer getTask() {
 		return this.task;
 	}
@@ -103,6 +114,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
+	}
+
+	public void setShift_type(final Integer shift_type) {
+		this.shift_type = shift_type;
 	}
 
 	public void setTask(final Integer task) {

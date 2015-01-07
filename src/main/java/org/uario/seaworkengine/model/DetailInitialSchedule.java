@@ -30,6 +30,10 @@ public class DetailInitialSchedule implements Serializable {
 	@XmlElement(name = "no_shift")
 	private Integer				shift;
 
+	// to show in overview
+	@XmlTransient
+	private Integer				shift_type;
+
 	private Integer				task;
 
 	private Double				time;
@@ -52,6 +56,10 @@ public class DetailInitialSchedule implements Serializable {
 
 	public Integer getShift() {
 		return this.shift;
+	}
+
+	public Integer getShift_type() {
+		return this.shift_type;
 	}
 
 	public Integer getTask() {
@@ -80,6 +88,10 @@ public class DetailInitialSchedule implements Serializable {
 
 	public void setShift(final int shift) {
 		this.shift = shift;
+	}
+
+	public void setShift_type(final Integer shift_type) {
+		this.shift_type = shift_type;
 	}
 
 	public void setTask(final int task_initial) {

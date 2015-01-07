@@ -53,60 +53,7 @@
 		order by u.lastname asc, s.date_schedule
 	</select>
 
-	<select id="overviewGlobal"
-		resultType="org.uario.seaworkengine.statistics.beans.GlobalProgramResult"
-		parameterType="map">
-		select
-		s.id as id_schedule,
-		s.date_schedule,
-		concat(u.lastname, ' ',
-		u.firstname) as user,
-		s.note,
-		s.editor,
-		s.controller,
-		s.shift,
-		dis.shift as
-		program_shift_no,
-		dis.task as program_task,
-		dis.time as program_time,
-		dfs.shift as review_shift_no,
-		dfs.task as review_task,
-		dfs.time as
-		review_time,
-		dfs.time_from as entry,
-		dfs.time_to exit_out
-		from
-		schedule s
-		left outer join
-		detailinitialschedule dis ON s.id = dis.id_schedule
-		left outer join
-		detailfinalschedule dfs ON s.id = dfs.id_schedule, user
-		u
-		where s.user = u.id
-
-		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%', #{my_full_text_search},
-			'%') or
-			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
-			u.employee_identification = #{my_full_text_search})
-		</if>
-
-		<if test="date_from != null and date_to != null">
-			and (s.date_schedule <![CDATA[>=]]>
-			#{date_from} and s.date_schedule
-			<![CDATA[<=]]>
-			#{date_to})
-		</if>
-
-		<if test="shift_number != null">
-			and (s.shift = #{shift_number})
-		</if>
-
-		order by u.lastname asc, s.date_schedule
-
-
-	</select>
-
+	
 
 
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
@@ -116,6 +63,7 @@
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
+		s.shift as shift_type,
 		dfs.task,
 		dfs.time,
 		dfs.time_from,
@@ -158,6 +106,7 @@
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
+		s.shift as shift_type,
 		dfs.task,
 		dfs.time,
 		s.date_schedule
