@@ -1049,7 +1049,7 @@
 							<column style="background:#8E8EA5"
 								width="40pt" />
 							<column label="Turno giornaliero" />
-							
+
 
 						</columns>
 					</grid>
@@ -1586,6 +1586,8 @@
 
 				<button id="go_today_review" label="Vai ad oggi"
 					sclass="btn-info" />
+				<button id="assign_program_review"
+					label="Assegna programmato" sclass="btn-danger" />
 
 
 			</hbox>
@@ -1597,7 +1599,8 @@
 				<panelchildren>
 
 					<listbox sclass="domain" mold="paging" pageSize="10"
-						pagingPosition="both" id="grid_scheduler_review">
+						checkmark="true" multiple="true" pagingPosition="both"
+						id="grid_scheduler_review">
 						<auxhead>
 							<auxheader label="" colspan="1" />
 
@@ -1641,7 +1644,8 @@
 						</listhead>
 
 						<listitem self="@{each='itemreview'}"
-							value="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.ReviewConverter'}">
+							value="@{itemreview}"
+							label="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.ReviewConverter'}">
 
 							<listcell sclass="myBottonCell">
 								<a label="@{itemreview.name_user}">

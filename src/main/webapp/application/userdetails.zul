@@ -1,4 +1,5 @@
 <?page id="user" title="Seawork Admin"?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
@@ -6,16 +7,16 @@
 <vlayout sclass="page-content" xmlns:n="native" spacing="0"
 	id="page_user_detail"
 	apply="org.uario.seaworkengine.zkevent.UserDetailsComposer">
-	
+
 	<style>
 
-	.myBottonCell { border-bottom: 1px solid; border-right: 1px
-			solid; border-color:#CFCFCF;}
+		.myBottonCell { border-bottom: 1px solid; border-right: 1px
+		solid; border-color:#CFCFCF;}
 
-	    
+
 	</style>
-	
-	
+
+
 
 	<div sclass="page-header">
 		<label value="Dettagli Utente" />
@@ -69,9 +70,13 @@
 						<caption iconSclass="z-icon-star orange"
 							label="Dettagli utente">
 
+
+
 							<toolbarbutton id="add_users_command"
 								label="Aggiungi Utente" style="color: blue" visible="false">
 							</toolbarbutton>
+
+
 
 							<toolbarbutton id="modify_users_command"
 								label="Modifica Utente" style="color: blue" visible="false">
@@ -139,12 +144,13 @@
 										</label>
 										<checkbox id="admin_user" />
 									</row>
-									
+
 									<row>
 										<label
 											value="Non in schedula">
 										</label>
-										<checkbox id="out_schedule_user" />
+										<checkbox
+											id="out_schedule_user" />
 									</row>
 
 									<row>
@@ -164,7 +170,9 @@
 										<checkbox id="viewer_user" />
 									</row>
 									<row>
-										<label value="Dipendente Giornaliero"></label>
+										<label
+											value="Dipendente Giornaliero">
+										</label>
 										<checkbox id="dailyemployee" />
 									</row>
 
@@ -184,37 +192,35 @@
 										<label
 											value="Data di nascita:">
 										</label>
-										<datebox id="birth_date_user"  />
+										<datebox id="birth_date_user" />
 									</row>
-									
+
 									<row>
 										<label
 											value="Provincia di Nascita:">
 										</label>
-										<combobox readonly="true" placeholder="Seleziona Provincia"
-										id="birth_province_user">
+										<combobox readonly="true"
+											placeholder="Seleziona Provincia" id="birth_province_user">
 										</combobox>
 									</row>
-																		
+
 									<row>
 										<label
 											value="Luogo di Nascita:">
 										</label>
-										<combobox 
-										readonly="true" placeholder="Seleziona Comune" id="birth_place_user" />
-									</row>	
+										<combobox readonly="true"
+											placeholder="Seleziona Comune" id="birth_place_user" />
+									</row>
 									<row>
-										<label value="Sesso"/>
-										<combobox
-														id="sex_user"
-														placeholder="Seleziona sesso"
-														readonly="true">													
-														<comboitem
-															label="M" value="M">
-														</comboitem>
-														<comboitem
-															label="F" value="F">
-														</comboitem>
+										<label value="Sesso" />
+										<combobox id="sex_user"
+											placeholder="Seleziona sesso" readonly="true">
+											<comboitem label="M"
+												value="M">
+											</comboitem>
+											<comboitem label="F"
+												value="F">
+											</comboitem>
 										</combobox>
 									</row>
 									<row>
@@ -222,17 +228,18 @@
 											value="Codice Fiscale:">
 										</label>
 										<textbox id="fiscalcode_user" />
-										
+
 									</row>
-									
+
 									<row>
 										<label
 											value="Calcola Codice Fiscale:">
 										</label>
-										
-										<button id="cfgenerator" label="Calcola Codice Fiscale" sclass="btn-danger"/>
-												
-									</row>		
+
+										<button id="cfgenerator"
+											label="Calcola Codice Fiscale" sclass="btn-danger" />
+
+									</row>
 
 									<row>
 										<label
@@ -243,8 +250,10 @@
 									</row>
 
 									<row>
-										<label value="Codice Personale:"/>
-										<textbox id="personal_code_user"/>
+										<label
+											value="Codice Personale:" />
+										<textbox
+											id="personal_code_user" />
 									</row>
 
 
@@ -289,8 +298,8 @@
 										<textbox id="postalCode_user" />
 									</row>
 
-									
-									
+
+
 									<row>
 										<label
 											value="Titolo di Studio:">
@@ -347,8 +356,7 @@
 									</row>
 
 									<row>
-										<label
-											value="Tipo patenti:">
+										<label value="Tipo patenti:">
 										</label>
 										<textbox
 											id="driving_license_user" />
@@ -545,21 +553,25 @@
 	<div>
 		<separator></separator>
 
-		<button id="sw_adduser" sclass="btn-info"
+		<button id="sw_adduser" sclass="btn-info"			
 			label="Aggiungi Utente">
 		</button>
+
+
 
 		<button id="sw_refresh_list" sclass="btn-info"
 			label="Aggiorna Lista Utenti">
 		</button>
 
-				
-		<combobox id="select_specific_user" readonly="true" placeholder="Seleziona Utenti Default"
-											mold="rounded" >
-			<comboitem label="--" value="--"/>
-			<comboitem label="Amministratori di Sistema" value="Amministratori di Sistema"/>
-			<comboitem label="Preposti" value="Preposti"/>
-			<comboitem label="Dipendenti Giornalieri" value="dailyemployee"/>
+
+		<combobox id="select_specific_user" readonly="true"
+			placeholder="Seleziona Utenti Default" mold="rounded">
+			<comboitem label="--" value="--" />
+			<comboitem label="Amministratori di Sistema"
+				value="Amministratori di Sistema" />
+			<comboitem label="Preposti" value="Preposti" />
+			<comboitem label="Dipendenti Giornalieri"
+				value="dailyemployee" />
 		</combobox>
 
 		<separator></separator>
@@ -595,7 +607,8 @@
 			<listheader label="" />
 		</listhead>
 
-		<listitem sclass="myBottonCell" self="@{each='user_item'}" value="@{user_item}">
+		<listitem sclass="myBottonCell" self="@{each='user_item'}"
+			value="@{user_item}">
 
 			<listcell sclass="myBottonCell" label="@{user_item.id}" />
 			<listcell sclass="myBottonCell" label="@{user_item.status}" />
@@ -603,7 +616,8 @@
 			<listcell sclass="myBottonCell"
 				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />
 
-			<listcell sclass="myBottonCell" label="@{user_item.individualName}" />
+			<listcell sclass="myBottonCell"
+				label="@{user_item.individualName}" />
 
 			<listcell sclass="myBottonCell" label="@{user_item.city}" />
 			<listcell sclass="myBottonCell" label="@{user_item.phone}" />

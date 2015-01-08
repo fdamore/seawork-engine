@@ -1,4 +1,5 @@
 <?page id="mainpage" title="Seawork Admin"?>
+
 <vlayout sclass="page-content" xmlns:n="native" spacing="0">
 <style>
     .cg-title {
@@ -63,7 +64,7 @@
                     <caption iconSclass="z-icon-group" label="UTENTI" />                   
                     <hlayout>
                         <vlayout width="260px" spacing="20px" style="padding-left: 30px;padding-top: 30px;padding-bottom: 30px; margin-right: 12px ">
-                            <button class="z-button-users" label="GESTIONE UTENTI" id="sw_user_button_main" height="200px" width="210px" style="font-weight : bold;" iconSclass="z-icon-group" />
+                            <button visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" class="z-button-users" label="GESTIONE UTENTI" id="sw_user_button_main" height="200px" width="210px" style="font-weight : bold;" iconSclass="z-icon-group" />
                             <button class="z-button-users" label="PROGRAMMAZIONE TURNI" id="sw_scheduler_button_main"  height="200px" width="210px" style="font-weight : bold;" iconSclass="z-icon-list" />
                         </vlayout>                                               
                     </hlayout >

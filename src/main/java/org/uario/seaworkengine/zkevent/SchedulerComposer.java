@@ -145,10 +145,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Checkbox						day_shift_over_control;
 
 	@Wire
-	private Component						define_program_body;															;
+	private Component						define_program_body;
 
 	@Wire
-	private Component						div_force_shift;
+	private Component						div_force_shift;																;
 
 	@Wire
 	private A								editor_label;
@@ -178,9 +178,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox							grid_scheduler_review;
+
 	@Wire
 	private Comboitem						item_all_shift_overview;
-
 	@Wire
 	private A								label_date_popup;
 
@@ -269,13 +269,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Comboitem						program_item;
+
 	@Wire
 	private Combobox						program_task;
 	@Wire
 	private Intbox							program_time_hours;
 	@Wire
 	private Intbox							program_time_minuts;
-
 	@Wire
 	private Div								review_div;
 
@@ -673,6 +673,70 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		return null;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Listen("onClick= #assign_program_review")
+	public void defineReviewByProgram() {
+
+		final Map<String, String> params = new HashMap<String, String>();
+		params.put("sclass", "mybutton Button");
+		final Messagebox.Button[] buttons = new Messagebox.Button[2];
+		buttons[0] = Messagebox.Button.OK;
+		buttons[1] = Messagebox.Button.CANCEL;
+
+		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+
+							SchedulerComposer.this.defineReviewByProgramProcedure();
+
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+
+				}
+			}
+		}, params);
+
+		return;
+
+	}
+
+	/**
+	 * Assign program to review: procedure
+	 */
+	private void defineReviewByProgramProcedure() {
+
+		// TODO: finisci questo
+
+		// if ((this.grid_scheduler_review == null) ||
+		// (this.grid_scheduler_review.getSelectedItems() == null)
+		// || (this.grid_scheduler_review.getSelectedItems().size() == 0)) {
+		// return;
+		// }
+		//
+		// for (final Listitem item :
+		// this.grid_scheduler_review.getSelectedItems()) {
+		//
+		// final RowSchedule item_row = item.getValue();
+		//
+		// if (item_row.getItem_1() == null) {
+		// continue;
+		// }
+		//
+		// final Schedule schedule = item_row.getItem_1().getSchedule();
+		// if ((schedule == null) || (schedule.getId() == null)) {
+		// continue;
+		// }
+		//
+		// final List<DetailInitialSchedule> list_init_detail =
+		// this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
+		//
+		// this.scheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+		//
+		// }
 
 	}
 
@@ -3346,7 +3410,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.grid_scheduler_review.setPageSize(this.shows_rows.getValue());
 		}
-		this.grid_scheduler_review.setModel(new ListModelList<RowSchedule>(list_row));
+		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(list_row);
+		model.setMultiple(true);
+		this.grid_scheduler_review.setModel(model);
 
 	}
 
