@@ -36,7 +36,7 @@
 		<security:intercept-url pattern="/index.zul*"
 			access="permitAll" />
 		<security:intercept-url pattern="/application/**"
-			access="hasRole('ROLE_SUPERVISOR')" />
+			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE')" />
 		<security:form-login login-page='/index.zul'
 			authentication-failure-url="/index.zul" always-use-default-target="true"
 			default-target-url="/application/index.zul" />
@@ -213,7 +213,8 @@
 	<!-- END DAO -->
 
 	<!-- BANK HOLIDAYS -->
-	<bean id="bank_holidays" class="org.uario.seaworkengine.statistics.impl.ItalianBankHolidays">
+	<bean id="bank_holidays"
+		class="org.uario.seaworkengine.statistics.impl.ItalianBankHolidays">
 		<property name="days">
 			<list>
 				<value>01-01</value>

@@ -9,8 +9,10 @@
 
 
 	<hlayout sclass="nav-user pull-right" spacing="0">
-		<a id="atask" iconSclass="z-icon-tasks"
-			popup="taskpp, position=after_end, type=toggle" sclass="purple">
+		<a id="atask" iconSclass="z-icon-tasks" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
+			
+			popup="taskpp, position=after_end, type=toggle"
+			sclass="purple">
 			<label value="Server e Configurazioni"
 				sclass="badge badge-grey" />
 		</a>
