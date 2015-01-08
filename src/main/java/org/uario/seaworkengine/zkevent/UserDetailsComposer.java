@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
@@ -268,7 +269,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				Messagebox.show("Ridigita Username!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
-		} else {
+		}
+		else {
 			mail = "" + Calendar.getInstance().getTimeInMillis();
 		}
 
@@ -301,7 +303,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		if (!(this.email_user.getValue() == null || this.password_user.getValue() == null)) {
+		if (!((this.email_user.getValue() == null) || (this.password_user.getValue() == null))) {
 			final Person person = new Person();
 			person.setAddress(this.address_user.getValue());
 			person.setCity(this.city_user.getValue());
@@ -339,10 +341,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			if (this.sex_user.getSelectedItem() != null) {
 				if (this.sex_user.getSelectedItem().toString() == "M") {
 					person.setSex(true);
-				} else {
+				}
+				else {
 					person.setSex(false);
 				}
-			} else {
+			}
+			else {
 				person.setSex(true);
 			}
 
@@ -360,7 +364,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			if (this.operative_user.isChecked()) {
 				if (!auth.equals(UserTag.ROLE_USER)) {
 					auth = auth + "," + UserTag.ROLE_OPERATIVE;
-				} else {
+				}
+				else {
 					auth = UserTag.ROLE_OPERATIVE;
 				}
 
@@ -369,7 +374,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			if (this.backoffice_user.isChecked()) {
 				if (!auth.equals(UserTag.ROLE_USER)) {
 					auth = auth + "," + UserTag.ROLE_BACKOFFICE;
-				} else {
+				}
+				else {
 					auth = UserTag.ROLE_BACKOFFICE;
 				}
 
@@ -378,7 +384,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			if (this.viewer_user.isChecked()) {
 				if (!auth.equals(UserTag.ROLE_USER)) {
 					auth = auth + "," + UserTag.ROLE_VIEWER;
-				} else {
+				}
+				else {
 					auth = UserTag.ROLE_VIEWER;
 				}
 			}
@@ -406,14 +413,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.grid_user_details.setVisible(false);
 			this.add_users_command.setVisible(false);
 			this.modify_users_command.setVisible(false);
-		} else {
+		}
+		else {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -422,9 +429,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
 
-		if (this.firstname_user.getValue() == null || this.lastname_user.getValue() == null || this.birth_place_user.getSelectedItem() == null
-				|| this.birth_province_user.getSelectedItem() == null || this.birth_date_user.getValue() == null
-				|| this.sex_user.getSelectedItem() == null) {
+		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null) || (this.birth_place_user.getSelectedItem() == null) || (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
+				|| (this.sex_user.getSelectedItem() == null)) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -445,7 +451,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		String s = null;
 		if (this.sex_user.getSelectedIndex() == 0) {
 			s = "M";
-		} else {
+		}
+		else {
 			s = "F";
 		}
 
@@ -500,7 +507,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final CFGenerator cfg = new CFGenerator(n, c, cc, month, a, g, s, prov);
 			final String cf = cfg.getCodiceFiscale();
 			this.fiscalcode_user.setValue(cf);
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -531,9 +539,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
-				// set fields
-				this.mailpassword_user.setValue("");
-
 				return;
 
 			}
@@ -550,6 +555,23 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				this.mailpassword_user.setValue("");
 
 				return;
+			}
+
+			// control about mail
+			final UserDetails check = this.personDao.loadUserByUsernameIfAny(this.email_editor_user.getValue());
+			if (check != null) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+
+				// set fields
+				this.email_editor_user.setValue("");
+
+				return;
+
 			}
 
 			// change password
@@ -648,8 +670,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_place_user.setValue("");
 		this.birth_province_user.setSelectedItem(null);
 
-		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null) || !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
 
@@ -698,7 +719,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		if (person_selected.getSex()) {
 			this.sex_user.setSelectedIndex(0);
-		} else {
+		}
+		else {
 			this.sex_user.setSelectedIndex(1);
 		}
 
@@ -764,7 +786,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			// update list
 			this.setUserListBox();
 
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 
 			this.logger.error("Error removing user. " + e.getMessage());
 
@@ -773,8 +796,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
-					buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -838,8 +860,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onSelect=#birth_province_user")
 	public void loadComuni() {
-		this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem()
-				.getValue().toString())));
+		this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
 	}
 
 	@Listen("onClick = #modify_users_command")
@@ -874,7 +895,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		if (this.sex_user.getSelectedItem() != null) {
 			if (this.sex_user.getSelectedItem().getValue().toString().equals("M")) {
 				this.person_selected.setSex(true);
-			} else {
+			}
+			else {
 				this.person_selected.setSex(false);
 			}
 		}
@@ -901,7 +923,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		if (this.operative_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_OPERATIVE;
-			} else {
+			}
+			else {
 				auth = UserTag.ROLE_OPERATIVE;
 			}
 
@@ -910,7 +933,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		if (this.backoffice_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_BACKOFFICE;
-			} else {
+			}
+			else {
 				auth = UserTag.ROLE_BACKOFFICE;
 			}
 
@@ -919,7 +943,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		if (this.viewer_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_VIEWER;
-			} else {
+			}
+			else {
 				auth = UserTag.ROLE_VIEWER;
 			}
 		}
@@ -961,17 +986,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposer.this.deleteUserCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposer.this.deleteUserCommand();
+				}
+				else
+					if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
 					}
-				}, params);
+			}
+		}, params);
 
 	}
 
@@ -1056,13 +1082,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final String selected = this.select_specific_user.getSelectedItem().getValue().toString();
 		if (selected.equals("Amministratori di Sistema")) {
 			this.selectAdmins();
-		} else if (selected.equals("Preposti")) {
-			this.selectOperatives();
-		} else if (selected.equals("dailyemployee")) {
-			this.selectDailyEmployee();
-		} else {
-			this.refreshListUser();
 		}
+		else
+			if (selected.equals("Preposti")) {
+				this.selectOperatives();
+			}
+			else
+				if (selected.equals("dailyemployee")) {
+					this.selectDailyEmployee();
+				}
+				else {
+					this.refreshListUser();
+				}
 	}
 
 	/**
@@ -1132,13 +1163,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
 			list_person = this.personDao.listAllPersons(this.full_text_search.getValue());
-		} else {
+		}
+		else {
 			list_person = this.personDao.listAllPersons();
 		}
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_user.setPageSize(this.shows_rows.getValue());
-		} else {
+		}
+		else {
 			this.sw_list_user.setPageSize(10);
 		}
 
