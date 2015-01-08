@@ -317,20 +317,38 @@ public class StatProceduresImpl implements IStatProcedure {
 			// get a shift for a day
 			final Integer my_no_shift = this.getShiftNoForDay(truncDate, user);
 
-			final List<DetailInitialSchedule> details = new ArrayList<DetailInitialSchedule>();
-
-			final DetailInitialSchedule item = new DetailInitialSchedule();
-			item.setId_schedule(schedule.getId());
-			item.setShift(my_no_shift);
-			item.setTask(task_default.getId());
-			item.setTime(6.0);
-			details.add(item);
-
 			// remove all detail in any shift
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
 
-			// create detail
-			this.myScheduleDAO.createDetailInitialSchedule(item);
+			if (shift.getDaily_shift().booleanValue()) {
+
+				final DetailInitialSchedule item1 = new DetailInitialSchedule();
+				item1.setId_schedule(schedule.getId());
+				item1.setShift(2);
+				item1.setTask(task_default.getId());
+				item1.setTime(4.0);
+
+				final DetailInitialSchedule item2 = new DetailInitialSchedule();
+				item2.setId_schedule(schedule.getId());
+				item2.setShift(3);
+				item2.setTask(task_default.getId());
+				item2.setTime(4.0);
+
+				// create detail
+				this.myScheduleDAO.createDetailInitialSchedule(item1);
+				this.myScheduleDAO.createDetailInitialSchedule(item2);
+
+			} else {
+				final DetailInitialSchedule item = new DetailInitialSchedule();
+				item.setId_schedule(schedule.getId());
+				item.setShift(my_no_shift);
+				item.setTask(task_default.getId());
+				item.setTime(6.0);
+
+				// create detail
+				this.myScheduleDAO.createDetailInitialSchedule(item);
+
+			}
 
 		}
 
