@@ -688,17 +688,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -709,34 +709,51 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void defineReviewByProgramProcedure() {
 
-		// TODO: finisci questo
+		if ((this.grid_scheduler_review == null) || (this.grid_scheduler_review.getSelectedItems() == null)
+				|| (this.grid_scheduler_review.getSelectedItems().size() == 0)) {
+			return;
+		}
 
-		// if ((this.grid_scheduler_review == null) ||
-		// (this.grid_scheduler_review.getSelectedItems() == null)
-		// || (this.grid_scheduler_review.getSelectedItems().size() == 0)) {
-		// return;
-		// }
-		//
-		// for (final Listitem item :
-		// this.grid_scheduler_review.getSelectedItems()) {
-		//
-		// final RowSchedule item_row = item.getValue();
-		//
-		// if (item_row.getItem_1() == null) {
-		// continue;
-		// }
-		//
-		// final Schedule schedule = item_row.getItem_1().getSchedule();
-		// if ((schedule == null) || (schedule.getId() == null)) {
-		// continue;
-		// }
-		//
-		// final List<DetailInitialSchedule> list_init_detail =
-		// this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
-		//
-		// this.scheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
-		//
-		// }
+		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		for (final Listitem item : this.grid_scheduler_review.getSelectedItems()) {
+
+			final RowSchedule item_row = item.getValue();
+
+			if (item_row.getItem_1() == null) {
+				continue;
+			}
+
+			final Schedule schedule = item_row.getItem_1().getSchedule();
+			if ((schedule == null) || (schedule.getId() == null)) {
+				continue;
+			}
+
+			final List<DetailInitialSchedule> list_init_detail = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
+
+			this.scheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+
+			for (final DetailInitialSchedule init_item : list_init_detail) {
+
+				final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+
+				detail_schedule.setDate_schedule(init_item.getDate_schedule());
+				detail_schedule.setId_schedule(init_item.getId_schedule());
+				detail_schedule.setShift(init_item.getShift());
+				detail_schedule.setTask(init_item.getTask());
+				detail_schedule.setTime(init_item.getTime());
+
+				this.scheduleDAO.createDetailFinalSchedule(detail_schedule);
+			}
+
+			// set controller
+			schedule.setController(person_logged.getId());
+			this.scheduleDAO.saveOrUpdateSchedule(schedule);
+
+		}
+
+		// redefine info
+		this.setupGlobalSchedulerGridForShiftReview();
 
 	}
 
@@ -2261,18 +2278,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								SchedulerComposer.this.saveProgramFinalStep();
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							}
-						}
-					}, params);
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										SchedulerComposer.this.saveProgramFinalStep();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									}
+								}
+							}, params);
 
 					return;
 
