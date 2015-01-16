@@ -689,17 +689,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -860,6 +860,53 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * set the scheduler views to date
+	 *
+	 * @param date
+	 */
+	private void defineSchedulerViewToDate(final Date date) {
+		if (this.scheduler_type_selector.getSelectedItem() == null) {
+			return;
+		}
+
+		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
+
+		if (selected == this.preprocessing_item) {
+			this.preprocessing_div.setVisible(true);
+			this.program_div.setVisible(false);
+			this.review_div.setVisible(false);
+
+			SchedulerComposer.this.date_init_scheduler.setValue(date);
+
+			// set initial structure for program
+			this.setGridStructureForDay(date);
+			this.setupGlobalSchedulerGridForDay();
+		}
+
+		if (selected == this.program_item) {
+			this.preprocessing_div.setVisible(false);
+			this.program_div.setVisible(true);
+			this.review_div.setVisible(false);
+
+			// set initial structure for program
+			this.setGridStructureForShift();
+			this.setupGlobalSchedulerGridForShift();
+		}
+
+		if (selected == this.review_item) {
+			this.preprocessing_div.setVisible(false);
+			this.program_div.setVisible(false);
+			this.review_div.setVisible(true);
+
+			SchedulerComposer.this.date_init_scheduler_review.setValue(date);
+
+			// set initial structure for program
+			this.setGridStructureForShiftReview(date);
+			this.setupGlobalSchedulerGridForShiftReview();
+		}
+	}
+
 	@Listen("onClick= #set_panel_shift_period")
 	public void defineShiftPeriodPanel() {
 
@@ -924,7 +971,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// select initial value for initial date
 		this.date_init_scheduler.setValue(Calendar.getInstance().getTime());
-		this.date_init_scheduler_review.setValue(Calendar.getInstance().getTime());
+
+		// select initial value for inital date - review
+		final Calendar calender_review = Calendar.getInstance();
+		calender_review.add(Calendar.DATE, -1);
+		this.date_init_scheduler_review.setValue(calender_review.getTime());
 
 		this.scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 		this.taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
@@ -1441,53 +1492,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Double ret = millis / (1000 * 60 * 60);
 
 		return ret;
-	}
-
-	@Listen("onClick = #go_today_preprocessing, #go_today_review")
-	public void goToday_Preprocessing() {
-		final Calendar calendar = Calendar.getInstance();
-		final Date today = calendar.getTime();
-
-		if (this.scheduler_type_selector.getSelectedItem() == null) {
-			return;
-		}
-
-		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
-
-		if (selected == this.preprocessing_item) {
-			this.preprocessing_div.setVisible(true);
-			this.program_div.setVisible(false);
-			this.review_div.setVisible(false);
-
-			SchedulerComposer.this.date_init_scheduler.setValue(today);
-
-			// set initial structure for program
-			this.setGridStructureForDay(today);
-			this.setupGlobalSchedulerGridForDay();
-		}
-
-		if (selected == this.program_item) {
-			this.preprocessing_div.setVisible(false);
-			this.program_div.setVisible(true);
-			this.review_div.setVisible(false);
-
-			// set initial structure for program
-			this.setGridStructureForShift();
-			this.setupGlobalSchedulerGridForShift();
-		}
-
-		if (selected == this.review_item) {
-			this.preprocessing_div.setVisible(false);
-			this.program_div.setVisible(false);
-			this.review_div.setVisible(true);
-
-			SchedulerComposer.this.date_init_scheduler_review.setValue(today);
-
-			// set initial structure for program
-			this.setGridStructureForShiftReview(today);
-			this.setupGlobalSchedulerGridForShiftReview();
-		}
-
 	}
 
 	/**
@@ -2316,18 +2320,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 
@@ -2960,6 +2964,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	@Listen("onClick = #go_today_preprocessing, #go_today_review")
+	public void setTodaySchedulerView() {
+		final Calendar calendar = Calendar.getInstance();
+		final Date today = calendar.getTime();
+
+		this.defineSchedulerViewToDate(today);
+
+	}
+
 	/**
 	 * @param info_visibility
 	 *            if true set info scheduler for programming visible
@@ -3468,6 +3481,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(list_row);
 		model.setMultiple(true);
 		this.grid_scheduler_review.setModel(model);
+
+	}
+
+	@Listen("onClick = #go_yesterday_review")
+	public void setYesterdaySchedulerView() {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -1);
+		final Date yesterday = calendar.getTime();
+
+		this.defineSchedulerViewToDate(yesterday);
 
 	}
 
