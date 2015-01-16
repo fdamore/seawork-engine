@@ -66,7 +66,6 @@ import org.zkoss.zul.Popup;
 import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timebox;
-import org.zkoss.zul.Vbox;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
@@ -365,9 +364,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Timebox							time_to;
-
-	@Wire
-	private Vbox							type_shift_filter_overview;
 
 	@Wire
 	private Label							work_current_month;
@@ -689,17 +685,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -1209,10 +1205,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					code_shift = shift_type.getCode();
 				}
 
-				final Double time = item.getTime();
+				Double time = item.getTime();
+				if (time == null) {
+					time = new Double(0.0);
+				}
 				final String time_info = this.number_format.format(time);
 
-				final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + item.getShift() + ";" + code_task + ";" + time_info
+				final Integer shift_no = item.getShift();
+				String shift_no_info = "";
+				if (shift_no != null) {
+					shift_no_info = shift_no.toString();
+				}
+
+				final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info
 						+ ";" + time_from + ";" + time_to + ";\n";
 				builder.append(line);
 			}
@@ -1242,10 +1247,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					code_shift = shift_type.getCode();
 				}
 
-				final Double time = item.getTime();
+				Double time = item.getTime();
+				if (time == null) {
+					time = new Double(0.0);
+				}
 				final String time_info = this.number_format.format(time);
 
-				final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + item.getShift() + ";" + code_task + ";" + time_info
+				final Integer shift_no = item.getShift();
+				String shift_no_info = "";
+				if (shift_no != null) {
+					shift_no_info = shift_no.toString();
+				}
+
+				final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info
 						+ ";\n";
 				builder.append(line);
 			}
@@ -2320,18 +2334,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								SchedulerComposer.this.saveProgramFinalStep();
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							}
-						}
-					}, params);
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										SchedulerComposer.this.saveProgramFinalStep();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									}
+								}
+							}, params);
 
 					return;
 
@@ -2915,12 +2929,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		Integer shift_type = null;
+
+		if ((this.select_shifttype_overview.getSelectedItem() != null)
+				&& (this.select_shifttype_overview.getSelectedItem().getValue() instanceof UserShift)) {
+			final UserShift shift = this.select_shifttype_overview.getSelectedItem().getValue();
+			if (shift != null) {
+				shift_type = shift.getId();
+			}
+		}
+
 		// select list
 		if (this.overview_review.isSelected()) {
 
-			this.type_shift_filter_overview.setVisible(false);
-
-			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, date_from, date_to);
+			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, date_from, date_to);
 
 			// set number of row showed
 			this.list_overview_review.setModel(new ListModelList<DetailFinalSchedule>(this.listDetailRevision));
@@ -2929,9 +2951,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		} else if (this.overview_program.isSelected()) {
 
-			this.type_shift_filter_overview.setVisible(false);
-
-			this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, date_from, date_to);
+			this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, shift_type, date_from, date_to);
 
 			// set number of row showed
 			this.list_overview_program.setModel(new ListModelList<DetailInitialSchedule>(this.listDetailProgram));
@@ -2940,18 +2960,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 		} else if (this.overview_preprocessing.isSelected()) {
-
-			this.type_shift_filter_overview.setVisible(true);
-
-			Integer shift_type = null;
-
-			if ((this.select_shifttype_overview.getSelectedItem() != null)
-					&& (this.select_shifttype_overview.getSelectedItem().getValue() instanceof UserShift)) {
-				final UserShift shift = this.select_shifttype_overview.getSelectedItem().getValue();
-				if (shift != null) {
-					shift_type = shift.getId();
-				}
-			}
 
 			this.listSchedule = this.statisticDAO.listSchedule(full_text_search, shift_type, date_from, date_to);
 

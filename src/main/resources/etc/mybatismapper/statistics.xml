@@ -70,12 +70,10 @@
 		dfs.time_to,
 		s.date_schedule
 		from
-		detailfinalschedule dfs,
-		schedule s,
-		user u
+		user u,
+		schedule s left outer join detailfinalschedule dfs on (dfs.id_schedule = s.id)		
 		where
-		dfs.id_schedule =
-		s.id and s.user = u.id
+		 s.user = u.id
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -94,6 +92,10 @@
 			<![CDATA[<=]]>
 			#{date_to})
 		</if>
+		
+		<if test="shift_type != null">
+			and (s.shift = #{shift_type})
+		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
 
@@ -111,13 +113,10 @@
 		dfs.time,
 		s.date_schedule
 		from
-		detailinitialschedule
-		dfs,
-		schedule s,
-		user u
+		user u,
+		schedule s left outer join detailinitialschedule dfs on (dfs.id_schedule = s.id)		
 		where
-		dfs.id_schedule = s.id
-		and s.user = u.id
+		 s.user = u.id
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -128,6 +127,10 @@
 
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
+		</if>
+		
+		<if test="shift_type != null">
+			and (s.shift = #{shift_type})
 		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc

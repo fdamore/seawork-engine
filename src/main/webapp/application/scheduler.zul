@@ -1814,7 +1814,7 @@
 				<space></space>
 
 
-				<vbox align="start" id="type_shift_filter_overview">
+				<vbox align="start">
 					<a label="Filtra su tipo turno: "></a>
 					<combobox placeholder="Scegli tipo tuno..."
 						readonly="false" id="select_shifttype_overview">
