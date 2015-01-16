@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -692,9 +693,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
 						}
 					}
@@ -737,11 +738,48 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
 
-				detail_schedule.setDate_schedule(init_item.getDate_schedule());
+				detail_schedule.setDate_schedule(schedule.getDate_schedule());
 				detail_schedule.setId_schedule(init_item.getId_schedule());
 				detail_schedule.setShift(init_item.getShift());
 				detail_schedule.setTask(init_item.getTask());
 				detail_schedule.setTime(init_item.getTime());
+
+				final int shift_no = init_item.getShift().intValue();
+
+				Calendar to_day_calendar = DateUtils.toCalendar(schedule.getDate_schedule());
+				to_day_calendar = DateUtils.truncate(to_day_calendar, Calendar.DATE);
+
+				switch (shift_no) {
+				case 1: {
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 1);
+					detail_schedule.setTime_from(new Timestamp(to_day_calendar.getTimeInMillis()));
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 7);
+					detail_schedule.setTime_to(new Timestamp(to_day_calendar.getTimeInMillis()));
+					break;
+				}
+				case 2: {
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 7);
+					detail_schedule.setTime_from(new Timestamp(to_day_calendar.getTimeInMillis()));
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 13);
+					detail_schedule.setTime_to(new Timestamp(to_day_calendar.getTimeInMillis()));
+					break;
+				}
+				case 3: {
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 13);
+					detail_schedule.setTime_from(new Timestamp(to_day_calendar.getTimeInMillis()));
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 19);
+					detail_schedule.setTime_to(new Timestamp(to_day_calendar.getTimeInMillis()));
+					break;
+				}
+				case 4: {
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 19);
+					detail_schedule.setTime_from(new Timestamp(to_day_calendar.getTimeInMillis()));
+					to_day_calendar.add(Calendar.DATE, 1);
+					to_day_calendar.set(Calendar.HOUR_OF_DAY, 1);
+					detail_schedule.setTime_to(new Timestamp(to_day_calendar.getTimeInMillis()));
+					break;
+				}
+				}
 
 				this.scheduleDAO.createDetailFinalSchedule(detail_schedule);
 			}
