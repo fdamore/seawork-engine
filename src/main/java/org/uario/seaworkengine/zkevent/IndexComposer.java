@@ -1,5 +1,7 @@
 package org.uario.seaworkengine.zkevent;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
@@ -136,12 +138,28 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Show navigation button... home... Schedules..... users...
+	 *
+	 * @param visible
+	 */
 	private void showNavigationButton(final Boolean visible) {
 		this.sw_home_button.setVisible(visible);
-		this.sw_user_button.setVisible(visible);
 		this.sw_scheduler_button.setVisible(visible);
 		this.sw_ship_button.setVisible(visible);
 		this.sw_shipScheduler_button.setVisible(visible);
+
+		if (visible) {
+			// show only for SUPERUSERS
+			final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if ((person_logged != null) && person_logged.isAdministrator()) {
+				this.sw_user_button.setVisible(visible);
+			}
+
+		} else {
+			this.sw_user_button.setVisible(visible);
+		}
+
 	}
 
 	private void showPreferences(final Event event) {
