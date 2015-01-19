@@ -614,6 +614,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		if (!(this.shift_period_combo.getSelectedItem().getValue() instanceof UserShift)
+				|| (this.shift_period_combo.getSelectedItem().getValue() == null)) {
+			return;
+		}
+
+		// check user shift
+		final UserShift shift = this.shift_period_combo.getSelectedItem().getValue();
+		if (shift != null) {
+			if (shift.getBreak_shift()) {
+
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Non puoi usare il turno ti riposo per assegnazioni multiple.", "INFO", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
+
+				return;
+			}
+		} else {
+			return;
+		}
+
 		Calendar calendar_from = DateUtils.toCalendar(this.shift_period_from.getValue());
 		calendar_from = DateUtils.truncate(calendar_from, Calendar.DATE);
 
@@ -631,7 +655,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		final UserShift shift = this.shift_period_combo.getSelectedItem().getValue();
 		final RowDaySchedule row_day_schedule = this.grid_scheduler_day.getSelectedItem().getValue();
 		final Integer user = row_day_schedule.getUser();
 		final Person editor = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -640,9 +663,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		index_calendar.setTimeInMillis(calendar_from.getTimeInMillis());
 
 		do {
+
 			// to do
 			this.statProcedure.workAssignProcedure(shift, index_calendar.getTime(), user, editor.getId());
 			index_calendar.add(Calendar.DAY_OF_YEAR, 1);
+
 		} while (!index_calendar.after(calendar_to));
 
 		// hide panel if all is ok
@@ -685,17 +710,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2197,7 +2222,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
+
+		if (!(this.shifts_combo_select.getSelectedItem().getValue() instanceof UserShift)
+				|| (this.shifts_combo_select.getSelectedItem().getValue() == null)) {
+			return;
+		}
+
 		final UserShift shift = this.shifts_combo_select.getSelectedItem().getValue();
+		if (shift.getBreak_shift().booleanValue()) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Non puoi usare il turno di riposo programmato per assegnazioni multiple.", "ERROR", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
+			return;
+		}
 
 		// get day schedule
 		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
@@ -2231,8 +2272,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ERROR", buttons, null, Messagebox.EXCLAMATION, null,
-						null, params);
+				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente. Usa Imposta Speciale ", "ERROR", buttons, null,
+						Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -2334,18 +2375,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 
@@ -2448,27 +2489,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick= #preprocessing_select_rp")
-	public void selectBreakShiftInCombo() {
-
-		final UserShift break_shift = this.shift_cache.getBreakShift();
-
-		if (break_shift == null) {
-			return;
-		}
-
-		for (final Comboitem item : this.shifts_combo_select.getItems()) {
-			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
-				final UserShift current_shift_item = item.getValue();
-				if (break_shift.equals(current_shift_item)) {
-					this.shifts_combo_select.setSelectedItem(item);
-					break;
-				}
-
-			}
-		}
-	}
-
 	@Listen("onClick= #overview_selector_select_rp")
 	public void selectBreakShiftInComboOverview() {
 
@@ -2515,27 +2535,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// some thing is changed
 		this.forceProgramShift();
-	}
-
-	@Listen("onClick= #shift_period_select_rp")
-	public void selectBreakShiftInComboShiftPeriodAssign() {
-
-		final UserShift bshift = this.shift_cache.getBreakShift();
-
-		if (bshift == null) {
-			return;
-		}
-
-		for (final Comboitem item : this.shift_period_combo.getItems()) {
-			if ((item.getValue() != null) && (item.getValue() instanceof UserShift)) {
-				final UserShift current_shift_item = item.getValue();
-				if (bshift.equals(current_shift_item)) {
-					this.shift_period_combo.setSelectedItem(item);
-					break;
-				}
-
-			}
-		}
 	}
 
 	@Listen("onClick= #overview_selector_select_dl")

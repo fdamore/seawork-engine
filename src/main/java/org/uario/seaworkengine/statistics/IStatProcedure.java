@@ -8,7 +8,7 @@ public interface IStatProcedure {
 
 	/**
 	 * get a random day
-	 * 
+	 *
 	 * @param current_day
 	 * @param border_day
 	 * @return

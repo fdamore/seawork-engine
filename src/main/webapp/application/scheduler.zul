@@ -190,10 +190,7 @@
 							<a label="Turno di Lavoro"
 								style="color:green" id="shift_period_select_tl">
 							</a>
-							<space></space>
-							<a label="Riposo Programmato"
-								style="color:green" id="shift_period_select_rp">
-							</a>
+													
 							<space></space>
 							<a label="Giornaliero" style="color:green"
 								id="shift_period_select_dl">
@@ -271,10 +268,8 @@
 							<hbox align="center">
 								<a label="Turno di Lavoro"
 									style="color:green" id="preprocessing_select_tl">
-								</a>
-								<a label="Riposo Programmato"
-									style="color:green" id="preprocessing_select_rp">
-								</a>
+								</a>					
+								
 								<a label="Giornaliero"
 									style="color:green" id="preprocessing_select_dl">
 								</a>
