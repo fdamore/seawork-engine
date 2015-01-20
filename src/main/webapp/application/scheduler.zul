@@ -268,7 +268,11 @@
 							<hbox align="center">
 								<a label="Turno di Lavoro"
 									style="color:green" id="preprocessing_select_tl">
-								</a>					
+								</a>								
+								
+								<a label="Turno di Riposo"
+									style="color:green" id="preprocessing_select_rp">
+								</a>				
 								
 								<a label="Giornaliero"
 									style="color:green" id="preprocessing_select_dl">
