@@ -77,9 +77,10 @@
 										<label
 											value="Nome:">
 										</label>
+										
 										<textbox id="ship_name"
 											mold="rounded" />
-
+											
 									</row>
 
 									<row>

@@ -121,6 +121,22 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onBlur = #ship_name")
+	public void checkPresence() {
+		if (this.ship_name.getValue() != null) {
+			if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue())) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
+				this.ship_name.setValue("");
+			}
+		}
+	}
+
 	@Listen("onClick = #sw_link_deleteship")
 	public void defineDeleteView() {
 
