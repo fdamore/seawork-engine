@@ -830,6 +830,7 @@ public class Preferences extends SelectorComposer<Component> {
 	private void showBankHolidays() {
 		final List<String> list_bnk = Preferences.this.bank_holiday.getDays();
 		Preferences.this.list_bankholiday.setModel(new ListModelList<String>(list_bnk));
+
 	}
 
 	@Listen("onClick = #sw_return_defaultshift")

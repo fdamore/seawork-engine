@@ -110,7 +110,7 @@
 			</listhead>
 
 			<listitem sclass="myBottonCell" self="@{each='itm'}">
-				<listcell sclass="myBottonCell" label="@{itm}" />
+				<listcell sclass="myBottonCell"  label="@{itm, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayConverter'}" self="@{format(yyyy/MM/dd)}"/>
 			</listitem>
 		</listbox>
 
