@@ -1663,7 +1663,7 @@
 							<listcell sclass="myBottonCell"
 								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
-									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1'}"
+									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1675,7 +1675,7 @@
 								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2'}"
+									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1687,7 +1687,7 @@
 								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3'}"
+									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1699,7 +1699,7 @@
 								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
+									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());

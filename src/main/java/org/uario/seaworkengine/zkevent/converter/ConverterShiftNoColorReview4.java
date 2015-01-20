@@ -3,6 +3,7 @@ package org.uario.seaworkengine.zkevent.converter;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
+import org.zkoss.zul.Listcell;
 
 public class ConverterShiftNoColorReview4 implements TypeConverter {
 
@@ -24,6 +25,10 @@ public class ConverterShiftNoColorReview4 implements TypeConverter {
 		final ItemRowSchedule item_schedule = (ItemRowSchedule) arg0;
 
 		if (item_schedule.getAnchor4() == null) {
+			final Component comp = arg1;
+			final Listcell listCell = (Listcell) comp.getParent();
+			final String color_stye = "background-color: white;";
+			listCell.setStyle(color_stye);
 			return ConverterShiftNoColorReview4.NO_DATA;
 		} else {
 			return item_schedule.getAnchor4();

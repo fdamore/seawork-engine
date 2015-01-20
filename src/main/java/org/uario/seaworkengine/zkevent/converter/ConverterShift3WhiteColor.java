@@ -5,8 +5,9 @@ import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
+import org.zkoss.zul.Listcell;
 
-public class ConverterShift1 implements TypeConverter {
+public class ConverterShift3WhiteColor implements TypeConverter {
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -46,13 +47,14 @@ public class ConverterShift1 implements TypeConverter {
 			}
 		}
 
-		// take shift informations
-		if (item_schedule.getAnchor1() == null) {
-
+		if (item_schedule.getAnchor3() == null) {
+			final Component comp = arg1;
+			final Listcell listCell = (Listcell) comp.getParent();
+			final String color_stye = "background-color: white;";
+			listCell.setStyle(color_stye);
 			return UtilityProgramRow.NO_DATA;
 		} else {
-			return item_schedule.getAnchor1();
+			return item_schedule.getAnchor3();
 		}
-
 	}
 }
