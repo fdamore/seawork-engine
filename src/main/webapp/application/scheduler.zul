@@ -190,7 +190,7 @@
 							<a label="Turno di Lavoro"
 								style="color:green" id="shift_period_select_tl">
 							</a>
-													
+
 							<space></space>
 							<a label="Giornaliero" style="color:green"
 								id="shift_period_select_dl">
@@ -268,12 +268,12 @@
 							<hbox align="center">
 								<a label="Turno di Lavoro"
 									style="color:green" id="preprocessing_select_tl">
-								</a>								
-								
+								</a>
+
 								<a label="Turno di Riposo"
 									style="color:green" id="preprocessing_select_rp">
-								</a>				
-								
+								</a>
+
 								<a label="Giornaliero"
 									style="color:green" id="preprocessing_select_dl">
 								</a>
@@ -1622,28 +1622,45 @@
 
 						</auxhead>
 
+
+
+						<auxhead>
+							<auxheader label="TURNI" colspan="1" />
+							<auxheader align="center" label="1" />
+							<auxheader align="center" label="2" />
+							<auxheader align="center" label="3" />
+							<auxheader align="center" label="4" />
+							<auxheader align="center" label="1" />
+							<auxheader align="center" label="2" />
+							<auxheader align="center" label="3" />
+							<auxheader align="center" label="4" />
+						</auxhead>
+
+
 						<listhead>
 
-							<listheader label="Nome" hflex="2" />
+							<listheader label=" TOTALI" hflex="2" />
 
-							<listheader label="1" hflex="1"
+							<listheader label="1" hflex="1" id="review_tot_1_1"
 								align="center" />
-							<listheader label="2" hflex="1"
+							<listheader label="2" hflex="1" id="review_tot_1_2"
 								align="center" />
-							<listheader label="3" hflex="1"
+							<listheader label="3" hflex="1" id="review_tot_1_3"
 								align="center" />
-							<listheader label="4" hflex="1"
+							<listheader label="4" hflex="1" id="review_tot_1_4"
 								align="center" />
-							<listheader label="1" hflex="1"
+							<listheader label="1" hflex="1" id="review_tot_2_1"
 								align="center" />
-							<listheader label="2" hflex="1"
+							<listheader label="2" hflex="1" id="review_tot_2_2"
 								align="center" />
-							<listheader label="3" hflex="1"
+							<listheader label="3" hflex="1" id="review_tot_2_3"
 								align="center" />
-							<listheader label="4" hflex="1"
+							<listheader label="4" hflex="1" id="review_tot_2_4"
 								align="center" />
-
 						</listhead>
+
+
+
 
 						<listitem self="@{each='itemreview'}"
 							value="@{itemreview}"
