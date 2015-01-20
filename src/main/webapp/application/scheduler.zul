@@ -14,6 +14,10 @@
 		<style>
 			.myBottonCell { border-bottom: 1px solid; border-right: 1px
 			solid; border-color:#CFCFCF;}
+			
+			.mySeparatorBorder {border-bottom: 1px solid; 
+			border-color:#CFCFCF;;border-right: 3px
+			solid; border-color:#CFCFCF;}
 		</style>
 
 		<div sclass="page-header">
@@ -1064,41 +1068,58 @@
 				<panelchildren>
 
 					<listbox sclass="domain" id="grid_scheduler"
-						mold="paging" pageSize="10" pagingPosition="both">
+						mold="paging" pageSize="10" pagingPosition="both" >
 						<auxhead>
-							<auxheader label="" colspan="1" />
+							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
 
 							<auxheader colspan="4" align="center"
-								id="day_month_1" />
+								id="day_month_1"  sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_month_2" />
+								id="day_month_2" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_month_3" />
+								id="day_month_3" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_month_4" />
+								id="day_month_4" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
 								id="day_month_5" />
-
-
 						</auxhead>
 						<auxhead>
-							<auxheader label="" colspan="1" />
+							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_week_1" />
+								id="day_week_1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_week_2" />
+								id="day_week_2" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_week_3" />
+								id="day_week_3" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_week_4" />
+								id="day_week_4" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
 								id="day_week_5" />
 
 						</auxhead>
 
-						<listhead>
+						<listhead >
 
-							<listheader label="Nome" hflex="3" />
+							<listheader label="Nome" hflex="3" sclass="mySeparatorBorder"/>
+
+							<listheader label="1" hflex="1"
+								align="center" />
+								
+							<listheader label="2" hflex="1"
+								align="center" />
+							<listheader label="3" hflex="1"
+								align="center" />
+							<listheader label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder"/>
+
+							<listheader label="1" hflex="1"
+								align="center" />								
+							<listheader label="2" hflex="1"
+								align="center" />
+							<listheader label="3" hflex="1"
+								align="center" />
+							<listheader label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder"/>
 
 							<listheader label="1" hflex="1"
 								align="center" />
@@ -1107,7 +1128,7 @@
 							<listheader label="3" hflex="1"
 								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" />
+								align="center" sclass="mySeparatorBorder"/>
 
 							<listheader label="1" hflex="1"
 								align="center" />
@@ -1116,7 +1137,7 @@
 							<listheader label="3" hflex="1"
 								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" />
+								align="center" sclass="mySeparatorBorder"/>
 
 							<listheader label="1" hflex="1"
 								align="center" />
@@ -1125,25 +1146,7 @@
 							<listheader label="3" hflex="1"
 								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" />
-
-							<listheader label="1" hflex="1"
-								align="center" />
-							<listheader label="2" hflex="1"
-								align="center" />
-							<listheader label="3" hflex="1"
-								align="center" />
-							<listheader label="4" hflex="1"
-								align="center" />
-
-							<listheader label="1" hflex="1"
-								align="center" />
-							<listheader label="2" hflex="1"
-								align="center" />
-							<listheader label="3" hflex="1"
-								align="center" />
-							<listheader label="4" hflex="1"
-								align="center" />
+								align="center" sclass="mySeparatorBorder"/>
 
 						</listhead>
 
@@ -1151,7 +1154,7 @@
 							value="@{item}">
 
 
-							<listcell sclass="myBottonCell">
+							<listcell sclass="myBottonCell, mySeparatorBorder">
 								<a label="@{item.name_user}">
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1199,7 +1202,7 @@
 								</toolbarbutton>
 							</listcell>
 
-							<listcell sclass="myBottonCell">
+							<listcell sclass="myBottonCell, mySeparatorBorder">
 
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1211,6 +1214,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
+							
 
 							<listcell sclass="myBottonCell"
 								style="background-color:#70B8FF">
@@ -1253,7 +1257,7 @@
 								</toolbarbutton>
 							</listcell>
 
-							<listcell sclass="myBottonCell"
+							<listcell sclass="myBottonCell, mySeparatorBorder"
 								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1299,7 +1303,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell sclass="myBottonCell">
+							<listcell sclass="myBottonCell, mySeparatorBorder">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_3, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
@@ -1310,6 +1314,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
+							
 							<listcell sclass="myBottonCell">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1343,7 +1348,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell sclass="myBottonCell">
+							<listcell sclass="myBottonCell, mySeparatorBorder">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
@@ -1604,42 +1609,42 @@
 						checkmark="true" multiple="true" pagingPosition="both"
 						id="grid_scheduler_review">
 						<auxhead>
-							<auxheader label="" colspan="1" />
+							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
 
 							<auxheader colspan="4" align="center"
-								id="day_month_review_1" />
+								id="day_month_review_1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_month_review_2" />
+								id="day_month_review_2" sclass="mySeparatorBorder"/>
 
 
 						</auxhead>
 						<auxhead>
-							<auxheader label="" colspan="1" />
+							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_week_review_1" />
+								id="day_week_review_1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="day_week_review_2" />
+								id="day_week_review_2" sclass="mySeparatorBorder"/>
 
 						</auxhead>
 
 
 
 						<auxhead>
-							<auxheader label="TURNI" colspan="1" />
+							<auxheader label="TURNI" colspan="1" sclass="mySeparatorBorder"/>
 							<auxheader align="center" label="1" />
 							<auxheader align="center" label="2" />
 							<auxheader align="center" label="3" />
-							<auxheader align="center" label="4" />
+							<auxheader align="center" label="4" sclass="mySeparatorBorder"/>
 							<auxheader align="center" label="1" />
 							<auxheader align="center" label="2" />
 							<auxheader align="center" label="3" />
-							<auxheader align="center" label="4" />
+							<auxheader align="center" label="4" sclass="mySeparatorBorder"/>
 						</auxhead>
 
 
 						<listhead>
 
-							<listheader label=" TOTALI" hflex="2" />
+							<listheader label=" TOTALI" hflex="2" sclass="mySeparatorBorder"/>
 
 							<listheader label="1" hflex="1" id="review_tot_1_1"
 								align="center" />
@@ -1648,7 +1653,7 @@
 							<listheader label="3" hflex="1" id="review_tot_1_3"
 								align="center" />
 							<listheader label="4" hflex="1" id="review_tot_1_4"
-								align="center" />
+								align="center" sclass="mySeparatorBorder"/>
 							<listheader label="1" hflex="1" id="review_tot_2_1"
 								align="center" />
 							<listheader label="2" hflex="1" id="review_tot_2_2"
@@ -1656,7 +1661,7 @@
 							<listheader label="3" hflex="1" id="review_tot_2_3"
 								align="center" />
 							<listheader label="4" hflex="1" id="review_tot_2_4"
-								align="center" />
+								align="center" sclass="mySeparatorBorder"/>
 						</listhead>
 
 
@@ -1666,7 +1671,7 @@
 							value="@{itemreview}"
 							label="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.ReviewConverter'}">
 
-							<listcell sclass="myBottonCell">
+							<listcell sclass="myBottonCell, mySeparatorBorder">
 								<a label="@{itemreview.name_user}">
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1712,7 +1717,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell sclass="myBottonCell"
+							<listcell sclass="myBottonCell, mySeparatorBorder"
 								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
