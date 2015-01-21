@@ -278,8 +278,55 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Intbox							program_time_hours;
 	@Wire
 	private Intbox							program_time_minuts;
+
+	@Wire
+	private Listheader						program_tot_1_1;
+	@Wire
+	private Listheader						program_tot_1_2;
+	@Wire
+	private Listheader						program_tot_1_3;
+	@Wire
+	private Listheader						program_tot_1_4;
+
+	@Wire
+	private Listheader						program_tot_2_1;
+	@Wire
+	private Listheader						program_tot_2_2;
+	@Wire
+	private Listheader						program_tot_2_3;
+	@Wire
+	private Listheader						program_tot_2_4;
+
+	@Wire
+	private Listheader						program_tot_3_1;
+	@Wire
+	private Listheader						program_tot_3_2;
+	@Wire
+	private Listheader						program_tot_3_3;
+	@Wire
+	private Listheader						program_tot_3_4;
+
+	@Wire
+	private Listheader						program_tot_4_1;
+	@Wire
+	private Listheader						program_tot_4_2;
+	@Wire
+	private Listheader						program_tot_4_3;
+	@Wire
+	private Listheader						program_tot_4_4;
+
+	@Wire
+	private Listheader						program_tot_5_1;
+	@Wire
+	private Listheader						program_tot_5_2;
+	@Wire
+	private Listheader						program_tot_5_3;
+	@Wire
+	private Listheader						program_tot_5_4;
+
 	@Wire
 	private Div								review_div;
+
 	@Wire
 	private Comboitem						review_item;
 
@@ -3445,6 +3492,182 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
 
+		// ///////////////////////////
+		final ItemRowTotalSchedule itemTotalProgram1 = new ItemRowTotalSchedule();
+		final ItemRowTotalSchedule itemTotalProgram2 = new ItemRowTotalSchedule();
+		final ItemRowTotalSchedule itemTotalProgram3 = new ItemRowTotalSchedule();
+		final ItemRowTotalSchedule itemTotalProgram4 = new ItemRowTotalSchedule();
+		final ItemRowTotalSchedule itemTotalProgram5 = new ItemRowTotalSchedule();
+
+		for (final RowSchedule rowSchedule : list_row) {
+			List<Double> hm1;
+			if (rowSchedule.getItem_1().getAnchor1() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor1());
+				itemTotalProgram1.setAnchor1(itemTotalProgram1.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_1().getAnchor2() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor2());
+				itemTotalProgram1.setAnchor2(itemTotalProgram1.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_1().getAnchor3() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor3());
+				itemTotalProgram1.setAnchor3(itemTotalProgram1.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_1().getAnchor4() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor4());
+				itemTotalProgram1.setAnchor4(itemTotalProgram1.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
+			}
+
+			if (rowSchedule.getItem_2().getAnchor1() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor1());
+				itemTotalProgram2.setAnchor1(itemTotalProgram2.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_2().getAnchor2() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor2());
+				itemTotalProgram2.setAnchor2(itemTotalProgram2.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_2().getAnchor3() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor3());
+				itemTotalProgram2.setAnchor3(itemTotalProgram2.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_2().getAnchor4() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor4());
+				itemTotalProgram2.setAnchor4(itemTotalProgram2.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
+			}
+
+			if (rowSchedule.getItem_3().getAnchor1() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor1());
+				itemTotalProgram3.setAnchor1(itemTotalProgram3.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_3().getAnchor2() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor2());
+				itemTotalProgram3.setAnchor2(itemTotalProgram3.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_3().getAnchor3() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor3());
+				itemTotalProgram3.setAnchor3(itemTotalProgram3.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_3().getAnchor4() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor4());
+				itemTotalProgram3.setAnchor4(itemTotalProgram3.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
+			}
+
+			if (rowSchedule.getItem_4().getAnchor1() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor1());
+				itemTotalProgram4.setAnchor1(itemTotalProgram4.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_4().getAnchor2() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor2());
+				itemTotalProgram4.setAnchor2(itemTotalProgram4.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_4().getAnchor3() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor3());
+				itemTotalProgram4.setAnchor3(itemTotalProgram4.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_4().getAnchor4() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor4());
+				itemTotalProgram4.setAnchor4(itemTotalProgram4.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
+			}
+
+			if (rowSchedule.getItem_5().getAnchor1() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor1());
+				itemTotalProgram5.setAnchor1(itemTotalProgram5.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_5().getAnchor2() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor2());
+				itemTotalProgram5.setAnchor2(itemTotalProgram5.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_5().getAnchor3() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor3());
+				itemTotalProgram5.setAnchor3(itemTotalProgram5.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
+			}
+			if (rowSchedule.getItem_5().getAnchor4() != null) {
+				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor4());
+				itemTotalProgram5.setAnchor4(itemTotalProgram5.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
+			}
+
+		}
+
+		int h = (int) (itemTotalProgram1.getAnchor1() / 60);
+		int m = (int) (itemTotalProgram1.getAnchor1() - h * 60);
+		this.program_tot_1_1.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram1.getAnchor2() / 60);
+		m = (int) (itemTotalProgram1.getAnchor2() - h * 60);
+		this.program_tot_1_2.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram1.getAnchor3() / 60);
+		m = (int) (itemTotalProgram1.getAnchor3() - h * 60);
+		this.program_tot_1_3.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram1.getAnchor4() / 60);
+		m = (int) (itemTotalProgram1.getAnchor4() - h * 60);
+		this.program_tot_1_4.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram2.getAnchor1() / 60);
+		m = (int) (itemTotalProgram2.getAnchor1() - h * 60);
+		this.program_tot_2_1.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram2.getAnchor2() / 60);
+		m = (int) (itemTotalProgram2.getAnchor2() - h * 60);
+		this.program_tot_2_2.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram2.getAnchor3() / 60);
+		m = (int) (itemTotalProgram2.getAnchor3() - h * 60);
+		this.program_tot_2_3.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram2.getAnchor4() / 60);
+		m = (int) (itemTotalProgram2.getAnchor4() - h * 60);
+		this.program_tot_2_4.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram3.getAnchor1() / 60);
+		m = (int) (itemTotalProgram3.getAnchor1() - h * 60);
+		this.program_tot_3_1.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram3.getAnchor2() / 60);
+		m = (int) (itemTotalProgram3.getAnchor2() - h * 60);
+		this.program_tot_3_2.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram3.getAnchor3() / 60);
+		m = (int) (itemTotalProgram3.getAnchor3() - h * 60);
+		this.program_tot_3_3.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram3.getAnchor4() / 60);
+		m = (int) (itemTotalProgram3.getAnchor4() - h * 60);
+		this.program_tot_3_4.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram4.getAnchor1() / 60);
+		m = (int) (itemTotalProgram4.getAnchor1() - h * 60);
+		this.program_tot_4_1.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram4.getAnchor2() / 60);
+		m = (int) (itemTotalProgram4.getAnchor2() - h * 60);
+		this.program_tot_4_2.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram4.getAnchor3() / 60);
+		m = (int) (itemTotalProgram4.getAnchor3() - h * 60);
+		this.program_tot_4_3.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram4.getAnchor4() / 60);
+		m = (int) (itemTotalProgram4.getAnchor4() - h * 60);
+		this.program_tot_4_4.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram5.getAnchor1() / 60);
+		m = (int) (itemTotalProgram5.getAnchor1() - h * 60);
+		this.program_tot_5_1.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram5.getAnchor2() / 60);
+		m = (int) (itemTotalProgram5.getAnchor2() - h * 60);
+		this.program_tot_5_2.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram5.getAnchor3() / 60);
+		m = (int) (itemTotalProgram5.getAnchor3() - h * 60);
+		this.program_tot_5_3.setLabel(h + "h " + m + "m");
+
+		h = (int) (itemTotalProgram5.getAnchor4() / 60);
+		m = (int) (itemTotalProgram5.getAnchor4() - h * 60);
+		this.program_tot_5_4.setLabel(h + "h " + m + "m");
+
 	}
 
 	/**
@@ -3556,8 +3779,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(list_row);
 		model.setMultiple(true);
 		this.grid_scheduler_review.setModel(model);
-
-		// /////////////////////////////////
 
 		final ItemRowTotalSchedule itemTotalProgram = new ItemRowTotalSchedule();
 		final ItemRowTotalSchedule itemTotalReview = new ItemRowTotalSchedule();

@@ -1097,58 +1097,116 @@
 								id="day_week_5" />
 
 						</auxhead>
+						
+						
+						<auxhead >
 
-						<listhead >
+							<auxheader label="TURNI" hflex="3" sclass="mySeparatorBorder"/>
 
-							<listheader label="Nome" hflex="3" sclass="mySeparatorBorder"/>
-
-							<listheader label="1" hflex="1"
+							<auxheader label="1" hflex="1"
 								align="center" />
 								
-							<listheader label="2" hflex="1"
+							<auxheader label="2" hflex="1"
 								align="center" />
-							<listheader label="3" hflex="1"
+							<auxheader label="3" hflex="1"
 								align="center" />
-							<listheader label="4" hflex="1"
+							<auxheader label="4" hflex="1"
 								align="center" sclass="mySeparatorBorder"/>
 
-							<listheader label="1" hflex="1"
+							<auxheader label="1" hflex="1"
 								align="center" />								
-							<listheader label="2" hflex="1"
+							<auxheader label="2" hflex="1"
 								align="center" />
-							<listheader label="3" hflex="1"
+							<auxheader label="3" hflex="1"
 								align="center" />
-							<listheader label="4" hflex="1"
+							<auxheader label="4" hflex="1"
 								align="center" sclass="mySeparatorBorder"/>
 
-							<listheader label="1" hflex="1"
+							<auxheader label="1" hflex="1"
 								align="center" />
-							<listheader label="2" hflex="1"
+							<auxheader label="2" hflex="1"
 								align="center" />
-							<listheader label="3" hflex="1"
+							<auxheader label="3" hflex="1"
 								align="center" />
-							<listheader label="4" hflex="1"
+							<auxheader label="4" hflex="1"
 								align="center" sclass="mySeparatorBorder"/>
 
-							<listheader label="1" hflex="1"
+							<auxheader label="1" hflex="1"
 								align="center" />
-							<listheader label="2" hflex="1"
+							<auxheader label="2" hflex="1"
 								align="center" />
-							<listheader label="3" hflex="1"
+							<auxheader label="3" hflex="1"
 								align="center" />
-							<listheader label="4" hflex="1"
+							<auxheader label="4" hflex="1"
 								align="center" sclass="mySeparatorBorder"/>
 
-							<listheader label="1" hflex="1"
+							<auxheader label="1" hflex="1"
 								align="center" />
-							<listheader label="2" hflex="1"
+							<auxheader label="2" hflex="1"
 								align="center" />
-							<listheader label="3" hflex="1"
+							<auxheader label="3" hflex="1"
 								align="center" />
-							<listheader label="4" hflex="1"
+							<auxheader label="4" hflex="1"
 								align="center" sclass="mySeparatorBorder"/>
+
+						</auxhead>
+						
+						<listhead >
+
+							<listheader label="TOTALI" hflex="3" sclass="mySeparatorBorder"/>
+
+							<listheader label="1" hflex="1"
+								align="center" id="program_tot_1_1"/>
+							<listheader label="2" hflex="1"
+								align="center" id="program_tot_1_2"/>
+							<listheader label="3" hflex="1"
+								align="center" id="program_tot_1_3"/>
+							<listheader label="4" hflex="1"
+								align="center" id="program_tot_1_4" sclass="mySeparatorBorder"/>
+
+							<listheader label="1" hflex="1"
+								align="center" id="program_tot_2_1"/>								
+							<listheader label="2" hflex="1"
+								align="center" id="program_tot_2_2"/>
+							<listheader label="3" hflex="1"
+								align="center" id="program_tot_2_3"/>
+							<listheader label="4" hflex="1"
+								align="center" id="program_tot_2_4" sclass="mySeparatorBorder"/>
+
+							<listheader label="1" hflex="1"
+								align="center" id="program_tot_3_1"/>
+							<listheader label="2" hflex="1"
+								align="center" id="program_tot_3_2"/>
+							<listheader label="3" hflex="1"
+								align="center" id="program_tot_3_3"/>
+							<listheader label="4" hflex="1"
+								align="center" id="program_tot_3_4" sclass="mySeparatorBorder"/>
+
+							<listheader label="1" hflex="1"
+								align="center" id="program_tot_4_1"/>
+							<listheader label="2" hflex="1"
+								align="center" id="program_tot_4_2"/>
+							<listheader label="3" hflex="1"
+								align="center" id="program_tot_4_3"/>
+							<listheader label="4" hflex="1"
+								align="center" id="program_tot_4_4" sclass="mySeparatorBorder"/>
+
+							<listheader label="1" hflex="1"
+								align="center" id="program_tot_5_1"/>
+							<listheader label="2" hflex="1"
+								align="center" id="program_tot_5_2"/>
+							<listheader label="3" hflex="1"
+								align="center" id="program_tot_5_3"/>
+							<listheader label="4" hflex="1"
+								align="center" id="program_tot_5_4" sclass="mySeparatorBorder"/>
 
 						</listhead>
+						
+						
+						
+						
+						
+						
 
 						<listitem self="@{each='item'}"
 							value="@{item}">
@@ -1643,7 +1701,6 @@
 
 
 						<listhead>
-
 							<listheader label=" TOTALI" hflex="2" sclass="mySeparatorBorder"/>
 
 							<listheader label="1" hflex="1" id="review_tot_1_1"
