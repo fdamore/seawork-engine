@@ -116,18 +116,30 @@ public class ItemRowSchedule implements Serializable {
 	}
 
 	public Double getAnchorValue1() {
+		if(anchorValue1 == null)
+			return 0.0;
+		
 		return this.anchorValue1;
 	}
 
 	public Double getAnchorValue2() {
+		if(anchorValue2 == null)
+			return 0.0;
+		
 		return this.anchorValue2;
 	}
 
 	public Double getAnchorValue3() {
+		if(anchorValue3 == null)
+			return 0.0;
+		
 		return this.anchorValue3;
 	}
 
 	public Double getAnchorValue4() {
+		if(anchorValue4 == null)
+			return 0.0;
+		
 		return this.anchorValue4;
 	}
 
