@@ -37,7 +37,6 @@ import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
-import org.uario.seaworkengine.zkevent.bean.ItemRowTotalSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
 import org.zkoss.spring.SpringUtil;
@@ -749,24 +748,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	private List<Double> calculateHourAndMinuteByAnchorText(final String time) {
-		final List<Double> hm = new ArrayList<Double>();
-
-		final int indexH = time.indexOf("h");
-		final String h = time.substring(0, indexH);
-		final Double hh = Double.parseDouble(h);
-
-		hm.add(hh);
-
-		final String m = time.substring(indexH + 2, time.length() - 1);
-		final Double mm = Double.parseDouble(m);
-
-		hm.add(mm);
-
-		return hm;
-
-	}
-
 	/**
 	 * Define anchor content on shift schedule
 	 *
@@ -790,6 +771,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Define anchor content on shift schedule
+	 *
+	 * @param program
+	 * @param schedule
+	 * @return
+	 */
+	private Double defineAnchorContentValue(final boolean program, final Schedule schedule) {
+		Double time = null;
+		if (program) {
+			time = schedule.getProgram_time();
+		} else {
+			time = schedule.getRevision_time();
+		}
+
+		return time;
+
+	}
+
 	@SuppressWarnings("unchecked")
 	@Listen("onClick= #assign_program_review")
 	public void defineReviewByProgram() {
@@ -802,17 +802,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -1527,18 +1527,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if (schedule.getNo_shift() == 1) {
 					itemsRow.setAnchor1(this.defineAnchorContent(version_program, schedule));
+					itemsRow.setAnchorValue1(this.defineAnchorContentValue(version_program, schedule));
 				}
 
 				if (schedule.getNo_shift() == 2) {
 					itemsRow.setAnchor2(this.defineAnchorContent(version_program, schedule));
+					itemsRow.setAnchorValue2(this.defineAnchorContentValue(version_program, schedule));
 				}
 
 				if (schedule.getNo_shift() == 3) {
 					itemsRow.setAnchor3(this.defineAnchorContent(version_program, schedule));
+					itemsRow.setAnchorValue3(this.defineAnchorContentValue(version_program, schedule));
 				}
 
 				if (schedule.getNo_shift() == 4) {
 					itemsRow.setAnchor4(this.defineAnchorContent(version_program, schedule));
+					itemsRow.setAnchorValue4(this.defineAnchorContentValue(version_program, schedule));
 				}
 			}
 
@@ -2469,18 +2473,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 
@@ -3492,182 +3496,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
 
-		// ///////////////////////////
-		final ItemRowTotalSchedule itemTotalProgram1 = new ItemRowTotalSchedule();
-		final ItemRowTotalSchedule itemTotalProgram2 = new ItemRowTotalSchedule();
-		final ItemRowTotalSchedule itemTotalProgram3 = new ItemRowTotalSchedule();
-		final ItemRowTotalSchedule itemTotalProgram4 = new ItemRowTotalSchedule();
-		final ItemRowTotalSchedule itemTotalProgram5 = new ItemRowTotalSchedule();
-
-		for (final RowSchedule rowSchedule : list_row) {
-			List<Double> hm1;
-			if (rowSchedule.getItem_1().getAnchor1() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor1());
-				itemTotalProgram1.setAnchor1(itemTotalProgram1.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_1().getAnchor2() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor2());
-				itemTotalProgram1.setAnchor2(itemTotalProgram1.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_1().getAnchor3() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor3());
-				itemTotalProgram1.setAnchor3(itemTotalProgram1.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_1().getAnchor4() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor4());
-				itemTotalProgram1.setAnchor4(itemTotalProgram1.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
-			}
-
-			if (rowSchedule.getItem_2().getAnchor1() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor1());
-				itemTotalProgram2.setAnchor1(itemTotalProgram2.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_2().getAnchor2() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor2());
-				itemTotalProgram2.setAnchor2(itemTotalProgram2.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_2().getAnchor3() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor3());
-				itemTotalProgram2.setAnchor3(itemTotalProgram2.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_2().getAnchor4() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor4());
-				itemTotalProgram2.setAnchor4(itemTotalProgram2.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
-			}
-
-			if (rowSchedule.getItem_3().getAnchor1() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor1());
-				itemTotalProgram3.setAnchor1(itemTotalProgram3.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_3().getAnchor2() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor2());
-				itemTotalProgram3.setAnchor2(itemTotalProgram3.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_3().getAnchor3() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor3());
-				itemTotalProgram3.setAnchor3(itemTotalProgram3.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_3().getAnchor4() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_3().getAnchor4());
-				itemTotalProgram3.setAnchor4(itemTotalProgram3.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
-			}
-
-			if (rowSchedule.getItem_4().getAnchor1() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor1());
-				itemTotalProgram4.setAnchor1(itemTotalProgram4.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_4().getAnchor2() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor2());
-				itemTotalProgram4.setAnchor2(itemTotalProgram4.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_4().getAnchor3() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor3());
-				itemTotalProgram4.setAnchor3(itemTotalProgram4.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_4().getAnchor4() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_4().getAnchor4());
-				itemTotalProgram4.setAnchor4(itemTotalProgram4.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
-			}
-
-			if (rowSchedule.getItem_5().getAnchor1() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor1());
-				itemTotalProgram5.setAnchor1(itemTotalProgram5.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_5().getAnchor2() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor2());
-				itemTotalProgram5.setAnchor2(itemTotalProgram5.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_5().getAnchor3() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor3());
-				itemTotalProgram5.setAnchor3(itemTotalProgram5.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_5().getAnchor4() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_5().getAnchor4());
-				itemTotalProgram5.setAnchor4(itemTotalProgram5.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
-			}
-
-		}
-
-		int h = (int) (itemTotalProgram1.getAnchor1() / 60);
-		int m = (int) (itemTotalProgram1.getAnchor1() - h * 60);
-		this.program_tot_1_1.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram1.getAnchor2() / 60);
-		m = (int) (itemTotalProgram1.getAnchor2() - h * 60);
-		this.program_tot_1_2.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram1.getAnchor3() / 60);
-		m = (int) (itemTotalProgram1.getAnchor3() - h * 60);
-		this.program_tot_1_3.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram1.getAnchor4() / 60);
-		m = (int) (itemTotalProgram1.getAnchor4() - h * 60);
-		this.program_tot_1_4.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram2.getAnchor1() / 60);
-		m = (int) (itemTotalProgram2.getAnchor1() - h * 60);
-		this.program_tot_2_1.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram2.getAnchor2() / 60);
-		m = (int) (itemTotalProgram2.getAnchor2() - h * 60);
-		this.program_tot_2_2.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram2.getAnchor3() / 60);
-		m = (int) (itemTotalProgram2.getAnchor3() - h * 60);
-		this.program_tot_2_3.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram2.getAnchor4() / 60);
-		m = (int) (itemTotalProgram2.getAnchor4() - h * 60);
-		this.program_tot_2_4.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram3.getAnchor1() / 60);
-		m = (int) (itemTotalProgram3.getAnchor1() - h * 60);
-		this.program_tot_3_1.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram3.getAnchor2() / 60);
-		m = (int) (itemTotalProgram3.getAnchor2() - h * 60);
-		this.program_tot_3_2.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram3.getAnchor3() / 60);
-		m = (int) (itemTotalProgram3.getAnchor3() - h * 60);
-		this.program_tot_3_3.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram3.getAnchor4() / 60);
-		m = (int) (itemTotalProgram3.getAnchor4() - h * 60);
-		this.program_tot_3_4.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram4.getAnchor1() / 60);
-		m = (int) (itemTotalProgram4.getAnchor1() - h * 60);
-		this.program_tot_4_1.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram4.getAnchor2() / 60);
-		m = (int) (itemTotalProgram4.getAnchor2() - h * 60);
-		this.program_tot_4_2.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram4.getAnchor3() / 60);
-		m = (int) (itemTotalProgram4.getAnchor3() - h * 60);
-		this.program_tot_4_3.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram4.getAnchor4() / 60);
-		m = (int) (itemTotalProgram4.getAnchor4() - h * 60);
-		this.program_tot_4_4.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram5.getAnchor1() / 60);
-		m = (int) (itemTotalProgram5.getAnchor1() - h * 60);
-		this.program_tot_5_1.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram5.getAnchor2() / 60);
-		m = (int) (itemTotalProgram5.getAnchor2() - h * 60);
-		this.program_tot_5_2.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram5.getAnchor3() / 60);
-		m = (int) (itemTotalProgram5.getAnchor3() - h * 60);
-		this.program_tot_5_3.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram5.getAnchor4() / 60);
-		m = (int) (itemTotalProgram5.getAnchor4() - h * 60);
-		this.program_tot_5_4.setLabel(h + "h " + m + "m");
-
 	}
 
 	/**
@@ -3699,6 +3527,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
 
+		Double count_colum_1 = 0.0;
+		Double count_colum_2 = 0.0;
+		Double count_colum_3 = 0.0;
+		Double count_colum_4 = 0.0;
+
 		for (int i = 0; i < list_revision.size(); i++) {
 
 			final Schedule schedule = list_revision.get(i);
@@ -3717,6 +3550,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set day 2
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, 2, schedule, false);
+
+			// sum hours
+			count_colum_1 = count_colum_1 + itemsRow.getAnchorValue1();
+			count_colum_2 = count_colum_2 + itemsRow.getAnchorValue2();
+			count_colum_3 = count_colum_3 + itemsRow.getAnchorValue3();
+			count_colum_4 = count_colum_4 + itemsRow.getAnchorValue4();
+
 			currentRow.setItem_2(itemsRow);
 
 		}
@@ -3745,6 +3585,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set day 1
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(myRow, 1, schedule, false);
+
+			// sum hours
+			count_colum_1 = count_colum_1 + itemsRow.getAnchorValue1();
+			count_colum_2 = count_colum_2 + itemsRow.getAnchorValue2();
+			count_colum_3 = count_colum_3 + itemsRow.getAnchorValue3();
+			count_colum_4 = count_colum_4 + itemsRow.getAnchorValue4();
+
 			myRow.setItem_1(itemsRow);
 
 		}
@@ -3762,8 +3609,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			addedRow.setName_user(person.getIndividualName());
 
 			// set items for current row
-			addedRow.setItem_1(new ItemRowSchedule(addedRow));
-			addedRow.setItem_2(new ItemRowSchedule(addedRow));
+			final ItemRowSchedule item_1 = new ItemRowSchedule(addedRow);
+			final ItemRowSchedule item_2 = new ItemRowSchedule(addedRow);
+
+			addedRow.setItem_1(item_1);
+			addedRow.setItem_2(item_2);
 
 			list_row.add(addedRow);
 
@@ -3780,78 +3630,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		model.setMultiple(true);
 		this.grid_scheduler_review.setModel(model);
 
-		final ItemRowTotalSchedule itemTotalProgram = new ItemRowTotalSchedule();
-		final ItemRowTotalSchedule itemTotalReview = new ItemRowTotalSchedule();
-
-		for (final RowSchedule rowSchedule : list_row) {
-			List<Double> hm1;
-			if (rowSchedule.getItem_1().getAnchor1() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor1());
-				itemTotalProgram.setAnchor1(itemTotalProgram.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_1().getAnchor2() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor2());
-				itemTotalProgram.setAnchor2(itemTotalProgram.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_1().getAnchor3() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor3());
-				itemTotalProgram.setAnchor3(itemTotalProgram.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_1().getAnchor4() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_1().getAnchor4());
-				itemTotalProgram.setAnchor4(itemTotalProgram.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
-			}
-
-			if (rowSchedule.getItem_2().getAnchor1() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor1());
-				itemTotalReview.setAnchor1(itemTotalReview.getAnchor1() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_2().getAnchor2() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor2());
-				itemTotalReview.setAnchor2(itemTotalReview.getAnchor2() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_2().getAnchor3() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor3());
-				itemTotalReview.setAnchor3(itemTotalReview.getAnchor3() + hm1.get(0) * 60 + hm1.get(1));
-			}
-			if (rowSchedule.getItem_2().getAnchor4() != null) {
-				hm1 = this.calculateHourAndMinuteByAnchorText(rowSchedule.getItem_2().getAnchor4());
-				itemTotalReview.setAnchor4(itemTotalReview.getAnchor4() + hm1.get(0) * 60 + hm1.get(1));
-			}
-
-		}
-
-		int h = (int) (itemTotalProgram.getAnchor1() / 60);
-		int m = (int) (itemTotalProgram.getAnchor1() - h * 60);
-		this.review_tot_1_1.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram.getAnchor2() / 60);
-		m = (int) (itemTotalProgram.getAnchor2() - h * 60);
-		this.review_tot_1_2.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram.getAnchor3() / 60);
-		m = (int) (itemTotalProgram.getAnchor3() - h * 60);
-		this.review_tot_1_3.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalProgram.getAnchor4() / 60);
-		m = (int) (itemTotalProgram.getAnchor4() - h * 60);
-		this.review_tot_1_4.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalReview.getAnchor1() / 60);
-		m = (int) (itemTotalReview.getAnchor1() - h * 60);
-		this.review_tot_2_1.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalReview.getAnchor2() / 60);
-		m = (int) (itemTotalReview.getAnchor2() - h * 60);
-		this.review_tot_2_2.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalReview.getAnchor3() / 60);
-		m = (int) (itemTotalReview.getAnchor3() - h * 60);
-		this.review_tot_2_3.setLabel(h + "h " + m + "m");
-
-		h = (int) (itemTotalReview.getAnchor4() / 60);
-		m = (int) (itemTotalReview.getAnchor4() - h * 60);
-		this.review_tot_2_4.setLabel(h + "h " + m + "m");
+		// set view
+		// UtilitydecimatToTime
 
 	}
 

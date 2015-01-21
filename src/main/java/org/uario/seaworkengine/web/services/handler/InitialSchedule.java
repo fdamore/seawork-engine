@@ -14,11 +14,17 @@ import org.uario.seaworkengine.model.Schedule;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class InitialSchedule {
 
+	private Integer						current_shift;
+
 	private List<DetailInitialSchedule>	detail_schedule;
 
 	private Person						person;
 
 	private Schedule					schedule;
+
+	public Integer getCurrent_shift() {
+		return this.current_shift;
+	}
 
 	public List<DetailInitialSchedule> getDetail_schedule() {
 		return this.detail_schedule;
@@ -30,6 +36,10 @@ public class InitialSchedule {
 
 	public Schedule getSchedule() {
 		return this.schedule;
+	}
+
+	public void setCurrent_shift(final Integer current_shift) {
+		this.current_shift = current_shift;
 	}
 
 	public void setDetail_schedule(final List<DetailInitialSchedule> detail_schedule) {

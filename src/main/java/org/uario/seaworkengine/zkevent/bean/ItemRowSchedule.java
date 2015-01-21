@@ -19,6 +19,14 @@ public class ItemRowSchedule implements Serializable {
 
 	private String				anchor4;
 
+	private Double				anchorValue1;
+
+	private Double				anchorValue2;
+
+	private Double				anchorValue3;
+
+	private Double				anchorValue4;
+
 	private final RowSchedule	currentRow;
 
 	private Schedule			schedule;
@@ -107,6 +115,22 @@ public class ItemRowSchedule implements Serializable {
 		return this.anchor4;
 	}
 
+	public Double getAnchorValue1() {
+		return this.anchorValue1;
+	}
+
+	public Double getAnchorValue2() {
+		return this.anchorValue2;
+	}
+
+	public Double getAnchorValue3() {
+		return this.anchorValue3;
+	}
+
+	public Double getAnchorValue4() {
+		return this.anchorValue4;
+	}
+
 	/**
 	 * Row Schedule
 	 *
@@ -134,6 +158,22 @@ public class ItemRowSchedule implements Serializable {
 
 	public void setAnchor4(final String anchor4) {
 		this.anchor4 = anchor4;
+	}
+
+	public void setAnchorValue1(final Double anchorValue1) {
+		this.anchorValue1 = anchorValue1;
+	}
+
+	public void setAnchorValue2(final Double anchorValue2) {
+		this.anchorValue2 = anchorValue2;
+	}
+
+	public void setAnchorValue3(final Double anchorValue3) {
+		this.anchorValue3 = anchorValue3;
+	}
+
+	public void setAnchorValue4(final Double anchorValue4) {
+		this.anchorValue4 = anchorValue4;
 	}
 
 	public void setSchedule(final Schedule schedule) {
