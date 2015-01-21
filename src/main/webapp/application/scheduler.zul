@@ -1153,7 +1153,7 @@
 						
 						<listhead >
 
-							<listheader label="TOTALI" hflex="3" sclass="mySeparatorBorder"/>
+							<listheader label="Nome" sort="auto" hflex="3" sclass="mySeparatorBorder"/>
 
 							<listheader label="1" hflex="1"
 								align="center" id="program_tot_1_1"/>
@@ -1701,7 +1701,7 @@
 
 
 						<listhead>
-							<listheader label=" TOTALI" hflex="2" sclass="mySeparatorBorder"/>
+							<listheader label="Nome" sort="auto" hflex="2" sclass="mySeparatorBorder"/>
 
 							<listheader label="1" hflex="1" id="review_tot_1_1"
 								align="center" />
