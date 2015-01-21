@@ -802,17 +802,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2473,18 +2473,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								SchedulerComposer.this.saveProgramFinalStep();
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							}
-						}
-					}, params);
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										SchedulerComposer.this.saveProgramFinalStep();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									}
+								}
+							}, params);
 
 					return;
 
@@ -3552,14 +3552,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, 2, schedule, false);
 
 			// sum hours
-			count_colum_1 = count_colum_1 + itemsRow.getAnchorValue1();
-			count_colum_2 = count_colum_2 + itemsRow.getAnchorValue2();
-			count_colum_3 = count_colum_3 + itemsRow.getAnchorValue3();
-			count_colum_4 = count_colum_4 + itemsRow.getAnchorValue4();
+			if (itemsRow.getAnchorValue1() != null) {
+				count_colum_1 = count_colum_1 + itemsRow.getAnchorValue1();
+			}
+			if (itemsRow.getAnchorValue2() != null) {
+				count_colum_2 = count_colum_2 + itemsRow.getAnchorValue2();
+			}
+			if (itemsRow.getAnchorValue3() != null) {
+				count_colum_3 = count_colum_3 + itemsRow.getAnchorValue3();
+			}
+			if (itemsRow.getAnchorValue4() != null) {
+				count_colum_4 = count_colum_4 + itemsRow.getAnchorValue4();
+			}
 
 			currentRow.setItem_2(itemsRow);
 
 		}
+
+		this.review_tot_1_1.setLabel(Utility.decimatToTime(count_colum_1));
+		this.review_tot_1_2.setLabel(Utility.decimatToTime(count_colum_2));
+		this.review_tot_1_3.setLabel(Utility.decimatToTime(count_colum_3));
+		this.review_tot_1_4.setLabel(Utility.decimatToTime(count_colum_4));
+
+		count_colum_1 = 0.0;
+		count_colum_2 = 0.0;
+		count_colum_3 = 0.0;
+		count_colum_4 = 0.0;
 
 		// get info on program
 		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(date_schedule, text_search_person);
@@ -3587,14 +3605,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(myRow, 1, schedule, false);
 
 			// sum hours
-			count_colum_1 = count_colum_1 + itemsRow.getAnchorValue1();
-			count_colum_2 = count_colum_2 + itemsRow.getAnchorValue2();
-			count_colum_3 = count_colum_3 + itemsRow.getAnchorValue3();
-			count_colum_4 = count_colum_4 + itemsRow.getAnchorValue4();
+			if (itemsRow.getAnchorValue1() != null) {
+				count_colum_1 = count_colum_1 + itemsRow.getAnchorValue1();
+			}
+			if (itemsRow.getAnchorValue2() != null) {
+				count_colum_2 = count_colum_2 + itemsRow.getAnchorValue2();
+			}
+			if (itemsRow.getAnchorValue3() != null) {
+				count_colum_3 = count_colum_3 + itemsRow.getAnchorValue3();
+			}
+			if (itemsRow.getAnchorValue4() != null) {
+				count_colum_4 = count_colum_4 + itemsRow.getAnchorValue4();
+			}
 
 			myRow.setItem_1(itemsRow);
 
 		}
+
+		this.review_tot_2_1.setLabel(Utility.decimatToTime(count_colum_1));
+		this.review_tot_2_2.setLabel(Utility.decimatToTime(count_colum_2));
+		this.review_tot_2_3.setLabel(Utility.decimatToTime(count_colum_3));
+		this.review_tot_2_4.setLabel(Utility.decimatToTime(count_colum_4));
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);
@@ -3631,6 +3662,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.grid_scheduler_review.setModel(model);
 
 		// set view
+
 		// UtilitydecimatToTime
 
 	}
