@@ -36,6 +36,9 @@ public class DetailInitialSchedule implements Serializable {
 
 	private Integer				task;
 
+	// used in mobile device
+	private String				task_mobile_desc;
+
 	private Double				time;
 
 	// to show in overview
@@ -64,6 +67,10 @@ public class DetailInitialSchedule implements Serializable {
 
 	public Integer getTask() {
 		return this.task;
+	}
+
+	public String getTask_mobile_desc() {
+		return this.task_mobile_desc;
 	}
 
 	public Double getTime() {
@@ -96,6 +103,10 @@ public class DetailInitialSchedule implements Serializable {
 
 	public void setTask(final int task_initial) {
 		this.task = task_initial;
+	}
+
+	public void setTask_mobile_desc(final String task_mobile_desc) {
+		this.task_mobile_desc = task_mobile_desc;
 	}
 
 	public void setTime(final Double time_initial) {

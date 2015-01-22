@@ -73,7 +73,7 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
-			final List<DetailInitialSchedule> details = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
+			final List<DetailInitialSchedule> details = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdSchedule(schedule.getId());
 			if ((details == null) || (details.size() == 0)) {
 				continue;
 			}
@@ -96,7 +96,8 @@ public class WebControllerImpl implements IWebServiceController {
 		try {
 			this.scheduleDAO.saveListDetailFinalScheduler(final_schedule.getSchedule().getId(), shift, final_schedule.getDetail_schedule());
 			return true;
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 			return false;
 		}
 	}

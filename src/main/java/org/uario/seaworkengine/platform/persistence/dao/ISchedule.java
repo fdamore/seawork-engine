@@ -23,6 +23,8 @@ public interface ISchedule {
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
+	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdSchedule(Integer id_schedule);
+
 	public List<Schedule> loadSchedule(Date date_scheduled);
 
 	public Schedule loadSchedule(Date date_scheduler, Integer id_user);
