@@ -110,10 +110,12 @@
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-		SELECT s.id, s.date_schedule, s.user, s.editor, s.controller,
+		SELECT s.id, s.date_schedule, s.user, s.editor,
+		s.controller,
 		s.shift,s.note
 		FROM schedule s
-		WHERE s.user = #{id_user} and
+		WHERE s.user = #{id_user}
+		and
 		s.date_schedule =
 		#{date_schedule};
 	</select>
@@ -361,6 +363,18 @@
 		FROM detailinitialschedule
 		WHERE id_schedule =
 		#{id_schedule}
+	</select>
+
+	<select id="loadDetailInitialScheduleForMobileByIdSchedule"
+		parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
+		SELECT d.id, d.id_schedule,
+		d.shift,
+		d.task, d.time, concat(ut.code,' - ',ut.description) as task_mobile_desc
+		FROM
+		detailinitialschedule d, usertask ut
+		WHERE id_schedule =
+		#{id_schedule}
+		and d.task = ut.id
 	</select>
 
 	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer"

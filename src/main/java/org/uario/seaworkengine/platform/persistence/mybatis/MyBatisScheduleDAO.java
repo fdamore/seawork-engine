@@ -90,6 +90,13 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
+	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdSchedule(final Integer id_schedule) {
+		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdSchedule");
+
+		return this.getSqlSession().selectList("schedule.loadDetailInitialScheduleForMobileByIdSchedule", id_schedule);
+	}
+
+	@Override
 	public List<Schedule> loadSchedule(final Date date_scheduled) {
 		MyBatisScheduleDAO.logger.info("loadSchedule by date");
 
