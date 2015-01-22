@@ -1052,16 +1052,11 @@
 							<column style="background:#8E8EA5"
 								width="40pt" />
 							<column label="Turno giornaliero" />
-
-
 						</columns>
 					</grid>
 				</panelchildren>
 			</panel>
 			<space />
-
-
-
 
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
@@ -1095,6 +1090,20 @@
 								id="day_week_4" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
 								id="day_week_5" />
+
+						</auxhead>
+						<auxhead>
+							<auxheader label="Totale giornaliero" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="total_program_day_1" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="total_program_day_2" sclass="mySeparatorBorder" />
+							<auxheader colspan="4" align="center"
+								id="total_program_day_3" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="total_program_day_4" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="total_program_day_5" />
 
 						</auxhead>
 						
@@ -1688,9 +1697,9 @@
 						<auxhead>
 							<auxheader label="Totale giornaliero" colspan="1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="total_day_1" label="1" sclass="mySeparatorBorder"/>
+								id="total_review_day_1" label="1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
-								id="total_day_2" label="2" sclass="mySeparatorBorder"/>
+								id="total_review_day_2" label="2" sclass="mySeparatorBorder"/>
 						</auxhead>
 
 						<auxhead>

@@ -437,10 +437,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Timebox							time_to;
 
 	@Wire
-	private Auxheader						total_day_1;
+	private Auxheader						total_program_day_1;
 
 	@Wire
-	private Auxheader						total_day_2;
+	private Auxheader						total_program_day_2;
+
+	@Wire
+	private Auxheader						total_program_day_3;
+	@Wire
+	private Auxheader						total_program_day_4;
+	@Wire
+	private Auxheader						total_program_day_5;
+	@Wire
+	private Auxheader						total_review_day_1;
+	@Wire
+	private Auxheader						total_review_day_2;
 
 	@Wire
 	private Label							work_current_month;
@@ -3523,10 +3534,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.program_tot_4_3.setLabel(Utility.decimatToTime(count_matrix[3][2]));
 		this.program_tot_4_4.setLabel(Utility.decimatToTime(count_matrix[3][3]));
 
-		this.program_tot_5_1.setLabel(Utility.decimatToTime(count_matrix[0][0]));
-		this.program_tot_5_2.setLabel(Utility.decimatToTime(count_matrix[0][1]));
-		this.program_tot_5_3.setLabel(Utility.decimatToTime(count_matrix[0][2]));
-		this.program_tot_5_4.setLabel(Utility.decimatToTime(count_matrix[0][3]));
+		this.program_tot_5_1.setLabel(Utility.decimatToTime(count_matrix[4][0]));
+		this.program_tot_5_2.setLabel(Utility.decimatToTime(count_matrix[4][1]));
+		this.program_tot_5_3.setLabel(Utility.decimatToTime(count_matrix[4][2]));
+		this.program_tot_5_4.setLabel(Utility.decimatToTime(count_matrix[4][3]));
+
+		final Double[] count_matrix_row = new Double[5];
+		for (int i = 0; i < count_matrix_row.length; i++) {
+			count_matrix_row[i] = 0.0;
+		}
+
+		// set sum row of matrix
+		for (int i = 0; i < count_matrix.length; i++) {
+			for (int j = 0; j < count_matrix[i].length; j++) {
+				count_matrix_row[i] = count_matrix_row[i] + count_matrix[i][j];
+			}
+		}
+
+		this.total_program_day_1.setLabel(Utility.decimatToTime(count_matrix_row[0]));
+		this.total_program_day_2.setLabel(Utility.decimatToTime(count_matrix_row[1]));
+		this.total_program_day_3.setLabel(Utility.decimatToTime(count_matrix_row[2]));
+		this.total_program_day_4.setLabel(Utility.decimatToTime(count_matrix_row[3]));
+		this.total_program_day_5.setLabel(Utility.decimatToTime(count_matrix_row[4]));
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);
@@ -3642,7 +3671,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.review_tot_2_3.setLabel(Utility.decimatToTime(count_colum_3));
 		this.review_tot_2_4.setLabel(Utility.decimatToTime(count_colum_4));
 
-		this.total_day_2.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
+		this.total_review_day_2.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
 
 		// reset counter
 		count_colum_1 = 0.0;
@@ -3696,7 +3725,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.review_tot_1_3.setLabel(Utility.decimatToTime(count_colum_3));
 		this.review_tot_1_4.setLabel(Utility.decimatToTime(count_colum_4));
 
-		this.total_day_1.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
+		this.total_review_day_1.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);
