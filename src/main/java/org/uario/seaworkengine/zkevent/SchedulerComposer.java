@@ -184,12 +184,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_popup;
+
 	@Wire
 	private A								label_date_shift_preprocessing;
 
 	@Wire
 	private A								label_date_shift_program;
-
 	@Wire
 	private A								label_date_shift_review;
 
@@ -275,6 +275,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox							program_time_hours;
+
 	@Wire
 	private Intbox							program_time_minuts;
 
@@ -282,50 +283,49 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Listheader						program_tot_1_1;
 	@Wire
 	private Listheader						program_tot_1_2;
+
 	@Wire
 	private Listheader						program_tot_1_3;
 	@Wire
 	private Listheader						program_tot_1_4;
-
 	@Wire
 	private Listheader						program_tot_2_1;
 	@Wire
 	private Listheader						program_tot_2_2;
+
 	@Wire
 	private Listheader						program_tot_2_3;
 	@Wire
 	private Listheader						program_tot_2_4;
-
 	@Wire
 	private Listheader						program_tot_3_1;
 	@Wire
 	private Listheader						program_tot_3_2;
+
 	@Wire
 	private Listheader						program_tot_3_3;
 	@Wire
 	private Listheader						program_tot_3_4;
-
 	@Wire
 	private Listheader						program_tot_4_1;
 	@Wire
 	private Listheader						program_tot_4_2;
+
 	@Wire
 	private Listheader						program_tot_4_3;
 	@Wire
 	private Listheader						program_tot_4_4;
-
 	@Wire
 	private Listheader						program_tot_5_1;
 	@Wire
 	private Listheader						program_tot_5_2;
+
 	@Wire
 	private Listheader						program_tot_5_3;
 	@Wire
 	private Listheader						program_tot_5_4;
-
 	@Wire
 	private Div								review_div;
-
 	@Wire
 	private Comboitem						review_item;
 
@@ -435,6 +435,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Timebox							time_to;
+
+	@Wire
+	private Auxheader						total_day_1;
+
+	@Wire
+	private Auxheader						total_day_2;
 
 	@Wire
 	private Label							work_current_month;
@@ -3636,6 +3642,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.review_tot_2_3.setLabel(Utility.decimatToTime(count_colum_3));
 		this.review_tot_2_4.setLabel(Utility.decimatToTime(count_colum_4));
 
+		this.total_day_2.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
+
 		// reset counter
 		count_colum_1 = 0.0;
 		count_colum_2 = 0.0;
@@ -3687,6 +3695,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.review_tot_1_2.setLabel(Utility.decimatToTime(count_colum_2));
 		this.review_tot_1_3.setLabel(Utility.decimatToTime(count_colum_3));
 		this.review_tot_1_4.setLabel(Utility.decimatToTime(count_colum_4));
+
+		this.total_day_1.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);
