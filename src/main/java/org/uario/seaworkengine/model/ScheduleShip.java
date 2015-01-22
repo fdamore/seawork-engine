@@ -17,6 +17,8 @@ public class ScheduleShip implements Serializable {
 
 	private Timestamp	arrivaldate;
 
+	private Timestamp	departuredate;
+
 	private Integer		id;
 
 	private Integer		idship;
@@ -33,6 +35,10 @@ public class ScheduleShip implements Serializable {
 
 	public Timestamp getArrivaldate() {
 		return this.arrivaldate;
+	}
+
+	public Timestamp getDeparturedate() {
+		return this.departuredate;
 	}
 
 	public Integer getId() {
@@ -57,6 +63,10 @@ public class ScheduleShip implements Serializable {
 
 	public void setArrivaldate(final Timestamp arrivaldate) {
 		this.arrivaldate = arrivaldate;
+	}
+
+	public void setDeparturedate(final Timestamp departuredate) {
+		this.departuredate = departuredate;
 	}
 
 	public void setId(final Integer id) {

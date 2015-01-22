@@ -7,11 +7,9 @@
 
 	<insert id="createScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip">
 		INSERT INTO
-		scheduleship
-		(idship, volume, note, arrivaldate)
+		scheduleship (idship, volume, note, arrivaldate, departuredate)
 		VALUES
-		(#{idship},
-		#{volume}, #{note}, #{arrivaldate});
+		(#{idship},	#{volume}, #{note}, #{arrivaldate}, #{departuredate});
 	</insert>
 
 	<delete id="deleteScheduleShip" parameterType="Integer">
@@ -23,7 +21,7 @@
 	
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
+		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
 		sh.name
 		FROM
 		scheduleship s, ship sh
@@ -34,7 +32,7 @@
 
 	<select id="loadAllScheduleShip" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id,
-		s.idship, s.volume, s.note, s.arrivaldate,
+		s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
 		sh.name
 		FROM
 		scheduleship s,
@@ -45,7 +43,7 @@
 
 	<select id="selectAllScheduleShipFulltextSearchLike"
 		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
+		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate, s.departuredate, 
 		sh.name
 		FROM
 		scheduleship s, ship sh
@@ -64,7 +62,9 @@
 		volume = #{volume},
 		note = #{note},
 		arrivaldate =
-		#{arrivaldate}
+		#{arrivaldate},
+		departuredate = 
+		#{departuredate}
 
 		WHERE id = #{id};
 	</update>
@@ -75,10 +75,10 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		handswork)
+		handswork, menwork)
 		VALUES
 		(#{idscheduleship}, #{shift}, #{operation}, #{iduser},
-		#{handswork});
+		#{handswork}, #{menwork});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -99,21 +99,21 @@
 	<select id="loadDetailScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT d.id, d.idscheduleship, d.shift, d.operation, d.iduser,
-		d.handswork, s.firstname, s.lastname
+		d.handswork, d.menwork, s.firstname, s.lastname
 		FROM
 		detailscheduleship d, user u where
 		d.id = #{id_detailScheduleShip} and d.iduser = u.id;
 	</select>
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT id, idscheduleship, shift, operation, iduser, handswork
+		SELECT id, idscheduleship, shift, operation, iduser, handswork, menwork 
 		FROM
 		detailscheduleship where
 		idscheduleship = #{id_scheduleShip};
 	</select>
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate" parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip" >
-		SELECT id, idship, volume, note, arrivaldate
+		SELECT id, idship, volume, note, arrivaldate, departuredate
 		FROM
 		scheduleship where
 		idship = #{idship} and
@@ -121,7 +121,7 @@
 	</select>
 		
 	<select id="loadScheduleShipByArrivalDate" parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip" >
-		SELECT id, idship, volume, note, arrivaldate
+		SELECT id, idship, volume, note, arrivaldate, departuredate
 		FROM
 		scheduleship where
 		date(arrivaldate) = date(#{arrivaldate});
@@ -150,7 +150,9 @@
 		operation = #{operation},
 		iduser = #{iduser},
 		handswork =
-		#{handswork}
+		#{handswork},
+		menwork =
+		#{menwork}
 		WHERE id = #{id}
 	</update>
 

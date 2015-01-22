@@ -25,6 +25,7 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private Integer	id;
 	private Integer	idscheduleship;
 	private Integer	iduser;
+	private Integer	menwork;
 	private String	operation;
 
 	/**
@@ -61,6 +62,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.iduser;
 	}
 
+	public Integer getMenwork() {
+		return this.menwork;
+	}
+
 	public String getOperation() {
 		return this.operation;
 	}
@@ -91,6 +96,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setIduser(final Integer iduser) {
 		this.iduser = iduser;
+	}
+
+	public void setMenwork(final Integer menwork) {
+		this.menwork = menwork;
 	}
 
 	public void setOperation(final String operation) {

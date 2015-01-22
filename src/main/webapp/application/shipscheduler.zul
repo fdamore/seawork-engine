@@ -132,7 +132,12 @@
 										<datebox id="ship_arrival" format="dd-MM-yyyy HH:mm" onCreate="self.setValue(new Date())" />
 									</row>
 								
-								
+									<row>
+										<label
+											value="Data di partenza">
+										</label>
+										<datebox id="ship_departure" format="dd-MM-yyyy HH:mm" onCreate="self.setValue(new Date())"/>
+									</row>
 									
 
 								</rows>
@@ -197,6 +202,13 @@
 											value="Mani di lavoro">
 										</label>
 										<intbox id="handswork" />
+									</row>
+									
+									<row>
+										<label
+											value="Numero uomini">
+										</label>
+										<intbox id="menwork" />
 									</row>
 		
 								</rows>

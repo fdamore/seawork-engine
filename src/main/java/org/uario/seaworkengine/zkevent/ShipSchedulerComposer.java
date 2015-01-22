@@ -67,6 +67,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private final Logger				logger					= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
+	private Intbox						menwork;
+
+	@Wire
 	private Component					modify_Scheduleships_command;
 
 	@Wire
@@ -98,6 +101,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Datebox						ship_arrival;
 
 	@Wire
+	private Datebox						ship_departure;
+
+	@Wire
 	private Combobox					ship_name;
 
 	@Wire
@@ -124,7 +130,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #add_scheduleShipsDetail_command")
 	public void addScheduleShipsDetailCommand() {
 		if (this.shift.getSelectedItem() == null || this.operation.getValue() == null || this.user.getSelectedItem() == null
-				|| this.handswork.getValue() == null) {
+				|| this.handswork.getValue() == null || this.menwork.getValue() == null) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -142,6 +148,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			detailScheduleShip.setOperation(this.operation.getValue());
 			detailScheduleShip.setIduser(userOperative.getId());
 			detailScheduleShip.setHandswork(this.handswork.getValue());
+			detailScheduleShip.setMenwork(this.menwork.getValue());
 			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
 			this.listDetailScheduleShip.add(detailScheduleShip);
 
@@ -182,8 +189,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final Date arival = this.ship_arrival.getValue();
 
 			final Date arrivale_truncate = DateUtils.truncate(arival, Calendar.MINUTE);
-			final Timestamp timestamp = new Timestamp(arrivale_truncate.getTime());
+			Timestamp timestamp = new Timestamp(arrivale_truncate.getTime());
 			shipSchedule.setArrivaldate(timestamp);
+
+			if (this.ship_departure.getValue() != null) {
+				// set departure date and time
+				final Date departure = this.ship_departure.getValue();
+
+				final Date departure_truncate = DateUtils.truncate(departure, Calendar.MINUTE);
+				timestamp = new Timestamp(departure_truncate.getTime());
+				shipSchedule.setDeparturedate(timestamp);
+			}
 
 			try {
 				this.shipSchedulerDao.createScheduleShip(shipSchedule);
@@ -312,8 +328,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.note.setValue(scheduleShip_selected.getNote());
 
 		// set arrival date and time
-		final Timestamp arrivalDate = scheduleShip_selected.getArrivaldate();
-		this.ship_arrival.setValue(arrivalDate);
+		Timestamp timestamp = scheduleShip_selected.getArrivaldate();
+		this.ship_arrival.setValue(timestamp);
+
+		timestamp = this.scheduleShip_selected.getDeparturedate();
+
+		if (timestamp != null) {
+			this.ship_departure.setValue(timestamp);
+		}
 
 	}
 
@@ -509,6 +531,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.operation.setValue("");
 		this.user.setSelectedItem(null);
 		this.handswork.setValue(null);
+		this.menwork.setValue(null);
 	}
 
 	/**
@@ -519,6 +542,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.ship_volume.setValue(null);
 		this.note.setValue(null);
 		this.ship_arrival.setValue(null);
+		this.ship_departure.setValue(null);
 
 		this.listDetailScheduleShip.clear();
 		this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
