@@ -23,12 +23,17 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
 
 	@Override
-	public RateShift[] getAverageForShift(final Integer user, final Date date) {
+	public RateShift[] getAverageForShift(final Integer user, final Date date, final Date date_from) {
 		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
+
+		// truncate date
+		final Date date_truncate = DateUtils.truncate(date, Calendar.DATE);
+		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id_user", user);
-		map.put("date_schedule", date);
+		map.put("date_schedule", date_truncate);
+		map.put("date_from", date_from_truncate);
 
 		List<RateShift> lists = null;
 
@@ -126,11 +131,14 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Double getSundayAndHolidaysWorkPercentage(final Integer id_user) {
+	public Double getSundayAndHolidaysWorkPercentage(final Integer id_user, final Date date_from) {
 		MyBatisStatisticsDAO.logger.info("getSundayAndHolidaysWorkPercentage..");
 
-		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id_user", id_user);
+		map.put("date_from", date_from_truncate);
 
 		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageSundayAndHoliday", map);
 
@@ -138,11 +146,14 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Double getSundayWorkPercentage(final Integer id_user) {
+	public Double getSundayWorkPercentage(final Integer id_user, final Date date_from) {
 		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
 
-		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id_user", id_user);
+		map.put("date_from", date_from_truncate);
 
 		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageSunday", map);
 
@@ -189,7 +200,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search, final Integer shift_number, Integer shift_type,
+	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
 			final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 

@@ -53,7 +53,7 @@
 		order by u.lastname asc, s.date_schedule
 	</select>
 
-	
+
 
 
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
@@ -71,9 +71,10 @@
 		s.date_schedule
 		from
 		user u,
-		schedule s left outer join detailfinalschedule dfs on (dfs.id_schedule = s.id)		
+		schedule s left
+		outer join detailfinalschedule dfs on (dfs.id_schedule = s.id)
 		where
-		 s.user = u.id
+		s.user = u.id
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -92,7 +93,7 @@
 			<![CDATA[<=]]>
 			#{date_to})
 		</if>
-		
+
 		<if test="shift_type != null">
 			and (s.shift = #{shift_type})
 		</if>
@@ -114,9 +115,11 @@
 		s.date_schedule
 		from
 		user u,
-		schedule s left outer join detailinitialschedule dfs on (dfs.id_schedule = s.id)		
+		schedule s left outer join
+		detailinitialschedule dfs on (dfs.id_schedule = s.id)
 		where
-		 s.user = u.id
+		s.user =
+		u.id
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -128,7 +131,7 @@
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
-		
+
 		<if test="shift_type != null">
 			and (s.shift = #{shift_type})
 		</if>
@@ -233,8 +236,8 @@
 		and
 		s_2.id =
 		d_2.id_schedule
-		and s_2.date_schedule <![CDATA[<=]]>
-		#{date_schedule}) * 100 as rate
+		and (s_2.date_schedule <![CDATA[<=]]>
+		#{date_schedule} and s_2.date_schedule >= #{date_from})) * 100 as rate
 		from
 		schedule s_1,
 		detailinitialschedule
@@ -243,9 +246,10 @@
 		s_1.user = #{id_user}
 		and s_1.id = d_1.id_schedule
 		and
-		s_1.date_schedule <![CDATA[<=]]>
-		#{date_schedule}
-		group by d_1.shift
+		(s_1.date_schedule <![CDATA[<=]]>
+		#{date_schedule} and s_1.date_schedule >= #{date_from})
+		group by
+		d_1.shift
 		order by rate asc
 
 	</select>
@@ -264,19 +268,21 @@
 		and
 		s_2.id =
 		d_2.id_schedule
-		and s_2.date_schedule <![CDATA[<=]]>
-		#{date_schedule}) * 100 as rate
+		and (s_2.date_schedule <![CDATA[<=]]>
+		#{date_schedule} and s_2.date_schedule >= #{date_from})) * 100 as rate
 		from
 		schedule s_1,
 		detailfinalschedule
 		d_1
 		where
 		s_1.user = #{id_user}
-		and s_1.id = d_1.id_schedule
 		and
-		s_1.date_schedule <![CDATA[<=]]>
-		#{date_schedule}
-		group by d_1.shift
+		s_1.id = d_1.id_schedule
+		and
+		(s_1.date_schedule <![CDATA[<=]]>
+		#{date_schedule} and s_1.date_schedule >= #{date_from})
+		group by
+		d_1.shift
 		order by rate asc
 
 	</select>
@@ -288,11 +294,14 @@
 		count(dd.user)
 		from
 		schedule dd,
-		usershift uu
+		usershift
+		uu
 		where
 		DAYOFWEEK(dd.date_schedule) = 1 and
-		uu.presence = 1 and dd.shift =
-		uu.id) * 100 as perc
+		uu.presence = 1 and dd.shift
+		=
+		uu.id and dd.date_schedule <![CDATA[>=]]>
+		#{date_from}) * 100 as perc
 		from
 		schedule ds,
 		usershift us
@@ -300,19 +309,23 @@
 		ds.shift =
 		us.id and us.presence = 1
 		and
-		DAYOFWEEK(ds.date_schedule) = 1 and ds.user = #{id_user}
+		DAYOFWEEK(ds.date_schedule) = 1 and
+		ds.user = #{id_user} and ds.date_schedule <![CDATA[>=]]>
+		#{date_from}
 	</select>
 
 	<select id="selectPercentageSundayAndHoliday" resultType="double">
 		select
-		count(s.id) / (select
+		count(ss.id) / (select
 		count(s.id)
 		from
 		schedule s,
 		usershift us
 		where
 		s.shift = us.id and us.presence = 1
-		and (date_format(s.date_schedule,
+		and s.date_schedule <![CDATA[>=]]>
+		#{date_from} and
+		(date_format(s.date_schedule,
 		'%m-%d') in ('01-01' , '01-06',
 		'04-25',
 		'05-01',
@@ -323,17 +336,24 @@
 		'12-25',
 		'12-26'
 		'08-13')
-		or DAYOFWEEK(s.date_schedule) =
+		or
+		DAYOFWEEK(s.date_schedule) =
 		1)) * 100 as perc
 		from
-		schedule s,
-		usershift us
+		schedule ss,
+		usershift
+		uss
 		where
-		s.user = #{id_user}
-		and s.shift = us.id
-		and us.presence = 1
+		ss.date_schedule <![CDATA[>=]]>
+		#{date_from} and
+		ss.user = #{id_user}
+		and ss.shift = uss.id
 		and
-		(date_format(s.date_schedule, '%m-%d') in ('01-01' , '01-06',
+		uss.presence
+		= 1
+		and
+		(date_format(ss.date_schedule, '%m-%d') in ('01-01'
+		, '01-06',
 		'04-25',
 		'05-01',
 		'06-02',
@@ -344,7 +364,7 @@
 		'12-26',
 		'08-13')
 		or
-		DAYOFWEEK(s.date_schedule) = 1)
+		DAYOFWEEK(ss.date_schedule) = 1)
 
 	</select>
 

@@ -1,8 +1,6 @@
 package org.uario.seaworkengine.statistics.impl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -94,7 +92,12 @@ public class StatProceduresImpl implements IStatProcedure {
 	 */
 	private Integer getShiftNoForDay(final Date current_date_scheduled, final Integer user) {
 
-		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled);
+		// get info for the begin of current year
+		final Calendar calendar_first_day = Calendar.getInstance();
+		calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
+		final Date date_first_day_year = calendar_first_day.getTime();
+
+		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
 
 		// get info from last shift
 		final Calendar calendar = Calendar.getInstance();
@@ -174,12 +177,8 @@ public class StatProceduresImpl implements IStatProcedure {
 		// current head series
 		Date currentdate = null;
 
-		// collection integer
-		final ArrayList<Integer> int_array = new ArrayList<Integer>();
-
 		// the current length
 		int lenght_series = 0;
-		int_array.add(lenght_series);
 
 		for (final Iterator<Date> iterator = list.iterator(); iterator.hasNext();) {
 
@@ -202,7 +201,7 @@ public class StatProceduresImpl implements IStatProcedure {
 				currentdate = DateUtils.truncate(item, Calendar.DATE);
 
 			} else {
-				int_array.add(new Integer(lenght_series));
+
 				lenght_series = 1;
 				currentdate = DateUtils.truncate(item, Calendar.DATE);
 
@@ -210,11 +209,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		}
 
-		if (int_array.size() != 0) {
-			return Collections.max(int_array);
-		} else {
-			return 0;
-		}
+		return lenght_series;
 
 	}
 
