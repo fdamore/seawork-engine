@@ -1685,7 +1685,13 @@
 
 						</auxhead>
 
-
+						<auxhead>
+							<auxheader label="Totale giornaliero" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="total_day_1" label="1" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="total_day_2" label="2" sclass="mySeparatorBorder"/>
+						</auxhead>
 
 						<auxhead>
 							<auxheader label="TURNI" colspan="1" sclass="mySeparatorBorder"/>
