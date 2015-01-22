@@ -289,82 +289,67 @@
 
 	<select id="selectPercentageSunday" resultType="double"
 		parameterType="map">
-		select
-		count(ds.user) / (select
-		count(dd.user)
-		from
-		schedule dd,
-		usershift
-		uu
-		where
-		DAYOFWEEK(dd.date_schedule) = 1 and
-		uu.presence = 1 and dd.shift
-		=
-		uu.id and dd.date_schedule <![CDATA[>=]]>
-		#{date_from}) * 100 as perc
-		from
-		schedule ds,
-		usershift us
-		where
-		ds.shift =
-		us.id and us.presence = 1
-		and
-		DAYOFWEEK(ds.date_schedule) = 1 and
-		ds.user = #{id_user} and ds.date_schedule <![CDATA[>=]]>
-		#{date_from}
+		
+		
+		select 
+    count(distinct ds.date_schedule)/(select 
+            count(distinct dd.date_schedule)
+        from
+            schedule dd            
+        where
+            DAYOFWEEK(dd.date_schedule) = 1                
+                and dd.date_schedule <![CDATA[>=]]>
+		#{date_from})  * 100 as perc
+from
+    schedule ds,
+    usershift us
+where
+    ds.shift = us.id and us.presence = 1
+        and DAYOFWEEK(ds.date_schedule) = 1
+        and ds.user = #{id_user}
+        and ds.date_schedule <![CDATA[>=]]>
+		#{date_from}	
+		
 	</select>
 
 	<select id="selectPercentageSundayAndHoliday" resultType="double">
-		select
-		count(ss.id) / (select
-		count(s.id)
-		from
-		schedule s,
-		usershift us
-		where
-		s.shift = us.id and us.presence = 1
-		and s.date_schedule <![CDATA[>=]]>
-		#{date_from} and
-		(date_format(s.date_schedule,
-		'%m-%d') in ('01-01' , '01-06',
-		'04-25',
-		'05-01',
-		'06-02',
-		'08-15',
-		'11-01',
-		'12-08',
-		'12-25',
-		'12-26'
-		'08-13')
-		or
-		DAYOFWEEK(s.date_schedule) =
-		1)) * 100 as perc
-		from
-		schedule ss,
-		usershift
-		uss
-		where
-		ss.date_schedule <![CDATA[>=]]>
-		#{date_from} and
-		ss.user = #{id_user}
-		and ss.shift = uss.id
-		and
-		uss.presence
-		= 1
-		and
-		(date_format(ss.date_schedule, '%m-%d') in ('01-01'
-		, '01-06',
-		'04-25',
-		'05-01',
-		'06-02',
-		'08-15',
-		'11-01',
-		'12-08',
-		'12-25',
-		'12-26',
-		'08-13')
-		or
-		DAYOFWEEK(ss.date_schedule) = 1)
+		select 
+    count(distinct ss.date_schedule) / (select 
+            count(distinct s.date_schedule)
+        from
+            schedule s
+        where
+            s.date_schedule <![CDATA[>=]]> '2015-01-01'
+                and (date_format(s.date_schedule, '%m-%d') in ('01-01' , '01-06',
+                '04-25',
+                '05-01',
+                '06-02',
+                '08-15',
+                '11-01',
+                '12-08',
+                '12-25',
+                '12-26',
+                '08-13')
+                or DAYOFWEEK(s.date_schedule) = 1)) * 100 as perc
+from
+    schedule ss,
+    usershift uss
+where
+    ss.date_schedule <![CDATA[>=]]> '2015-01-01'
+        and ss.user = #{id_user}
+        and ss.shift = uss.id
+        and uss.presence = 1
+        and (date_format(ss.date_schedule, '%m-%d') in ('01-01' , '01-06',
+        '04-25',
+        '05-01',
+        '06-02',
+        '08-15',
+        '11-01',
+        '12-08',
+        '12-25',
+        '12-26',
+        '08-13')
+        or DAYOFWEEK(ss.date_schedule) = 1)
 
 	</select>
 
