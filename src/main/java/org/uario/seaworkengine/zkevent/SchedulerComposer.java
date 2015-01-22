@@ -1976,6 +1976,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.selectedDay = Integer.parseInt(info[1]);
 		this.selectedShift = Integer.parseInt(info[2]);
+
+		// set default value of time_from and time_to in popup
+		this.setDefaultValueTimeInPopupReview(this.selectedShift);
+
 		final Integer user = row_scheduler.getUser();
 		this.selectedUser = user;
 
@@ -2852,6 +2856,44 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			}
 		}
+	}
+
+	private void setDefaultValueTimeInPopupReview(final int shift) {
+		final Calendar cal = Calendar.getInstance();
+		int to = 0;
+		int from = 0;
+
+		switch (shift) {
+		case 1:
+			to = 1;
+			from = 7;
+			break;
+		case 2:
+			to = 7;
+			from = 13;
+			break;
+		case 3:
+			to = 13;
+			from = 19;
+			break;
+		case 4:
+			to = 19;
+			from = 1;
+			break;
+		default:
+			break;
+		}
+
+		cal.set(Calendar.HOUR_OF_DAY, to);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+
+		this.time_from.setValue(cal.getTime());
+
+		cal.set(Calendar.HOUR_OF_DAY, from);
+
+		this.time_to.setValue(cal.getTime());
 	}
 
 	/**
