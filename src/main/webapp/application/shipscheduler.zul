@@ -26,23 +26,25 @@
 		
 		<popup id="popup_detailscheduleship" >
 				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" width="400px">
+					style="margin: 5px 5px 5px 5px" width="600px">
 					<panelchildren>
 						<vbox align="start">
 							<listbox id="popup_sw_list_scheduleDetailShip" pagingPosition="both" mold="paging"
 											style="border: 1px solid #CCCCCC;" multiple="false"
 											pageSize="10">
 											<listhead sizable="true">
-												<listheader label="Turno" width="50px" />
-												<listheader label="Operazione" />
-												<listheader label="Nome preposto" />
-												<listheader label="Mani di lavoro" width="100px" />
+												<listheader label="Turno" hflex="min"/>
+												<listheader label="Operazione" hflex="min"/>
+												<listheader label="Nome preposto" hflex="min"/>
+												<listheader label="Mani di lavoro" hflex="min"/>
+												<listheader label="Numero di uomini" hflex="min"/>
 											</listhead>									
 											<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
 											</listitem>									
 										</listbox>														
 						</vbox>
@@ -72,7 +74,8 @@
 		<button label="Salva Modifiche Programmazione" sclass="btn-success" id="modify_Scheduleships_command" visible="false">
 		</button>
 
-		<separator></separator>
+		<separator/>
+		<separator/>
 
 		<tabbox>
 			<tabs>
@@ -224,7 +227,7 @@
 												<listheader label="Operazione" />
 												<listheader label="Nome preposto" />
 												<listheader label="Mani di lavoro" />
-												
+												<listheader label="Numero di uomini" />
 												
 												
 												<listheader label="" />
@@ -236,6 +239,7 @@
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
 												
 									
 									
@@ -288,9 +292,11 @@
 			label="Visualizza Navi in arrivo oggi">
 		</button>
 
-		<separator></separator>
+		<separator/>
 	</div>
 	
+	<separator/>
+	<separator/>
 
 	<hbox>
 		<a label="Ricerca Navi in arrivo: "
@@ -331,7 +337,7 @@
 			<listheader label="Volume" />
 			<listheader label="Note" />
 			<listheader label="Data di arrivo" sort="auto(arrivaldate)" sortDirection="ascending"   />
-			
+			<listheader label="Data di partenza" sort="auto(departuredate)" sortDirection="ascending"   />
 			
 			<listheader label="" />
 		</listhead>
@@ -343,7 +349,7 @@
 			<listcell sclass="myBottonCell" label="@{scheduleship_item.volume}" />
 			<listcell sclass="myBottonCell" label="@{scheduleship_item.note}" />
 			<listcell sclass="myBottonCell" label="@{scheduleship_item.arrivaldate}" />
-
+			<listcell sclass="myBottonCell" label="@{scheduleship_item.departuredate}" />
 
 			<listcell sclass="myBottonCell">
 
