@@ -14,10 +14,10 @@
 		<style>
 			.myBottonCell { border-bottom: 1px solid; border-right: 1px
 			solid; border-color:#CFCFCF;}
-			
-			.mySeparatorBorder {border-bottom: 1px solid; 
-			border-color:#CFCFCF;;border-right: 3px
-			solid; border-color:#CFCFCF;}
+
+			.mySeparatorBorder {border-bottom: 1px solid;
+			border-color:#CFCFCF;;border-right: 3px solid;
+			border-color:#CFCFCF;}
 		</style>
 
 		<div sclass="page-header">
@@ -495,9 +495,8 @@
 
 
 							<listcell sclass="myBottonCell">
-								<toolbarbutton
-									label="@{dayitem.item1, converter='org.uario.seaworkengine.zkevent.converter.DayShiftConverter'}"
-									style="color:blue">
+								<toolbarbutton style="color:blue"
+									label="@{dayitem.item1, converter='org.uario.seaworkengine.zkevent.converter.DayShiftConverter'}">
 									<attribute name="onClick">
 	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onDayClick", page_panel, "1");
@@ -1063,90 +1062,87 @@
 				<panelchildren>
 
 					<listbox sclass="domain" id="grid_scheduler"
-						mold="paging" pageSize="10" pagingPosition="both" >
+						mold="paging" pageSize="10" pagingPosition="both">
 						<auxhead>
-							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader label="" colspan="1"
+								sclass="mySeparatorBorder" />
 
 							<auxheader colspan="4" align="center"
-								id="day_month_1"  sclass="mySeparatorBorder"/>
+								id="day_month_1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_month_2" sclass="mySeparatorBorder"/>
+								id="day_month_2" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_month_3" sclass="mySeparatorBorder"/>
+								id="day_month_3" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_month_4" sclass="mySeparatorBorder"/>
+								id="day_month_4" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="day_month_5" />
 						</auxhead>
 						<auxhead>
-							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader label="" colspan="1"
+								sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_week_1" sclass="mySeparatorBorder"/>
+								id="day_week_1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="day_week_2" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_week_3" sclass="mySeparatorBorder"/>
+								id="day_week_3" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_week_4" sclass="mySeparatorBorder"/>
+								id="day_week_4" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="day_week_5" />
 
 						</auxhead>
-												
+
 						<auxhead>
-							<auxheader label="Totale persone giornaliero" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader
+								label="Totale persone giornaliero" colspan="1"
+								sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="totalUser_program_day_1" sclass="mySeparatorBorder"/>
+								id="totalUser_program_day_1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="totalUser_program_day_2" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="totalUser_program_day_3" sclass="mySeparatorBorder"/>
+								id="totalUser_program_day_3" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="totalUser_program_day_4" sclass="mySeparatorBorder"/>
+								id="totalUser_program_day_4" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="totalUser_program_day_5" />
 
 						</auxhead>
-						
-						
+
+
 						<auxhead>
-							<auxheader label="Totale ore giornaliere" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader label="Totale ore giornaliere"
+								colspan="1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="total_program_day_1" sclass="mySeparatorBorder"/>
+								id="total_program_day_1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="total_program_day_2" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="total_program_day_3" sclass="mySeparatorBorder"/>
+								id="total_program_day_3" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="total_program_day_4" sclass="mySeparatorBorder"/>
+								id="total_program_day_4" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="total_program_day_5" />
 
 						</auxhead>
-						
-						
-						<auxhead >
 
-							<auxheader label="TURNI" hflex="3" sclass="mySeparatorBorder"/>
+
+						<auxhead>
+
+							<auxheader label="TURNI" hflex="3"
+								sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
 								align="center" />
-								
+
 							<auxheader label="2" hflex="1"
 								align="center" />
 							<auxheader label="3" hflex="1"
 								align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
-
-							<auxheader label="1" hflex="1"
-								align="center" />								
-							<auxheader label="2" hflex="1"
-								align="center" />
-							<auxheader label="3" hflex="1"
-								align="center" />
-							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+								align="center" sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
 								align="center" />
@@ -1155,7 +1151,7 @@
 							<auxheader label="3" hflex="1"
 								align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+								align="center" sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
 								align="center" />
@@ -1164,7 +1160,7 @@
 							<auxheader label="3" hflex="1"
 								align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+								align="center" sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
 								align="center" />
@@ -1173,123 +1169,135 @@
 							<auxheader label="3" hflex="1"
 								align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+								align="center" sclass="mySeparatorBorder" />
+
+							<auxheader label="1" hflex="1"
+								align="center" />
+							<auxheader label="2" hflex="1"
+								align="center" />
+							<auxheader label="3" hflex="1"
+								align="center" />
+							<auxheader label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder" />
 
 						</auxhead>
-						
-						<auxhead >
 
-							<auxheader label="Totale persone per turno" hflex="3" sclass="mySeparatorBorder"/>
+						<auxhead>
 
-							<auxheader id="programUser_tot_1_1" label="1" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_1_2"  label="2" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_1_3"  label="3" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_1_4"  label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+							<auxheader label="Totale persone per turno"
+								hflex="3" sclass="mySeparatorBorder" />
 
-							<auxheader id="programUser_tot_2_1"  label="1" hflex="1"
-								align="center" />								
-							<auxheader id="programUser_tot_2_2" label="2" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_2_3" label="3" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_2_4" label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+							<auxheader id="programUser_tot_1_1"
+								label="1" hflex="1" align="center" />
+							<auxheader id="programUser_tot_1_2"
+								label="2" hflex="1" align="center" />
+							<auxheader id="programUser_tot_1_3"
+								label="3" hflex="1" align="center" />
+							<auxheader id="programUser_tot_1_4"
+								label="4" hflex="1" align="center" sclass="mySeparatorBorder" />
 
-							<auxheader id="programUser_tot_3_1" label="1" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_3_2" label="2" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_3_3" label="3" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_3_4" label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+							<auxheader id="programUser_tot_2_1"
+								label="1" hflex="1" align="center" />
+							<auxheader id="programUser_tot_2_2"
+								label="2" hflex="1" align="center" />
+							<auxheader id="programUser_tot_2_3"
+								label="3" hflex="1" align="center" />
+							<auxheader id="programUser_tot_2_4"
+								label="4" hflex="1" align="center" sclass="mySeparatorBorder" />
 
-							<auxheader id="programUser_tot_4_1" label="1" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_4_2" label="2" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_4_3" label="3" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_4_4" label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+							<auxheader id="programUser_tot_3_1"
+								label="1" hflex="1" align="center" />
+							<auxheader id="programUser_tot_3_2"
+								label="2" hflex="1" align="center" />
+							<auxheader id="programUser_tot_3_3"
+								label="3" hflex="1" align="center" />
+							<auxheader id="programUser_tot_3_4"
+								label="4" hflex="1" align="center" sclass="mySeparatorBorder" />
 
-							<auxheader id="programUser_tot_5_1" label="1" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_5_2" label="2" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_5_3" label="3" hflex="1"
-								align="center" />
-							<auxheader id="programUser_tot_5_4" label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder"/>
+							<auxheader id="programUser_tot_4_1"
+								label="1" hflex="1" align="center" />
+							<auxheader id="programUser_tot_4_2"
+								label="2" hflex="1" align="center" />
+							<auxheader id="programUser_tot_4_3"
+								label="3" hflex="1" align="center" />
+							<auxheader id="programUser_tot_4_4"
+								label="4" hflex="1" align="center" sclass="mySeparatorBorder" />
+
+							<auxheader id="programUser_tot_5_1"
+								label="1" hflex="1" align="center" />
+							<auxheader id="programUser_tot_5_2"
+								label="2" hflex="1" align="center" />
+							<auxheader id="programUser_tot_5_3"
+								label="3" hflex="1" align="center" />
+							<auxheader id="programUser_tot_5_4"
+								label="4" hflex="1" align="center" sclass="mySeparatorBorder" />
 
 						</auxhead>
-						
-						<listhead >
 
-							<listheader label="Nome" sort="auto(name_user)" hflex="3" sclass="mySeparatorBorder"/>
+						<listhead>
 
-							<listheader label="1" hflex="1"
-								align="center" id="program_tot_1_1"/>
-							<listheader label="2" hflex="1"
-								align="center" id="program_tot_1_2"/>
-							<listheader label="3" hflex="1"
-								align="center" id="program_tot_1_3"/>
-							<listheader label="4" hflex="1"
-								align="center" id="program_tot_1_4" sclass="mySeparatorBorder"/>
+							<listheader label="Nome"
+								sort="auto(name_user)" hflex="3" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_2_1"/>								
+								align="center" id="program_tot_1_1" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_2_2"/>
+								align="center" id="program_tot_1_2" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_2_3"/>
+								align="center" id="program_tot_1_3" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_2_4" sclass="mySeparatorBorder"/>
+								align="center" id="program_tot_1_4" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_3_1"/>
+								align="center" id="program_tot_2_1" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_3_2"/>
+								align="center" id="program_tot_2_2" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_3_3"/>
+								align="center" id="program_tot_2_3" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_3_4" sclass="mySeparatorBorder"/>
+								align="center" id="program_tot_2_4" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_4_1"/>
+								align="center" id="program_tot_3_1" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_4_2"/>
+								align="center" id="program_tot_3_2" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_4_3"/>
+								align="center" id="program_tot_3_3" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_4_4" sclass="mySeparatorBorder"/>
+								align="center" id="program_tot_3_4" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_5_1"/>
+								align="center" id="program_tot_4_1" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_5_2"/>
+								align="center" id="program_tot_4_2" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_5_3"/>
+								align="center" id="program_tot_4_3" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_5_4" sclass="mySeparatorBorder"/>
+								align="center" id="program_tot_4_4" sclass="mySeparatorBorder" />
+
+							<listheader label="1" hflex="1"
+								align="center" id="program_tot_5_1" />
+							<listheader label="2" hflex="1"
+								align="center" id="program_tot_5_2" />
+							<listheader label="3" hflex="1"
+								align="center" id="program_tot_5_3" />
+							<listheader label="4" hflex="1"
+								align="center" id="program_tot_5_4" sclass="mySeparatorBorder" />
 
 						</listhead>
-						
-						
-						
-						
-						
-						
+
+
+
+
+
+
 
 						<listitem self="@{each='item'}"
 							value="@{item}">
 
 
-							<listcell sclass="myBottonCell, mySeparatorBorder">
+							<listcell
+								sclass="myBottonCell, mySeparatorBorder">
 								<a label="@{item.name_user}">
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1337,7 +1345,8 @@
 								</toolbarbutton>
 							</listcell>
 
-							<listcell sclass="myBottonCell, mySeparatorBorder">
+							<listcell
+								sclass="myBottonCell, mySeparatorBorder">
 
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1349,7 +1358,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							
+
 
 							<listcell sclass="myBottonCell"
 								style="background-color:#70B8FF">
@@ -1392,7 +1401,8 @@
 								</toolbarbutton>
 							</listcell>
 
-							<listcell sclass="myBottonCell, mySeparatorBorder"
+							<listcell
+								sclass="myBottonCell, mySeparatorBorder"
 								style="background-color:#70B8FF">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1438,7 +1448,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell sclass="myBottonCell, mySeparatorBorder">
+							<listcell
+								sclass="myBottonCell, mySeparatorBorder">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_3, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
@@ -1449,7 +1460,7 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							
+
 							<listcell sclass="myBottonCell">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
@@ -1483,7 +1494,8 @@
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell sclass="myBottonCell, mySeparatorBorder">
+							<listcell
+								sclass="myBottonCell, mySeparatorBorder">
 								<toolbarbutton
 									onClick="grid_scheduler.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{item.item_4, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4'}"
@@ -1744,87 +1756,107 @@
 						checkmark="true" multiple="true" pagingPosition="both"
 						id="grid_scheduler_review">
 						<auxhead>
-							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader label="" colspan="1"
+								sclass="mySeparatorBorder" />
 
 							<auxheader colspan="4" align="center"
-								id="day_month_review_1" sclass="mySeparatorBorder"/>
+								id="day_month_review_1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_month_review_2" sclass="mySeparatorBorder"/>
+								id="day_month_review_2" sclass="mySeparatorBorder" />
 
 
 						</auxhead>
 						<auxhead>
-							<auxheader label="" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader label="" colspan="1"
+								sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_week_review_1" sclass="mySeparatorBorder"/>
+								id="day_week_review_1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="day_week_review_2" sclass="mySeparatorBorder"/>
+								id="day_week_review_2" sclass="mySeparatorBorder" />
 
 						</auxhead>
 
 						<auxhead>
-							<auxheader label="Totale persone giornaliero" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader
+								label="Totale persone giornaliero" colspan="1"
+								sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="totalUser_review_day_1" label="1" sclass="mySeparatorBorder"/>
+								id="totalUser_review_day_1" label="1"
+								sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="totalUser_review_day_2" label="2" sclass="mySeparatorBorder"/>
+								id="totalUser_review_day_2" label="2"
+								sclass="mySeparatorBorder" />
 						</auxhead>
-						
-									
+
+
 
 						<auxhead>
-							<auxheader label="Totale ore giornaliero" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader label="Totale ore giornaliero"
+								colspan="1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="total_review_day_1" label="1" sclass="mySeparatorBorder"/>
+								id="total_review_day_1" label="1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
-								id="total_review_day_2" label="2" sclass="mySeparatorBorder"/>
+								id="total_review_day_2" label="2" sclass="mySeparatorBorder" />
 						</auxhead>
-									
-						
+
+
 						<auxhead>
-							<auxheader label="TURNI" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader label="TURNI" colspan="1"
+								sclass="mySeparatorBorder" />
 							<auxheader align="center" label="1" />
 							<auxheader align="center" label="2" />
 							<auxheader align="center" label="3" />
-							<auxheader align="center" label="4" sclass="mySeparatorBorder"/>
+							<auxheader align="center" label="4"
+								sclass="mySeparatorBorder" />
 							<auxheader align="center" label="1" />
 							<auxheader align="center" label="2" />
 							<auxheader align="center" label="3" />
-							<auxheader align="center" label="4" sclass="mySeparatorBorder"/>
+							<auxheader align="center" label="4"
+								sclass="mySeparatorBorder" />
 						</auxhead>
 
 						<auxhead>
-							<auxheader label="Totale persone per turno" colspan="1" sclass="mySeparatorBorder"/>
-							<auxheader align="center" id="reviewUser_tot_1_1" label="1" />
-							<auxheader align="center" id="reviewUser_tot_1_2" label="2" />
-							<auxheader align="center" id="reviewUser_tot_1_3" label="3" />
-							<auxheader align="center" id="reviewUser_tot_1_4" label="4" sclass="mySeparatorBorder"/>
-							<auxheader align="center" id="reviewUser_tot_2_1" label="1" />
-							<auxheader align="center" id="reviewUser_tot_2_2" label="2" />
-							<auxheader align="center" id="reviewUser_tot_2_3" label="3" />
-							<auxheader align="center" id="reviewUser_tot_2_4" label="4" sclass="mySeparatorBorder"/>
+							<auxheader label="Totale persone per turno"
+								colspan="1" sclass="mySeparatorBorder" />
+							<auxheader align="center"
+								id="reviewUser_tot_1_1" label="1" />
+							<auxheader align="center"
+								id="reviewUser_tot_1_2" label="2" />
+							<auxheader align="center"
+								id="reviewUser_tot_1_3" label="3" />
+							<auxheader align="center"
+								id="reviewUser_tot_1_4" label="4" sclass="mySeparatorBorder" />
+							<auxheader align="center"
+								id="reviewUser_tot_2_1" label="1" />
+							<auxheader align="center"
+								id="reviewUser_tot_2_2" label="2" />
+							<auxheader align="center"
+								id="reviewUser_tot_2_3" label="3" />
+							<auxheader align="center"
+								id="reviewUser_tot_2_4" label="4" sclass="mySeparatorBorder" />
 						</auxhead>
 
 
 						<listhead>
-							<listheader label="Nome" sort="auto(name_user)" hflex="2" sclass="mySeparatorBorder"/>
+							<listheader label="Nome"
+								sort="auto(name_user)" hflex="2" sclass="mySeparatorBorder" />
 
-							<listheader label="1" hflex="1" id="review_tot_1_1"
-								align="center" />
-							<listheader label="2" hflex="1" id="review_tot_1_2"
-								align="center" />
-							<listheader label="3" hflex="1" id="review_tot_1_3"
-								align="center" />
-							<listheader label="4" hflex="1" id="review_tot_1_4"
-								align="center" sclass="mySeparatorBorder"/>
-							<listheader label="1" hflex="1" id="review_tot_2_1"
-								align="center" />
-							<listheader label="2" hflex="1" id="review_tot_2_2"
-								align="center" />
-							<listheader label="3" hflex="1" id="review_tot_2_3"
-								align="center" />
-							<listheader label="4" hflex="1" id="review_tot_2_4"
-								align="center" sclass="mySeparatorBorder"/>
+							<listheader label="1" hflex="1"
+								id="review_tot_1_1" align="center" />
+							<listheader label="2" hflex="1"
+								id="review_tot_1_2" align="center" />
+							<listheader label="3" hflex="1"
+								id="review_tot_1_3" align="center" />
+							<listheader label="4" hflex="1"
+								id="review_tot_1_4" align="center" sclass="mySeparatorBorder" />
+							<listheader label="1" hflex="1"
+								id="review_tot_2_1" align="center" />
+							<listheader label="2" hflex="1"
+								id="review_tot_2_2" align="center" />
+							<listheader label="3" hflex="1"
+								id="review_tot_2_3" align="center" />
+							<listheader label="4" hflex="1"
+								id="review_tot_2_4" align="center" sclass="mySeparatorBorder" />
 						</listhead>
 
 
@@ -1834,10 +1866,12 @@
 							value="@{itemreview}"
 							label="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.ReviewConverter'}">
 
-							<listcell sclass="myBottonCell, mySeparatorBorder">
+							<listcell
+								sclass="myBottonCell, mySeparatorBorder">
 								<a label="@{itemreview.name_user}">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onReviewNameClick", page_panel, null);
 </attribute>
 								</a>
@@ -1851,7 +1885,8 @@
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_1");
 </attribute>
 								</toolbarbutton>
@@ -1863,7 +1898,8 @@
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
 </attribute>
 								</toolbarbutton>
@@ -1875,19 +1911,22 @@
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_3");
 </attribute>
 								</toolbarbutton>
 							</listcell>
-							<listcell sclass="myBottonCell, mySeparatorBorder"
+							<listcell
+								sclass="myBottonCell, mySeparatorBorder"
 								style="background-color:#F0F0F0">
 								<toolbarbutton disabled="true"
 									onClick="grid_scheduler_review.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_4");
 </attribute>
 								</toolbarbutton>
@@ -1899,7 +1938,8 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview1'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_1");
 </attribute>
 								</toolbarbutton>
@@ -1911,7 +1951,8 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview2'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
 </attribute>
 								</toolbarbutton>
@@ -1923,7 +1964,8 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview3'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_3");
 </attribute>
 								</toolbarbutton>
@@ -1935,7 +1977,8 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview4'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_4");
 </attribute>
 								</toolbarbutton>
@@ -2085,7 +2128,8 @@
 											<a
 												label="@{itemoverviewreview.user}">
 												<attribute name="onClick">
-	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+	list_overview_review.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
 </attribute>
 											</a>
@@ -2159,7 +2203,8 @@
 											<a
 												label="@{itemoverviewprogram.user}">
 												<attribute name="onClick">
-	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+	list_overview_program.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
 </attribute>
 											</a>
@@ -2224,7 +2269,8 @@
 											<a
 												label="@{itemoverviewpreprocessing.name_user}">
 												<attribute name="onClick">
-	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
+	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent()
+			.getParent());
 	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
 </attribute>
 											</a>

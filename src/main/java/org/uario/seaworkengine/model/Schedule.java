@@ -12,48 +12,56 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Schedule implements Comparable<Schedule>, Serializable {
 
+	public Schedule() {
+
+	}
+
+	public Schedule(Date date_schedule) {
+		this.date_schedule = date_schedule;
+	}
+
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Integer				controller;
+	private Integer controller;
 
-	private Date				date_schedule;
+	private Date date_schedule;
 
-	private Integer				editor;
+	private Integer editor;
 
-	private Integer				id;
-
-	// used form visualize
-	@XmlTransient
-	private String				name_controller;
+	private Integer id;
 
 	// used form visualize
 	@XmlTransient
-	private String				name_editor;
+	private String name_controller;
 
 	// used form visualize
 	@XmlTransient
-	private String				name_user;
+	private String name_editor;
+
+	// used form visualize
+	@XmlTransient
+	private String name_user;
 
 	// used for visualize - number of shift (1,2,3,4)
 	@XmlTransient
-	private Integer				no_shift;
+	private Integer no_shift;
 
-	private String				note;
-
-	// used for visualize
-	@XmlTransient
-	private Double				program_time;
+	private String note;
 
 	// used for visualize
 	@XmlTransient
-	private Double				revision_time;
+	private Double program_time;
 
-	private Integer				shift;
+	// used for visualize
+	@XmlTransient
+	private Double revision_time;
 
-	private Integer				user;
+	private Integer shift;
+
+	private Integer user;
 
 	@Override
 	public int compareTo(final Schedule o) {

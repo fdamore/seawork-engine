@@ -1553,10 +1553,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param schedule
 	 * @return
 	 */
-	private int getDayOfSchedule(final Date schedule_date) {
+	private int getDayOfSchedule(Schedule schedule) {
 
+		 Date schedule_date = schedule.getDate_schedule();
+		
 		if (schedule_date == null) {
 			// if not date scheduler, put it at first day
+			schedule.setDate_schedule(this.firstDateInGrid);
 			return 1;
 		}
 
@@ -3015,8 +3018,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final String day_l = SchedulerComposer.formatter_dd.format(current_calendar.getTime());
 
 			if (current_calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-				day_number.setStyle("color:red");
-				day_label.setStyle("color:red");
+				day_number.setStyle("color:red;");
+				day_label.setStyle("color:red;");
 			}
 			else {
 				day_number.setStyle("color:black");
@@ -3288,42 +3291,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				list_row.add(currentRow);
 
 				// set items for current row
-				currentRow.setItem1(new Schedule());
-				currentRow.setItem2(new Schedule());
-				currentRow.setItem3(new Schedule());
-				currentRow.setItem4(new Schedule());
-				currentRow.setItem5(new Schedule());
-				currentRow.setItem6(new Schedule());
-				currentRow.setItem7(new Schedule());
-				currentRow.setItem8(new Schedule());
-				currentRow.setItem9(new Schedule());
-				currentRow.setItem10(new Schedule());
-				currentRow.setItem11(new Schedule());
-				currentRow.setItem12(new Schedule());
-				currentRow.setItem13(new Schedule());
-				currentRow.setItem14(new Schedule());
-				currentRow.setItem15(new Schedule());
-				currentRow.setItem16(new Schedule());
-				currentRow.setItem17(new Schedule());
-				currentRow.setItem18(new Schedule());
-				currentRow.setItem19(new Schedule());
-				currentRow.setItem20(new Schedule());
-				currentRow.setItem21(new Schedule());
-				currentRow.setItem22(new Schedule());
-				currentRow.setItem23(new Schedule());
-				currentRow.setItem24(new Schedule());
-				currentRow.setItem25(new Schedule());
-				currentRow.setItem26(new Schedule());
-				currentRow.setItem27(new Schedule());
-				currentRow.setItem28(new Schedule());
-				currentRow.setItem29(new Schedule());
-				currentRow.setItem30(new Schedule());
-				currentRow.setItem31(new Schedule());
+				initializeDateForDaySchedule(currentRow, firstDateInGrid);
 
 			}
 
 			// set correct day
-			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
+			final int day_on_current_calendar = this.getDayOfSchedule(schedule);
 
 			if (day_on_current_calendar == 1) {
 				currentRow.setItem1(schedule);
@@ -3490,6 +3463,108 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/** Initialize method
+	 * @param currentRow
+	 * @param firstDateInGrid2
+	 */
+	private void initializeDateForDaySchedule(RowDaySchedule currentRow, Date firstDateInGrid2) {
+		
+		Calendar date_init = DateUtils.toCalendar(firstDateInGrid2);
+		
+		currentRow.setItem1(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem2(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem3(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem4(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem5(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem6(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem7(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem8(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem9(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem10(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem11(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem12(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem13(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem14(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem15(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem16(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem17(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem18(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem19(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem20(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem21(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem22(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem23(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem24(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem25(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem26(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem27(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem28(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem29(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem30(new Schedule(date_init.getTime()));
+		date_init.add(Calendar.DATE, 1);
+		
+		currentRow.setItem31(new Schedule(date_init.getTime()));
+		
+	}
+
 	/**
 	 * @param info_visibility
 	 *            if true set info scheduler for programming visible
@@ -3577,7 +3652,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// set correct day
-			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
+			final int day_on_current_calendar = this.getDayOfSchedule(schedule);
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(currentRow, day_on_current_calendar, schedule, true);
 
 			if (day_on_current_calendar == 2) {
@@ -3628,7 +3703,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// set correct day
-			final int day_on_current_calendar = this.getDayOfSchedule(schedule.getDate_schedule());
+			final int day_on_current_calendar = this.getDayOfSchedule(schedule);
 			final ItemRowSchedule itemsRow = this.getItemRowSchedule(myrow, day_on_current_calendar, schedule, true);
 
 			if (day_on_current_calendar == 1) {
