@@ -1092,6 +1092,23 @@
 								id="day_week_5" />
 
 						</auxhead>
+												
+						<auxhead>
+							<auxheader label="Totale persone giornaliero" colspan="1" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="totalUser_program_day_1" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="totalUser_program_day_2" sclass="mySeparatorBorder" />
+							<auxheader colspan="4" align="center"
+								id="totalUser_program_day_3" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="totalUser_program_day_4" sclass="mySeparatorBorder"/>
+							<auxheader colspan="4" align="center"
+								id="totalUser_program_day_5" />
+
+						</auxhead>
+						
+						
 						<auxhead>
 							<auxheader label="Totale ore giornaliere" colspan="1" sclass="mySeparatorBorder"/>
 							<auxheader colspan="4" align="center"
@@ -1156,6 +1173,57 @@
 							<auxheader label="3" hflex="1"
 								align="center" />
 							<auxheader label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder"/>
+
+						</auxhead>
+						
+						<auxhead >
+
+							<auxheader label="Totale persone per turno" hflex="3" sclass="mySeparatorBorder"/>
+
+							<auxheader id="programUser_tot_1_1" label="1" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_1_2"  label="2" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_1_3"  label="3" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_1_4"  label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder"/>
+
+							<auxheader id="programUser_tot_2_1"  label="1" hflex="1"
+								align="center" />								
+							<auxheader id="programUser_tot_2_2" label="2" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_2_3" label="3" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_2_4" label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder"/>
+
+							<auxheader id="programUser_tot_3_1" label="1" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_3_2" label="2" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_3_3" label="3" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_3_4" label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder"/>
+
+							<auxheader id="programUser_tot_4_1" label="1" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_4_2" label="2" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_4_3" label="3" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_4_4" label="4" hflex="1"
+								align="center" sclass="mySeparatorBorder"/>
+
+							<auxheader id="programUser_tot_5_1" label="1" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_5_2" label="2" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_5_3" label="3" hflex="1"
+								align="center" />
+							<auxheader id="programUser_tot_5_4" label="4" hflex="1"
 								align="center" sclass="mySeparatorBorder"/>
 
 						</auxhead>

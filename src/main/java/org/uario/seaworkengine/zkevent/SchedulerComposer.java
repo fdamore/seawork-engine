@@ -325,7 +325,64 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Listheader						program_tot_5_4;
 	@Wire
+	private Auxheader						programUser_tot_1_1;
+	@Wire
+	private Auxheader						programUser_tot_1_2;
+
+	@Wire
+	private Auxheader						programUser_tot_1_3;
+
+	@Wire
+	private Auxheader						programUser_tot_1_4;
+
+	@Wire
+	private Auxheader						programUser_tot_2_1;
+
+	@Wire
+	private Auxheader						programUser_tot_2_2;
+
+	@Wire
+	private Auxheader						programUser_tot_2_3;
+
+	@Wire
+	private Auxheader						programUser_tot_2_4;
+
+	@Wire
+	private Auxheader						programUser_tot_3_1;
+
+	@Wire
+	private Auxheader						programUser_tot_3_2;
+
+	@Wire
+	private Auxheader						programUser_tot_3_3;
+
+	@Wire
+	private Auxheader						programUser_tot_3_4;
+
+	@Wire
+	private Auxheader						programUser_tot_4_1;
+
+	@Wire
+	private Auxheader						programUser_tot_4_2;
+
+	@Wire
+	private Auxheader						programUser_tot_4_3;
+
+	@Wire
+	private Auxheader						programUser_tot_4_4;
+
+	@Wire
+	private Auxheader						programUser_tot_5_1;
+	@Wire
+	private Auxheader						programUser_tot_5_2;
+	@Wire
+	private Auxheader						programUser_tot_5_3;
+	@Wire
+	private Auxheader						programUser_tot_5_4;
+
+	@Wire
 	private Div								review_div;
+
 	@Wire
 	private Comboitem						review_item;
 
@@ -334,49 +391,34 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader						review_tot_1_1;
-
 	@Wire
 	private Listheader						review_tot_1_2;
-
 	@Wire
 	private Listheader						review_tot_1_3;
-
 	@Wire
 	private Listheader						review_tot_1_4;
-
 	@Wire
 	private Listheader						review_tot_2_1;
-
 	@Wire
 	private Listheader						review_tot_2_2;
-
 	@Wire
 	private Listheader						review_tot_2_3;
-
 	@Wire
 	private Listheader						review_tot_2_4;
-
 	@Wire
 	private Auxheader						reviewUser_tot_1_1;
-
 	@Wire
 	private Auxheader						reviewUser_tot_1_2;
-
 	@Wire
 	private Auxheader						reviewUser_tot_1_3;
-
 	@Wire
 	private Auxheader						reviewUser_tot_1_4;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_1;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_2;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_3;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_4;
 
@@ -478,6 +520,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						total_review_day_1;
 	@Wire
 	private Auxheader						total_review_day_2;
+	@Wire
+	private Auxheader						totalUser_program_day_1;
+	@Wire
+	private Auxheader						totalUser_program_day_2;
+
+	@Wire
+	private Auxheader						totalUser_program_day_3;
+	@Wire
+	private Auxheader						totalUser_program_day_4;
+	@Wire
+	private Auxheader						totalUser_program_day_5;
 	@Wire
 	private Auxheader						totalUser_review_day_1;
 	@Wire
@@ -849,17 +902,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2524,18 +2577,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 
@@ -3470,6 +3523,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		// set variable for count persons
+		final Double[][] count_matrixUsers = new Double[5][4];
+		for (int i = 0; i < count_matrixUsers.length; i++) {
+			for (int j = 0; j < count_matrixUsers[i].length; j++) {
+				count_matrixUsers[i][j] = 0.0;
+			}
+		}
+
+		// set variable for count total person in day
+		final Integer[] count_Day_Users = new Integer[5];
+		for (int i = 0; i < count_Day_Users.length; i++) {
+			count_Day_Users[i] = 0;
+		}
+
 		// under program
 		for (int i = 0; i < list_program.size(); i++) {
 
@@ -3558,25 +3625,130 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// count review
 		for (final RowSchedule itemrow_count : list_row) {
 
+			if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
+				count_matrixUsers[0][0]++;
+			}
+
+			if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
+				count_matrixUsers[0][1]++;
+			}
+
+			if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
+				count_matrixUsers[0][2]++;
+			}
+
+			if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
+				count_matrixUsers[0][3]++;
+			}
+
+			if (itemrow_count.getItem_1().getAnchorValue1() != 0 || itemrow_count.getItem_1().getAnchorValue2() != 0
+					|| itemrow_count.getItem_1().getAnchorValue3() != 0 || itemrow_count.getItem_1().getAnchorValue4() != 0) {
+				count_Day_Users[0]++;
+			}
+
 			count_matrix[0][0] = count_matrix[0][0] + itemrow_count.getItem_1().getAnchorValue1();
 			count_matrix[0][1] = count_matrix[0][1] + itemrow_count.getItem_1().getAnchorValue2();
 			count_matrix[0][2] = count_matrix[0][2] + itemrow_count.getItem_1().getAnchorValue3();
 			count_matrix[0][3] = count_matrix[0][3] + itemrow_count.getItem_1().getAnchorValue4();
+
+			if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
+				count_matrixUsers[1][0]++;
+			}
+
+			if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
+				count_matrixUsers[1][1]++;
+			}
+
+			if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
+				count_matrixUsers[1][2]++;
+			}
+
+			if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
+				count_matrixUsers[1][3]++;
+			}
+
+			if (itemrow_count.getItem_2().getAnchorValue1() != 0 || itemrow_count.getItem_2().getAnchorValue2() != 0
+					|| itemrow_count.getItem_2().getAnchorValue3() != 0 || itemrow_count.getItem_2().getAnchorValue4() != 0) {
+				count_Day_Users[1]++;
+			}
 
 			count_matrix[1][0] = count_matrix[1][0] + itemrow_count.getItem_2().getAnchorValue1();
 			count_matrix[1][1] = count_matrix[1][1] + itemrow_count.getItem_2().getAnchorValue2();
 			count_matrix[1][2] = count_matrix[1][2] + itemrow_count.getItem_2().getAnchorValue3();
 			count_matrix[1][3] = count_matrix[1][3] + itemrow_count.getItem_2().getAnchorValue4();
 
+			if (itemrow_count.getItem_3().getAnchorValue1() != 0) {
+				count_matrixUsers[2][0]++;
+			}
+
+			if (itemrow_count.getItem_3().getAnchorValue2() != 0) {
+				count_matrixUsers[2][1]++;
+			}
+
+			if (itemrow_count.getItem_3().getAnchorValue3() != 0) {
+				count_matrixUsers[2][2]++;
+			}
+
+			if (itemrow_count.getItem_3().getAnchorValue4() != 0) {
+				count_matrixUsers[2][3]++;
+			}
+
+			if (itemrow_count.getItem_3().getAnchorValue1() != 0 || itemrow_count.getItem_3().getAnchorValue2() != 0
+					|| itemrow_count.getItem_3().getAnchorValue3() != 0 || itemrow_count.getItem_3().getAnchorValue4() != 0) {
+				count_Day_Users[2]++;
+			}
+
 			count_matrix[2][0] = count_matrix[2][0] + itemrow_count.getItem_3().getAnchorValue1();
 			count_matrix[2][1] = count_matrix[2][1] + itemrow_count.getItem_3().getAnchorValue2();
 			count_matrix[2][2] = count_matrix[2][2] + itemrow_count.getItem_3().getAnchorValue3();
 			count_matrix[2][3] = count_matrix[2][3] + itemrow_count.getItem_3().getAnchorValue4();
 
+			if (itemrow_count.getItem_4().getAnchorValue1() != 0) {
+				count_matrixUsers[3][0]++;
+			}
+
+			if (itemrow_count.getItem_4().getAnchorValue2() != 0) {
+				count_matrixUsers[3][1]++;
+			}
+
+			if (itemrow_count.getItem_4().getAnchorValue3() != 0) {
+				count_matrixUsers[3][2]++;
+			}
+
+			if (itemrow_count.getItem_4().getAnchorValue4() != 0) {
+				count_matrixUsers[3][3]++;
+			}
+
+			if (itemrow_count.getItem_4().getAnchorValue1() != 0 || itemrow_count.getItem_4().getAnchorValue2() != 0
+					|| itemrow_count.getItem_4().getAnchorValue3() != 0 || itemrow_count.getItem_4().getAnchorValue4() != 0) {
+				count_Day_Users[3]++;
+			}
+
 			count_matrix[3][0] = count_matrix[3][0] + itemrow_count.getItem_4().getAnchorValue1();
 			count_matrix[3][1] = count_matrix[3][1] + itemrow_count.getItem_4().getAnchorValue2();
 			count_matrix[3][2] = count_matrix[3][2] + itemrow_count.getItem_4().getAnchorValue3();
 			count_matrix[3][3] = count_matrix[3][3] + itemrow_count.getItem_4().getAnchorValue4();
+
+			if (itemrow_count.getItem_5().getAnchorValue1() != 0) {
+				count_matrixUsers[4][0]++;
+			}
+
+			if (itemrow_count.getItem_5().getAnchorValue2() != 0) {
+				count_matrixUsers[4][1]++;
+			}
+
+			if (itemrow_count.getItem_5().getAnchorValue3() != 0) {
+				count_matrixUsers[4][2]++;
+			}
+
+			if (itemrow_count.getItem_5().getAnchorValue4() != 0) {
+				count_matrixUsers[4][3]++;
+			}
+
+			if (itemrow_count.getItem_5().getAnchorValue1() != 0 || itemrow_count.getItem_5().getAnchorValue2() != 0
+					|| itemrow_count.getItem_5().getAnchorValue3() != 0 || itemrow_count.getItem_5().getAnchorValue4() != 0) {
+				count_Day_Users[4]++;
+			}
 
 			count_matrix[4][0] = count_matrix[4][0] + itemrow_count.getItem_5().getAnchorValue1();
 			count_matrix[4][1] = count_matrix[4][1] + itemrow_count.getItem_5().getAnchorValue2();
@@ -3611,6 +3783,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.program_tot_5_3.setLabel(Utility.decimatToTime(count_matrix[4][2]));
 		this.program_tot_5_4.setLabel(Utility.decimatToTime(count_matrix[4][3]));
 
+		// set sum for persons
+		this.programUser_tot_1_1.setLabel(count_matrixUsers[0][0].toString());
+		this.programUser_tot_1_2.setLabel(count_matrixUsers[0][1].toString());
+		this.programUser_tot_1_3.setLabel(count_matrixUsers[0][2].toString());
+		this.programUser_tot_1_4.setLabel(count_matrixUsers[0][3].toString());
+
+		this.programUser_tot_2_1.setLabel(count_matrixUsers[1][0].toString());
+		this.programUser_tot_2_2.setLabel(count_matrixUsers[1][1].toString());
+		this.programUser_tot_2_3.setLabel(count_matrixUsers[1][2].toString());
+		this.programUser_tot_2_4.setLabel(count_matrixUsers[1][3].toString());
+
+		this.programUser_tot_3_1.setLabel(count_matrixUsers[2][0].toString());
+		this.programUser_tot_3_2.setLabel(count_matrixUsers[2][1].toString());
+		this.programUser_tot_3_3.setLabel(count_matrixUsers[2][2].toString());
+		this.programUser_tot_3_4.setLabel(count_matrixUsers[2][3].toString());
+
+		this.programUser_tot_4_1.setLabel(count_matrixUsers[3][0].toString());
+		this.programUser_tot_4_2.setLabel(count_matrixUsers[3][1].toString());
+		this.programUser_tot_4_3.setLabel(count_matrixUsers[3][2].toString());
+		this.programUser_tot_4_4.setLabel(count_matrixUsers[3][3].toString());
+
+		this.programUser_tot_5_1.setLabel(count_matrixUsers[4][0].toString());
+		this.programUser_tot_5_2.setLabel(count_matrixUsers[4][1].toString());
+		this.programUser_tot_5_3.setLabel(count_matrixUsers[4][2].toString());
+		this.programUser_tot_5_4.setLabel(count_matrixUsers[4][3].toString());
+
 		final Double[] count_matrix_row = new Double[5];
 		for (int i = 0; i < count_matrix_row.length; i++) {
 			count_matrix_row[i] = 0.0;
@@ -3628,6 +3826,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.total_program_day_3.setLabel(Utility.decimatToTime(count_matrix_row[2]));
 		this.total_program_day_4.setLabel(Utility.decimatToTime(count_matrix_row[3]));
 		this.total_program_day_5.setLabel(Utility.decimatToTime(count_matrix_row[4]));
+
+		this.totalUser_program_day_1.setLabel(count_Day_Users[0].toString());
+		this.totalUser_program_day_2.setLabel(count_Day_Users[1].toString());
+		this.totalUser_program_day_3.setLabel(count_Day_Users[2].toString());
+		this.totalUser_program_day_4.setLabel(count_Day_Users[3].toString());
+		this.totalUser_program_day_5.setLabel(count_Day_Users[4].toString());
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);
