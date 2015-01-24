@@ -301,6 +301,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		// if the shift is an absence, delete all details
 		if (!shift.getPresence().booleanValue()) {
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 		} else {
 
 			// check if there is any default task (MANSIONE STANDARD)
@@ -314,6 +315,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			// remove all detail in any shift
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 
 			if (shift.getDaily_shift().booleanValue()) {
 
