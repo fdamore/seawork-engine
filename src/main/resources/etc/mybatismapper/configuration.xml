@@ -5,6 +5,16 @@
 
 	<cache />
 	
+	<select id="loadAllTaskCode" resultType="String">
+		SELECT t.code
+		FROM usertask t		
+	</select>
+	
+	<select id="loadAllShiftCode" resultType="String">
+		SELECT s.code
+		FROM usershift s		
+	</select>
+	
 	<select id="listAllAbsenceTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
 		t.code,

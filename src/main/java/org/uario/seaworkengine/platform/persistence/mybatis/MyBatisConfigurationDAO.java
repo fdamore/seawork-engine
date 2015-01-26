@@ -97,6 +97,20 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<String> loadAllShiftCode() {
+		MyBatisConfigurationDAO.logger.info("Load all shift code");
+
+		return this.getSqlSession().selectList("configuration.loadAllShiftCode");
+	}
+
+	@Override
+	public List<String> loadAllTaskCode() {
+		MyBatisConfigurationDAO.logger.info("Load all task code");
+
+		return this.getSqlSession().selectList("configuration.loadAllTaskCode");
+	}
+
+	@Override
 	public List<UserShift> loadShifts() {
 		MyBatisConfigurationDAO.logger.info("Get all shifts..");
 		final List<UserShift> list_shifts = this.getSqlSession().selectList("configuration.selectAllShifts");

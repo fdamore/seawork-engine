@@ -136,70 +136,80 @@ public class Preferences extends SelectorComposer<Component> {
 			us_type = this.type_shift.getSelectedItem().getValue();
 		}
 
-		final UserShift shift = new UserShift();
-		shift.setCode(this.code_shift.getValue());
-		shift.setDescription(this.description_shift.getValue());
-
-		if (us_type == null) {
-			final Map<String, String> params = new HashMap();
+		if (this.checkIfUserCodeIsPresent(this.configurationDao.loadAllShiftCode(), this.code_shift.getValue().toUpperCase())) {
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Selezionare tipo di turno", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
-
-			return;
-		}
-
-		if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
-			shift.setPresence(false);
+			Messagebox.show("Codice turno già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 		} else {
-			shift.setPresence(true);
-		}
 
-		if (this.forceable.isChecked()) {
-			shift.setForceable(true);
-		} else {
-			shift.setForceable(false);
-		}
+			final UserShift shift = new UserShift();
+			shift.setCode(this.code_shift.getValue());
+			shift.setDescription(this.description_shift.getValue());
 
-		final String typeOfBreakShift = this.typeofbreak.getSelectedItem().getValue().toString();
+			if (us_type == null) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
 
-		shift.setBreak_shift(false);
-		shift.setWaitbreak_shift(false);
-		shift.setAccident_shift(false);
-		shift.setDisease_shift(false);
-		shift.setStandard_shift(false);
-		shift.setDaily_shift(false);
+				Messagebox.show("Selezionare tipo di turno", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
-		if (!typeOfBreakShift.equals("Non definito")) {
-			if (typeOfBreakShift.equals("Riposo Programmato")) {
-				shift.setBreak_shift(true);
-				this.configurationDao.removeAllBreakShift();
-			} else if (typeOfBreakShift.equals("Riposo Atteso")) {
-				shift.setWaitbreak_shift(true);
-				this.configurationDao.removeAllWaitBreakShift();
-			} else if (typeOfBreakShift.equals("Riposo Infortunio")) {
-				shift.setAccident_shift(true);
-				this.configurationDao.removeAllAccidentShift();
-			} else if (typeOfBreakShift.equals("Riposo Malattia")) {
-				shift.setDisease_shift(true);
-				this.configurationDao.removeAllDiseaseShift();
-			} else if (typeOfBreakShift.equals("Turno Standard")) {
-				shift.setStandard_shift(true);
-				this.configurationDao.removeAllStandardShift();
-			} else if (typeOfBreakShift.equals("Turno Giornaliero")) {
-				shift.setDaily_shift(true);
-				this.configurationDao.removeAllDailyShift();
+				return;
 			}
+
+			if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
+				shift.setPresence(false);
+			} else {
+				shift.setPresence(true);
+			}
+
+			if (this.forceable.isChecked()) {
+				shift.setForceable(true);
+			} else {
+				shift.setForceable(false);
+			}
+
+			final String typeOfBreakShift = this.typeofbreak.getSelectedItem().getValue().toString();
+
+			shift.setBreak_shift(false);
+			shift.setWaitbreak_shift(false);
+			shift.setAccident_shift(false);
+			shift.setDisease_shift(false);
+			shift.setStandard_shift(false);
+			shift.setDaily_shift(false);
+
+			if (!typeOfBreakShift.equals("Non definito")) {
+				if (typeOfBreakShift.equals("Riposo Programmato")) {
+					shift.setBreak_shift(true);
+					this.configurationDao.removeAllBreakShift();
+				} else if (typeOfBreakShift.equals("Riposo Atteso")) {
+					shift.setWaitbreak_shift(true);
+					this.configurationDao.removeAllWaitBreakShift();
+				} else if (typeOfBreakShift.equals("Riposo Infortunio")) {
+					shift.setAccident_shift(true);
+					this.configurationDao.removeAllAccidentShift();
+				} else if (typeOfBreakShift.equals("Riposo Malattia")) {
+					shift.setDisease_shift(true);
+					this.configurationDao.removeAllDiseaseShift();
+				} else if (typeOfBreakShift.equals("Turno Standard")) {
+					shift.setStandard_shift(true);
+					this.configurationDao.removeAllStandardShift();
+				} else if (typeOfBreakShift.equals("Turno Giornaliero")) {
+					shift.setDaily_shift(true);
+					this.configurationDao.removeAllDailyShift();
+				}
+			}
+
+			this.configurationDao.createShift(shift);
+
+			this.refreshShiftList();
+			this.resetShiftInfo();
+
+			this.grid_shift_details.setVisible(false);
 		}
-
-		this.configurationDao.createShift(shift);
-
-		this.refreshShiftList();
-		this.resetShiftInfo();
-
-		this.grid_shift_details.setVisible(false);
 
 	}
 
@@ -251,23 +261,50 @@ public class Preferences extends SelectorComposer<Component> {
 	public void addTask() {
 
 		final UserTask task = new UserTask();
-		task.setCode(this.code_task.getValue());
-		task.setDescription(this.description_task.getValue());
-		task.setIsabsence(this.isabsence_task.isChecked());
-		task.setRecorded(this.recorded_task.isChecked());
-		this.configurationDao.createTask(task);
 
-		this.refreshTaskList();
+		// check if user code is present in table
+		if (this.checkIfUserCodeIsPresent(this.configurationDao.loadAllTaskCode(), this.code_task.getValue().toUpperCase())) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
 
-		this.resetTaskInfo();
+			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+		} else {
 
-		this.grid_task_details.setVisible(false);
+			task.setCode(this.code_task.getValue());
+			task.setDescription(this.description_task.getValue());
+			task.setIsabsence(this.isabsence_task.isChecked());
+			task.setRecorded(this.recorded_task.isChecked());
+			this.configurationDao.createTask(task);
+
+			this.refreshTaskList();
+
+			this.resetTaskInfo();
+
+			this.grid_task_details.setVisible(false);
+		}
 
 	}
 
 	@Listen("onClick = #sw_addtask")
 	public void addTaskDefine() {
 		this.resetTaskInfo();
+	}
+
+	private boolean checkIfUserCodeIsPresent(final List<String> codeList, String code) {
+		if (code == null) {
+			code = "";
+		}
+
+		for (final String string : codeList) {
+			if (string.toUpperCase().equals(code)) {
+				return true;
+			}
+		}
+
+		return false;
+
 	}
 
 	private void deleteShift() {
@@ -451,57 +488,72 @@ public class Preferences extends SelectorComposer<Component> {
 
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
-		shift.setCode(this.code_shift.getValue());
-		shift.setDescription(this.description_shift.getValue());
-		if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
-			shift.setPresence(false);
-		} else {
-			shift.setPresence(true);
+		final List<String> listShiftCode = this.configurationDao.loadAllShiftCode();
+		if (shift.getCode().toUpperCase().equals(this.code_shift.getValue().toUpperCase())) {
+			listShiftCode.remove(shift.getCode());
 		}
 
-		if (this.forceable.isChecked()) {
-			shift.setForceable(true);
+		if (this.checkIfUserCodeIsPresent(listShiftCode, this.code_shift.getValue().toUpperCase())) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Codice turno già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 		} else {
-			shift.setForceable(false);
-		}
 
-		shift.setBreak_shift(false);
-		shift.setDisease_shift(false);
-		shift.setAccident_shift(false);
-		shift.setWaitbreak_shift(false);
-		shift.setStandard_shift(false);
-		shift.setDaily_shift(false);
-
-		if (this.typeofbreak.getSelectedItem() != null) {
-			final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
-			if (typeOfBreak.equals("Riposo Programmato")) {
-				shift.setBreak_shift(true);
-				this.configurationDao.setShiftAsBreak(shift.getId());
-			} else if (typeOfBreak.equals("Riposo Atteso")) {
-				shift.setWaitbreak_shift(true);
-				this.configurationDao.setShiftAsExpectedBreak(shift.getId());
-			} else if (typeOfBreak.equals("Riposo Infortunio")) {
-				shift.setAccident_shift(true);
-				this.configurationDao.setShiftAsAccident(shift.getId());
-			} else if (typeOfBreak.equals("Riposo Malattia")) {
-				shift.setDisease_shift(true);
-				this.configurationDao.setShiftAsDisease(shift.getId());
-			} else if (typeOfBreak.equals("Turno Standard")) {
-				shift.setStandard_shift(true);
-				this.configurationDao.setShiftAsStandardShift(shift.getId());
-			} else if (typeOfBreak.equals("Turno Giornaliero")) {
-				shift.setDaily_shift(true);
-				this.configurationDao.setShiftAsDailyShift(shift.getId());
+			shift.setCode(this.code_shift.getValue());
+			shift.setDescription(this.description_shift.getValue());
+			if (us_type.equals(ShiftTag.ABSENCE_SHIFT)) {
+				shift.setPresence(false);
+			} else {
+				shift.setPresence(true);
 			}
 
+			if (this.forceable.isChecked()) {
+				shift.setForceable(true);
+			} else {
+				shift.setForceable(false);
+			}
+
+			shift.setBreak_shift(false);
+			shift.setDisease_shift(false);
+			shift.setAccident_shift(false);
+			shift.setWaitbreak_shift(false);
+			shift.setStandard_shift(false);
+			shift.setDaily_shift(false);
+
+			if (this.typeofbreak.getSelectedItem() != null) {
+				final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
+				if (typeOfBreak.equals("Riposo Programmato")) {
+					shift.setBreak_shift(true);
+					this.configurationDao.setShiftAsBreak(shift.getId());
+				} else if (typeOfBreak.equals("Riposo Atteso")) {
+					shift.setWaitbreak_shift(true);
+					this.configurationDao.setShiftAsExpectedBreak(shift.getId());
+				} else if (typeOfBreak.equals("Riposo Infortunio")) {
+					shift.setAccident_shift(true);
+					this.configurationDao.setShiftAsAccident(shift.getId());
+				} else if (typeOfBreak.equals("Riposo Malattia")) {
+					shift.setDisease_shift(true);
+					this.configurationDao.setShiftAsDisease(shift.getId());
+				} else if (typeOfBreak.equals("Turno Standard")) {
+					shift.setStandard_shift(true);
+					this.configurationDao.setShiftAsStandardShift(shift.getId());
+				} else if (typeOfBreak.equals("Turno Giornaliero")) {
+					shift.setDaily_shift(true);
+					this.configurationDao.setShiftAsDailyShift(shift.getId());
+				}
+
+			}
+
+			this.configurationDao.updateShift(shift);
+
+			this.refreshShiftList();
+			this.resetShiftInfo();
+
+			this.grid_shift_details.setVisible(false);
 		}
-
-		this.configurationDao.updateShift(shift);
-
-		this.refreshShiftList();
-		this.resetShiftInfo();
-
-		this.grid_shift_details.setVisible(false);
 
 	}
 
@@ -536,19 +588,32 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 
 		final UserTask task = this.sw_list_task.getSelectedItem().getValue();
+		final List<String> listTaskCode = this.configurationDao.loadAllTaskCode();
+		if (task.getCode().toUpperCase().equals(this.code_task.getValue().toUpperCase())) {
+			listTaskCode.remove(task.getCode());
+		}
 
-		task.setCode(this.code_task.getValue());
-		task.setDescription(this.description_task.getValue());
-		task.setIsabsence(this.isabsence_task.isChecked());
-		task.setRecorded(this.recorded_task.isChecked());
+		if (this.checkIfUserCodeIsPresent(listTaskCode, this.code_task.getValue().toUpperCase())) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
 
-		this.configurationDao.updateTask(task);
+			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+		} else {
+			task.setCode(this.code_task.getValue());
+			task.setDescription(this.description_task.getValue());
+			task.setIsabsence(this.isabsence_task.isChecked());
+			task.setRecorded(this.recorded_task.isChecked());
 
-		this.refreshTaskList();
+			this.configurationDao.updateTask(task);
 
-		this.resetTaskInfo();
+			this.refreshTaskList();
 
-		this.grid_task_details.setVisible(false);
+			this.resetTaskInfo();
+
+			this.grid_task_details.setVisible(false);
+		}
 
 	}
 
@@ -614,15 +679,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								Preferences.this.deleteShift();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// Cancel is clicked
-							}
-						}
-					}, params);
+				@Override
+				public void onEvent(final Event e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						Preferences.this.deleteShift();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
+					}
+				}
+			}, params);
 
 		} else {
 			final Map<String, String> params = new HashMap();
@@ -660,15 +725,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteStatus();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteStatus();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -683,15 +748,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteTask();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteTask();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
