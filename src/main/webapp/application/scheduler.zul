@@ -882,7 +882,7 @@
 
 		<!-- PROGRAM -->
 		<div id="program_div" visible="false">
-			<popup id="shift_definition_popup" width="450px">
+			<popup id="shift_definition_popup" width="650px">
 
 				<vlayout style="margin: 5px 5px 5px 5px">
 
