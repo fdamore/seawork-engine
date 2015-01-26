@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,6 +42,9 @@ public class DetailInitialSchedule implements Serializable {
 
 	private Double				time;
 
+	private Timestamp			time_from;
+	private Timestamp			time_to;
+
 	// to show in overview
 	@XmlTransient
 	private String				user;
@@ -77,6 +81,14 @@ public class DetailInitialSchedule implements Serializable {
 		return this.time;
 	}
 
+	public Timestamp getTime_from() {
+		return this.time_from;
+	}
+
+	public Timestamp getTime_to() {
+		return this.time_to;
+	}
+
 	public String getUser() {
 		return this.user;
 	}
@@ -111,6 +123,14 @@ public class DetailInitialSchedule implements Serializable {
 
 	public void setTime(final Double time_initial) {
 		this.time = time_initial;
+	}
+
+	public void setTime_from(final Timestamp time_from) {
+		this.time_from = time_from;
+	}
+
+	public void setTime_to(final Timestamp time_to) {
+		this.time_to = time_to;
 	}
 
 	public void setUser(final String user) {
