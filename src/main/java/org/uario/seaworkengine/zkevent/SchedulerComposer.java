@@ -3096,6 +3096,131 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	private void setCheckTotalHoursReview(final Double totalReviewDay1, final Double totalReviewDay2, final Auxheader t1, final Auxheader t2) {
+
+		final String styleOK = "position:absolute;right:0;top:5;background-color:#629B58; padding: 0px 0px 0px 5px ; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-radius: 25px;	min-height: 0;color: #FFF !important;&:hover {}; &[disabled] {}; &:focus {}; ";
+
+		List<Component> children = t1.getChildren();
+
+		for (int i = 0; i < children.size(); i++) {
+			t1.removeChild(children.get(i));
+		}
+
+		children = t2.getChildren();
+
+		for (int i = 0; i < children.size(); i++) {
+			t2.removeChild(children.get(i));
+		}
+
+		if (totalReviewDay1.equals(totalReviewDay2)) {
+
+			final A a1 = new A();
+			final A a2 = new A();
+
+			a1.setIconSclass("z-icon-check fa-2x");
+			a1.setStyle(styleOK);
+			a1.setHeight("25px");
+
+			a2.setIconSclass("z-icon-check fa-2x");
+			a2.setStyle(styleOK);
+
+			// okButton.setDisabled(true);
+
+			t1.appendChild(a1);
+			t2.appendChild(a2);
+
+			return;
+
+		}
+
+		final String style = "position:absolute;right:0;top:5;background-color:#D15B47; padding: 3px 12px; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-radius: 25px;	min-height: 0;color: #FFF !important;";
+
+		Double diff = 0.0;
+		if (totalReviewDay1 < totalReviewDay2) {
+
+			diff = totalReviewDay2 - totalReviewDay1;
+			final String h = Utility.decimatToTime(diff);
+			final Label lab1 = new Label("+" + h);
+			final Label lab2 = new Label("-" + h);
+			lab1.setStyle(style);
+			lab2.setStyle(style);
+			t1.appendChild(lab1);
+			t2.appendChild(lab2);
+
+		} else {
+			diff = totalReviewDay1 - totalReviewDay2;
+			final String h = Utility.decimatToTime(diff);
+			final Label lab2 = new Label("+" + h);
+			final Label lab1 = new Label("-" + h);
+			lab2.setStyle(style);
+			lab1.setStyle(style);
+			t2.appendChild(lab2);
+			t1.appendChild(lab1);
+		}
+
+	}
+
+	private void setCheckTotalUserReview(final Integer totalUser_review_day_1, final Integer totalUser_review_day_2, final Auxheader t1,
+			final Auxheader t2) {
+
+		List<Component> children = t1.getChildren();
+
+		for (int i = 0; i < children.size(); i++) {
+			t1.removeChild(children.get(i));
+		}
+
+		children = t2.getChildren();
+
+		for (int i = 0; i < children.size(); i++) {
+			t2.removeChild(children.get(i));
+		}
+
+		final String styleOK = "position:absolute;right:0;top:5;background-color:#629B58; padding: 0px 0px 0px 5px ; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-radius: 25px;	min-height: 0;color: #FFF !important;&:hover {}; &[disabled] {}; &:focus {}; ";
+
+		if (totalUser_review_day_1 == totalUser_review_day_2) {
+
+			final A a1 = new A();
+			final A a2 = new A();
+
+			a1.setIconSclass("z-icon-check fa-2x");
+			a1.setStyle(styleOK);
+			a1.setHeight("25px");
+
+			a2.setIconSclass("z-icon-check fa-2x");
+			a2.setStyle(styleOK);
+
+			t1.appendChild(a1);
+			t2.appendChild(a2);
+
+			return;
+
+		}
+
+		final String style = "position:absolute;right:0;top:5;background-color:#D15B47; padding: 3px 12px; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);border-radius: 25px;	min-height: 0;color: #FFF !important;";
+
+		Integer diff = 0;
+		if (totalUser_review_day_1 < totalUser_review_day_2) {
+
+			diff = totalUser_review_day_2 - totalUser_review_day_1;
+			final Label lab1 = new Label("+" + diff.toString());
+			final Label lab2 = new Label("-" + diff.toString());
+			lab1.setStyle(style);
+			lab2.setStyle(style);
+			t1.appendChild(lab1);
+			t2.appendChild(lab2);
+
+		} else {
+			diff = totalUser_review_day_1 - totalUser_review_day_2;
+			final Label lab2 = new Label("+" + diff.toString());
+			final Label lab1 = new Label("-" + diff.toString());
+			lab2.setStyle(style);
+			lab1.setStyle(style);
+			t2.appendChild(lab2);
+			t1.appendChild(lab1);
+		}
+
+	}
+
 	private void setDefaultValueTimeInPopupReview(final int shift, final Timebox timefrom, final Timebox timeto) {
 		final Calendar cal = Calendar.getInstance();
 		int to = 0;
@@ -4111,6 +4236,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.review_tot_2_3.setLabel(Utility.decimatToTime(count_colum_3));
 		this.review_tot_2_4.setLabel(Utility.decimatToTime(count_colum_4));
 
+		final Double totalReviewDay1 = count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4;
 		this.total_review_day_2.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
 
 		// set number of person in shift
@@ -4119,6 +4245,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.reviewUser_tot_2_3.setLabel(countUsers_colum_3.toString());
 		this.reviewUser_tot_2_4.setLabel(countUsers_colum_4.toString());
 
+		final Integer totalUserReviewDay2 = countUsersTot;
 		this.totalUser_review_day_2.setLabel(countUsersTot.toString());
 
 		// reset counter
@@ -4204,7 +4331,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.review_tot_1_3.setLabel(Utility.decimatToTime(count_colum_3));
 		this.review_tot_1_4.setLabel(Utility.decimatToTime(count_colum_4));
 
+		final Double totalReviewDay2 = count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4;
 		this.total_review_day_1.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
+
+		this.setCheckTotalHoursReview(totalReviewDay1, totalReviewDay2, this.total_review_day_1, this.total_review_day_2);
 
 		// set number of person in shift
 		this.reviewUser_tot_1_1.setLabel(countUsers_colum_1.toString());
@@ -4212,7 +4342,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.reviewUser_tot_1_3.setLabel(countUsers_colum_3.toString());
 		this.reviewUser_tot_1_4.setLabel(countUsers_colum_4.toString());
 
+		final Integer totalUserReviewDay1 = countUsersTot;
 		this.totalUser_review_day_1.setLabel(countUsersTot.toString());
+
+		this.setCheckTotalUserReview(totalUserReviewDay1, totalUserReviewDay2, this.totalUser_review_day_1, this.totalUser_review_day_2);
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);

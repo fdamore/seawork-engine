@@ -1787,10 +1787,10 @@
 							<auxheader
 								label="Totale persone giornaliero" colspan="1"
 								sclass="mySeparatorBorder" />
-							<auxheader colspan="4" align="center"
+							<auxheader style="position:relative;" colspan="4" align="center"
 								id="totalUser_review_day_1" label="1"
 								sclass="mySeparatorBorder" />
-							<auxheader colspan="4" align="center"
+							<auxheader style="position:relative;" colspan="4" align="center"
 								id="totalUser_review_day_2" label="2"
 								sclass="mySeparatorBorder" />
 						</auxhead>
@@ -1802,6 +1802,8 @@
 								colspan="1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="total_review_day_1" label="1" sclass="mySeparatorBorder" />
+								
+							
 							<auxheader colspan="4" align="center"
 								id="total_review_day_2" label="2" sclass="mySeparatorBorder" />
 						</auxhead>
