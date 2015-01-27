@@ -973,17 +973,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2732,18 +2732,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 
@@ -3653,10 +3653,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set variable for count persons
-		final Double[][] count_matrixUsers = new Double[5][4];
+		final Integer[][] count_matrixUsers = new Integer[5][4];
 		for (int i = 0; i < count_matrixUsers.length; i++) {
 			for (int j = 0; j < count_matrixUsers[i].length; j++) {
-				count_matrixUsers[i][j] = 0.0;
+				count_matrixUsers[i][j] = 0;
 			}
 		}
 
