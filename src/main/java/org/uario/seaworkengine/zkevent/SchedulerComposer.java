@@ -144,6 +144,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Checkbox						day_shift_over_control;
 
 	@Wire
+	private Checkbox						day_shift_over_control_program;
+
+	@Wire
+	private Component						day_shift_over_program;
+
+	@Wire
 	private Component						define_program_body;
 
 	@Wire
@@ -579,7 +585,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.time_from_program.getValue() != null && this.time_to_program.getValue() != null) {
 
-			final Double time = this.getProgrammedTime(this.time_from_program.getValue(), this.time_to_program.getValue());
+			final Double time = this.getProgrammedTime();
 
 			if (time == null) {
 				// Messagebox.show("Definire il numero di ore da lavorare",
@@ -629,7 +635,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Calendar current_calendar = DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
 				final Calendar to_calendar = DateUtils.toCalendar(now_to);
 
-				if ((this.selectedShift == 4) && this.day_shift_over_control.isChecked()) {
+				if ((this.selectedShift == 4) && (this.day_shift_over_control.isChecked() || this.day_shift_over_control.isChecked())) {
 					current_calendar.add(Calendar.DAY_OF_YEAR, 1);
 				}
 
@@ -1714,26 +1720,34 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @return
 	 */
-	private Double getProgrammedTime(final Date time_from, final Date time_to) {
+	private Double getProgrammedTime() {
 
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(time_from);
-		final Date from = DateUtils.truncate(cal.getTime(), Calendar.SECOND);
+		final boolean check_day_over = this.day_shift_over_control_program.isChecked();
 
-		cal.setTime(time_to);
-		final Date to = DateUtils.truncate(cal.getTime(), Calendar.SECOND);
+		final Date date_from = this.time_from_program.getValue();
+		Date date_to = this.time_to_program.getValue();
 
-		final double sec = (to.getTime() - from.getTime()) / 1000;
+		if ((this.selectedShift == 4) && check_day_over) {
+			final Calendar calednar = DateUtils.toCalendar(date_to);
+			calednar.add(Calendar.DAY_OF_YEAR, 1);
+			date_to = calednar.getTime();
+		}
 
-		double minutes = sec / 60;
+		if ((date_from == null) || (date_to == null)) {
+			return null;
+		}
 
-		final int hours = (int) (minutes / 60);
+		final Date time_from_date = date_from;
+		final Date time_to_date = date_to;
+		if (time_from_date.after(time_to_date)) {
+			return null;
+		}
 
-		minutes = minutes - (hours * 60);
+		final Long long_time = time_to_date.getTime() - time_from_date.getTime();
 
-		// final Double ret = hours + (((double) minuts) / 60);
+		final Double millis = long_time.doubleValue();
 
-		final Double ret = (double) (hours + (minutes / 60));
+		final Double ret = millis / (1000 * 60 * 60);
 
 		return ret;
 
@@ -2043,6 +2057,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.setDefaultValueTimeInPopupReview(this.selectedShift, this.time_from_program, this.time_to_program);
 		final Integer user = row_scheduler.getUser();
 		this.selectedUser = user;
+
+		// show day over
+		if (this.selectedShift != 4) {
+			this.day_shift_over_program.setVisible(false);
+		} else {
+			this.day_shift_over_program.setVisible(true);
+		}
 
 		final Date date_schedule = this.getDateScheduled(SchedulerComposer.this.selectedDay);
 
@@ -2700,10 +2721,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					.getId());
 			Double count = sum;
 			for (final DetailInitialSchedule dt : list_detail_schedule) {
-				count = count + dt.getTime();
-				if (count > 12) {
-					break;
+				if (dt.getShift() != this.selectedShift) {
+					count = count + dt.getTime();
+					if (count > 12) {
+						break;
+					}
 				}
+
 			}
 			if (count > 12) {
 				final Map<String, String> params = new HashMap<String, String>();
