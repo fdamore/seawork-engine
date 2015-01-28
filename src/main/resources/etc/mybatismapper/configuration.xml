@@ -15,6 +15,13 @@
 		FROM usershift s		
 	</select>
 	
+	
+	<select id="loadShiftById" resultType="org.uario.seaworkengine.model.UserShift">
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
+		FROM usershift
+		WHERE id=#{id};		
+	</select>
+	
 	<select id="listAllAbsenceTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
 		t.code,

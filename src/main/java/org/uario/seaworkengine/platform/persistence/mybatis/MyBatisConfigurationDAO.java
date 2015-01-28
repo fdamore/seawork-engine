@@ -111,6 +111,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public UserShift loadShiftById(final Integer id) {
+		MyBatisConfigurationDAO.logger.info("loadShiftById " + id);
+
+		return this.getSqlSession().selectOne("configuration.loadShiftById", id);
+	}
+
+	@Override
 	public List<UserShift> loadShifts() {
 		MyBatisConfigurationDAO.logger.info("Get all shifts..");
 		final List<UserShift> list_shifts = this.getSqlSession().selectList("configuration.selectAllShifts");

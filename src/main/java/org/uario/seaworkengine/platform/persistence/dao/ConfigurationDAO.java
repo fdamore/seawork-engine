@@ -25,6 +25,8 @@ public interface ConfigurationDAO {
 
 	public List<String> loadAllTaskCode();
 
+	public UserShift loadShiftById(Integer id);
+
 	public List<UserShift> loadShifts();
 
 	public List<UserTask> loadTasks();

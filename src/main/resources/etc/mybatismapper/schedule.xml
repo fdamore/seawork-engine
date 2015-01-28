@@ -5,6 +5,7 @@
 
 	<cache />
 
+	
 
 	<select id="loadScheduleByDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
@@ -130,7 +131,11 @@
 		#{date_schedule};
 	</delete>
 
-
+	<select id="selectScheduleInIntervalDateByUserId" parameterType="map" resultType="org.uario.seaworkengine.model.Schedule">
+		SELECT id, date_schedule, user, note, editor, controller, shift
+		FROM schedule
+		WHERE user=#{user} and date_schedule >= #{date_from} and #{date_to} >= date_schedule;
+	</select>
 
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">

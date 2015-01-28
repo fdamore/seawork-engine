@@ -46,8 +46,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		final Integer ret_int = this.getSqlSession().selectOne("schedule.getLastShiftRevision", map);
 		if (ret_int != null) {
 			return ret_int;
-		}
-		else {
+		} else {
 			return this.getSqlSession().selectOne("schedule.getLastShiftProgram", map);
 		}
 
@@ -248,8 +247,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			// save
 			this.getSqlSession().insert("schedule.createSchedule", currentSchedule);
 
-		}
-		else {
+		} else {
 			this.getSqlSession().update("schedule.updateSchedule", currentSchedule);
 
 		}
@@ -303,6 +301,19 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		map.put("my_full_text_search", full_text_search);
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectAggregateScheduleByDateRevision", map);
+		return list;
+	}
+
+	@Override
+	public List<Schedule> selectScheduleInIntervalDateByUserId(final Integer user, final Date date_from, final Date date_to) {
+		MyBatisScheduleDAO.logger.info("selectScheduleInIntervalDate");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date_from", date_from);
+		map.put("date_to", date_to);
+		map.put("user", user);
+
+		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectScheduleInIntervalDateByUserId", map);
 		return list;
 	}
 

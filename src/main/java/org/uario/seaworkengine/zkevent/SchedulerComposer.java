@@ -2605,6 +2605,106 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// get day schedule
 		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
 
+		// /////////////////////////////
+		if (shift.getBreak_shift() || shift.getWaitbreak_shift()) {
+			final Calendar cal = Calendar.getInstance();
+			cal.setTime(date_scheduled);
+			cal.setFirstDayOfWeek(Calendar.MONDAY);
+
+			// "calculate" the start date of the week
+			final Calendar first = (Calendar) cal.clone();
+			first.add(Calendar.DAY_OF_WEEK, first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
+
+			// and add six days to the end date
+			final Calendar last = (Calendar) first.clone();
+			last.add(Calendar.DAY_OF_YEAR, 6);
+
+			final List<Schedule> scheduleListInWeek = this.scheduleDAO.selectScheduleInIntervalDateByUserId(row_item.getUser(), first.getTime(),
+					last.getTime());
+
+			Boolean isBreakShiftPresent = false;
+
+			for (final Schedule schedule : scheduleListInWeek) {
+				if (!schedule.getDate_schedule().equals(date_scheduled)
+						&& (this.configurationDAO.loadShiftById(schedule.getShift()).getBreak_shift() || this.configurationDAO.loadShiftById(
+								schedule.getShift()).getWaitbreak_shift())) {
+					isBreakShiftPresent = true;
+					break;
+				}
+			}
+
+			if (isBreakShiftPresent) {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[3];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.NO;
+				buttons[2] = Messagebox.Button.CANCEL;
+
+				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
+						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							// add shift break and replace others break
+							// shifts in week whit work shifts
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+									scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
+									// add shift break without cancel others
+							// breaks shift in week
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+						}
+
+							}
+				}, params);
+			} else {
+				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+			}
+
+		} else {
+			SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+		}
+
+	}
+
+	private void saveDaySchedulingReplaceBreakShift(final UserShift shift, final RowDaySchedule row_item, final Date date_scheduled,
+			final Boolean replace, final List<Schedule> scheduleListInWeek) {
+
+		if (replace) {
+			// replace break shift with standard or, if user is a daily worker,
+			// daily shift
+
+			final Boolean isDailyWorker = this.personDAO.loadPerson(row_item.getUser()).getDailyemployee();
+			final List<UserShift> defaultShift = this.configurationDAO.listAllDefaultShift();
+
+			Integer id_standardShift = 0;
+			Integer id_dailyShift = 0;
+
+			for (final UserShift userShift : defaultShift) {
+				if (userShift.getDaily_shift()) {
+					id_dailyShift = userShift.getId();
+				}
+				if (userShift.getStandard_shift()) {
+					id_standardShift = userShift.getId();
+				}
+			}
+
+			for (final Schedule schedule : scheduleListInWeek) {
+				final UserShift userShift = this.configurationDAO.loadShiftById(schedule.getShift());
+				if (userShift.getBreak_shift() || userShift.getWaitbreak_shift()) {
+					if (isDailyWorker) {
+						schedule.setShift(id_dailyShift);
+						this.scheduleDAO.saveOrUpdateSchedule(schedule);
+					} else {
+						schedule.setShift(id_standardShift);
+						this.scheduleDAO.saveOrUpdateSchedule(schedule);
+					}
+				}
+			}
+
+		}
 		if (this.day_after_config.getValue() == null) {
 
 			// set only current day

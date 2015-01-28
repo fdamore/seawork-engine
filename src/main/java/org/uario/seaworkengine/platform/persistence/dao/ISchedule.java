@@ -59,6 +59,8 @@ public interface ISchedule {
 
 	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 
+	public List<Schedule> selectScheduleInIntervalDateByUserId(Integer user, Date date_from, Date date_to);
+
 	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
 
 }
