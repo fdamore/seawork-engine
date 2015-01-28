@@ -42,7 +42,10 @@ public class DetailInitialSchedule implements Serializable {
 
 	private Double				time;
 
+	@XmlTransient
 	private Timestamp			time_from;
+
+	@XmlTransient
 	private Timestamp			time_to;
 
 	// to show in overview
@@ -51,6 +54,25 @@ public class DetailInitialSchedule implements Serializable {
 
 	public Date getDate_schedule() {
 		return this.date_schedule;
+	}
+
+	@XmlElement(name = "time_from")
+	public Date getDateFrom() {
+		if (this.time_from == null) {
+			return null;
+		}
+
+		return new Date(this.time_from.getTime());
+
+	}
+
+	@XmlElement(name = "time_to")
+	public Date getDateTo() {
+		if (this.time_to == null) {
+			return null;
+		}
+
+		return new Date(this.time_to.getTime());
 	}
 
 	public Integer getId() {
