@@ -63,7 +63,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_schedule = DateUtils.truncate(Calendar.getInstance().getTime(), Calendar.DATE);
 
-		final List<Person> list = this.personDAO.listAllPersons();
+		final List<Person> list = this.personDAO.listAllPersonsForMobile();
+
 		for (final Person person : list) {
 
 			final InitialSchedule item = new InitialSchedule();
@@ -96,8 +97,7 @@ public class WebControllerImpl implements IWebServiceController {
 		try {
 			this.scheduleDAO.saveListDetailFinalScheduler(final_schedule.getSchedule().getId(), shift, final_schedule.getDetail_schedule());
 			return true;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}

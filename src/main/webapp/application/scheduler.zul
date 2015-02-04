@@ -1,6 +1,7 @@
 <?page id="scheduler" title="Seawork Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 <zk>
 
 
@@ -43,6 +44,7 @@
 				</comboitem>
 
 				<comboitem label="RIEPILOGO" value="RIEPILOGO"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
 					id="overview_item">
 				</comboitem>
 
@@ -167,7 +169,7 @@
 					<hbox align="center">
 						<label value="Imposta Turni Speciale"></label>
 						<a label="Close" style="color:blue"
-							sclass="pull-right"
+							id="show_setperiod" sclass="pull-right"
 							onClick="panel_shift_period.setVisible(false)">
 						</a>
 					</hbox>
@@ -926,17 +928,18 @@
 							<panelchildren>
 
 								<separator></separator>
-								
-								<hbox align="center" id="day_shift_over_program">
-								<a
-									label="Finisce il Giorno seguente: ">
-								</a>
-								<checkbox checked="true"
-									id="day_shift_over_control_program">
-								</checkbox>
-							</hbox>
 
-							<space></space>
+								<hbox align="center"
+									id="day_shift_over_program">
+									<a
+										label="Finisce il Giorno seguente: ">
+									</a>
+									<checkbox checked="true"
+										id="day_shift_over_control_program">
+									</checkbox>
+								</hbox>
+
+								<space></space>
 
 								<listbox id="listbox_program"
 									sclass="domain" checkmark="true" multiple="true">
@@ -958,14 +961,14 @@
 											<label
 												value="Orario di lavoro: ">
 											</label>
-																				
+
 											<timebox cols="10"
-											placeholder="Ora inizio" id="time_from_program">
+												placeholder="Ora inizio" id="time_from_program">
 											</timebox>
 
-											<timebox  placeholder="Ora fine"
-											cols="10" id="time_to_program">
-											</timebox>											
+											<timebox
+												placeholder="Ora fine" cols="10" id="time_to_program">
+											</timebox>
 
 										</auxheader>
 									</auxhead>
@@ -986,10 +989,13 @@
 									</auxhead>
 
 									<listhead>
-										<listheader label="Mansioni"/>
-										<listheader	label="Tempo programmato" />
-										<listheader label="Orario di ingresso" />
-										<listheader label="Orario di uscita" />
+										<listheader label="Mansioni" />
+										<listheader
+											label="Tempo programmato" />
+										<listheader
+											label="Orario di ingresso" />
+										<listheader
+											label="Orario di uscita" />
 									</listhead>
 
 									<listitem sclass="myCell"
@@ -1014,7 +1020,7 @@
 												value="@{item_program.time_to}">
 											</label>
 										</listcell>
-										
+
 
 
 									</listitem>
@@ -1638,12 +1644,12 @@
 											placeholder="Mansioni" id="review_task">
 										</combobox>
 
-										<timebox cols="10" format="short" 
-											placeholder="Ora inizio" id="time_from">
+										<timebox cols="10"
+											format="short" placeholder="Ora inizio" id="time_from">
 										</timebox>
 
-										<timebox placeholder="Ora fine" format="short" 
-											cols="10" id="time_to">
+										<timebox placeholder="Ora fine"
+											format="short" cols="10" id="time_to">
 										</timebox>
 
 									</auxheader>
@@ -1797,11 +1803,11 @@
 							<auxheader
 								label="Totale persone giornaliero" colspan="1"
 								sclass="mySeparatorBorder" />
-							<auxheader style="position:relative;" colspan="4" align="center"
-								id="totalUser_review_day_1" label="1"
+							<auxheader style="position:relative;"
+								colspan="4" align="center" id="totalUser_review_day_1" label="1"
 								sclass="mySeparatorBorder" />
-							<auxheader style="position:relative;" colspan="4" align="center"
-								id="totalUser_review_day_2" label="2"
+							<auxheader style="position:relative;"
+								colspan="4" align="center" id="totalUser_review_day_2" label="2"
 								sclass="mySeparatorBorder" />
 						</auxhead>
 
@@ -1812,8 +1818,8 @@
 								colspan="1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="total_review_day_1" label="1" sclass="mySeparatorBorder" />
-								
-							
+
+
 							<auxheader colspan="4" align="center"
 								id="total_review_day_2" label="2" sclass="mySeparatorBorder" />
 						</auxhead>
@@ -1889,8 +1895,7 @@
 								sclass="myBottonCell, mySeparatorBorder">
 								<a label="@{itemreview.name_user}">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onReviewNameClick", page_panel, null);
 </attribute>
 								</a>
@@ -1904,8 +1909,7 @@
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift1WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_1");
 </attribute>
 								</toolbarbutton>
@@ -1917,8 +1921,7 @@
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift2WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
 </attribute>
 								</toolbarbutton>
@@ -1930,8 +1933,7 @@
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift3WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_3");
 </attribute>
 								</toolbarbutton>
@@ -1944,8 +1946,7 @@
 									label="@{itemreview.item_1, converter='org.uario.seaworkengine.zkevent.converter.ConverterShift4WhiteColor'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_4");
 </attribute>
 								</toolbarbutton>
@@ -1957,8 +1958,7 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview1'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_1");
 </attribute>
 								</toolbarbutton>
@@ -1970,8 +1970,7 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview2'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_2");
 </attribute>
 								</toolbarbutton>
@@ -1983,8 +1982,7 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview3'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_3");
 </attribute>
 								</toolbarbutton>
@@ -1996,8 +1994,7 @@
 									label="@{itemreview.item_2, converter='org.uario.seaworkengine.zkevent.converter.ConverterShiftNoColorReview4'}"
 									style="font-weight:bold; color:black; font-size: 13px;">
 									<attribute name="onClick">
-	grid_scheduler_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onShiftClickReview", page_panel, "shift_1_4");
 </attribute>
 								</toolbarbutton>
@@ -2147,8 +2144,7 @@
 											<a
 												label="@{itemoverviewreview.user}">
 												<attribute name="onClick">
-	list_overview_review.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
 </attribute>
 											</a>
@@ -2222,8 +2218,7 @@
 											<a
 												label="@{itemoverviewprogram.user}">
 												<attribute name="onClick">
-	list_overview_program.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
 </attribute>
 											</a>
@@ -2288,8 +2283,7 @@
 											<a
 												label="@{itemoverviewpreprocessing.name_user}">
 												<attribute name="onClick">
-	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent()
-			.getParent());
+	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
 </attribute>
 											</a>
