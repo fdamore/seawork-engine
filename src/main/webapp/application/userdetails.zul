@@ -32,11 +32,13 @@
 
 		<a id="userName" iconSclass="z-icon-angle-double-right"
 			sclass="subtitle" />
-
+		<space></space>
+		
+		<button id="qrcode_gen" label="Genera QRCode" sclass="btn-info" visible="false" />
 
 		<button label="Chiudi Anagrafica" sclass="btn-danger"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">
-		</button>
+		</button>	
 
 		<separator></separator>
 
@@ -85,6 +87,8 @@
 						</caption>
 
 						<panelchildren>
+
+
 
 							<grid sclass="domain">
 								<columns>
@@ -553,7 +557,7 @@
 	<div>
 		<separator></separator>
 
-		<button id="sw_adduser" sclass="btn-info"			
+		<button id="sw_adduser" sclass="btn-info"
 			label="Aggiungi Utente">
 		</button>
 

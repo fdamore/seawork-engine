@@ -79,6 +79,13 @@
 			<optional>false</optional>
 		</dependency>
 
+		<!-- QR CODE -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
 		<!-- JAVA MAIL -->
 		<dependency>
 			<groupId>javax.mail</groupId>
