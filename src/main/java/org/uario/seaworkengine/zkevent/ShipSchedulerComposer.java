@@ -26,6 +26,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.A;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
@@ -95,7 +96,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Datebox						searchArrivalDateShipTo;
 
 	@Wire
+	private A							selecetedShipName;
+
+	@Wire
 	private Combobox					shift;
+
+	@Wire
+	private Datebox						shiftdate;
 
 	@Wire
 	private Datebox						ship_arrival;
@@ -130,7 +137,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #add_scheduleShipsDetail_command")
 	public void addScheduleShipsDetailCommand() {
 		if (this.shift.getSelectedItem() == null || this.operation.getValue() == null || this.user.getSelectedItem() == null
-				|| this.handswork.getValue() == null || this.menwork.getValue() == null) {
+				|| this.handswork.getValue() == null || this.menwork.getValue() == null || this.shiftdate.getValue() == null) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -149,6 +156,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			detailScheduleShip.setIduser(userOperative.getId());
 			detailScheduleShip.setHandswork(this.handswork.getValue());
 			detailScheduleShip.setMenwork(this.menwork.getValue());
+
+			final Date shiftDate = this.shiftdate.getValue();
+
+			final Date shiftDateTruncate = DateUtils.truncate(shiftDate, Calendar.DATE);
+			final Timestamp timestampShift = new Timestamp(shiftDateTruncate.getTime());
+			detailScheduleShip.setShiftdate(timestampShift);
+
 			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
 			this.listDetailScheduleShip.add(detailScheduleShip);
 
@@ -286,6 +300,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// take schedule ship
 		this.scheduleShip_selected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
+		// set label with name ship
+		this.selecetedShipName.setLabel(this.scheduleShip_selected.getName());
+
 		// get the last ship from database
 		this.scheduleShip_selected = this.shipSchedulerDao.loadScheduleShip(this.scheduleShip_selected.getId());
 
@@ -410,7 +427,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// add item in combobox ship name
 				if (modelComboBox_ShipName.getSize() == 0) {
 					Messagebox
-							.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+					.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 				}
 
 				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox_ShipName);
@@ -540,15 +557,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteScheduleShipCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteScheduleShipCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -561,6 +578,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.user.setSelectedItem(null);
 		this.handswork.setValue(null);
 		this.menwork.setValue(null);
+		this.shiftdate.setValue(null);
 	}
 
 	/**

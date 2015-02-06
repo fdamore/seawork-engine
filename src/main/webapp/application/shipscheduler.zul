@@ -33,6 +33,7 @@
 											style="border: 1px solid #CCCCCC;" multiple="false"
 											pageSize="10">
 											<listhead sizable="true">
+												<listheader label="Data" hflex="min"/>
 												<listheader label="Turno" hflex="min"/>
 												<listheader label="Operazione" hflex="min"/>
 												<listheader label="Nome preposto" hflex="min"/>
@@ -40,6 +41,7 @@
 												<listheader label="Numero di uomini" hflex="min"/>
 											</listhead>									
 											<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}"/>
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
@@ -62,9 +64,9 @@
 
 		
 
-		<a id="shipName" iconSclass="z-icon-angle-double-right"
+		<a id="selecetedShipName" iconSclass="z-icon-angle-double-right"
 			sclass="subtitle" />
-
+		<space/>
 
 		<button label="Chiudi Senza Salvare" sclass="btn-danger" id="closeNoSave"
 			onClick="grid_scheduleShip_details.setVisible(false);add_scheduleShips_command.setVisible(false);modify_Scheduleships_command.setVisible(false);ship_name.setValue(null);ship_volume.setValue(null);note.setValue(null);ship_arrival.setValue(null);">
@@ -180,54 +182,65 @@
 								<rows>
 									<row>
 										<label
+											value="Data Turno:">
+										</label>
+										<datebox id="shiftdate" placeholder="Data Turno"/>
+									</row>
+									<row>
+										<label
 											value="Turno:">
 										</label>
 										<combobox id="shift" readonly="true" placeholder="Seleziona Turno"
 											mold="rounded" />
 									</row>
-
 									<row>
 										<label
-											value="Operazione">
+											value="Operazione:">
 										</label>
 										<textbox id="operation"
 											mold="rounded" />
 
 									</row>									
-									
 									<row>
-										<label value="Nome Preposto"></label>
-										<combobox id="user" />
+										<label value="Nome Preposto:"></label>
+										<combobox id="user" placeholder="Seleziona Preposto" />
 									</row>
-
 									<row>
 										<label
-											value="Mani di lavoro">
+											value="Mani di lavoro:">
 										</label>
 										<intbox id="handswork" />
 									</row>
-									
 									<row>
 										<label
-											value="Numero uomini">
+											value="Numero uomini:">
 										</label>
 										<intbox id="menwork" />
+									</row>
+									<row>
+										<label
+											value="">
+										</label>
+										<label
+											value="">
+										</label>
+									
 									</row>
 		
 								</rows>
 							</grid>
 							
-							
-							
+														
 							<listbox id="sw_list_scheduleDetailShip" pagingPosition="both" mold="paging"
 											style="border: 1px solid #CCCCCC;" multiple="false"
 											pageSize="10">
 											<listhead sizable="true">
-												<listheader label="Turno" />
-												<listheader label="Operazione" />
-												<listheader label="Nome preposto" />
-												<listheader label="Mani di lavoro" />
-												<listheader label="Numero di uomini" />
+												<listheader label="Data" sort="auto(shiftdate)"/>
+												<listheader label="Turno" sort="auto(shift)"/>
+												<listheader label="Operazione" sort="auto(operation)"/>
+												<listheader label="Nome preposto" sort="auto(firstname)"/>
+												<listheader label="Mani di lavoro" sort="auto(handswork)" />
+												<listheader label="Numero di uomini" sort="auto(menwork)" />
 												
 												
 												<listheader label="" />
@@ -235,6 +248,7 @@
 									
 											<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
 									
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
@@ -325,16 +339,15 @@
 				
 	</hbox>
 
-	<separator></separator>
+	<separator/><separator/>
 
 	<listbox id="sw_list_scheduleShip" pagingPosition="both" mold="paging"
 		onSelect="grid_scheduleShip_details.setVisible(false)"
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 		pageSize="10">
 		<listhead sizable="true">
-			<listheader label="Id" />
-			<listheader label="Id Nave" />
-			<listheader label="Volume" />
+			<listheader label="Nave" sort="auto(name)"/>
+			<listheader label="Volume" sort="auto(volume)" />
 			<listheader label="Note" />
 			<listheader label="Data di arrivo" sort="auto(arrivaldate)" sortDirection="ascending"   />
 			<listheader label="Data di partenza" sort="auto(departuredate)" sortDirection="ascending"   />
@@ -344,7 +357,6 @@
 
 		<listitem  self="@{each='scheduleship_item'}" value="@{scheduleship_item}">
 
-			<listcell sclass="myBottonCell" label="@{scheduleship_item.id}" />
 			<listcell sclass="myBottonCell" label="@{scheduleship_item.name}" />
 			<listcell sclass="myBottonCell" label="@{scheduleship_item.volume}" />
 			<listcell sclass="myBottonCell" label="@{scheduleship_item.note}" />

@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -19,22 +20,24 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String	firstname;
+	private String		firstname;
 
-	private Integer	handswork;
-	private Integer	id;
-	private Integer	idscheduleship;
-	private Integer	iduser;
-	private Integer	menwork;
-	private String	operation;
+	private Integer		handswork;
+	private Integer		id;
+	private Integer		idscheduleship;
+	private Integer		iduser;
+	private Integer		menwork;
+	private String		operation;
 
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String	secondname;
+	private String		secondname;
 
-	private Integer	shift;
+	private Integer		shift;
+
+	private Timestamp	shiftdate;
 
 	@Override
 	public int compareTo(final Person o) {
@@ -78,6 +81,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.shift;
 	}
 
+	public Timestamp getShiftdate() {
+		return this.shiftdate;
+	}
+
 	public void setFirstname(final String firstname) {
 		this.firstname = firstname;
 	}
@@ -112,6 +119,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
+	}
+
+	public void setShiftdate(final Timestamp shiftdate) {
+		this.shiftdate = shiftdate;
 	}
 
 }
