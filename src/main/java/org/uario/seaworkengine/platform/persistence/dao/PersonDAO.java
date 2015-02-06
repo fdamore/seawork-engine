@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,9 +48,11 @@ public interface PersonDAO extends UserDetailsService {
 	public List<Person> listAllPersons(String full_text_search);
 
 	/**
+	 * @param date
+	 *            TODO
 	 * @return
 	 */
-	public List<Person> listAllPersonsForMobile();
+	public List<Person> listAllPersonsForMobile(Date date);
 
 	public List<Person> listDailyEmployee();
 

@@ -4,9 +4,12 @@
  */
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -19,7 +22,7 @@ import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.Utility;
 
 public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO {
-	private static Logger	logger	= Logger.getLogger(MyBatisPersonDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisPersonDAO.class);
 
 	@Override
 	public void changeMail(final Integer person_id, final String password, final String new_mail) {
@@ -78,14 +81,21 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 		final HashMap<String, String> map = new HashMap<String, String>();
 		map.put("my_full_text_search", full_text_search);
 
-		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike", map);
+		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike",
+				map);
 		return list_person;
 	}
 
 	@Override
-	public List<Person> listAllPersonsForMobile() {
-		MyBatisPersonDAO.logger.info("Get all person..");
-		final List<Person> list_person = this.getSqlSession().selectList("person.selectWorkerPersonForMobile");
+	public List<Person> listAllPersonsForMobile(final Date date) {
+		MyBatisPersonDAO.logger.info("Get all person for mobile..");
+
+		final Date date_scheudle = DateUtils.truncate(date, Calendar.DATE);
+
+		final HashMap<String, Date> map = new HashMap<String, Date>();
+		map.put("date_scheudle", date_scheudle);
+
+		final List<Person> list_person = this.getSqlSession().selectList("person.selectWorkerPersonForMobile", map);
 		return list_person;
 
 	}

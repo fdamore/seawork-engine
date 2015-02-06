@@ -370,12 +370,15 @@
 		u.birth_province,
 		u.dailyemployee
 		FROM
-		user u
+		user u, schedule s, usershift us
 		WHERE
 		u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
 		'SOSPESO' and u.out_schedule = 0 and u.dailyemployee = 0 and
-		u.dailyemployee = 0 order by u.lastname asc
+		u.dailyemployee = 0 and s.user = u.id and s.date_schedule =
+		#{date_scheudle} and s.shift
+		= us.id and us.presence = 1 order by
+		u.lastname asc
 
 
 	</select>
