@@ -516,43 +516,60 @@ public class Preferences extends SelectorComposer<Component> {
 				shift.setForceable(false);
 			}
 
-			shift.setBreak_shift(false);
-			shift.setDisease_shift(false);
-			shift.setAccident_shift(false);
-			shift.setWaitbreak_shift(false);
-			shift.setStandard_shift(false);
-			shift.setDaily_shift(false);
+			final Boolean isDefault = shift.isDefault();
 
-			if (this.typeofbreak.getSelectedItem() != null) {
-				final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
-				if (typeOfBreak.equals("Riposo Programmato")) {
-					shift.setBreak_shift(true);
-					this.configurationDao.setShiftAsBreak(shift.getId());
-				} else if (typeOfBreak.equals("Riposo Atteso")) {
-					shift.setWaitbreak_shift(true);
-					this.configurationDao.setShiftAsExpectedBreak(shift.getId());
-				} else if (typeOfBreak.equals("Riposo Infortunio")) {
-					shift.setAccident_shift(true);
-					this.configurationDao.setShiftAsAccident(shift.getId());
-				} else if (typeOfBreak.equals("Riposo Malattia")) {
-					shift.setDisease_shift(true);
-					this.configurationDao.setShiftAsDisease(shift.getId());
-				} else if (typeOfBreak.equals("Turno Standard")) {
-					shift.setStandard_shift(true);
-					this.configurationDao.setShiftAsStandardShift(shift.getId());
-				} else if (typeOfBreak.equals("Turno Giornaliero")) {
-					shift.setDaily_shift(true);
-					this.configurationDao.setShiftAsDailyShift(shift.getId());
+			// if shift is a default shift, user cannot modify shift as a non
+			// default shift
+			if ((isDefault && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito")) || (!isDefault))) {
+				shift.setBreak_shift(false);
+				shift.setDisease_shift(false);
+				shift.setAccident_shift(false);
+				shift.setWaitbreak_shift(false);
+				shift.setStandard_shift(false);
+				shift.setDaily_shift(false);
+
+				if (this.typeofbreak.getSelectedItem() != null) {
+					final String typeOfBreak = this.typeofbreak.getSelectedItem().getValue();
+					if (typeOfBreak.equals("Riposo Programmato")) {
+						shift.setBreak_shift(true);
+						this.configurationDao.setShiftAsBreak(shift.getId());
+					} else if (typeOfBreak.equals("Riposo Atteso")) {
+						shift.setWaitbreak_shift(true);
+						this.configurationDao.setShiftAsExpectedBreak(shift.getId());
+					} else if (typeOfBreak.equals("Riposo Infortunio")) {
+						shift.setAccident_shift(true);
+						this.configurationDao.setShiftAsAccident(shift.getId());
+					} else if (typeOfBreak.equals("Riposo Malattia")) {
+						shift.setDisease_shift(true);
+						this.configurationDao.setShiftAsDisease(shift.getId());
+					} else if (typeOfBreak.equals("Turno Standard")) {
+						shift.setStandard_shift(true);
+						this.configurationDao.setShiftAsStandardShift(shift.getId());
+					} else if (typeOfBreak.equals("Turno Giornaliero")) {
+						shift.setDaily_shift(true);
+						this.configurationDao.setShiftAsDailyShift(shift.getId());
+					}
+
 				}
 
+				this.configurationDao.updateShift(shift);
+
+				this.refreshShiftList();
+				this.resetShiftInfo();
+
+				this.grid_shift_details.setVisible(false);
+
+			} else {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox
+				.show("Non è consentito modificare un turno di default associandogli un valore non definito, puoi solo modificare il tipo di default",
+						"Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			}
 
-			this.configurationDao.updateShift(shift);
-
-			this.refreshShiftList();
-			this.resetShiftInfo();
-
-			this.grid_shift_details.setVisible(false);
 		}
 
 	}
