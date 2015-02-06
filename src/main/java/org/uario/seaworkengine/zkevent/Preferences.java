@@ -520,7 +520,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 			// if shift is a default shift, user cannot modify shift as a non
 			// default shift
-			if ((isDefault && this.typeofbreak.getSelectedItem() != null && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito")) || (!isDefault))) {
+			if (((isDefault && this.typeofbreak.getSelectedItem() != null && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito"))))
+					|| (!isDefault)) {
 				shift.setBreak_shift(false);
 				shift.setDisease_shift(false);
 				shift.setAccident_shift(false);
@@ -565,8 +566,8 @@ public class Preferences extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox
-				.show("Non è consentito modificare un turno di default associandogli un valore non definito, puoi solo modificare il tipo di default.",
+				Messagebox.show(
+						"Non puoi modificare un turno di default associandogli un valore non definito, puoi solo modificare il tipo di default.",
 						"Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			}
 
