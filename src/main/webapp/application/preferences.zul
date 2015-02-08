@@ -99,24 +99,37 @@
 	<!-- BANK HOLIDAYS -->
 	<div>
 
+		<!-- STATISTIC POPUP -->
+		<popup id="bank_holiday_list">
+			<panel border="none" collapsible="false"
+				style="margin: 5px 5px 5px 5px">
+				<panelchildren>
+					<listbox id="list_bankholiday" width="20em"
+						style="border: 1px solid #CCCCCC;">
+						<listhead>
+							<listheader label="Festività" />
 
-		<a label="Lista dei giorni festivi" iconSclass="z-icon-list"
-			sclass="green lighter rcaption" />
+						</listhead>
 
-		<listbox id="list_bankholiday" width="100px"
-			style="border: 1px solid #CCCCCC;">
-			<listhead width="300px">
-				<listheader label="Mese e Giorno" />
-			</listhead>
+						<listitem sclass="myBottonCell"
+							self="@{each='itm'}">
+							<listcell sclass="myBottonCell"
+								label="@{itm, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayConverter'}" />
+						</listitem>
+					</listbox>
 
-			<listitem sclass="myBottonCell" self="@{each='itm'}">
-				<listcell sclass="myBottonCell"  label="@{itm, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayConverter'}" self="@{format(yyyy/MM/dd)}"/>
-			</listitem>
-		</listbox>
+				</panelchildren>
+			</panel>
+		</popup>
 
+		<hbox>
+			<a label="Lista dei giorni festivi" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
 
-		<separator></separator>
-
+			<button label="Mostra la Lista" mold="trendy"
+				onClick="bank_holiday_list.open(self)" sclass="btn-info">
+			</button>
+		</hbox>
 
 
 	</div>
@@ -215,7 +228,7 @@
 													<checkbox
 														id="isabsence_task" />
 												</row>
-												
+
 												<row
 													id="row_recorded_task">
 													<label
@@ -279,12 +292,10 @@
 									<listheader label="Codice" />
 									<listheader label="Descrizione"
 										sort="auto(description)" />
-									<listheader
-										label="Assenza" />
-										<listheader
-										label="Contabilizzato" />
+									<listheader label="Assenza" />
+									<listheader label="Contabilizzato" />
 									<listheader label="" />
-									
+
 								</listhead>
 
 								<listitem self="@{each='task_item'}"
@@ -297,15 +308,16 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{task_item.description}" />
-																		
+
 									<listcell sclass="myBottonCell">
 										<image
 											src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 
 									<listcell sclass="myBottonCell">
-									
-										<image src="@{task_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+
+										<image
+											src="@{task_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 									<listcell sclass="myBottonCell">
 
