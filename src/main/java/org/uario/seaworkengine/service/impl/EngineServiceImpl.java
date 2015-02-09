@@ -162,9 +162,6 @@ public class EngineServiceImpl implements IEngineService {
 				}
 			}
 
-			// CHECK BACK HOLIDAY AND ADD AFTER EASTER DAY
-			// TODO: AGGIUNGI LA PASQUETTA
-
 			// ASSIGN WORK PROCEDURE
 
 			// take info shift
@@ -225,12 +222,10 @@ public class EngineServiceImpl implements IEngineService {
 							final String date_t_info = EngineServiceImpl.formatter_MMdd.format(date_tomorrow);
 							if (this.bank_holiday.getDays().contains(date_t_info)) {
 								// if is a bank holiday, set a break
-								this.statProcedure
-								.workAssignProcedure(break_shift, date_tomorrow, person.getId(), null);
+								this.statProcedure.workAssignProcedure(break_shift, date_tomorrow, person.getId(), null);
 							} else {
 								// work for daily worker
-								this.statProcedure.workAssignProcedure(daily_employee_shift, date_tomorrow,
-										person.getId(), null);
+								this.statProcedure.workAssignProcedure(daily_employee_shift, date_tomorrow, person.getId(), null);
 							}
 
 						}

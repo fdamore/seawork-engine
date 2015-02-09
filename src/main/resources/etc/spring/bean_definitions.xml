@@ -172,6 +172,7 @@
 	<bean id="myStatisticsDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisStatisticsDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="bank_holiday" ref="bank_holidays"></property>
 
 	</bean>
 

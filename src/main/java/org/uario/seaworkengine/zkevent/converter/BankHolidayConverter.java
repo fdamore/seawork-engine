@@ -9,8 +9,8 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class BankHolidayConverter implements TypeConverter {
 
-	private static SimpleDateFormat format_input = new SimpleDateFormat("MM-dd");
-	private static SimpleDateFormat format_output = new SimpleDateFormat("dd MMMMM");
+	private static SimpleDateFormat	format_input	= new SimpleDateFormat("MM-dd");
+	private static SimpleDateFormat	format_output	= new SimpleDateFormat("dd MMMMM");
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -47,13 +47,15 @@ public class BankHolidayConverter implements TypeConverter {
 			} else if (dt.equals("09-01")) {
 				name = " (Ognissanti)";
 			} else if (dt.equals("12-08")) {
-				name = " (Ognissanti)";
+				name = " (Immacolata Concezione)";
 			} else if (dt.equals("12-25")) {
 				name = " (Natale)";
 			} else if (dt.equals("12-26")) {
 				name = " (Santo Stefano)";
 			} else if (dt.equals("08-13")) {
 				name = " (Festa Padronale)";
+			} else {
+				name = " (Lunedì dell'Angelo)";
 			}
 
 			date_info = date_info + name;

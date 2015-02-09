@@ -14,6 +14,7 @@ import java.util.Hashtable;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -30,11 +31,11 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class Utility {
 
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat	dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
 
-	private static SimpleDateFormat dateFormat_it = new SimpleDateFormat("dd-MM-yyyy");
+	private static SimpleDateFormat	dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
 
-	private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
 
 	/**
 	 * days betwewn date
@@ -85,9 +86,16 @@ public class Utility {
 		return digest;
 	}
 
+	public final static Date findAfterEaster(final int year) {
+		final Date easter = Utility.findEaster(year);
+		final Calendar calendar_easter = DateUtils.toCalendar(easter);
+		calendar_easter.add(Calendar.DAY_OF_YEAR, 1);
+		return calendar_easter.getTime();
+	}
+
 	/**
 	 * Find easter for year
-	 * 
+	 *
 	 * @param year
 	 * @return
 	 */

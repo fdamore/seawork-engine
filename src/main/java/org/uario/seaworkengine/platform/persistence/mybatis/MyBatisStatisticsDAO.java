@@ -17,10 +17,13 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
+import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.RateShift;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
 	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
+
+	private IBankHolidays	bank_holiday;
 
 	@Override
 	public RateShift[] getAverageForShift(final Integer user, final Date date, final Date date_from) {
@@ -102,6 +105,10 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	}
 
+	public IBankHolidays getBank_holiday() {
+		return this.bank_holiday;
+	}
+
 	@Override
 	public List<Date> getDateAtWork(final Integer id_user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
@@ -139,6 +146,25 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id_user", id_user);
 		map.put("date_from", date_from_truncate);
+
+		/*
+		 * ITALY BANK HOLIDAYS '01-01' , '01-06', '04-25', '05-01', '06-02',
+		 * '08-15', '11-01', '12-08', '12-25', '12-26', '08-13'
+		 */
+
+		final StringBuilder build = new StringBuilder();
+
+		// define holiday string
+		final List<String> holidays = this.bank_holiday.getDays();
+		for (int i = 0; i < holidays.size(); i++) {
+			final String item = holidays.get(i);
+			build.append("'" + item + "'");
+			if (i != (holidays.size() - 1)) {
+				build.append(",");
+			}
+		}
+
+		map.put("days_hol", build.toString());
 
 		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageSundayAndHoliday", map);
 
@@ -231,6 +257,10 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		}
 
 		return this.getSqlSession().selectList("statistics.listSchedule", map);
+	}
+
+	public void setBank_holiday(final IBankHolidays bank_holiday) {
+		this.bank_holiday = bank_holiday;
 	}
 
 }
