@@ -24,6 +24,10 @@ public interface IScheduleShip {
 
 	public List<DetailScheduleShip> loadDetailScheduleShipByIdSchedule(Integer id_scheduleShip);
 
+	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(Timestamp shiftdate, String full_text_search);
+
+	public List<DetailScheduleShip> loadDetailScheduleWithShiftDateNull();
+
 	public ScheduleShip loadScheduleShip(Integer id_scheduleShip);
 
 	public List<ScheduleShip> loadScheduleShipByArrivalDate(Timestamp arrivaldate);

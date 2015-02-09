@@ -19,6 +19,15 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	/**
 	 * Used only in view mode
 	 */
+	private Timestamp	arrivaldate;
+
+	/**
+	 * Used only in view mode
+	 */
+	private Timestamp	departuredate;
+	/**
+	 * Used only in view mode
+	 */
 	@XmlTransient
 	private String		firstname;
 
@@ -26,14 +35,17 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private Integer		id;
 	private Integer		idscheduleship;
 	private Integer		iduser;
-	private Integer		menwork;
-	private String		operation;
 
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String		secondname;
+	private String		lastname;
+	private Integer		menwork;
+	private String		name;
+	private String		note;
+
+	private String		operation;
 
 	private Integer		shift;
 
@@ -43,6 +55,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	public int compareTo(final Person o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public Timestamp getArrivaldate() {
+		return this.arrivaldate;
+	}
+
+	public Timestamp getDeparturedate() {
+		return this.departuredate;
 	}
 
 	public String getFirstname() {
@@ -69,12 +89,20 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.menwork;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
+	public String getNote() {
+		return this.note;
+	}
+
 	public String getOperation() {
 		return this.operation;
 	}
 
 	public String getSecondname() {
-		return this.secondname;
+		return this.lastname;
 	}
 
 	public Integer getShift() {
@@ -83,6 +111,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public Timestamp getShiftdate() {
 		return this.shiftdate;
+	}
+
+	public void setArrivaldate(final Timestamp shiparrivaldate) {
+		this.arrivaldate = shiparrivaldate;
+	}
+
+	public void setDeparturedate(final Timestamp shipdeparturedate) {
+		this.departuredate = shipdeparturedate;
 	}
 
 	public void setFirstname(final String firstname) {
@@ -109,12 +145,20 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.menwork = menwork;
 	}
 
+	public void setName(final String shipname) {
+		this.name = shipname;
+	}
+
+	public void setNote(final String shipnote) {
+		this.note = shipnote;
+	}
+
 	public void setOperation(final String operation) {
 		this.operation = operation;
 	}
 
 	public void setSecondname(final String secondname) {
-		this.secondname = secondname;
+		this.lastname = secondname;
 	}
 
 	public void setShift(final Integer shift) {

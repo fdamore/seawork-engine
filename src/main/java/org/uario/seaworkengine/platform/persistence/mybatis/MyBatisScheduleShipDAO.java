@@ -86,6 +86,24 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
+	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(final Timestamp shiftdate, final String full_text_search) {
+		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("shiftdate", shiftdate);
+		map.put("full_text_search", full_text_search);
+
+		return this.getSqlSession().selectList("scheduleship.loadDetailScheduleShipByShiftDateAndShipName", map);
+	}
+
+	@Override
+	public List<DetailScheduleShip> loadDetailScheduleWithShiftDateNull() {
+		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip where timeshift is null ");
+
+		return this.getSqlSession().selectList("scheduleship.loadDetailScheduleWithShiftDateNull");
+	}
+
+	@Override
 	public ScheduleShip loadScheduleShip(final Integer id_scheduleShip) {
 		MyBatisScheduleShipDAO.logger.info("loadScheduleShip");
 
@@ -151,5 +169,4 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		this.getSqlSession().update("scheduleship.updateScheduleShip", scheduleShip);
 
 	}
-
 }

@@ -299,19 +299,21 @@
 		</button>
 
 		<button id="sw_refresh_list" sclass="btn-info"
-			label="Aggiorna Lista Programmazione">
+			label="Visualizza Programmazione Odierna">
 		</button>
 
+		<!-- NAVI IN ARRIVO OGGI 
 		<button id="sw_shipArrivalToday" sclass="btn-info"
-			label="Visualizza Navi in arrivo oggi">
+			label="Visualizza Programmazione odierna">
 		</button>
-
+		 -->
+		 
 		<separator/>
 	</div>
 	
 	<separator/>
-	<separator/>
-
+	  
+  <!-- RICERCA SCHEDULE NAVI TRA DUE INTERVALLI
 	<hbox>
 		<a label="Ricerca Navi in arrivo: "
 			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
@@ -323,6 +325,17 @@
 			label="Visualizza Navi in intervallo">
 		</button>
 
+	</hbox>
+	 -->
+	<space/>
+	
+	<hbox>
+	<a label="Ricerca per data turno: "
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+		<datebox id="searchDateShift" placeholder="Data Turno" />
+		<button id="sw_searchDetailScheduleShip" sclass="btn-info"
+			label="Visualizza Programmazione">
+		</button>
 	</hbox>
 	
 	<space/>
@@ -346,22 +359,31 @@
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 		pageSize="10">
 		<listhead sizable="true">
-			<listheader label="Nave" sort="auto(name)"/>
-			<listheader label="Volume" sort="auto(volume)" />
+			<listheader label="Turno" sort="auto(shift)"/>
+			<listheader label="Data Turno" sort="auto(shiftdate)"/>
+			<listheader label="Nome Nave" sort="auto(name)" />
+			<listheader label="Operazione" sort="auto(operation)"/>
+			<listheader label="Mani di lavoro" sort="auto(handswork)" />
+			<listheader label="Numero Persone" sort="auto(menwork)"/>
 			<listheader label="Note" />
-			<listheader label="Data di arrivo" sort="auto(arrivaldate)" sortDirection="ascending"   />
-			<listheader label="Data di partenza" sort="auto(departuredate)" sortDirection="ascending"   />
+			<listheader label="Data inizio lavorazione" sort="auto(arrivaldate)"/>
+			<listheader label="Data fine lavorazione" sort="auto(departuredate)"/>
 			
 			<listheader label="" />
 		</listhead>
 
-		<listitem  self="@{each='scheduleship_item'}" value="@{scheduleship_item}">
+		<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
 
-			<listcell sclass="myBottonCell" label="@{scheduleship_item.name}" />
-			<listcell sclass="myBottonCell" label="@{scheduleship_item.volume}" />
-			<listcell sclass="myBottonCell" label="@{scheduleship_item.note}" />
-			<listcell sclass="myBottonCell" label="@{scheduleship_item.arrivaldate}" />
-			<listcell sclass="myBottonCell" label="@{scheduleship_item.departuredate}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.name}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.note}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.arrivaldate}" />
+			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.departuredate}" />
+					
 
 			<listcell sclass="myBottonCell">
 
@@ -377,12 +399,13 @@
 					label="Visualizza e Modifica">
 				</toolbarbutton>
 				
+				<!--  ANTEPRIMA DETTAGLI 
 				<toolbarbutton id="sw_link_previewDetailship"
 					style="color:blue"
 					onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent()); popup_detailscheduleship.open(self,"after_pointer");'
 					label="Anteprima Dettagli">
 				</toolbarbutton>
-
+				-->
 			</listcell>
 
 

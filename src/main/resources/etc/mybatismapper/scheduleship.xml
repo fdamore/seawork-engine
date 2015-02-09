@@ -110,7 +110,34 @@
 		d.id = #{id_detailScheduleShip} and
 		d.iduser = u.id;
 	</select>
-
+	
+	 
+	<select id="loadDetailScheduleShipByShiftDateAndShipName" parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+		SELECT 
+		d.shift, d.id, d.idscheduleship, s.name, d.operation, ss.note,ss.arrivaldate, ss.departuredate,
+		d.iduser,
+		d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname
+		FROM
+		detailscheduleship d, user u, ship s, scheduleship ss 
+		where
+		<if test="full_text_search != null">
+			(s.name like CONCAT('%',#{full_text_search},
+			'%') ) and 
+		</if>
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate=#{shiftdate} ;		
+	</select>
+	
+	<select id="loadDetailScheduleWithShiftDateNull" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+		SELECT 
+		d.shift, d.id, d.idscheduleship, s.name, d.operation, ss.note,ss.arrivaldate, ss.departuredate,
+		d.iduser,
+		d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname
+		FROM
+		detailscheduleship d, user u, ship s, scheduleship ss 
+		where
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate IS NULL ;		
+	</select>
+		
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT id, idscheduleship, shift, operation, iduser,
