@@ -17,7 +17,7 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
-import org.uario.seaworkengine.service.IWorkShiftAssign;
+import org.uario.seaworkengine.service.IEngineService;
 import org.uario.seaworkengine.utility.BeansTag;
 
 /**
@@ -72,8 +72,8 @@ public class WebAppContext implements ServletContextListener {
 
 		// init here the service for worker initialization - USEFUL IN DEBUG
 		// MODE
-		final IWorkShiftAssign workAssign = (IWorkShiftAssign) ctx.getBean(BeansTag.ASSIGN_SHIFT_DATE_BEAN);
-		workAssign.assignStandardWork();
+		final IEngineService workAssign = (IEngineService) ctx.getBean(BeansTag.ASSIGN_SHIFT_DATE_BEAN);
+		workAssign.startEngineProcess();
 
 	}
 

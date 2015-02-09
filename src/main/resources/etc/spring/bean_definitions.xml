@@ -254,7 +254,7 @@
 
 	<!-- BEGIN COMMENTS TASK DEFINITION -->
 	<bean id="serviceAssign" init-method="init"
-		class="org.uario.seaworkengine.service.impl.WorkAssignService">
+		class="org.uario.seaworkengine.service.impl.EngineServiceImpl">
 
 		<property name="initialDelay" value="2"></property>
 

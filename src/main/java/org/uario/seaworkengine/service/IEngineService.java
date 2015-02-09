@@ -1,10 +1,10 @@
 package org.uario.seaworkengine.service;
 
-public interface IWorkShiftAssign {
+public interface IEngineService {
 
 	/**
 	 * Check current day and assign standard work
 	 */
-	public void assignStandardWork();
+	public void startEngineProcess();
 
 }
