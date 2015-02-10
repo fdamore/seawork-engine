@@ -10,6 +10,14 @@
 		FROM usertask t		
 	</select>
 	
+	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask" parameterType="Integer">
+		SELECT id,
+		code,
+		description, isabsence, recorded
+		FROM usertask
+		WHERE id=#{id};
+	</select>
+	
 	<select id="loadAllShiftCode" resultType="String">
 		SELECT s.code
 		FROM usershift s		

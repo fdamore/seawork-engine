@@ -42,6 +42,8 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	@XmlTransient
 	private Timestamp			time_to;
 
+	private Double				time_vacation;
+
 	// to show in overview
 	@XmlTransient
 	private String				user;
@@ -119,6 +121,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.time_to;
 	}
 
+	public Double getTime_vacation() {
+		return this.time_vacation;
+	}
+
 	public String getUser() {
 		return this.user;
 	}
@@ -157,6 +163,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setTime_to(final Timestamp time_to) {
 		this.time_to = time_to;
+	}
+
+	public void setTime_vacation(final Double time_vacation) {
+		this.time_vacation = time_vacation;
 	}
 
 	public void setUser(final String user) {

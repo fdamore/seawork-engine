@@ -946,7 +946,7 @@
 									<auxhead>
 										<auxheader colspan="4">
 											<label
-												value="Definizione del turno: ">
+												value="Definizione della mansione: ">
 											</label>
 
 											<combobox readonly="true"
@@ -1007,7 +1007,7 @@
 										</listcell>
 										<listcell>
 											<label width="200px"
-												value="@{item_program.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
+												value="@{item_program, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeVacationConverter'}">
 											</label>
 										</listcell>
 										<listcell>
@@ -1637,7 +1637,7 @@
 								<auxhead>
 									<auxheader colspan="4">
 										<label
-											value="Consuntivazione del turno">
+											value="Definizione della mansione">
 										</label>
 
 										<combobox readonly="true"
@@ -1692,7 +1692,7 @@
 									</listcell>
 									<listcell>
 										<label width="200px"
-											value="@{itemreview.time, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}">
+											value="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeVacationConverter'}">
 										</label>
 									</listcell>
 									<listcell>

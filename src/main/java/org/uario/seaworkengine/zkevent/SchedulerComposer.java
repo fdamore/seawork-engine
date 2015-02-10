@@ -614,8 +614,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final DetailInitialSchedule new_item = new DetailInitialSchedule();
 			new_item.setId_schedule(this.currentSchedule.getId());
 			new_item.setShift(this.selectedShift);
-			new_item.setTime(time);
+
 			new_item.setTask(task.getId());
+
+			// check if is absence task
+			if (this.configurationDAO.loadTask(task.getId()).getIsabsence()) {
+				new_item.setTime(0.0);
+				new_item.setTime_vacation(time);
+			} else {
+				new_item.setTime(time);
+				new_item.setTime_vacation(0.0);
+			}
 
 			final java.util.Date now_from = this.time_from_program.getValue();
 			if (now_from != null) {
@@ -707,7 +716,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final DetailFinalSchedule new_item = new DetailFinalSchedule();
 		new_item.setId_schedule(this.currentSchedule.getId());
 		new_item.setShift(this.selectedShift);
-		new_item.setTime(time);
+
+		// check if is absence task
+		if (this.configurationDAO.loadTask(task.getId()).getIsabsence()) {
+			new_item.setTime(0.0);
+			new_item.setTime_vacation(time);
+		} else {
+			new_item.setTime(time);
+			new_item.setTime_vacation(0.0);
+		}
+
 		new_item.setTask(task.getId());
 
 		final java.util.Date now_from = this.time_from.getValue();

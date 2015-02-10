@@ -315,17 +315,17 @@
 	<insert id="createDetailInitialSchedule" parameterType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		INSERT
 		INTO
-		detailinitialschedule (id_schedule, shift, task,time,time_from,time_to)
+		detailinitialschedule (id_schedule, shift, task,time,time_from,time_to, time_vacation)
 		VALUES
-		(#{id_schedule}, #{shift},#{task}, #{time}, #{time_from},#{time_to});
+		(#{id_schedule}, #{shift},#{task}, #{time}, #{time_from},#{time_to},#{time_vacation});
 	</insert>
 
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task, time, time_from,
-		time_to)
+		time_to, time_vacation)
 		VALUES
-		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to});
+		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to}, #{time_vacation});
 	</insert>
 
 
@@ -333,7 +333,7 @@
 	<select id="loadDetailInitialScheduleByIdScheduleAndShift"
 		resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
 		parameterType="map">
-		SELECT id, id_schedule, shift, task, time, time_from, time_to
+		SELECT id, id_schedule, shift, task, time, time_from, time_to, time_vacation
 		FROM
 		detailinitialschedule
 		WHERE id_schedule =
@@ -344,8 +344,7 @@
 	<select id="loadDetailFinalScheduleByIdScheduleAndShift"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		SELECT id, id_schedule, shift, task, time, time_from,
-		time_to
+		SELECT id, id_schedule, shift, task, time, time_from, time_to, time_vacation
 		FROM detailfinalschedule
 		WHERE id_schedule =
 		#{id_schedule} and
@@ -355,7 +354,7 @@
 	<select id="loadDetailInitialScheduleByIdSchedule"
 		parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		SELECT id, id_schedule, shift,
-		task, time, time_from, time_to
+		task, time, time_from, time_to, time_vacation
 		FROM detailinitialschedule
 		WHERE id_schedule =
 		#{id_schedule}
@@ -365,7 +364,7 @@
 		parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		SELECT d.id, d.id_schedule,
 		d.shift,
-		d.task, d.time, d.time_from, d.time_to, 
+		d.task, d.time, d.time_from, d.time_to, d.time_vacation,
 		concat(ut.code,' - ',ut.description) as task_mobile_desc
 		FROM
 		detailinitialschedule d, usertask ut
@@ -376,8 +375,7 @@
 
 	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
-		SELECT id, id_schedule, shift, task, time, time_from,
-		time_to
+		SELECT id, id_schedule, shift, task, time, time_from, time_to, time_vacation
 		FROM detailfinalschedule
 		WHERE id_schedule =
 		#{id_schedule};

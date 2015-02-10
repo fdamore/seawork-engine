@@ -125,6 +125,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public UserTask loadTask(final Integer id) {
+		MyBatisConfigurationDAO.logger.info("Load task by id" + id);
+
+		return this.getSqlSession().selectOne("configuration.loadTask", id);
+	}
+
+	@Override
 	public List<UserTask> loadTasks() {
 		MyBatisConfigurationDAO.logger.info("Get all tasks..");
 		final List<UserTask> list_tasks = this.getSqlSession().selectList("configuration.selectAllTasks");

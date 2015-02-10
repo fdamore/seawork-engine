@@ -29,6 +29,8 @@ public interface ConfigurationDAO {
 
 	public List<UserShift> loadShifts();
 
+	public UserTask loadTask(Integer id);
+
 	public List<UserTask> loadTasks();
 
 	public void removeAllAccidentShift();
