@@ -1133,6 +1133,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.review_div.setVisible(false);
 			this.overview_div.setVisible(true);
 
+			this.defineViewCurrentWorkInOverview();
+
 			// set overview list
 			this.setOverviewLists();
 
@@ -1248,6 +1250,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 		return map_status;
+	}
+
+	private void defineViewCurrentWorkInOverview() {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+		this.date_from_overview.setValue(DateUtils.truncate(calendar.getTime(), Calendar.DATE));
+
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		this.date_to_overview.setValue(calendar.getTime());
 	}
 
 	@Override
@@ -2028,15 +2041,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #overview_month")
 	public void onSelectMonthOverview() {
 
-		final Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.DAY_OF_MONTH, 1);
-
-		this.date_from_overview.setValue(DateUtils.truncate(calendar.getTime(), Calendar.DATE));
-
-		calendar.getMaximum(Calendar.DAY_OF_MONTH);
-		calendar.set(Calendar.DAY_OF_MONTH, calendar.getMaximum(Calendar.DAY_OF_MONTH));
-
-		this.date_to_overview.setValue(calendar.getTime());
+		this.defineViewCurrentWorkInOverview();
 
 		this.defineSchedulerView();
 
