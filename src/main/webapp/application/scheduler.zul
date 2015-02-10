@@ -1136,7 +1136,7 @@
 
 
 						<auxhead>
-							<auxheader label="Totale ore giornaliere"
+							<auxheader label="Totale ore giorno"
 								colspan="1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="total_program_day_1" sclass="mySeparatorBorder" />
@@ -1814,7 +1814,7 @@
 
 
 						<auxhead>
-							<auxheader label="Totale ore giornaliero"
+							<auxheader label="Totale ore giorno"
 								colspan="1" sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="total_review_day_1" label="1" sclass="mySeparatorBorder" />
