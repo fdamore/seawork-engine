@@ -34,6 +34,7 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	private Integer				task;
 
+	@XmlTransient
 	private Double				time;
 
 	@XmlTransient
@@ -42,6 +43,7 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	@XmlTransient
 	private Timestamp			time_to;
 
+	@XmlTransient
 	private Double				time_vacation;
 
 	// to show in overview

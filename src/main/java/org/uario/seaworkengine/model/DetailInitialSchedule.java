@@ -40,6 +40,7 @@ public class DetailInitialSchedule implements Serializable {
 	// used in mobile device
 	private String				task_mobile_desc;
 
+	@XmlTransient
 	private Double				time;
 
 	@XmlTransient
@@ -48,6 +49,7 @@ public class DetailInitialSchedule implements Serializable {
 	@XmlTransient
 	private Timestamp			time_to;
 
+	@XmlTransient
 	private Double				time_vacation;
 
 	// to show in overview
