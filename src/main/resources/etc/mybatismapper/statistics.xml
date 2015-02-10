@@ -292,55 +292,50 @@
 
 
 		select
-		count(distinct ds.date_schedule) / (select
-		count(distinct dd.date_schedule)
-		from
-		detailfinalschedule dfs_1,
-		schedule dd
-		where
-		dfs_1.id_schedule = dd.id
-		and DAYOFWEEK(dd.date_schedule) = 1
-		and dd.date_schedule <![CDATA[>=]]>
-		#{date_from}) * 100 as perc
+		count(distinct ds.date_schedule) / ${count_s} * 100 as perc
 		from
 		schedule ds,
 		usershift us,
 		detailfinalschedule dfs
 		where
-		dfs.id_schedule = ds.id
-		and ds.shift = us.id
-		and us.presence = 1
+		dfs.id_schedule =
+		ds.id
+		and ds.shift =
+		us.id
+		and us.presence = 1 and dfs.time <![CDATA[<>]]>
+		0
 		and DAYOFWEEK(ds.date_schedule) = 1
-		and ds.user = #{id_user}
-		and ds.date_schedule <![CDATA[>=]]>
+		and ds.user
+		= #{id_user}
+		and
+		ds.date_schedule <![CDATA[>=]]>
 		#{date_from}
 
 	</select>
 
-	<select id="selectPercentageSundayAndHoliday" resultType="double">
+	<select id="selectPercentageHoliday" resultType="double"
+		parameterType="map">
+
+
 		select
-		count(distinct ss.date_schedule) / (select
-		count(distinct s.date_schedule)
-		from
-		schedule s,
-		detailfinalschedule dfs
-		where
-		s.id = dfs.id_schedule
-		and s.date_schedule >= #{date_from}
-		and (date_format(s.date_schedule, '%m-%d') in (#{days_hol})
-		or DAYOFWEEK(s.date_schedule) = 1)) * 100 as perc
+		count(distinct ss.date_schedule) / ${count_h} * 100 as perc
 		from
 		schedule ss,
 		usershift uss,
-		detailfinalschedule dfs
+		detailfinalschedule dfss
 		where
-		dfs.id_schedule = ss.id
-		and ss.date_schedule >= #{date_from}
+		dfss.id_schedule = ss.id and dfss.time <![CDATA[<>]]>
+		0
+		and ss.date_schedule <![CDATA[>=]]>
+		#{date_from}
 		and ss.user = #{id_user}
 		and ss.shift = uss.id
-		and uss.presence = 1
-		and (date_format(ss.date_schedule, '%m-%d') in (#{days_hol})
-		or DAYOFWEEK(ss.date_schedule) = 1)
+		and
+		uss.presence = 1
+		and (date_format(ss.date_schedule, '%m-%d') in
+		(${days_hol}))
+
+
 
 	</select>
 

@@ -92,7 +92,7 @@
 
 									<row>
 										<label
-											value="Domenica e festivi: " />
+											value="Festivi: " />
 										<label
 											id="work_sundayandholiday_perc" />
 									</row>

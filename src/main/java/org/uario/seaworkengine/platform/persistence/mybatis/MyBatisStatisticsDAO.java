@@ -141,11 +141,15 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public Double getSundayAndHolidaysWorkPercentage(final Integer id_user, final Date date_from) {
 		MyBatisStatisticsDAO.logger.info("getSundayAndHolidaysWorkPercentage..");
 
-		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
+		// count holidays until now
+		final int count = this.bank_holiday.countCurrentHolidaysUntilNow();
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_user", id_user);
-		map.put("date_from", date_from_truncate);
+		// define holidays count
+		if (count == 0) {
+			return 0.0;
+		}
+
+		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
 		/*
 		 * ITALY BANK HOLIDAYS '01-01' , '01-06', '04-25', '05-01', '06-02',
@@ -164,9 +168,13 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			}
 		}
 
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id_user", id_user);
+		map.put("date_from", date_from_truncate);
 		map.put("days_hol", build.toString());
+		map.put("count_h", count);
 
-		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageSundayAndHoliday", map);
+		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageHoliday", map);
 
 		return ret;
 	}
@@ -175,11 +183,20 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public Double getSundayWorkPercentage(final Integer id_user, final Date date_from) {
 		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
 
+		// count holidays until now
+		final int count = this.bank_holiday.countCurrentSundaysUntilNow();
+
+		// define holidays count
+		if (count == 0) {
+			return 0.0;
+		}
+
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id_user", id_user);
 		map.put("date_from", date_from_truncate);
+		map.put("count_s", count);
 
 		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageSunday", map);
 
