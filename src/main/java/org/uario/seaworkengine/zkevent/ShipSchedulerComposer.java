@@ -84,10 +84,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	protected PersonDAO					personDao;
 
 	@Wire
-	private Popup						popup_detailscheduleship;
+	private Popup						popup_ship;
 
 	@Wire
-	private Listbox						popup_sw_list_scheduleDetailShip;
+	private Listbox						popup_shipDetail;
 
 	ScheduleShip						scheduleShip_selected		= null;
 
@@ -437,7 +437,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// add item in combobox ship name
 				if (modelComboBox_ShipName.getSize() == 0) {
 					Messagebox
-							.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+					.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 				}
 
 				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox_ShipName);
@@ -578,15 +578,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteDetailship();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteDetailship();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -683,8 +683,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	 */
 	public void setInitialView() {
 
-		this.setScheduleShipListBox();
-
 		this.full_text_search.setValue(null);
 
 		// set ship listbox
@@ -747,28 +745,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_link_previewDetailship")
-	public void showDetailScheduleShipInPopup() {
-
+	@Listen("onClick = #shipName")
+	public void showDetailShip() {
 		this.detailScheduleShip_selected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
-		// take schedule ship
-		this.scheduleShip_selected = this.shipSchedulerDao.loadScheduleShip(this.detailScheduleShip_selected.getIdscheduleship());
+		this.shipDao.loadShip(this.detailScheduleShip_selected.getId_ship());
 
-		if (this.scheduleShip_selected != null) {
-			final List<DetailScheduleShip> detailList = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
+		final List<Ship> detailShip = new ArrayList<Ship>();
 
-			this.popup_sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>(detailList));
-			// show name of operative user
-			for (final DetailScheduleShip detailScheduleShip : detailList) {
-				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
-				if (userOperative != null) {
-					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
-				}
-			}
+		detailShip.add(this.shipDao.loadShip(this.detailScheduleShip_selected.getId_ship()));
 
-		}
+		this.popup_shipDetail.setModel(new ListModelList<Ship>(detailShip));
+
+		// popup_ship.open(ref);
 
 	}
-
 }

@@ -116,7 +116,7 @@
 		SELECT 
 		d.shift, d.id, d.idscheduleship, s.name, d.operation, ss.note,ss.arrivaldate, ss.departuredate,
 		d.iduser,
-		d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname
+		d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname, s.id as id_ship
 		FROM
 		detailscheduleship d, user u, ship s, scheduleship ss 
 		where
@@ -129,7 +129,7 @@
 	
 	<select id="loadDetailScheduleWithShiftDateNull" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT 
-		d.shift, d.id, d.idscheduleship, s.name, d.operation, ss.note,ss.arrivaldate, ss.departuredate,
+		d.shift, d.id, d.idscheduleship, s.name, d.operation, ss.note,ss.arrivaldate, ss.departuredate, s.id as id_ship,
 		d.iduser,
 		d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname
 		FROM

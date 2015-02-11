@@ -33,16 +33,20 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private Integer		handswork;
 	private Integer		id;
+	// ship id
+	private Integer		id_ship;
 	private Integer		idscheduleship;
-	private Integer		iduser;
 
+	private Integer		iduser;
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
 	private String		lastname;
 	private Integer		menwork;
+	// ship name
 	private String		name;
+
 	private String		note;
 
 	private String		operation;
@@ -75,6 +79,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public Integer getId() {
 		return this.id;
+	}
+
+	public Integer getId_ship() {
+		return this.id_ship;
 	}
 
 	public Integer getIdscheduleship() {
@@ -131,6 +139,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setId_ship(final Integer id_ship) {
+		this.id_ship = id_ship;
 	}
 
 	public void setIdscheduleship(final Integer idscheduleship) {
