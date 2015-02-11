@@ -128,16 +128,16 @@
 
 									<row>
 										<label
-											value="Data di arrivo">
+											value="Data inizio attività">
 										</label>
-										<datebox id="ship_arrival" format="dd-MM-yyyy HH:mm" onCreate="self.setValue(new Date())" />
+										<datebox id="ship_arrival" format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 									</row>
 								
 									<row>
 										<label
-											value="Data di partenza">
+											value="Data fine attività">
 										</label>
-										<datebox id="ship_departure" format="dd-MM-yyyy HH:mm" onCreate="self.setValue(new Date())"/>
+										<datebox id="ship_departure" format="dd-MM-yyyy" onCreate="self.setValue(new Date())"/>
 									</row>
 									
 
@@ -331,8 +331,8 @@
 			<listheader label="Mani di lavoro" sort="auto(handswork)" />
 			<listheader label="Numero Persone" sort="auto(menwork)"/>
 			<listheader label="Note" />
-			<listheader label="Data inizio lavorazione" sort="auto(arrivaldate)"/>
-			<listheader label="Data fine lavorazione" sort="auto(departuredate)"/>
+			<listheader label="Data inizio attività" sort="auto(arrivaldate)"/>
+			<listheader label="Data fine attività" sort="auto(departuredate)"/>
 			
 			<listheader label="" />
 		</listhead>

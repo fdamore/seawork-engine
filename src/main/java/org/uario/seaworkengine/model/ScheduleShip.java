@@ -1,7 +1,7 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -15,29 +15,29 @@ public class ScheduleShip implements Serializable {
 		return ScheduleShip.serialVersionUID;
 	}
 
-	private Timestamp	arrivaldate;
+	private Date	arrivaldate;
 
-	private Timestamp	departuredate;
+	private Date	departuredate;
 
-	private Integer		id;
+	private Integer	id;
 
-	private Integer		idship;
+	private Integer	idship;
 
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String		name;
+	private String	name;
 
-	private String		note;
+	private String	note;
 
-	private Double		volume;
+	private Double	volume;
 
-	public Timestamp getArrivaldate() {
+	public Date getArrivaldate() {
 		return this.arrivaldate;
 	}
 
-	public Timestamp getDeparturedate() {
+	public Date getDeparturedate() {
 		return this.departuredate;
 	}
 
@@ -61,11 +61,11 @@ public class ScheduleShip implements Serializable {
 		return this.volume;
 	}
 
-	public void setArrivaldate(final Timestamp arrivaldate) {
+	public void setArrivaldate(final Date arrivaldate) {
 		this.arrivaldate = arrivaldate;
 	}
 
-	public void setDeparturedate(final Timestamp departuredate) {
+	public void setDeparturedate(final Date departuredate) {
 		this.departuredate = departuredate;
 	}
 

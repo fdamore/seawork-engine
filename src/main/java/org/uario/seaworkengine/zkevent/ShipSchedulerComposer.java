@@ -162,11 +162,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			detailScheduleShip.setHandswork(this.handswork.getValue());
 			detailScheduleShip.setMenwork(this.menwork.getValue());
 
-			final Date shiftDate = this.shiftdate.getValue();
-
-			final Date shiftDateTruncate = DateUtils.truncate(shiftDate, Calendar.DATE);
-			final Timestamp timestampShift = new Timestamp(shiftDateTruncate.getTime());
-			detailScheduleShip.setShiftdate(timestampShift);
+			detailScheduleShip.setShiftdate(this.shiftdate.getValue());
 
 			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
 			this.listDetailScheduleShip.add(detailScheduleShip);
@@ -182,8 +178,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #add_scheduleShips_command")
 	public void addShipCommand() {
 
-		if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.note.getValue() == ""
-				|| this.ship_arrival.getValue() == null) {
+		if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.ship_arrival.getValue() == null
+				|| this.ship_departure.getValue() == null || this.ship_arrival.getValue().after(this.ship_departure.getValue())) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -193,6 +189,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					null, params);
 			return;
 		} else {
+
+			if (this.listDetailScheduleShip.size() == 0) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Inserire dettagli di programmazione", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				return;
+			}
 
 			final ScheduleShip shipSchedule = new ScheduleShip();
 
@@ -204,69 +210,50 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			shipSchedule.setVolume(this.ship_volume.getValue());
 			shipSchedule.setNote(this.note.getValue());
 
-			// set arrival date and time
-			final Date arival = this.ship_arrival.getValue();
+			shipSchedule.setArrivaldate(this.ship_arrival.getValue());
 
-			final Date arrivale_truncate = DateUtils.truncate(arival, Calendar.MINUTE);
-			final Timestamp timestampArrival = new Timestamp(arrivale_truncate.getTime());
-			shipSchedule.setArrivaldate(timestampArrival);
+			shipSchedule.setDeparturedate(this.ship_departure.getValue());
 
-			Timestamp timestampDeparture = null;
-
-			if (this.ship_departure.getValue() != null) {
-				// set departure date and time
-				final Date departure = this.ship_departure.getValue();
-
-				final Date departure_truncate = DateUtils.truncate(departure, Calendar.MINUTE);
-				timestampDeparture = new Timestamp(departure_truncate.getTime());
-				shipSchedule.setDeparturedate(timestampDeparture);
-			}
-
-			if ((timestampDeparture != null && timestampDeparture.after(timestampArrival)) || timestampDeparture == null) {
-				try {
-					this.shipSchedulerDao.createScheduleShip(shipSchedule);
-				} catch (final Exception e) {
-					final Map<String, String> params = new HashMap();
-					params.put("sclass", "mybutton Button");
-					final Messagebox.Button[] buttons = new Messagebox.Button[1];
-					buttons[0] = Messagebox.Button.OK;
-
-					Messagebox.show("Nome nave ed ora arrivo già presenti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
-					return;
-				}
-
-				final ScheduleShip myScheduleShip = this.shipSchedulerDao.loadScheduleShipByIdShipAndArrivalDate(shipSchedule.getIdship(),
-						shipSchedule.getArrivaldate());
-
-				for (final DetailScheduleShip item : this.listDetailScheduleShip) {
-					item.setIdscheduleship(myScheduleShip.getId());
-					this.shipSchedulerDao.createDetailScheduleShip(item);
-				}
-
-				// reset data info
-				this.resetDataInfoTabProgram();
-
+			try {
+				this.shipSchedulerDao.createScheduleShip(shipSchedule);
+			} catch (final Exception e) {
 				final Map<String, String> params = new HashMap();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Programmazione aggiunta", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+				Messagebox.show("Nome nave ed ora arrivo già presenti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				return;
+			}
 
+			final ScheduleShip myScheduleShip = this.shipSchedulerDao.loadScheduleShipByIdShipAndArrivalDate(shipSchedule.getIdship(),
+					shipSchedule.getArrivaldate());
+
+			for (final DetailScheduleShip item : this.listDetailScheduleShip) {
+				item.setIdscheduleship(myScheduleShip.getId());
+				this.shipSchedulerDao.createDetailScheduleShip(item);
+			}
+
+			// reset data info
+			this.resetDataInfoTabProgram();
+
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Programmazione aggiunta", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+
+			if (this.searchDateShift.getValue() != null) {
 				// set ship ListBox
-				this.setScheduleShipListBox();
-
-				this.grid_scheduleShip_details.setVisible(false);
-				this.add_scheduleShips_command.setVisible(false);
-				this.modify_Scheduleships_command.setVisible(false);
+				this.setScheduleShipListBox(this.searchDateShift.getValue());
 			} else {
-				final Map<String, String> params = new HashMap();
-				params.put("sclass", "mybutton Button");
-				final Messagebox.Button[] buttons = new Messagebox.Button[1];
-				buttons[0] = Messagebox.Button.OK;
-
-				Messagebox.show("Verificare data di arrivo e di partenza", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				this.setScheduleShipListBox();
 			}
+
+			this.grid_scheduleShip_details.setVisible(false);
+			this.add_scheduleShips_command.setVisible(false);
+			this.modify_Scheduleships_command.setVisible(false);
 
 		}
 	}
@@ -352,13 +339,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.note.setValue(scheduleShip_selected.getNote());
 
 		// set arrival date and time
-		Timestamp timestamp = scheduleShip_selected.getArrivaldate();
-		this.ship_arrival.setValue(timestamp);
+		Date date = scheduleShip_selected.getArrivaldate();
+		this.ship_arrival.setValue(date);
 
-		timestamp = this.scheduleShip_selected.getDeparturedate();
+		date = this.scheduleShip_selected.getDeparturedate();
 
-		if (timestamp != null) {
-			this.ship_departure.setValue(timestamp);
+		if (date != null) {
+			this.ship_departure.setValue(date);
 		}
 
 	}
@@ -437,7 +424,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// add item in combobox ship name
 				if (modelComboBox_ShipName.getSize() == 0) {
 					Messagebox
-					.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+							.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 				}
 
 				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox_ShipName);
@@ -480,8 +467,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				return;
 			}
 
-			if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.note.getValue() == ""
-					|| this.ship_arrival == null) {
+			if (this.ship_name.getSelectedItem() == null || this.ship_volume.getValue() == null || this.ship_arrival == null
+					|| this.ship_departure.getValue() == null || this.ship_arrival.getValue().after(this.ship_departure.getValue())) {
 				final Map<String, String> params = new HashMap();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -491,62 +478,54 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				return;
 			} else {
 
+				if (this.listDetailScheduleShip.size() == 0) {
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+
+					Messagebox.show("Inserire dettagli di programmazione", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+					return;
+				}
+
 				final int idShip = ((Ship) this.ship_name.getSelectedItem().getValue()).getId();
 
 				this.scheduleShip_selected.setIdship(idShip);
 				this.scheduleShip_selected.setVolume(this.ship_volume.getValue());
 				this.scheduleShip_selected.setNote(this.note.getValue());
 
-				// set arrival date and time
-				final Date arival = this.ship_arrival.getValue();
+				this.scheduleShip_selected.setArrivaldate(this.ship_arrival.getValue());
 
-				final Date arrivale_truncate = DateUtils.truncate(arival, Calendar.MINUTE);
-				final Timestamp timestampArrival = new Timestamp(arrivale_truncate.getTime());
-				this.scheduleShip_selected.setArrivaldate(timestampArrival);
+				this.scheduleShip_selected.setDeparturedate(this.ship_departure.getValue());
 
-				Timestamp timestampDeparture = null;
+				// update
+				this.shipSchedulerDao.updateScheduleShip(this.scheduleShip_selected);
 
-				final Date departure = this.ship_departure.getValue();
-				if (departure != null) {
-					final Date departure_truncate = DateUtils.truncate(departure, Calendar.MINUTE);
-					timestampDeparture = new Timestamp(departure_truncate.getTime());
-					this.scheduleShip_selected.setDeparturedate(timestampDeparture);
+				this.shipSchedulerDao.deteleDetailSchedueleShipByIdSchedule(this.scheduleShip_selected.getId());
+
+				for (final DetailScheduleShip item : this.listDetailScheduleShip) {
+					item.setIdscheduleship(this.scheduleShip_selected.getId());
+					this.shipSchedulerDao.createDetailScheduleShip(item);
 				}
 
-				if ((timestampDeparture != null && timestampDeparture.after(timestampArrival)) || timestampDeparture == null) {
-					// update
-					this.shipSchedulerDao.updateScheduleShip(this.scheduleShip_selected);
-
-					this.shipSchedulerDao.deteleDetailSchedueleShipByIdSchedule(this.scheduleShip_selected.getId());
-
-					for (final DetailScheduleShip item : this.listDetailScheduleShip) {
-						item.setIdscheduleship(this.scheduleShip_selected.getId());
-						this.shipSchedulerDao.createDetailScheduleShip(item);
-					}
-
-					// update list
-					this.setScheduleShipListBox();
-
-					this.grid_scheduleShip_details.setVisible(false);
-
-					this.resetDataInfoTabProgram();
-
-					final Map<String, String> params = new HashMap();
-					params.put("sclass", "mybutton Button");
-					final Messagebox.Button[] buttons = new Messagebox.Button[1];
-					buttons[0] = Messagebox.Button.OK;
-
-					Messagebox.show("Dati programmazione aggiornati", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+				// update list
+				if (this.searchDateShift.getValue() != null) {
+					// set ship ListBox
+					this.setScheduleShipListBox(this.searchDateShift.getValue());
 				} else {
-					final Map<String, String> params = new HashMap();
-					params.put("sclass", "mybutton Button");
-					final Messagebox.Button[] buttons = new Messagebox.Button[1];
-					buttons[0] = Messagebox.Button.OK;
-
-					Messagebox.show("Verificare data di arrivo e di partenza", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
-							params);
-
+					this.setScheduleShipListBox();
 				}
+
+				this.grid_scheduleShip_details.setVisible(false);
+
+				this.resetDataInfoTabProgram();
+
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Dati programmazione aggiornati", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 			}
 		}
@@ -578,15 +557,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipSchedulerComposer.this.deleteDetailship();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipSchedulerComposer.this.deleteDetailship();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -620,24 +599,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #searchDateShift")
 	public void searchDetailScheduleShipByDateShift() {
 		if (this.searchDateShift.getValue() != null) {
-			final Calendar cal = Calendar.getInstance();
-			cal.setTime(this.searchDateShift.getValue());
-			final Timestamp timestampNow = new Timestamp(DateUtils.truncate(new Timestamp(cal.getTime().getTime()), Calendar.DATE).getTime());
-
-			this.setScheduleShipListBox(timestampNow);
+			this.setScheduleShipListBox(this.searchDateShift.getValue());
 		} else {
 
 			final List<DetailScheduleShip> listDetailScheduleShipNullTimeShift = this.shipSchedulerDao.loadDetailScheduleWithShiftDateNull();
 
 			if (listDetailScheduleShipNullTimeShift.size() != 0) {
 				this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(listDetailScheduleShipNullTimeShift));
-			} else {
-				final Map<String, String> params = new HashMap();
-				params.put("sclass", "mybutton Button");
-				final Messagebox.Button[] buttons = new Messagebox.Button[1];
-				buttons[0] = Messagebox.Button.OK;
-
-				Messagebox.show("Inserire una data di ricerca", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			}
 
 		}
@@ -699,24 +667,21 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onOK = #shows_rows, #full_text_search")
 	public void setScheduleShipListBox() {
 		final Calendar cal = Calendar.getInstance();
-		final Date now = cal.getTime();
+		final Date now = DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
 		this.searchDateShift.setValue(now);
 
-		final Timestamp timestampNow = new Timestamp(DateUtils.truncate(new Timestamp(now.getTime()), Calendar.DATE).getTime());
-
-		this.setScheduleShipListBox(timestampNow);
+		this.setScheduleShipListBox(now);
 	}
 
-	private void setScheduleShipListBox(final Timestamp timestampNow) {
+	private void setScheduleShipListBox(final Date date) {
 		List<DetailScheduleShip> list_DetailScheduleShip = null;
 
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
 
-			list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(timestampNow,
-					this.full_text_search.getValue());
+			list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(date, this.full_text_search.getValue());
 		} else {
-			list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(timestampNow, null);
+			list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(date, null);
 
 		}
 

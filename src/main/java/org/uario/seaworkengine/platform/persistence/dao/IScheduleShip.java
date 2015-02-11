@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.model.DetailScheduleShip;
@@ -24,7 +25,7 @@ public interface IScheduleShip {
 
 	public List<DetailScheduleShip> loadDetailScheduleShipByIdSchedule(Integer id_scheduleShip);
 
-	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(Timestamp shiftdate, String full_text_search);
+	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(Date shiftdate, String full_text_search);
 
 	public List<DetailScheduleShip> loadDetailScheduleWithShiftDateNull();
 
@@ -32,7 +33,7 @@ public interface IScheduleShip {
 
 	public List<ScheduleShip> loadScheduleShipByArrivalDate(Timestamp arrivaldate);
 
-	public ScheduleShip loadScheduleShipByIdShipAndArrivalDate(Integer idship, Timestamp arrivaldate);
+	public ScheduleShip loadScheduleShipByIdShipAndArrivalDate(Integer idship, Date arrivaldate);
 
 	public List<ScheduleShip> loadScheduleShipInDate(Timestamp dateFrom, Timestamp dateTo);
 

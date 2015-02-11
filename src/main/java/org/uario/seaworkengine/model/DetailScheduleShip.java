@@ -1,7 +1,7 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -19,41 +19,41 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	/**
 	 * Used only in view mode
 	 */
-	private Timestamp	arrivaldate;
+	private Date	arrivaldate;
 
 	/**
 	 * Used only in view mode
 	 */
-	private Timestamp	departuredate;
+	private Date	departuredate;
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String		firstname;
+	private String	firstname;
 
-	private Integer		handswork;
-	private Integer		id;
+	private Integer	handswork;
+	private Integer	id;
 	// ship id
-	private Integer		id_ship;
-	private Integer		idscheduleship;
+	private Integer	id_ship;
+	private Integer	idscheduleship;
 
-	private Integer		iduser;
+	private Integer	iduser;
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String		lastname;
-	private Integer		menwork;
+	private String	lastname;
+	private Integer	menwork;
 	// ship name
-	private String		name;
+	private String	name;
 
-	private String		note;
+	private String	note;
 
-	private String		operation;
+	private String	operation;
 
-	private Integer		shift;
+	private Integer	shift;
 
-	private Timestamp	shiftdate;
+	private Date	shiftdate;
 
 	@Override
 	public int compareTo(final Person o) {
@@ -61,11 +61,11 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return 0;
 	}
 
-	public Timestamp getArrivaldate() {
+	public Date getArrivaldate() {
 		return this.arrivaldate;
 	}
 
-	public Timestamp getDeparturedate() {
+	public Date getDeparturedate() {
 		return this.departuredate;
 	}
 
@@ -117,15 +117,15 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.shift;
 	}
 
-	public Timestamp getShiftdate() {
+	public Date getShiftdate() {
 		return this.shiftdate;
 	}
 
-	public void setArrivaldate(final Timestamp shiparrivaldate) {
+	public void setArrivaldate(final Date shiparrivaldate) {
 		this.arrivaldate = shiparrivaldate;
 	}
 
-	public void setDeparturedate(final Timestamp shipdeparturedate) {
+	public void setDeparturedate(final Date shipdeparturedate) {
 		this.departuredate = shipdeparturedate;
 	}
 
@@ -177,7 +177,7 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.shift = shift;
 	}
 
-	public void setShiftdate(final Timestamp shiftdate) {
+	public void setShiftdate(final Date shiftdate) {
 		this.shiftdate = shiftdate;
 	}
 

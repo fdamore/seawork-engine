@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(final Timestamp shiftdate, final String full_text_search) {
+	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(final Date shiftdate, final String full_text_search) {
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -121,7 +122,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public ScheduleShip loadScheduleShipByIdShipAndArrivalDate(final Integer idship, final Timestamp arrivaldate) {
+	public ScheduleShip loadScheduleShipByIdShipAndArrivalDate(final Integer idship, final Date arrivaldate) {
 		MyBatisScheduleShipDAO.logger.info("loadScheduleShipByIdShip");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
