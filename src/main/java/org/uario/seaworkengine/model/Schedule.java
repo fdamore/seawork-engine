@@ -12,56 +12,59 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Schedule implements Comparable<Schedule>, Serializable {
 
+	/**
+	 *
+	 */
+	private static final long	serialVersionUID	= 1L;
+
+	private Integer				controller;
+
+	private Date				date_schedule;
+
+	private Integer				editor;
+
+	private Integer				id;
+
+	// used form visualize
+	@XmlTransient
+	private String				name_controller;
+
+	// used form visualize
+	@XmlTransient
+	private String				name_editor;
+
+	// used form visualize
+	@XmlTransient
+	private String				name_user;
+
+	// used for visualize - number of shift (1,2,3,4)
+	@XmlTransient
+	private Integer				no_shift;
+
+	private String				note;
+
+	// used for visualize
+	@XmlTransient
+	private Double				program_time;
+
+	// used for visualize
+	@XmlTransient
+	private Double				revision_time;
+
+	private Integer				shift;
+
+	@XmlTransient
+	private Boolean				sync_mobile;
+
+	private Integer				user;
+
 	public Schedule() {
 
 	}
 
-	public Schedule(Date date_schedule) {
+	public Schedule(final Date date_schedule) {
 		this.date_schedule = date_schedule;
 	}
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private Integer controller;
-
-	private Date date_schedule;
-
-	private Integer editor;
-
-	private Integer id;
-
-	// used form visualize
-	@XmlTransient
-	private String name_controller;
-
-	// used form visualize
-	@XmlTransient
-	private String name_editor;
-
-	// used form visualize
-	@XmlTransient
-	private String name_user;
-
-	// used for visualize - number of shift (1,2,3,4)
-	@XmlTransient
-	private Integer no_shift;
-
-	private String note;
-
-	// used for visualize
-	@XmlTransient
-	private Double program_time;
-
-	// used for visualize
-	@XmlTransient
-	private Double revision_time;
-
-	private Integer shift;
-
-	private Integer user;
 
 	@Override
 	public int compareTo(final Schedule o) {
@@ -129,6 +132,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.shift;
 	}
 
+	public Boolean getSync_mobile() {
+		return this.sync_mobile;
+	}
+
 	public Integer getUser() {
 		return this.user;
 	}
@@ -179,6 +186,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
+	}
+
+	public void setSync_mobile(final Boolean sync_mobile) {
+		this.sync_mobile = sync_mobile;
 	}
 
 	public void setUser(final Integer user) {

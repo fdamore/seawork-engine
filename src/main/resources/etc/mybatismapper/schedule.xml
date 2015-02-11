@@ -10,7 +10,7 @@
 	<select id="loadScheduleByDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
 		SELECT id, date_schedule, user, note, editor, controller,
-		shift
+		shift, sync_mobile
 		FROM schedule
 		WHERE date_schedule = #{dt_arg};
 	</select>
@@ -18,7 +18,7 @@
 	<select id="loadScheduleById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.Schedule">
 		SELECT id, date_schedule, user, note, editor, controller,
-		shift
+		shift, sync_mobile
 		FROM schedule
 		WHERE id = #{id};
 	</select>
@@ -30,7 +30,7 @@
 		select s.id,
 		u.id as user,
 		s.shift,
-		s.date_schedule,
+		s.date_schedule, s.sync_mobile,
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -61,11 +61,11 @@
 	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO
 		schedule
-		(date_schedule, user, editor, controller, note,shift)
+		(date_schedule, user, editor, controller, note,shift, sync_mobile)
 		VALUES
 		(#{date_schedule}, #{user}, #{editor}, #{controller},
 		#{note},
-		#{shift});
+		#{shift},#{sync_mobile});
 	</insert>
 
 
@@ -81,7 +81,8 @@
 		#{editor},
 		controller = #{controller},
 		note = #{note},
-		shift = #{shift}
+		shift = #{shift},
+		sync_mobile = #{sync_mobile}
 		WHERE id = #{id};
 	</update>
 
@@ -113,7 +114,7 @@
 		parameterType="map">
 		SELECT s.id, s.date_schedule, s.user, s.editor,
 		s.controller,
-		s.shift,s.note
+		s.shift,s.note,s.sync_mobile
 		FROM schedule s
 		WHERE s.user = #{id_user}
 		and
@@ -132,7 +133,7 @@
 	</delete>
 
 	<select id="selectScheduleInIntervalDateByUserId" parameterType="map" resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller, shift
+		SELECT id, date_schedule, user, note, editor, controller, shift, sync_mobile
 		FROM schedule
 		WHERE user=#{user} and date_schedule >= #{date_from} and #{date_to} >= date_schedule;
 	</select>
@@ -142,7 +143,7 @@
 
 		select
 		s.id,
-		s.shift,
+		s.shift, s.sync_mobile, 
 		ds.shift as no_shift,
 		sum(ds.time) as program_time,
 		s.date_schedule,
@@ -187,7 +188,7 @@
 
 		select
 		s.id,
-		s.shift,
+		s.shift, s.sync_mobile, 
 		ds.shift as no_shift,
 		sum(ds.time) as revision_time,
 		s.date_schedule,
@@ -232,7 +233,7 @@
 
 		select
 		s.id,
-		s.shift,
+		s.shift, s.sync_mobile,
 		ds.shift as no_shift,
 		sum(ds.time) as program_time,
 		s.date_schedule,
@@ -273,7 +274,7 @@
 
 		select
 		s.id,
-		s.shift,
+		s.shift, s.sync_mobile, 
 		ds.shift as no_shift,
 		sum(ds.time) as revision_time,
 		s.date_schedule,
