@@ -108,7 +108,7 @@
 		FROM
 		detailscheduleship d, user u where
 		d.id = #{id_detailScheduleShip} and
-		d.iduser = u.id;
+		d.iduser = u.id order by d.shift asc;
 	</select>
 	
 	 
@@ -124,7 +124,7 @@
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate=#{shiftdate} ;		
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate=#{shiftdate} order by d.shift asc;		
 	</select>
 	
 	<select id="loadDetailScheduleWithShiftDateNull" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
@@ -135,7 +135,8 @@
 		FROM
 		detailscheduleship d, user u, ship s, scheduleship ss 
 		where
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate IS NULL ;		
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate IS NULL 
+		order by d.shift asc;		
 	</select>
 		
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
@@ -145,7 +146,8 @@
 		FROM
 		detailscheduleship where
 		idscheduleship =
-		#{id_scheduleShip};
+		#{id_scheduleShip}
+		order by shift asc;
 	</select>
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
