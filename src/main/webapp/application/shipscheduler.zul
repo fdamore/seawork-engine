@@ -341,7 +341,7 @@
 
 			<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
 			<listcell sclass="myBottonCell">
-				<label id="shipName" value="@{detailscheduleship_item.name}">
+				<label style="font-size:12pt; font-family: Arial,Sans-serif;" id="shipName" value="@{detailscheduleship_item.name}">
 					<attribute name="onClick">
 						sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent()); 
 						popup_ship.open(self,"after_pointer");
