@@ -47,6 +47,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.A;
 import org.zkoss.zul.Auxheader;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
@@ -101,7 +102,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private static final long				serialVersionUID				= 1L;
 
+	@Wire
+	private Button							add_review_item;
+
+	@Wire
+	private Button							assign_program_review;
+
 	private IBankHolidays					bank_holiday;
+
+	@Wire
+	private Button							cancel_review;
 
 	private ConfigurationDAO				configurationDAO;
 
@@ -189,7 +199,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_popup;
-
 	@Wire
 	private A								label_date_shift_preprocessing;
 
@@ -198,6 +207,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_shift_review;
+
 	@Wire
 	private A								label_statistic_popup;
 
@@ -244,6 +254,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final NumberFormat				number_format					= NumberFormat.getInstance(Locale.ITALIAN);
 
 	@Wire
+	private Button							ok_review;
+
+	@Wire
 	private Label							overview_count_h;
 
 	@Wire
@@ -277,16 +290,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Div								program_div;
-
 	@Wire
 	private Comboitem						program_item;
 
 	@Wire
 	private Combobox						program_task;
-
 	@Wire
 	private Listheader						program_tot_1_1;
-
 	@Wire
 	private Listheader						program_tot_1_2;
 	@Wire
@@ -330,10 +340,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader						program_tot_5_4;
+
 	@Wire
 	private Auxheader						programUser_tot_1_1;
+
 	@Wire
 	private Auxheader						programUser_tot_1_2;
+
 	@Wire
 	private Auxheader						programUser_tot_1_3;
 
@@ -369,34 +382,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_4_2;
-
 	@Wire
 	private Auxheader						programUser_tot_4_3;
-
 	@Wire
 	private Auxheader						programUser_tot_4_4;
-
 	@Wire
 	private Auxheader						programUser_tot_5_1;
 
 	@Wire
 	private Auxheader						programUser_tot_5_2;
+
 	@Wire
 	private Auxheader						programUser_tot_5_3;
+
 	@Wire
 	private Auxheader						programUser_tot_5_4;
+
+	@Wire
+	private Button							remove_review_item;
 	@Wire
 	private Div								review_div;
-
 	@Wire
 	private Comboitem						review_item;
-
 	@Wire
 	private Combobox						review_task;
-
 	@Wire
 	private Listheader						review_tot_1_1;
-
 	@Wire
 	private Listheader						review_tot_1_2;
 	@Wire
@@ -419,14 +430,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						reviewUser_tot_1_3;
 	@Wire
 	private Auxheader						reviewUser_tot_1_4;
+
 	@Wire
 	private Auxheader						reviewUser_tot_2_1;
+
 	@Wire
 	private Auxheader						reviewUser_tot_2_2;
+
 	@Wire
 	private Auxheader						reviewUser_tot_2_3;
+
 	@Wire
 	private Auxheader						reviewUser_tot_2_4;
+
 	private ISchedule						scheduleDAO;
 
 	@Wire
@@ -508,16 +524,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Timebox							time_from_program;
-
 	@Wire
 	private Timebox							time_to;
-
 	@Wire
 	private Timebox							time_to_program;
-
 	@Wire
 	private Auxheader						total_program_day_1;
-
 	@Wire
 	private Auxheader						total_program_day_2;
 
@@ -534,12 +546,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						totalUser_program_day_1;
+
 	@Wire
 	private Auxheader						totalUser_program_day_2;
+
 	@Wire
 	private Auxheader						totalUser_program_day_3;
+
 	@Wire
 	private Auxheader						totalUser_program_day_4;
+
 	@Wire
 	private Auxheader						totalUser_program_day_5;
 
@@ -951,6 +967,46 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onChange = #date_init_scheduler_review")
+	public void changeBehaviorReview() {
+		// define command behavior for not supervisor
+		final Person person_selected = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (!person_selected.isAdministrator()) {
+
+			if (this.date_init_scheduler_review.getValue() == null) {
+				this.assign_program_review.setDisabled(true);
+				this.ok_review.setDisabled(true);
+				this.add_review_item.setDisabled(true);
+				this.remove_review_item.setDisabled(true);
+				this.cancel_review.setDisabled(true);
+			} else {
+				final Date date = DateUtils.truncate(this.date_init_scheduler_review.getValue(), Calendar.DATE);
+				final Calendar calendar = Calendar.getInstance();
+				calendar.add(Calendar.DAY_OF_YEAR, -1);
+				if (!DateUtils.isSameDay(date, calendar.getTime())) {
+					this.assign_program_review.setDisabled(true);
+					this.ok_review.setDisabled(true);
+					this.add_review_item.setDisabled(true);
+					this.remove_review_item.setDisabled(true);
+					this.cancel_review.setDisabled(true);
+				} else {
+					this.assign_program_review.setDisabled(false);
+					this.ok_review.setDisabled(false);
+					this.add_review_item.setDisabled(false);
+					this.remove_review_item.setDisabled(false);
+					this.cancel_review.setDisabled(false);
+				}
+			}
+
+		} else {
+			this.assign_program_review.setDisabled(false);
+			this.ok_review.setDisabled(false);
+			this.add_review_item.setDisabled(false);
+			this.remove_review_item.setDisabled(false);
+			this.cancel_review.setDisabled(false);
+		}
+	}
+
 	/**
 	 * Define anchor content on shift schedule
 	 *
@@ -1005,17 +1061,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2713,21 +2769,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							// add shift break and replace others break
-							// shifts in week whit work shifts
-							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
-									scheduleListInWeek);
-						} else if (Messagebox.ON_NO.equals(e.getName())) {
-							// add shift break without cancel others
-							// breaks shift in week
-							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
-						}
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									// add shift break and replace others break
+									// shifts in week whit work shifts
+									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+											scheduleListInWeek);
+								} else if (Messagebox.ON_NO.equals(e.getName())) {
+									// add shift break without cancel others
+									// breaks shift in week
+									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+								}
 
-					}
-				}, params);
+							}
+						}, params);
 			} else {
 				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 			}
@@ -2925,18 +2981,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								SchedulerComposer.this.saveProgramFinalStep();
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							}
-						}
-					}, params);
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										SchedulerComposer.this.saveProgramFinalStep();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									}
+								}
+							}, params);
 
 					return;
 
@@ -3744,7 +3800,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	@Listen("onClick = #go_today_preprocessing, #go_today_review")
+	@Listen("onClick = #go_today_preprocessing")
 	public void setTodaySchedulerView() {
 		final Calendar calendar = Calendar.getInstance();
 		final Date today = calendar.getTime();
@@ -4618,16 +4674,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(list_row);
 		model.setMultiple(true);
 		this.grid_scheduler_review.setModel(model);
-
-	}
-
-	@Listen("onClick = #go_yesterday_review")
-	public void setYesterdaySchedulerView() {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, -1);
-		final Date yesterday = calendar.getTime();
-
-		this.defineSchedulerViewToDate(yesterday);
 
 	}
 

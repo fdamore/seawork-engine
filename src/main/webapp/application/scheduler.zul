@@ -1756,12 +1756,7 @@
 				<datebox id="date_init_scheduler_review"
 					placeholder="Selezione data iniziale" width="200px">
 				</datebox>
-
-				<button id="go_yesterday_review" label="Consuntiva Ieri"
-					sclass="btn-info" />
-
-				<button id="go_today_review" label="Consuntiva Oggi"
-					sclass="btn-info" />
+				
 				<button id="assign_program_review"
 					label="Assegna programmato" sclass="btn-danger" />
 
