@@ -35,7 +35,7 @@ public class BankHolidayConverter implements TypeConverter {
 			if (dt.equals("01-01")) {
 				name = " (Capodanno)";
 			} else if (dt.equals("01-06")) {
-				name = " (Epifania)";
+				name = " (Epifania del Signore)";
 			} else if (dt.equals("04-25")) {
 				name = " (Liberazione)";
 			} else if (dt.equals("05-01")) {
@@ -49,7 +49,7 @@ public class BankHolidayConverter implements TypeConverter {
 			} else if (dt.equals("12-08")) {
 				name = " (Immacolata Concezione)";
 			} else if (dt.equals("12-25")) {
-				name = " (Natale)";
+				name = " (Natale del Signore)";
 			} else if (dt.equals("12-26")) {
 				name = " (Santo Stefano)";
 			} else if (dt.equals("08-13")) {

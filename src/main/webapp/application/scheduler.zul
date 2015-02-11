@@ -91,8 +91,7 @@
 									</row>
 
 									<row>
-										<label
-											value="Festivi: " />
+										<label value="Festivi: " />
 										<label
 											id="work_sundayandholiday_perc" />
 									</row>
@@ -2088,6 +2087,20 @@
 
 			</hbox>
 
+			<separator></separator>
+
+			<!-- COUNTING -->
+			<vbox align="start">
+				<hbox align="center">
+					<a label="Ore lavorate:"></a>
+					<label id="overview_count_h"></label>
+				</hbox>
+				<hbox>
+					<a label="Ore a chiusura turno:"></a>
+					<label id="overview_count_h_c"></label>
+				</hbox>
+
+			</vbox>
 
 
 			<separator></separator>
@@ -2127,9 +2140,11 @@
 											hflex="1" align="center" />
 										<listheader label="Ore lavorate"
 											hflex="1" align="center" />
+										<listheader label="Ore chiusura"
+											hflex="1" align="center" />
 										<listheader label="Ingresso"
 											hflex="1" align="center" />
-										<listheader label="Usscita"
+										<listheader label="Uscita"
 											hflex="1" align="center" />
 
 									</listhead>
@@ -2164,6 +2179,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.time_vacation}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time_from}" />
@@ -2204,6 +2222,12 @@
 											hflex="1" align="center" />
 										<listheader label="Ore lavorate"
 											hflex="1" align="center" />
+										<listheader label="Ore chiusura"
+											hflex="1" align="center" />
+										<listheader label="Ingresso"
+											hflex="1" align="center" />
+										<listheader label="Uscita"
+											hflex="1" align="center" />
 
 
 									</listhead>
@@ -2240,6 +2264,13 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.time}" />
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.time_vacation}" />
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.time_from}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.time_to}" />
 
 
 									</listitem>

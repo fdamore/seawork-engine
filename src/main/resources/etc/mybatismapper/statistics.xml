@@ -66,6 +66,7 @@
 		s.shift as shift_type,
 		dfs.task,
 		dfs.time,
+		dfs.time_vacation,
 		dfs.time_from,
 		dfs.time_to,
 		s.date_schedule
@@ -112,6 +113,9 @@
 		s.shift as shift_type,
 		dfs.task,
 		dfs.time,
+		dfs.time_vacation,
+		dfs.time_from,
+		dfs.time_to,
 		s.date_schedule
 		from
 		user u,
