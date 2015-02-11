@@ -15,3 +15,10 @@
 }
 
 
+.z-listitem>.z-listcell>.z-listcell-content {
+color: #000000;
+}
+
+.z-listitem:hover>.z-listcell>.z-listcell-content {
+color: #636363;
+}
