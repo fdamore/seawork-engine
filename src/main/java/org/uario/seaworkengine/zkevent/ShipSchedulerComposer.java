@@ -553,13 +553,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_refresh_list;")
-	public void refreshListShip() {
-
-		/*
-		 * this.searchArrivalDateShipFrom.setValue(null);
-		 * this.searchArrivalDateShipTo.setValue(null);
-		 */
+	private void refreshListShip() {
 
 		this.full_text_search.setValue(null);
 
@@ -623,7 +617,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #sw_searchDetailScheduleShip")
+	@Listen("onChange = #searchDateShift")
 	public void searchDetailScheduleShipByDateShift() {
 		if (this.searchDateShift.getValue() != null) {
 			final Calendar cal = Calendar.getInstance();
@@ -689,6 +683,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	 */
 	public void setInitialView() {
 
+		this.setScheduleShipListBox();
+
 		this.full_text_search.setValue(null);
 
 		// set ship listbox
@@ -707,6 +703,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Calendar cal = Calendar.getInstance();
 		final Date now = cal.getTime();
 
+		this.searchDateShift.setValue(now);
+
 		final Timestamp timestampNow = new Timestamp(DateUtils.truncate(new Timestamp(now.getTime()), Calendar.DATE).getTime());
 
 		this.setScheduleShipListBox(timestampNow);
@@ -716,8 +714,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		List<DetailScheduleShip> list_DetailScheduleShip = null;
 
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
-			// list_scheduleShip =
-			// this.shipSchedulerDao.selectAllScheduleShipFulltextSearchLike(this.full_text_search.getValue());
 
 			list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(timestampNow,
 					this.full_text_search.getValue());
@@ -775,33 +771,4 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	/*
-	 * @Listen("onClick = #sw_shipArrivalToday") public void
-	 * showScheduleShipTodayInArrival() { List<ScheduleShip> list_scheduleShip =
-	 * null;
-	 *
-	 * Date date = new Date(); final Calendar cal = Calendar.getInstance();
-	 * cal.setTime(date); cal.set(Calendar.HOUR_OF_DAY, 0);
-	 * cal.set(Calendar.MINUTE, 0); cal.set(Calendar.SECOND, 0);
-	 * cal.set(Calendar.MILLISECOND, 0); date = cal.getTime();
-	 *
-	 * final Timestamp today = new Timestamp(date.getTime());
-	 *
-	 * list_scheduleShip =
-	 * this.shipSchedulerDao.loadScheduleShipByArrivalDate(today);
-	 *
-	 * for (final ScheduleShip scheduleShip : list_scheduleShip) {
-	 * scheduleShip.setName
-	 * (this.shipDao.loadShip(scheduleShip.getIdship()).getName()); }
-	 *
-	 * if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue()
-	 * != 0)) {
-	 * this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue()); } else
-	 * { this.sw_list_scheduleShip.setPageSize(10); }
-	 *
-	 * this.sw_list_scheduleShip.setModel(new
-	 * ListModelList<ScheduleShip>(list_scheduleShip));
-	 *
-	 * }
-	 */
 }
