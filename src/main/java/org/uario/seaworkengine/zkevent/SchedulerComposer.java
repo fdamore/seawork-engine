@@ -296,50 +296,49 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Combobox						program_task;
 	@Wire
-	private Listheader						program_tot_1_1;
+	private Auxheader						program_tot_1_1;
 	@Wire
-	private Listheader						program_tot_1_2;
+	private Auxheader						program_tot_1_2;
 	@Wire
-	private Listheader						program_tot_1_3;
+	private Auxheader						program_tot_1_3;
 
 	@Wire
-	private Listheader						program_tot_1_4;
+	private Auxheader						program_tot_1_4;
 	@Wire
-	private Listheader						program_tot_2_1;
+	private Auxheader						program_tot_2_1;
 	@Wire
-	private Listheader						program_tot_2_2;
+	private Auxheader						program_tot_2_2;
 	@Wire
-	private Listheader						program_tot_2_3;
+	private Auxheader						program_tot_2_3;
 
 	@Wire
-	private Listheader						program_tot_2_4;
+	private Auxheader						program_tot_2_4;
 	@Wire
-	private Listheader						program_tot_3_1;
+	private Auxheader						program_tot_3_1;
 	@Wire
-	private Listheader						program_tot_3_2;
+	private Auxheader						program_tot_3_2;
 	@Wire
-	private Listheader						program_tot_3_3;
+	private Auxheader						program_tot_3_3;
 
 	@Wire
-	private Listheader						program_tot_3_4;
+	private Auxheader						program_tot_3_4;
 	@Wire
-	private Listheader						program_tot_4_1;
+	private Auxheader						program_tot_4_1;
 	@Wire
-	private Listheader						program_tot_4_2;
+	private Auxheader						program_tot_4_2;
 	@Wire
-	private Listheader						program_tot_4_3;
+	private Auxheader						program_tot_4_3;
 
 	@Wire
-	private Listheader						program_tot_4_4;
+	private Auxheader						program_tot_4_4;
 	@Wire
-	private Listheader						program_tot_5_1;
+	private Auxheader						program_tot_5_1;
 	@Wire
-	private Listheader						program_tot_5_2;
+	private Auxheader						program_tot_5_2;
 	@Wire
-	private Listheader						program_tot_5_3;
-
+	private Auxheader						program_tot_5_3;
 	@Wire
-	private Listheader						program_tot_5_4;
+	private Auxheader						program_tot_5_4;
 
 	@Wire
 	private Auxheader						programUser_tot_1_1;
@@ -406,22 +405,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Comboitem						review_item;
 	@Wire
 	private Combobox						review_task;
+
 	@Wire
-	private Listheader						review_tot_1_1;
+	private Auxheader						review_tot_1_1;
 	@Wire
-	private Listheader						review_tot_1_2;
+	private Auxheader						review_tot_1_2;
 	@Wire
-	private Listheader						review_tot_1_3;
+	private Auxheader						review_tot_1_3;
 	@Wire
-	private Listheader						review_tot_1_4;
+	private Auxheader						review_tot_1_4;
 	@Wire
-	private Listheader						review_tot_2_1;
+	private Auxheader						review_tot_2_1;
 	@Wire
-	private Listheader						review_tot_2_2;
+	private Auxheader						review_tot_2_2;
 	@Wire
-	private Listheader						review_tot_2_3;
+	private Auxheader						review_tot_2_3;
 	@Wire
-	private Listheader						review_tot_2_4;
+	private Auxheader						review_tot_2_4;
 	@Wire
 	private Auxheader						reviewUser_tot_1_1;
 	@Wire
@@ -1061,17 +1061,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2769,21 +2769,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-							@Override
-							public void onEvent(final Event e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
-									// add shift break and replace others break
-									// shifts in week whit work shifts
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
-											scheduleListInWeek);
-								} else if (Messagebox.ON_NO.equals(e.getName())) {
-									// add shift break without cancel others
-									// breaks shift in week
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
-								}
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							// add shift break and replace others break
+							// shifts in week whit work shifts
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+									scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
+							// add shift break without cancel others
+							// breaks shift in week
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+						}
 
-							}
-						}, params);
+					}
+				}, params);
 			} else {
 				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 			}
@@ -2981,18 +2981,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 

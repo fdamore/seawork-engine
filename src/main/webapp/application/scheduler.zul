@@ -1118,7 +1118,7 @@
 
 						<auxhead>
 							<auxheader
-								label="Totale persone giornaliero" colspan="1"
+								label="Totale persone giorno" colspan="1"
 								sclass="mySeparatorBorder" />
 							<auxheader colspan="4" align="center"
 								id="totalUser_program_day_1" sclass="mySeparatorBorder" />
@@ -1153,54 +1153,54 @@
 
 						<auxhead>
 
-							<auxheader label="TURNI" hflex="3"
+							<auxheader label="Totale ore per turno" hflex="3"
 								sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
-								align="center" />
+								id="program_tot_1_1" align="center" />
 
 							<auxheader label="2" hflex="1"
-								align="center" />
+								id="program_tot_1_2" align="center" />
 							<auxheader label="3" hflex="1"
-								align="center" />
+								id="program_tot_1_3" align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder" />
-
-							<auxheader label="1" hflex="1"
-								align="center" />
-							<auxheader label="2" hflex="1"
-								align="center" />
-							<auxheader label="3" hflex="1"
-								align="center" />
-							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder" />
+								id="program_tot_1_4" align="center" sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
-								align="center" />
+								id="program_tot_2_1" align="center" />
 							<auxheader label="2" hflex="1"
-								align="center" />
+								id="program_tot_2_2" align="center" />
 							<auxheader label="3" hflex="1"
-								align="center" />
+								id="program_tot_2_3" align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder" />
+								id="program_tot_2_4" align="center" sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
-								align="center" />
+								id="program_tot_3_1" align="center" />
 							<auxheader label="2" hflex="1"
-								align="center" />
+								id="program_tot_3_2" align="center" />
 							<auxheader label="3" hflex="1"
-								align="center" />
+								id="program_tot_3_3" align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder" />
+								id="program_tot_3_4" align="center" sclass="mySeparatorBorder" />
 
 							<auxheader label="1" hflex="1"
-								align="center" />
+								id="program_tot_4_1" align="center" />
 							<auxheader label="2" hflex="1"
-								align="center" />
+								id="program_tot_4_2" align="center" />
 							<auxheader label="3" hflex="1"
-								align="center" />
+								id="program_tot_4_3" align="center" />
 							<auxheader label="4" hflex="1"
-								align="center" sclass="mySeparatorBorder" />
+								id="program_tot_4_4" align="center" sclass="mySeparatorBorder" />
+
+							<auxheader label="1" hflex="1"
+								id="program_tot_5_1" align="center" />
+							<auxheader label="2" hflex="1"
+								id="program_tot_5_2" align="center" />
+							<auxheader label="3" hflex="1"
+								id="program_tot_5_3" align="center" />
+							<auxheader label="4" hflex="1"
+								id="program_tot_5_4" align="center" sclass="mySeparatorBorder" />
 
 						</auxhead>
 
@@ -1262,49 +1262,49 @@
 								sort="auto(name_user)" hflex="3" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_1_1" />
+								align="center" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_1_2" />
+								align="center" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_1_3" />
+								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_1_4" sclass="mySeparatorBorder" />
+								align="center" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_2_1" />
+								align="center" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_2_2" />
+								align="center" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_2_3" />
+								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_2_4" sclass="mySeparatorBorder" />
+								align="center" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_3_1" />
+								align="center" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_3_2" />
+								align="center" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_3_3" />
+								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_3_4" sclass="mySeparatorBorder" />
+								align="center" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_4_1" />
+								align="center" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_4_2" />
+								align="center" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_4_3" />
+								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_4_4" sclass="mySeparatorBorder" />
+								align="center" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								align="center" id="program_tot_5_1" />
+								align="center" />
 							<listheader label="2" hflex="1"
-								align="center" id="program_tot_5_2" />
+								align="center" />
 							<listheader label="3" hflex="1"
-								align="center" id="program_tot_5_3" />
+								align="center" />
 							<listheader label="4" hflex="1"
-								align="center" id="program_tot_5_4" sclass="mySeparatorBorder" />
+								align="center" sclass="mySeparatorBorder" />
 
 						</listhead>
 
@@ -1756,7 +1756,7 @@
 				<datebox id="date_init_scheduler_review"
 					placeholder="Selezione data iniziale" width="200px">
 				</datebox>
-				
+
 				<button id="assign_program_review"
 					label="Assegna programmato" sclass="btn-danger" />
 
@@ -1795,7 +1795,7 @@
 
 						<auxhead>
 							<auxheader
-								label="Totale persone giornaliero" colspan="1"
+								label="Totale persone giorno" colspan="1"
 								sclass="mySeparatorBorder" />
 							<auxheader style="position:relative;"
 								colspan="4" align="center" id="totalUser_review_day_1" label="1"
@@ -1820,18 +1820,24 @@
 
 
 						<auxhead>
-							<auxheader label="TURNI" colspan="1"
+							<auxheader label="Totale ore per turno" colspan="1"
 								sclass="mySeparatorBorder" />
-							<auxheader align="center" label="1" />
-							<auxheader align="center" label="2" />
-							<auxheader align="center" label="3" />
+							<auxheader align="center" label="1"
+								id="review_tot_1_1" />
+							<auxheader align="center" label="2"
+								id="review_tot_1_2" />
+							<auxheader align="center" label="3"
+								id="review_tot_1_3" />
 							<auxheader align="center" label="4"
-								sclass="mySeparatorBorder" />
-							<auxheader align="center" label="1" />
-							<auxheader align="center" label="2" />
-							<auxheader align="center" label="3" />
+								id="review_tot_1_4" sclass="mySeparatorBorder" />
+							<auxheader align="center" label="1"
+								id="review_tot_2_1" />
+							<auxheader align="center" label="2"
+								id="review_tot_2_2" />
+							<auxheader align="center" label="3"
+								id="review_tot_2_3" />
 							<auxheader align="center" label="4"
-								sclass="mySeparatorBorder" />
+								id="review_tot_2_4" sclass="mySeparatorBorder" />
 						</auxhead>
 
 						<auxhead>
@@ -1861,21 +1867,21 @@
 								sort="auto(name_user)" hflex="2" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
-								id="review_tot_1_1" align="center" />
+								align="center" />
 							<listheader label="2" hflex="1"
-								id="review_tot_1_2" align="center" />
+								align="center" />
 							<listheader label="3" hflex="1"
-								id="review_tot_1_3" align="center" />
+								align="center" />
 							<listheader label="4" hflex="1"
-								id="review_tot_1_4" align="center" sclass="mySeparatorBorder" />
+								align="center" sclass="mySeparatorBorder" />
 							<listheader label="1" hflex="1"
-								id="review_tot_2_1" align="center" />
+								align="center" />
 							<listheader label="2" hflex="1"
-								id="review_tot_2_2" align="center" />
+								align="center" />
 							<listheader label="3" hflex="1"
-								id="review_tot_2_3" align="center" />
+								align="center" />
 							<listheader label="4" hflex="1"
-								id="review_tot_2_4" align="center" sclass="mySeparatorBorder" />
+								align="center" sclass="mySeparatorBorder" />
 						</listhead>
 
 
