@@ -116,7 +116,9 @@
 		SELECT 
 		d.shift, d.id, d.idscheduleship, s.name, d.operation, ss.note,ss.arrivaldate, ss.departuredate,
 		d.iduser,
-		d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname, s.id as id_ship
+		d.handswork, d.menwork, d.shiftdate, s.id as id_ship, 
+		concat(u.lastname, '
+		', u.firstname) AS firstname
 		FROM
 		detailscheduleship d, user u, ship s, scheduleship ss 
 		where
@@ -131,7 +133,8 @@
 		SELECT 
 		d.shift, d.id, d.idscheduleship, s.name, d.operation, ss.note,ss.arrivaldate, ss.departuredate, s.id as id_ship,
 		d.iduser,
-		d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname
+		d.handswork, d.menwork, d.shiftdate, concat(u.lastname, '
+		', u.firstname) AS firstname
 		FROM
 		detailscheduleship d, user u, ship s, scheduleship ss 
 		where
@@ -174,7 +177,7 @@
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		<![CDATA[
 		
-		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, s.name
+		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, ss.departuredate, s.name
 		FROM
 		scheduleship ss, ship s 
 		where

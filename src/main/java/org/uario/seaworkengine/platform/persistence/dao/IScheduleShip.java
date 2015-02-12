@@ -33,7 +33,7 @@ public interface IScheduleShip {
 
 	public List<ScheduleShip> loadScheduleShipByArrivalDate(Timestamp arrivaldate);
 
-	public ScheduleShip loadScheduleShipByIdShipAndArrivalDate(Integer idship, Date arrivaldate);
+	public List<ScheduleShip> loadScheduleShipByIdShipAndArrivalDate(Integer idship, Date arrivaldate);
 
 	public List<ScheduleShip> loadScheduleShipInDate(Timestamp dateFrom, Timestamp dateTo);
 
