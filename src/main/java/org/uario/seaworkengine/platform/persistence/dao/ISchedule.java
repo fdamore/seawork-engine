@@ -19,6 +19,8 @@ public interface ISchedule {
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
+	List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdSchedule(Integer id_schedule);
+
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
@@ -62,5 +64,7 @@ public interface ISchedule {
 	public List<Schedule> selectScheduleInIntervalDateByUserId(Integer user, Date date_from, Date date_to);
 
 	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
+
+	public void updateMobileSynch(boolean synch_mobile);
 
 }

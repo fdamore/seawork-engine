@@ -21,13 +21,13 @@ import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private PersonDAO personDAO;
+	private PersonDAO	personDAO;
 
-	private ISchedule scheduleDAO;
+	private ISchedule	scheduleDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache	shiftCache;
 
-	private ITaskCache taskCache;
+	private ITaskCache	taskCache;
 
 	public PersonDAO getPersonDAO() {
 		return this.personDAO;
@@ -74,8 +74,13 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
-			final List<DetailInitialSchedule> details = this.scheduleDAO
-					.loadDetailInitialScheduleForMobileByIdSchedule(schedule.getId());
+			List<DetailInitialSchedule> details = null;
+			if ((schedule.getSync_mobile() == null) || !schedule.getSync_mobile()) {
+				details = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdSchedule(schedule.getId());
+			} else {
+				details = this.scheduleDAO.loadDetailFinalScheduleForMobileByIdSchedule(schedule.getId());
+			}
+
 			if ((details == null) || (details.size() == 0)) {
 				continue;
 			}
@@ -96,8 +101,7 @@ public class WebControllerImpl implements IWebServiceController {
 	public boolean setFinalSchedule(final FinalSchedule final_schedule, final Integer shift) {
 
 		try {
-			this.scheduleDAO.saveListDetailFinalScheduler(final_schedule.getSchedule().getId(), shift,
-					final_schedule.getDetail_schedule());
+			this.scheduleDAO.saveListDetailFinalScheduler(final_schedule.getSchedule().getId(), shift, final_schedule.getDetail_schedule());
 			return true;
 		} catch (final Exception e) {
 			return false;

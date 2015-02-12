@@ -71,6 +71,13 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
+	public List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdSchedule(final Integer id_schedule) {
+		MyBatisScheduleDAO.logger.info("loadDetailFinalScheduleForMobileByIdSchedule");
+
+		return this.getSqlSession().selectList("schedule.loadDetailFinalScheduleForMobileByIdSchedule", id_schedule);
+	}
+
+	@Override
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(final Integer id_schedule) {
 		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdSchedule");
 
@@ -328,5 +335,11 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectSchedulersForPreprocessing", map);
 		return list;
+	}
+
+	@Override
+	public void updateMobileSynch(final boolean synch) {
+		this.getSqlSession().update("schedule.updateMobileSynch", synch);
+
 	}
 }
