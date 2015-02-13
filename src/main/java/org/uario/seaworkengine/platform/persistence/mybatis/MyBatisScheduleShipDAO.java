@@ -1,15 +1,19 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
+import org.uario.seaworkengine.statistics.MenNeedToShift;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
 
@@ -61,6 +65,17 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 		this.getSqlSession().update("scheduleship.deteleDetailSchedueleShipByIdSchedule", id_scheduleShip);
 
+	}
+
+	@Override
+	public Map<Integer, MenNeedToShift> getMenNeedToWork(final Date day_select) {
+		MyBatisScheduleShipDAO.logger.info("menNeedToWork");
+
+		final Date info = DateUtils.truncate(day_select, Calendar.DATE);
+
+		final Map<Integer, MenNeedToShift> map = this.getSqlSession().selectMap("scheduleship.menNeedToWork", info, "shift");
+
+		return map;
 	}
 
 	@Override
