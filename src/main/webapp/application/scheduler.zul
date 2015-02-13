@@ -882,20 +882,16 @@
 
 				<vlayout style="margin: 5px 5px 5px 5px">
 
-					<vbox align="start">
-						<a id="scheduler_label"></a>
-						<a id="label_date_shift_program" sclass="header"
-							iconSclass="z-icon-check" />
-						<a id="editor_label" />
-						<a id="controller_label" />
+					<hbox>
+						<button id="ok_program"
+							label="Salva Programmazione" sclass="btn-info">
+						</button>
 
-					</vbox>
+						<button id="cancel_program"
+							label="Cancella Programmazione" sclass="btn-danger">
+						</button>
 
-					<separator></separator>
-
-					<button id="ok_program" label="Salva Programmazione"
-						sclass="btn-info">
-					</button>
+					</hbox>
 
 					<div id="div_force_shift">
 						<separator></separator>
@@ -917,7 +913,7 @@
 
 					</div>
 
-					<separator></separator>
+
 
 					<div id="define_program_body">
 
@@ -926,7 +922,16 @@
 							sclass="transparent">
 							<panelchildren>
 
-								<separator></separator>
+								<vbox align="start">
+									<a id="scheduler_label"></a>
+									<a id="label_date_shift_program"
+										sclass="header" iconSclass="z-icon-check" />
+									<a id="editor_label" />
+									<a id="controller_label" />
+
+									<separator></separator>
+
+								</vbox>
 
 								<hbox align="center"
 									id="day_shift_over_program">
@@ -937,8 +942,6 @@
 										id="day_shift_over_control_program">
 									</checkbox>
 								</hbox>
-
-								<space></space>
 
 								<listbox id="listbox_program"
 									sclass="domain" checkmark="true" multiple="true">
@@ -981,9 +984,7 @@
 											<button label="Cancella"
 												id="remove_program_item" sclass="btn-info">
 											</button>
-											<button id="cancel_program"
-												label="Cancella Programmazione" sclass="btn-danger">
-											</button>
+
 										</auxheader>
 									</auxhead>
 
@@ -1643,9 +1644,17 @@
 			<popup id="shift_definition_popup_review" width="800px">
 				<vlayout style="margin: 5px 5px 5px 5px">
 
-					<button id="ok_review" label="Salva Consuntivo"
-						sclass="btn-info">
-					</button>
+					<hbox align="center">
+
+						<button id="ok_review" label="Salva Consuntivo"
+							sclass="btn-info">
+						</button>
+
+						<button id="cancel_review"
+							label="Cancella Consuntivazione" sclass="btn-danger">
+						</button>
+
+					</hbox>
 
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
@@ -1706,9 +1715,7 @@
 											id="remove_review_item" sclass="btn-info">
 										</button>
 
-										<button id="cancel_review"
-											label="Cancella Consuntivazione" sclass="btn-danger">
-										</button>
+
 									</auxheader>
 								</auxhead>
 

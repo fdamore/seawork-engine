@@ -52,6 +52,35 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * @return
 	 */
 	@Override
+	public Integer getMaximumShift(final Date date_calendar_schedule, final Integer user) {
+
+		// get info from last shift
+		final Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date_calendar_schedule);
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+
+		// get a shift - 12 after last shift
+		final Integer first_shift = this.myScheduleDAO.getFirstShift(calendar.getTime(), user);
+		int max_shift = 4;
+		if (first_shift != null) {
+			if (first_shift == 2) {
+				max_shift = 3;
+			}
+			if (first_shift == 1) {
+				max_shift = 2;
+			}
+		}
+
+		return max_shift;
+
+	}
+
+	/**
+	 * Get Minimum Shift
+	 *
+	 * @return
+	 */
+	@Override
 	public Integer getMinimumShift(final Date date_calendar_schedule, final Integer user) {
 
 		// get info from last shift
@@ -227,7 +256,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -265,7 +294,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,

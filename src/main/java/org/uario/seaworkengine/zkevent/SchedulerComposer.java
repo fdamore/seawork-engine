@@ -1063,17 +1063,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2229,6 +2229,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.div_force_shift.setVisible(false);
 		this.define_program_body.setVisible(true);
 
+		// set info abount standard work (if any exists)
+		if (this.shift_cache.getStandardWorkShift() != null) {
+			this.label_date_shift_program.setLabel(this.shift_cache.getStandardWorkShift().toString());
+		} else {
+			this.label_date_shift_program.setLabel(null);
+		}
+
 		// set label current shift
 		if (this.currentSchedule != null) {
 
@@ -2241,17 +2248,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (myshift.getForceable().booleanValue()) {
 					this.div_force_shift.setVisible(true);
 					this.define_program_body.setVisible(false);
-
-					// set combo
-
 				}
 
-			} else {
-				if (this.shift_cache.getStandardWorkShift() != null) {
-					this.label_date_shift_program.setLabel(this.shift_cache.getStandardWorkShift().toString());
-				} else {
-					this.label_date_shift_program.setLabel(null);
-				}
 			}
 
 			// set note_program
@@ -2776,21 +2774,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-							@Override
-							public void onEvent(final Event e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
-									// add shift break and replace others break
-									// shifts in week whit work shifts
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
-											scheduleListInWeek);
-								} else if (Messagebox.ON_NO.equals(e.getName())) {
-									// add shift break without cancel others
-									// breaks shift in week
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
-								}
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							// add shift break and replace others break
+							// shifts in week whit work shifts
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+									scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
+							// add shift break without cancel others
+							// breaks shift in week
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+						}
 
-							}
-						}, params);
+					}
+				}, params);
 			} else {
 				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 			}
@@ -2906,6 +2904,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Save program
 	 */
+	@SuppressWarnings("unchecked")
 	@Listen("onClick = #ok_program")
 	public void saveProgram() {
 
@@ -2976,8 +2975,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// check for 12h constraits
 			if (sum != 0.0) {
+
 				final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
-				if (this.selectedShift.compareTo(min_shift) < 0) {
+				final Integer max_shift = this.statProcedure.getMaximumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
+
+				if ((this.selectedShift.compareTo(min_shift) < 0) || (this.selectedShift.compareTo(max_shift) > 0)) {
 
 					final Map<String, String> params = new HashMap<String, String>();
 					params.put("sclass", "mybutton Button");
@@ -2988,18 +2990,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 

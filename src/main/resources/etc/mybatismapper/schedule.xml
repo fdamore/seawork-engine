@@ -112,6 +112,25 @@
 		s.date_schedule = #{date_schedule}
 	</select>
 
+	<select id="getFirstShiftProgram" parameterType="map" resultType="int">
+		select min(dfs.shift)
+		from detailinitialschedule dfs, schedule s
+		where
+		s.user = #{id_user} and
+		s.id = dfs.id_schedule and s.date_schedule =
+		#{date_schedule}
+	</select>
+
+	<select id="getFirstShiftRevision" parameterType="map"
+		resultType="int">
+		select
+		min(dfs.shift)
+		from detailfinalschedule dfs, schedule
+		s
+		where s.user = #{id_user} and s.id = dfs.id_schedule and
+		s.date_schedule = #{date_schedule}
+	</select>
+
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 		SELECT s.id, s.date_schedule, s.user, s.editor,

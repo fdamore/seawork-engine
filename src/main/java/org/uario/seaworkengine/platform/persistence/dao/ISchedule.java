@@ -13,6 +13,8 @@ public interface ISchedule {
 
 	public void createDetailInitialSchedule(DetailInitialSchedule detail_schedule);
 
+	Integer getFirstShift(Date date_scheduled, Integer user);
+
 	public Integer getLastShift(Date date_scheduled, Integer user);
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(Integer id_schedule);
