@@ -1,4 +1,4 @@
-﻿package org.uario.seaworkengine.web.services.synchmodel;
+package org.uario.seaworkengine.web.services.synchmodel;
 
 import java.io.Serializable;
 import java.util.Date;
