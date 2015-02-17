@@ -13,7 +13,7 @@ public interface ISchedule {
 
 	public void createDetailInitialSchedule(DetailInitialSchedule detail_schedule);
 
-	Integer getFirstShift(Date date_scheduled, Integer user);
+	public Integer getFirstShift(Date date_scheduled, Integer user);
 
 	public Integer getLastShift(Date date_scheduled, Integer user);
 
@@ -21,7 +21,7 @@ public interface ISchedule {
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdSchedule(Integer id_schedule);
+	public List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdSchedule(Integer id_schedule);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 

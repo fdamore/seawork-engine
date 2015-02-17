@@ -4,14 +4,13 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.IWebServiceController;
-import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.synchmodel.WorkerShift;
 
 public class RestControllerImpl implements IWebServiceController {
 
@@ -39,16 +38,14 @@ public class RestControllerImpl implements IWebServiceController {
 		return this.webcontroller.selectInitialSchedule();
 	}
 
-	@Override
-	@GET
-	@Produces("application/xml")
-	@Path("/setFinalSchedule/{schedule}/{shift}")
-	public boolean setFinalSchedule(@PathParam("schedule") final FinalSchedule schedule, @PathParam("shift") final Integer shift) {
-		return this.webcontroller.setFinalSchedule(schedule, null);
-	}
-
 	public void setWebcontroller(final IWebServiceController webcontroller) {
 		this.webcontroller = webcontroller;
+	}
+
+	@Override
+	public boolean synchronizeWork(final List<WorkerShift> list_synch) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

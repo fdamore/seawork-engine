@@ -1,11 +1,17 @@
 package org.uario.seaworkengine.web.services.webcontroller;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
@@ -16,18 +22,24 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.web.services.IWebServiceController;
-import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.synchmodel.TaskRunner;
+import org.uario.seaworkengine.web.services.synchmodel.Worker;
+import org.uario.seaworkengine.web.services.synchmodel.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private PersonDAO	personDAO;
+	private final Logger			logger				= Logger.getLogger(WebControllerImpl.class);
 
-	private ISchedule	scheduleDAO;
+	private PersonDAO				personDAO;
 
-	private IShiftCache	shiftCache;
+	private final SimpleDateFormat	remote_format_date	= new SimpleDateFormat("dd-MM-yyyy");
 
-	private ITaskCache	taskCache;
+	private ISchedule				scheduleDAO;
+
+	private IShiftCache				shiftCache;
+
+	private ITaskCache				taskCache;
 
 	public PersonDAO getPersonDAO() {
 		return this.personDAO;
@@ -97,17 +109,6 @@ public class WebControllerImpl implements IWebServiceController {
 		return ret;
 	}
 
-	@Override
-	public boolean setFinalSchedule(final FinalSchedule final_schedule, final Integer shift) {
-
-		try {
-			this.scheduleDAO.saveListDetailFinalScheduler(final_schedule.getSchedule().getId(), shift, final_schedule.getDetail_schedule());
-			return true;
-		} catch (final Exception e) {
-			return false;
-		}
-	}
-
 	public void setPersonDAO(final PersonDAO personDAO) {
 		this.personDAO = personDAO;
 	}
@@ -124,4 +125,84 @@ public class WebControllerImpl implements IWebServiceController {
 		this.taskCache = taskCache;
 	}
 
+	@Override
+	@Transactional
+	public boolean synchronizeWork(final List<WorkerShift> list_synch) {
+
+		// map schedule
+		final HashMap<Integer, Schedule> schedule_map = new HashMap<Integer, Schedule>();
+
+		// define data synchronize
+		final Date date_schedule = DateUtils.truncate(Calendar.getInstance().getTime(), Calendar.DATE);
+
+		for (final WorkerShift item : list_synch) {
+
+			final Integer no_shift = item.getNumber();
+
+			for (final Worker worker : item.getWorkers()) {
+				if (worker.getUtente() == null) {
+					continue;
+				}
+
+				Schedule schedule = null;
+				schedule = schedule_map.get(worker.getUtente());
+				if (schedule == null) {
+					schedule = this.scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
+					schedule_map.put(worker.getUtente(), schedule);
+
+					// remove final info in this schedule
+					this.scheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+				}
+
+				for (final TaskRunner task_item : worker.getTasks()) {
+
+					final DetailFinalSchedule final_detail = new DetailFinalSchedule();
+					final_detail.setDate_schedule(schedule.getDate_schedule());
+					final_detail.setId_schedule(schedule.getId());
+					final_detail.setShift(no_shift);
+					final_detail.setTask(task_item.getID());
+
+					// define time
+					try {
+						final Date time_from = this.remote_format_date.parse(task_item.getEntrata());
+						final Date time_to = this.remote_format_date.parse(task_item.getUscita());
+
+						final Timestamp timestamp_from = new Timestamp(time_from.getTime());
+						final Timestamp timestamp_to = new Timestamp(time_to.getTime());
+
+						final_detail.setTime_from(timestamp_from);
+						final_detail.setTime_to(timestamp_to);
+
+						// get time
+						final long millis = Math.abs(time_to.getTime() - time_from.getTime());
+						final double h = (double) millis / (1000 * 60 * 60);
+						final UserTask currentTask = this.taskCache.getUserTask(task_item.getID());
+						if (currentTask.getIsabsence().booleanValue()) {
+							final_detail.setTime(0.0);
+							final_detail.setTime_vacation(h);
+						} else {
+							final_detail.setTime(h);
+							final_detail.setTime_vacation(0.0);
+						}
+
+					} catch (final Exception e) {
+						this.logger.error("Error in parsing remote date and timestamp. " + e);
+
+					}
+
+					// insert new info
+					this.scheduleDAO.createDetailFinalSchedule(final_detail);
+
+				}
+
+			}
+
+		}
+
+		// sign as synchronized
+		this.scheduleDAO.updateMobileSynch(true);
+
+		return true;
+
+	}
 }

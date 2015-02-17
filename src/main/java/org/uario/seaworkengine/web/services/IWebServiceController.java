@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
-import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.synchmodel.WorkerShift;
 
 public interface IWebServiceController {
 
@@ -40,6 +40,6 @@ public interface IWebServiceController {
 	 *
 	 * @return
 	 */
-	public boolean setFinalSchedule(FinalSchedule schedule, Integer shift);
+	public boolean synchronizeWork(List<WorkerShift> list_synch);
 
 }
