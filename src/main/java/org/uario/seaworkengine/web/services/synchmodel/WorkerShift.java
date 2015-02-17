@@ -1,13 +1,25 @@
 ﻿package org.uario.seaworkengine.web.services.synchmodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkerShift {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-	private int				number;
+@XmlRootElement(namespace = "org.uario.seaworkengine.web.services.synchmodel")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class WorkerShift implements Serializable {
 
-	private List<Worker>	workers	= new ArrayList<Worker>();
+	/**
+	 *
+	 */
+	private static final long	serialVersionUID	= 1L;
+
+	private int					number;
+
+	private List<Worker>		workers				= new ArrayList<Worker>();
 
 	public int getNumber() {
 		return this.number;

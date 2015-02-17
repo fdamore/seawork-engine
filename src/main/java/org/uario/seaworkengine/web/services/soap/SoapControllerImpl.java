@@ -7,8 +7,8 @@ import javax.jws.WebParam;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.IWebServiceController;
-import org.uario.seaworkengine.web.services.handler.FinalSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.synchmodel.WorkerShift;
 
 public class SoapControllerImpl implements ISoapServiceInterface {
 
@@ -33,13 +33,12 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 		return this.webcontroller.selectInitialSchedule();
 	}
 
-	@Override
-	public boolean setFinalSchedule(@WebParam(name = "schedule") final FinalSchedule schedule, @WebParam(name = "shift") final Integer shift) {
-		return this.setFinalSchedule(schedule, shift);
-	}
-
 	public void setWebcontroller(final IWebServiceController webcontroller) {
 		this.webcontroller = webcontroller;
 	}
 
+	@Override
+	public boolean synchronizeWork(@WebParam(name = "list_synch") final List<WorkerShift> list_synch) {
+		return this.webcontroller.synchronizeWork(list_synch);
+	}
 }

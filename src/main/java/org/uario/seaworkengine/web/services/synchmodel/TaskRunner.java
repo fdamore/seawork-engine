@@ -1,12 +1,24 @@
 ﻿package org.uario.seaworkengine.web.services.synchmodel;
 
-public class TaskRunner {
+import java.io.Serializable;
 
-	private String		descrizione;
-	private String		entrata;
-	private Integer		ID;
-	private WorkerShift	shift;
-	private String		uscita;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(namespace = "org.uario.seaworkengine.web.services.synchmodel")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class TaskRunner implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long	serialVersionUID	= 1L;
+	private String				descrizione;
+	private String				entrata;
+	private Integer				ID;
+	private WorkerShift			shift;
+	private String				uscita;
 
 	public String getDescrizione() {
 		return this.descrizione;

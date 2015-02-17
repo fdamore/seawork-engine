@@ -1,11 +1,23 @@
 ﻿package org.uario.seaworkengine.web.services.synchmodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Worker {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
-	private final List<Badged>		badgeList	= new ArrayList<Badged>();
+@XmlRootElement(namespace = "org.uario.seaworkengine.web.services.synchmodel")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Worker implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long		serialVersionUID	= 1L;
+
+	private final List<Badged>		badgeList			= new ArrayList<Badged>();
 
 	private String					entrata;
 
@@ -19,7 +31,7 @@ public class Worker {
 
 	private int						shift;
 
-	private final List<TaskRunner>	tasks		= new ArrayList<TaskRunner>();
+	private final List<TaskRunner>	tasks				= new ArrayList<TaskRunner>();
 
 	private String					uscita;
 
