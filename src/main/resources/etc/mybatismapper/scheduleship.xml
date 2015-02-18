@@ -190,7 +190,7 @@
 		detailscheduleship where
 		idscheduleship =
 		#{id_scheduleShip}
-		order by shift asc;
+		order by shiftdate asc, shift asc;
 	</select>
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
