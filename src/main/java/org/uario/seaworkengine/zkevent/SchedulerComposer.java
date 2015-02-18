@@ -547,6 +547,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						total_review_day_2;
 
 	@Wire
+	public Label							totalHours_Program;
+
+	@Wire
+	public Label							totalHours_Review;
+
+	@Wire
 	private Auxheader						totalUser_program_day_1;
 
 	@Wire
@@ -687,6 +693,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
 			model.setMultiple(true);
 			this.listbox_program.setModel(model);
+
+			this.setLabelTotalHoursProgram(model);
 		}
 
 	}
@@ -789,6 +797,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
+
+		this.setLabelTotalHoursReview(model);
 
 	}
 
@@ -1063,17 +1073,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2274,6 +2284,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
+		// set Label count hours added in listbox_progra
+		this.setLabelTotalHoursProgram(model);
+
 		// set combo task
 		final List<UserTask> list = this.getListTaskForComboPopup(user);
 
@@ -2417,6 +2430,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
+
+		this.setLabelTotalHoursReview(model);
 
 		// set combo task
 		final List<UserTask> list = this.getListTaskForComboPopup(user);
@@ -2629,6 +2644,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
+		this.setLabelTotalHoursProgram(model);
+
 	}
 
 	@Listen("onClick = #cancel_review")
@@ -2675,6 +2692,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
+
+		this.setLabelTotalHoursReview(model);
 
 	}
 
@@ -2774,21 +2793,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							// add shift break and replace others break
-							// shifts in week whit work shifts
-							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
-									scheduleListInWeek);
-						} else if (Messagebox.ON_NO.equals(e.getName())) {
-							// add shift break without cancel others
-							// breaks shift in week
-							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
-						}
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									// add shift break and replace others break
+									// shifts in week whit work shifts
+									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+											scheduleListInWeek);
+								} else if (Messagebox.ON_NO.equals(e.getName())) {
+									// add shift break without cancel others
+									// breaks shift in week
+									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+								}
 
-					}
-				}, params);
+							}
+						}, params);
 			} else {
 				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 			}
@@ -2990,18 +3009,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								SchedulerComposer.this.saveProgramFinalStep();
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// close popup
-								SchedulerComposer.this.shift_definition_popup.close();
-							}
-						}
-					}, params);
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										SchedulerComposer.this.saveProgramFinalStep();
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// close popup
+										SchedulerComposer.this.shift_definition_popup.close();
+									}
+								}
+							}, params);
 
 					return;
 
@@ -3690,6 +3709,40 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			month_head.setLabel(day_m.toUpperCase());
 
+		}
+
+	}
+
+	private void setLabelTotalHoursProgram(final ListModelList<DetailInitialSchedule> model) {
+		if (model != null) {
+			double total = 0;
+			for (final DetailInitialSchedule detailInitialSchedule : model) {
+
+				if (detailInitialSchedule.getTime() != null) {
+					total += detailInitialSchedule.getTime();
+				}
+				if (detailInitialSchedule.getTime_vacation() != null) {
+					total += detailInitialSchedule.getTime_vacation();
+				}
+			}
+			this.totalHours_Program.setValue("Totale Ore Programmate: " + Utility.decimatToTime(total));
+		}
+
+	}
+
+	private void setLabelTotalHoursReview(final ListModelList<DetailFinalSchedule> model) {
+		if (model != null) {
+			// set Label count hours added in listbox_progra
+			double total = 0;
+			for (final DetailFinalSchedule detailFinalSchedule : model) {
+				if (detailFinalSchedule.getTime() != null) {
+					total += detailFinalSchedule.getTime();
+				}
+				if (detailFinalSchedule.getTime_vacation() != null) {
+					total += detailFinalSchedule.getTime_vacation();
+				}
+			}
+			this.totalHours_Review.setValue("Totale Ore Consuntivate: " + Utility.decimatToTime(total));
 		}
 
 	}
