@@ -47,12 +47,12 @@ public class WebControllerImpl implements IWebServiceController {
 	 * @param list_synch
 	 * @return
 	 */
-	private boolean finalSyncProcess(final List<WorkerShift> list_synch) {
+	private boolean finalSyncProcess(final Date date_request, final List<WorkerShift> list_synch) {
 		// map schedule
 		final HashMap<Integer, Schedule> schedule_map = new HashMap<Integer, Schedule>();
 
 		// define data synchronize
-		final Date date_schedule = DateUtils.truncate(Calendar.getInstance().getTime(), Calendar.DATE);
+		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
 		for (final WorkerShift item : list_synch) {
 
@@ -152,11 +152,11 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedule() {
+	public List<InitialSchedule> selectInitialSchedule(final Date date_request) {
 
 		final List<InitialSchedule> ret = new ArrayList<InitialSchedule>();
 
-		final Date date_schedule = DateUtils.truncate(Calendar.getInstance().getTime(), Calendar.DATE);
+		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
 		final List<Person> list = this.personDAO.listAllPersonsForMobile(date_schedule);
 
@@ -210,7 +210,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	@Transactional
-	public boolean synchronizeWork(final List<WorkerShift> list_synch) {
+	public boolean synchronizeWork(final Date date_request, final List<WorkerShift> list_synch) {
 
 		return true;
 

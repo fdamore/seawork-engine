@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.web.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.model.UserShift;
@@ -29,7 +30,7 @@ public interface IWebServiceController {
 	 * @param date
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedule();
+	public List<InitialSchedule> selectInitialSchedule(Date date_request);
 
 	/**
 	 * Transmit final scheduler
@@ -40,6 +41,6 @@ public interface IWebServiceController {
 	 *
 	 * @return
 	 */
-	public boolean synchronizeWork(List<WorkerShift> list_synch);
+	public boolean synchronizeWork(Date date_request, List<WorkerShift> list_synch);
 
 }

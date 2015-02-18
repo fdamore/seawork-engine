@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.web.services.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -33,9 +34,9 @@ public class RestControllerImpl implements IWebServiceController {
 	@Override
 	@GET
 	@Produces("application/xml")
-	@Path("/selectInitialSchedule")
-	public List<InitialSchedule> selectInitialSchedule() {
-		return this.webcontroller.selectInitialSchedule();
+	@Path("/selectInitialScheduleForToDay")
+	public List<InitialSchedule> selectInitialSchedule(final Date date_request) {
+		return this.webcontroller.selectInitialSchedule(date_request);
 	}
 
 	public void setWebcontroller(final IWebServiceController webcontroller) {
@@ -43,7 +44,7 @@ public class RestControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public boolean synchronizeWork(final List<WorkerShift> list_synch) {
+	public boolean synchronizeWork(final Date date_request, final List<WorkerShift> list_synch) {
 		// TODO Auto-generated method stub
 		return false;
 	}

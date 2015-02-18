@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.web.services.soap;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -29,8 +30,8 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedule() {
-		return this.webcontroller.selectInitialSchedule();
+	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date_request") final Date date_request) {
+		return this.webcontroller.selectInitialSchedule(date_request);
 	}
 
 	public void setWebcontroller(final IWebServiceController webcontroller) {
@@ -38,7 +39,8 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public boolean synchronizeWork(@WebParam(name = "list_synch") final List<WorkerShift> list_synch) {
-		return this.webcontroller.synchronizeWork(list_synch);
+	public boolean synchronizeWork(@WebParam(name = "date_request") final Date date_request,
+			@WebParam(name = "list_synch") final List<WorkerShift> list_synch) {
+		return this.webcontroller.synchronizeWork(date_request, list_synch);
 	}
 }

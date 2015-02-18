@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.web.services.soap;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -33,7 +34,7 @@ public interface ISoapServiceInterface {
 	 * @param date
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedule();
+	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date_request") Date date_request);
 
 	/**
 	 * Transmit final scheduler
@@ -44,6 +45,6 @@ public interface ISoapServiceInterface {
 	 *
 	 * @return
 	 */
-	public boolean synchronizeWork(@WebParam(name = "list_synch") List<WorkerShift> list_synch);
+	public boolean synchronizeWork(@WebParam(name = "date_request") Date date_request, @WebParam(name = "list_synch") List<WorkerShift> list_synch);
 
 }
