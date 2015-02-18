@@ -269,6 +269,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	protected PersonDAO					userPrep;
 
+	@Wire
+	private Combobox					usersecond;
+
+	@Wire
+	private Combobox					usersecond_Daily;
+
 	@Listen("onClick = #sw_link_addDetailScheduleShipProgram")
 	public void addDetailScheduleShipProgram() {
 
@@ -287,6 +293,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
 				if (userOperative != null) {
 					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+				}
+				final Person userSecondOperative = this.personDao.loadPerson(detailScheduleShip.getIdseconduser());
+				if (userOperative != null) {
+					detailScheduleShip.setFirstnameSecondUser(userSecondOperative.getFirstname() + " " + userSecondOperative.getLastname());
 				}
 			}
 
@@ -349,6 +359,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			final Person userOperative = (Person) this.user.getSelectedItem().getValue();
 
+			if (this.usersecond.getSelectedItem() != null) {
+				final Person secondUserOperative = (Person) this.usersecond.getSelectedItem().getValue();
+				detailScheduleShip.setIdseconduser(secondUserOperative.getId());
+				detailScheduleShip.setFirstnameSecondUser(secondUserOperative.getFirstname() + " " + secondUserOperative.getLastname());
+			}
+
 			detailScheduleShip.setShift((Integer) this.shift.getSelectedItem().getValue());
 			detailScheduleShip.setOperation(this.operation.getValue());
 			detailScheduleShip.setIduser(userOperative.getId());
@@ -390,9 +406,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if (this.detailScheduleShipSelected != null) {
 			this.shiftdate.setValue(this.detailScheduleShipSelected.getShiftdate());
 
-			final Person person = this.personDao.loadPerson(this.detailScheduleShipSelected.getIduser());
-
-			// select user
+			// select first user
+			Person person = this.personDao.loadPerson(this.detailScheduleShipSelected.getIduser());
 			if (person != null) {
 				final List<Comboitem> listItem = this.user.getItems();
 				for (final Comboitem item : listItem) {
@@ -408,6 +423,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			} else {
 				this.user.setSelectedItem(null);
+			}
+
+			// select second user
+			person = this.personDao.loadPerson(this.detailScheduleShipSelected.getIdseconduser());
+			if (person != null) {
+				final List<Comboitem> listItem = this.usersecond.getItems();
+				for (final Comboitem item : listItem) {
+					if (item.getValue() instanceof Person) {
+						final Person current_person = item.getValue();
+						if (person.equals(current_person)) {
+							this.usersecond.setSelectedItem(item);
+							break;
+						}
+					}
+
+				}
+
+			} else {
+				this.usersecond.setSelectedItem(null);
 			}
 
 			// select shift
@@ -593,7 +627,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// add item operative users in combobox user
 				final ListModel<Person> modelComboBox_User = new ListModelList<Person>(ShipSchedulerComposer.this.personDao.listOperativePerson());
 				ShipSchedulerComposer.this.user.setModel(modelComboBox_User);
-				ShipSchedulerComposer.this.user_Daily.setModel(modelComboBox_User);
+
+				final ListModel<Person> modelComboBox_UserSecond = new ListModelList<Person>(ShipSchedulerComposer.this.personDao
+						.listOperativePerson());
+				ShipSchedulerComposer.this.usersecond.setModel(modelComboBox_UserSecond);
+
+				final ListModel<Person> modelComboBox_UserDaily = new ListModelList<Person>(ShipSchedulerComposer.this.personDao
+						.listOperativePerson());
+				ShipSchedulerComposer.this.user_Daily.setModel(modelComboBox_UserDaily);
+
+				final ListModel<Person> modelComboBox_UserSecondDaily = new ListModelList<Person>(ShipSchedulerComposer.this.personDao
+						.listOperativePerson());
+				ShipSchedulerComposer.this.usersecond_Daily.setModel(modelComboBox_UserSecondDaily);
 
 				ShipSchedulerComposer.this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
 
@@ -747,9 +792,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.shiftdate_Daily.setValue(this.detailScheduleShipSelected.getShiftdate());
 
-			final Person person = this.personDao.loadPerson(this.detailScheduleShipSelected.getIduser());
-
-			// select user
+			// select first user
+			Person person = this.personDao.loadPerson(this.detailScheduleShipSelected.getIduser());
 			if (person != null) {
 				final List<Comboitem> listItem = this.user_Daily.getItems();
 				for (final Comboitem item : listItem) {
@@ -765,6 +809,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			} else {
 				this.user_Daily.setSelectedItem(null);
+			}
+
+			// select second user
+			person = this.personDao.loadPerson(this.detailScheduleShipSelected.getIdseconduser());
+			if (person != null) {
+				final List<Comboitem> listItem = this.usersecond_Daily.getItems();
+				for (final Comboitem item : listItem) {
+					if (item.getValue() instanceof Person) {
+						final Person current_person = item.getValue();
+						if (person.equals(current_person)) {
+							this.usersecond_Daily.setSelectedItem(item);
+							break;
+						}
+					}
+
+				}
+
+			} else {
+				this.usersecond_Daily.setSelectedItem(null);
 			}
 
 			// select shift
@@ -921,6 +984,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shift.setSelectedItem(null);
 		this.operation.setValue("");
 		this.user.setSelectedItem(null);
+		this.usersecond.setSelectedItem(null);
 		this.handswork.setValue(null);
 		this.menwork.setValue(null);
 		this.shiftdate.setValue(null);
@@ -976,6 +1040,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				this.detailScheduleShipSelected.setShift(shift);
 				this.detailScheduleShipSelected.setOperation(this.operation_Daily.getValue().toString());
 				this.detailScheduleShipSelected.setIduser(((Person) this.user_Daily.getSelectedItem().getValue()).getId());
+				this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond_Daily.getSelectedItem().getValue()).getId());
 				this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
 				this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
 
@@ -1164,6 +1229,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected.setShift(shift);
 			this.detailScheduleShipSelected.setOperation(this.operation.getValue().toString());
 			this.detailScheduleShipSelected.setIduser(((Person) this.user.getSelectedItem().getValue()).getId());
+
+			if (this.usersecond.getSelectedItem() != null) {
+				this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond.getSelectedItem().getValue()).getId());
+			}
+
 			this.detailScheduleShipSelected.setHandswork(this.handswork.getValue());
 			this.detailScheduleShipSelected.setMenwork(this.menwork.getValue());
 

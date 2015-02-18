@@ -31,19 +31,35 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	@XmlTransient
 	private String	firstname;
 
+	/**
+	 * Used only in view mode
+	 */
+	@XmlTransient
+	private String	firstnameSecondUser;
 	private Integer	handswork;
 	private Integer	id;
 	// ship id
 	private Integer	id_ship;
+
 	private Integer	idscheduleship;
 
+	private Integer	idseconduser;
+
 	private Integer	iduser;
+
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
 	private String	lastname;
+	/**
+	 * Used only in view mode
+	 */
+	@XmlTransient
+	private String	lastnameSecondUser;
+
 	private Integer	menwork;
+
 	// ship name
 	private String	name;
 
@@ -73,6 +89,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.firstname;
 	}
 
+	public String getFirstnameSecondUser() {
+		return this.firstnameSecondUser;
+	}
+
 	public Integer getHandswork() {
 		return this.handswork;
 	}
@@ -89,8 +109,16 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.idscheduleship;
 	}
 
+	public Integer getIdseconduser() {
+		return this.idseconduser;
+	}
+
 	public Integer getIduser() {
 		return this.iduser;
+	}
+
+	public String getLastnameSecondUser() {
+		return this.lastnameSecondUser;
 	}
 
 	public Integer getMenwork() {
@@ -133,6 +161,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.firstname = firstname;
 	}
 
+	public void setFirstnameSecondUser(final String firstnameSecondUser) {
+		this.firstnameSecondUser = firstnameSecondUser;
+	}
+
 	public void setHandswork(final Integer handswork) {
 		this.handswork = handswork;
 	}
@@ -149,8 +181,16 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.idscheduleship = idscheduleship;
 	}
 
+	public void setIdseconduser(final Integer idseconduser) {
+		this.idseconduser = idseconduser;
+	}
+
 	public void setIduser(final Integer iduser) {
 		this.iduser = iduser;
+	}
+
+	public void setLastnameSecondUser(final String lastnameSecondUser) {
+		this.lastnameSecondUser = lastnameSecondUser;
 	}
 
 	public void setMenwork(final Integer menwork) {

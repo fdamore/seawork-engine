@@ -170,8 +170,12 @@
 
 									</row>									
 									<row>
-										<label value="Nome Preposto:"></label>
-										<combobox id="user" placeholder="Seleziona Preposto" />
+										<label value="Nome Primo Preposto:"></label>
+										<combobox id="user" placeholder="Seleziona Primo Preposto" />
+									</row>
+									<row>
+										<label value="Nome Secondo Preposto:"></label>
+										<combobox id="usersecond" placeholder="Seleziona Secondo Preposto" />
 									</row>
 									<row>
 										<label
@@ -207,7 +211,8 @@
 												<listheader label="Data" sort="auto(shiftdate)"/>
 												<listheader label="Turno" sort="auto(shift)"/>
 												<listheader label="Operazione" sort="auto(operation)"/>
-												<listheader label="Nome preposto" sort="auto(firstname)"/>
+												<listheader label="Nome primo preposto" sort="auto(firstname)"/>
+												<listheader label="Nome secondo preposto" sort="auto(firstnameSecondUser)"/>
 												<listheader label="Mani di lavoro" sort="auto(handswork)" />
 												<listheader label="Numero di uomini" sort="auto(menwork)" />
 												
@@ -221,6 +226,7 @@
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstnameSecondUser}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
 
@@ -408,7 +414,8 @@
 				<listheader label="Turno" sort="auto(shift)"/>
 				<listheader label="Nome Nave" sort="auto(name)" />
 				<listheader label="Operazione" sort="auto(operation)"/>
-				<listheader label="Preposto" sort="auto(firstname)"/>
+				<listheader label="Primo Preposto" sort="auto(firstname)"/>
+				<listheader label="Secondo Preposto" sort="auto(firstnameSecondUser)"/>
 				<listheader label="Mani di lavoro" sort="auto(handswork)" />
 				<listheader label="Numero Persone" sort="auto(menwork)"/>
 				<listheader label="Note" />
@@ -432,6 +439,7 @@
 				
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
+				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstnameSecondUser}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.note}" />
@@ -500,8 +508,12 @@
 
 									</row>									
 									<row>
-										<label value="Nome Preposto:"></label>
-										<combobox id="user_Daily" placeholder="Seleziona Preposto" />
+										<label value="Nome Primo Preposto:"></label>
+										<combobox id="user_Daily" placeholder="Seleziona Primo Preposto" />
+									</row>
+									<row>
+										<label value="Nome Secondo Preposto:"></label>
+										<combobox id="usersecond_Daily" placeholder="Seleziona Secondo Preposto" />
 									</row>
 									<row>
 										<label
