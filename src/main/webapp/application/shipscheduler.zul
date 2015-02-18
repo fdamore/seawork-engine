@@ -72,7 +72,7 @@
 										<label
 											value="Volume Atteso">
 										</label>
-										<doublebox id="ship_volume_schedule"
+										<intbox id="ship_volume_schedule"
 											mold="rounded" />
 									</row>																		
 									<row>
@@ -266,7 +266,7 @@
 										<label
 											value="Volume Atteso">
 										</label>
-										<doublebox id="ship_volume"
+										<intbox id="ship_volume"
 											mold="rounded" />
 									</row>																		
 									<row>
@@ -379,14 +379,15 @@
 				value="10"/>
 			<textbox placeholder="Cerca..." id="full_text_search"/>
 		<separator/>
-
+		
+		<!-- 
 			<button id="sw_addSchedulerShip" sclass="btn-info"
 				label="Aggiungi Dettaglio Programmazione"/>
 
 			<space/>
+		-->
 		
-		
-		<separator/><separator/>
+		<separator/>
 		
 		<listbox id="sw_list_scheduleShip" pagingPosition="both" mold="paging"
 			onSelect=""

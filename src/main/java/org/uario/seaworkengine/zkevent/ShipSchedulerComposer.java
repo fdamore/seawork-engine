@@ -30,7 +30,6 @@ import org.zkoss.zul.A;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
-import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
@@ -163,10 +162,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Combobox						ship_name_schedule;
 
 	@Wire
-	private Doublebox					ship_volume;
+	private Intbox						ship_volume;
 
 	@Wire
-	public Doublebox					ship_volume_schedule;
+	public Intbox						ship_volume_schedule;
 
 	protected IShip						shipDao;
 
@@ -703,7 +702,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				for (final Comboitem item : listItem) {
 					if (item.getValue() instanceof Integer) {
 						final Integer current_shift = item.getValue();
-						if (shift == current_shift) {
+						if (shift.equals(current_shift)) {
 							this.shift_Daily.setSelectedItem(item);
 							break;
 						}

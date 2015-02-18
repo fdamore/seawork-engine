@@ -31,7 +31,7 @@ public class ScheduleShip implements Serializable {
 
 	private String	note;
 
-	private Double	volume;
+	private Integer	volume;
 
 	public Date getArrivaldate() {
 		return this.arrivaldate;
@@ -57,7 +57,7 @@ public class ScheduleShip implements Serializable {
 		return this.note;
 	}
 
-	public Double getVolume() {
+	public Integer getVolume() {
 		return this.volume;
 	}
 
@@ -85,7 +85,7 @@ public class ScheduleShip implements Serializable {
 		this.note = note;
 	}
 
-	public void setVolume(final Double volume) {
+	public void setVolume(final Integer volume) {
 		this.volume = volume;
 	}
 
