@@ -295,7 +295,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
 				}
 				final Person userSecondOperative = this.personDao.loadPerson(detailScheduleShip.getIdseconduser());
-				if (userOperative != null) {
+				if (userSecondOperative != null) {
 					detailScheduleShip.setFirstnameSecondUser(userSecondOperative.getFirstname() + " " + userSecondOperative.getLastname());
 				}
 			}
@@ -1040,7 +1040,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				this.detailScheduleShipSelected.setShift(shift);
 				this.detailScheduleShipSelected.setOperation(this.operation_Daily.getValue().toString());
 				this.detailScheduleShipSelected.setIduser(((Person) this.user_Daily.getSelectedItem().getValue()).getId());
-				this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond_Daily.getSelectedItem().getValue()).getId());
+				if (this.usersecond_Daily.getSelectedItem() != null) {
+					this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond_Daily.getSelectedItem().getValue()).getId());
+				}
+
 				this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
 				this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
 
