@@ -179,6 +179,13 @@
 										</label>
 										<checkbox id="dailyemployee" />
 									</row>
+									
+									<row>
+										<label
+											value="Part Time">
+										</label>
+										<checkbox id="partTime" />
+									</row>
 
 									<row>
 										<label value="Nome:"></label>

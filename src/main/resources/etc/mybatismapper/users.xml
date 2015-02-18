@@ -44,7 +44,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee, 
+		u.part_time
 		FROM
 		user u
 		where ( u.authority like
@@ -91,7 +92,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee, 
+		u.part_time
 		FROM
 		user u
 		where ( u.authority like
@@ -138,7 +140,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user
 		u
@@ -184,7 +187,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user
 		u
@@ -230,7 +234,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user
 		u
@@ -275,7 +280,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user
 		u
@@ -325,7 +331,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user
 		u order by
@@ -368,7 +375,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user u, schedule s, usershift us
 		WHERE
@@ -419,7 +427,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user u
 		WHERE
@@ -475,7 +484,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -529,7 +539,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user
 		u
@@ -576,7 +587,8 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee
+		u.dailyemployee,
+		u.part_time
 		FROM
 		user
 		u
@@ -614,7 +626,8 @@
 		sex,
 		out_schedule,
 		birth_province,
-		dailyemployee
+		dailyemployee,
+		part_time
 		)
 		VALUES
 		(#{email},
@@ -648,7 +661,8 @@
 		#{sex},
 		#{out_schedule},
 		#{birth_province},
-		#{dailyemployee})
+		#{dailyemployee},
+		#{part_time})
 	</insert>
 
 	<delete id="deletePerson" parameterType="int">
@@ -702,7 +716,9 @@
 		birth_province =
 		#{birth_province},
 		dailyemployee =
-		#{dailyemployee}
+		#{dailyemployee},
+		part_time = 
+		#{part_time} 
 		WHERE id =
 		#{id}
 	</update>

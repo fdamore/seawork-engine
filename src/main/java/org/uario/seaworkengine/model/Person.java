@@ -102,6 +102,9 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	private Boolean				out_schedule;
 
 	@XmlTransient
+	private Boolean				part_time;
+
+	@XmlTransient
 	private String				password;
 
 	@XmlTransient
@@ -307,6 +310,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.out_schedule;
 	}
 
+	public Boolean getPart_time() {
+		return this.part_time;
+	}
+
 	@Override
 	public String getPassword() {
 		return this.password;
@@ -463,11 +470,11 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setBirth_province(final String birth_province) {
 		this.birth_province = birth_province;
-	}
+	};
 
 	public void setCity(final String city) {
 		this.city = city;
-	};
+	}
 
 	public void setCountry(final String country) {
 		this.country = country;
@@ -548,6 +555,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setOut_schedule(final Boolean out_schedule) {
 		this.out_schedule = out_schedule;
+	}
+
+	public void setPart_time(final Boolean part_time) {
+		this.part_time = part_time;
 	}
 
 	public void setPassword(final String password) {
