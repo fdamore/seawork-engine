@@ -133,6 +133,11 @@
 								label="Aggiungi Dettaglio"  style="color: blue" visible="true">
 							</toolbarbutton>
 							
+							<toolbarbutton id="modify_scheduleShipsDetail_command"
+								label="Modifica Dettaglio"  style="color: blue" visible="false">
+							</toolbarbutton>
+							
+							
 						</caption>
 
 						<panelchildren>
@@ -225,6 +230,12 @@
 														style="color:blue"
 														onClick="sw_list_scheduleDetailShip.selectItem((Listitem)self.getParent().getParent());sw_list_scheduleDetailShip.setSelectedItem((Listitem)self.getParent().getParent());"
 														label="Cancella">
+													</toolbarbutton>
+													
+													<toolbarbutton id="sw_link_modifyDetailship"
+														style="color:blue"
+														onClick="sw_list_scheduleDetailShip.selectItem((Listitem)self.getParent().getParent());sw_list_scheduleDetailShip.setSelectedItem((Listitem)self.getParent().getParent());"
+														label="Modifica">
 													</toolbarbutton>
 									
 												</listcell>
