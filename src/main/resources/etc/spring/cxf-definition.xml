@@ -26,20 +26,7 @@
 
 
 
-	<!-- REST SERVICE -->
 
-	<jaxrs:server id="restHandlerServices" address="/restservice">
-		<jaxrs:serviceBeans>
-			<ref bean="restcontroller" />
-		</jaxrs:serviceBeans>
-	</jaxrs:server>
-
-	<bean id="restcontroller"
-		class="org.uario.seaworkengine.web.services.rest.RestControllerImpl">
-		<property name="webcontroller" ref="webcontroller"></property>
-	</bean>
-
-	<!-- END REST SERVICE -->
 
 
 	<!-- WEB CONTROLLER -->
