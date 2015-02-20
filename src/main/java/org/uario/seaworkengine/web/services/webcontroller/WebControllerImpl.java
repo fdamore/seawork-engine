@@ -23,9 +23,9 @@ import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
-import org.uario.seaworkengine.web.services.synchmodel.TaskRunner;
-import org.uario.seaworkengine.web.services.synchmodel.Worker;
-import org.uario.seaworkengine.web.services.synchmodel.WorkerShift;
+import org.uario.seaworkengine.web.services.handler.TaskRunner;
+import org.uario.seaworkengine.web.services.handler.Worker;
+import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 

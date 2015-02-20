@@ -9,7 +9,7 @@ import javax.jws.WebService;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
-import org.uario.seaworkengine.web.services.synchmodel.WorkerShift;
+import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 @WebService(serviceName = "SoapControllerServices")
 public interface ISoapServiceInterface {

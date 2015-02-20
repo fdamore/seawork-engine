@@ -6,7 +6,7 @@ import java.util.List;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
-import org.uario.seaworkengine.web.services.synchmodel.WorkerShift;
+import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public interface IWebServiceController {
 
