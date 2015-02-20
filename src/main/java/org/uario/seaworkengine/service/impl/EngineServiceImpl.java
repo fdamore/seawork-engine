@@ -235,24 +235,57 @@ public class EngineServiceImpl implements IEngineService {
 				// assign programmed break
 				if (isSunaday) {
 
-					// for daily employee, Saturday and Sunday is bank holiday
-					if (person.getDailyemployee().booleanValue()) {
+					boolean active_sunday_process = true;
 
-						final Calendar saturday = DateUtils.toCalendar(current_day);
-						saturday.add(Calendar.DAY_OF_YEAR, 6);
-						final Calendar sunday = DateUtils.toCalendar(current_day);
-						sunday.add(Calendar.DAY_OF_YEAR, 7);
+					final String processed_sunday = this.params.getParam(ParamsTag.PROCESSED_SUNDAY);
+					Date date_to_check = null;
+					if (processed_sunday != null) {
+						try {
+							date_to_check = this.date_fromatter.parse(date_assign);
+						} catch (final ParseException ignore) {
+							// in this case, run sunday process
+						}
+						if (date_to_check != null) {
 
-						this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
-						this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
-
-					} else {
-						if (lenght_series < 10) {
-							// only if you not assign waited work
-							final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
-							this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+							final long days = (current_day.getTime() - date_to_check.getTime()) / (1000 * 60 * 60 * 24);
+							if (days < 14) {
+								active_sunday_process = false;
+							}
 
 						}
+					}
+
+					if (active_sunday_process) {
+						// RUN ONLY IF THIS SUNDAY IS JUST THE RIGHT SUNDAY
+
+						// for daily employee, Saturday and Sunday is bank
+						// holiday
+						if (person.getDailyemployee().booleanValue()) {
+
+							final Calendar saturday = DateUtils.toCalendar(current_day);
+							saturday.add(Calendar.DAY_OF_YEAR, 6);
+							final Calendar sunday = DateUtils.toCalendar(current_day);
+							sunday.add(Calendar.DAY_OF_YEAR, 7);
+
+							this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
+							this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
+
+						} else {
+							if (lenght_series < 10) {
+								// only if you not assign waited work
+								final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
+								this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+
+							}
+						}
+
+						// update control check
+						if (date_to_check == null) {
+							date_to_check = DateUtils.truncate(current_day, Calendar.DATE);
+						}
+						final String val_date = this.date_fromatter.format(date_to_check);
+						this.params.setParam(ParamsTag.PROCESSED_SUNDAY, val_date);
+
 					}
 				}
 
