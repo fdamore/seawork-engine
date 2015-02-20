@@ -248,7 +248,7 @@ public class EngineServiceImpl implements IEngineService {
 						if (date_to_check != null) {
 
 							final long days = (current_day.getTime() - date_to_check.getTime()) / (1000 * 60 * 60 * 24);
-							if (days < 14) {
+							if (days < 15) {
 								active_sunday_process = false;
 							}
 
@@ -258,9 +258,9 @@ public class EngineServiceImpl implements IEngineService {
 					if (active_sunday_process) {
 						// RUN ONLY IF THIS SUNDAY IS JUST THE RIGHT SUNDAY
 
-						// for daily employee, Saturday and Sunday is bank
-						// holiday
+						// holiday - FIRST WEEK
 						if (person.getDailyemployee().booleanValue()) {
+							// for daily employee, Saturday and Sunday is bank
 
 							final Calendar saturday = DateUtils.toCalendar(current_day);
 							saturday.add(Calendar.DAY_OF_YEAR, 6);
@@ -277,6 +277,28 @@ public class EngineServiceImpl implements IEngineService {
 								this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 
 							}
+						}
+
+						// holiday - SECOND WEEK
+						if (person.getDailyemployee().booleanValue()) {
+							// for daily employee, Saturday and Sunday is bank
+
+							final Calendar saturday = DateUtils.toCalendar(current_day);
+							saturday.add(Calendar.DAY_OF_YEAR, 13);
+							final Calendar sunday = DateUtils.toCalendar(current_day);
+							sunday.add(Calendar.DAY_OF_YEAR, 14);
+
+							this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
+							this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
+
+						} else {
+							// only if you not assign waited work
+							final Calendar next_week_start = DateUtils.toCalendar(current_day);
+							next_week_start.add(Calendar.DAY_OF_YEAR, 7);
+
+							final Date date_break = this.statProcedure.getARandomDay(next_week_start.getTime(), 6);
+							this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+
 						}
 
 						// update control check
