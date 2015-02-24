@@ -2754,6 +2754,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// get day schedule
 		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
 
+		// check for 10 day of work constrait
+		final Integer lenght = this.statProcedure.getWorkingSeries(date_scheduled, row_item.getUser());
+		if ((shift.getStandard_shift() || shift.getDaily_shift()) && lenght > 10) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+
+			final Messagebox.Button[] buttons = new Messagebox.Button[2];
+			buttons[0] = Messagebox.Button.OK;
+			buttons[1] = Messagebox.Button.CANCEL;
+
+			Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO", buttons,
+					null, Messagebox.EXCLAMATION, null, new EventListener() {
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								return;
+							}
+						}
+					}, params);
+
+		}
+
 		// /////////////////////////////
 		if (shift.getBreak_shift() || shift.getWaitbreak_shift()) {
 			final Calendar cal = Calendar.getInstance();
