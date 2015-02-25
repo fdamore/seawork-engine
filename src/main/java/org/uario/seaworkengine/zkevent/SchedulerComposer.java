@@ -1715,6 +1715,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	private Integer getCountWorkingDay(final RowDaySchedule row_item) {
+		Integer countWorkingDay = 0;
+
+		for (int i = 1; i <= 10; i++) {
+			if (row_item.getSchedule(i) != null) {
+				final UserShift shift = this.configurationDAO.loadShiftById(row_item.getSchedule(i).getShift());
+				if (shift != null) {
+					if (shift.getPresence()) {
+						countWorkingDay++;
+					}
+				} else {
+					countWorkingDay++;
+				}
+
+			} else {
+				countWorkingDay++;
+			}
+		}
+		return countWorkingDay;
+	}
+
 	/**
 	 * Get date scheduled
 	 *
@@ -1932,6 +1953,213 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Double ret = millis / (1000 * 60 * 60);
 
 		return ret;
+	}
+
+	// using for check 10 day working constraint
+	private RowDaySchedule getRowItem(final Date dateBegin, final Integer idUser) {
+		final Date my_pick_date = DateUtils.truncate(dateBegin, Calendar.DATE);
+
+		// get begin date
+		final Calendar calendar = DateUtils.toCalendar(my_pick_date);
+		calendar.add(Calendar.DAY_OF_YEAR, -10);
+		final Date start_date = calendar.getTime();
+
+		final List<Schedule> list = this.scheduleDAO.selectSchedulersForPreprocessing(start_date, dateBegin, null);
+
+		RowDaySchedule currentRow = null;
+
+		for (int i = 0; i < list.size(); i++) {
+
+			final Schedule schedule = list.get(i);
+
+			if (schedule.getUser() == idUser) {
+
+				// if the user is changed, add another row
+				if (currentRow == null) {
+					// set current row
+					currentRow = new RowDaySchedule();
+					currentRow.setUser(schedule.getUser());
+					currentRow.setName_user(schedule.getName_user());
+
+				}
+
+				final Date schedule_date = schedule.getDate_schedule();
+
+				int day_on_current_calendar = 0;
+
+				if (schedule_date == null) {
+					// if not date scheduler, put it at first day
+					schedule.setDate_schedule(start_date);
+					day_on_current_calendar = 1;
+				} else {
+					final Date date_init_truncate = DateUtils.truncate(start_date, Calendar.DATE);
+					final Date schedule_date_truncate = DateUtils.truncate(schedule_date, Calendar.DATE);
+
+					final long millis = schedule_date_truncate.getTime() - date_init_truncate.getTime();
+					final long day_elapsed = millis / (1000 * 60 * 60 * 24);
+
+					// set correct day
+					day_on_current_calendar = (int) (day_elapsed + 1);
+				}
+
+				if (day_on_current_calendar == 1) {
+					currentRow.setItem1(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 2) {
+					currentRow.setItem2(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 3) {
+					currentRow.setItem3(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 4) {
+					currentRow.setItem4(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 5) {
+					currentRow.setItem5(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 6) {
+					currentRow.setItem6(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 7) {
+					currentRow.setItem7(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 8) {
+					currentRow.setItem8(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 9) {
+					currentRow.setItem9(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 10) {
+					currentRow.setItem10(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 11) {
+					currentRow.setItem11(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 12) {
+					currentRow.setItem12(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 13) {
+					currentRow.setItem13(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 14) {
+					currentRow.setItem14(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 15) {
+					currentRow.setItem15(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 16) {
+					currentRow.setItem16(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 17) {
+					currentRow.setItem17(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 18) {
+					currentRow.setItem18(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 19) {
+					currentRow.setItem19(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 20) {
+					currentRow.setItem20(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 21) {
+					currentRow.setItem21(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 22) {
+					currentRow.setItem22(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 23) {
+					currentRow.setItem23(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 24) {
+					currentRow.setItem24(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 25) {
+					currentRow.setItem25(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 26) {
+					currentRow.setItem26(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 27) {
+					currentRow.setItem27(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 28) {
+					currentRow.setItem28(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 29) {
+					currentRow.setItem29(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 30) {
+					currentRow.setItem30(schedule);
+					continue;
+				}
+
+				if (day_on_current_calendar == 31) {
+					currentRow.setItem31(schedule);
+					continue;
+				}
+			}
+
+		}
+		return currentRow;
 	}
 
 	/**
@@ -2755,89 +2983,43 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
 
 		// check for 10 day of work constrait
-		final Integer lenght = this.statProcedure.getWorkingSeries(date_scheduled, row_item.getUser());
-		if ((shift.getStandard_shift() || shift.getDaily_shift()) && lenght > 10) {
-			final Map<String, String> params = new HashMap<String, String>();
-			params.put("sclass", "mybutton Button");
-
-			final Messagebox.Button[] buttons = new Messagebox.Button[2];
-			buttons[0] = Messagebox.Button.OK;
-			buttons[1] = Messagebox.Button.CANCEL;
-
-			Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO", buttons,
-					null, Messagebox.EXCLAMATION, null, new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								return;
-							}
-						}
-					}, params);
-
-		}
-
-		// /////////////////////////////
-		if (shift.getBreak_shift() || shift.getWaitbreak_shift()) {
-			final Calendar cal = Calendar.getInstance();
-			cal.setTime(date_scheduled);
-			cal.setFirstDayOfWeek(Calendar.MONDAY);
-
-			// "calculate" the start date of the week
-			final Calendar first = (Calendar) cal.clone();
-			first.add(Calendar.DAY_OF_WEEK, first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
-
-			// and add six days to the end date
-			final Calendar last = (Calendar) first.clone();
-			last.add(Calendar.DAY_OF_YEAR, 6);
-
-			final List<Schedule> scheduleListInWeek = this.scheduleDAO.selectScheduleInIntervalDateByUserId(row_item.getUser(), first.getTime(),
-					last.getTime());
-
-			Boolean isBreakShiftPresent = false;
-
-			for (final Schedule schedule : scheduleListInWeek) {
-				if (!schedule.getDate_schedule().equals(date_scheduled)
-						&& (this.configurationDAO.loadShiftById(schedule.getShift()).getBreak_shift() || this.configurationDAO.loadShiftById(
-								schedule.getShift()).getWaitbreak_shift())) {
-					isBreakShiftPresent = true;
-					break;
-				}
+		if (shift.getPresence()) {
+			final RowDaySchedule newRowItem = this.getRowItem(date_scheduled, row_item.getUser());
+			Integer lenght;
+			if (newRowItem == null) {
+				lenght = 10;
+			} else {
+				lenght = this.getCountWorkingDay(newRowItem);
 			}
 
-			if (isBreakShiftPresent) {
+			if (lenght == 10) {
 				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 
-				final Messagebox.Button[] buttons = new Messagebox.Button[3];
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
 				buttons[0] = Messagebox.Button.OK;
-				buttons[1] = Messagebox.Button.NO;
-				buttons[2] = Messagebox.Button.CANCEL;
+				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
-						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-							@Override
-							public void onEvent(final Event e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
-									// add shift break and replace others break
-									// shifts in week whit work shifts
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
-											scheduleListInWeek);
-								} else if (Messagebox.ON_NO.equals(e.getName())) {
-									// add shift break without cancel others
-									// breaks shift in week
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
-								}
+				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
+						buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 
-							}
-						}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
-				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+				this.saveShift(shift, date_scheduled, row_item);
 			}
 
 		} else {
-			SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+			this.saveShift(shift, date_scheduled, row_item);
 		}
 
 	}
@@ -3135,6 +3317,78 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// Messagebox.OK, Messagebox.INFORMATION);
 		this.shift_definition_popup_review.close();
 
+	}
+
+	private void saveShift(final UserShift shift, final Date date_scheduled, final RowDaySchedule row_item) {
+		if (shift.getBreak_shift() || shift.getWaitbreak_shift()) {
+			final Calendar cal = Calendar.getInstance();
+			cal.setTime(date_scheduled);
+			cal.setFirstDayOfWeek(Calendar.MONDAY);
+
+			// "calculate" the start date of the
+			// week
+			final Calendar first = (Calendar) cal.clone();
+			first.add(Calendar.DAY_OF_WEEK, first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
+
+			// and add six days to the end date
+			final Calendar last = (Calendar) first.clone();
+			last.add(Calendar.DAY_OF_YEAR, 6);
+
+			final List<Schedule> scheduleListInWeek = SchedulerComposer.this.scheduleDAO.selectScheduleInIntervalDateByUserId(row_item.getUser(),
+					first.getTime(), last.getTime());
+
+			Boolean isBreakShiftPresent = false;
+
+			for (final Schedule schedule : scheduleListInWeek) {
+				if (!schedule.getDate_schedule().equals(date_scheduled)
+						&& (SchedulerComposer.this.configurationDAO.loadShiftById(schedule.getShift()).getBreak_shift() || SchedulerComposer.this.configurationDAO
+								.loadShiftById(schedule.getShift()).getWaitbreak_shift())) {
+					isBreakShiftPresent = true;
+					break;
+				}
+			}
+
+			if (isBreakShiftPresent) {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[3];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.NO;
+				buttons[2] = Messagebox.Button.CANCEL;
+
+				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
+						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							// add shift
+							// break and
+							// replace
+							// others break
+							// shifts in
+							// week whit
+							// work shifts
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+									scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
+							// add shift
+							// break without
+							// cancel others
+							// breaks shift
+							// in week
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+						}
+
+					}
+				}, params);
+			} else {
+				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+			}
+
+		} else {
+			SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+		}
 	}
 
 	@Listen("onClick= #overview_selector_select_all")
