@@ -205,6 +205,7 @@
 		<property name="myScheduleDAO" ref="myScheduleDAO"></property>
 		<property name="myTaskDAO" ref="myTasksDAO"></property>
 		<property name="statisticDAO" ref="myStatisticsDAO"></property>
+		<property name="shiftCache" ref="myShiftCache"></property>
 	</bean>
 
 

@@ -273,36 +273,63 @@ public class EngineServiceImpl implements IEngineService {
 							// for daily employee, Saturday and Sunday is bank
 
 							// FIRST WEEK
-							final Calendar saturday = DateUtils.toCalendar(current_day);
-							saturday.add(Calendar.DAY_OF_YEAR, 6);
-							final Calendar sunday = DateUtils.toCalendar(current_day);
-							sunday.add(Calendar.DAY_OF_YEAR, 7);
 
-							this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
-							this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
+							// check is some break is already setted
+							final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(current_day, person.getId());
+
+							if (list_break == null) {
+
+								final Calendar saturday = DateUtils.toCalendar(current_day);
+								saturday.add(Calendar.DAY_OF_YEAR, 6);
+								final Calendar sunday = DateUtils.toCalendar(current_day);
+								sunday.add(Calendar.DAY_OF_YEAR, 7);
+
+								this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
+								this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
+							}
 
 							// SECOND WEEK
-							final Calendar saturday_second_week = DateUtils.toCalendar(next_week_start.getTime());
-							saturday_second_week.add(Calendar.DAY_OF_YEAR, 6);
-							final Calendar sunday_second_week = DateUtils.toCalendar(next_week_start.getTime());
-							sunday_second_week.add(Calendar.DAY_OF_YEAR, 7);
 
-							this.statProcedure.workAssignProcedure(break_shift, saturday_second_week.getTime(), person.getId(), null);
-							this.statProcedure.workAssignProcedure(break_shift, sunday_second_week.getTime(), person.getId(), null);
+							// check is some break is already setted
+							final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_week_start.getTime(),
+									person.getId());
+							if (list_break_second_week == null) {
+
+								final Calendar saturday_second_week = DateUtils.toCalendar(next_week_start.getTime());
+								saturday_second_week.add(Calendar.DAY_OF_YEAR, 6);
+								final Calendar sunday_second_week = DateUtils.toCalendar(next_week_start.getTime());
+								sunday_second_week.add(Calendar.DAY_OF_YEAR, 7);
+
+								this.statProcedure.workAssignProcedure(break_shift, saturday_second_week.getTime(), person.getId(), null);
+								this.statProcedure.workAssignProcedure(break_shift, sunday_second_week.getTime(), person.getId(), null);
+							}
 
 						} else {
 
 							// FIRST WEEK - ONLY IF NOT WAITED WORK IS ASSIGNED
 							if (lenght_series < 10) {
-								// only if you not assign waited work
-								final Date date_break = this.statProcedure.getARandomDay(current_day, 6);
-								this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+
+								// check is some break is already setted
+								final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(current_day, person.getId());
+
+								if (list_break == null) {
+									// only if you not assign waited work
+									final Date date_break = this.statProcedure.getARandomDay(current_day, 7);
+									this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+								}
 
 							}
 
-							// SECON WEEK
-							final Date date_break = this.statProcedure.getARandomDay(next_week_start.getTime(), 6);
-							this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+							// SECOND WEEK
+
+							// check is some break is already setted
+							final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_week_start.getTime(),
+									person.getId());
+							if (list_break_second_week == null) {
+
+								final Date date_break = this.statProcedure.getARandomDay(next_week_start.getTime(), 7);
+								this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+							}
 
 						}
 
@@ -332,5 +359,4 @@ public class EngineServiceImpl implements IEngineService {
 		}
 
 	}
-
 }

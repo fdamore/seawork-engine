@@ -2957,7 +2957,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Listen("onClick = #ok_day_shift")
 	public void saveDayScheduling() {
 		if (this.grid_scheduler_day.getSelectedItem() == null) {
@@ -3338,36 +3338,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param date_scheduled
 	 * @param row_item
 	 */
+	@SuppressWarnings("unchecked")
 	private void saveShift(final UserShift shift, final Date date_scheduled, final RowDaySchedule row_item) {
 		if (shift.getBreak_shift() || shift.getWaitbreak_shift()) {
-			final Calendar cal = Calendar.getInstance();
-			cal.setTime(date_scheduled);
-			cal.setFirstDayOfWeek(Calendar.MONDAY);
 
-			// "calculate" the start date of the
-			// week
-			final Calendar first = (Calendar) cal.clone();
-			first.add(Calendar.DAY_OF_WEEK, first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
+			final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
 
-			// and add six days to the end date
-			final Calendar last = (Calendar) first.clone();
-			last.add(Calendar.DAY_OF_YEAR, 6);
-
-			final List<Schedule> scheduleListInWeek = SchedulerComposer.this.scheduleDAO.selectScheduleInIntervalDateByUserId(row_item.getUser(),
-					first.getTime(), last.getTime());
-
-			Boolean isBreakShiftPresent = false;
-
-			for (final Schedule schedule : scheduleListInWeek) {
-				if (!schedule.getDate_schedule().equals(date_scheduled)
-						&& (SchedulerComposer.this.configurationDAO.loadShiftById(schedule.getShift()).getBreak_shift() || SchedulerComposer.this.configurationDAO
-								.loadShiftById(schedule.getShift()).getWaitbreak_shift())) {
-					isBreakShiftPresent = true;
-					break;
-				}
-			}
-
-			if (isBreakShiftPresent) {
+			if (scheduleListInWeek != null) {
 				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 
@@ -3378,29 +3355,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							// add shift
-							// break and
-							// replace
-							// others break
-							// shifts in
-							// week whit
-							// work shifts
-							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
-									scheduleListInWeek);
-						} else if (Messagebox.ON_NO.equals(e.getName())) {
-							// add shift
-							// break without
-							// cancel others
-							// breaks shift
-							// in week
-							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
-						}
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-					}
-				}, params);
+									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+											scheduleListInWeek);
+								} else if (Messagebox.ON_NO.equals(e.getName())) {
+
+									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+								}
+
+							}
+						}, params);
 			} else {
 				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 			}

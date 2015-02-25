@@ -1,7 +1,9 @@
 package org.uario.seaworkengine.statistics;
 
 import java.util.Date;
+import java.util.List;
 
+import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 
 public interface IStatProcedure {
@@ -17,7 +19,7 @@ public interface IStatProcedure {
 
 	/**
 	 * Maximum Shift
-	 * 
+	 *
 	 * @param date_calendar_schedule
 	 * @param user
 	 * @return
@@ -41,6 +43,13 @@ public interface IStatProcedure {
 	 * @return
 	 */
 	public Integer getWorkingSeries(final Date date, final Integer user);
+
+	/**
+	 * @param date_scheduled
+	 * @param user_id
+	 * @return
+	 */
+	public List<Schedule> searchBreakInCurrentWeek(Date date_scheduled, Integer user_id);
 
 	/**
 	 * Assign shift... remove all details

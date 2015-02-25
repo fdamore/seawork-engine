@@ -10,6 +10,7 @@ import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
@@ -22,6 +23,8 @@ public class StatProceduresImpl implements IStatProcedure {
 	private ISchedule	myScheduleDAO;
 
 	private TasksDAO	myTaskDAO;
+
+	private IShiftCache	shiftCache;
 
 	private IStatistics	statisticDAO;
 
@@ -110,6 +113,10 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	public TasksDAO getMyTaskDAO() {
 		return this.myTaskDAO;
+	}
+
+	public IShiftCache getShiftCache() {
+		return this.shiftCache;
 	}
 
 	/**
@@ -242,12 +249,64 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	}
 
+	/**
+	 * Search for break in current week
+	 *
+	 * @param date_scheduled
+	 * @param user_id
+	 * @return null if any break found. List of break if
+	 */
+
+	@Override
+	public List<Schedule> searchBreakInCurrentWeek(final Date date_scheduled, final Integer user_id) {
+
+		final Date date_truncate = DateUtils.truncate(date_scheduled, Calendar.DATE);
+
+		List<Schedule> scheduleListInWeek = null;
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		cal.setTime(date_truncate);
+
+		final Calendar first = (Calendar) cal.clone();
+		first.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+		final Calendar last = (Calendar) first.clone();
+		last.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+		scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(), last.getTime());
+
+		boolean isBreakShiftPresent = false;
+
+		for (final Schedule schedule : scheduleListInWeek) {
+
+			final UserShift shiftType = this.shiftCache.getUserShift(schedule.getShift());
+			if (shiftType == null) {
+				continue;
+			}
+
+			if (!schedule.getDate_schedule().equals(date_truncate) && (shiftType.getBreak_shift() || shiftType.getWaitbreak_shift())) {
+				isBreakShiftPresent = true;
+				break;
+			}
+		}
+
+		if (!isBreakShiftPresent) {
+			scheduleListInWeek = null;
+		}
+		return scheduleListInWeek;
+	}
+
 	public void setMyScheduleDAO(final ISchedule myScheduleDAO) {
 		this.myScheduleDAO = myScheduleDAO;
 	}
 
 	public void setMyTaskDAO(final TasksDAO myTaskDAO) {
 		this.myTaskDAO = myTaskDAO;
+	}
+
+	public void setShiftCache(final IShiftCache shiftCache) {
+		this.shiftCache = shiftCache;
 	}
 
 	public void setStatisticDAO(final IStatistics statisticDAO) {
