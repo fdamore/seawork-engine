@@ -1957,6 +1957,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	// using for check 10 day working constraint
 	private RowDaySchedule getRowItem(final Date dateBegin, final Integer idUser) {
+
 		final Date my_pick_date = DateUtils.truncate(dateBegin, Calendar.DATE);
 
 		// get begin date
@@ -1964,7 +1965,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar.add(Calendar.DAY_OF_YEAR, -10);
 		final Date start_date = calendar.getTime();
 
-		final List<Schedule> list = this.scheduleDAO.selectSchedulersForPreprocessing(start_date, dateBegin, null);
+		final List<Schedule> list = this.scheduleDAO.selectSchedulersForPreprocessingOnUserId(start_date, dateBegin, idUser);
 
 		RowDaySchedule currentRow = null;
 
@@ -1972,190 +1973,191 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			final Schedule schedule = list.get(i);
 
-			if (schedule.getUser() == idUser) {
+			if (schedule.getUser() != idUser) {
+				continue;
+			}
 
-				// if the user is changed, add another row
-				if (currentRow == null) {
-					// set current row
-					currentRow = new RowDaySchedule();
-					currentRow.setUser(schedule.getUser());
-					currentRow.setName_user(schedule.getName_user());
+			// if the user is changed, add another row
+			if (currentRow == null) {
+				// set current row
+				currentRow = new RowDaySchedule();
+				currentRow.setUser(schedule.getUser());
+				currentRow.setName_user(schedule.getName_user());
 
-				}
+			}
 
-				final Date schedule_date = schedule.getDate_schedule();
+			final Date schedule_date = schedule.getDate_schedule();
 
-				int day_on_current_calendar = 0;
+			int day_on_current_calendar = 0;
 
-				if (schedule_date == null) {
-					// if not date scheduler, put it at first day
-					schedule.setDate_schedule(start_date);
-					day_on_current_calendar = 1;
-				} else {
-					final Date date_init_truncate = DateUtils.truncate(start_date, Calendar.DATE);
-					final Date schedule_date_truncate = DateUtils.truncate(schedule_date, Calendar.DATE);
+			if (schedule_date == null) {
+				// if not date scheduler, put it at first day
+				schedule.setDate_schedule(start_date);
+				day_on_current_calendar = 1;
+			} else {
+				final Date date_init_truncate = DateUtils.truncate(start_date, Calendar.DATE);
+				final Date schedule_date_truncate = DateUtils.truncate(schedule_date, Calendar.DATE);
 
-					final long millis = schedule_date_truncate.getTime() - date_init_truncate.getTime();
-					final long day_elapsed = millis / (1000 * 60 * 60 * 24);
+				final long millis = schedule_date_truncate.getTime() - date_init_truncate.getTime();
+				final long day_elapsed = millis / (1000 * 60 * 60 * 24);
 
-					// set correct day
-					day_on_current_calendar = (int) (day_elapsed + 1);
-				}
+				// set correct day
+				day_on_current_calendar = (int) (day_elapsed + 1);
+			}
 
-				if (day_on_current_calendar == 1) {
-					currentRow.setItem1(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 1) {
+				currentRow.setItem1(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 2) {
-					currentRow.setItem2(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 2) {
+				currentRow.setItem2(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 3) {
-					currentRow.setItem3(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 3) {
+				currentRow.setItem3(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 4) {
-					currentRow.setItem4(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 4) {
+				currentRow.setItem4(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 5) {
-					currentRow.setItem5(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 5) {
+				currentRow.setItem5(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 6) {
-					currentRow.setItem6(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 6) {
+				currentRow.setItem6(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 7) {
-					currentRow.setItem7(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 7) {
+				currentRow.setItem7(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 8) {
-					currentRow.setItem8(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 8) {
+				currentRow.setItem8(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 9) {
-					currentRow.setItem9(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 9) {
+				currentRow.setItem9(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 10) {
-					currentRow.setItem10(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 10) {
+				currentRow.setItem10(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 11) {
-					currentRow.setItem11(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 11) {
+				currentRow.setItem11(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 12) {
-					currentRow.setItem12(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 12) {
+				currentRow.setItem12(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 13) {
-					currentRow.setItem13(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 13) {
+				currentRow.setItem13(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 14) {
-					currentRow.setItem14(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 14) {
+				currentRow.setItem14(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 15) {
-					currentRow.setItem15(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 15) {
+				currentRow.setItem15(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 16) {
-					currentRow.setItem16(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 16) {
+				currentRow.setItem16(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 17) {
-					currentRow.setItem17(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 17) {
+				currentRow.setItem17(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 18) {
-					currentRow.setItem18(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 18) {
+				currentRow.setItem18(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 19) {
-					currentRow.setItem19(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 19) {
+				currentRow.setItem19(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 20) {
-					currentRow.setItem20(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 20) {
+				currentRow.setItem20(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 21) {
-					currentRow.setItem21(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 21) {
+				currentRow.setItem21(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 22) {
-					currentRow.setItem22(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 22) {
+				currentRow.setItem22(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 23) {
-					currentRow.setItem23(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 23) {
+				currentRow.setItem23(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 24) {
-					currentRow.setItem24(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 24) {
+				currentRow.setItem24(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 25) {
-					currentRow.setItem25(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 25) {
+				currentRow.setItem25(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 26) {
-					currentRow.setItem26(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 26) {
+				currentRow.setItem26(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 27) {
-					currentRow.setItem27(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 27) {
+				currentRow.setItem27(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 28) {
-					currentRow.setItem28(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 28) {
+				currentRow.setItem28(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 29) {
-					currentRow.setItem29(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 29) {
+				currentRow.setItem29(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 30) {
-					currentRow.setItem30(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 30) {
+				currentRow.setItem30(schedule);
+				continue;
+			}
 
-				if (day_on_current_calendar == 31) {
-					currentRow.setItem31(schedule);
-					continue;
-				}
+			if (day_on_current_calendar == 31) {
+				currentRow.setItem31(schedule);
+				continue;
 			}
 
 		}
@@ -2955,6 +2957,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Listen("onClick = #ok_day_shift")
 	public void saveDayScheduling() {
 		if (this.grid_scheduler_day.getSelectedItem() == null) {
@@ -3024,6 +3027,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * used in "preventivo" to save shift
+	 *
+	 * @param shift
+	 * @param row_item
+	 * @param date_scheduled
+	 * @param replace
+	 * @param scheduleListInWeek
+	 */
 	private void saveDaySchedulingReplaceBreakShift(final UserShift shift, final RowDaySchedule row_item, final Date date_scheduled,
 			final Boolean replace, final List<Schedule> scheduleListInWeek) {
 
@@ -3319,6 +3331,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Save hift in "Preventivo"
+	 *
+	 * @param shift
+	 * @param date_scheduled
+	 * @param row_item
+	 */
 	private void saveShift(final UserShift shift, final Date date_scheduled, final RowDaySchedule row_item) {
 		if (shift.getBreak_shift() || shift.getWaitbreak_shift()) {
 			final Calendar cal = Calendar.getInstance();

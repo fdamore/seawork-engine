@@ -67,6 +67,8 @@ public interface ISchedule {
 
 	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
 
+	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
+
 	public void updateMobileSynch(boolean synch_mobile);
 
 }

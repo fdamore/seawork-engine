@@ -1,8 +1,5 @@
 package org.uario.seaworkengine.zkevent.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.uario.seaworkengine.model.Schedule;
 
 public class RowDaySchedule {
@@ -308,22 +305,6 @@ public class RowDaySchedule {
 		}
 
 		return null;
-	}
-
-	public List<Schedule> getSchedule(final Integer dateBegin, final Integer dateEnd) {
-
-		if ((dateBegin < 1) || (dateBegin > 31) || (dateEnd < 1) || (dateEnd > 31)) {
-			return null;
-		}
-
-		final List<Schedule> schedules = new ArrayList<Schedule>();
-
-		for (int i = dateBegin; i <= dateEnd; i++) {
-			schedules.add(this.getSchedule(i));
-		}
-
-		return schedules;
-
 	}
 
 	public Integer getUser() {

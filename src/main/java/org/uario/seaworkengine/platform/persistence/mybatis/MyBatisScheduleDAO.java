@@ -357,6 +357,19 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
+	public List<Schedule> selectSchedulersForPreprocessingOnUserId(final Date initial_date, final Date final_date, final Integer userid) {
+		MyBatisScheduleDAO.logger.info("selectSchedulersForPreprocessing..");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date_from", initial_date);
+		map.put("date_to", final_date);
+		map.put("userid", userid);
+
+		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectSchedulersForPreprocessingOnUserId", map);
+		return list;
+	}
+
+	@Override
 	public void updateMobileSynch(final boolean synch) {
 		this.getSqlSession().update("schedule.updateMobileSynch", synch);
 
