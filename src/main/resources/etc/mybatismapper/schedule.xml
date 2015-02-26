@@ -510,7 +510,7 @@
 		#{id_schedule};
 	</delete>
 
-	<delete id="removeScheduleUserSuspended" parameterType="map">
+	<delete id="removeScheduleUser" parameterType="map">
 		<![CDATA[
 		DELETE FROM
 		schedule

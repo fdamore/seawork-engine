@@ -285,7 +285,7 @@ public class StatProceduresImpl implements IStatProcedure {
 				continue;
 			}
 
-			if (!schedule.getDate_schedule().equals(date_truncate) && (shiftType.getBreak_shift() || shiftType.getWaitbreak_shift())) {
+			if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift())) {
 				isBreakShiftPresent = true;
 				break;
 			}

@@ -2741,9 +2741,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		// info to the row
-		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
 		final Date dayScheduleDate = this.getDateScheduled(this.selectedDay);
+
+		// check data start point
+		if (dayScheduleDate == null) {
+			return;
+		}
+
+		// get row item
+		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
 
 		// info to the users
 		final UserShift shiftStandard = this.shift_cache.getStandardWorkShift();
@@ -2754,79 +2760,104 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		tomorrow_cal.add(Calendar.DATE, 1);
 		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		// business method
-		if (dayScheduleDate != null) {
+		// check if is a multiple removing
+		final Date dayAfterConfig = this.day_after_config.getValue();
 
-			final Date dayAfterConfig = this.day_after_config.getValue();
+		if (dayAfterConfig != null) {
+			// is multiple removing
 
-			if (dayAfterConfig != null) {
+			final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
 
-				final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
+			if (dayScheduleDate.after(to_day)) {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
 
-				if (dayScheduleDate.after(to_day)) {
-					final Map<String, String> params = new HashMap<String, String>();
-					params.put("sclass", "mybutton Button");
-					final Messagebox.Button[] buttons = new Messagebox.Button[1];
-					buttons[0] = Messagebox.Button.OK;
+				Messagebox.show("Attenzione alla data inserita", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
-					Messagebox.show("Attenzione alla data inserita", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				return;
+			}
 
-					return;
+			final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
+
+			if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
+
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
+				return;
+			}
+
+			// remove day schedule in interval date
+			this.scheduleDAO.removeScheduleUser(row_item.getUser(), dayScheduleDate, dayAfterConfig);
+
+			// check for info worker for tomorrow
+			final Calendar calendar = DateUtils.toCalendar(dayScheduleDate);
+			for (int i = 0; i <= count; i++) {
+
+				if (i != 0) {
+					calendar.add(Calendar.DAY_OF_YEAR, 1);
 				}
 
-				final int count = (int) ((to_day.getTime() - dayScheduleDate.getTime()) / (1000 * 60 * 60 * 24));
-
-				if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-					final Map<String, String> params = new HashMap<String, String>();
-					params.put("sclass", "mybutton Button");
-					final Messagebox.Button[] buttons = new Messagebox.Button[1];
-					buttons[0] = Messagebox.Button.OK;
-
-					Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente", "ERROR", buttons, null, Messagebox.EXCLAMATION,
-							null, null, params);
-
-					return;
-				}
-				// remove day schedule in interval date
-				this.scheduleDAO.removeScheduleUserSuspended(row_item.getUser(), dayScheduleDate, dayAfterConfig);
-
-				// check for info worker for tomorrow
-				final Calendar calendar = DateUtils.toCalendar(dayScheduleDate);
-				for (int i = 0; i <= count; i++) {
-
-					if (i != 0) {
-						calendar.add(Calendar.DAY_OF_YEAR, 1);
-					}
-
-					if (DateUtils.isSameDay(tomorrow_cal, calendar)) {
-						final Schedule schedule = new Schedule();
-						this.assignShiftForDaySchedule(shiftStandard, tomorrow_cal.getTime(), row_item.getUser(), schedule, person_logged, null);
-						break;
-					}
-
-				}
-
-			} else {
-				// Remove only current day schedule
-				this.scheduleDAO.removeScheduleUserSuspended(row_item.getUser(), dayScheduleDate, dayScheduleDate);
-
-				// check for tomorrow
-				if (DateUtils.isSameDay(tomorrow_cal.getTime(), dayScheduleDate)) {
+				if (DateUtils.isSameDay(tomorrow_cal, calendar)) {
 					final Schedule schedule = new Schedule();
 					this.assignShiftForDaySchedule(shiftStandard, tomorrow_cal.getTime(), row_item.getUser(), schedule, person_logged, null);
+					break;
 				}
 
 			}
 
-			// refresh grid
-			this.setupGlobalSchedulerGridForDay();
 		} else {
-			return;
+
+			// is a single removing
+			this.scheduleDAO.removeScheduleUser(row_item.getUser(), dayScheduleDate, dayScheduleDate);
+
+			// check for tomorrow
+			if (DateUtils.isSameDay(tomorrow_cal.getTime(), dayScheduleDate)) {
+				final Schedule schedule = new Schedule();
+				this.assignShiftForDaySchedule(shiftStandard, tomorrow_cal.getTime(), row_item.getUser(), schedule, person_logged, null);
+			}
+
+			// check if a break shift is removing
+			final Schedule current_schedule = row_item.getSchedule(this.selectedDay);
+			if ((current_schedule != null) && (current_schedule.getShift() != null)) {
+
+				final Integer shift_type_id = current_schedule.getShift();
+				final UserShift shift_type = this.shift_cache.getUserShift(shift_type_id);
+
+				if (shift_type.getBreak_shift().booleanValue() || shift_type.getWaitbreak_shift().booleanValue()) {
+
+					final List<Schedule> list_sch = this.statProcedure.searchBreakInCurrentWeek(current_schedule.getDate_schedule(),
+							current_schedule.getUser());
+
+					if (list_sch == null) {
+
+						final Map<String, String> params = new HashMap<String, String>();
+						params.put("sclass", "mybutton Button");
+						final Messagebox.Button[] buttons = new Messagebox.Button[1];
+						buttons[0] = Messagebox.Button.OK;
+
+						Messagebox
+								.show("Hai cancellato un riposo e non ci sono altri riposi assegnati nella settimana corrente. Vuoi che il sistema ne assegni un'altro?",
+										"ERROR", buttons, null, Messagebox.INFORMATION, null, null, params);
+
+					}
+
+				}
+			}
+
 		}
 
-		// Messagebox.show("Il programma giornaliero è stato cancellato",
-		// "INFO",
-		// Messagebox.OK, Messagebox.INFORMATION);
+		// refresh grid
+		this.setupGlobalSchedulerGridForDay();
+
 		this.day_definition_popup.close();
 	}
 
@@ -2985,7 +3016,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// get day schedule
 		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
 
-		// check for 10 day of work constrait
+		// check for 10 day of work constraint:
+		// TODO: controlla se un turno di assenza differente da riposo può
+		// essere considerato come riposo
 		if (shift.getPresence()) {
 			final RowDaySchedule newRowItem = this.getRowItem(date_scheduled, row_item.getUser());
 			Integer lenght;
@@ -3006,17 +3039,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
 								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3357,6 +3390,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 							@Override
 							public void onEvent(final Event e) {
+
 								if (Messagebox.ON_OK.equals(e.getName())) {
 
 									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
@@ -3369,11 +3403,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 							}
 						}, params);
 			} else {
-				SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+				this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 			}
 
 		} else {
-			SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+			this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 		}
 	}
 

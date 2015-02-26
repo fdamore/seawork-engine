@@ -483,59 +483,16 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
-					/**
-					 * Messagebox.show(
-					 * "Riportare lo status utente su storico e anagrafica? L'operazione cancellerà la programmazione dell'utente."
-					 * , "AGGIORNARE STATUS", Messagebox.OK | Messagebox.CANCEL,
-					 * Messagebox.QUESTION, new
-					 * org.zkoss.zk.ui.event.EventListener() {
-					 *
-					 * @Override public void onEvent(final Event e) { if
-					 *           (Messagebox.ON_OK.equals(e.getName())) {
-					 *           UserDetailsComposerCons.this.onUpdateStatus();
-					 *           if (UserDetailsComposerCons.this.typ.
-					 *           getSelectedItem
-					 *           ().getValue().equals(ContestationTag
-					 *           .SOSPENSIONE)) {
-					 *           UserDetailsComposerCons.this.scheduleDAO
-					 *           .removeScheduleUserSuspended(item.getId_user(),
-					 *           UserDetailsComposerCons
-					 *           .this.stop_from.getValue(),
-					 *           UserDetailsComposerCons
-					 *           .this.stop_to.getValue());
-					 *           UserDetailsComposerCons.this.scheduleDAO.
-					 *           removeDayScheduleUserSuspended
-					 *           (item.getId_user(),
-					 *           UserDetailsComposerCons.this
-					 *           .stop_from.getValue(),
-					 *           UserDetailsComposerCons.this
-					 *           .stop_to.getValue()); } else if
-					 *           (UserDetailsComposerCons
-					 *           .this.typ.getSelectedItem().getValue()
-					 *           .equals(ContestationTag.LICENZIAMENTO)) {
-					 *           UserDetailsComposerCons
-					 *           .this.scheduleDAO.removeScheduleUserFired
-					 *           (item.getId_user(),
-					 *           UserDetailsComposerCons.this
-					 *           .date_contestation.getValue());
-					 *           UserDetailsComposerCons
-					 *           .this.scheduleDAO.removeDayScheduleUserFired
-					 *           (item.getId_user(),
-					 *           UserDetailsComposerCons.this
-					 *           .date_contestation.getValue()); } } else if
-					 *           (Messagebox.ON_CANCEL.equals(e.getName())) { //
-					 *           Cancel is clicked } } });
-					 **/
+					this.onUpdateStatus();
 
-					UserDetailsComposerCons.this.onUpdateStatus();
-					if (UserDetailsComposerCons.this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
-						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserSuspended(item.getId_user(),
-								UserDetailsComposerCons.this.stop_from.getValue(), UserDetailsComposerCons.this.stop_to.getValue());
-						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserSuspended(item.getId_user(),
-								UserDetailsComposerCons.this.stop_from.getValue(), UserDetailsComposerCons.this.stop_to.getValue());
+					if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
+
+						this.scheduleDAO.removeScheduleUser(item.getId_user(), this.stop_from.getValue(), this.stop_to.getValue());
+
 					} else if (UserDetailsComposerCons.this.typ.getSelectedItem().getValue().equals(ContestationTag.LICENZIAMENTO)) {
-						UserDetailsComposerCons.this.scheduleDAO.removeScheduleUserFired(item.getId_user(),
-								UserDetailsComposerCons.this.date_contestation.getValue());
+
+						this.scheduleDAO.removeScheduleUserFired(item.getId_user(), this.date_contestation.getValue());
+
 					}
 
 					if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)) {
