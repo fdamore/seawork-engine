@@ -148,6 +148,10 @@ public class EngineServiceImpl implements IEngineService {
 			final Calendar calendar = Calendar.getInstance();
 			final Date current_day = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
 
+			// date today
+			calendar.add(Calendar.DATE, 1);
+			final Date date_tomorrow = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
+
 			// check if the process ran in current day
 			final String date_assign = this.params.getParam(ParamsTag.ASSIGN_SHIFT_DATE);
 
@@ -158,7 +162,7 @@ public class EngineServiceImpl implements IEngineService {
 				} catch (final ParseException ignore) {
 					// in this case, run the project
 				}
-				if ((date_to_check != null) && date_to_check.equals(current_day)) {
+				if ((date_to_check != null) && DateUtils.isSameDay(date_to_check, current_day)) {
 					return;
 				}
 			}
@@ -186,16 +190,6 @@ public class EngineServiceImpl implements IEngineService {
 				return;
 			}
 
-			// check if is Sunday. The flag is used after in the process
-			boolean isSunaday = false;
-			if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-				isSunaday = true;
-			}
-
-			// date today
-			calendar.add(Calendar.DATE, 1);
-			final Date date_tomorrow = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
-
 			// ASSIGN WORK FOR TOMORROW-------- BEGIN SUB PROCEDURE
 			// get all persons
 			final List<Person> list_person = this.personDAO.listWorkerPersons(null);
@@ -216,7 +210,9 @@ public class EngineServiceImpl implements IEngineService {
 
 				} else {
 					if (schedule.getShift() == null) {
+
 						// assign work, only if nobody did
+
 						if (!person.getDailyemployee().booleanValue()) {
 							this.statProcedure.workAssignProcedure(work_shift, date_tomorrow, person.getId(), null);
 						} else {
@@ -238,6 +234,14 @@ public class EngineServiceImpl implements IEngineService {
 				// END SUB PROCEDURE
 
 				// ASSIGN BREAK PROCEDURE (START ON SUNDAY). BEGIN SUB PROCEDURE
+
+				// check if is Sunday. The flag is used after in the process
+				boolean isSunaday = false;
+
+				if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+					isSunaday = true;
+				}
+
 				if (isSunaday) {
 
 					this.sundayProcess(current_day, person, lenght_series_working);
@@ -263,14 +267,14 @@ public class EngineServiceImpl implements IEngineService {
 	/**
 	 * Sunday process
 	 *
-	 * @param current_day
+	 * @param current_sunday
 	 * @param date_assign
 	 * @param break_shift
 	 * @param date_tomorrow
 	 * @param person
 	 * @param lenght_series_working
 	 */
-	private void sundayProcess(final Date current_day, final Person person, final Integer lenght_series_working) {
+	private void sundayProcess(final Date current_sunday, final Person person, final Integer lenght_series_working) {
 
 		final String processed_sunday = this.params.getParam(ParamsTag.PROCESSED_SUNDAY);
 
@@ -286,10 +290,10 @@ public class EngineServiceImpl implements IEngineService {
 			}
 			if (date_to_check != null) {
 
-				final Calendar nex_sunday_to_process = DateUtils.toCalendar(date_to_check);
-				nex_sunday_to_process.add(Calendar.DAY_OF_YEAR, 14);
+				final Calendar next_sunday_to_process = DateUtils.toCalendar(date_to_check);
+				next_sunday_to_process.add(Calendar.DAY_OF_YEAR, 14);
 
-				if (!DateUtils.isSameDay(nex_sunday_to_process.getTime(), current_day)) {
+				if (!DateUtils.isSameDay(next_sunday_to_process.getTime(), current_sunday)) {
 					active_sunday_process = false;
 				}
 
@@ -306,51 +310,50 @@ public class EngineServiceImpl implements IEngineService {
 			return;
 		}
 
-		// calculate date tomorro
-		final Calendar tm_cal = DateUtils.toCalendar(current_day);
-		tm_cal.add(Calendar.DAY_OF_YEAR, 1);
-		final Date date_tomorrow = DateUtils.truncate(tm_cal.getTime(), Calendar.DATE);
+		// calculate date tomorrow
+		final Calendar monday_cal = DateUtils.toCalendar(current_sunday);
+		monday_cal.add(Calendar.DAY_OF_YEAR, 1);
+		final Date monday = DateUtils.truncate(monday_cal.getTime(), Calendar.DATE);
 
 		// calculate next Sunday
-		final Calendar next_week_start = DateUtils.toCalendar(current_day);
-		next_week_start.add(Calendar.DAY_OF_YEAR, 7);
+		final Calendar next_sunday = DateUtils.toCalendar(current_sunday);
+		next_sunday.add(Calendar.DAY_OF_YEAR, 7);
 
 		if (person.getDailyemployee().booleanValue()) {
 			// for daily employee, Saturday and Sunday is bank
 
 			// FIRST WEEK
 
-			// check is some break is already setted
-			final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_tomorrow, person.getId());
+			// check is some break is already configured
+			final List<Schedule> list_break_first_week = this.statProcedure.searchBreakInCurrentWeek(monday, person.getId());
 
-			if (list_break == null) {
+			if (list_break_first_week == null) {
 
-				final Calendar saturday = DateUtils.toCalendar(current_day);
+				final Calendar saturday = DateUtils.toCalendar(current_sunday);
 				saturday.add(Calendar.DAY_OF_YEAR, 6);
-				final Calendar sunday = DateUtils.toCalendar(current_day);
-				sunday.add(Calendar.DAY_OF_YEAR, 7);
 
 				this.statProcedure.workAssignProcedure(break_shift, saturday.getTime(), person.getId(), null);
-				this.statProcedure.workAssignProcedure(break_shift, sunday.getTime(), person.getId(), null);
+				this.statProcedure.workAssignProcedure(break_shift, next_sunday.getTime(), person.getId(), null);
 			}
 
 			// SECOND WEEK
 
-			// check is some break is already setted
+			// check is some break is already configured
 
-			final Calendar next_monday = (Calendar) next_week_start.clone();
+			final Calendar next_monday = (Calendar) next_sunday.clone();
 			next_monday.add(Calendar.DAY_OF_YEAR, 1);
+
 			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId());
 
 			if (list_break_second_week == null) {
 
-				final Calendar saturday_second_week = DateUtils.toCalendar(next_week_start.getTime());
-				saturday_second_week.add(Calendar.DAY_OF_YEAR, 6);
-				final Calendar sunday_second_week = DateUtils.toCalendar(next_week_start.getTime());
-				sunday_second_week.add(Calendar.DAY_OF_YEAR, 7);
+				final Calendar next_saturday = DateUtils.toCalendar(next_sunday.getTime());
+				next_saturday.add(Calendar.DAY_OF_YEAR, 6);
+				final Calendar next_next_sunday = DateUtils.toCalendar(next_sunday.getTime());
+				next_next_sunday.add(Calendar.DAY_OF_YEAR, 7);
 
-				this.statProcedure.workAssignProcedure(break_shift, saturday_second_week.getTime(), person.getId(), null);
-				this.statProcedure.workAssignProcedure(break_shift, sunday_second_week.getTime(), person.getId(), null);
+				this.statProcedure.workAssignProcedure(break_shift, next_saturday.getTime(), person.getId(), null);
+				this.statProcedure.workAssignProcedure(break_shift, next_next_sunday.getTime(), person.getId(), null);
 			}
 
 		} else {
@@ -359,11 +362,11 @@ public class EngineServiceImpl implements IEngineService {
 			if (lenght_series_working < 10) {
 
 				// check is some break is already setted
-				final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_tomorrow, person.getId());
+				final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(monday, person.getId());
 
 				if (list_break == null) {
 					// only if you not assign waited work
-					final Date date_break = this.statProcedure.getARandomDay(current_day, 7);
+					final Date date_break = this.statProcedure.getARandomDay(current_sunday, 7);
 					this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 				}
 
@@ -372,13 +375,13 @@ public class EngineServiceImpl implements IEngineService {
 			// SECOND WEEK
 
 			// check is some break is already setted
-			final Calendar next_monday = (Calendar) next_week_start.clone();
+			final Calendar next_monday = (Calendar) next_sunday.clone();
 			next_monday.add(Calendar.DAY_OF_YEAR, 1);
 			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId());
 
 			if (list_break_second_week == null) {
 
-				final Date date_break = this.statProcedure.getARandomDay(next_week_start.getTime(), 7);
+				final Date date_break = this.statProcedure.getARandomDay(next_sunday.getTime(), 7);
 				this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 			}
 
@@ -386,7 +389,7 @@ public class EngineServiceImpl implements IEngineService {
 
 		// update control check on Sunday process.
 		if (date_to_check == null) {
-			date_to_check = DateUtils.truncate(current_day, Calendar.DATE);
+			date_to_check = DateUtils.truncate(current_sunday, Calendar.DATE);
 		}
 		final String val_date = this.date_fromatter.format(date_to_check);
 		this.params.setParam(ParamsTag.PROCESSED_SUNDAY, val_date);

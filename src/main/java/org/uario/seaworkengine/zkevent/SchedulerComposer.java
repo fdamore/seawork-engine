@@ -63,6 +63,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Popup;
 import org.zkoss.zul.Tabpanel;
@@ -2789,8 +2790,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -2827,6 +2828,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// check if a break shift is removing
 			final Schedule current_schedule = row_item.getSchedule(this.selectedDay);
+
 			if ((current_schedule != null) && (current_schedule.getShift() != null)) {
 
 				final Integer shift_type_id = current_schedule.getShift();
@@ -2841,12 +2843,36 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 						final Map<String, String> params = new HashMap<String, String>();
 						params.put("sclass", "mybutton Button");
-						final Messagebox.Button[] buttons = new Messagebox.Button[1];
+						final Messagebox.Button[] buttons = new Messagebox.Button[2];
 						buttons[0] = Messagebox.Button.OK;
+						buttons[1] = Messagebox.Button.NO;
 
-						Messagebox
-								.show("Hai cancellato un riposo e non ci sono altri riposi assegnati nella settimana corrente. Vuoi che il sistema ne assegni un'altro?",
-										"ERROR", buttons, null, Messagebox.INFORMATION, null, null, params);
+						Messagebox.show("Non ci sono riposi assegnati per qeusta settimana. Vuoi che ne assegni uno automaticamente?",
+								"GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
+
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+
+									if (SchedulerComposer.this.shift_cache.getBreakShift() == null) {
+										return;
+									}
+
+									final Calendar cal = DateUtils.toCalendar(current_schedule.getDate_schedule());
+									cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+									cal.add(Calendar.DAY_OF_YEAR, -1);
+
+									final Date date_break = SchedulerComposer.this.statProcedure.getARandomDay(cal.getTime(), 7);
+
+									SchedulerComposer.this.statProcedure.workAssignProcedure(
+											SchedulerComposer.this.shift_cache.getBreakShift(), date_break, current_schedule.getUser(), null);
+
+									// refresh grid
+									SchedulerComposer.this.setupGlobalSchedulerGridForDay();
+
+								}
+							}
+						}, params);
 
 					}
 
@@ -2988,7 +3014,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Listen("onClick = #ok_day_shift")
 	public void saveDayScheduling() {
 		if (this.grid_scheduler_day.getSelectedItem() == null) {
@@ -3017,8 +3042,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Date date_scheduled = this.getDateScheduled(this.selectedDay);
 
 		// check for 10 day of work constraint:
-		// TODO: controlla se un turno di assenza differente da riposo può
-		// essere considerato come riposo
 		if (shift.getPresence()) {
 			final RowDaySchedule newRowItem = this.getRowItem(date_scheduled, row_item.getUser());
 			Integer lenght;
@@ -3037,10 +3060,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[1] = Messagebox.Button.CANCEL;
 
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
-						buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
+						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
 							@Override
-							public void onEvent(final Event e) {
+							public void onEvent(final ClickEvent e) {
 								if (Messagebox.ON_OK.equals(e.getName())) {
 
 									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);

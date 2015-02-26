@@ -13,7 +13,8 @@ public interface IStatProcedure {
 	 *
 	 * @param current_day
 	 * @param border_day
-	 * @return
+	 * @return a random day begin from the next day to current_day until current
+	 *         day + border_day
 	 */
 	public Date getARandomDay(final Date current_day, final Integer border_day);
 
