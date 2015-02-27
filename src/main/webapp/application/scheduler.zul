@@ -1816,6 +1816,9 @@
 				<button id="assign_program_review"
 					label="Assegna programmato" sclass="btn-danger" />
 
+				<button id="download_review_report"
+					label="Scarica Report" sclass="btn-info" />
+
 
 			</hbox>
 

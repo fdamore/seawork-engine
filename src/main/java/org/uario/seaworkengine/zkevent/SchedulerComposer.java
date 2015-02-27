@@ -1,5 +1,8 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +18,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.uario.seaworkengine.docfactory.ReviewReportBuilder;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
@@ -1074,17 +1078,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -1697,6 +1701,40 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			Filedownload.save(builder.toString(), "application/text", "preprocessing.csv");
+
+		}
+
+	}
+
+	@Listen("onClick= #download_review_report")
+	public void downloadReviewReport() {
+
+		ByteArrayOutputStream stream = null;
+		ByteArrayInputStream decodedInput = null;
+
+		try {
+
+			// create invoice..
+			stream = new ByteArrayOutputStream();
+			ReviewReportBuilder.createReviewReport(null).toPdf(stream);
+			decodedInput = new ByteArrayInputStream(stream.toByteArray());
+
+			Filedownload.save(decodedInput, "application/pdf", "report.pdf");
+
+		} catch (final Exception e) {
+
+		} finally {
+			try {
+				if (stream != null) {
+					stream.close();
+				}
+
+				if (decodedInput != null) {
+					decodedInput.close();
+				}
+			} catch (final IOException e) {
+
+			}
 
 		}
 
@@ -2790,8 +2828,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -2850,29 +2888,29 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						Messagebox.show("Non ci sono riposi assegnati per qeusta settimana. Vuoi che ne assegni uno automaticamente?",
 								"GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+									@Override
+									public void onEvent(final ClickEvent e) {
+										if (Messagebox.ON_OK.equals(e.getName())) {
 
-									if (SchedulerComposer.this.shift_cache.getBreakShift() == null) {
-										return;
+											if (SchedulerComposer.this.shift_cache.getBreakShift() == null) {
+												return;
+											}
+
+											final Calendar cal = DateUtils.toCalendar(current_schedule.getDate_schedule());
+											cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+											cal.add(Calendar.DAY_OF_YEAR, -1);
+
+											final Date date_break = SchedulerComposer.this.statProcedure.getARandomDay(cal.getTime(), 7);
+
+											SchedulerComposer.this.statProcedure.workAssignProcedure(
+													SchedulerComposer.this.shift_cache.getBreakShift(), date_break, current_schedule.getUser(), null);
+
+											// refresh grid
+											SchedulerComposer.this.setupGlobalSchedulerGridForDay();
+
+										}
 									}
-
-									final Calendar cal = DateUtils.toCalendar(current_schedule.getDate_schedule());
-									cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-									cal.add(Calendar.DAY_OF_YEAR, -1);
-
-									final Date date_break = SchedulerComposer.this.statProcedure.getARandomDay(cal.getTime(), 7);
-
-									SchedulerComposer.this.statProcedure.workAssignProcedure(
-											SchedulerComposer.this.shift_cache.getBreakShift(), date_break, current_schedule.getUser(), null);
-
-									// refresh grid
-									SchedulerComposer.this.setupGlobalSchedulerGridForDay();
-
-								}
-							}
-						}, params);
+								}, params);
 
 					}
 
@@ -3062,17 +3100,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3283,18 +3321,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					Messagebox.show("Stai assegnando un turno prima che ne siano passati 2 di stacco. Sei sicuro di voler continuare?",
 							"CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-								@Override
-								public void onEvent(final Event e) {
-									if (Messagebox.ON_OK.equals(e.getName())) {
-										SchedulerComposer.this.saveProgramFinalStep();
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-										// close popup
-										SchedulerComposer.this.shift_definition_popup.close();
-									}
-								}
-							}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								SchedulerComposer.this.saveProgramFinalStep();
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// close popup
+								SchedulerComposer.this.shift_definition_popup.close();
+							}
+						}
+					}, params);
 
 					return;
 
@@ -3411,20 +3449,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-							@Override
-							public void onEvent(final Event e) {
+					@Override
+					public void onEvent(final Event e) {
 
-								if (Messagebox.ON_OK.equals(e.getName())) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
-											scheduleListInWeek);
-								} else if (Messagebox.ON_NO.equals(e.getName())) {
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, true,
+									scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
-								}
+							SchedulerComposer.this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
+						}
 
-							}
-						}, params);
+					}
+				}, params);
 			} else {
 				this.saveDaySchedulingReplaceBreakShift(shift, row_item, date_scheduled, false, null);
 			}
