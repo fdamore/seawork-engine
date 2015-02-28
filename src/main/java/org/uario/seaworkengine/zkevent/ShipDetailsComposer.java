@@ -91,23 +91,32 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		} else {
-			this.shipDao.createShip(ship);
+			if (!this.shipDao.verifyIfShipExistByName(ship.getName())) {
+				this.shipDao.createShip(ship);
 
-			// reset data info
-			this.resetDataInfo();
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
+				// reset data info
+				this.resetDataInfo();
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Nave aggiunta", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+				Messagebox.show("Nave aggiunta", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
-			// set ship ListBox
-			this.setShipListBox();
+				// set ship ListBox
+				this.setShipListBox();
 
-			this.grid_ship_details.setVisible(false);
-			this.add_ships_command.setVisible(false);
-			this.modify_ships_command.setVisible(false);
+				this.grid_ship_details.setVisible(false);
+				this.add_ships_command.setVisible(false);
+				this.modify_ships_command.setVisible(false);
+			} else {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			}
 		}
 
 	}
@@ -258,15 +267,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipDetailsComposer.this.deleteShipCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipDetailsComposer.this.deleteShipCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 

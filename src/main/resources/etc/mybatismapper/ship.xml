@@ -27,8 +27,8 @@
 	
 	<select id="listAllNameShip" resultType="String">
 		SELECT DISTINCT name
-		FROM
-		ship;
+		FROM ship
+		order by name;
 	</select>
 	
 	<select id="listIdShipByName" parameterType="String"  resultType="Integer">
@@ -40,8 +40,8 @@
 	
 	<select id="loadAllShip" resultType="org.uario.seaworkengine.model.Ship">
 		SELECT id, name, line, shiptype, shipcondition, twtype
-		FROM
-		ship;		
+		FROM ship
+		order by name;		
 	</select>
 	
 	<select id="selectAllShipFulltextSearchLike" parameterType="String"
@@ -58,7 +58,7 @@
 			twtype like CONCAT('%',	#{my_full_text_search}, '%')
 			)
 		</if>
-		order by id
+		order by name;
 	</select>
 	
 	<update id="updateShip" parameterType="org.uario.seaworkengine.model.Ship" >

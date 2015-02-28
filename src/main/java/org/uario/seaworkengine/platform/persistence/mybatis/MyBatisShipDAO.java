@@ -82,4 +82,19 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		this.getSqlSession().update("ship.updateShip", ship);
 
 	}
+
+	@Override
+	public Boolean verifyIfShipExistByName(final String name) {
+		MyBatisShipDAO.logger.info("verifyIfShipExistByName: " + name);
+
+		final List<String> namesShip = this.listAllNameShip();
+
+		for (final String nameShip : namesShip) {
+			if (nameShip.equals(name)) {
+				return true;
+			}
+		}
+		return false;
+
+	}
 }

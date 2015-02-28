@@ -22,4 +22,6 @@ public interface IShip {
 
 	public void updateShip(Ship ship);
 
+	public Boolean verifyIfShipExistByName(String name);
+
 }
