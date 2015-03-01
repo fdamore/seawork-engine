@@ -14,6 +14,7 @@
 		t.code,
 		t.description,
 		t.isabsence,
+		t.recorded,
 		ut.task_default
 		FROM
 		usertask t,
@@ -28,7 +29,8 @@
 		SELECT t.id,
 		t.code,
 		t.description,
-		t.isabsence
+		t.isabsence,
+		t.recorded
 		FROM usertask t,
 		user_usertask ut where t.id = ut.id_user and ut.id_user = #{id_user}
 		and ut.id_usertask =
@@ -60,7 +62,7 @@
 
 		SELECT t.id,
 		t.code,
-		t.description, t.isabsence
+		t.description, t.isabsence, t.recorded
 		FROM user_usertask ut, usertask t
 		WHERE
 		ut.task_default = 1 and ut.id_user = #{id_user} and t.id =

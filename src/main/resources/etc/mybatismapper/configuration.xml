@@ -9,7 +9,8 @@
 		SELECT t.id,
 		t.code,
 		t.description,
-		t.isabsence
+		t.isabsence,
+		t.recorded
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
@@ -19,7 +20,7 @@
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence
+		description, isabsence, recorded
 		FROM usertask;
 
 	</select>
@@ -27,7 +28,7 @@
 	<select id="selectAllTasksFulltextSearchLike" parameterType="map" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence
+		description, isabsence, recorded
 		FROM usertask
 		<if test="my_full_text_search != null">
 			WHERE (
@@ -77,9 +78,9 @@
 	<insert id="insertTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		INSERT INTO usertask
 		(code,
-		description, isabsence)
+		description, isabsence, recorded)
 		VALUES
-		(#{code},#{description}, #{isabsence});
+		(#{code},#{description}, #{isabsence}, #{recorded});
 
 	</insert>
 
@@ -102,7 +103,8 @@
 		#{id},
 		code = #{code},
 		description = #{description} ,
-		isabsence = #{isabsence}
+		isabsence = #{isabsence},
+		recorded = #{recorded}
 		WHERE id = #{id}
 
 	</update>

@@ -20,6 +20,8 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	private Boolean				isabsence;
 
+	private Boolean				recorded;
+
 	// used in join with user
 	private Boolean				task_default;
 
@@ -82,6 +84,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.isabsence;
 	}
 
+	public Boolean getRecorded() {
+		return this.recorded;
+	}
+
 	public Boolean getTask_default() {
 		if (this.task_default == null) {
 			return Boolean.FALSE;
@@ -103,6 +109,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setIsabsence(final Boolean isabsence) {
 		this.isabsence = isabsence;
+	}
+
+	public void setRecorded(final Boolean recorded) {
+		this.recorded = recorded;
 	}
 
 	public void setTask_default(final Boolean task_default) {

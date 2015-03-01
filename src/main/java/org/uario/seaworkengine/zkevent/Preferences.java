@@ -102,6 +102,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	private IParams				paramsDAO;
 
+	@Wire
+	private Checkbox			recorded_task;
+
 	private final Runtime		runtime				= Runtime.getRuntime();
 
 	@Wire
@@ -251,6 +254,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setCode(this.code_task.getValue());
 		task.setDescription(this.description_task.getValue());
 		task.setIsabsence(this.isabsence_task.isChecked());
+		task.setRecorded(this.recorded_task.isChecked());
 		this.configurationDao.createTask(task);
 
 		this.refreshTaskList();
@@ -514,6 +518,14 @@ public class Preferences extends SelectorComposer<Component> {
 		this.description_task.setValue(task.getDescription());
 		this.isabsence_task.setChecked(task.getIsabsence());
 
+		this.recorded_task.setChecked(task.getRecorded());
+
+		if (task.getIsabsence()) {
+			this.recorded_task.setDisabled(false);
+		} else {
+			this.recorded_task.setDisabled(true);
+		}
+
 	}
 
 	@Listen("onClick = #modify_tasks_command")
@@ -528,6 +540,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setCode(this.code_task.getValue());
 		task.setDescription(this.description_task.getValue());
 		task.setIsabsence(this.isabsence_task.isChecked());
+		task.setRecorded(this.recorded_task.isChecked());
 
 		this.configurationDao.updateTask(task);
 
@@ -698,6 +711,8 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_task.setValue("");
 		this.description_task.setValue("");
 		this.isabsence_task.setChecked(false);
+		this.recorded_task.setDisabled(true);
+		this.recorded_task.setChecked(false);
 	}
 
 	@Listen("onSelect = #typeofbreak")
@@ -749,6 +764,16 @@ public class Preferences extends SelectorComposer<Component> {
 			this.forceable.setDisabled(true);
 		} else {
 			this.forceable.setDisabled(false);
+		}
+	}
+
+	@Listen("onCheck = #isabsence_task")
+	public void setRecordedCheckbox() {
+		if (this.isabsence_task.isChecked()) {
+			this.recorded_task.setDisabled(false);
+		} else {
+			this.recorded_task.setChecked(false);
+			this.recorded_task.setDisabled(true);
 		}
 	}
 

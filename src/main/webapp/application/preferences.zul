@@ -210,10 +210,19 @@
 												<row
 													id="row_isabsence_task">
 													<label
-														value="Mansione di assenza:">
+														value="Assenza:">
 													</label>
 													<checkbox
 														id="isabsence_task" />
+												</row>
+												
+												<row
+													id="row_recorded_task">
+													<label
+														value="Contabilizzato:">
+													</label>
+													<checkbox
+														id="recorded_task" />
 												</row>
 
 
@@ -271,8 +280,11 @@
 									<listheader label="Descrizione"
 										sort="auto(description)" />
 									<listheader
-										label="Mansione di assenza" />
+										label="Assenza" />
+										<listheader
+										label="Contabilizzato" />
 									<listheader label="" />
+									
 								</listhead>
 
 								<listitem self="@{each='task_item'}"
@@ -285,12 +297,16 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{task_item.description}" />
-
+																		
 									<listcell sclass="myBottonCell">
 										<image
 											src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 
+									<listcell sclass="myBottonCell">
+									
+										<image src="@{task_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
 									<listcell sclass="myBottonCell">
 
 										<toolbarbutton
