@@ -46,6 +46,14 @@ public interface IStatProcedure {
 	public Integer getWorkingSeries(final Date date, final Integer user);
 
 	/**
+	 * reassign shift and task
+	 *
+	 * @param schedule
+	 * @param editor
+	 */
+	public void reAssignShift(Schedule schedule, Integer editor);
+
+	/**
 	 * @param date_scheduled
 	 * @param user_id
 	 * @return

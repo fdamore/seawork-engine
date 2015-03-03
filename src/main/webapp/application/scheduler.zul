@@ -2229,10 +2229,10 @@
 											label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.time}" />
+											label="@{itemoverviewreview.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.time_vacation}" />
+											label="@{itemoverviewreview.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time_from}" />
@@ -2314,9 +2314,9 @@
 											label="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.time}" />
+											label="@{itemoverviewprogram.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.time_vacation}" />
+											label="@{itemoverviewprogram.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.time_from}" />
 
