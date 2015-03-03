@@ -205,7 +205,25 @@ public class EngineServiceImpl implements IEngineService {
 				final Integer lenght_series_working = this.statProcedure.getWorkingSeries(current_day, person.getId());
 
 				if (lenght_series_working >= 10) {
-					// assign work
+
+					// remove all break in current weeks
+					final List<Schedule> list_break_day = this.statProcedure.searchBreakInCurrentWeek(date_tomorrow, person.getId());
+					if (list_break_day != null) {
+						for (final Schedule itm : list_break_day) {
+
+							UserShift itm_usr_shift = null;
+							if (person.getDailyemployee()) {
+								itm_usr_shift = this.shiftCache.getDailyShift();
+							} else {
+								itm_usr_shift = this.shiftCache.getStandardWorkShift();
+							}
+
+							this.statProcedure.workAssignProcedure(itm_usr_shift, itm.getDate_schedule(), itm.getUser(), null);
+
+						}
+					}
+
+					// assign waited break work
 					this.statProcedure.workAssignProcedure(waited_work_shift, date_tomorrow, person.getId(), null);
 
 				} else {
