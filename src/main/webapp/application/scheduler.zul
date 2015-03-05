@@ -75,7 +75,9 @@
 					<vbox align="end">
 						<a label=" " id="label_statistic_popup"
 							sclass="header" iconSclass="z-icon-check" />
-						<separator></separator>
+						
+						<label id="partTime"/>
+						<separator/>
 						<hbox align="center">
 
 							<grid width="200px">
