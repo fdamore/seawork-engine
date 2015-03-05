@@ -1158,17 +1158,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2803,8 +2803,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -2863,29 +2863,29 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						Messagebox.show("Non ci sono riposi assegnati per qeusta settimana. Vuoi che ne assegni uno automaticamente?",
 								"GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-									@Override
-									public void onEvent(final ClickEvent e) {
-										if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-											if (SchedulerComposer.this.shift_cache.getBreakShift() == null) {
-												return;
-											}
-
-											final Calendar cal = DateUtils.toCalendar(current_schedule.getDate_schedule());
-											cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-											cal.add(Calendar.DAY_OF_YEAR, -1);
-
-											final Date date_break = SchedulerComposer.this.statProcedure.getARandomDay(cal.getTime(), 7);
-
-											SchedulerComposer.this.statProcedure.workAssignProcedure(
-													SchedulerComposer.this.shift_cache.getBreakShift(), date_break, current_schedule.getUser(), null);
-
-											// refresh grid
-											SchedulerComposer.this.setupGlobalSchedulerGridForDay();
-
-										}
+									if (SchedulerComposer.this.shift_cache.getBreakShift() == null) {
+										return;
 									}
-								}, params);
+
+									final Calendar cal = DateUtils.toCalendar(current_schedule.getDate_schedule());
+									cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+									cal.add(Calendar.DAY_OF_YEAR, -1);
+
+									final Date date_break = SchedulerComposer.this.statProcedure.getARandomDay(cal.getTime(), 7);
+
+									SchedulerComposer.this.statProcedure.workAssignProcedure(
+											SchedulerComposer.this.shift_cache.getBreakShift(), date_break, current_schedule.getUser(), null);
+
+									// refresh grid
+									SchedulerComposer.this.setupGlobalSchedulerGridForDay();
+
+								}
+							}
+						}, params);
 
 					}
 
@@ -3075,17 +3075,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3417,19 +3417,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
+							@Override
+							public void onEvent(final ClickEvent e) {
 
-						if (Messagebox.ON_OK.equals(e.getName())) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
-						} else if (Messagebox.ON_NO.equals(e.getName())) {
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
+								} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
-						}
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+								}
 
-					}
-				}, params);
+							}
+						}, params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -3453,17 +3453,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-					public void onEvent(final ClickEvent e) {
+					@Override
+							public void onEvent(final ClickEvent e) {
 
-						if (Messagebox.ON_OK.equals(e.getName())) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.forceAssignRandomBreak(date_scheduled, row_item.getUser());
+							SchedulerComposer.this.forceAssignRandomBreak(date_scheduled, row_item.getUser());
 
-						}
+								}
 
-							}
-				}, params);
+					}
+						}, params);
 
 			}
 		}
@@ -4602,136 +4602,140 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// count review
 		for (final RowSchedule itemrow_count : list_row) {
 
-			if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
-				count_matrixUsers[0][0]++;
+			final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
+
+			if (!user.isInOffice()) {
+				if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
+					count_matrixUsers[0][0]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
+					count_matrixUsers[0][1]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
+					count_matrixUsers[0][2]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
+					count_matrixUsers[0][3]++;
+				}
+
+				if (((itemrow_count.getItem_1().getAnchorValue1() != 0) || (itemrow_count.getItem_1().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0))) {
+					count_Day_Users[0]++;
+				}
+
+				count_matrix[0][0] = count_matrix[0][0] + itemrow_count.getItem_1().getAnchorValue1();
+				count_matrix[0][1] = count_matrix[0][1] + itemrow_count.getItem_1().getAnchorValue2();
+				count_matrix[0][2] = count_matrix[0][2] + itemrow_count.getItem_1().getAnchorValue3();
+				count_matrix[0][3] = count_matrix[0][3] + itemrow_count.getItem_1().getAnchorValue4();
+
+				if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
+					count_matrixUsers[1][0]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
+					count_matrixUsers[1][1]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
+					count_matrixUsers[1][2]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
+					count_matrixUsers[1][3]++;
+				}
+
+				if (((itemrow_count.getItem_2().getAnchorValue1() != 0) || (itemrow_count.getItem_2().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0))) {
+					count_Day_Users[1]++;
+				}
+
+				count_matrix[1][0] = count_matrix[1][0] + itemrow_count.getItem_2().getAnchorValue1();
+				count_matrix[1][1] = count_matrix[1][1] + itemrow_count.getItem_2().getAnchorValue2();
+				count_matrix[1][2] = count_matrix[1][2] + itemrow_count.getItem_2().getAnchorValue3();
+				count_matrix[1][3] = count_matrix[1][3] + itemrow_count.getItem_2().getAnchorValue4();
+
+				if (itemrow_count.getItem_3().getAnchorValue1() != 0) {
+					count_matrixUsers[2][0]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue2() != 0) {
+					count_matrixUsers[2][1]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue3() != 0) {
+					count_matrixUsers[2][2]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue4() != 0) {
+					count_matrixUsers[2][3]++;
+				}
+
+				if (((itemrow_count.getItem_3().getAnchorValue1() != 0) || (itemrow_count.getItem_3().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_3().getAnchorValue3() != 0) || (itemrow_count.getItem_3().getAnchorValue4() != 0))) {
+					count_Day_Users[2]++;
+				}
+
+				count_matrix[2][0] = count_matrix[2][0] + itemrow_count.getItem_3().getAnchorValue1();
+				count_matrix[2][1] = count_matrix[2][1] + itemrow_count.getItem_3().getAnchorValue2();
+				count_matrix[2][2] = count_matrix[2][2] + itemrow_count.getItem_3().getAnchorValue3();
+				count_matrix[2][3] = count_matrix[2][3] + itemrow_count.getItem_3().getAnchorValue4();
+
+				if (itemrow_count.getItem_4().getAnchorValue1() != 0) {
+					count_matrixUsers[3][0]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue2() != 0) {
+					count_matrixUsers[3][1]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue3() != 0) {
+					count_matrixUsers[3][2]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue4() != 0) {
+					count_matrixUsers[3][3]++;
+				}
+
+				if (((itemrow_count.getItem_4().getAnchorValue1() != 0) || (itemrow_count.getItem_4().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_4().getAnchorValue3() != 0) || (itemrow_count.getItem_4().getAnchorValue4() != 0))) {
+					count_Day_Users[3]++;
+				}
+
+				count_matrix[3][0] = count_matrix[3][0] + itemrow_count.getItem_4().getAnchorValue1();
+				count_matrix[3][1] = count_matrix[3][1] + itemrow_count.getItem_4().getAnchorValue2();
+				count_matrix[3][2] = count_matrix[3][2] + itemrow_count.getItem_4().getAnchorValue3();
+				count_matrix[3][3] = count_matrix[3][3] + itemrow_count.getItem_4().getAnchorValue4();
+
+				if (itemrow_count.getItem_5().getAnchorValue1() != 0) {
+					count_matrixUsers[4][0]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue2() != 0) {
+					count_matrixUsers[4][1]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue3() != 0) {
+					count_matrixUsers[4][2]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue4() != 0) {
+					count_matrixUsers[4][3]++;
+				}
+
+				if (((itemrow_count.getItem_5().getAnchorValue1() != 0) || (itemrow_count.getItem_5().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_5().getAnchorValue3() != 0) || (itemrow_count.getItem_5().getAnchorValue4() != 0))) {
+					count_Day_Users[4]++;
+				}
+
+				count_matrix[4][0] = count_matrix[4][0] + itemrow_count.getItem_5().getAnchorValue1();
+				count_matrix[4][1] = count_matrix[4][1] + itemrow_count.getItem_5().getAnchorValue2();
+				count_matrix[4][2] = count_matrix[4][2] + itemrow_count.getItem_5().getAnchorValue3();
+				count_matrix[4][3] = count_matrix[4][3] + itemrow_count.getItem_5().getAnchorValue4();
+
 			}
-
-			if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
-				count_matrixUsers[0][1]++;
-			}
-
-			if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
-				count_matrixUsers[0][2]++;
-			}
-
-			if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
-				count_matrixUsers[0][3]++;
-			}
-
-			if ((itemrow_count.getItem_1().getAnchorValue1() != 0) || (itemrow_count.getItem_1().getAnchorValue2() != 0)
-					|| (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
-				count_Day_Users[0]++;
-			}
-
-			count_matrix[0][0] = count_matrix[0][0] + itemrow_count.getItem_1().getAnchorValue1();
-			count_matrix[0][1] = count_matrix[0][1] + itemrow_count.getItem_1().getAnchorValue2();
-			count_matrix[0][2] = count_matrix[0][2] + itemrow_count.getItem_1().getAnchorValue3();
-			count_matrix[0][3] = count_matrix[0][3] + itemrow_count.getItem_1().getAnchorValue4();
-
-			if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
-				count_matrixUsers[1][0]++;
-			}
-
-			if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
-				count_matrixUsers[1][1]++;
-			}
-
-			if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
-				count_matrixUsers[1][2]++;
-			}
-
-			if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
-				count_matrixUsers[1][3]++;
-			}
-
-			if ((itemrow_count.getItem_2().getAnchorValue1() != 0) || (itemrow_count.getItem_2().getAnchorValue2() != 0)
-					|| (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
-				count_Day_Users[1]++;
-			}
-
-			count_matrix[1][0] = count_matrix[1][0] + itemrow_count.getItem_2().getAnchorValue1();
-			count_matrix[1][1] = count_matrix[1][1] + itemrow_count.getItem_2().getAnchorValue2();
-			count_matrix[1][2] = count_matrix[1][2] + itemrow_count.getItem_2().getAnchorValue3();
-			count_matrix[1][3] = count_matrix[1][3] + itemrow_count.getItem_2().getAnchorValue4();
-
-			if (itemrow_count.getItem_3().getAnchorValue1() != 0) {
-				count_matrixUsers[2][0]++;
-			}
-
-			if (itemrow_count.getItem_3().getAnchorValue2() != 0) {
-				count_matrixUsers[2][1]++;
-			}
-
-			if (itemrow_count.getItem_3().getAnchorValue3() != 0) {
-				count_matrixUsers[2][2]++;
-			}
-
-			if (itemrow_count.getItem_3().getAnchorValue4() != 0) {
-				count_matrixUsers[2][3]++;
-			}
-
-			if ((itemrow_count.getItem_3().getAnchorValue1() != 0) || (itemrow_count.getItem_3().getAnchorValue2() != 0)
-					|| (itemrow_count.getItem_3().getAnchorValue3() != 0) || (itemrow_count.getItem_3().getAnchorValue4() != 0)) {
-				count_Day_Users[2]++;
-			}
-
-			count_matrix[2][0] = count_matrix[2][0] + itemrow_count.getItem_3().getAnchorValue1();
-			count_matrix[2][1] = count_matrix[2][1] + itemrow_count.getItem_3().getAnchorValue2();
-			count_matrix[2][2] = count_matrix[2][2] + itemrow_count.getItem_3().getAnchorValue3();
-			count_matrix[2][3] = count_matrix[2][3] + itemrow_count.getItem_3().getAnchorValue4();
-
-			if (itemrow_count.getItem_4().getAnchorValue1() != 0) {
-				count_matrixUsers[3][0]++;
-			}
-
-			if (itemrow_count.getItem_4().getAnchorValue2() != 0) {
-				count_matrixUsers[3][1]++;
-			}
-
-			if (itemrow_count.getItem_4().getAnchorValue3() != 0) {
-				count_matrixUsers[3][2]++;
-			}
-
-			if (itemrow_count.getItem_4().getAnchorValue4() != 0) {
-				count_matrixUsers[3][3]++;
-			}
-
-			if ((itemrow_count.getItem_4().getAnchorValue1() != 0) || (itemrow_count.getItem_4().getAnchorValue2() != 0)
-					|| (itemrow_count.getItem_4().getAnchorValue3() != 0) || (itemrow_count.getItem_4().getAnchorValue4() != 0)) {
-				count_Day_Users[3]++;
-			}
-
-			count_matrix[3][0] = count_matrix[3][0] + itemrow_count.getItem_4().getAnchorValue1();
-			count_matrix[3][1] = count_matrix[3][1] + itemrow_count.getItem_4().getAnchorValue2();
-			count_matrix[3][2] = count_matrix[3][2] + itemrow_count.getItem_4().getAnchorValue3();
-			count_matrix[3][3] = count_matrix[3][3] + itemrow_count.getItem_4().getAnchorValue4();
-
-			if (itemrow_count.getItem_5().getAnchorValue1() != 0) {
-				count_matrixUsers[4][0]++;
-			}
-
-			if (itemrow_count.getItem_5().getAnchorValue2() != 0) {
-				count_matrixUsers[4][1]++;
-			}
-
-			if (itemrow_count.getItem_5().getAnchorValue3() != 0) {
-				count_matrixUsers[4][2]++;
-			}
-
-			if (itemrow_count.getItem_5().getAnchorValue4() != 0) {
-				count_matrixUsers[4][3]++;
-			}
-
-			if ((itemrow_count.getItem_5().getAnchorValue1() != 0) || (itemrow_count.getItem_5().getAnchorValue2() != 0)
-					|| (itemrow_count.getItem_5().getAnchorValue3() != 0) || (itemrow_count.getItem_5().getAnchorValue4() != 0)) {
-				count_Day_Users[4]++;
-			}
-
-			count_matrix[4][0] = count_matrix[4][0] + itemrow_count.getItem_5().getAnchorValue1();
-			count_matrix[4][1] = count_matrix[4][1] + itemrow_count.getItem_5().getAnchorValue2();
-			count_matrix[4][2] = count_matrix[4][2] + itemrow_count.getItem_5().getAnchorValue3();
-			count_matrix[4][3] = count_matrix[4][3] + itemrow_count.getItem_5().getAnchorValue4();
-
 		}
 
 		// set sum review
@@ -4928,28 +4932,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// count review
 		for (final RowSchedule itemrow_count : list_row) {
 
-			if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
-				countUsers_colum_1++;
-			}
-			if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
-				countUsers_colum_2++;
-			}
-			if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
-				countUsers_colum_3++;
-			}
-			if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
-				countUsers_colum_4++;
-			}
+			final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
+			if (!user.isInOffice()) {
 
-			if ((itemrow_count.getItem_2().getAnchorValue1() != 0) || (itemrow_count.getItem_2().getAnchorValue2() != 0)
-					|| (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
-				countUsersTot++;
-			}
+				if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
+					countUsers_colum_1++;
+				}
+				if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
+					countUsers_colum_2++;
+				}
+				if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
+					countUsers_colum_3++;
+				}
+				if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
+					countUsers_colum_4++;
+				}
 
-			count_colum_1 = count_colum_1 + itemrow_count.getItem_2().getAnchorValue1();
-			count_colum_2 = count_colum_2 + itemrow_count.getItem_2().getAnchorValue2();
-			count_colum_3 = count_colum_3 + itemrow_count.getItem_2().getAnchorValue3();
-			count_colum_4 = count_colum_4 + itemrow_count.getItem_2().getAnchorValue4();
+				if ((itemrow_count.getItem_2().getAnchorValue1() != 0) || (itemrow_count.getItem_2().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
+					countUsersTot++;
+				}
+
+				count_colum_1 = count_colum_1 + itemrow_count.getItem_2().getAnchorValue1();
+				count_colum_2 = count_colum_2 + itemrow_count.getItem_2().getAnchorValue2();
+				count_colum_3 = count_colum_3 + itemrow_count.getItem_2().getAnchorValue3();
+				count_colum_4 = count_colum_4 + itemrow_count.getItem_2().getAnchorValue4();
+			}
 
 		}
 
@@ -5023,28 +5031,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// count review
 		for (final RowSchedule itemrow_count : list_row) {
 
-			if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
-				countUsers_colum_1++;
-			}
-			if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
-				countUsers_colum_2++;
-			}
-			if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
-				countUsers_colum_3++;
-			}
-			if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
-				countUsers_colum_4++;
-			}
+			final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
 
-			if ((itemrow_count.getItem_1().getAnchorValue1() != 0) || (itemrow_count.getItem_1().getAnchorValue2() != 0)
-					|| (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
-				countUsersTot++;
-			}
+			if (!user.isInOffice()) {
+				if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
+					countUsers_colum_1++;
+				}
+				if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
+					countUsers_colum_2++;
+				}
+				if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
+					countUsers_colum_3++;
+				}
+				if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
+					countUsers_colum_4++;
+				}
 
-			count_colum_1 = count_colum_1 + itemrow_count.getItem_1().getAnchorValue1();
-			count_colum_2 = count_colum_2 + itemrow_count.getItem_1().getAnchorValue2();
-			count_colum_3 = count_colum_3 + itemrow_count.getItem_1().getAnchorValue3();
-			count_colum_4 = count_colum_4 + itemrow_count.getItem_1().getAnchorValue4();
+				if ((itemrow_count.getItem_1().getAnchorValue1() != 0) || (itemrow_count.getItem_1().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
+					countUsersTot++;
+				}
+
+				count_colum_1 = count_colum_1 + itemrow_count.getItem_1().getAnchorValue1();
+				count_colum_2 = count_colum_2 + itemrow_count.getItem_1().getAnchorValue2();
+				count_colum_3 = count_colum_3 + itemrow_count.getItem_1().getAnchorValue3();
+				count_colum_4 = count_colum_4 + itemrow_count.getItem_1().getAnchorValue4();
+
+			}
 
 		}
 

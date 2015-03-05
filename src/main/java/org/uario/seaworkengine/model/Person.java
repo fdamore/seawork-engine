@@ -412,6 +412,23 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.enabled;
 	}
 
+	// Check if a user is a Daily Employee or a BackOffice or a Operative
+	// Employee
+	public boolean isInOffice() {
+		if (this.dailyemployee) {
+			return true;
+		}
+		final Collection<GrantedAuthority> auts = this.getAuthorities();
+		for (final Iterator iterator = auts.iterator(); iterator.hasNext();) {
+			final GrantedAuthority grantedAuthority = (GrantedAuthority) iterator.next();
+			final String item = grantedAuthority.getAuthority();
+			if (item.equals(UserTag.ROLE_BACKOFFICE) || item.equals(UserTag.ROLE_OPERATIVE)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * return true if user is a supervisor..
 	 *
