@@ -3835,8 +3835,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (totalUser_review_day_1 < totalUser_review_day_2) {
 
 			diff = totalUser_review_day_2 - totalUser_review_day_1;
-			final Label lab1 = new Label("+" + diff.toString());
-			final Label lab2 = new Label("-" + diff.toString());
+			final Label lab1 = new Label("-" + diff.toString());
+			final Label lab2 = new Label("+" + diff.toString());
 			lab1.setStyle(style);
 			lab2.setStyle(style);
 			t1.appendChild(lab1);
@@ -3844,8 +3844,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		} else {
 			diff = totalUser_review_day_1 - totalUser_review_day_2;
-			final Label lab2 = new Label("+" + diff.toString());
-			final Label lab1 = new Label("-" + diff.toString());
+			final Label lab1 = new Label("+" + diff.toString());
+			final Label lab2 = new Label("-" + diff.toString());
 			lab2.setStyle(style);
 			lab1.setStyle(style);
 			t2.appendChild(lab2);
