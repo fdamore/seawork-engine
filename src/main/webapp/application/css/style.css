@@ -22,3 +22,7 @@ color: #000000;
 .z-listitem:hover>.z-listcell>.z-listcell-content {
 color: #636363;
 }
+
+.z-window-close {
+	display: none;
+}
