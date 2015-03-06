@@ -391,7 +391,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final String					partTimeMessage					= "(Part Time)";
 
 	private final Person					person_logged					= (Person) SecurityContextHolder.getContext().getAuthentication()
-			.getPrincipal();
+																					.getPrincipal();
 
 	private PersonDAO						personDAO;
 	@Wire
@@ -1107,7 +1107,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #date_init_scheduler_review")
+	@Listen("onChange = #date_init_scheduler_review;onOK = #date_init_scheduler_review")
 	public void changeBehaviorReview() {
 		// define command behavior for not supervisor
 		final Person person_selected = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -1165,7 +1165,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (this.person_logged.isBackoffice() || this.person_logged.isAdministrator()) {
 				final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
 				LockTable lockTable = null;
-				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+				if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
 					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
 					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
@@ -1266,17 +1266,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -1344,7 +1344,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * define the view in function of the type of the view required
 	 */
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #date_to_overview, #date_from_overview;onOK = #shows_rows, #full_text_search; onSelect = #overview_tab")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #date_to_overview, #date_from_overview;onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search; onSelect = #overview_tab")
 	public void defineSchedulerView() {
 
 		if (this.scheduler_type_selector.getSelectedItem() == null) {
@@ -1714,7 +1714,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Boolean tableIsLocked = SchedulerComposer.this.checkIfTableIsLockedAndSetButton();
 				final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
 				LockTable lockTable = null;
-				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+				if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
 					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
 					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
@@ -1727,7 +1727,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					SchedulerComposer.this.disableWriteCancelButtons(false);
 				}
 				final int idLogged = SchedulerComposer.this.person_logged.getId();
-				if (lockTable != null && lockTable.getId_user() == idLogged) {
+				if ((lockTable != null) && (lockTable.getId_user() == idLogged)) {
 					SchedulerComposer.this.disableWriteCancelButtons(false);
 				}
 
@@ -2989,8 +2989,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3049,29 +3049,29 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						Messagebox.show("Non ci sono riposi assegnati per qeusta settimana. Vuoi che ne assegni uno automaticamente?",
 								"GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-									@Override
-									public void onEvent(final ClickEvent e) {
-										if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-											if (SchedulerComposer.this.shift_cache.getBreakShift() == null) {
-												return;
-											}
-
-											final Calendar cal = DateUtils.toCalendar(current_schedule.getDate_schedule());
-											cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-											cal.add(Calendar.DAY_OF_YEAR, -1);
-
-											final Date date_break = SchedulerComposer.this.statProcedure.getARandomDay(cal.getTime(), 7);
-
-											SchedulerComposer.this.statProcedure.workAssignProcedure(
-													SchedulerComposer.this.shift_cache.getBreakShift(), date_break, current_schedule.getUser(), null);
-
-											// refresh grid
-											SchedulerComposer.this.setupGlobalSchedulerGridForDay();
-
-										}
+									if (SchedulerComposer.this.shift_cache.getBreakShift() == null) {
+										return;
 									}
-								}, params);
+
+									final Calendar cal = DateUtils.toCalendar(current_schedule.getDate_schedule());
+									cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+									cal.add(Calendar.DAY_OF_YEAR, -1);
+
+									final Date date_break = SchedulerComposer.this.statProcedure.getARandomDay(cal.getTime(), 7);
+
+									SchedulerComposer.this.statProcedure.workAssignProcedure(
+											SchedulerComposer.this.shift_cache.getBreakShift(), date_break, current_schedule.getUser(), null);
+
+									// refresh grid
+									SchedulerComposer.this.setupGlobalSchedulerGridForDay();
+
+								}
+							}
+						}, params);
 
 					}
 
@@ -3261,17 +3261,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3603,19 +3603,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
+							@Override
+							public void onEvent(final ClickEvent e) {
 
-						if (Messagebox.ON_OK.equals(e.getName())) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
-						} else if (Messagebox.ON_NO.equals(e.getName())) {
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
+								} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
-						}
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+								}
 
-					}
-				}, params);
+							}
+						}, params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -3639,17 +3639,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-					public void onEvent(final ClickEvent e) {
+					@Override
+							public void onEvent(final ClickEvent e) {
 
-						if (Messagebox.ON_OK.equals(e.getName())) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.forceAssignRandomBreak(date_scheduled, row_item.getUser());
+							SchedulerComposer.this.forceAssignRandomBreak(date_scheduled, row_item.getUser());
 
-						}
+								}
 
-							}
-				}, params);
+					}
+						}, params);
 
 			}
 		}
@@ -5441,13 +5441,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Boolean tableIsLocked = SchedulerComposer.this.checkIfTableIsLockedAndSetButton();
 		Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
 		LockTable lockTable = null;
-		if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+		if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
 			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
 		} else if (version_selected == SchedulerComposer.this.review_item) {
 			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
 		}
 
-		if (!this.person_logged.isAdministrator() && (lockTable != null && !lockTable.getId_user().equals(this.person_logged.getId()))) {
+		if (!this.person_logged.isAdministrator() && ((lockTable != null) && !lockTable.getId_user().equals(this.person_logged.getId()))) {
 			// check and set if table is locked
 
 			// check if you are admin or you are the user that have locked
@@ -5458,7 +5458,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				SchedulerComposer.this.disableWriteCancelButtons(false);
 			}
 			final int idLogged = SchedulerComposer.this.person_logged.getId();
-			if (lockTable != null && lockTable.getId_user() == idLogged) {
+			if ((lockTable != null) && (lockTable.getId_user() == idLogged)) {
 				SchedulerComposer.this.disableWriteCancelButtons(false);
 			}
 
@@ -5475,7 +5475,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				myLockTable.setId_user(this.person_logged.getId());
 				myLockTable.setTime_start(new Timestamp(Calendar.getInstance().getTime().getTime()));
 
-				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+				if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
 					myLockTable.setTable_type(TableTag.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
 					myLockTable.setTable_type(TableTag.REVIEW_TABLE);
@@ -5494,7 +5494,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// you
 				// are administrator
 				lockTable = null;
-				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+				if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
 					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
 					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
