@@ -16,6 +16,8 @@ public interface BeansTag {
 
 	public static String	JOB_COST_DAO			= "myJobCostDAO";
 
+	public static String	LOCK_TABLE_DAO			= "myLockTableDAO";
+
 	public static String	PARAMS_DAO				= "myParamDAO";
 
 	public static String	PERSON_DAO				= "myPersonDAO";

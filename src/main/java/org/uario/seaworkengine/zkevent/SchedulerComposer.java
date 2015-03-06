@@ -3,6 +3,7 @@ package org.uario.seaworkengine.zkevent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.docfactory.ReviewReportBuilder;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.LockTable;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
@@ -29,6 +31,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
+import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
@@ -37,6 +40,7 @@ import org.uario.seaworkengine.statistics.MenNeedToShift;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ShiftTag;
+import org.uario.seaworkengine.utility.TableTag;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -82,6 +86,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 */
 	private final class checkOnDoubleShiftBreaEvent implements EventListener<ClickEvent> {
+
 		private final Integer	max_shift;
 
 		private checkOnDoubleShiftBreaEvent(final Integer max_shift) {
@@ -181,12 +186,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private static final long				serialVersionUID				= 1L;
 
 	@Wire
+	private Button							add_program_item;
+
+	@Wire
 	private Button							add_review_item;
 
 	@Wire
 	private Button							assign_program_review;
 
 	private IBankHolidays					bank_holiday;
+
+	@Wire
+	private Button							cancel_day_definition;
+
+	@Wire
+	private Button							cancel_program;
 
 	@Wire
 	private Button							cancel_review;
@@ -283,6 +297,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_shift_program;
+
 	@Wire
 	private A								label_date_shift_review;
 
@@ -291,7 +306,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	// initial program and revision - USED IN POPUP
 	private List<DetailInitialSchedule>		list_details_program;
-
 	private List<DetailFinalSchedule>		list_details_review;
 
 	@Wire
@@ -318,7 +332,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	// review program and revision - USED DOWNLOAD
 	private List<Schedule>					listSchedule					= null;
 
+	private LockTableDAO					lockTableDAO;
+
 	private final Logger					logger							= Logger.getLogger(SchedulerComposer.class);
+
+	@Wire
+	private Label							loggerUserOnTable;
+
+	private final String					messageTableLock				= "Utente connesso: ";
+
+	private final String					messageTableUnLock				= "Nessun utente in programmazione.";
 
 	@Wire
 	private Textbox							note_preprocessing;
@@ -328,6 +351,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox							note_review;
+
+	@Wire
+	private Button							ok_day_shift;
+
+	@Wire
+	private Button							ok_program;
 
 	@Wire
 	private Button							ok_review;
@@ -361,63 +390,66 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private final String					partTimeMessage					= "(Part Time)";
 
-	private PersonDAO						personDAO;
+	private final Person					person_logged					= (Person) SecurityContextHolder.getContext().getAuthentication()
+			.getPrincipal();
 
+	private PersonDAO						personDAO;
 	@Wire
 	private Div								preprocessing_div;
 
 	@Wire
 	private Comboitem						preprocessing_item;
-
 	@Wire
 	private Div								program_div;
 	@Wire
 	private Comboitem						program_item;
-
 	@Wire
 	private Combobox						program_task;
+
 	@Wire
 	private Auxheader						program_tot_1_1;
 	@Wire
 	private Auxheader						program_tot_1_2;
 	@Wire
 	private Auxheader						program_tot_1_3;
-
 	@Wire
 	private Auxheader						program_tot_1_4;
+
 	@Wire
 	private Auxheader						program_tot_2_1;
 	@Wire
 	private Auxheader						program_tot_2_2;
 	@Wire
 	private Auxheader						program_tot_2_3;
-
 	@Wire
 	private Auxheader						program_tot_2_4;
+
 	@Wire
 	private Auxheader						program_tot_3_1;
 	@Wire
 	private Auxheader						program_tot_3_2;
 	@Wire
 	private Auxheader						program_tot_3_3;
-
 	@Wire
 	private Auxheader						program_tot_3_4;
+
 	@Wire
 	private Auxheader						program_tot_4_1;
 	@Wire
 	private Auxheader						program_tot_4_2;
 	@Wire
 	private Auxheader						program_tot_4_3;
-
 	@Wire
 	private Auxheader						program_tot_4_4;
 	@Wire
 	private Auxheader						program_tot_5_1;
+
 	@Wire
 	private Auxheader						program_tot_5_2;
+
 	@Wire
 	private Auxheader						program_tot_5_3;
+
 	@Wire
 	private Auxheader						program_tot_5_4;
 
@@ -453,30 +485,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_3_3;
-
 	@Wire
 	private Auxheader						programUser_tot_3_4;
-
 	@Wire
 	private Auxheader						programUser_tot_4_1;
-
 	@Wire
 	private Auxheader						programUser_tot_4_2;
+
 	@Wire
 	private Auxheader						programUser_tot_4_3;
+
 	@Wire
 	private Auxheader						programUser_tot_4_4;
+
 	@Wire
 	private Auxheader						programUser_tot_5_1;
 
 	@Wire
 	private Auxheader						programUser_tot_5_2;
-
 	@Wire
 	private Auxheader						programUser_tot_5_3;
-
 	@Wire
 	private Auxheader						programUser_tot_5_4;
+	@Wire
+	private Button							remove_program_item;
 
 	@Wire
 	private Button							remove_review_item;
@@ -486,7 +518,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Comboitem						review_item;
 	@Wire
 	private Combobox						review_task;
-
 	@Wire
 	private Auxheader						review_tot_1_1;
 	@Wire
@@ -503,12 +534,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						review_tot_2_3;
 	@Wire
 	private Auxheader						review_tot_2_4;
+
 	@Wire
 	private Auxheader						reviewUser_tot_1_1;
+
 	@Wire
 	private Auxheader						reviewUser_tot_1_2;
+
 	@Wire
 	private Auxheader						reviewUser_tot_1_3;
+
 	@Wire
 	private Auxheader						reviewUser_tot_1_4;
 
@@ -584,6 +619,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label							shift_period_name;
 
 	@Wire
+	private Button							shift_period_ok;
+
+	@Wire
 	private Datebox							shift_period_to;
 
 	@Wire
@@ -595,32 +633,41 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private IStatistics						statisticDAO;
 
 	private IStatProcedure					statProcedure;
-
 	private final String					styleComboItemPopup				= "color: #F5290A;";
 
+	@Wire
+	private Button							switchButton;
+	private final String					switchButtonValueClose			= "Chiudi";
+
+	private final String					switchButtonValueOpen			= "Apri";
 	protected ITaskCache					task_cache;
-
 	private TasksDAO						taskDAO;
-
 	@Wire
 	private Timebox							time_from;
 	@Wire
 	private Timebox							time_from_program;
+
 	@Wire
 	private Timebox							time_to;
+
 	@Wire
 	private Timebox							time_to_program;
+
 	@Wire
 	private Auxheader						total_program_day_1;
 
 	@Wire
 	private Auxheader						total_program_day_2;
+
 	@Wire
 	private Auxheader						total_program_day_3;
+
 	@Wire
 	private Auxheader						total_program_day_4;
+
 	@Wire
 	private Auxheader						total_program_day_5;
+
 	@Wire
 	private Auxheader						total_review_day_1;
 
@@ -1110,6 +1157,62 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	private Boolean checkIfTableIsLockedAndSetButton() {
+		this.loggerUserOnTable.setVisible(true);
+		this.switchButton.setVisible(true);
+		if (this.person_logged != null) {
+			// check if user logged is a Programmer or Administrator
+			if (this.person_logged.isBackoffice() || this.person_logged.isAdministrator()) {
+				final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
+				LockTable lockTable = null;
+				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+				} else if (version_selected == SchedulerComposer.this.review_item) {
+					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+				}
+				if (lockTable == null) {
+					// table is unlock
+					this.loggerUserOnTable.setValue(this.messageTableUnLock);
+					this.switchButton.setVisible(true);
+					this.switchButton.setLabel(this.switchButtonValueOpen);
+
+					if (this.person_logged.isAdministrator()) {
+						this.disableWriteCancelButtons(false);
+					} else {
+						this.disableWriteCancelButtons(true);
+					}
+					return true;
+				} else if (!this.person_logged.isAdministrator()) {
+					// another user has lock table
+					final Person user = this.personDAO.loadPerson(lockTable.getId_user());
+					this.switchButton.setVisible(false);
+					this.disableWriteCancelButtons(true);
+					if (lockTable.getId_user().equals(this.person_logged.getId())) {
+						this.switchButton.setVisible(true);
+						this.switchButton.setLabel(this.switchButtonValueClose);
+						this.disableWriteCancelButtons(false);
+						this.loggerUserOnTable.setValue(this.messageTableLock + user.getFirstname() + " " + user.getLastname());
+						return true;
+					}
+
+					this.loggerUserOnTable.setValue(this.messageTableLock + user.getFirstname() + " " + user.getLastname());
+					return false;
+				} else if (this.person_logged.isAdministrator()) {
+					// another user has lock table, can unlock because is
+					// administrator
+					final Person user = this.personDAO.loadPerson(lockTable.getId_user());
+					this.loggerUserOnTable.setValue(this.messageTableLock + user.getFirstname() + " " + user.getLastname());
+					this.switchButton.setLabel(this.switchButtonValueClose);
+					this.switchButton.setVisible(true);
+					this.disableWriteCancelButtons(false);
+					return true;
+				}
+			}
+			return false;
+		}
+		return false;
+	}
+
 	/**
 	 * Define anchor content on shift schedule
 	 *
@@ -1254,6 +1357,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.panel_shift_period.setVisible(false);
 
 		if (selected == this.preprocessing_item) {
+
 			this.preprocessing_div.setVisible(true);
 			this.program_div.setVisible(false);
 			this.review_div.setVisible(false);
@@ -1266,6 +1370,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (selected == this.program_item) {
+
 			this.preprocessing_div.setVisible(false);
 			this.program_div.setVisible(true);
 			this.review_div.setVisible(false);
@@ -1278,6 +1383,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (selected == this.review_item) {
+
 			this.preprocessing_div.setVisible(false);
 			this.program_div.setVisible(false);
 			this.review_div.setVisible(true);
@@ -1290,6 +1396,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (selected == this.overview_item) {
+
 			this.preprocessing_div.setVisible(false);
 			this.program_div.setVisible(false);
 			this.review_div.setVisible(false);
@@ -1426,6 +1533,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.date_to_overview.setValue(calendar.getTime());
 	}
 
+	private void disableWriteCancelButtons(final boolean isDisabled) {
+		this.shift_period_ok.setDisabled(isDisabled);
+		this.cancel_day_definition.setDisabled(isDisabled);
+		this.ok_day_shift.setDisabled(isDisabled);
+		this.ok_program.setDisabled(isDisabled);
+		this.cancel_program.setDisabled(isDisabled);
+		this.add_program_item.setDisabled(isDisabled);
+		this.remove_program_item.setDisabled(isDisabled);
+		this.ok_review.setDisabled(isDisabled);
+		this.cancel_review.setDisabled(isDisabled);
+		this.add_review_item.setDisabled(isDisabled);
+		this.remove_review_item.setDisabled(isDisabled);
+		this.assign_program_review.setDisabled(isDisabled);
+
+	}
+
 	@Override
 	public void doFinally() throws Exception {
 
@@ -1449,6 +1572,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 		this.statProcedure = (IStatProcedure) SpringUtil.getBean(BeansTag.STAT_PROCEDURE);
+
+		this.lockTableDAO = (LockTableDAO) SpringUtil.getBean(BeansTag.LOCK_TABLE_DAO);
 
 		this.getSelf().addEventListener(ZkEventsTag.onDayNameClick, new EventListener<Event>() {
 
@@ -1584,6 +1709,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				// set preprocessing item in combo selection
 				SchedulerComposer.this.scheduler_type_selector.setSelectedItem(SchedulerComposer.this.preprocessing_item);
+
+				// check and set if table is locked
+				final Boolean tableIsLocked = SchedulerComposer.this.checkIfTableIsLockedAndSetButton();
+				final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
+				LockTable lockTable = null;
+				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+				} else if (version_selected == SchedulerComposer.this.review_item) {
+					lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+				}
+				// check if you are admin or you are the user that have locked
+				// the table
+				if (!SchedulerComposer.this.person_logged.isAdministrator()) {
+					SchedulerComposer.this.disableWriteCancelButtons(true);
+				} else {
+					SchedulerComposer.this.disableWriteCancelButtons(false);
+				}
+				final int idLogged = SchedulerComposer.this.person_logged.getId();
+				if (lockTable != null && lockTable.getId_user() == idLogged) {
+					SchedulerComposer.this.disableWriteCancelButtons(false);
+				}
 
 				SchedulerComposer.this.defineViewCurrentWorkInOverview();
 
@@ -2284,6 +2430,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		date_init.add(Calendar.DATE, 1);
 
 		currentRow.setItem31(new Schedule(date_init.getTime()));
+
+	}
+
+	@Listen("onChange = #scheduler_type_selector")
+	public void onChangeSelectedVersion() {
+		if (this.scheduler_type_selector.getSelectedItem() == null) {
+			return;
+		}
+		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
+
+		if (!selected.equals(this.overview_item)) {
+			this.checkIfTableIsLockedAndSetButton();
+			this.loggerUserOnTable.setVisible(true);
+			// this.switchButton.setVisible(true);
+		} else {
+			this.loggerUserOnTable.setVisible(false);
+			// this.switchButton.setVisible(false);
+		}
 
 	}
 
@@ -5268,5 +5432,88 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");
+	}
+
+	@Listen("onClick= #switchButton")
+	public void switchButtonClick() {
+
+		this.onChangeSelectedVersion();
+		final Boolean tableIsLocked = SchedulerComposer.this.checkIfTableIsLockedAndSetButton();
+		Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
+		LockTable lockTable = null;
+		if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+		} else if (version_selected == SchedulerComposer.this.review_item) {
+			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+		}
+
+		if (!this.person_logged.isAdministrator() && (lockTable != null && !lockTable.getId_user().equals(this.person_logged.getId()))) {
+			// check and set if table is locked
+
+			// check if you are admin or you are the user that have locked
+			// the table
+			if (!SchedulerComposer.this.person_logged.isAdministrator()) {
+				SchedulerComposer.this.disableWriteCancelButtons(true);
+			} else {
+				SchedulerComposer.this.disableWriteCancelButtons(false);
+			}
+			final int idLogged = SchedulerComposer.this.person_logged.getId();
+			if (lockTable != null && lockTable.getId_user() == idLogged) {
+				SchedulerComposer.this.disableWriteCancelButtons(false);
+			}
+
+		} else {
+			version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
+
+			if (this.switchButton.getLabel().equals(this.switchButtonValueOpen)) {
+				// lock table
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname());
+				this.switchButton.setLabel(this.switchButtonValueClose);
+				this.switchButton.setVisible(true);
+
+				final LockTable myLockTable = new LockTable();
+				myLockTable.setId_user(this.person_logged.getId());
+				myLockTable.setTime_start(new Timestamp(Calendar.getInstance().getTime().getTime()));
+
+				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+					myLockTable.setTable_type(TableTag.PROGRAM_TABLE);
+				} else if (version_selected == SchedulerComposer.this.review_item) {
+					myLockTable.setTable_type(TableTag.REVIEW_TABLE);
+				}
+
+				this.lockTableDAO.createLockTable(myLockTable);
+
+				// disable all write and cancel buttons
+				this.disableWriteCancelButtons(false);
+
+			} else if (this.switchButton.getLabel().equals(this.switchButtonValueClose)) {
+				this.switchButton.setVisible(true);
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+				// load locktable that is locked by you or unlock table because
+				// you
+				// are administrator
+				lockTable = null;
+				if (version_selected == SchedulerComposer.this.preprocessing_item || version_selected == SchedulerComposer.this.program_item) {
+					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+				} else if (version_selected == SchedulerComposer.this.review_item) {
+					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+				}
+
+				if (lockTable != null) {
+					lockTable.setTime_to(new Timestamp(Calendar.getInstance().getTime().getTime()));
+					lockTable.setId_user_closer(this.person_logged.getId());
+					this.lockTableDAO.updateLockTable(lockTable);
+				}
+
+				if (this.person_logged.isAdministrator()) {
+					this.disableWriteCancelButtons(false);
+				} else {
+					this.disableWriteCancelButtons(true);
+				}
+
+			}
+		}
+
 	}
 }

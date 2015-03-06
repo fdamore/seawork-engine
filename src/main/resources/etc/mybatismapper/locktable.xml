@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="locktable">
+
+<cache />
+
+	<insert id="createLockTable" parameterType="org.uario.seaworkengine.model.LockTable">
+		INSERT INTO locktable (id_user, time_start, time_to, table_type, id_user_closer)
+		VALUES
+		(#{id_user}, #{time_start}, #{time_to}, #{table_type}, #{id_user_closer});
+	</insert>
+	
+	<select id="loadLockTableById" parameterType="Integer" resultType="org.uario.seaworkengine.model.LockTable">
+		SELECT id, id_user, time_start, time_to, table_type, id_user_closer
+		FROM
+		locktable where
+		id = #{idLockTable};		
+	</select>
+	
+	<select id="loadLockTableByTableType" parameterType="String" resultType="org.uario.seaworkengine.model.LockTable">
+		SELECT id, id_user, time_start, time_to, table_type, id_user_closer
+		FROM
+		locktable where
+		table_type = #{tableType} and time_to IS NULL;		
+	</select>
+	
+	<delete id="removeLockTable" parameterType="Integer">
+		delete from
+		locktable
+		where
+		id = #{idLockTable}
+	</delete>
+	
+	<update id="updateLockTable" parameterType="org.uario.seaworkengine.model.LockTable" >
+		UPDATE locktable SET
+		id_user = #{id_user},
+		time_start = #{time_start},
+		time_to = #{time_to},
+		table_type = #{table_type},
+		id_user_closer = #{id_user_closer}
+		WHERE id = #{id}
+	</update>
+	
+	
+
+</mapper>

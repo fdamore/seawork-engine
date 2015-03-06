@@ -62,6 +62,9 @@
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
 
+			<label id="loggerUserOnTable" value="Nessun utente in programmazione"/>
+			<button id="switchButton"  sclass="btn-info"/>
+		
 
 		</hbox>
 
@@ -321,7 +324,7 @@
 						</button>
 
 						<button label="Salva" sclass="btn-info"
-							id="ok_day_shift">
+							id="ok_day_shift" >
 						</button>
 
 						<separator></separator>
@@ -887,7 +890,7 @@
 
 					<hbox>
 						<button id="ok_program"
-							label="Salva Programmazione" sclass="btn-info">
+							label="Salva Programmazione" sclass="btn-info"  >
 						</button>
 
 						<button id="cancel_program"
@@ -982,11 +985,11 @@
 										<auxheader colspan="4">
 
 											<button label="Aggiungi"
-												id="add_program_item" sclass="btn-info">
+												id="add_program_item" sclass="btn-info" >
 											</button>
 
 											<button label="Cancella"
-												id="remove_program_item" sclass="btn-info">
+												id="remove_program_item" sclass="btn-info" >
 											</button>
 
 											<label
@@ -1656,11 +1659,11 @@
 					<hbox align="center">
 
 						<button id="ok_review" label="Salva Consuntivo"
-							sclass="btn-info">
+							sclass="btn-info" >
 						</button>
 
 						<button id="cancel_review"
-							label="Cancella Consuntivazione" sclass="btn-danger">
+							label="Cancella Consuntivazione" sclass="btn-danger" >
 						</button>
 
 					</hbox>
@@ -1717,11 +1720,11 @@
 									<auxheader colspan="4">
 
 										<button label="Aggiungi"
-											id="add_review_item" sclass="btn-info">
+											id="add_review_item" sclass="btn-info" >
 										</button>
 
 										<button label="Cancella"
-											id="remove_review_item" sclass="btn-info">
+											id="remove_review_item" sclass="btn-info" >
 										</button>
 
 										<label id="totalHours_Review"

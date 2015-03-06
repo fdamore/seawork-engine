@@ -188,6 +188,12 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+	<bean id="myLockTableDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisLockTableDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 
 	<!-- SETUP PLATFORM CACHES -->
