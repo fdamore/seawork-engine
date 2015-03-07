@@ -29,7 +29,7 @@ import org.uario.seaworkengine.zkevent.bean.RowSchedule;
 
 public class OverviewReportBuilder {
 
-	private static Logger	logger	= Logger.getLogger(OverviewReportBuilder.class);
+	private static Logger logger = Logger.getLogger(OverviewReportBuilder.class);
 
 	private static void build(final JasperReportBuilder report) {
 
@@ -37,25 +37,30 @@ public class OverviewReportBuilder {
 
 		final TextColumnBuilder<String> itemColumn = DynamicReports.col.column("Item", "item", DynamicReports.type.stringType());
 
-		final TextColumnBuilder<Integer> quantityColumn = DynamicReports.col.column("Quantity", "quantity", DynamicReports.type.integerType());
+		final TextColumnBuilder<Integer> quantityColumn = DynamicReports.col.column("Quantity", "quantity",
+				DynamicReports.type.integerType());
 
 		final TextColumnBuilder<BigDecimal> unitPriceColumn = DynamicReports.col.column("Unit price", "unitprice",
 				DynamicReports.type.bigDecimalType());
 
-		final TextColumnBuilder<Date> orderDateColumn = DynamicReports.col.column("Order date", "orderdate", DynamicReports.type.dateType());
+		final TextColumnBuilder<Date> orderDateColumn = DynamicReports.col.column("Order date", "orderdate",
+				DynamicReports.type.dateType());
 
 		final TextColumnBuilder<Date> orderDateFColumn = DynamicReports.col.column("Order date", "orderdate",
 				DynamicReports.type.dateYearToFractionType());
 
-		final TextColumnBuilder<Date> orderYearColumn = DynamicReports.col.column("Order year", "orderdate", DynamicReports.type.dateYearType());
+		final TextColumnBuilder<Date> orderYearColumn = DynamicReports.col.column("Order year", "orderdate",
+				DynamicReports.type.dateYearType());
 
-		final TextColumnBuilder<Date> orderMonthColumn = DynamicReports.col.column("Order month", "orderdate", DynamicReports.type.dateMonthType());
+		final TextColumnBuilder<Date> orderMonthColumn = DynamicReports.col.column("Order month", "orderdate",
+				DynamicReports.type.dateMonthType());
 
-		final TextColumnBuilder<Date> orderDayColumn = DynamicReports.col.column("Order day", "orderdate", DynamicReports.type.dateDayType());
+		final TextColumnBuilder<Date> orderDayColumn = DynamicReports.col.column("Order day", "orderdate",
+				DynamicReports.type.dateDayType());
 
 		report.setColumnStyle(textStyle)
-		.columns(itemColumn, quantityColumn, unitPriceColumn, orderDateColumn, orderDateFColumn, orderYearColumn, orderMonthColumn,
-				orderDayColumn)
+		.columns(itemColumn, quantityColumn, unitPriceColumn, orderDateColumn, orderDateFColumn, orderYearColumn,
+				orderMonthColumn, orderDayColumn)
 				.columnGrid(
 						DynamicReports.grid.verticalColumnGridList(itemColumn,
 								DynamicReports.grid.horizontalColumnGridList(quantityColumn, unitPriceColumn)),
@@ -91,9 +96,10 @@ public class OverviewReportBuilder {
 	 * @param booking
 	 * @param list_rooms
 	 * @param cc_security
+	 *            *
 	 * @return
 	 */
-	public static JasperReportBuilder createReviewReport(final ArrayList<RowSchedule> list_row) {
+	public static JasperReportBuilder createReport(final ArrayList<RowSchedule> list_row) {
 		try {
 			final JasperReportBuilder report = DynamicReports.report();
 
@@ -151,7 +157,8 @@ public class OverviewReportBuilder {
 			final String link_string = "http://www.uario.com";
 			final HyperLinkBuilder link = DynamicReports.hyperLink(link_string);
 
-			logo.add(DynamicReports.cmp.text(link_string).setStyle(italicStyle).setHyperLink(link).setHorizontalAlignment(HorizontalAlignment.LEFT));
+			logo.add(DynamicReports.cmp.text(link_string).setStyle(italicStyle).setHyperLink(link)
+					.setHorizontalAlignment(HorizontalAlignment.LEFT));
 
 			final TextFieldBuilder<String> text_title = DynamicReports.cmp.text(ingo_gb).setStyle(bold10CenteredStyle);
 
@@ -183,7 +190,7 @@ public class OverviewReportBuilder {
 			value.add(itm);
 		}
 
-		final JasperReportBuilder report = OverviewReportBuilder.createReviewReport(value);
+		final JasperReportBuilder report = OverviewReportBuilder.createReport(value);
 
 		// final File file = new File("/home/francesco/Scrivania/file.pdf");
 

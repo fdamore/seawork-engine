@@ -62,9 +62,10 @@
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
 
-			<label id="loggerUserOnTable" value="Nessun utente in programmazione"/>
-			<button id="switchButton"  sclass="btn-info"/>
-		
+			<label id="loggerUserOnTable"
+				value="Nessun utente in programmazione" />
+			<button id="switchButton" sclass="btn-info" />
+
 
 		</hbox>
 
@@ -78,9 +79,9 @@
 					<vbox align="end">
 						<a label=" " id="label_statistic_popup"
 							sclass="header" iconSclass="z-icon-check" />
-						
-						<label id="partTime"/>
-						<separator/>
+
+						<label id="partTime" />
+						<separator />
 						<hbox align="center">
 
 							<grid width="200px">
@@ -172,7 +173,7 @@
 				<caption>
 					<hbox align="center">
 						<label value="Imposta Turni Speciale"></label>
-						<a label="Close" style="color:blue"
+						<a label="Chiudi" style="color:blue"
 							id="show_setperiod" sclass="pull-right"
 							onClick="panel_shift_period.setVisible(false)">
 						</a>
@@ -324,7 +325,7 @@
 						</button>
 
 						<button label="Salva" sclass="btn-info"
-							id="ok_day_shift" >
+							id="ok_day_shift">
 						</button>
 
 						<separator></separator>
@@ -890,7 +891,7 @@
 
 					<hbox>
 						<button id="ok_program"
-							label="Salva Programmazione" sclass="btn-info"  >
+							label="Salva Programmazione" sclass="btn-info">
 						</button>
 
 						<button id="cancel_program"
@@ -985,11 +986,11 @@
 										<auxheader colspan="4">
 
 											<button label="Aggiungi"
-												id="add_program_item" sclass="btn-info" >
+												id="add_program_item" sclass="btn-info">
 											</button>
 
 											<button label="Cancella"
-												id="remove_program_item" sclass="btn-info" >
+												id="remove_program_item" sclass="btn-info">
 											</button>
 
 											<label
@@ -1063,7 +1064,12 @@
 
 			</popup>
 
-			<space />
+			<separator></separator>
+
+			<button id="download_program_report" label="Scarica Report"
+				sclass="btn-info" />
+
+			<separator></separator>
 
 			<panel width="1000px" border="normal">
 				<panelchildren>
@@ -1659,11 +1665,11 @@
 					<hbox align="center">
 
 						<button id="ok_review" label="Salva Consuntivo"
-							sclass="btn-info" >
+							sclass="btn-info">
 						</button>
 
 						<button id="cancel_review"
-							label="Cancella Consuntivazione" sclass="btn-danger" >
+							label="Cancella Consuntivazione" sclass="btn-danger">
 						</button>
 
 					</hbox>
@@ -1720,11 +1726,11 @@
 									<auxheader colspan="4">
 
 										<button label="Aggiungi"
-											id="add_review_item" sclass="btn-info" >
+											id="add_review_item" sclass="btn-info">
 										</button>
 
 										<button label="Cancella"
-											id="remove_review_item" sclass="btn-info" >
+											id="remove_review_item" sclass="btn-info">
 										</button>
 
 										<label id="totalHours_Review"
@@ -2087,9 +2093,14 @@
 				<button id="overview_month" label="Mese corrente"
 					sclass="btn-info" />
 
+				<button id="download_overview_report"
+					label="Scarica Report" sclass="btn-info" />
+
 				<a label="Scarica dati in CSV" id="overview_download"
 					style="color:green">
 				</a>
+
+
 
 			</hbox>
 

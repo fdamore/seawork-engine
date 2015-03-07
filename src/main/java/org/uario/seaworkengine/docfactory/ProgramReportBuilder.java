@@ -93,7 +93,7 @@ public class ProgramReportBuilder {
 	 * @param cc_security
 	 * @return
 	 */
-	public static JasperReportBuilder createReviewReport(final ArrayList<RowSchedule> list_row) {
+	public static JasperReportBuilder createReport(final ArrayList<RowSchedule> list_row) {
 		try {
 			final JasperReportBuilder report = DynamicReports.report();
 
@@ -183,7 +183,7 @@ public class ProgramReportBuilder {
 			value.add(itm);
 		}
 
-		final JasperReportBuilder report = ProgramReportBuilder.createReviewReport(value);
+		final JasperReportBuilder report = ProgramReportBuilder.createReport(value);
 
 		// final File file = new File("/home/francesco/Scrivania/file.pdf");
 
