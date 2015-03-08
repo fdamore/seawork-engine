@@ -554,6 +554,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Button remove_review_item;
 	@Wire
+	private Button repogram_users;
+	@Wire
 	private Div review_div;
 	@Wire
 	private Comboitem review_item;
@@ -573,6 +575,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader review_tot_2_2;
 	@Wire
 	private Auxheader review_tot_2_3;
+
 	@Wire
 	private Auxheader review_tot_2_4;
 
@@ -672,19 +675,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Intbox shows_rows;
 
 	private IStatistics statisticDAO;
-
 	private IStatProcedure statProcedure;
-	private final String styleComboItemPopup = "color: #F5290A;";
 
+	private final String styleComboItemPopup = "color: #F5290A;";
 	@Wire
 	private Button switchButton;
-	private final String switchButtonValueClose = "Chiudi";
 
+	private final String switchButtonValueClose = "Chiudi";
 	private final String switchButtonValueOpen = "Apri";
 	protected ITaskCache task_cache;
 	private TasksDAO taskDAO;
 	@Wire
 	private Timebox time_from;
+
 	@Wire
 	private Timebox time_from_program;
 
@@ -1332,17 +1335,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?",
 				"CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -1618,6 +1621,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.add_review_item.setDisabled(isDisabled);
 		this.remove_review_item.setDisabled(isDisabled);
 		this.assign_program_review.setDisabled(isDisabled);
+		this.repogram_users.setDisabled(isDisabled);
 
 	}
 
@@ -3028,8 +3032,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3204,6 +3208,54 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick= #repogram_users")
+	public void reprogramUser() {
+
+		if ((this.grid_scheduler.getSelectedItems() == null) || (this.grid_scheduler.getSelectedItems().size() == 0)) {
+			return;
+		}
+
+		// get date tomorrow
+		final Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, 1);
+		final Date date_tomorrow = DateUtils.truncate(cal.getTime(), Calendar.DATE);
+
+		for (final Listitem item : this.grid_scheduler.getSelectedItems()) {
+
+			final RowSchedule itm_row = item.getValue();
+			if ((itm_row.getUser() == null) || (itm_row.getItem_3() == null)) {
+				continue;
+			}
+
+			// get Person
+			final Person person = this.personDAO.loadPerson(itm_row.getUser());
+
+			Schedule schedule = null;
+
+			if (itm_row.getItem_3().getSchedule() == null) {
+				this.scheduleDAO.loadSchedule(date_tomorrow, person.getId());
+			} else {
+				schedule = itm_row.getItem_3().getSchedule();
+			}
+
+			if (schedule.getShift() == null) {
+				continue;
+			}
+
+			final UserShift shift = this.shift_cache.getUserShift(schedule.getShift());
+			if (!shift.getPresence().booleanValue()) {
+				continue;
+			}
+
+			this.statProcedure.workAssignProcedure(shift, date_tomorrow, person.getId(), this.person_logged.getId());
+
+		}
+
+		// upload grid
+		this.setupGlobalSchedulerGridForShift();
+
+	}
+
 	/**
 	 * Save Current scheduler updating values from grid
 	 */
@@ -3282,17 +3334,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?",
 						"CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3632,20 +3684,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null,
 						new EventListener<ClickEvent>() {
-							@Override
-							public void onEvent(final ClickEvent e) {
+					@Override
+					public void onEvent(final ClickEvent e) {
 
-								if (Messagebox.ON_OK.equals(e.getName())) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled,
-									scheduleListInWeek);
-								} else if (Messagebox.ON_NO.equals(e.getName())) {
+							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled,
+											scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
-								}
+							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+						}
 
-							}
-						}, params);
+					}
+				}, params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -4356,7 +4408,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox
-			.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+					.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 			return;
 		}
@@ -5061,7 +5113,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.grid_scheduler.setPageSize(this.shows_rows.getValue());
 		}
-		this.grid_scheduler.setModel(new ListModelList<RowSchedule>(list_row));
+		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(list_row);
+		model.setMultiple(true);
+		this.grid_scheduler.setModel(model);
 
 	}
 

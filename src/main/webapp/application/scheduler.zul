@@ -1096,14 +1096,21 @@
 					</grid>
 				</panelchildren>
 			</panel>
-			<space />
+
+
+			<separator></separator>
+			<button id="repogram_users"
+				label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
+			<separator></separator>
+
 
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 				<panelchildren>
 
 					<listbox sclass="domain" id="grid_scheduler"
-						mold="paging" pageSize="10" pagingPosition="both">
+						checkmark="true" multiple="true" mold="paging" pageSize="10"
+						pagingPosition="both">
 						<auxhead>
 							<auxheader label="" colspan="1"
 								sclass="mySeparatorBorder" />
