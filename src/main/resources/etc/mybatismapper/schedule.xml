@@ -22,19 +22,19 @@
 		FROM schedule
 		WHERE id = #{id};
 	</select>
-	
-	
-	
-	
-	<select id="selectSchedulersForPreprocessingOnUserId" resultType="org.uario.seaworkengine.model.Schedule"
-		parameterType="map">
+
+
+
+
+	<select id="selectSchedulersForPreprocessingOnUserId"
+		resultType="org.uario.seaworkengine.model.Schedule" parameterType="map">
+
 
 		select s.id,
 		u.id as user,
 		s.shift,
 		s.date_schedule, s.sync_mobile,
-		concat(u.lastname, '
-		', u.firstname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =
@@ -55,8 +55,7 @@
 		u.id as user,
 		s.shift,
 		s.date_schedule, s.sync_mobile,
-		concat(u.lastname, '
-		', u.firstname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =
@@ -136,12 +135,15 @@
 		s.date_schedule = #{date_schedule}
 	</select>
 
-	<select id="getFirstShiftProgram" parameterType="map" resultType="int">
+	<select id="getFirstShiftProgram" parameterType="map"
+		resultType="int">
 		select min(dfs.shift)
-		from detailinitialschedule dfs, schedule s
+		from detailinitialschedule dfs,
+		schedule s
 		where
 		s.user = #{id_user} and
-		s.id = dfs.id_schedule and s.date_schedule =
+		s.id = dfs.id_schedule and
+		s.date_schedule =
 		#{date_schedule}
 	</select>
 
@@ -202,8 +204,7 @@
 		s.controller,
 		u.id as
 		user,
-		concat(u.lastname, ' ', u.firstname)
-		AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
 		schedule s
@@ -251,8 +252,7 @@
 		s.controller,
 		u.id as
 		user,
-		concat(u.lastname, ' ',
-		u.firstname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
 		schedule s
@@ -344,8 +344,7 @@
 		s.controller,
 		u.id as
 		user,
-		concat(u.lastname, ' ',
-		u.firstname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u,
 		schedule s
@@ -488,10 +487,10 @@
 		#{id_schedule} and shift
 		= #{shift};
 	</delete>
-	
 
-	
-	
+
+
+
 
 
 	<delete id="removeAllDetailInitialScheduleBySchedule"
