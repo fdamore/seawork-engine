@@ -171,8 +171,8 @@
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 		pageSize="10">
 		<listhead sizable="true">
-			<listheader label="Id" sort="auto(id)" />
-			<listheader label="Nome" />
+			
+			<listheader label="Nome" sort="auto(name)" />
 			<listheader label="Linea" />
 			<listheader label="Tipo" />
 			<listheader label="Condizioni"  />
@@ -183,7 +183,7 @@
 
 		<listitem  self="@{each='ship_item'}" value="@{ship_item}">
 
-			<listcell sclass="myBottonCell" label="@{ship_item.id}" />
+			
 			<listcell sclass="myBottonCell" label="@{ship_item.name}" />
 			<listcell sclass="myBottonCell" label="@{ship_item.line}" />
 			<listcell sclass="myBottonCell" label="@{ship_item.shiptype}" />

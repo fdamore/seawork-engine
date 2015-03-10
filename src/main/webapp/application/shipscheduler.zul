@@ -106,12 +106,14 @@
 											style="border: 1px solid #CCCCCC;" multiple="false"
 											pageSize="10">
 											<listhead sizable="true">
+												<listheader label="Nome" hflex="min"/>
 												<listheader label="Linea" hflex="min"/>
 												<listheader label="Tipo Nave" hflex="min"/>
 												<listheader label="Condizioni Nave" hflex="min"/>
 												<listheader label="Tipo Twist" hflex="min"/>												
 											</listhead>									
 											<listitem  self="@{each='ship'}" value="@{ship}">
+											<listcell sclass="myBottonCell" label="@{ship.name}"/>
 												<listcell sclass="myBottonCell" label="@{ship.line}"/>
 												<listcell sclass="myBottonCell" label="@{ship.shiptype}" />
 												<listcell sclass="myBottonCell" label="@{ship.shipcondition}" />
@@ -215,8 +217,7 @@
 												<listheader label="Nome secondo preposto" sort="auto(firstnameSecondUser)"/>
 												<listheader label="Mani di lavoro" sort="auto(handswork)" />
 												<listheader label="Numero di uomini" sort="auto(menwork)" />
-												
-												
+																						
 												<listheader label="" />
 											</listhead>
 									
@@ -301,9 +302,39 @@
 											value="Data fine attività">
 										</label>
 										<datebox id="ship_departure" format="dd-MM-yyyy" onCreate="self.setValue(new Date())"/>
+									</row>
+									<row>
+										<label value=""/>
+										<label value=""/>
 									</row>									
 								</rows>
 							</grid>
+							<listbox id="sw_list_scheduleDetailShipProgram" pagingPosition="both" mold="paging"
+											style="border: 1px solid #CCCCCC;" multiple="false"
+											pageSize="10">
+											<listhead sizable="true">
+												<listheader label="Data" sort="auto(shiftdate)"/>
+												<listheader label="Turno" sort="auto(shift)"/>
+												<listheader label="Operazione" sort="auto(operation)"/>
+												<listheader label="Nome primo preposto" sort="auto(firstname)"/>
+												<listheader label="Nome secondo preposto" sort="auto(firstnameSecondUser)"/>
+												<listheader label="Mani di lavoro" sort="auto(handswork)" />
+												<listheader label="Numero di uomini" sort="auto(menwork)" />
+											</listhead>
+									
+											<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
+									
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.shift}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.operation}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstname}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstnameSecondUser}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
+											
+											</listitem>
+									
+										</listbox>
 						</panelchildren>
 					</panel>
 		</popup>
@@ -354,22 +385,22 @@
 			
 			<listcell sclass="myBottonCell">
 
-				<toolbarbutton id="sw_link_deleteshipProgram"
-					style="color:blue"
-					onClick="sw_list_scheduleShipProgram.setSelectedItem((Listitem)self.getParent().getParent());"
-					label="Cancella">
-				</toolbarbutton>
-
 				<toolbarbutton id="sw_link_modifyscheduleshipProgram"
 					style="color:blue"
 					onClick='sw_list_scheduleShipProgram.setSelectedItem((Listitem)self.getParent().getParent()); popup_scheduleShip.open(self, "after_pointer");'
 					label="Visualizza e Modifica">
 				</toolbarbutton>
-				
+
 				<toolbarbutton id="sw_link_addDetailScheduleShipProgram"
 					style="color:blue"
 					onClick='sw_list_scheduleShipProgram.setSelectedItem((Listitem)self.getParent().getParent()); popup_detail.open(self, "after_pointer");'
-					label="Aggiungi dettaglio">
+					label="Modifica dettagli">
+				</toolbarbutton>
+				
+				<toolbarbutton id="sw_link_deleteshipProgram"
+					style="color:blue"
+					onClick="sw_list_scheduleShipProgram.setSelectedItem((Listitem)self.getParent().getParent());"
+					label="Cancella">
 				</toolbarbutton>
 				
 			</listcell>
@@ -449,17 +480,18 @@
 	
 				<listcell sclass="myBottonCell">
 	
+					<toolbarbutton id="sw_link_modifyscheduleship"
+						style="color:blue"
+						onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_detail_Daily.open(self,"after_pointer")'
+						label="Visualizza e Modifica">
+					</toolbarbutton>	
+	
 					<toolbarbutton id="sw_link_deleteship"
 						style="color:blue"
 						onClick="sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());"
 						label="Cancella">
 					</toolbarbutton>
-	
-					<toolbarbutton id="sw_link_modifyscheduleship"
-						style="color:blue"
-						onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_detail_Daily.open(self,"after_pointer")'
-						label="Visualizza e Modifica">
-					</toolbarbutton>								
+													
 				</listcell>
 			</listitem>
 		</listbox>

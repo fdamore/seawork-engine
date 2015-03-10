@@ -179,74 +179,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	public Component					shipProgram;
 
-	/*
-	 * @Listen("onClick = #add_scheduleShips_command") public void
-	 * addShipCommand() {
-	 *
-	 * if (this.ship_name.getSelectedItem() == null ||
-	 * this.ship_volume.getValue() == null || this.ship_arrival.getValue() ==
-	 * null || this.ship_departure.getValue() == null ||
-	 * this.ship_arrival.getValue().after(this.ship_departure.getValue())) {
-	 * final Map<String, String> params = new HashMap(); params.put("sclass",
-	 * "mybutton Button"); final Messagebox.Button[] buttons = new
-	 * Messagebox.Button[1]; buttons[0] = Messagebox.Button.OK;
-	 *
-	 * Messagebox.show("Controllare i valori inseriti in Informazioni Generali",
-	 * "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
-	 * return; } else {
-	 *
-	 * if (this.listDetailScheduleShip.size() == 0) { final Map<String, String>
-	 * params = new HashMap(); params.put("sclass", "mybutton Button"); final
-	 * Messagebox.Button[] buttons = new Messagebox.Button[1]; buttons[0] =
-	 * Messagebox.Button.OK;
-	 *
-	 * Messagebox.show("Inserire dettagli di programmazione", "ATTENZIONE",
-	 * buttons, null, Messagebox.EXCLAMATION, null, null, params); return; }
-	 *
-	 * final ScheduleShip shipSchedule = new ScheduleShip();
-	 *
-	 * final String shipName =
-	 * this.ship_name.getSelectedItem().getValue().toString();
-	 *
-	 * final int idShip = this.shipDao.listIdShipByName(shipName).get(0);
-	 *
-	 * shipSchedule.setIdship(idShip);
-	 * shipSchedule.setVolume(this.ship_volume.getValue());
-	 * shipSchedule.setNote(this.note.getValue());
-	 *
-	 * shipSchedule.setArrivaldate(this.ship_arrival.getValue());
-	 *
-	 * shipSchedule.setDeparturedate(this.ship_departure.getValue());
-	 *
-	 * try { this.shipSchedulerDao.createScheduleShip(shipSchedule); } catch
-	 * (final Exception e) { final Map<String, String> params = new HashMap();
-	 * params.put("sclass", "mybutton Button"); final Messagebox.Button[]
-	 * buttons = new Messagebox.Button[1]; buttons[0] = Messagebox.Button.OK;
-	 *
-	 * Messagebox.show("Nome nave ed ora arrivo già presenti", "ATTENZIONE",
-	 * buttons, null, Messagebox.EXCLAMATION, null, null, params); return; }
-	 *
-	 *
-	 * this.resetDataInfoTabProgram();
-	 *
-	 * final Map<String, String> params = new HashMap(); params.put("sclass",
-	 * "mybutton Button"); final Messagebox.Button[] buttons = new
-	 * Messagebox.Button[1]; buttons[0] = Messagebox.Button.OK;
-	 *
-	 * Messagebox.show("Programmazione aggiunta", "INFO", buttons, null,
-	 * Messagebox.INFORMATION, null, null, params);
-	 *
-	 * if (this.searchDateShift.getValue() != null) { // set ship ListBox
-	 * this.setScheduleShipListBox(this.searchDateShift.getValue()); } else {
-	 * this.setScheduleShipListBox(); }
-	 *
-	 * this.grid_scheduleShip_details.setVisible(false);
-	 * this.add_scheduleShips_command.setVisible(false);
-	 * this.modify_Scheduleships_command.setVisible(false);
-	 *
-	 * } }
-	 */
-
 	protected IScheduleShip				shipSchedulerDao;
 
 	@Wire
@@ -254,6 +186,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox						sw_list_scheduleDetailShip;
+
+	@Wire
+	private Listbox						sw_list_scheduleDetailShipProgram;
 
 	@Wire
 	private Listbox						sw_list_scheduleShip;
@@ -521,6 +456,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.ship_departure.setValue(date);
 		}
 
+		this.scheduleShip_selected = (ScheduleShip) this.sw_list_scheduleShipProgram.getSelectedItem().getValue();
+
+		if (this.scheduleShip_selected != null) {
+
+			this.listDetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
+
+			for (final DetailScheduleShip detailScheduleShip : this.listDetailScheduleShip) {
+				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
+				if (userOperative != null) {
+					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
+				}
+				final Person userSecondOperative = this.personDao.loadPerson(detailScheduleShip.getIdseconduser());
+				if (userSecondOperative != null) {
+					detailScheduleShip.setFirstnameSecondUser(userSecondOperative.getFirstname() + " " + userSecondOperative.getLastname());
+				}
+			}
+
+			this.sw_list_scheduleDetailShipProgram.setModel(new ListModelList<DetailScheduleShip>(this.listDetailScheduleShip));
+		}
+
 	}
 
 	private void deleteDetailship() {
@@ -605,7 +560,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// add item in combobox ship name
 				if (modelComboBox_ShipName.getSize() == 0) {
 					Messagebox
-					.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
+							.show("Inserire almeno una nave prima di procedere alla programmazione!", "INFO", Messagebox.OK, Messagebox.INFORMATION);
 				}
 
 				ShipSchedulerComposer.this.ship_name.setModel(modelComboBox_ShipName);
@@ -862,48 +817,48 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		 * (this.sw_list_scheduleShip.getSelectedItem().getValue() == null) ||
 		 * !(this.sw_list_scheduleShip.getSelectedItem().getValue() instanceof
 		 * DetailScheduleShip)) { return; }
-		 *
+		 * 
 		 * // command this.add_scheduleShips_command.setVisible(false);
 		 * this.modify_Scheduleships_command.setVisible(true);
-		 *
+		 * 
 		 * // configure tab this.grid_scheduleShip_details.setVisible(true);
-		 *
+		 * 
 		 * // set detail to selection
 		 * this.detail_scheduleShip_tab.getTabbox().setSelectedTab
 		 * (this.detail_scheduleShip_tab);
-		 *
+		 * 
 		 * this.detailScheduleShip_selected =
 		 * this.sw_list_scheduleShip.getSelectedItem().getValue();
-		 *
+		 * 
 		 * // take schedule ship this.scheduleShip_selected =
 		 * this.shipSchedulerDao
 		 * .loadScheduleShip(this.detailScheduleShip_selected
 		 * .getIdscheduleship());
-		 *
+		 * 
 		 * // set label with name ship
 		 * this.selecetedShipName.setLabel(this.scheduleShip_selected
 		 * .getName());
-		 *
+		 * 
 		 * // general details
 		 * this.defineScheduleShipDetailsView(this.scheduleShip_selected);
-		 *
+		 * 
 		 * final List<DetailScheduleShip> detailList =
 		 * this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule
 		 * (this.scheduleShip_selected.getId());
-		 *
+		 * 
 		 * for (final DetailScheduleShip detailScheduleShip : detailList) {
 		 * final Person userOperative =
 		 * this.personDao.loadPerson(detailScheduleShip.getIduser()); if
 		 * (userOperative != null) {
 		 * detailScheduleShip.setFirstname(userOperative.getFirstname() + " " +
 		 * userOperative.getLastname()); } }
-		 *
+		 * 
 		 * this.listDetailScheduleShip.clear(); this.listDetailScheduleShip =
 		 * new ArrayList<DetailScheduleShip>(detailList);
-		 *
+		 * 
 		 * final ListModelList<DetailScheduleShip> detailModelList = new
 		 * ListModelList<DetailScheduleShip>(detailList);
-		 *
+		 * 
 		 * this.sw_list_scheduleDetailShip.setModel(detailModelList);
 		 */
 	}
@@ -933,15 +888,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipSchedulerComposer.this.deleteDetailship();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipSchedulerComposer.this.deleteDetailship();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -958,20 +913,20 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 			buttons[1] = Messagebox.Button.CANCEL;
 
-			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.INFORMATION, null,
+			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener() {
-				@Override
-				public void onEvent(final Event e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-								.getId());
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+										.getId());
 
-						ShipSchedulerComposer.this.searchScheduleShipByDate();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								ShipSchedulerComposer.this.searchScheduleShipByDate();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-					}
-				}
-			}, params);
+							}
+						}
+					}, params);
 
 			// sdfsd
 		}
@@ -1201,7 +1156,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			idShip = this.detailScheduleShipSelected.getId_ship();
 		} else if (this.sw_list_scheduleShipProgram.getSelectedItem() != null) {
 			this.scheduleShip_selected = this.sw_list_scheduleShipProgram.getSelectedItem().getValue();
-			idShip = this.scheduleShip_selected.getId();
+			idShip = this.scheduleShip_selected.getIdship();
 		}
 
 		final List<Ship> detailShip = new ArrayList<Ship>();
