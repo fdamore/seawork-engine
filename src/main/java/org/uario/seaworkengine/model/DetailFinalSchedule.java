@@ -25,6 +25,9 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	private Integer				id_schedule;
 
+	// to show in overview on break shift
+	private Integer				id_user;
+
 	@XmlElement(name = "no_shift")
 	private Integer				shift;
 
@@ -99,6 +102,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.id_schedule;
 	}
 
+	public Integer getId_user() {
+		return this.id_user;
+	}
+
 	public Integer getShift() {
 		return this.shift;
 	}
@@ -141,6 +148,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setId_schedule(final Integer id_schedule) {
 		this.id_schedule = id_schedule;
+	}
+
+	public void setId_user(final Integer id_user) {
+		this.id_user = id_user;
 	}
 
 	public void setShift(final Integer shift) {

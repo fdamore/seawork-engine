@@ -69,7 +69,8 @@
 		dfs.time_vacation,
 		dfs.time_from,
 		dfs.time_to,
-		s.date_schedule
+		s.date_schedule,
+		u.id as id_user
 		from
 		user u,
 		schedule s left

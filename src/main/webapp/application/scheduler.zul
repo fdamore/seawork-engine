@@ -71,6 +71,35 @@
 
 		<space></space>
 
+		<!--  Shift Info Popup -->
+		<popup id="shift_popup">
+			<panel border="none" collapsible="false"
+				style="margin: 2px 2px 2px 2px">
+				<panelchildren>
+					<vbox align="center">
+							<grid width="230px">
+								<columns>
+									<column width="80px"></column>
+									<column hflex="1"></column>
+								</columns>
+								<rows>
+									<row>
+										<label value="Codice: " style="font-weight:bold"/>
+										<label id="shift_id" />										
+									</row>
+
+									<row>
+										<label value="Descrizione: " style="font-weight:bold"/>
+										<label id="shift_description" />
+									</row>
+								</rows>
+							</grid>
+						</vbox>
+					</panelchildren>
+			</panel>
+		</popup>
+
+
 		<!-- STATISTIC POPUP -->
 		<popup id="day_name_popup">
 			<panel border="none" collapsible="false"
@@ -2236,17 +2265,23 @@
 											<a
 												label="@{itemoverviewreview.user}">
 												<attribute name="onClick">
-	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
-</attribute>
+											list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+											Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
+										</attribute>
 											</a>
 										</listcell>
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}" />
+										<listcell sclass="myBottonCell">
+											<a label="@{itemoverviewreview.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
+											<attribute name="onClick">
+												list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+												Events.sendEvent("onOverviewReviewShiftClick", page_panel, null);
+											</attribute>
+											</a>
+										</listcell>
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.shift}" />
@@ -2330,8 +2365,15 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}" />
+										<listcell sclass="myBottonCell">
+										<a label="@{itemoverviewprogram.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}" >
+										<attribute name="onClick">
+												list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+												Events.sendEvent("onOverviewProgramShiftClick", page_panel, null);
+											</attribute>
+											</a>
+											</listcell>
+
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.shift}" />
@@ -2391,9 +2433,9 @@
 											<a
 												label="@{itemoverviewpreprocessing.name_user}">
 												<attribute name="onClick">
-	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
-</attribute>
+											list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
+											Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
+										</attribute>
 											</a>
 										</listcell>
 
@@ -2402,8 +2444,13 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewpreprocessing.shift, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
+										<listcell sclass="myBottonCell">
+										<a label="@{itemoverviewpreprocessing.shift, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
+											<attribute name="onClick">
+												list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
+												Events.sendEvent("onOverviewPreprocessingShiftClick", page_panel, null);
+											</attribute>
+											</a>
 										</listcell>
 
 

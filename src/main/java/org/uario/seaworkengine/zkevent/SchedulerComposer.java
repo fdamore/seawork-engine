@@ -360,11 +360,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	// initial program and revision - USED IN POPUP
 	private List<DetailInitialSchedule>		list_details_program;
+
 	private List<DetailFinalSchedule>		list_details_review;
 
 	@Wire
 	private Listbox							list_overview_preprocessing;
-
 	@Wire
 	private Listbox							list_overview_program;
 
@@ -447,6 +447,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Person							person_logged					= null;
 
 	private PersonDAO						personDAO;
+
 	@Wire
 	private Div								preprocessing_div;
 
@@ -454,52 +455,51 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Comboitem						preprocessing_item;
 	@Wire
 	private Div								program_div;
+
 	@Wire
 	private Comboitem						program_item;
 	@Wire
 	private Combobox						program_task;
-
 	@Wire
 	private Auxheader						program_tot_1_1;
 	@Wire
 	private Auxheader						program_tot_1_2;
+
 	@Wire
 	private Auxheader						program_tot_1_3;
 	@Wire
 	private Auxheader						program_tot_1_4;
-
 	@Wire
 	private Auxheader						program_tot_2_1;
 	@Wire
 	private Auxheader						program_tot_2_2;
+
 	@Wire
 	private Auxheader						program_tot_2_3;
 	@Wire
 	private Auxheader						program_tot_2_4;
-
 	@Wire
 	private Auxheader						program_tot_3_1;
 	@Wire
 	private Auxheader						program_tot_3_2;
+
 	@Wire
 	private Auxheader						program_tot_3_3;
 	@Wire
 	private Auxheader						program_tot_3_4;
-
 	@Wire
 	private Auxheader						program_tot_4_1;
 	@Wire
 	private Auxheader						program_tot_4_2;
+
 	@Wire
 	private Auxheader						program_tot_4_3;
 	@Wire
 	private Auxheader						program_tot_4_4;
 	@Wire
 	private Auxheader						program_tot_5_1;
-
 	@Wire
 	private Auxheader						program_tot_5_2;
-
 	@Wire
 	private Auxheader						program_tot_5_3;
 
@@ -538,16 +538,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_3_3;
+
 	@Wire
 	private Auxheader						programUser_tot_3_4;
+
 	@Wire
 	private Auxheader						programUser_tot_4_1;
 	@Wire
 	private Auxheader						programUser_tot_4_2;
-
 	@Wire
 	private Auxheader						programUser_tot_4_3;
-
 	@Wire
 	private Auxheader						programUser_tot_4_4;
 
@@ -556,17 +556,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_5_2;
+
 	@Wire
 	private Auxheader						programUser_tot_5_3;
+
 	@Wire
 	private Auxheader						programUser_tot_5_4;
 	@Wire
 	private Button							remove_program_item;
-
 	@Wire
 	private Button							remove_review_item;
 	@Wire
 	private Button							repogram_users;
+
 	@Wire
 	private Div								review_div;
 	@Wire
@@ -587,10 +589,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						review_tot_2_2;
 	@Wire
 	private Auxheader						review_tot_2_3;
-
 	@Wire
 	private Auxheader						review_tot_2_4;
-
 	@Wire
 	private Auxheader						reviewUser_tot_1_1;
 
@@ -654,6 +654,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Popup							shift_definition_popup_review;
 
 	@Wire
+	private Label							shift_description;
+
+	@Wire
+	private Label							shift_id;
+
+	@Wire
 	private Label							shift_perc_1;
 
 	@Wire
@@ -679,6 +685,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox							shift_period_to;
+
+	@Wire
+	private Popup							shift_popup;
 
 	@Wire
 	private Combobox						shifts_combo_select;
@@ -1735,15 +1744,77 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return;
 				}
 
-				final Integer id_user = SchedulerComposer.this.scheduleDAO.loadScheduleById(detailFinalSchedule.getId_schedule()).getUser();
 				// set name
 				final String msg = detailFinalSchedule.getUser();
 
 				// show statistic popup
-				SchedulerComposer.this.showStatisticsPopup(id_user, SchedulerComposer.this.list_overview_review, msg);
+				SchedulerComposer.this.showStatisticsPopup(detailFinalSchedule.getId_user(), SchedulerComposer.this.list_overview_review, msg);
 
 			}
 
+		});
+
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewReviewShiftClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final DetailFinalSchedule detailFinalSchedule = SchedulerComposer.this.list_overview_review.getSelectedItem().getValue();
+
+				if (detailFinalSchedule == null) {
+					return;
+				}
+
+				final UserShift shift = SchedulerComposer.this.configurationDAO.loadShiftById(detailFinalSchedule.getShift_type());
+
+				if (shift != null) {
+					SchedulerComposer.this.shift_popup.open(SchedulerComposer.this.review_div, "after_pointer");
+					SchedulerComposer.this.shift_id.setValue(shift.getCode());
+					SchedulerComposer.this.shift_description.setValue(shift.getDescription());
+				}
+			}
+		});
+
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewProgramShiftClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final DetailInitialSchedule detailInitialSchedule = SchedulerComposer.this.list_overview_program.getSelectedItem().getValue();
+
+				if (detailInitialSchedule == null) {
+					return;
+				}
+
+				final UserShift shift = SchedulerComposer.this.configurationDAO.loadShiftById(detailInitialSchedule.getShift_type());
+
+				if (shift != null) {
+					SchedulerComposer.this.shift_popup.open(SchedulerComposer.this.review_div, "after_pointer");
+					SchedulerComposer.this.shift_id.setValue(shift.getCode());
+					SchedulerComposer.this.shift_description.setValue(shift.getDescription());
+				}
+			}
+		});
+
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewPreprocessingShiftClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final Schedule schedule = SchedulerComposer.this.list_overview_preprocessing.getSelectedItem().getValue();
+
+				if (schedule == null) {
+					return;
+				}
+
+				final UserShift shift = SchedulerComposer.this.configurationDAO.loadShiftById(schedule.getShift());
+
+				if (shift != null) {
+					SchedulerComposer.this.shift_popup.open(SchedulerComposer.this.review_div, "after_pointer");
+					SchedulerComposer.this.shift_id.setValue(shift.getCode());
+					SchedulerComposer.this.shift_description.setValue(shift.getDescription());
+				}
+			}
 		});
 
 		this.getSelf().addEventListener(ZkEventsTag.onOverviewProgramNameClick, new EventListener<Event>() {
