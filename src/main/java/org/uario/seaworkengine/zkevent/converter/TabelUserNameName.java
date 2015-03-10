@@ -18,8 +18,14 @@ public class TabelUserNameName implements TypeConverter {
 
 		final String[] info = name.split(" ");
 		if (info.length >= 2) {
-			final String surname = info[0];
-			final String info_name = info[1];
+
+			String surname = info[0];
+			String info_name = info[1];
+
+			if ((surname.length() == 2) && (info.length >= 3)) {
+				surname = info[0] + " " + info[1];
+				info_name = info[2];
+			}
 
 			return surname + " " + info_name.toCharArray()[0] + ".";
 
