@@ -25,7 +25,7 @@
 	
 	
 	<select id="loadShiftById" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded 
 		FROM usershift
 		WHERE id=#{id};		
 	</select>
@@ -65,20 +65,20 @@
 	</select>
 	
 	<select id="selectAllDefaultShifts" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
 		FROM usershift
 		WHERE (break_shift='1' or disease_shift='1' or accident_shift='1' or waitbreak_shift='1' or standard_shift='1' or daily_shift='1')
 		ORDER BY description;
 	</select>
 
 	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
 		FROM usershift
 		ORDER BY description;
 	</select>
 	
 	<select id="selectAllShiftsFulltextSearchLike" parameterType="map" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift
+		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded 
 		FROM usershift
 		<if test="my_full_text_search != null">
 			WHERE (
@@ -114,9 +114,9 @@
 		usershift
 		(code,
 		description,
-		presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift)
+		presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded)
 		VALUES
-		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{accident_shift}, #{waitbreak_shift}, #{standard_shift}, #{daily_shift});
+		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{accident_shift}, #{waitbreak_shift}, #{standard_shift}, #{daily_shift}, #{recorded});
 	</insert>
 	
 
@@ -148,7 +148,8 @@
 		accident_shift = #{accident_shift}, 
 		waitbreak_shift = #{waitbreak_shift},
 		standard_shift = #{standard_shift},
-		daily_shift = #{daily_shift}
+		daily_shift = #{daily_shift},
+		recorded = #{recorded} 
 		WHERE id = #{id};
 
 

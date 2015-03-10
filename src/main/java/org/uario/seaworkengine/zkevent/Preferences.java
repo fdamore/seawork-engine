@@ -103,6 +103,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private IParams				paramsDAO;
 
 	@Wire
+	public Checkbox				recorded_shift;
+
+	@Wire
 	private Checkbox			recorded_task;
 
 	private final Runtime		runtime				= Runtime.getRuntime();
@@ -202,6 +205,8 @@ public class Preferences extends SelectorComposer<Component> {
 					this.configurationDao.removeAllDailyShift();
 				}
 			}
+
+			shift.setRecorded(this.recorded_shift.isChecked());
 
 			this.configurationDao.createShift(shift);
 
@@ -412,6 +417,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
+		this.recorded_shift.setChecked(shift.getRecorded());
+
 		if (shift.getBreak_shift()) {
 			this.typeofbreak.setSelectedIndex(1);
 			this.type_shift.setDisabled(true);
@@ -552,6 +559,8 @@ public class Preferences extends SelectorComposer<Component> {
 					}
 
 				}
+
+				shift.setRecorded(this.recorded_shift.isChecked());
 
 				this.configurationDao.updateShift(shift);
 
@@ -850,8 +859,20 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 	}
 
+	@Listen("onChange = #type_shift")
+	public void setRecordedShiftCheckbox() {
+		final Comboitem item = this.type_shift.getSelectedItem();
+
+		if (item.getValue().toString().equals("ASSENZA")) {
+			this.recorded_shift.setDisabled(false);
+		} else {
+			this.recorded_shift.setChecked(false);
+			this.recorded_shift.setDisabled(true);
+		}
+	}
+
 	@Listen("onCheck = #isabsence_task")
-	public void setRecordedCheckbox() {
+	public void setRecordedTaskCheckbox() {
 		if (this.isabsence_task.isChecked()) {
 			this.recorded_task.setDisabled(false);
 		} else {

@@ -17,9 +17,9 @@ public class UserShift implements Serializable {
 	private Boolean				break_shift;
 
 	private String				code;
+
 	private Boolean				daily_shift;
 	private String				description;
-
 	private Boolean				disease_shift;
 
 	private Boolean				forceable;
@@ -27,6 +27,8 @@ public class UserShift implements Serializable {
 	private Integer				id;
 
 	private Boolean				presence;
+
+	private Boolean				recorded;
 
 	private Boolean				standard_shift;
 
@@ -83,6 +85,10 @@ public class UserShift implements Serializable {
 		return this.presence;
 	}
 
+	public Boolean getRecorded() {
+		return this.recorded;
+	}
+
 	public Boolean getStandard_shift() {
 		return this.standard_shift;
 	}
@@ -133,6 +139,10 @@ public class UserShift implements Serializable {
 	public void setPresence(final Boolean presence) {
 		this.presence = presence;
 
+	}
+
+	public void setRecorded(final Boolean recorded) {
+		this.recorded = recorded;
 	}
 
 	public void setStandard_shift(final Boolean standard_shift) {

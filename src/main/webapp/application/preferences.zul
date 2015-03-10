@@ -468,19 +468,23 @@
 													</combobox>
 												</row>
 
-
 												<row
 													id="row_forceable">
 													<label
 														value="Forzabile:">
 													</label>
-
 													<checkbox
 														id="forceable" />
-
 												</row>
 
-
+												<row
+													id="row_recorded">
+													<label
+														value="Contabilizzato:">
+													</label>
+													<checkbox
+														id="recorded_shift" disabled="true"/>
+												</row>
 
 
 											</rows>
@@ -537,6 +541,7 @@
 										sort="auto(description)" />
 									<listheader label="Tipo di Turno" />
 									<listheader label="Forzabile" />
+									<listheader label="Contabilizzato" />
 									<listheader
 										label="Riposo Programmato" />
 									<listheader
@@ -560,6 +565,10 @@
 									<listcell sclass="myBottonCell">
 										<checkbox
 											checked="@{shift_item.forceable}" disabled="true" />
+									</listcell>
+									<listcell sclass="myBottonCell">
+										<checkbox
+											checked="@{shift_item.recorded}" disabled="true" />
 									</listcell>
 									<listcell sclass="myBottonCell">
 										<image
