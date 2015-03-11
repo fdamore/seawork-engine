@@ -2239,10 +2239,10 @@
 							<panelchildren>
 
 								<listbox sclass="domain" mold="paging"
-									pageSize="10" pagingPosition="both"
+									pageSize="10" pagingPosition="both" 
 									id="list_overview_review">
 
-									<listhead>
+									<listhead sizable="true">
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="2" />
@@ -2341,7 +2341,7 @@
 									pageSize="10" pagingPosition="both"
 									id="list_overview_program">
 
-									<listhead>
+									<listhead sizable="true">
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="2" />
@@ -2434,7 +2434,7 @@
 									pageSize="10" pagingPosition="both"
 									id="list_overview_preprocessing">
 
-									<listhead>
+									<listhead sizable="true">
 
 										<listheader label="Nome"
 											sort="auto(name_user)" hflex="2" />
