@@ -1697,7 +1697,7 @@
 		<div id="review_div" visible="false">
 
 			<!-- POPUP -->
-			<popup id="shift_definition_popup_review" width="800px">
+			<popup id="shift_definition_popup_review" width="1000px">
 				<vlayout style="margin: 5px 5px 5px 5px">
 
 					<hbox align="center">
@@ -1715,7 +1715,6 @@
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<panelchildren>
-
 							<vbox align="start">
 								<a id="scheduler_label_review"></a>
 								<a id="label_date_shift_review"
@@ -1739,7 +1738,7 @@
 							<listbox id="listbox_review" sclass="domain"
 								checkmark="true" multiple="true">
 								<auxhead>
-									<auxheader colspan="4">
+									<auxheader colspan="6">
 										<label
 											value="Definizione della mansione">
 										</label>
@@ -1761,41 +1760,46 @@
 
 
 								<auxhead>
-									<auxheader colspan="4">
-
+									<auxheader colspan="6">
 										<button label="Aggiungi"
 											id="add_review_item" sclass="btn-info">
 										</button>
-
 										<button label="Cancella"
 											id="remove_review_item" sclass="btn-info">
 										</button>
-
 										<label id="totalHours_Review"
 											value="Totale Ore Consuntivate: " />
-
+									</auxheader>
+								</auxhead>
+								<auxhead>
+									<auxheader colspan="6">
+										<combobox id="ship" autodrop="true"  placeholder="Seleziona nave...">
+											<comboitem self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
+										</combobox>
+										<textbox id="crane" placeholder="Inserisci crane..."/>
 									</auxheader>
 								</auxhead>
 
 								<listhead>
 									<listheader label="Mansioni" />
 									<listheader label="Tempo Lavorato" />
-									<listheader
-										label="Orario di ingresso" />
-									<listheader
-										label="Orario di uscita" />
+									<listheader label="Orario di ingresso" />
+									<listheader label="Orario di uscita" />
+									<listheader label="Nave" />
+									<listheader label="Crane" />
+								
 								</listhead>
 
 								<listitem self="@{each='itemreview'}"
 									value="@{itemreview}">
 
 									<listcell>
-										<label width="200px"
+										<label width="300px"
 											value="@{itemreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
 										</label>
 									</listcell>
 									<listcell>
-										<label width="200px"
+										<label width="150px"
 											value="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeVacationConverter'}">
 										</label>
 									</listcell>
@@ -1807,6 +1811,16 @@
 									<listcell>
 										<label width="200px"
 											value="@{itemreview.time_to}">
+										</label>
+									</listcell>
+									<listcell>
+										<label width="200px"
+											value="@{itemreview.nameShip}">
+										</label>
+									</listcell>
+									<listcell>
+										<label width="50px"
+											value="@{itemreview.crane}">
 										</label>
 									</listcell>
 
@@ -2248,6 +2262,10 @@
 											hflex="1" align="center" />
 										<listheader label="Ore chiusura"
 											hflex="1" align="center" />
+										<listheader label="Nave"
+											hflex="1" align="center" />
+										<listheader label="Crane"
+											hflex="1" align="center" />	
 										<listheader label="Ingresso"
 											hflex="1" align="center" />
 										<listheader label="Uscita"
@@ -2294,6 +2312,12 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.nameShip}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.crane}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time_from}" />

@@ -15,11 +15,11 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final NumberFormat number_format = NumberFormat.getInstance(Locale.ITALIAN);
+	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
 
 	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
@@ -44,8 +44,8 @@ public class UtilityCSV {
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram,
-			final ITaskCache task_cache, final IShiftCache shift_cache) {
+	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram, final ITaskCache task_cache,
+			final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
 		final String header = "nome;data;tipoturno;turno;mansione;ore;ore_chiusura;ingresso;uscita\n";
 		builder.append(header);
@@ -96,15 +96,15 @@ public class UtilityCSV {
 				shift_no_info = shift_no.toString();
 			}
 
-			final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";"
-					+ time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to + ";\n";
+			final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";"
+					+ time_vacation_info + ";" + time_from + ";" + time_to + ";\n";
 			builder.append(line);
 		}
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision,
-			final ITaskCache task_cache, final IShiftCache shift_cache) {
+	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final ITaskCache task_cache,
+			final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
 		final String header = "nome;data;tipoturno;turno;mansione;ore;ore_chiusura;ingresso;uscita\n";
 		builder.append(header);
@@ -137,6 +137,16 @@ public class UtilityCSV {
 				code_shift = shift_type.getCode();
 			}
 
+			String nameShip = "";
+			if (nameShip != null) {
+				nameShip = item.getNameShip();
+			}
+
+			String crane = "";
+			if (crane != null) {
+				crane = item.getCrane();
+			}
+
 			Double time = item.getTime();
 			if (time == null) {
 				time = new Double(0.0);
@@ -155,8 +165,8 @@ public class UtilityCSV {
 				shift_no_info = shift_no.toString();
 			}
 
-			final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";"
-					+ time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to + ";\n";
+			final String line = "" + item.getUser() + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";"
+					+ time_vacation_info + ";" + nameShip + ";" + crane + ";" + time_from + ";" + time_to + ";\n";
 			builder.append(line);
 		}
 		return builder;

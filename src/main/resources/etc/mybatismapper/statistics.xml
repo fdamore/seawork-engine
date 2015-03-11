@@ -63,6 +63,7 @@
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
+		sh.name as nameShip, df.crane as crane,  
 		s.shift as shift_type,
 		dfs.task,
 		dfs.time,
@@ -74,9 +75,10 @@
 		from
 		user u,
 		schedule s left
-		outer join detailfinalschedule dfs on (dfs.id_schedule = s.id)
+		outer join detailfinalschedule dfs on (dfs.id_schedule = s.id),
+		detailfinalschedule df LEFT JOIN ship sh ON df.id_ship = sh.id   
 		where
-		s.user = u.id
+		s.user = u.id and df.id = dfs.id 
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},

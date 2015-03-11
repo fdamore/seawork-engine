@@ -389,10 +389,10 @@
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task, time, time_from,
-		time_to, time_vacation)
+		time_to, time_vacation, id_ship, crane)
 		VALUES
 		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to},
-		#{time_vacation});
+		#{time_vacation}, #{id_ship}, #{crane});
 	</insert>
 
 
@@ -412,12 +412,12 @@
 	<select id="loadDetailFinalScheduleByIdScheduleAndShift"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		SELECT id, id_schedule, shift, task, time, time_from,
-		time_to, time_vacation
-		FROM detailfinalschedule
-		WHERE id_schedule =
+		SELECT df.id, df.id_schedule, df.shift, df.task, df.time, df.time_from,
+		df.time_to, df.time_vacation, df.id_ship, df.crane, s.name as nameShip
+		FROM detailfinalschedule df LEFT JOIN ship s ON df.id_ship = s.id
+		WHERE df.id_schedule =
 		#{id_schedule} and
-		shift = #{shift};
+		df.shift = #{shift};
 	</select>
 
 	<select id="loadDetailInitialScheduleByIdSchedule"
@@ -462,9 +462,9 @@
 
 	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
-		SELECT id, id_schedule, shift, task, time, time_from,
-		time_to, time_vacation
-		FROM detailfinalschedule
+		SELECT df.id, df.id_schedule, df.shift, df.task, df.time, df.time_from,
+		df.time_to, df.time_vacation, df.id_ship, df.crane, s.name as nameShip  
+		FROM detailfinalschedule df LEFT JOIN ship s ON df.id_ship = s.id
 		WHERE id_schedule =
 		#{id_schedule};
 	</select>

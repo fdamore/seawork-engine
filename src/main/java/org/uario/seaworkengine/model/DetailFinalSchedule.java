@@ -17,6 +17,8 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	@XmlTransient
 	private static final long	serialVersionUID	= 1L;
 
+	private String				crane;
+
 	// to show in overview
 	@XmlTransient
 	private Date				date_schedule;
@@ -25,8 +27,13 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	private Integer				id_schedule;
 
+	private Integer				id_ship;
+
 	// to show in overview on break shift
 	private Integer				id_user;
+
+	// to show in review popup
+	private String				nameShip;
 
 	@XmlElement(name = "no_shift")
 	private Integer				shift;
@@ -71,6 +78,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.getDate_schedule().compareTo(item.getDate_schedule());
 	}
 
+	public String getCrane() {
+		return this.crane;
+	}
+
 	public Date getDate_schedule() {
 		return this.date_schedule;
 	}
@@ -102,8 +113,16 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.id_schedule;
 	}
 
+	public Integer getId_ship() {
+		return this.id_ship;
+	}
+
 	public Integer getId_user() {
 		return this.id_user;
+	}
+
+	public String getNameShip() {
+		return this.nameShip;
 	}
 
 	public Integer getShift() {
@@ -138,6 +157,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.user;
 	}
 
+	public void setCrane(final String crane) {
+		this.crane = crane;
+	}
+
 	public void setDate_schedule(final Date date_schedule) {
 		this.date_schedule = date_schedule;
 	}
@@ -150,8 +173,16 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		this.id_schedule = id_schedule;
 	}
 
+	public void setId_ship(final Integer id_ship) {
+		this.id_ship = id_ship;
+	}
+
 	public void setId_user(final Integer id_user) {
 		this.id_user = id_user;
+	}
+
+	public void setNameShip(final String nameShip) {
+		this.nameShip = nameShip;
 	}
 
 	public void setShift(final Integer shift) {
