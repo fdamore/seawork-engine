@@ -417,8 +417,6 @@ public class Preferences extends SelectorComposer<Component> {
 
 		final UserShift shift = this.sw_list_shift.getSelectedItem().getValue();
 
-		this.recorded_shift.setChecked(shift.getRecorded());
-
 		if (shift.getBreak_shift()) {
 			this.typeofbreak.setSelectedIndex(1);
 			this.type_shift.setDisabled(true);
@@ -463,8 +461,12 @@ public class Preferences extends SelectorComposer<Component> {
 		if (shift.getPresence() != null) {
 			if (!shift.getPresence()) {
 				shft = ShiftTag.ABSENCE_SHIFT;
+				this.recorded_shift.setChecked(shift.getRecorded());
+				this.recorded_shift.setDisabled(false);
 			} else {
 				shft = ShiftTag.WORK_SHIFT;
+				this.recorded_shift.setChecked(false);
+				this.recorded_shift.setDisabled(true);
 			}
 		}
 
@@ -863,7 +865,7 @@ public class Preferences extends SelectorComposer<Component> {
 	public void setRecordedShiftCheckbox() {
 		final Comboitem item = this.type_shift.getSelectedItem();
 
-		if (item.getValue().toString().equals("ASSENZA")) {
+		if (item.getValue().toString().equals(ShiftTag.ABSENCE_SHIFT)) {
 			this.recorded_shift.setDisabled(false);
 		} else {
 			this.recorded_shift.setChecked(false);

@@ -309,12 +309,12 @@
 									<listcell sclass="myBottonCell"
 										label="@{task_item.description}" />
 
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 
 										<image
 											src="@{task_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
@@ -560,38 +560,36 @@
 										label="@{shift_item.code}" />
 									<listcell sclass="myBottonCell"
 										label="@{shift_item.description}" />
-									<listcell sclass="myBottonCell"
+									<listcell style="text-align: center" sclass="myBottonCell"
 										label="@{shift_item.presence, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
-									<listcell sclass="myBottonCell">
-										<checkbox
-											checked="@{shift_item.forceable}" disabled="true" />
+									<listcell style="text-align: center"  sclass="myBottonCell">
+										<image src="@{shift_item.forceable, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell">
-										<checkbox
-											checked="@{shift_item.recorded}" disabled="true" />
+									<listcell style="text-align: center" sclass="myBottonCell">
+										<image src="@{shift_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />									
 									</listcell>
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{shift_item.break_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
 
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{shift_item.accident_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{shift_item.disease_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{shift_item.waitbreak_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{shift_item.standard_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell sclass="myBottonCell">
+									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{shift_item.daily_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
