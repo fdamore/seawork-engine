@@ -173,11 +173,11 @@
 									</row>									
 									<row>
 										<label value="Nome Primo Preposto:"></label>
-										<combobox id="user" placeholder="Seleziona Primo Preposto" />
+										<combobox id="user" readonly="true" placeholder="Seleziona Primo Preposto" />
 									</row>
 									<row>
 										<label value="Nome Secondo Preposto:"></label>
-										<combobox id="usersecond" placeholder="Seleziona Secondo Preposto" />
+										<combobox id="usersecond" readonly="true" placeholder="Seleziona Secondo Preposto" />
 									</row>
 									<row>
 										<label
@@ -541,11 +541,11 @@
 									</row>									
 									<row>
 										<label value="Nome Primo Preposto:"></label>
-										<combobox id="user_Daily" placeholder="Seleziona Primo Preposto" />
+										<combobox id="user_Daily" readonly="true" placeholder="Seleziona Primo Preposto" />
 									</row>
 									<row>
 										<label value="Nome Secondo Preposto:"></label>
-										<combobox id="usersecond_Daily" placeholder="Seleziona Secondo Preposto" />
+										<combobox id="usersecond_Daily" readonly="true" placeholder="Seleziona Secondo Preposto" />
 									</row>
 									<row>
 										<label

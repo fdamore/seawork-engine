@@ -138,12 +138,12 @@ public class UtilityCSV {
 			}
 
 			String nameShip = "";
-			if (nameShip != null) {
+			if (item.getNameShip() != null) {
 				nameShip = item.getNameShip();
 			}
 
 			String crane = "";
-			if (crane != null) {
+			if (item.getCrane() != null) {
 				crane = item.getCrane();
 			}
 
