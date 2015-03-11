@@ -2249,6 +2249,9 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
+											
+										<listheader label="Settimana Anno"
+											align="center" hflex="1" />
 
 										<listheader label="Tipo Turno"
 											align="center" hflex="1" />
@@ -2291,7 +2294,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-
+										
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
+										
 										<listcell sclass="myBottonCell">
 											<a label="@{itemoverviewreview.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
 											<attribute name="onClick">
@@ -2348,7 +2354,8 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
-
+										<listheader label="Settimana Anno"
+											align="center" hflex="1" />
 										<listheader label="Tipo Turno"
 											align="center" hflex="1" />
 
@@ -2388,6 +2395,8 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
 
 										<listcell sclass="myBottonCell">
 										<a label="@{itemoverviewprogram.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}" >
@@ -2441,7 +2450,8 @@
 
 										<listheader label="Data"
 											hflex="1" />
-
+										<listheader label="Settimana Anno"
+											align="center" hflex="1" />
 										<listheader label="Tipo Turno"
 											hflex="1" align="center" />
 
@@ -2467,7 +2477,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
+										
 										<listcell sclass="myBottonCell">
 										<a label="@{itemoverviewpreprocessing.shift, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
 											<attribute name="onClick">

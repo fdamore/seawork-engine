@@ -204,7 +204,7 @@ public class Utility {
 		return Utility.timeFormat;
 	}
 
-	public static int getWeekNumber(final Date date) {
+	public static Integer getWeekNumber(final Date date) {
 		final Calendar cal = Calendar.getInstance(Locale.ITALIAN);
 		cal.setTime(date);
 		return cal.get(Calendar.WEEK_OF_YEAR);
@@ -214,13 +214,13 @@ public class Utility {
 	/*
 	 * public static void main(final String[] args) throws IOException {
 	 * System.out.println("Insert date MM/GG/AAAA");
-	 *
+	 * 
 	 * final BufferedReader br = new BufferedReader(new
 	 * InputStreamReader(System.in)); String d = null; d = br.readLine();
-	 *
+	 * 
 	 * final Date dat = new Date(d); System.out.println(dat + "---" +
 	 * Utility.getWeekNumber(dat));
-	 *
+	 * 
 	 * }
 	 */
 
