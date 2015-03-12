@@ -785,6 +785,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Auxheader						totalUser_review_day_2;
 
+	private LockTable						userLockTable;
+
 	@Wire
 	private Label							work_current_month;
 
@@ -805,6 +807,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick= #add_program_item")
 	public void addProgramItem() {
+
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
 
 		if (this.list_details_program == null) {
 			return;
@@ -913,6 +929,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick= #add_review_item")
 	public void addReviewItem() {
+
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
 
 		if (this.list_details_review == null) {
 			return;
@@ -1111,6 +1141,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick= #shift_period_ok")
 	public void assignShiftInPeriod() {
+
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
 
 		if (this.shift_period_combo.getSelectedItem() == null) {
 			return;
@@ -1337,6 +1381,51 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		return;
 	}
 
+	private boolean checkIfUnLockTable() {
+		this.onChangeSelectedVersion();
+
+		// set button switch
+		this.checkIfTableIsLockedAndSetButton();
+
+		final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
+		this.userLockTable = null;
+		if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
+			this.userLockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+		} else if (version_selected == SchedulerComposer.this.review_item) {
+			this.userLockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+		}
+
+		if (!this.person_logged.isAdministrator()
+				&& (((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId()) || this.userLockTable == null))) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+
+			return false;
+
+		} else {
+			return true;
+		}
+		/*
+		 * if (!this.person_logged.isAdministrator()) { final Comboitem
+		 * version_selected =
+		 * SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
+		 * userLockTable = null; if ((version_selected ==
+		 * SchedulerComposer.this.preprocessing_item) || (version_selected ==
+		 * SchedulerComposer.this.program_item)) { userLockTable =
+		 * SchedulerComposer
+		 * .this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+		 * } else if (version_selected == SchedulerComposer.this.review_item) {
+		 * userLockTable =
+		 * SchedulerComposer.this.lockTableDAO.loadLockTableByTableType
+		 * (TableTag.REVIEW_TABLE); } if (userLockTable != null) { if
+		 * (userLockTable.getId_user().equals(this.person_logged.getId())) { //
+		 * you are connected return true; } else { // administrator disconnected
+		 * your connection return false; } } } else { // you are administrator
+		 * return true; }
+		 * 
+		 * return false;
+		 */
+	}
+
 	/**
 	 * Define anchor content on shift schedule
 	 *
@@ -1382,6 +1471,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick= #assign_program_review")
 	public void defineReviewByProgram() {
 
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
+
 		final Map<String, String> params = new HashMap<String, String>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -1390,17 +1493,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -3091,6 +3194,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #cancel_day_definition")
 	public void removeDayConfiguration() {
 
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
+
 		if ((this.selectedDay == null)) {
 			return;
 		}
@@ -3225,6 +3342,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #cancel_program")
 	public void removeProgram() {
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
+
 		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
 			return;
 		}
@@ -3247,6 +3378,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #remove_program_item")
 	public void removeProgramItem() {
+
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
 
 		if (this.listbox_program == null) {
 			return;
@@ -3273,6 +3418,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #cancel_review")
 	public void removeReview() {
+
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
+
 		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
 			return;
 		}
@@ -3296,6 +3456,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #remove_review_item")
 	public void removeReviewItem() {
+
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
 
 		if (this.listbox_review == null) {
 			return;
@@ -3322,6 +3496,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick= #repogram_users")
 	public void reprogramUser() {
+
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
 
 		if ((this.grid_scheduler.getSelectedItems() == null) || (this.grid_scheduler.getSelectedItems().size() == 0)) {
 			return;
@@ -3400,6 +3588,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #ok_day_shift")
 	public void saveDayScheduling() {
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
+
 		if (this.grid_scheduler_day.getSelectedItem() == null) {
 			return;
 		}
@@ -3446,17 +3648,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3584,6 +3786,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #ok_program")
 	public void saveProgram() {
 
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
+
 		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
 			return;
 		}
@@ -3706,6 +3922,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #ok_review")
 	public void saveReview() {
 
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+			return;
+		}
+
 		if ((this.selectedShift == null) || (this.selectedUser == null)) {
 			return;
 		}
@@ -3796,19 +4026,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-							@Override
-							public void onEvent(final ClickEvent e) {
+					@Override
+					public void onEvent(final ClickEvent e) {
 
-								if (Messagebox.ON_OK.equals(e.getName())) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
-								} else if (Messagebox.ON_NO.equals(e.getName())) {
+							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
-								}
+							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+						}
 
-							}
-						}, params);
+					}
+				}, params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -5496,11 +5726,26 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Calendar today = Calendar.getInstance();
 		today = DateUtils.truncate(today, Calendar.DATE);
 		if (current_day.before(today.getTime())) {
+
 			this.cancel_day_definition.setDisabled(true);
 			this.ok_day_shift.setDisabled(true);
+
 		} else {
 			this.cancel_day_definition.setDisabled(false);
 			this.ok_day_shift.setDisabled(false);
+		}
+		if (!this.checkIfUnLockTable()) {
+			SchedulerComposer.this.disableWriteCancelButtons(true);
+			if (this.userLockTable != null) {
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
+						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.switchButton.setLabel(this.switchButtonValueClose);
+
+			} else {
+				this.loggerUserOnTable.setValue(this.messageTableUnLock);
+				this.switchButton.setLabel(this.switchButtonValueOpen);
+			}
+
 		}
 
 		// initialize message popup
