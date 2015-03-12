@@ -21,22 +21,21 @@
 			border-color:#CFCFCF;}
 		</style>
 
-		<div sclass="page-header">
+		
+			<div sclass="page-header">
+			
 			<label value="Programma Lavoro" />
 			<a label="Sistema di programmazione lavoro Seawork"
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-		</div>
-
-		<hbox>
-		<label id="loggerUserOnTable" style="font-style: italic"	value="Nessun utente in programmazione" /> 
-				<space/>
+			</div>
+			
+			<div align="left" >	
+			<label id="loggerUserOnTable" style="font-style: italic" value="Nessun utente connesso." /> 
 			<button id="switchButton" sclass="btn-info" />
-		</hbox>
+		</div>	
+		
 		
 		<space></space>
-
-
 
 		<hbox align="center">
 			<a label="Visualizza Versione: "></a>

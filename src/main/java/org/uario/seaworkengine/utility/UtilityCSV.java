@@ -23,7 +23,7 @@ public class UtilityCSV {
 
 	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "nome;data;settimana anno;turno;\n";
+		final String header = "nome;matricola;data;settimana anno;turno;\n";
 		builder.append(header);
 
 		for (final Schedule item : listSchedule) {
@@ -40,7 +40,12 @@ public class UtilityCSV {
 				code_shift = task.getCode();
 			}
 
-			final String line = "" + item.getName_user() + ";" + date + ";" + weekDate + ";" + code_shift + ";\n";
+			String employee_identification = "";
+			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+				employee_identification = item.getEmployee_identification();
+			}
+
+			final String line = "" + item.getName_user() + ";" + employee_identification + ";" + date + ";" + weekDate + ";" + code_shift + ";\n";
 			builder.append(line);
 		}
 		return builder;
@@ -49,7 +54,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram, final ITaskCache task_cache,
 			final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "nome;data;settimana anno;tipoturno;turno;mansione;ore;ore_chiusura;ingresso;uscita\n";
+		final String header = "nome;matricola;data;settimana anno;tipoturno;turno;mansione;ore;ore_chiusura;ingresso;uscita\n";
 		builder.append(header);
 
 		for (final DetailInitialSchedule item : listDetailProgram) {
@@ -100,8 +105,13 @@ public class UtilityCSV {
 				shift_no_info = shift_no.toString();
 			}
 
-			final String line = "" + item.getUser() + ";" + date + ";" + weekDate + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";"
-					+ time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to + ";\n";
+			String employee_identification = "";
+			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+				employee_identification = item.getEmployee_identification();
+			}
+
+			final String line = "" + item.getUser() + ";" + employee_identification + ";" + date + ";" + weekDate + ";" + code_shift + ";"
+					+ shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to + ";\n";
 			builder.append(line);
 		}
 		return builder;
@@ -110,7 +120,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final ITaskCache task_cache,
 			final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "nome;data;settimana anno;tipoturno;turno;mansione;ore;ore_chiusura;nome nave;crane;ingresso;uscita\n";
+		final String header = "nome;matricola;data;settimana anno;tipoturno;turno;mansione;ore;ore_chiusura;nome nave;crane;ingresso;uscita\n";
 		builder.append(header);
 
 		for (final DetailFinalSchedule item : listDetailRevision) {
@@ -171,8 +181,14 @@ public class UtilityCSV {
 				shift_no_info = shift_no.toString();
 			}
 
-			final String line = "" + item.getUser() + ";" + date + ";" + weekDate + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";"
-					+ time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane + ";" + time_from + ";" + time_to + ";\n";
+			String employee_identification = "";
+			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+				employee_identification = item.getEmployee_identification();
+			}
+
+			final String line = "" + item.getUser() + ";" + employee_identification + ";" + date + ";" + weekDate + ";" + code_shift + ";"
+					+ shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane + ";" + time_from
+					+ ";" + time_to + ";\n";
 			builder.append(line);
 		}
 		return builder;
