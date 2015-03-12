@@ -28,7 +28,15 @@
 
 		</div>
 
+		<hbox>
+		<label id="loggerUserOnTable" style="font-style: italic"	value="Nessun utente in programmazione" /> 
+				<space/>
+			<button id="switchButton" sclass="btn-info" />
+		</hbox>
+		
 		<space></space>
+
+
 
 		<hbox align="center">
 			<a label="Visualizza Versione: "></a>
@@ -48,7 +56,6 @@
 					id="overview_item">
 				</comboitem>
 
-
 			</combobox>
 
 			<a label="Righe da visualizzare: "
@@ -61,12 +68,7 @@
 
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
-
-			<label id="loggerUserOnTable"
-				value="Nessun utente in programmazione" />
-			<button id="switchButton" sclass="btn-info" />
-
-
+			
 		</hbox>
 
 		<space></space>

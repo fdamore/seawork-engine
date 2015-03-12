@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +37,15 @@ public class Utility {
 
 	private static SimpleDateFormat	dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
 
+	private static SimpleDateFormat	dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
 	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
+
+	public static String convertToDateAndTime(final Timestamp date) {
+
+		return Utility.dateTimeformat.format(date);
+
+	}
 
 	/**
 	 * days betwewn date
@@ -209,20 +218,6 @@ public class Utility {
 		cal.setTime(date);
 		return cal.get(Calendar.WEEK_OF_YEAR);
 	}
-
-	// only use for testing number of week in the year
-	/*
-	 * public static void main(final String[] args) throws IOException {
-	 * System.out.println("Insert date MM/GG/AAAA");
-	 * 
-	 * final BufferedReader br = new BufferedReader(new
-	 * InputStreamReader(System.in)); String d = null; d = br.readLine();
-	 * 
-	 * final Date dat = new Date(d); System.out.println(dat + "---" +
-	 * Utility.getWeekNumber(dat));
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Generate output stream
