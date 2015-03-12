@@ -12,6 +12,7 @@
 
 		select s.id,
 		u.id as user,
+		u.employee_identification as employee_identification, 
 		s.shift,
 		s.date_schedule,
 		concat(u.lastname, '
@@ -59,7 +60,8 @@
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
 		select
-		concat(u.lastname, ' ', u.firstname) as user,
+		concat(u.lastname, ' ', u.firstname) as user, 
+		u.employee_identification as employee_identification, 
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
@@ -110,6 +112,8 @@
 		parameterType="map">
 		select
 		concat(u.lastname, ' ', u.firstname) as user,
+		u.employee_identification as employee_identification, 
+		u.id as id_user, 
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,

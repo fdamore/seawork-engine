@@ -24,9 +24,17 @@ public class DetailInitialSchedule implements Serializable {
 	@XmlTransient
 	private Date				date_schedule;
 
+	// to show in overview
+	@XmlTransient
+	private String				employee_identification;
+
 	private Integer				id;
 
 	private Integer				id_schedule;
+
+	// to show in overview
+	@XmlTransient
+	private Integer				id_user;
 
 	@XmlElement(name = "no_shift")
 	private Integer				shift;
@@ -79,12 +87,20 @@ public class DetailInitialSchedule implements Serializable {
 		return new Date(this.time_to.getTime());
 	}
 
+	public String getEmployee_identification() {
+		return this.employee_identification;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
 
 	public Integer getId_schedule() {
 		return this.id_schedule;
+	}
+
+	public Integer getId_user() {
+		return this.id_user;
 	}
 
 	public Integer getShift() {
@@ -127,12 +143,20 @@ public class DetailInitialSchedule implements Serializable {
 		this.date_schedule = date_schedule;
 	}
 
+	public void setEmployee_identification(final String employee_identification) {
+		this.employee_identification = employee_identification;
+	}
+
 	public void setId(final int id) {
 		this.id = id;
 	}
 
 	public void setId_schedule(final int id_schedule) {
 		this.id_schedule = id_schedule;
+	}
+
+	public void setId_user(final Integer id_user) {
+		this.id_user = id_user;
 	}
 
 	public void setShift(final int shift) {

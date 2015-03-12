@@ -23,6 +23,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	private Integer				editor;
 
+	// to show in overview
+	@XmlTransient
+	private String				employee_identification;
+
 	private Integer				id;
 
 	// used form visualize
@@ -96,6 +100,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.editor;
 	}
 
+	public String getEmployee_identification() {
+		return this.employee_identification;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -150,6 +158,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setEditor(final Integer editor) {
 		this.editor = editor;
+	}
+
+	public void setEmployee_identification(final String employee_identification) {
+		this.employee_identification = employee_identification;
 	}
 
 	public void setId(final Integer id) {

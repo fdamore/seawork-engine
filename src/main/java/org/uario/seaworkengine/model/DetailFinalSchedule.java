@@ -23,6 +23,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	@XmlTransient
 	private Date				date_schedule;
 
+	// to show in overview
+	@XmlTransient
+	private String				employee_identification;
+
 	private Integer				id;
 
 	private Integer				id_schedule;
@@ -105,6 +109,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return new Date(this.time_to.getTime());
 	}
 
+	public String getEmployee_identification() {
+		return this.employee_identification;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -163,6 +171,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setDate_schedule(final Date date_schedule) {
 		this.date_schedule = date_schedule;
+	}
+
+	public void setEmployee_identification(final String employee_identification) {
+		this.employee_identification = employee_identification;
 	}
 
 	public void setId(final Integer id) {

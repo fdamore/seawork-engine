@@ -2225,6 +2225,9 @@
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="2" />
+											
+										<listheader label="Matricola"
+											align="center" hflex="1" />
 
 										<listheader label="Data"
 											align="center" hflex="1" />
@@ -2270,6 +2273,9 @@
 										</attribute>
 											</a>
 										</listcell>
+										
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.employee_identification}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
@@ -2336,6 +2342,9 @@
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="2" />
+											
+										<listheader label="Matricola"
+											align="center" hflex="1" />
 
 										<listheader label="Data"
 											align="center" hflex="1" />
@@ -2370,13 +2379,14 @@
 											<a
 												label="@{itemoverviewprogram.user}">
 												<attribute name="onClick">
-	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
-</attribute>
+													list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+													Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
+												</attribute>
 											</a>
 										</listcell>
 
-
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.employee_identification}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
@@ -2439,6 +2449,9 @@
 
 										<listheader label="Nome"
 											sort="auto(name_user)" hflex="2" />
+											
+										<listheader label="Matricola"
+											align="center" hflex="1" />
 
 										<listheader label="Data"
 											hflex="1" />
@@ -2465,7 +2478,8 @@
 											</a>
 										</listcell>
 
-
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewpreprocessing.employee_identification}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />

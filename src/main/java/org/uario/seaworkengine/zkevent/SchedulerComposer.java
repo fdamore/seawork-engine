@@ -407,7 +407,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private final String					messageTableLock				= "Utente connesso: ";
 
-	private final String					messageTableUnLock				= "Nessun utente in programmazione.";
+	private final String					messageTableUnLock				= "Nessun utente connesso.";
 
 	private final String					messageTimeConnectionTableLock	= "Inizio connessione: ";
 
@@ -1602,6 +1602,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial structure for program
 			this.setGridStructureForDay(SchedulerComposer.this.date_init_scheduler.getValue());
 			this.setupGlobalSchedulerGridForDay();
+			this.switchButton.setVisible(true);
 			return;
 		}
 
@@ -1615,6 +1616,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial structure for program
 			this.setGridStructureForShift();
 			this.setupGlobalSchedulerGridForShift();
+			this.switchButton.setVisible(true);
 			return;
 		}
 
@@ -1628,6 +1630,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set initial structure for program
 			this.setGridStructureForShiftReview(SchedulerComposer.this.date_init_scheduler_review.getValue());
 			this.setupGlobalSchedulerGridForShiftReview();
+			this.switchButton.setVisible(true);
 			return;
 		}
 
@@ -1640,7 +1643,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set overview list
 			this.setOverviewLists();
-
+			this.switchButton.setVisible(false);
 			return;
 		}
 
@@ -2034,7 +2037,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return;
 				}
 
-				final Integer id_user = SchedulerComposer.this.scheduleDAO.loadScheduleById(detailInitialSchedule.getId_schedule()).getUser();
+				final Integer id_user = detailInitialSchedule.getId_user();
 				// set name
 				final String msg = detailInitialSchedule.getUser();
 
