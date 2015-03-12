@@ -101,6 +101,34 @@
 			</panel>
 		</popup>
 
+		<!--  Task Info Popup -->
+		<popup id="task_popup">
+			<panel border="none" collapsible="false"
+				style="margin: 2px 2px 2px 2px">
+				<panelchildren>
+					<vbox align="center">
+							<grid width="230px">
+								<columns>
+									<column width="80px"></column>
+									<column hflex="1"></column>
+								</columns>
+								<rows>
+									<row>
+										<label value="Codice: " style="font-weight:bold"/>
+										<label id="task_id" />										
+									</row>
+
+									<row>
+										<label value="Descrizione: " style="font-weight:bold"/>
+										<label id="task_description" />
+									</row>
+								</rows>
+							</grid>
+						</vbox>
+					</panelchildren>
+			</panel>
+		</popup>
+
 
 		<!-- STATISTIC POPUP -->
 		<popup id="day_name_popup">
@@ -2261,8 +2289,14 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.shift}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}" />
+										<listcell sclass="myBottonCell">
+											<a label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
+											<attribute name="onClick">
+												list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+												Events.sendEvent("onOverviewReviewTaskClick", page_panel, null);
+											</attribute>
+											</a>
+										</listcell>
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
@@ -2362,8 +2396,15 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.shift}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}" />
+										<listcell sclass="myBottonCell">
+											<a label="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
+											<attribute name="onClick">
+												list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+												Events.sendEvent("onOverviewProgramTaskClick", page_panel, null);
+											</attribute>
+											</a>
+										</listcell>
+
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />

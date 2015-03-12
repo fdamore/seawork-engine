@@ -12,9 +12,13 @@ public interface ZkEventsTag {
 
 	public static String	onOverviewProgramShiftClick			= "onOverviewProgramShiftClick";
 
+	public static String	onOverviewProgramTaskClick			= "onOverviewProgramTaskClick";
+
 	public static String	onOverviewReviewNameClick			= "onOverviewReviewNameClick";
 
 	public static String	onOverviewReviewShiftClick			= "onOverviewReviewShiftClick";
+
+	public static String	onOverviewReviewTaskClick			= "onOverviewReviewTaskClick";
 
 	public static String	onProgramNameClick					= "onProgramNameClick";
 

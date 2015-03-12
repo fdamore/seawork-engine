@@ -715,15 +715,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Intbox							shows_rows;
 
 	private IStatistics						statisticDAO;
+
 	private IStatProcedure					statProcedure;
 
 	private final String					styleComboItemPopup				= "color: #F5290A;";
+
 	@Wire
 	private Button							switchButton;
-
 	private final String					switchButtonValueClose			= "Chiudi";
+
 	private final String					switchButtonValueOpen			= "Apri";
 	protected ITaskCache					task_cache;
+
+	@Wire
+	private Label							task_description;
+	@Wire
+	private Label							task_id;
+	@Wire
+	private Popup							task_popup;
 	private TasksDAO						taskDAO;
 	@Wire
 	private Timebox							time_from;
@@ -1930,6 +1939,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		});
 
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewReviewTaskClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final DetailFinalSchedule detailFinalSchedule = SchedulerComposer.this.list_overview_review.getSelectedItem().getValue();
+
+				if (detailFinalSchedule == null) {
+					return;
+				}
+
+				final UserTask task = SchedulerComposer.this.configurationDAO.loadTask(detailFinalSchedule.getTask());
+
+				if (task != null) {
+					SchedulerComposer.this.task_popup.open(SchedulerComposer.this.review_div, "after_pointer");
+					SchedulerComposer.this.task_id.setValue(task.getCode());
+					SchedulerComposer.this.task_description.setValue(task.getDescription());
+				}
+			}
+		});
+
 		this.getSelf().addEventListener(ZkEventsTag.onOverviewProgramShiftClick, new EventListener<Event>() {
 
 			@Override
@@ -1947,6 +1977,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					SchedulerComposer.this.shift_popup.open(SchedulerComposer.this.review_div, "after_pointer");
 					SchedulerComposer.this.shift_id.setValue(shift.getCode());
 					SchedulerComposer.this.shift_description.setValue(shift.getDescription());
+				}
+			}
+		});
+
+		this.getSelf().addEventListener(ZkEventsTag.onOverviewProgramTaskClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				final DetailInitialSchedule detailInitialSchedule = SchedulerComposer.this.list_overview_program.getSelectedItem().getValue();
+
+				if (detailInitialSchedule == null) {
+					return;
+				}
+
+				final UserTask task = SchedulerComposer.this.configurationDAO.loadTask(detailInitialSchedule.getTask());
+
+				if (task != null) {
+					SchedulerComposer.this.task_popup.open(SchedulerComposer.this.review_div, "after_pointer");
+					SchedulerComposer.this.task_id.setValue(task.getCode());
+					SchedulerComposer.this.task_description.setValue(task.getDescription());
 				}
 			}
 		});
