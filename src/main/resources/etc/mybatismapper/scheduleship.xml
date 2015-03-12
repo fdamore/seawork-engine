@@ -14,18 +14,6 @@
 		<result property="menwork" column="menwork" />
 	</resultMap>
 	
-	<select id="menNeedToWork" parameterType="java.util.Date"
-		resultMap="menWork">
-		select
-		shift, sum(menwork) as menwork
-		from
-		detailscheduleship
-		ds
-		where
-		ds.shiftdate = #{date}
-		group by shift order by shift
-	</select>
-
 	<!-- END MEN WORK MAP -->
 
 	<insert id="createScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip">

@@ -40,7 +40,6 @@ import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.IStatProcedure;
-import org.uario.seaworkengine.statistics.MenNeedToShift;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ShiftTag;
@@ -1386,17 +1385,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -3143,8 +3142,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3442,17 +3441,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3792,19 +3791,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-							@Override
-							public void onEvent(final ClickEvent e) {
+					@Override
+					public void onEvent(final ClickEvent e) {
 
-								if (Messagebox.ON_OK.equals(e.getName())) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
-								} else if (Messagebox.ON_NO.equals(e.getName())) {
+							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
+						} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
-								}
+							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+						}
 
-							}
-						}, params);
+					}
+				}, params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -4349,33 +4348,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			month_head.setLabel(day_m.toUpperCase());
-
-			// define needed work info
-			final Map<Integer, MenNeedToShift> map_result = this.scheduleShipDAO.getMenNeedToWork(current_calendar.getTime());
-
-			final Auxheader needed_men_shift_1 = (Auxheader) this.getSelf().getFellowIfAny("neededmen_tot_" + index_day + "_1");
-			if (needed_men_shift_1 != null) {
-				final String info = (map_result.get(1) == null) ? "" : "" + map_result.get(1).getMenwork();
-				needed_men_shift_1.setLabel(info);
-			}
-
-			final Auxheader needed_men_shift_2 = (Auxheader) this.getSelf().getFellowIfAny("neededmen_tot_" + index_day + "_2");
-			if (needed_men_shift_2 != null) {
-				final String info = (map_result.get(2) == null) ? "" : "" + map_result.get(2).getMenwork();
-				needed_men_shift_2.setLabel(info);
-			}
-
-			final Auxheader needed_men_shift_3 = (Auxheader) this.getSelf().getFellowIfAny("neededmen_tot_" + index_day + "_3");
-			if (needed_men_shift_3 != null) {
-				final String info = (map_result.get(3) == null) ? "" : "" + map_result.get(3).getMenwork();
-				needed_men_shift_3.setLabel(info);
-			}
-
-			final Auxheader needed_men_shift_4 = (Auxheader) this.getSelf().getFellowIfAny("neededmen_tot_" + index_day + "_4");
-			if (needed_men_shift_4 != null) {
-				final String info = (map_result.get(4) == null) ? "" : "" + map_result.get(4).getMenwork();
-				needed_men_shift_4.setLabel(info);
-			}
 
 		}
 

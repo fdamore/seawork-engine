@@ -3,11 +3,9 @@ package org.uario.seaworkengine.platform.persistence.dao;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
-import org.uario.seaworkengine.statistics.MenNeedToShift;
 
 public interface IScheduleShip {
 
@@ -20,8 +18,6 @@ public interface IScheduleShip {
 	public void deleteScheduleShip(Integer id_scheduleShip);
 
 	public void deteleDetailSchedueleShipByIdSchedule(Integer id_scheduleShip);
-
-	public Map<Integer, MenNeedToShift> getMenNeedToWork(Date day_select);
 
 	public List<ScheduleShip> loadAllScheduleShip();
 

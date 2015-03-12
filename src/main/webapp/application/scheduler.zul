@@ -1297,58 +1297,7 @@
 
 						</auxhead>
 
-						<auxhead>
-
-							<auxheader
-								label="Persone necessarie per turno" hflex="3"
-								sclass="mySeparatorBorder" />
-
-							<auxheader id="neededmen_tot_1_1" label="1"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_1_2" label="2"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_1_3" label="3"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_1_4" label="4"
-								hflex="1" align="center" sclass="mySeparatorBorder" />
-
-							<auxheader id="neededmen_tot_2_1" label="1"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_2_2" label="2"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_2_3" label="3"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_2_4" label="4"
-								hflex="1" align="center" sclass="mySeparatorBorder" />
-
-							<auxheader id="neededmen_tot_3_1" label="1"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_3_2" label="2"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_3_3" label="3"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_3_4" label="4"
-								hflex="1" align="center" sclass="mySeparatorBorder" />
-
-							<auxheader id="neededmen_tot_4_1" label="1"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_4_2" label="2"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_4_3" label="3"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_4_4" label="4"
-								hflex="1" align="center" sclass="mySeparatorBorder" />
-
-							<auxheader id="neededmen_tot_5_1" label="1"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_5_2" label="2"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_5_3" label="3"
-								hflex="1" align="center" />
-							<auxheader id="neededmen_tot_5_4" label="4"
-								hflex="1" align="center" sclass="mySeparatorBorder" />
-
-						</auxhead>
+						
 
 
 
