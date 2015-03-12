@@ -476,7 +476,7 @@
 						<listhead>
 
 							<listheader label="Nome"
-								sort="auto(name_user)" hflex="4" />
+								sort="auto(name_user)" hflex="5" />
 							<listheader hflex="1" align="center"
 								id="day_numb_1" />
 							<listheader hflex="1" align="center"
@@ -546,7 +546,7 @@
 							value="@{dayitem}">
 
 
-							<listcell sclass="myBottonCell">
+							<listcell sclass="myBottonCell" >
 								<a
 									label="@{dayitem.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
 									<attribute name="onClick">
@@ -1333,7 +1333,7 @@
 						<listhead>
 
 							<listheader label="Nome"
-								sort="auto(name_user)" hflex="3" sclass="mySeparatorBorder" />
+								sort="auto(name_user)" hflex="5" sclass="mySeparatorBorder" />
 
 							<listheader label="1" hflex="1"
 								align="center" />
@@ -2223,7 +2223,7 @@
 									<listhead sizable="true">
 
 										<listheader label="Nome"
-											sort="auto(user, date_schedule, shift)" hflex="2" />
+											sort="auto(user, date_schedule, shift)" hflex="5" />
 											
 										<listheader label="Matricola"
 											align="center" hflex="1" />
@@ -2340,7 +2340,7 @@
 									<listhead sizable="true">
 
 										<listheader label="Nome"
-											sort="auto(user, date_schedule, shift)" hflex="2" />
+											sort="auto(user, date_schedule, shift)" hflex="5" />
 											
 										<listheader label="Matricola"
 											align="center" hflex="1" />
@@ -2447,7 +2447,7 @@
 									<listhead sizable="true">
 
 										<listheader label="Nome"
-											sort="auto(name_user)" hflex="2" />
+											sort="auto(name_user)" hflex="3" />
 											
 										<listheader label="Matricola"
 											align="center" hflex="1" />

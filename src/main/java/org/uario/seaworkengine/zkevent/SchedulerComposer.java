@@ -462,53 +462,54 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private PersonDAO						personDAO;
 
+	private Person							personLock;
+
 	@Wire
 	private Div								preprocessing_div;
 
 	@Wire
 	private Comboitem						preprocessing_item;
-
 	@Wire
 	private Div								program_div;
+
 	@Wire
 	private Comboitem						program_item;
-
 	@Wire
 	private Combobox						program_task;
 	@Wire
 	private Auxheader						program_tot_1_1;
 	@Wire
 	private Auxheader						program_tot_1_2;
+
 	@Wire
 	private Auxheader						program_tot_1_3;
-
 	@Wire
 	private Auxheader						program_tot_1_4;
 	@Wire
 	private Auxheader						program_tot_2_1;
 	@Wire
 	private Auxheader						program_tot_2_2;
+
 	@Wire
 	private Auxheader						program_tot_2_3;
-
 	@Wire
 	private Auxheader						program_tot_2_4;
 	@Wire
 	private Auxheader						program_tot_3_1;
 	@Wire
 	private Auxheader						program_tot_3_2;
+
 	@Wire
 	private Auxheader						program_tot_3_3;
-
 	@Wire
 	private Auxheader						program_tot_3_4;
 	@Wire
 	private Auxheader						program_tot_4_1;
 	@Wire
 	private Auxheader						program_tot_4_2;
+
 	@Wire
 	private Auxheader						program_tot_4_3;
-
 	@Wire
 	private Auxheader						program_tot_4_4;
 	@Wire
@@ -517,6 +518,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						program_tot_5_2;
 	@Wire
 	private Auxheader						program_tot_5_3;
+
 	@Wire
 	private Auxheader						program_tot_5_4;
 
@@ -558,13 +560,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_4_1;
-
 	@Wire
 	private Auxheader						programUser_tot_4_2;
 	@Wire
 	private Auxheader						programUser_tot_4_3;
 	@Wire
 	private Auxheader						programUser_tot_4_4;
+
 	@Wire
 	private Auxheader						programUser_tot_5_1;
 
@@ -576,16 +578,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_5_4;
-
 	@Wire
 	private Button							remove_program_item;
 	@Wire
 	private Button							remove_review_item;
 	@Wire
 	private Button							repogram_users;
+
 	@Wire
 	private Div								review_div;
-
 	@Wire
 	private Comboitem						review_item;
 	@Wire
@@ -608,6 +609,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						review_tot_2_4;
 	@Wire
 	private Auxheader						reviewUser_tot_1_1;
+
 	@Wire
 	private Auxheader						reviewUser_tot_1_2;
 
@@ -719,14 +721,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private IStatProcedure					statProcedure;
 
 	private final String					styleComboItemPopup				= "color: #F5290A;";
-
 	@Wire
 	private Button							switchButton;
+
 	private final String					switchButtonValueClose			= "Chiudi";
-
 	private final String					switchButtonValueOpen			= "Apri";
-	protected ITaskCache					task_cache;
 
+	protected ITaskCache					task_cache;
 	@Wire
 	private Label							task_description;
 	@Wire
@@ -734,6 +735,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Popup							task_popup;
 	private TasksDAO						taskDAO;
+
 	@Wire
 	private Timebox							time_from;
 
@@ -820,8 +822,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -942,8 +945,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -1154,8 +1157,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -1403,36 +1406,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		} else if (version_selected == SchedulerComposer.this.review_item) {
 			this.userLockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
 		}
-
+		this.personLock = null;
 		if (!this.person_logged.isAdministrator()
 				&& (((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId()) || this.userLockTable == null))) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
-
+			this.personLock = this.personDAO.loadPerson(this.userLockTable.getId_user());
 			return false;
 
 		} else {
+
 			return true;
 		}
-		/*
-		 * if (!this.person_logged.isAdministrator()) { final Comboitem
-		 * version_selected =
-		 * SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
-		 * userLockTable = null; if ((version_selected ==
-		 * SchedulerComposer.this.preprocessing_item) || (version_selected ==
-		 * SchedulerComposer.this.program_item)) { userLockTable =
-		 * SchedulerComposer
-		 * .this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
-		 * } else if (version_selected == SchedulerComposer.this.review_item) {
-		 * userLockTable =
-		 * SchedulerComposer.this.lockTableDAO.loadLockTableByTableType
-		 * (TableTag.REVIEW_TABLE); } if (userLockTable != null) { if
-		 * (userLockTable.getId_user().equals(this.person_logged.getId())) { //
-		 * you are connected return true; } else { // administrator disconnected
-		 * your connection return false; } } } else { // you are administrator
-		 * return true; }
-		 * 
-		 * return false;
-		 */
+
 	}
 
 	/**
@@ -1483,8 +1468,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3251,8 +3236,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3399,8 +3384,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3436,8 +3421,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3476,8 +3461,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				// another user is connected
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3514,8 +3500,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3554,8 +3540,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3645,8 +3631,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3843,8 +3829,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -3979,8 +3965,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -5779,26 +5765,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set command enabling
 		Calendar today = Calendar.getInstance();
 		today = DateUtils.truncate(today, Calendar.DATE);
-		if (current_day.before(today.getTime())) {
 
-			this.cancel_day_definition.setDisabled(true);
-			this.ok_day_shift.setDisabled(true);
-
-		} else {
-			this.cancel_day_definition.setDisabled(false);
-			this.ok_day_shift.setDisabled(false);
-		}
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
-				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
+						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
 				this.loggerUserOnTable.setValue(this.messageTableUnLock);
 				this.switchButton.setLabel(this.switchButtonValueOpen);
 			}
+
+		}
+
+		if (current_day.before(today.getTime())) {
+
+			this.cancel_day_definition.setDisabled(true);
+			this.ok_day_shift.setDisabled(true);
 
 		}
 
