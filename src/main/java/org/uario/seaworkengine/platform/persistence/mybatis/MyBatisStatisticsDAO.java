@@ -21,29 +21,17 @@ import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.RateShift;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
-	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisStatisticsDAO.class);
 
-	private IBankHolidays	bank_holiday;
+	private IBankHolidays bank_holiday;
 
-	@Override
-	public RateShift[] getAverageForShift(final Integer user, final Date date, final Date date_from) {
-		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
-
-		// truncate date
-		final Date date_truncate = DateUtils.truncate(date, Calendar.DATE);
-		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_user", user);
-		map.put("date_schedule", date_truncate);
-		map.put("date_from", date_from_truncate);
-
-		List<RateShift> lists = null;
-
-		lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserReviewd", map);
-		if (lists == null) {
-			lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserProgram", map);
-		}
+	/**
+	 * Calculate work percentage on list rateshift
+	 *
+	 * @param lists
+	 * @return
+	 */
+	private RateShift[] calculateWorkPercentage(final List<RateShift> lists) {
 
 		if (lists != null) {
 			final RateShift[] ret = new RateShift[4];
@@ -102,6 +90,50 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public RateShift[] getAverageForShift(final Integer user, final Date date, final Date date_from) {
+		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
+
+		// truncate date
+		final Date date_truncate = DateUtils.truncate(date, Calendar.DATE);
+		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id_user", user);
+		map.put("date_schedule", date_truncate);
+		map.put("date_from", date_from_truncate);
+
+		List<RateShift> lists = null;
+
+		lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserReviewd", map);
+		if (lists == null) {
+			lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserProgram", map);
+		}
+
+		return this.calculateWorkPercentage(lists);
+
+	}
+
+	@Override
+	public RateShift[] getAverageForShiftOnProgram(final Integer user, final Date date, final Date date_from) {
+		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
+
+		// truncate date
+		final Date date_truncate = DateUtils.truncate(date, Calendar.DATE);
+		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id_user", user);
+		map.put("date_schedule", date_truncate);
+		map.put("date_from", date_from_truncate);
+
+		List<RateShift> lists = null;
+
+		lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserProgram", map);
+
+		return this.calculateWorkPercentage(lists);
 
 	}
 
@@ -225,8 +257,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Date date_from, final Date date_to) {
+	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number,
+			final Integer shift_type, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -243,8 +275,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Date date_from, final Date date_to) {
+	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search, final Integer shift_number,
+			final Integer shift_type, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -261,7 +293,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<Schedule> listSchedule(final String full_text_search, final Integer shift, final Date date_from, final Date date_to) {
+	public List<Schedule> listSchedule(final String full_text_search, final Integer shift, final Date date_from,
+			final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
