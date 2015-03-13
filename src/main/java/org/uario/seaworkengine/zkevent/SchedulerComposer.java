@@ -1047,7 +1047,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		final Comboitem shipSelected = this.ship.getSelectedItem();
 
-		if (shipSelected != null && (shipSelected.getValue() instanceof Ship)) {
+		if ((shipSelected != null) && (shipSelected.getValue() instanceof Ship)) {
 			final Ship ship = (Ship) (shipSelected.getValue());
 			if (ship.getId() != -1) {
 				new_item.setNameShip(ship.getName());
@@ -1056,7 +1056,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final String craneName = this.crane.getValue();
-		if (craneName != null && craneName.trim() != "") {
+		if ((craneName != null) && (craneName.trim() != "")) {
 			new_item.setCrane(craneName);
 		}
 
@@ -1408,7 +1408,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.personLock = null;
 		if (!this.person_logged.isAdministrator()
-				&& (((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId()) || this.userLockTable == null))) {
+				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId())) || (this.userLockTable == null)))) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
 				this.personLock = this.personDAO.loadPerson(this.userLockTable.getId_user());
@@ -1490,17 +1490,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -3306,8 +3306,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3691,17 +3691,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4069,19 +4069,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
+							@Override
+							public void onEvent(final ClickEvent e) {
 
-						if (Messagebox.ON_OK.equals(e.getName())) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
-						} else if (Messagebox.ON_NO.equals(e.getName())) {
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
+								} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
-						}
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+								}
 
-					}
-				}, params);
+							}
+						}, params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -5765,12 +5765,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// get current day
 		final Date current_day = this.getDateScheduled(this.selectedDay);
 
-		// set command enabling
-		Calendar today = Calendar.getInstance();
-		today = DateUtils.truncate(today, Calendar.DATE);
-
 		if (!this.checkIfUnLockTable()) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
+
 			if (this.userLockTable != null) {
 				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
 						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
@@ -5783,11 +5780,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		if (current_day.before(today.getTime())) {
+		if (!this.person_logged.isAdministrator()) {
 
-			this.cancel_day_definition.setDisabled(true);
-			this.ok_day_shift.setDisabled(true);
+			// set command enabling
+			final Calendar today = Calendar.getInstance();
+			final Calendar last_day_modify = DateUtils.truncate(today, Calendar.DATE);
 
+			last_day_modify.add(Calendar.DAY_OF_YEAR, -3);
+
+			// disable preprocessing
+			if (current_day.before(last_day_modify.getTime())) {
+
+				this.cancel_day_definition.setDisabled(true);
+				this.ok_day_shift.setDisabled(true);
+
+			}
+
+		} else {
+			this.cancel_day_definition.setDisabled(false);
+			this.ok_day_shift.setDisabled(false);
 		}
 
 		// initialize message popup
