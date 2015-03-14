@@ -485,6 +485,22 @@ public class StatProceduresImpl implements IStatProcedure {
 			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 		} else {
 
+			// assign work only if current day is today or tomorrow
+			final Calendar cal = DateUtils.truncate(Calendar.getInstance(), Calendar.DATE);
+			final Date today = cal.getTime();
+
+			cal.add(Calendar.DAY_OF_YEAR, 1);
+			final Date tomorrow = cal.getTime();
+
+			final boolean istoday = DateUtils.isSameDay(truncDate, today);
+			final boolean istomorrow = DateUtils.isSameDay(truncDate, tomorrow);
+
+			if (!istoday && !istomorrow) {
+				return;
+			}
+
+			// ASSIGN WORK
+
 			// check if there is any default task (MANSIONE STANDARD)
 			final UserTask task_default = this.myTaskDAO.getDefault(user);
 			if (task_default == null) {
