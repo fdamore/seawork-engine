@@ -240,7 +240,7 @@ public class EngineServiceImpl implements IEngineService {
 						final List<DetailInitialSchedule> list_check = this.scheduleDAO
 								.loadDetailInitialScheduleByIdSchedule(schedule.getId());
 
-						if ((list_check != null) || (list_check == null) || (list_check.size() != 0)) {
+						if ((list_check == null) || (list_check.size() != 0)) {
 							isDayEmpty = false;
 						}
 
