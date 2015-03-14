@@ -7,7 +7,7 @@
 	
 	<select id="loadAllTaskCode" resultType="String">
 		SELECT t.code
-		FROM usertask t		
+		FROM usertask t;				
 	</select>
 	
 	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask" parameterType="Integer">
@@ -46,7 +46,8 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded
-		FROM usertask;
+		FROM usertask
+		order by description;
 
 	</select>
 	

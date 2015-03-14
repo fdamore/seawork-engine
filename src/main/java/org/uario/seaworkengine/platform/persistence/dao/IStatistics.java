@@ -84,13 +84,13 @@ public interface IStatistics {
 	 * @param full_text_search
 	 * @param shift_number
 	 * @param shift_type
-	 * 
+	 *
 	 * @param date_from
 	 * @param date_to
 	 *
 	 * @return
 	 */
-	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type,
+	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
 			Date date_from, Date date_to);
 
 	/**
@@ -104,8 +104,8 @@ public interface IStatistics {
 	 *
 	 * @return
 	 */
-	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number,
-			Integer shift_type, Date date_from, Date date_to);
+	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
+			Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule

@@ -103,6 +103,10 @@
 		<if test="shift_type != null">
 			and (s.shift = #{shift_type})
 		</if>
+		
+		<if test="task_id != null">
+			and (dfs.task = #{task_id})
+		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
 
@@ -145,6 +149,10 @@
 
 		<if test="shift_type != null">
 			and (s.shift = #{shift_type})
+		</if>
+		
+		<if test="task_id != null">
+			and (dfs.task = #{task_id})
 		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
