@@ -142,10 +142,10 @@
 						<separator />
 						<hbox align="center">
 
-							<grid width="200px">
+							<grid width="250px">
 								<columns>
 									<column width="130px"></column>
-									<column width="50px"></column>
+									<column width="120px"></column>
 								</columns>
 								<rows>
 									<row>
@@ -2475,7 +2475,7 @@
 												label="@{itemoverviewpreprocessing.name_user}">
 												<attribute name="onClick">
 											list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
-											Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
+											Events.sendEvent("onOverviewPreprocessingNameClick", page_panel, null);
 										</attribute>
 											</a>
 										</listcell>

@@ -6,6 +6,8 @@ public interface ZkEventsTag {
 
 	public static String	onDayNameClick						= "onDayNameClick";
 
+	public static String	onOverviewPreprocessingNameClick	= "onOverviewPreprocessingNameClick";
+
 	public static String	onOverviewPreprocessingShiftClick	= "onOverviewPreprocessingShiftClick";
 
 	public static String	onOverviewProgramNameClick			= "onOverviewProgramNameClick";
