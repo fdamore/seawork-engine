@@ -3491,7 +3491,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			for (final Schedule schedule : scheduleListInWeek) {
 				final UserShift userShift = this.configurationDAO.loadShiftById(schedule.getShift());
-				if (userShift.getBreak_shift() || userShift.getWaitbreak_shift()) {
+				if (userShift.getBreak_shift() || userShift.getWaitbreak_shift() || userShift.getDisease_shift() || userShift.getAccident_shift()) {
 					if (isDailyWorker) {
 						schedule.setShift(id_dailyShift);
 						this.scheduleDAO.saveOrUpdateSchedule(schedule);
@@ -3789,7 +3789,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private void saveShift(final UserShift shift, final Date date_scheduled, final RowDaySchedule row_item) {
 
 		// check if break shift are setting
-		if (shift.getBreak_shift() || shift.getWaitbreak_shift()) {
+		if (shift.getBreak_shift() || shift.getWaitbreak_shift() || shift.getDisease_shift() || shift.getAccident_shift()) {
 
 			final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
 

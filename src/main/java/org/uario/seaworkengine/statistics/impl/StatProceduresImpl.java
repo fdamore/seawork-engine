@@ -392,9 +392,11 @@ public class StatProceduresImpl implements IStatProcedure {
 				continue;
 			}
 
-			if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift())) {
-				isBreakShiftPresent = true;
-				break;
+			if (!date_scheduled.equals(schedule.getDate_schedule())) {
+				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType.getAccident_shift())) {
+					isBreakShiftPresent = true;
+					break;
+				}
 			}
 		}
 
