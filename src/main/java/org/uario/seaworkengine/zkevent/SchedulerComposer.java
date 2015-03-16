@@ -1524,6 +1524,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				detail_schedule.setShift(init_item.getShift());
 				detail_schedule.setTask(init_item.getTask());
 				detail_schedule.setTime(init_item.getTime());
+				detail_schedule.setTime_vacation(init_item.getTime_vacation());
 
 				Calendar to_day_calendar = DateUtils.toCalendar(schedule.getDate_schedule());
 				to_day_calendar = DateUtils.truncate(to_day_calendar, Calendar.DATE);
@@ -5681,7 +5682,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Calendar c = Calendar.getInstance();
 		c.add(Calendar.DATE, 1);
 
-		// get average - program base
+		// get average - review base
 		RateShift[] statistic = SchedulerComposer.this.statisticDAO.getAverageForShift(id_user, c.getTime(), date_first_day_year);
 
 		if (statistic != null) {
@@ -5702,7 +5703,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		// get average - review base
+		// get average - program base
 		statistic = SchedulerComposer.this.statisticDAO.getAverageForShiftOnProgram(id_user, c.getTime(), date_first_day_year);
 		if (statistic != null) {
 			for (final RateShift av : statistic) {
