@@ -18,6 +18,10 @@ public interface IStatProcedure {
 	 */
 	public Date getARandomDay(final Date current_day, final Integer border_day);
 
+	public Integer getFirstShiftInDay(Date date_calendar_schedule, Integer user);
+
+	public Integer getLastShiftInDay(Date date_calendar_schedule, Integer user);
+
 	/**
 	 * Maximum Shift
 	 *

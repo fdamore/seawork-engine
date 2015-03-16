@@ -3648,11 +3648,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// check for 12h constraints
 			if (sum != 0.0) {
 
-				// check beween different day
+				// check between different day
 				final Integer min_shift = this.statProcedure.getMinimumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
 				final Integer max_shift = this.statProcedure.getMaximumShift(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
 
-				final boolean check_12_different_day = (this.selectedShift.compareTo(min_shift) < 0) || (this.selectedShift.compareTo(max_shift) > 0);
+				boolean check_12_different_day = (this.selectedShift.compareTo(min_shift) < 0) || (this.selectedShift.compareTo(max_shift) > 0);
+
+				if (!check_12_different_day) {
+					// check in same day
+					final Integer minShiftInDay = this.statProcedure.getFirstShiftInDay(this.currentSchedule.getDate_schedule(),
+							this.currentSchedule.getUser());
+					final Integer maxShiftInDay = this.statProcedure.getLastShiftInDay(this.currentSchedule.getDate_schedule(),
+							this.currentSchedule.getUser());
+					if (minShiftInDay != null && maxShiftInDay != null && !minShiftInDay.equals(this.selectedShift)
+							&& !maxShiftInDay.equals(this.selectedShift)) {
+						if (!((this.selectedShift.equals(1) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay.equals(1)))) {
+							check_12_different_day = true;
+						}
+					}
+				}
 
 				// check beween same day:
 				// TODO: implementa un controllo sullo stesso giorno, e nel caso

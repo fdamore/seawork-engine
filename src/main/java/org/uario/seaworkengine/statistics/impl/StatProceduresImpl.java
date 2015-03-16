@@ -20,13 +20,13 @@ import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private ISchedule myScheduleDAO;
+	private ISchedule	myScheduleDAO;
 
-	private TasksDAO myTaskDAO;
+	private TasksDAO	myTaskDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache	shiftCache;
 
-	private IStatistics statisticDAO;
+	private IStatistics	statisticDAO;
 
 	/**
 	 * Get a random day from current day to current_day+borderday
@@ -46,6 +46,30 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar.add(Calendar.DAY_OF_YEAR, adding_int);
 
 		return calendar.getTime();
+
+	}
+
+	/**
+	 * Get Maximum Shift in Day
+	 *
+	 * @return
+	 */
+	@Override
+	public Integer getFirstShiftInDay(final Date date_calendar_schedule, final Integer user) {
+
+		return this.myScheduleDAO.getFirstShift(date_calendar_schedule, user);
+
+	}
+
+	/**
+	 * Get Minimum Shift in same date
+	 *
+	 * @return
+	 */
+	@Override
+	public Integer getLastShiftInDay(final Date date_calendar_schedule, final Integer user) {
+
+		return this.myScheduleDAO.getLastShift(date_calendar_schedule, user);
 
 	}
 
@@ -452,8 +476,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * java.lang.Integer)
 	 */
 	@Override
-	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user,
-			final Integer editor) {
+	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
