@@ -37,9 +37,9 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			final Calendar cal = Calendar.getInstance();
 			cal.getTime();
 
-			final int startLock = (int) TimeUnit.MILLISECONDS.toHours(cal.getTime().getTime() - userLockTable.getTime_start().getTime());
+			final long startLock = TimeUnit.MILLISECONDS.toMinutes(cal.getTime().getTime() - userLockTable.getTime_start().getTime());
 
-			if (startLock > this.hours_loked) {
+			if (startLock > (this.hours_loked * 60)) {
 				return true;
 			}
 
@@ -62,9 +62,9 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			final Calendar cal = Calendar.getInstance();
 			cal.getTime();
 
-			final int startLock = (int) TimeUnit.MILLISECONDS.toHours(cal.getTime().getTime() - userLockTable.getTime_start().getTime());
+			final long startLock = TimeUnit.MILLISECONDS.toMinutes(cal.getTime().getTime() - userLockTable.getTime_start().getTime());
 
-			if (startLock > this.hours_loked) {
+			if (startLock > (this.hours_loked * 60)) {
 				return true;
 			}
 
