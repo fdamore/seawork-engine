@@ -27,7 +27,8 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	private boolean checkLockProgram() {
 
 		// TODO: implementa check table, in modo che restituisca true se una
-		// delle tablelle è loccata per più del numero di ore segnato da
+		// delle tablelle (PROGRAMMAZIONE) è loccata per più del numero di ore
+		// segnato da
 		// hours_loked (da qualsiasi utente)
 		return false;
 	}
@@ -41,7 +42,8 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	private boolean checkLockRevision() {
 
 		// TODO: implementa check table, in modo che restituisca true se una
-		// delle tablelle è loccata per più del numero di ore segnato da
+		// delle tablelle (REVISIONE) è loccata per più del numero di ore
+		// segnato da
 		// hours_loked (da qualsiasi utente)
 		return false;
 	}
@@ -94,6 +96,9 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			return;
 		}
 
+		// TODO: METTI QUI IL CODICE PER SLOCCKARE LA TABELLA DI PROGRAMAMZIONE.
+		// COME UTENTE CHE CHIUDE METTI null
+
 	}
 
 	/**
@@ -106,6 +111,9 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 		if (!check_table) {
 			return;
 		}
+
+		// TODO: METTI QUI IL CODICE PER SLOCCKARE LA TABELLA DI REVISIONE. COME
+		// UTENTE CHE CHIUDE METTI null
 
 	}
 }
