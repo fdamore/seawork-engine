@@ -33,13 +33,18 @@
 
 	<security:http auto-config="true" use-expressions="true"
 		access-denied-page="/index.zul">
+
 		<security:intercept-url pattern="/index.zul*"
 			access="permitAll" />
+
 		<security:intercept-url pattern="/application/**"
 			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE')" />
+
 		<security:form-login login-page='/index.zul'
+			authentication-success-handler-ref="successLoginHandler"
 			authentication-failure-url="/index.zul" always-use-default-target="true"
 			default-target-url="/application/index.zul" />
+
 		<security:logout invalidate-session="true"
 			logout-success-url="/index.zul" />
 	</security:http>
@@ -54,7 +59,12 @@
 	</security:authentication-manager>
 
 
-
+	<!-- AT LOGIN POST PROCESS -->
+	<bean id="successLoginHandler"
+		class="org.uario.seaworkengine.web.login.LoginSuccessHandlerImpl">
+		<property name="hours_loked" value="2"></property>
+		<property name="lockTable" ref="myLockTableDAO"></property>
+	</bean>
 
 
 
@@ -188,7 +198,7 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myLockTableDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisLockTableDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
