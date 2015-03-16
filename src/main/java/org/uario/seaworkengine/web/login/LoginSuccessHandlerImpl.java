@@ -1,6 +1,9 @@
 package org.uario.seaworkengine.web.login;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.uario.seaworkengine.model.LockTable;
 import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
+import org.uario.seaworkengine.utility.TableTag;
 
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
@@ -26,10 +31,20 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	 */
 	private boolean checkLockProgram() {
 
-		// TODO: implementa check table, in modo che restituisca true se una
-		// delle tablelle (PROGRAMMAZIONE) è loccata per più del numero di ore
-		// segnato da
-		// hours_loked (da qualsiasi utente)
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+
+		if (userLockTable != null) {
+			final Calendar cal = Calendar.getInstance();
+			cal.getTime();
+
+			final int startLock = (int) TimeUnit.MILLISECONDS.toHours(cal.getTime().getTime() - userLockTable.getTime_start().getTime());
+
+			if (startLock > this.hours_loked) {
+				return true;
+			}
+
+		}
+
 		return false;
 	}
 
@@ -41,10 +56,20 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	 */
 	private boolean checkLockRevision() {
 
-		// TODO: implementa check table, in modo che restituisca true se una
-		// delle tablelle (REVISIONE) è loccata per più del numero di ore
-		// segnato da
-		// hours_loked (da qualsiasi utente)
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+
+		if (userLockTable != null) {
+			final Calendar cal = Calendar.getInstance();
+			cal.getTime();
+
+			final int startLock = (int) TimeUnit.MILLISECONDS.toHours(cal.getTime().getTime() - userLockTable.getTime_start().getTime());
+
+			if (startLock > this.hours_loked) {
+				return true;
+			}
+
+		}
+
 		return false;
 	}
 
@@ -96,8 +121,14 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			return;
 		}
 
-		// TODO: METTI QUI IL CODICE PER SLOCCKARE LA TABELLA DI PROGRAMAMZIONE.
-		// COME UTENTE CHE CHIUDE METTI null
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+
+		if (userLockTable != null) {
+			userLockTable.setTime_to(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			userLockTable.setId_user_closer(null);
+			this.lockTable.updateLockTable(userLockTable);
+		}
+		return;
 
 	}
 
@@ -112,8 +143,13 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			return;
 		}
 
-		// TODO: METTI QUI IL CODICE PER SLOCCKARE LA TABELLA DI REVISIONE. COME
-		// UTENTE CHE CHIUDE METTI null
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.REVIEW_TABLE);
 
+		if (userLockTable != null) {
+			userLockTable.setTime_to(new Timestamp(Calendar.getInstance().getTime().getTime()));
+			userLockTable.setId_user_closer(null);
+			this.lockTable.updateLockTable(userLockTable);
+		}
+		return;
 	}
 }
