@@ -101,7 +101,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	 */
 	private synchronized void unlockTableRevision() {
 
-		final boolean check_table = this.checkLockProgram();
+		final boolean check_table = this.checkLockRevision();
 
 		if (!check_table) {
 			return;
