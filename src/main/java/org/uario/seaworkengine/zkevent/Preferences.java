@@ -601,12 +601,6 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.recorded_task.setChecked(task.getRecorded());
 
-		if (task.getIsabsence()) {
-			this.recorded_task.setDisabled(false);
-		} else {
-			this.recorded_task.setDisabled(true);
-		}
-
 	}
 
 	@Listen("onClick = #modify_tasks_command")
@@ -708,15 +702,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener() {
-				@Override
-				public void onEvent(final Event e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						Preferences.this.deleteShift();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
-					}
-				}
-			}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								Preferences.this.deleteShift();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					}, params);
 
 		} else {
 			final Map<String, String> params = new HashMap();
@@ -754,15 +748,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteStatus();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -777,15 +771,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -805,7 +799,6 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_task.setValue("");
 		this.description_task.setValue("");
 		this.isabsence_task.setChecked(false);
-		this.recorded_task.setDisabled(true);
 		this.recorded_task.setChecked(false);
 	}
 
@@ -870,16 +863,6 @@ public class Preferences extends SelectorComposer<Component> {
 		} else {
 			this.recorded_shift.setChecked(false);
 			this.recorded_shift.setDisabled(true);
-		}
-	}
-
-	@Listen("onCheck = #isabsence_task")
-	public void setRecordedTaskCheckbox() {
-		if (this.isabsence_task.isChecked()) {
-			this.recorded_task.setDisabled(false);
-		} else {
-			this.recorded_task.setChecked(false);
-			this.recorded_task.setDisabled(true);
 		}
 	}
 
