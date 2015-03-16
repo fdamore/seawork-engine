@@ -1470,17 +1470,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -3113,8 +3113,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3437,17 +3437,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3668,11 +3668,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					}
 				}
 
-				// check beween same day:
-				// TODO: implementa un controllo sullo stesso giorno, e nel caso
-				// fai partire lo stesso blocco di codice. (ATTENTOP A MAX
-				// SHIFT)
-
 				if (check_12_different_day) {
 
 					final Map<String, String> params = new HashMap<String, String>();
@@ -3809,19 +3804,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
 						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
+							@Override
+							public void onEvent(final ClickEvent e) {
 
-						if (Messagebox.ON_OK.equals(e.getName())) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
-						} else if (Messagebox.ON_NO.equals(e.getName())) {
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, scheduleListInWeek);
+								} else if (Messagebox.ON_NO.equals(e.getName())) {
 
-							SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
-						}
+									SchedulerComposer.this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+								}
 
-					}
-				}, params);
+							}
+						}, params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
