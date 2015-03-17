@@ -6,6 +6,7 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
@@ -27,6 +28,14 @@ public interface ISoapServiceInterface {
 	 * @return
 	 */
 	public List<UserTask> getUserTaskConfiguration();
+
+	/**
+	 * Get list of ship schedulated today
+	 * 
+	 * @param date_request
+	 * @return
+	 */
+	public List<Ship> listShip(@WebParam(name = "date_request") Date date_request);
 
 	/**
 	 * Get initial schedule for each person

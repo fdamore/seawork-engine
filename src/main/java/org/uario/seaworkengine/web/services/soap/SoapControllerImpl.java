@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.IWebServiceController;
@@ -27,6 +28,11 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 
 	public IWebServiceController getWebcontroller() {
 		return this.webcontroller;
+	}
+
+	@Override
+	public List<Ship> listShip(final Date date_request) {
+		return this.webcontroller.listShip(date_request);
 	}
 
 	@Override

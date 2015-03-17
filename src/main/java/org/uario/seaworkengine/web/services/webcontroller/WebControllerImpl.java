@@ -15,11 +15,13 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
@@ -38,6 +40,8 @@ public class WebControllerImpl implements IWebServiceController {
 	private ISchedule				scheduleDAO;
 
 	private IShiftCache				shiftCache;
+
+	private IScheduleShip			ship_dao;
 
 	private ITaskCache				taskCache;
 
@@ -136,6 +140,10 @@ public class WebControllerImpl implements IWebServiceController {
 		return this.shiftCache;
 	}
 
+	public IScheduleShip getShip_dao() {
+		return this.ship_dao;
+	}
+
 	public ITaskCache getTaskCache() {
 		return this.taskCache;
 	}
@@ -149,6 +157,14 @@ public class WebControllerImpl implements IWebServiceController {
 	@Override
 	public List<UserTask> getUserTaskConfiguration() {
 		return new ArrayList<UserTask>(this.taskCache.getHash().values());
+	}
+
+	@Override
+	public List<Ship> listShip(final Date date_request) {
+
+		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
+
+		return null;
 	}
 
 	@Override
@@ -202,6 +218,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public void setShiftCache(final IShiftCache shiftCache) {
 		this.shiftCache = shiftCache;
+	}
+
+	public void setShip_dao(final IScheduleShip ship_dao) {
+		this.ship_dao = ship_dao;
 	}
 
 	public void setTaskCache(final ITaskCache taskCache) {
