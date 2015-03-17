@@ -2,10 +2,8 @@ package org.uario.seaworkengine.docfactory;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
@@ -25,6 +23,7 @@ import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.JRDataSource;
 
 import org.apache.log4j.Logger;
+import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
 
 public class ProgramReportBuilder {
@@ -35,50 +34,36 @@ public class ProgramReportBuilder {
 
 		final StyleBuilder textStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point());
 
-		final TextColumnBuilder<String> itemColumn = DynamicReports.col.column("Item", "item", DynamicReports.type.stringType());
+		final TextColumnBuilder<String> name = DynamicReports.col.column("Nome", "name", DynamicReports.type.stringType());
 
-		final TextColumnBuilder<Integer> quantityColumn = DynamicReports.col.column("Quantity", "quantity", DynamicReports.type.integerType());
+		final TextColumnBuilder<String> shift1 = DynamicReports.col.column("Turno 1", "shift1", DynamicReports.type.stringType());
+		final TextColumnBuilder<String> shift2 = DynamicReports.col.column("Turno 2", "shift2", DynamicReports.type.stringType());
+		final TextColumnBuilder<String> shift3 = DynamicReports.col.column("Turno 3", "shift3", DynamicReports.type.stringType());
+		final TextColumnBuilder<String> shift4 = DynamicReports.col.column("Turno 4", "shift4", DynamicReports.type.stringType());
 
-		final TextColumnBuilder<BigDecimal> unitPriceColumn = DynamicReports.col.column("Unit price", "unitprice",
-				DynamicReports.type.bigDecimalType());
-
-		final TextColumnBuilder<Date> orderDateColumn = DynamicReports.col.column("Order date", "orderdate", DynamicReports.type.dateType());
-
-		final TextColumnBuilder<Date> orderDateFColumn = DynamicReports.col.column("Order date", "orderdate",
-				DynamicReports.type.dateYearToFractionType());
-
-		final TextColumnBuilder<Date> orderYearColumn = DynamicReports.col.column("Order year", "orderdate", DynamicReports.type.dateYearType());
-
-		final TextColumnBuilder<Date> orderMonthColumn = DynamicReports.col.column("Order month", "orderdate", DynamicReports.type.dateMonthType());
-
-		final TextColumnBuilder<Date> orderDayColumn = DynamicReports.col.column("Order day", "orderdate", DynamicReports.type.dateDayType());
-
-		report.setColumnStyle(textStyle)
-		.columns(itemColumn, quantityColumn, unitPriceColumn, orderDateColumn, orderDateFColumn, orderYearColumn, orderMonthColumn,
-				orderDayColumn)
-				.columnGrid(
-						DynamicReports.grid.verticalColumnGridList(itemColumn,
-								DynamicReports.grid.horizontalColumnGridList(quantityColumn, unitPriceColumn)),
-
-								DynamicReports.grid.verticalColumnGridList(
-
-										orderDateColumn,
-
-										DynamicReports.grid.horizontalColumnGridList(orderDateFColumn, orderYearColumn),
-
-										DynamicReports.grid.horizontalColumnGridList(orderMonthColumn, orderDayColumn)));
+		report.setColumnStyle(textStyle).columns(name, shift1, shift2, shift3, shift4)
+				.columnGrid(DynamicReports.grid.horizontalColumnGridList(name, shift1, shift2, shift3, shift4));
 
 	}
 
-	private static JRDataSource createDataSource() {
+	/**
+	 * @param list_rows
+	 * @return
+	 */
+	private static JRDataSource createDataSource(final ArrayList<RowSchedule> list_rows) {
 
-		final DRDataSource dataSource = new DRDataSource("item", "orderdate", "quantity", "unitprice");
+		final DRDataSource dataSource = new DRDataSource("name", "shift1", "shift2", "shift3", "shift4");
 
-		dataSource.add("Notebook", new Date(), 1, new BigDecimal(500));
+		for (final RowSchedule item : list_rows) {
 
-		dataSource.add("Book", new Date(), 7, new BigDecimal(300));
+			final String anchor1 = item.getItem_3().getAnchor1();
+			final String anchor2 = item.getItem_3().getAnchor2();
+			final String anchor3 = item.getItem_3().getAnchor3();
+			final String anchor4 = item.getItem_3().getAnchor4();
 
-		dataSource.add("PDA", new Date(), 2, new BigDecimal(250));
+			dataSource.add(item.getName_user(), anchor1, anchor2, anchor3, anchor4);
+
+		}
 
 		return dataSource;
 
@@ -105,8 +90,8 @@ public class ProgramReportBuilder {
 
 			ProgramReportBuilder.build(report);
 
-			final JRDataSource datasource = ProgramReportBuilder.createDataSource();
-			// report.setDataSource(list_row);
+			final JRDataSource datasource = ProgramReportBuilder.createDataSource(list_row);
+
 			report.setDataSource(datasource);
 
 			return report;
@@ -176,10 +161,21 @@ public class ProgramReportBuilder {
 	public static void main(final String[] args) throws DRException, IOException {
 
 		final ArrayList<RowSchedule> value = new ArrayList<RowSchedule>();
+
 		for (int i = 0; i < 10; i++) {
 			final RowSchedule itm = new RowSchedule();
 			itm.setUser(1);
-			itm.setName_user("prova");
+			itm.setName_user("Nome di prova");
+
+			final ItemRowSchedule item_3 = new ItemRowSchedule(itm);
+
+			item_3.setAnchor1("Turno 1");
+			item_3.setAnchor2("Turno 2");
+			item_3.setAnchor3("Turno 3");
+			item_3.setAnchor4("Turno 4");
+
+			itm.setItem_3(item_3);
+
 			value.add(itm);
 		}
 
@@ -190,5 +186,4 @@ public class ProgramReportBuilder {
 		report.show();
 
 	}
-
 }
