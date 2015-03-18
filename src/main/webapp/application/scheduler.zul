@@ -2,6 +2,21 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
 <?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+
+<!-- Load Bootstrap  -->
+<?link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+
+<!-- Google Open Sans font -->
+<!-- Load fonts from local -->
+<?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
+
+<!-- Unmark if we want to use fonts from google server
+	<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+-->
+
+<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+
 <zk>
 
 
@@ -1136,7 +1151,7 @@
 			<button label="Stampa Programma" sclass="btn-info"
 				id="print_program_videos"
 				xmlns:w="http://www.zkoss.org/2005/zk/client"
-				w:onClick="window.open('index.zul?print=1');" />
+				w:onClick="window.open('scheduler.zul?printProgram=1');" />
 
 
 			<separator></separator>
