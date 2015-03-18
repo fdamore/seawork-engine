@@ -21,20 +21,21 @@
 			border-color:#CFCFCF;}
 		</style>
 
-		
-			<div sclass="page-header">
-			
+
+		<div sclass="page-header">
+
 			<label value="Programma Lavoro" />
 			<a label="Sistema di programmazione lavoro Seawork"
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			</div>
-			
-			<div align="left" >	
-			<label id="loggerUserOnTable" style="font-style: italic" value="Nessun utente connesso." /> 
+		</div>
+
+		<div align="left">
+			<label id="loggerUserOnTable" style="font-style: italic"
+				value="Nessun utente connesso." />
 			<button id="switchButton" sclass="btn-info" />
-		</div>	
-		
-		
+		</div>
+
+
 		<space></space>
 
 		<hbox align="center">
@@ -67,7 +68,7 @@
 
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
-			
+
 		</hbox>
 
 		<space></space>
@@ -78,25 +79,27 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
-							<grid width="230px">
-								<columns>
-									<column width="80px"></column>
-									<column hflex="1"></column>
-								</columns>
-								<rows>
-									<row>
-										<label value="Codice: " style="font-weight:bold"/>
-										<label id="shift_id" />										
-									</row>
+						<grid width="230px">
+							<columns>
+								<column width="80px"></column>
+								<column hflex="1"></column>
+							</columns>
+							<rows>
+								<row>
+									<label value="Codice: "
+										style="font-weight:bold" />
+									<label id="shift_id" />
+								</row>
 
-									<row>
-										<label value="Descrizione: " style="font-weight:bold"/>
-										<label id="shift_description" />
-									</row>
-								</rows>
-							</grid>
-						</vbox>
-					</panelchildren>
+								<row>
+									<label value="Descrizione: "
+										style="font-weight:bold" />
+									<label id="shift_description" />
+								</row>
+							</rows>
+						</grid>
+					</vbox>
+				</panelchildren>
 			</panel>
 		</popup>
 
@@ -106,25 +109,27 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
-							<grid width="230px">
-								<columns>
-									<column width="80px"></column>
-									<column hflex="1"></column>
-								</columns>
-								<rows>
-									<row>
-										<label value="Codice: " style="font-weight:bold"/>
-										<label id="task_id" />										
-									</row>
+						<grid width="230px">
+							<columns>
+								<column width="80px"></column>
+								<column hflex="1"></column>
+							</columns>
+							<rows>
+								<row>
+									<label value="Codice: "
+										style="font-weight:bold" />
+									<label id="task_id" />
+								</row>
 
-									<row>
-										<label value="Descrizione: " style="font-weight:bold"/>
-										<label id="task_description" />
-									</row>
-								</rows>
-							</grid>
-						</vbox>
-					</panelchildren>
+								<row>
+									<label value="Descrizione: "
+										style="font-weight:bold" />
+									<label id="task_description" />
+								</row>
+							</rows>
+						</grid>
+					</vbox>
+				</panelchildren>
 			</panel>
 		</popup>
 
@@ -546,7 +551,7 @@
 							value="@{dayitem}">
 
 
-							<listcell sclass="myBottonCell" >
+							<listcell sclass="myBottonCell">
 								<a
 									label="@{dayitem.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
 									<attribute name="onClick">
@@ -1125,8 +1130,14 @@
 
 			<separator></separator>
 
-			<button id="download_program_report" label="Scarica Report"
-				sclass="btn-info" />
+			<button id="download_program_report"
+				label="Scarica Report per Preposti" sclass="btn-info" />
+
+			<button label="Stampa Programma" sclass="btn-info"
+				id="print_program_videos"
+				xmlns:w="http://www.zkoss.org/2005/zk/client"
+				w:onClick="window.open('index.zul?print=1');" />
+
 
 			<separator></separator>
 
@@ -1160,6 +1171,9 @@
 			<separator></separator>
 			<button id="repogram_users"
 				label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
+
+
+
 			<separator></separator>
 
 
@@ -1326,7 +1340,7 @@
 
 						</auxhead>
 
-						
+
 
 
 
@@ -1751,21 +1765,26 @@
 								</auxhead>
 								<auxhead>
 									<auxheader colspan="6">
-										<combobox id="ship" autodrop="true"  placeholder="Seleziona nave...">
-											<comboitem self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
+										<combobox id="ship"
+											autodrop="true" placeholder="Seleziona nave...">
+											<comboitem
+												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
 										</combobox>
-										<textbox id="crane" placeholder="Inserisci crane..."/>
+										<textbox id="crane"
+											placeholder="Inserisci crane..." />
 									</auxheader>
 								</auxhead>
 
 								<listhead>
 									<listheader label="Mansioni" />
 									<listheader label="Tempo Lavorato" />
-									<listheader label="Orario di ingresso" />
-									<listheader label="Orario di uscita" />
+									<listheader
+										label="Orario di ingresso" />
+									<listheader
+										label="Orario di uscita" />
 									<listheader label="Nave" />
 									<listheader label="Crane" />
-								
+
 								</listhead>
 
 								<listitem self="@{each='itemreview'}"
@@ -1857,8 +1876,7 @@
 				<button id="assign_program_review"
 					label="Assegna programmato" sclass="btn-danger" />
 
-				<button id="download_review_report"
-					label="Scarica Report" sclass="btn-info" />
+
 
 
 			</hbox>
@@ -2124,8 +2142,7 @@
 				<button id="overview_month" label="Mese corrente"
 					sclass="btn-info" />
 
-				<button id="download_overview_report"
-					label="Scarica Report" sclass="btn-info" />
+
 
 				<a label="Scarica dati in CSV" id="overview_download"
 					style="color:green">
@@ -2179,10 +2196,11 @@
 
 				<a label="Filtra su mansione: "></a>
 				<vbox>
-				<space></space>
-				<combobox id="taskComboBox" readonly="false" placeholder="Seleziona mansione..."/>						
+					<space></space>
+					<combobox id="taskComboBox" readonly="false"
+						placeholder="Seleziona mansione..." />
 					<a label="Tutti" style="color:green"
-							id="overview_selector_select_allTask"/>
+						id="overview_selector_select_allTask" />
 				</vbox>
 				<space></space>
 
@@ -2220,22 +2238,22 @@
 							<panelchildren>
 
 								<listbox sclass="domain" mold="paging"
-									pageSize="10" pagingPosition="both" 
+									pageSize="10" pagingPosition="both"
 									id="list_overview_review">
 
 									<listhead sizable="true">
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="2" />
-											
+
 										<listheader label="Matricola"
 											align="center" hflex="1" />
 
 										<listheader label="Data"
 											align="center" hflex="1" />
-											
-										<listheader label="Settimana Anno"
-											align="center" hflex="1" />
+
+										<listheader
+											label="Settimana Anno" align="center" hflex="1" />
 
 										<listheader label="Tipo Turno"
 											align="center" hflex="1" />
@@ -2252,7 +2270,7 @@
 										<listheader label="Nave"
 											hflex="1" align="center" />
 										<listheader label="Crane"
-											hflex="1" align="center" />	
+											hflex="1" align="center" />
 										<listheader label="Ingresso"
 											hflex="1" align="center" />
 										<listheader label="Uscita"
@@ -2270,39 +2288,43 @@
 											<a
 												label="@{itemoverviewreview.user}">
 												<attribute name="onClick">
-											list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
-											Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
-										</attribute>
+	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.employee_identification}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
-										
-										<listcell sclass="myBottonCell">
-											<a label="@{itemoverviewreview.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
-											<attribute name="onClick">
-												list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
-												Events.sendEvent("onOverviewReviewShiftClick", page_panel, null);
-											</attribute>
+
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{itemoverviewreview.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
+												<attribute name="onClick">
+	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewReviewShiftClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.shift}" />
 
-										<listcell sclass="myBottonCell">
-											<a label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
-											<attribute name="onClick">
-												list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
-												Events.sendEvent("onOverviewReviewTaskClick", page_panel, null);
-											</attribute>
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
+												<attribute name="onClick">
+	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewReviewTaskClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
 
@@ -2344,14 +2366,14 @@
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="5" />
-											
+
 										<listheader label="Matricola"
 											align="center" hflex="1" />
 
 										<listheader label="Data"
 											align="center" hflex="1" />
-										<listheader label="Settimana Anno"
-											align="center" hflex="1" />
+										<listheader
+											label="Settimana Anno" align="center" hflex="1" />
 										<listheader label="Tipo Turno"
 											align="center" hflex="1" />
 
@@ -2381,9 +2403,9 @@
 											<a
 												label="@{itemoverviewprogram.user}">
 												<attribute name="onClick">
-													list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
-													Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
-												</attribute>
+	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
 
@@ -2395,25 +2417,29 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
 
-										<listcell sclass="myBottonCell">
-										<a label="@{itemoverviewprogram.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}" >
-										<attribute name="onClick">
-												list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
-												Events.sendEvent("onOverviewProgramShiftClick", page_panel, null);
-											</attribute>
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{itemoverviewprogram.shift_type, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
+												<attribute name="onClick">
+	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewProgramShiftClick", page_panel, null);
+</attribute>
 											</a>
-											</listcell>
+										</listcell>
 
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.shift}" />
 
-										<listcell sclass="myBottonCell">
-											<a label="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
-											<attribute name="onClick">
-												list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
-												Events.sendEvent("onOverviewProgramTaskClick", page_panel, null);
-											</attribute>
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
+												<attribute name="onClick">
+	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewProgramTaskClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
 
@@ -2451,14 +2477,14 @@
 
 										<listheader label="Nome"
 											sort="auto(name_user)" hflex="3" />
-											
+
 										<listheader label="Matricola"
 											align="center" hflex="1" />
 
 										<listheader label="Data"
 											hflex="1" />
-										<listheader label="Settimana Anno"
-											align="center" hflex="1" />
+										<listheader
+											label="Settimana Anno" align="center" hflex="1" />
 										<listheader label="Tipo Turno"
 											hflex="1" align="center" />
 
@@ -2474,9 +2500,9 @@
 											<a
 												label="@{itemoverviewpreprocessing.name_user}">
 												<attribute name="onClick">
-											list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
-											Events.sendEvent("onOverviewPreprocessingNameClick", page_panel, null);
-										</attribute>
+	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewPreprocessingNameClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
 
@@ -2487,13 +2513,15 @@
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
-										
-										<listcell sclass="myBottonCell">
-										<a label="@{itemoverviewpreprocessing.shift, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
-											<attribute name="onClick">
-												list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
-												Events.sendEvent("onOverviewPreprocessingShiftClick", page_panel, null);
-											</attribute>
+
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{itemoverviewpreprocessing.shift, converter='org.uario.seaworkengine.zkevent.converter.OverviewShiftConverter'}">
+												<attribute name="onClick">
+	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewPreprocessingShiftClick", page_panel, null);
+</attribute>
 											</a>
 										</listcell>
 

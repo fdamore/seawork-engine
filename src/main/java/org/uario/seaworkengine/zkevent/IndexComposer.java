@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -11,6 +12,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
@@ -77,6 +79,12 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	@Override
 	public void doFinally() throws Exception {
+
+		final String att_print = Executions.getCurrent().getParameter("print");
+		if (att_print != null) {
+			Clients.print();
+		}
+
 		this.getPage().addEventListener(ZkEventsTag.onShowPreferences, new EventListener<Event>() {
 
 			@Override

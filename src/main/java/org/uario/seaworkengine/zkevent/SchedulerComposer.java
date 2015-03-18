@@ -17,9 +17,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.uario.seaworkengine.docfactory.OverviewReportBuilder;
 import org.uario.seaworkengine.docfactory.ProgramReportBuilder;
-import org.uario.seaworkengine.docfactory.ReviewReportBuilder;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.LockTable;
@@ -378,9 +376,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox							list_overview_preprocessing;
+
 	@Wire
 	private Listbox							list_overview_program;
-
 	@Wire
 	private Listbox							list_overview_review;
 
@@ -469,47 +467,48 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Div								preprocessing_div;
-	@Wire
-	private Comboitem						preprocessing_item;
 
 	@Wire
+	private Comboitem						preprocessing_item;
+	@Wire
 	private Div								program_div;
+
 	@Wire
 	private Comboitem						program_item;
 	@Wire
 	private Combobox						program_task;
 	@Wire
 	private Auxheader						program_tot_1_1;
-
 	@Wire
 	private Auxheader						program_tot_1_2;
+
 	@Wire
 	private Auxheader						program_tot_1_3;
 	@Wire
 	private Auxheader						program_tot_1_4;
 	@Wire
 	private Auxheader						program_tot_2_1;
-
 	@Wire
 	private Auxheader						program_tot_2_2;
+
 	@Wire
 	private Auxheader						program_tot_2_3;
 	@Wire
 	private Auxheader						program_tot_2_4;
 	@Wire
 	private Auxheader						program_tot_3_1;
-
 	@Wire
 	private Auxheader						program_tot_3_2;
+
 	@Wire
 	private Auxheader						program_tot_3_3;
 	@Wire
 	private Auxheader						program_tot_3_4;
 	@Wire
 	private Auxheader						program_tot_4_1;
-
 	@Wire
 	private Auxheader						program_tot_4_2;
+
 	@Wire
 	private Auxheader						program_tot_4_3;
 	@Wire
@@ -518,7 +517,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						program_tot_5_1;
 	@Wire
 	private Auxheader						program_tot_5_2;
-
 	@Wire
 	private Auxheader						program_tot_5_3;
 
@@ -560,13 +558,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_3_4;
+
 	@Wire
 	private Auxheader						programUser_tot_4_1;
 	@Wire
 	private Auxheader						programUser_tot_4_2;
 	@Wire
 	private Auxheader						programUser_tot_4_3;
-
 	@Wire
 	private Auxheader						programUser_tot_4_4;
 
@@ -578,15 +576,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_5_3;
+
 	@Wire
 	private Auxheader						programUser_tot_5_4;
 	@Wire
 	private Button							remove_program_item;
 	@Wire
 	private Button							remove_review_item;
-
 	@Wire
 	private Button							repogram_users;
+
 	@Wire
 	private Div								review_div;
 	@Wire
@@ -609,7 +608,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						review_tot_2_3;
 	@Wire
 	private Auxheader						review_tot_2_4;
-
 	@Wire
 	private Auxheader						reviewUser_tot_1_1;
 
@@ -722,13 +720,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private IStatistics						statisticDAO;
 
 	private IStatProcedure					statProcedure;
-	private final String					styleComboItemPopup				= "color: #F5290A;";
 
+	private final String					styleComboItemPopup				= "color: #F5290A;";
 	@Wire
 	private Button							switchButton;
-	private final String					switchButtonValueClose			= "Chiudi";
 
+	private final String					switchButtonValueClose			= "Chiudi";
 	private final String					switchButtonValueOpen			= "Apri";
+
 	protected ITaskCache					task_cache;
 	@Wire
 	private Label							task_description;
@@ -736,7 +735,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label							task_id;
 	@Wire
 	private Popup							task_popup;
-
 	@Wire
 	public Combobox							taskComboBox;
 
@@ -2179,41 +2177,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick= #download_overview_report")
-	public void downloadOverviewReport() {
-
-		ByteArrayOutputStream stream = null;
-		ByteArrayInputStream decodedInput = null;
-
-		try {
-
-			// create invoice..
-			stream = new ByteArrayOutputStream();
-			OverviewReportBuilder.createReport(null).toPdf(stream);
-
-			decodedInput = new ByteArrayInputStream(stream.toByteArray());
-
-			Filedownload.save(decodedInput, "application/pdf", "report.pdf");
-
-		} catch (final Exception e) {
-
-		} finally {
-			try {
-				if (stream != null) {
-					stream.close();
-				}
-
-				if (decodedInput != null) {
-					decodedInput.close();
-				}
-			} catch (final IOException e) {
-
-			}
-
-		}
-
-	}
-
 	@Listen("onClick= #download_program_report")
 	public void downloadProgramReport() {
 
@@ -2254,41 +2217,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			ProgramReportBuilder.createReport(final_list).toPdf(stream);
-
-			decodedInput = new ByteArrayInputStream(stream.toByteArray());
-
-			Filedownload.save(decodedInput, "application/pdf", "report.pdf");
-
-		} catch (final Exception e) {
-
-		} finally {
-			try {
-				if (stream != null) {
-					stream.close();
-				}
-
-				if (decodedInput != null) {
-					decodedInput.close();
-				}
-			} catch (final IOException e) {
-
-			}
-
-		}
-
-	}
-
-	@Listen("onClick= #download_review_report")
-	public void downloadReviewReport() {
-
-		ByteArrayOutputStream stream = null;
-		ByteArrayInputStream decodedInput = null;
-
-		try {
-
-			// create invoice..
-			stream = new ByteArrayOutputStream();
-			ReviewReportBuilder.createReport(null).toPdf(stream);
 
 			decodedInput = new ByteArrayInputStream(stream.toByteArray());
 
@@ -3066,6 +2994,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
+	}
+
+	@Listen("onClick= #print_program_videos")
+	public void printProgramVideo() throws IOException {
+		// Executions.s
 	}
 
 	@Listen("onClick = #refresh_command")
