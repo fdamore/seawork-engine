@@ -42,7 +42,7 @@ public class ProgramReportBuilder {
 		final TextColumnBuilder<String> shift4 = DynamicReports.col.column("Turno 4", "shift4", DynamicReports.type.stringType());
 
 		report.setColumnStyle(textStyle).columns(name, shift1, shift2, shift3, shift4)
-				.columnGrid(DynamicReports.grid.horizontalColumnGridList(name, shift1, shift2, shift3, shift4));
+		.columnGrid(DynamicReports.grid.horizontalColumnGridList(name, shift1, shift2, shift3, shift4));
 
 	}
 
@@ -133,7 +133,7 @@ public class ProgramReportBuilder {
 			logo.add(DynamicReports.cmp.image(url).setFixedDimension(200, 50).setHorizontalAlignment(HorizontalAlignment.LEFT));
 
 			// link to company web site
-			final String link_string = "http://www.uario.com";
+			final String link_string = "http://www.seaworkservice.it";
 			final HyperLinkBuilder link = DynamicReports.hyperLink(link_string);
 
 			logo.add(DynamicReports.cmp.text(link_string).setStyle(italicStyle).setHyperLink(link).setHorizontalAlignment(HorizontalAlignment.LEFT));
