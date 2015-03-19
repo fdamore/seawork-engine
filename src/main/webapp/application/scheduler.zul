@@ -3,6 +3,9 @@
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
 <?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 
+<!-- Favicon -->
+<?link rel="icon" href="/img/favicon.ico" type="image/x-icon"?>
+
 <!-- Load Bootstrap  -->
 <?link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
 
@@ -44,11 +47,25 @@
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		</div>
 
-		<div align="left">
-			<label id="loggerUserOnTable" style="font-style: italic"
-				value="Nessun utente connesso." />
-			<button id="switchButton" sclass="btn-info" />
-		</div>
+		<hbox align="center" id="header_info">
+
+			<div align="left">
+				<label id="loggerUserOnTable" style="font-style: italic"
+					value="Nessun utente connesso." />
+				<button id="switchButton" sclass="btn-info" />
+			</div>
+
+
+			<button label="Versione Stampabile" sclass="btn-danger"
+				id="print_program_videos"
+				xmlns:w="http://www.zkoss.org/2005/zk/client"
+				w:onClick="window.open('scheduler.zul?printProgram=1');" />
+
+		</hbox>
+
+		<button label="Stampa" sclass="btn-danger" visible="false"
+			id="print_scheduler" xmlns:w="http://www.zkoss.org/2005/zk/client"
+			w:onClick="window.print()" />
 
 
 		<space></space>
@@ -1148,15 +1165,12 @@
 			<button id="download_program_report"
 				label="Scarica Report per Preposti" sclass="btn-info" />
 
-			<button label="Stampa Programma" sclass="btn-info"
-				id="print_program_videos"
-				xmlns:w="http://www.zkoss.org/2005/zk/client"
-				w:onClick="window.open('scheduler.zul?printProgram=1');" />
+
 
 
 			<separator></separator>
 
-			<panel width="1000px" border="normal">
+			<panel id="color_program_legend" border="normal">
 				<panelchildren>
 					<grid>
 						<auxhead>
@@ -1862,7 +1876,8 @@
 
 			</popup>
 
-			<panel width="200px" border="normal">
+			<panel width="200px" border="normal"
+				id="color_legend_review">
 				<panelchildren>
 					<grid>
 						<auxhead>
