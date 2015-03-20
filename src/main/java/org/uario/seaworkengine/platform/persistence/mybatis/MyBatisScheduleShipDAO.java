@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
+import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
@@ -142,6 +143,16 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("dateTo", dateTo);
 
 		return this.getSqlSession().selectList("scheduleship.loadScheduleShipInDate", map);
+	}
+
+	@Override
+	public List<Ship> loadShipInDate(final Timestamp arrivalDate) {
+		MyBatisScheduleShipDAO.logger.info("load Ship In Date" + arrivalDate);
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("arrivalDate", arrivalDate);
+
+		return this.getSqlSession().selectList("scheduleship.loadShipInDate", map);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
+import org.uario.seaworkengine.model.Ship;
 
 public interface IScheduleShip {
 
@@ -36,6 +37,8 @@ public interface IScheduleShip {
 	public List<ScheduleShip> loadScheduleShipByIdShipAndArrivalDate(Integer idship, Date arrivaldate);
 
 	public List<ScheduleShip> loadScheduleShipInDate(Timestamp dateFrom, Timestamp dateTo);
+
+	public List<Ship> loadShipInDate(Timestamp arrivalDate);
 
 	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);
 
