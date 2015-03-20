@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.statistics.impl;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -539,6 +540,40 @@ public class StatProceduresImpl implements IStatProcedure {
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
 			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 
+			// prepare period
+			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 1);
+			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
+
+			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 7);
+			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+
+			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
+			cal_shift_2_time_from.set(Calendar.MINUTE, 0);
+
+			final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
+			cal_shift_2_time_to.set(Calendar.MINUTE, 0);
+
+			final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
+			cal_shift_3_time_from.set(Calendar.MINUTE, 0);
+
+			final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
+			cal_shift_3_time_to.set(Calendar.MINUTE, 0);
+
+			final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
+			cal_shift_4_time_from.set(Calendar.MINUTE, 0);
+
+			final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_4_time_to.add(Calendar.DAY_OF_YEAR, 1);
+			cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
+			cal_shift_4_time_to.set(Calendar.MINUTE, 0);
+
 			if (shift.getDaily_shift().booleanValue()) {
 
 				final DetailInitialSchedule item1 = new DetailInitialSchedule();
@@ -546,12 +581,16 @@ public class StatProceduresImpl implements IStatProcedure {
 				item1.setShift(2);
 				item1.setTask(task_default.getId());
 				item1.setTime(4.0);
+				item1.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
+				item1.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
 
 				final DetailInitialSchedule item2 = new DetailInitialSchedule();
 				item2.setId_schedule(schedule.getId());
 				item2.setShift(3);
 				item2.setTask(task_default.getId());
 				item2.setTime(4.0);
+				item2.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
+				item2.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
 
 				// create detail
 				this.myScheduleDAO.createDetailInitialSchedule(item1);
@@ -563,6 +602,35 @@ public class StatProceduresImpl implements IStatProcedure {
 				item.setShift(my_no_shift);
 				item.setTask(task_default.getId());
 				item.setTime(6.0);
+
+				// set period
+				switch (my_no_shift) {
+
+				case 1:
+
+					item.setTime_from(new Timestamp(cal_shift_1_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_1_time_to.getTimeInMillis()));
+					break;
+
+				case 2:
+
+					item.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
+					break;
+
+				case 3:
+
+					item.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
+					break;
+
+				case 4:
+
+					item.setTime_from(new Timestamp(cal_shift_4_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_4_time_to.getTimeInMillis()));
+					break;
+
+				}
 
 				// create detail
 				this.myScheduleDAO.createDetailInitialSchedule(item);
