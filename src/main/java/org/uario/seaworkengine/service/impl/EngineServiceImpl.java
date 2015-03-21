@@ -407,7 +407,7 @@ public class EngineServiceImpl implements IEngineService {
 						final Calendar cal_max_day = DateUtils.toCalendar(max_day);
 						cal_max_day.add(Calendar.DAY_OF_YEAR, 10);
 
-						max_day_to_break = day_calendar.get(Calendar.DAY_OF_WEEK) - 1;
+						max_day_to_break = cal_max_day.get(Calendar.DAY_OF_WEEK) - 1;
 					}
 
 				}
