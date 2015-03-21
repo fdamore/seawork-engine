@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.statistics.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -21,13 +22,13 @@ import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private ISchedule	myScheduleDAO;
+	private ISchedule myScheduleDAO;
 
-	private TasksDAO	myTaskDAO;
+	private TasksDAO myTaskDAO;
 
-	private IShiftCache	shiftCache;
+	private IShiftCache shiftCache;
 
-	private IStatistics	statisticDAO;
+	private IStatistics statisticDAO;
 
 	/**
 	 * Get a random day from current day to current_day+borderday
@@ -370,8 +371,6 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		final Date date_truncate = DateUtils.truncate(date_scheduled, Calendar.DATE);
 
-		List<Schedule> scheduleListInWeek = null;
-
 		final Calendar cal = Calendar.getInstance();
 		cal.setFirstDayOfWeek(Calendar.MONDAY);
 		cal.setTime(date_truncate);
@@ -382,9 +381,10 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Calendar last = (Calendar) first.clone();
 		last.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
-		scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(), last.getTime());
+		final List<Schedule> scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id,
+				first.getTime(), last.getTime());
 
-		boolean isBreakShiftPresent = false;
+		final ArrayList<Schedule> ret = new ArrayList<Schedule>();
 
 		for (final Schedule schedule : scheduleListInWeek) {
 
@@ -394,17 +394,17 @@ public class StatProceduresImpl implements IStatProcedure {
 			}
 
 			if (!date_scheduled.equals(schedule.getDate_schedule())) {
-				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType.getAccident_shift())) {
-					isBreakShiftPresent = true;
-					break;
+				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType
+						.getAccident_shift())) {
+					ret.add(schedule);
 				}
 			}
 		}
 
-		if (!isBreakShiftPresent) {
-			scheduleListInWeek = null;
+		if (ret.size() == 0) {
+			return null;
 		}
-		return scheduleListInWeek;
+		return ret;
 	}
 
 	public void setMyScheduleDAO(final ISchedule myScheduleDAO) {
@@ -425,7 +425,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -434,7 +434,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -472,14 +472,15 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
 	 * java.lang.Integer)
 	 */
 	@Override
-	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
+	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user,
+			final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 

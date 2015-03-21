@@ -84,7 +84,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	/**
 	 * Break in week management - Substitution or not break in week
-	 * 
+	 *
 	 * @author francesco
 	 *
 	 */
@@ -3918,7 +3918,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled,
 					row_item.getUser());
 
-			if (scheduleListInWeek != null) {
+			if ((scheduleListInWeek != null) && (scheduleListInWeek.size() > 0)) {
 				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 
