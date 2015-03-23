@@ -1007,15 +1007,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposer.this.deleteUserCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposer.this.deleteUserCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1096,6 +1096,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
 	}
 
+	private void selectPartTimeEmployee() {
+		final List<Person> list_person = this.personDao.listAllPartTime();
+
+		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+	}
+
 	@Listen("onChange=#select_specific_user")
 	public void selectSpecificUser() {
 		final String selected = this.select_specific_user.getSelectedItem().getValue().toString();
@@ -1105,6 +1111,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.selectOperatives();
 		} else if (selected.equals("dailyemployee")) {
 			this.selectDailyEmployee();
+		} else if (selected.equals("partTimeEmployee")) {
+			this.selectPartTimeEmployee();
 		} else {
 			this.refreshListUser();
 		}
