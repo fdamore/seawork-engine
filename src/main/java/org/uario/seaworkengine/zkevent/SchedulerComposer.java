@@ -910,6 +910,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		double countHours = 0;
+
 		if ((this.time_from_program.getValue() != null) && (this.time_to_program.getValue() != null)) {
 
 			final Double time = this.getProgrammedTime();
@@ -953,6 +955,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				new_item.setTime_vacation(0.0);
 			}
 
+			countHours = time;
+
 			final java.util.Date now_from = this.time_from_program.getValue();
 			if (now_from != null) {
 
@@ -983,11 +987,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				new_item.setTime_to(t_to);
 			}
 
-			// check if hours interval is already present in list
+			// check if hours interval is already present in list and if count
+			// hours is more than 12
 			final List<DetailInitialSchedule> list = (List<DetailInitialSchedule>) this.listbox_program.getModel();
 			if (list != null) {
 
 				for (final DetailInitialSchedule item : list) {
+
+					countHours = countHours + item.getTime() + item.getTime_vacation();
+					if (countHours > 6) {
+						return;
+					}
 
 					final int a = new_item.getTime_from().compareTo(item.getTime_from());
 
@@ -996,7 +1006,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 							|| (new_item.getTime_from().compareTo(item.getTime_from()) <= 0 && new_item.getTime_to().compareTo(item.getTime_to()) >= 0)) {
 						return;
 					}
+
 				}
+			}
+
+			if (countHours > 6) {
+				return;
 			}
 
 			// update program list
@@ -1046,6 +1061,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		double countHours = 0;
+
 		// check about sum of time
 		/*
 		 * boolean check_sum = true; if (time > 6) { check_sum = false; } if
@@ -1074,6 +1091,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			new_item.setTime(time);
 			new_item.setTime_vacation(0.0);
 		}
+
+		countHours = time;
 
 		new_item.setTask(task.getId());
 
@@ -1121,11 +1140,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			new_item.setCrane(craneName);
 		}
 
-		// check if hours interval is already present in list
+		// check if hours interval is already present in list and if count
+		// hours is more than 12
 		final List<DetailFinalSchedule> list = (List<DetailFinalSchedule>) this.listbox_review.getModel();
 		if (list != null) {
 
 			for (final DetailFinalSchedule item : list) {
+
+				countHours = countHours + item.getTime() + item.getTime_vacation();
+				if (countHours > 6) {
+					return;
+				}
 
 				final int a = new_item.getTime_from().compareTo(item.getTime_from());
 
@@ -1135,6 +1160,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return;
 				}
 			}
+		}
+
+		if (countHours > 6) {
+			return;
 		}
 
 		// update program list
