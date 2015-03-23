@@ -99,9 +99,12 @@
 		
 		<popup id="popup_ship" >
 				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" width="400px">
+					style="margin: 5px 5px 5px 5px;" width="700px">
 					<panelchildren>
 						<vbox align="start">
+						<div align="right">
+							<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_ship.close();" />
+						</div>
 							<listbox id="popup_shipDetail" pagingPosition="both" mold="paging"
 											style="border: 1px solid #CCCCCC;" multiple="false"
 											pageSize="10">
@@ -126,8 +129,12 @@
 		</popup>
 		
 		<popup id="popup_detail" width="700px">
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_detail.close();" />
+				</div>
 			<panel border="normal" collapsible="false"
 						sclass="transparent">
+						
 						<caption iconSclass="z-icon-star orange"
 							label="Dettagli di Programmazione Nave">
 
@@ -257,8 +264,12 @@
 		</popup>
 		
 		<popup id="popup_scheduleShip" width="700px">
+		<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_scheduleShip.close();" />
+				</div>
 			<panel border="normal" collapsible="false"
 						sclass="transparent">
+						
 						<caption iconSclass="z-icon-star orange"
 							label="Programmazione Nave">													
 						
@@ -499,6 +510,9 @@
 	
 	
 	<popup id="popup_detail_Daily" width="700px">
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_detail_Daily.close();" />
+				</div>
 			<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<caption iconSclass="z-icon-star orange"

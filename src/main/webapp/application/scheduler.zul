@@ -111,6 +111,9 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
+					<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_popup.close();" />
+					</div>
 						<grid width="230px">
 							<columns>
 								<column width="80px"></column>
@@ -141,6 +144,9 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
+					<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="task_popup.close();" />
+					</div>
 						<grid width="230px">
 							<columns>
 								<column width="80px"></column>
@@ -171,9 +177,13 @@
 			<panel border="none" collapsible="false"
 				style="margin: 5px 5px 5px 5px">
 				<panelchildren>
-					<vbox align="end">
+				<div align="right">				
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="day_name_popup.close();" />
+				</div>	
+					<vbox >
+						
 						<a label=" " id="label_statistic_popup"
-							sclass="header" iconSclass="z-icon-check" />
+							 iconSclass="z-icon-check" />
 
 						<label id="partTime" />
 						<separator />
@@ -355,6 +365,9 @@
 				<panel border="none" collapsible="false"
 					style="margin: 5px 5px 5px 5px">
 					<panelchildren>
+					<div align="right">				
+						<toolbarbutton label="X" style="font-weight: bold;" onClick="day_definition_popup.close();" />
+					</div>				
 						<vbox align="start">
 
 							<a label="Configurazione gionaliera: "
@@ -982,9 +995,10 @@
 		<!-- PROGRAM -->
 		<div id="program_div" visible="false">
 			<popup id="shift_definition_popup" width="650px">
-
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_definition_popup.close();" />
+				</div>
 				<vlayout style="margin: 5px 5px 5px 5px">
-
 					<hbox>
 						<button id="ok_program"
 							label="Salva Programmazione" sclass="btn-info">
@@ -994,6 +1008,8 @@
 							label="Cancella Programmazione" sclass="btn-danger">
 						</button>
 
+						
+						
 					</hbox>
 
 					<div id="div_force_shift">
@@ -1720,7 +1736,9 @@
 			<!-- POPUP -->
 			<popup id="shift_definition_popup_review" width="1000px">
 				<vlayout style="margin: 5px 5px 5px 5px">
-
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_definition_popup_review.close();" />
+				</div>
 					<hbox align="center">
 
 						<button id="ok_review" label="Salva Consuntivo"
