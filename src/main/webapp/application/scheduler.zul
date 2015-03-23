@@ -185,7 +185,7 @@
 						<a label=" " id="label_statistic_popup"
 							 iconSclass="z-icon-check" />
 
-						<label id="partTime" />
+						<label id="userRoles" />
 						<separator />
 						<hbox align="center">
 

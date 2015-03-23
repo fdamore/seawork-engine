@@ -507,51 +507,49 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Panel							panel_shift_period;
 
-	@Wire
-	private Label							partTime;
-
-	private final String					partTimeMessage					= "(Part Time)";
+	private final String					partTimeMessage					= "Part Time";
 
 	private Person							person_logged					= null;
-	private PersonDAO						personDAO;
 
+	private PersonDAO						personDAO;
 	private Person							personLock;
+
 	@Wire
 	private Div								preprocessing_div;
 	@Wire
 	private Comboitem						preprocessing_item;
 	@Wire
 	private Component						print_program_videos;
-
 	@Wire
 	private Component						print_scheduler;
+
 	@Wire
 	private Div								program_div;
 	@Wire
 	private Comboitem						program_item;
 	@Wire
 	private Combobox						program_task;
-
 	@Wire
 	private Auxheader						program_tot_1_1;
+
 	@Wire
 	private Auxheader						program_tot_1_2;
 	@Wire
 	private Auxheader						program_tot_1_3;
 	@Wire
 	private Auxheader						program_tot_1_4;
-
 	@Wire
 	private Auxheader						program_tot_2_1;
+
 	@Wire
 	private Auxheader						program_tot_2_2;
 	@Wire
 	private Auxheader						program_tot_2_3;
 	@Wire
 	private Auxheader						program_tot_2_4;
-
 	@Wire
 	private Auxheader						program_tot_3_1;
+
 	@Wire
 	private Auxheader						program_tot_3_2;
 	@Wire
@@ -560,7 +558,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						program_tot_3_4;
 	@Wire
 	private Auxheader						program_tot_4_1;
-
 	@Wire
 	private Auxheader						program_tot_4_2;
 
@@ -602,13 +599,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_2_3;
+
 	@Wire
 	private Auxheader						programUser_tot_2_4;
 	@Wire
 	private Auxheader						programUser_tot_3_1;
 	@Wire
 	private Auxheader						programUser_tot_3_2;
-
 	@Wire
 	private Auxheader						programUser_tot_3_3;
 
@@ -620,15 +617,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						programUser_tot_4_2;
+
 	@Wire
 	private Auxheader						programUser_tot_4_3;
 	@Wire
 	private Auxheader						programUser_tot_4_4;
 	@Wire
 	private Auxheader						programUser_tot_5_1;
-
 	@Wire
 	private Auxheader						programUser_tot_5_2;
+
 	@Wire
 	private Auxheader						programUser_tot_5_3;
 	@Wire
@@ -651,7 +649,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						review_tot_1_2;
 	@Wire
 	private Auxheader						review_tot_1_3;
-
 	@Wire
 	private Auxheader						review_tot_1_4;
 
@@ -767,21 +764,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Popup							shift_popup;
+
 	@Wire
 	private Combobox						shifts_combo_select;
-
 	@Wire
 	private Combobox						ship;
-	private IShip							shipDAO;
 
+	private IShip							shipDAO;
 	@Wire
 	private Intbox							shows_rows;
+
 	private IStatistics						statisticDAO;
 	private IStatProcedure					statProcedure;
 	private final String					styleComboItemPopup				= "color: #F5290A;";
 	@Wire
 	private Button							switchButton;
-
 	private final String					switchButtonValueClose			= "Chiudi";
 
 	private final String					switchButtonValueOpen			= "Apri";
@@ -863,6 +860,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						totalUser_review_day_2;
 
 	private LockTable						userLockTable;
+
+	@Wire
+	private Label							userRoles;
 
 	@Wire
 	private Label							work_current_month;
@@ -5908,10 +5908,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.working_series.setValue(message);
 
 		final Person user = this.personDAO.loadPerson(id_user);
-		if (user.getPart_time()) {
-			this.partTime.setValue(this.partTimeMessage);
-		} else {
-			this.partTime.setValue(" ");
+
+		this.userRoles.setValue("");
+
+		// set label in statistic popup
+		final String roles = user.getRolesDescription();
+		if (roles != "") {
+			this.userRoles.setValue(roles + ".");
 		}
 
 		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");
