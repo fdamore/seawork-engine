@@ -387,7 +387,32 @@ public class EngineServiceImpl implements IEngineService {
 
 			if (list_break_second_week == null) {
 
-				final Date date_break = this.statProcedure.getARandomDay(next_sunday.getTime(), 7);
+				final Calendar cal = DateUtils.truncate(next_sunday, Calendar.DATE);
+				cal.add(Calendar.DAY_OF_YEAR, -1);
+
+				final List<Schedule> list_break_first_week = this.statProcedure.searchBreakInCurrentWeek(cal.getTime(),
+						person.getId());
+
+				int max_day_to_break = 7;
+
+				if (list_break_first_week != null) {
+
+					// choose a different max day
+					final Schedule item_schedule = list_break_first_week.get(list_break_first_week.size() - 1);
+					final Calendar day_calendar = DateUtils.toCalendar(item_schedule.getDate_schedule());
+
+					if (day_calendar.get(Calendar.DAY_OF_WEEK) < Calendar.THURSDAY) {
+
+						final Date max_day = DateUtils.truncate(item_schedule.getDate_schedule(), Calendar.DATE);
+						final Calendar cal_max_day = DateUtils.toCalendar(max_day);
+						cal_max_day.add(Calendar.DAY_OF_YEAR, 10);
+
+						max_day_to_break = cal_max_day.get(Calendar.DAY_OF_WEEK) - 1;
+					}
+
+				}
+
+				final Date date_break = this.statProcedure.getARandomDay(next_sunday.getTime(), max_day_to_break);
 				this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
 			}
 

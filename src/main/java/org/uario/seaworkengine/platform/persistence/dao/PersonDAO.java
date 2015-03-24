@@ -37,6 +37,8 @@ public interface PersonDAO extends UserDetailsService {
 	 */
 	public List<Person> getSuspendendUsers();
 
+	public List<Person> listAllPartTime();
+
 	public List<Person> listAllPersons();
 
 	/**

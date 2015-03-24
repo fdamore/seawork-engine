@@ -65,6 +65,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private String	note;
 
+	private String	notedetail;
+
 	private String	operation;
 
 	private Integer	shift;
@@ -131,6 +133,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public String getNote() {
 		return this.note;
+	}
+
+	public String getNotedetail() {
+		return this.notedetail;
 	}
 
 	public String getOperation() {
@@ -203,6 +209,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setNote(final String shipnote) {
 		this.note = shipnote;
+	}
+
+	public void setNotedetail(final String notedetail) {
+		this.notedetail = notedetail;
 	}
 
 	public void setOperation(final String operation) {

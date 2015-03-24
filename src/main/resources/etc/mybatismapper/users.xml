@@ -153,6 +153,53 @@
 	</select>
 
 
+
+	<select id="listAllPartTime" resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status,
+		u.personal_code,
+		u.sex,
+		u.out_schedule,
+		u.birth_province,
+		u.dailyemployee,
+		u.part_time
+		FROM
+		user
+		u
+		WHERE
+		u.part_time = 1
+		order by u.firstname
+		asc
+	</select>
+
+
 	<select id="listDailyEmployee" resultType="org.uario.seaworkengine.model.Person">
 		SELECT
 		u.id,

@@ -99,9 +99,12 @@
 		
 		<popup id="popup_ship" >
 				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" width="400px">
+					style="margin: 5px 5px 5px 5px;" width="700px">
 					<panelchildren>
 						<vbox align="start">
+						<div align="right">
+							<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_ship.close();" />
+						</div>
 							<listbox id="popup_shipDetail" pagingPosition="both" mold="paging"
 											style="border: 1px solid #CCCCCC;" multiple="false"
 											pageSize="10">
@@ -126,8 +129,12 @@
 		</popup>
 		
 		<popup id="popup_detail" width="700px">
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_detail.close();" />
+				</div>
 			<panel border="normal" collapsible="false"
 						sclass="transparent">
+						
 						<caption iconSclass="z-icon-star orange"
 							label="Dettagli di Programmazione Nave">
 
@@ -193,6 +200,12 @@
 									</row>
 									<row>
 										<label
+											value="Note dettaglio di programmazione:">
+										</label>
+										<textbox id="noteshipdetail" />
+									</row>
+									<row>
+										<label
 											value="">
 										</label>
 										<label
@@ -217,6 +230,7 @@
 												<listheader label="Nome secondo preposto" sort="auto(firstnameSecondUser)"/>
 												<listheader label="Mani di lavoro" sort="auto(handswork)" />
 												<listheader label="Numero di uomini" sort="auto(menwork)" />
+												<listheader label="Note dettaglio" />
 																						
 												<listheader label="" />
 											</listhead>
@@ -230,6 +244,7 @@
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstnameSecondUser}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.notedetail}" />
 
 												<listcell sclass="myBottonCell">
 									
@@ -257,8 +272,12 @@
 		</popup>
 		
 		<popup id="popup_scheduleShip" width="700px">
+		<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_scheduleShip.close();" />
+				</div>
 			<panel border="normal" collapsible="false"
 						sclass="transparent">
+						
 						<caption iconSclass="z-icon-star orange"
 							label="Programmazione Nave">													
 						
@@ -320,6 +339,7 @@
 												<listheader label="Nome secondo preposto" sort="auto(firstnameSecondUser)"/>
 												<listheader label="Mani di lavoro" sort="auto(handswork)" />
 												<listheader label="Numero di uomini" sort="auto(menwork)" />
+												<listheader label="Note Dettaglio" />
 											</listhead>
 									
 											<listitem  self="@{each='detailscheduleship_item'}" value="@{detailscheduleship_item}">
@@ -331,6 +351,7 @@
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.firstnameSecondUser}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
 												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
+												<listcell sclass="myBottonCell" label="@{detailscheduleship_item.notedetail}" />
 											
 											</listitem>
 									
@@ -365,7 +386,7 @@
 			<listheader label="Data fine attività" sort="auto(departuredate)"/>
 			<listheader label="Nome Nave" sort="auto(name)" />
 			<listheader label="Volume Atteso" sort="auto(volume)"/>
-			<listheader label="Note" />
+			<listheader label="Note Programmazione" />
 			<listheader label="" />
 		</listhead>
 
@@ -449,7 +470,8 @@
 				<listheader label="Secondo Preposto" sort="auto(firstnameSecondUser)"/>
 				<listheader label="Mani di lavoro" sort="auto(handswork)" />
 				<listheader label="Numero Persone" sort="auto(menwork)"/>
-				<listheader label="Note" />
+				<listheader label="Note Programmazione" />
+				<listheader label="Note Dettaglio" />
 				<listheader label="Data inizio attività" sort="auto(arrivaldate)"/>
 				<listheader label="Data fine attività" sort="auto(departuredate)"/>
 				
@@ -474,6 +496,7 @@
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.handswork}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.menwork}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.note}" />
+				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.notedetail}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.arrivaldate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 				<listcell sclass="myBottonCell" label="@{detailscheduleship_item.departuredate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 						
@@ -499,6 +522,9 @@
 	
 	
 	<popup id="popup_detail_Daily" width="700px">
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="popup_detail_Daily.close();" />
+				</div>
 			<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<caption iconSclass="z-icon-star orange"
@@ -558,6 +584,10 @@
 											value="Numero uomini:">
 										</label>
 										<intbox id="menwork_Daily" />
+									</row>
+									<row>
+										<label value="Note Dettaglio"></label>
+										<textbox id="notedetail" />
 									</row>
 									<row>
 										<label

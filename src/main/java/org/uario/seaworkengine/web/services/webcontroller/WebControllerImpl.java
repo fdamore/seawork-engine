@@ -173,7 +173,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		return null;
+		return this.ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
 	}
 
 	@Override

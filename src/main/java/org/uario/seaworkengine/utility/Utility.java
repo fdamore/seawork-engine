@@ -39,6 +39,8 @@ public class Utility {
 
 	private static SimpleDateFormat	dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
+	private static SimpleDateFormat	mouthFormat		= new SimpleDateFormat("MM");
+
 	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
 
 	public static String convertToDateAndTime(final Timestamp date) {
@@ -202,6 +204,12 @@ public class Utility {
 	 */
 	public static SimpleDateFormat getDateFormatIT() {
 		return Utility.dateFormat_it;
+	}
+
+	public static Integer getMonthNumber(final Date date) {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.MONTH) + 1;
 	}
 
 	/**

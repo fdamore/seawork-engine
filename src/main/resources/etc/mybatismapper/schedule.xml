@@ -186,7 +186,7 @@
 		shift, sync_mobile
 		FROM schedule
 		WHERE user=#{user} and date_schedule >=
-		#{date_from} and #{date_to} >= date_schedule;
+		#{date_from} and #{date_to} >= date_schedule order by date_schedule asc;
 	</select>
 
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"

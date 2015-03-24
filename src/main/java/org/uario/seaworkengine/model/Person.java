@@ -331,6 +331,56 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.provincia;
 	}
 
+	// return a description of user roles
+	public String getRolesDescription() {
+		String roles = "";
+		if (this.isAdministrator()) {
+			roles = "Amministratore";
+		}
+		if (this.isOperative()) {
+			if (roles != "") {
+				roles += ", Preposto";
+			} else {
+				roles += "Preposto";
+			}
+
+		}
+		if (this.isBackoffice()) {
+			if (roles != "") {
+				roles += ", Programmatore";
+			} else {
+				roles += "Programmatore";
+			}
+
+		}
+		if (this.isViewer()) {
+			if (roles != "") {
+				roles += ", Visore";
+			} else {
+				roles += "Visore";
+			}
+
+		}
+		if (this.getDailyemployee()) {
+			if (roles != "") {
+				roles += ", Giornaliero";
+			} else {
+				roles += "Giornaliero";
+			}
+
+		}
+		if (this.getPart_time()) {
+			if (roles != "") {
+				roles += ", Part Time";
+			} else {
+				roles += "Part Time";
+			}
+
+		}
+
+		return roles;
+	}
+
 	public Boolean getSex() {
 		return this.sex;
 	}
@@ -483,11 +533,11 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setBirth_place(final String birth_place) {
 		this.birth_place = birth_place;
-	}
+	};
 
 	public void setBirth_province(final String birth_province) {
 		this.birth_province = birth_province;
-	};
+	}
 
 	public void setCity(final String city) {
 		this.city = city;

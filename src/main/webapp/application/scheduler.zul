@@ -2,6 +2,24 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
 <?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+
+<!-- Favicon -->
+<?link rel="icon" href="/img/favicon.ico" type="image/x-icon"?>
+
+<!-- Load Bootstrap  -->
+<?link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+
+<!-- Google Open Sans font -->
+<!-- Load fonts from local -->
+<?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
+
+<!-- Unmark if we want to use fonts from google server
+	<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+-->
+
+<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+
 <zk>
 
 
@@ -29,11 +47,25 @@
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		</div>
 
-		<div align="left">
-			<label id="loggerUserOnTable" style="font-style: italic"
-				value="Nessun utente connesso." />
-			<button id="switchButton" sclass="btn-info" />
-		</div>
+		<hbox align="center" id="header_info">
+
+			<div align="left">
+				<label id="loggerUserOnTable" style="font-style: italic"
+					value="Nessun utente connesso." />
+				<button id="switchButton" sclass="btn-info" />
+			</div>
+
+
+			<button label="Versione Stampabile" sclass="btn-danger"
+				id="print_program_videos"
+				xmlns:w="http://www.zkoss.org/2005/zk/client"
+				w:onClick="window.open('scheduler.zul?printProgram=1');" />
+
+		</hbox>
+
+		<button label="Stampa" sclass="btn-danger" visible="false"
+			id="print_scheduler" xmlns:w="http://www.zkoss.org/2005/zk/client"
+			w:onClick="window.print()" />
 
 
 		<space></space>
@@ -79,6 +111,9 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
+					<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_popup.close();" />
+					</div>
 						<grid width="230px">
 							<columns>
 								<column width="80px"></column>
@@ -109,6 +144,9 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
+					<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="task_popup.close();" />
+					</div>
 						<grid width="230px">
 							<columns>
 								<column width="80px"></column>
@@ -139,11 +177,15 @@
 			<panel border="none" collapsible="false"
 				style="margin: 5px 5px 5px 5px">
 				<panelchildren>
-					<vbox align="end">
+				<div align="right">				
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="day_name_popup.close();" />
+				</div>	
+					<vbox >
+						
 						<a label=" " id="label_statistic_popup"
-							sclass="header" iconSclass="z-icon-check" />
+							 iconSclass="z-icon-check" />
 
-						<label id="partTime" />
+						<label id="userRoles" />
 						<separator />
 						<hbox align="center">
 
@@ -323,6 +365,9 @@
 				<panel border="none" collapsible="false"
 					style="margin: 5px 5px 5px 5px">
 					<panelchildren>
+					<div align="right">				
+						<toolbarbutton label="X" style="font-weight: bold;" onClick="day_definition_popup.close();" />
+					</div>				
 						<vbox align="start">
 
 							<a label="Configurazione gionaliera: "
@@ -950,9 +995,10 @@
 		<!-- PROGRAM -->
 		<div id="program_div" visible="false">
 			<popup id="shift_definition_popup" width="650px">
-
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_definition_popup.close();" />
+				</div>
 				<vlayout style="margin: 5px 5px 5px 5px">
-
 					<hbox>
 						<button id="ok_program"
 							label="Salva Programmazione" sclass="btn-info">
@@ -962,6 +1008,8 @@
 							label="Cancella Programmazione" sclass="btn-danger">
 						</button>
 
+						
+						
 					</hbox>
 
 					<div id="div_force_shift">
@@ -1133,15 +1181,12 @@
 			<button id="download_program_report"
 				label="Scarica Report per Preposti" sclass="btn-info" />
 
-			<button label="Stampa Programma" sclass="btn-info"
-				id="print_program_videos"
-				xmlns:w="http://www.zkoss.org/2005/zk/client"
-				w:onClick="window.open('index.zul?print=1');" />
+
 
 
 			<separator></separator>
 
-			<panel width="1000px" border="normal">
+			<panel id="color_program_legend" border="normal">
 				<panelchildren>
 					<grid>
 						<auxhead>
@@ -1691,7 +1736,9 @@
 			<!-- POPUP -->
 			<popup id="shift_definition_popup_review" width="1000px">
 				<vlayout style="margin: 5px 5px 5px 5px">
-
+				<div align="right">
+					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_definition_popup_review.close();" />
+				</div>
 					<hbox align="center">
 
 						<button id="ok_review" label="Salva Consuntivo"
@@ -1765,8 +1812,15 @@
 								</auxhead>
 								<auxhead>
 									<auxheader colspan="6">
-										<combobox id="ship"
-											autodrop="true" placeholder="Seleziona nave...">
+									
+										<combobox id="ship" 
+											autodrop="true" placeholder="Seleziona da tutte le navi...">
+											<comboitem
+												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
+										</combobox>
+									
+										<combobox id="shipInDay" width="200px"
+											autodrop="true" placeholder="Seleziona da navi in giornata...">
 											<comboitem
 												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
 										</combobox>
@@ -1847,7 +1901,8 @@
 
 			</popup>
 
-			<panel width="200px" border="normal">
+			<panel width="200px" border="normal"
+				id="color_legend_review">
 				<panelchildren>
 					<grid>
 						<auxhead>
@@ -2244,13 +2299,16 @@
 									<listhead sizable="true">
 
 										<listheader label="Nome"
-											sort="auto(user, date_schedule, shift)" hflex="2" />
+											sort="auto(user, date_schedule, shift)" hflex="1" />
 
 										<listheader label="Matricola"
 											align="center" hflex="1" />
 
 										<listheader label="Data"
 											align="center" hflex="1" />
+											
+										<listheader label="Mese Anno"
+											align="center" hflex="1" />	
 
 										<listheader
 											label="Settimana Anno" align="center" hflex="1" />
@@ -2299,6 +2357,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+											
+										<listcell sclass="myBottonCell"
+										label ="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
@@ -2365,13 +2426,15 @@
 									<listhead sizable="true">
 
 										<listheader label="Nome"
-											sort="auto(user, date_schedule, shift)" hflex="5" />
+											sort="auto(user, date_schedule, shift)" hflex="1" />
 
 										<listheader label="Matricola"
 											align="center" hflex="1" />
 
 										<listheader label="Data"
 											align="center" hflex="1" />
+										<listheader
+											label="Mese Anno" align="center" hflex="1" />
 										<listheader
 											label="Settimana Anno" align="center" hflex="1" />
 										<listheader label="Tipo Turno"
@@ -2414,6 +2477,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+											
+										<listcell sclass="myBottonCell"
+										label ="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />	
+											
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
 
@@ -2476,13 +2543,17 @@
 									<listhead sizable="true">
 
 										<listheader label="Nome"
-											sort="auto(name_user)" hflex="3" />
+											sort="auto(name_user)" hflex="1" />
 
 										<listheader label="Matricola"
 											align="center" hflex="1" />
 
 										<listheader label="Data"
 											hflex="1" />
+										
+										<listheader
+											label="Mese Anno" align="center" hflex="1" />
+											
 										<listheader
 											label="Settimana Anno" align="center" hflex="1" />
 										<listheader label="Tipo Turno"
@@ -2511,6 +2582,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+											
+										<listcell sclass="myBottonCell"
+										label ="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
+											
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
 

@@ -14,7 +14,7 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class SoapControllerImpl implements ISoapServiceInterface {
 
-	private IWebServiceController	webcontroller;
+	private IWebServiceController webcontroller;
 
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
@@ -31,7 +31,7 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public List<Ship> listShip(final Date date_request) {
+	public List<Ship> listShip(@WebParam(name = "date_request") final Date date_request) {
 		return this.webcontroller.listShip(date_request);
 	}
 

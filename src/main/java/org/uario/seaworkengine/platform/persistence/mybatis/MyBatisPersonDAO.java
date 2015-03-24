@@ -22,7 +22,7 @@ import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.Utility;
 
 public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO {
-	private static Logger logger = Logger.getLogger(MyBatisPersonDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisPersonDAO.class);
 
 	@Override
 	public void changeMail(final Integer person_id, final String password, final String new_mail) {
@@ -67,6 +67,11 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
+	public List<Person> listAllPartTime() {
+		return this.getSqlSession().selectList("person.listAllPartTime");
+	}
+
+	@Override
 	public List<Person> listAllPersons() {
 		MyBatisPersonDAO.logger.info("Get all person..");
 		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPerson");
@@ -81,8 +86,7 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 		final HashMap<String, String> map = new HashMap<String, String>();
 		map.put("my_full_text_search", full_text_search);
 
-		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike",
-				map);
+		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike", map);
 		return list_person;
 	}
 
