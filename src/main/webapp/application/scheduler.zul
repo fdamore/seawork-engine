@@ -1812,8 +1812,15 @@
 								</auxhead>
 								<auxhead>
 									<auxheader colspan="6">
-										<combobox id="ship"
-											autodrop="true" placeholder="Seleziona nave...">
+									
+										<combobox id="ship" 
+											autodrop="true" placeholder="Seleziona da tutte le navi...">
+											<comboitem
+												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
+										</combobox>
+									
+										<combobox id="shipInDay" width="200px"
+											autodrop="true" placeholder="Seleziona da navi in giornata...">
 											<comboitem
 												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
 										</combobox>

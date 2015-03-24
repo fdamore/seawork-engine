@@ -772,13 +772,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private IShip							shipDAO;
 	@Wire
-	private Intbox							shows_rows;
+	public Combobox							shipInDay;
 
+	private Ship							shipSelected;
+	@Wire
+	private Intbox							shows_rows;
 	private IStatistics						statisticDAO;
 	private IStatProcedure					statProcedure;
 	private final String					styleComboItemPopup				= "color: #F5290A;";
+
 	@Wire
 	private Button							switchButton;
+
 	private final String					switchButtonValueClose			= "Chiudi";
 
 	private final String					switchButtonValueOpen			= "Apri";
@@ -1125,14 +1130,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final java.sql.Timestamp t_to = new java.sql.Timestamp(current_calendar.getTimeInMillis());
 			new_item.setTime_to(t_to);
 		}
-		final Comboitem shipSelected = this.ship.getSelectedItem();
 
-		if ((shipSelected != null) && (shipSelected.getValue() instanceof Ship)) {
-			final Ship ship = (Ship) (shipSelected.getValue());
-			if (ship.getId() != -1) {
-				new_item.setNameShip(ship.getName());
-				new_item.setId_ship(ship.getId());
-			}
+		// set ship selected in new item
+		if (this.shipSelected != null && this.shipSelected.getId() != -1) {
+			new_item.setNameShip(this.shipSelected.getName());
+			new_item.setId_ship(this.shipSelected.getId());
 		}
 
 		final String craneName = this.crane.getValue();
@@ -1173,7 +1175,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.listbox_review.setModel(model);
 
 		this.setLabelTotalHoursReview(model);
-		this.ship.setSelectedIndex(0);
+		this.ship.setSelectedItem(null);
+		this.shipInDay.setSelectedItem(null);
+		this.shipSelected = null;
 		this.crane.setValue("");
 
 	}
@@ -3012,8 +3016,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		this.ship.setSelectedIndex(0);
+		// set null combobox all ship and ship in day
+		this.ship.setSelectedItem(null);
+		this.shipInDay.setSelectedItem(null);
+		// set null selected ship
+		this.shipSelected = null;
+		// set null crane value
 		this.crane.setValue("");
+
+		// load ship in program for selected day and set model in combobox
+		final List<Ship> listShipInDay = this.scheduleShipDAO.loadShipInDate(new Timestamp(date_to_configure.getTime()));
+		this.shipInDay.setModel(new ListModelList<Ship>());
+
+		if (listShipInDay != null) {
+			// add empty ship
+			final Ship ship = new Ship();
+			ship.setId(-1);
+			ship.setName("--");
+			listShipInDay.add(0, ship);
+			// set model in shipInDay combobox
+			this.shipInDay.setModel(new ListModelList<Ship>(listShipInDay));
+		}
 
 		this.shift_definition_popup_review.open(this.review_div, "after_pointer");
 
@@ -4733,6 +4756,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 		}
+	}
+
+	@Listen("onChange = #ship")
+	public void setShipComboBox() {
+		final Ship ship = this.ship.getSelectedItem().getValue();
+		if (ship != null) {
+			if (ship.getId() != -1) {
+				this.shipInDay.setSelectedItem(null);
+			}
+		}
+		// update ship selected
+		this.shipSelected = ship;
+	}
+
+	@Listen("onChange = #shipInDay")
+	public void setShipInDayComboBox() {
+		final Ship ship = this.shipInDay.getSelectedItem().getValue();
+		if (ship != null) {
+			if (ship.getId() != -1) {
+				this.ship.setSelectedItem(null);
+			}
+		}
+		// update ship selected
+		this.shipSelected = ship;
 	}
 
 	@Listen("onClick = #go_today_preprocessing")
