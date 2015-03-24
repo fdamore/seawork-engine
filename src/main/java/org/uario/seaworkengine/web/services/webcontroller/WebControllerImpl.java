@@ -63,7 +63,12 @@ public class WebControllerImpl implements IWebServiceController {
 			final Integer no_shift = item.getNumber();
 
 			for (final Worker worker : item.getWorkers()) {
+
 				if (worker.getUtente() == null) {
+					continue;
+				}
+
+				if (worker.getUtente().intValue() != 19) {
 					continue;
 				}
 
@@ -84,6 +89,10 @@ public class WebControllerImpl implements IWebServiceController {
 					final_detail.setId_schedule(schedule.getId());
 					final_detail.setShift(no_shift);
 					final_detail.setTask(task_item.getID());
+
+					// set ship and crane
+					final_detail.setId_ship(task_item.getShip_id());
+					final_detail.setCrane(task_item.getCrane());
 
 					// define time
 					try {
@@ -232,7 +241,13 @@ public class WebControllerImpl implements IWebServiceController {
 	@Transactional
 	public boolean synchronizeWork(final Date date_request, final List<WorkerShift> list_synch) {
 
-		return true;
+		if (date_request == null) {
+			return false;
+		}
+
+		final Date dt = DateUtils.truncate(date_request, Calendar.DATE);
+
+		return this.finalSyncProcess(dt, list_synch);
 
 	}
 }

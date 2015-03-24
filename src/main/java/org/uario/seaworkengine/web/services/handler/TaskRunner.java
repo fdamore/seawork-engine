@@ -14,11 +14,24 @@ public class TaskRunner implements Serializable {
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
+
+	private String				crane;
+
 	private String				descrizione;
+
 	private String				entrata;
+
 	private Integer				ID;
+
 	private WorkerShift			shift;
+
+	private Integer				ship_id;
+
 	private String				uscita;
+
+	public String getCrane() {
+		return this.crane;
+	}
 
 	public String getDescrizione() {
 		return this.descrizione;
@@ -36,8 +49,16 @@ public class TaskRunner implements Serializable {
 		return this.shift;
 	}
 
+	public Integer getShip_id() {
+		return this.ship_id;
+	}
+
 	public String getUscita() {
 		return this.uscita;
+	}
+
+	public void setCrane(final String crane) {
+		this.crane = crane;
 	}
 
 	public void setDescrizione(final String descrizione) {
@@ -54,6 +75,10 @@ public class TaskRunner implements Serializable {
 
 	public void setShift(final WorkerShift shift) {
 		this.shift = shift;
+	}
+
+	public void setShip_id(final Integer ship_id) {
+		this.ship_id = ship_id;
 	}
 
 	public void setUscita(final String uscita) {
