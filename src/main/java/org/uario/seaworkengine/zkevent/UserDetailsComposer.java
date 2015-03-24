@@ -1096,10 +1096,24 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
 	}
 
+	private void selectOutScheduleEmployee() {
+		final List<Person> list_person = this.personDao.listOutScheduleEmployee();
+
+		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+
+	}
+
 	private void selectPartTimeEmployee() {
 		final List<Person> list_person = this.personDao.listAllPartTime();
 
 		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+	}
+
+	private void selectProgrammerEmployee() {
+		final List<Person> list_person = this.personDao.listProgrammerEmployee();
+
+		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+
 	}
 
 	@Listen("onChange=#select_specific_user")
@@ -1113,9 +1127,22 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.selectDailyEmployee();
 		} else if (selected.equals("partTimeEmployee")) {
 			this.selectPartTimeEmployee();
+		} else if (selected.equals("outSchedule")) {
+			this.selectOutScheduleEmployee();
+		} else if (selected.equals("programmer")) {
+			this.selectProgrammerEmployee();
+		} else if (selected.equals("viewer")) {
+			this.selectViewerEmployee();
 		} else {
 			this.refreshListUser();
 		}
+	}
+
+	private void selectViewerEmployee() {
+		final List<Person> list_person = this.personDao.listViewerEmployee();
+
+		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+
 	}
 
 	/**

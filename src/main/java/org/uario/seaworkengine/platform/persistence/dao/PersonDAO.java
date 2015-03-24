@@ -60,6 +60,8 @@ public interface PersonDAO extends UserDetailsService {
 
 	public List<Person> listOperativePerson();
 
+	public List<Person> listOutScheduleEmployee();
+
 	/**
 	 * List all person in the persistence engine
 	 *
@@ -68,6 +70,10 @@ public interface PersonDAO extends UserDetailsService {
 	 */
 
 	public List<Person> listPersonInSchedule();
+
+	public List<Person> listProgrammerEmployee();
+
+	public List<Person> listViewerEmployee();
 
 	/**
 	 * List all worker persons

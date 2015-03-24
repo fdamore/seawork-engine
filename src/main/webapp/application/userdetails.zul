@@ -585,6 +585,9 @@
 				value="dailyemployee" />
 			<comboitem label="Part Time"
 				value="partTimeEmployee" />
+			<comboitem label="Non in schedula" value="outSchedule"/>
+			<comboitem label="Programmatore" value="programmer"/>
+			<comboitem label="Visore" value="viewer"/>
 		</combobox>
 
 		<separator></separator>
