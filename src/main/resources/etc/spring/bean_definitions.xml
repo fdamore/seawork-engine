@@ -170,6 +170,7 @@
 	<bean id="myScheduleDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisScheduleDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="shift_cache" ref="myShiftCache"></property>
 
 	</bean>
 

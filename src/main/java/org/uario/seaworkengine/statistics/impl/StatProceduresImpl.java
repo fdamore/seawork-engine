@@ -88,10 +88,20 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar.setTime(date_calendar_schedule);
 		calendar.add(Calendar.DAY_OF_YEAR, 1);
 
-		// get a shift - 12 after last shift
-		final Integer first_shift = this.myScheduleDAO.getFirstShift(calendar.getTime(), user);
 		int max_shift = 4;
+
+		// get a shift - 12 after last shift
+		Integer first_shift = this.myScheduleDAO.getFirstShift(calendar.getTime(), user);
+
 		if (first_shift != null) {
+
+			// define recall. If -9999 a break is found
+			if (first_shift == -9999) {
+
+				first_shift = this.getMaximumShift(calendar.getTime(), user);
+				return first_shift;
+			}
+
 			if (first_shift == 2) {
 				max_shift = 3;
 			}
@@ -117,19 +127,33 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar.setTime(date_calendar_schedule);
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
 
-		// get a shift - 12 after last shift
-		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
 		int min_shift = 1;
+
+		// get a shift - 12 after last shift
+		Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
+
 		if (last_shift != null) {
+
+			// define recall. If -9999 a break is found
+			if (last_shift == -9999) {
+
+				last_shift = this.getMinimumShift(calendar.getTime(), user);
+				return last_shift;
+			}
+
 			if (last_shift == 3) {
 				min_shift = 2;
 			}
+
 			if (last_shift == 4) {
 				min_shift = 3;
 			}
-		}
 
-		return min_shift;
+			return min_shift;
+
+		} else {
+			return min_shift;
+		}
 
 	}
 

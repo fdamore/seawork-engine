@@ -3832,6 +3832,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						}
 					}
 				}
+				
+				
 
 				if (check_12_different_day) {
 

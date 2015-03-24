@@ -12,10 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 
 public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedule {
-	private static Logger	logger	= Logger.getLogger(MyBatisScheduleDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisScheduleDAO.class);
+
+	private IShiftCache shift_cache;
 
 	@Override
 	public void createDetailFinalSchedule(final DetailFinalSchedule detail_schedule) {
@@ -43,6 +47,16 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		map.put("date_schedule", dt_arg);
 		map.put("id_user", user);
 
+		final Schedule schedule = this.loadSchedule(dt_arg, user);
+		if (schedule != null) {
+
+			final Integer shift_id = schedule.getShift();
+			final UserShift shift = this.shift_cache.getUserShift(shift_id);
+			if ((shift != null) && shift.isDefaultBreak()) {
+				return -9999;
+			}
+		}
+
 		final Integer ret_int = this.getSqlSession().selectOne("schedule.getFirstShiftRevision", map);
 		if (ret_int != null) {
 			return ret_int;
@@ -62,6 +76,16 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		map.put("date_schedule", dt_arg);
 		map.put("id_user", user);
 
+		final Schedule schedule = this.loadSchedule(dt_arg, user);
+		if (schedule != null) {
+
+			final Integer shift_id = schedule.getShift();
+			final UserShift shift = this.shift_cache.getUserShift(shift_id);
+			if ((shift != null) && shift.isDefaultBreak()) {
+				return -9999;
+			}
+		}
+
 		final Integer ret_int = this.getSqlSession().selectOne("schedule.getLastShiftRevision", map);
 		if (ret_int != null) {
 			return ret_int;
@@ -69,6 +93,10 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			return this.getSqlSession().selectOne("schedule.getLastShiftProgram", map);
 		}
 
+	}
+
+	public IShiftCache getShift_cache() {
+		return this.shift_cache;
 	}
 
 	@Override
@@ -104,7 +132,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(final Integer id_schedule, final Integer shift) {
+	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(final Integer id_schedule,
+			final Integer shift) {
 		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdScheduleAndShift");
 
 		final HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -215,17 +244,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public void removeScheduleUserFired(final Integer idUser, final Date firedDate) {
-		MyBatisScheduleDAO.logger.info("remove schedule user fired");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("idUser", idUser);
-		map.put("firedDate", firedDate);
-
-		this.getSqlSession().delete("schedule.removeScheduleUserFired", map);
-	}
-
-	@Override
 	public void removeScheduleUser(final Integer idUser, final Date initialDate, final Date finalDate) {
 		MyBatisScheduleDAO.logger.info("remove schedule user suspended");
 
@@ -239,7 +257,19 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public void saveListDetailFinalScheduler(final Integer id_schedule, final Integer shift, final List<DetailFinalSchedule> details) {
+	public void removeScheduleUserFired(final Integer idUser, final Date firedDate) {
+		MyBatisScheduleDAO.logger.info("remove schedule user fired");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("idUser", idUser);
+		map.put("firedDate", firedDate);
+
+		this.getSqlSession().delete("schedule.removeScheduleUserFired", map);
+	}
+
+	@Override
+	public void saveListDetailFinalScheduler(final Integer id_schedule, final Integer shift,
+			final List<DetailFinalSchedule> details) {
 		MyBatisScheduleDAO.logger.info("saveListDetailFinalScheduler");
 
 		// delete all detail
@@ -254,7 +284,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 	@Override
 	@Transactional
-	public void saveListDetailInitialScheduler(final Integer id_schedule, final Integer shift, final List<DetailInitialSchedule> details) {
+	public void saveListDetailInitialScheduler(final Integer id_schedule, final Integer shift,
+			final List<DetailInitialSchedule> details) {
 		MyBatisScheduleDAO.logger.info("saveListDetailInitialScheduler");
 
 		// delete all detail
@@ -281,7 +312,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<Schedule> selectAggregateSchedulersProgram(final Date initial_date, final Date final_date, final String full_text_search) {
+	public List<Schedule> selectAggregateSchedulersProgram(final Date initial_date, final Date final_date,
+			final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -306,7 +338,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<Schedule> selectAggregateSchedulersRevision(final Date initial_date, final Date final_date, final String full_text_search) {
+	public List<Schedule> selectAggregateSchedulersRevision(final Date initial_date, final Date final_date,
+			final String full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulers..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -344,7 +377,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<Schedule> selectSchedulersForPreprocessing(final Date initial_date, final Date final_date, final String my_full_text_search) {
+	public List<Schedule> selectSchedulersForPreprocessing(final Date initial_date, final Date final_date,
+			final String my_full_text_search) {
 		MyBatisScheduleDAO.logger.info("selectSchedulersForPreprocessing..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -357,7 +391,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<Schedule> selectSchedulersForPreprocessingOnUserId(final Date initial_date, final Date final_date, final Integer userid) {
+	public List<Schedule> selectSchedulersForPreprocessingOnUserId(final Date initial_date, final Date final_date,
+			final Integer userid) {
 		MyBatisScheduleDAO.logger.info("selectSchedulersForPreprocessing..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -367,6 +402,10 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 		final List<Schedule> list = this.getSqlSession().selectList("schedule.selectSchedulersForPreprocessingOnUserId", map);
 		return list;
+	}
+
+	public void setShift_cache(final IShiftCache shift_cache) {
+		this.shift_cache = shift_cache;
 	}
 
 	@Override

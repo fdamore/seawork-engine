@@ -10,29 +10,31 @@ public class UserShift implements Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Boolean				accident_shift;
+	private Boolean accident_shift = Boolean.FALSE;
 
-	private Boolean				break_shift;
+	private Boolean break_shift = Boolean.FALSE;
 
-	private String				code;
+	private String code;
 
-	private Boolean				daily_shift;
-	private String				description;
-	private Boolean				disease_shift;
+	private Boolean daily_shift;
 
-	private Boolean				forceable;
+	private String description;
 
-	private Integer				id;
+	private Boolean disease_shift = Boolean.FALSE;
 
-	private Boolean				presence;
+	private Boolean forceable;
 
-	private Boolean				recorded;
+	private Integer id;
 
-	private Boolean				standard_shift;
+	private Boolean presence;
 
-	private Boolean				waitbreak_shift;
+	private Boolean recorded;
+
+	private Boolean standard_shift;
+
+	private Boolean waitbreak_shift = Boolean.FALSE;
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -98,7 +100,15 @@ public class UserShift implements Serializable {
 	}
 
 	public Boolean isDefault() {
-		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift || this.standard_shift || this.daily_shift) {
+		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift || this.standard_shift
+				|| this.daily_shift) {
+			return true;
+		}
+		return false;
+	}
+
+	public Boolean isDefaultBreak() {
+		if (this.waitbreak_shift || this.disease_shift || this.break_shift || this.accident_shift) {
 			return true;
 		}
 		return false;
