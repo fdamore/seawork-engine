@@ -7,8 +7,19 @@ import java.util.List;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.statistics.ShipTotal;
 
 public interface IScheduleShip {
+
+	public ShipTotal calculateHandsWorkInDate(Timestamp dateFrom, Timestamp dateTo);
+
+	public Integer calculateNumberOfShipByShiftDateAndShipName(Date shiftdate, String full_text_search);
+
+	public Integer calculateNumberOfShipInDate(Timestamp dateFrom, Timestamp dateTo);
+
+	public Integer calculateVolumeByShiftDateAndShipName(Date shiftdate, String full_text_search);
+
+	public Integer calculateVolumeInDate(Timestamp dateFrom, Timestamp dateTo);
 
 	public void createDetailScheduleShip(DetailScheduleShip detailscheduleShip);
 

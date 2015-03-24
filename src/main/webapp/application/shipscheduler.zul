@@ -371,7 +371,8 @@
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<datebox id="searchArrivalDateShipFrom" placeholder="Dalla data..." />
 			<datebox id="searchArrivalDateShipTo" placeholder="Alla data..." />
-			<button label="Visualizza Programmazione" sclass="btn-success" id="sw_searchScheduleShipProgram"/>	
+			<label value="" id="infoShipProgram"/>
+			 	
 		</hbox>
 		<separator/>
 		<button label="Aggiungi Programmazione" sclass="btn-info" id="sw_addScheduleShipProgram"/>	
@@ -447,6 +448,7 @@
 			<intbox id="shows_rows" constraint="no negative, no zero"
 				value="10"/>
 			<textbox placeholder="Cerca..." id="full_text_search"/>
+			<label value="" id="infoDetailShipProgram"/>
 		<separator/>
 		
 		<!-- 

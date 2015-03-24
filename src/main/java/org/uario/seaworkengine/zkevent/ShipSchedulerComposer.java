@@ -17,6 +17,7 @@ import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
+import org.uario.seaworkengine.statistics.ShipTotal;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
@@ -31,6 +32,7 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Intbox;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -80,8 +82,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Intbox						handswork_Daily;
+
+	@Wire
+	private Label						infoDetailShipProgram;
+
+	@Wire
+	private Label						infoShipProgram;
+
 	private List<DetailScheduleShip>	listDetailScheduleShip		= new ArrayList<DetailScheduleShip>();
+
 	private final Logger				logger						= Logger.getLogger(UserDetailsComposer.class);
+
 	@Wire
 	private Intbox						menwork;
 	@Wire
@@ -1032,13 +1043,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			if (listDetailScheduleShipNullTimeShift.size() != 0) {
 				this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(listDetailScheduleShipNullTimeShift));
+				this.infoDetailShipProgram.setValue("");
 			}
 
 		}
 
 	}
 
-	@Listen("onClick = #sw_searchScheduleShipProgram")
+	@Listen("onChange = #searchArrivalDateShipFrom, #searchArrivalDateShipTo")
 	public void searchScheduleShipByDate() {
 		List<ScheduleShip> list_scheduleShip = null;
 
@@ -1057,12 +1069,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
+
+			this.infoShipProgram.setValue("");
+
 		} else if ((dateFrom != null && dateTo != null) && (dateTo.compareTo(dateFrom) >= 0)) {
 			final Timestamp dateFromTS = new Timestamp(dateFrom.getTime());
 
 			final Timestamp dateToTS = new Timestamp(dateTo.getTime());
 
 			list_scheduleShip = this.shipSchedulerDao.loadScheduleShipInDate(dateFromTS, dateToTS);
+
+			// set label info program ship
+			this.setInfoShipProgram(dateFromTS, dateToTS);
 
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rows.getValue());
@@ -1071,15 +1089,73 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
-		} else {
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
-
-			Messagebox.show("Verificare i valori inseriti.", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		}
+	}
+
+	private void setInfoDetailShipProgram(final Date date, final String full_text_search, final List<DetailScheduleShip> list_DetailScheduleShip) {
+		this.infoDetailShipProgram.setValue("");
+
+		Integer volume = this.shipSchedulerDao.calculateVolumeByShiftDateAndShipName(date, full_text_search);
+
+		if (volume == null) {
+			volume = 0;
+		}
+
+		Integer numberOfShip = this.shipSchedulerDao.calculateNumberOfShipByShiftDateAndShipName(date, full_text_search);
+
+		if (numberOfShip == null) {
+			numberOfShip = 0;
+		}
+
+		Integer totalMenWork = 0;
+		Integer totalHandsWork = 0;
+
+		for (final DetailScheduleShip detailScheduleShip : list_DetailScheduleShip) {
+			totalMenWork += detailScheduleShip.getMenwork();
+			totalHandsWork += detailScheduleShip.getHandswork();
+		}
+
+		this.infoDetailShipProgram.setValue("Numero di Navi: " + numberOfShip + " - Totale volumi: " + volume + " - Totale Mani: " + totalHandsWork
+				+ " - Totale Persone: " + totalMenWork);
+
+	}
+
+	private void setInfoShipProgram(final Timestamp dateFrom, final Timestamp dateTo) {
+		this.infoShipProgram.setValue("");
+
+		Integer volume = this.shipSchedulerDao.calculateVolumeInDate(dateFrom, dateTo);
+
+		if (volume == null) {
+			volume = 0;
+		}
+
+		Integer numberOfShip = this.shipSchedulerDao.calculateNumberOfShipInDate(dateFrom, dateTo);
+
+		if (numberOfShip == null) {
+			numberOfShip = 0;
+		}
+
+		final ShipTotal handMenWorkTotal = this.shipSchedulerDao.calculateHandsWorkInDate(dateFrom, dateTo);
+
+		Integer totalHands = 0;
+		Integer totalMen = 0;
+
+		if (handMenWorkTotal != null) {
+			if (handMenWorkTotal.getTotalmen() != null) {
+				totalMen = handMenWorkTotal.getTotalmen();
+			} else {
+				totalMen = 0;
+			}
+			if (handMenWorkTotal.getTotalhands() != null) {
+				totalHands = handMenWorkTotal.getTotalhands();
+			} else {
+				totalHands = 0;
+			}
+		}
+
+		this.infoShipProgram.setValue("Numero di Navi: " + numberOfShip + " - Totale volumi: " + volume + " - Totale Mani: " + totalHands
+				+ " - Totale Persone: " + totalMen);
 
 	}
 
@@ -1121,8 +1197,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
 
 			list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(date, this.full_text_search.getValue());
+			this.setInfoDetailShipProgram(date, this.full_text_search.getValue(), list_DetailScheduleShip);
 		} else {
 			list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(date, null);
+			this.setInfoDetailShipProgram(date, this.full_text_search.getValue(), list_DetailScheduleShip);
 
 		}
 
