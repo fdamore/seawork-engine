@@ -1179,7 +1179,7 @@
 			<separator></separator>
 
 			<button id="download_program_report"
-				label="Scarica Report per Preposti" sclass="btn-info" />
+				label="Scarica Report per Preposti" sclass="btn-info" visible="false"/>
 
 
 

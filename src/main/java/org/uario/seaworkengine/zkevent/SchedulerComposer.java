@@ -1680,6 +1680,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #date_to_overview, #date_from_overview;onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search; onSelect = #overview_tab")
 	public void defineSchedulerView() {
 
+		this.setVisibilityDownloadReportButton();
+
 		if (this.scheduler_type_selector.getSelectedItem() == null) {
 			this.grid_scheduler.setVisible(false);
 			this.grid_scheduler_review.setVisible(false);
@@ -1898,6 +1900,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.assign_program_review.setDisabled(isDisabled);
 		this.repogram_users.setDisabled(isDisabled);
 
+		this.setVisibilityDownloadReportButton();
 	}
 
 	@Override
@@ -1934,6 +1937,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<UserTask> taskModelList = new ListModelList<UserTask>(taskList);
 
 		this.taskComboBox.setModel(taskModelList);
+
+		// set visibility of download_program_report button
+		final Person personLogged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (personLogged.isAdministrator()) {
+			this.download_program_report.setVisible(true);
+		} else {
+			this.setVisibilityDownloadReportButton();
+		}
 
 		if (shipList != null) {
 			// add empty ship
@@ -3832,8 +3843,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						}
 					}
 				}
-				
-				
 
 				if (check_12_different_day) {
 
@@ -5677,6 +5686,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(list_row);
 		model.setMultiple(true);
 		this.grid_scheduler_review.setModel(model);
+
+	}
+
+	// set visibility of download_program_report button
+	private void setVisibilityDownloadReportButton() {
+		final Person personLogged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (!personLogged.isAdministrator()) {
+			final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
+			if (version_selected == SchedulerComposer.this.program_item) {
+				if (this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE) == null) {
+					this.download_program_report.setVisible(true);
+				} else {
+					this.download_program_report.setVisible(false);
+				}
+			}
+		}
 
 	}
 
