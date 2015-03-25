@@ -449,7 +449,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -458,7 +458,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -496,7 +496,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -601,21 +601,37 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			if (shift.getDaily_shift().booleanValue()) {
 
+				final Calendar cal_shift_2_daily_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_2_daily_time_from.set(Calendar.HOUR_OF_DAY, 8);
+				cal_shift_2_daily_time_from.set(Calendar.MINUTE, 30);
+
+				final Calendar cal_shift_2_daily_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_2_daily_time_to.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_2_daily_time_to.set(Calendar.MINUTE, 0);
+
+				final Calendar cal_shift_3_daily_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_3_daily_time_from.set(Calendar.HOUR_OF_DAY, 14);
+				cal_shift_3_daily_time_from.set(Calendar.MINUTE, 30);
+
+				final Calendar cal_shift_3_daily_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_3_daily_time_to.set(Calendar.HOUR_OF_DAY, 18);
+				cal_shift_3_daily_time_to.set(Calendar.MINUTE, 0);
+
 				final DetailInitialSchedule item1 = new DetailInitialSchedule();
 				item1.setId_schedule(schedule.getId());
 				item1.setShift(2);
 				item1.setTask(task_default.getId());
 				item1.setTime(4.0);
-				item1.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
-				item1.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
+				item1.setTime_from(new Timestamp(cal_shift_2_daily_time_from.getTimeInMillis()));
+				item1.setTime_to(new Timestamp(cal_shift_2_daily_time_to.getTimeInMillis()));
 
 				final DetailInitialSchedule item2 = new DetailInitialSchedule();
 				item2.setId_schedule(schedule.getId());
 				item2.setShift(3);
 				item2.setTask(task_default.getId());
 				item2.setTime(4.0);
-				item2.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
-				item2.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
+				item2.setTime_from(new Timestamp(cal_shift_3_daily_time_from.getTimeInMillis()));
+				item2.setTime_to(new Timestamp(cal_shift_3_daily_time_to.getTimeInMillis()));
 
 				// create detail
 				this.myScheduleDAO.createDetailInitialSchedule(item1);
