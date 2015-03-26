@@ -164,7 +164,7 @@
 
 									<row>
 										<label
-											value="Ruolo Programmatore">
+											value="Ruolo Programmatore (UFFICIO)">
 										</label>
 										<checkbox id="backoffice_user" />
 									</row>
@@ -343,7 +343,7 @@
 
 
 									<row>
-										<label value="Numero Budje:"></label>
+										<label value="Numero Budge:"></label>
 										<textbox id="nbudje_user" />
 									</row>
 
