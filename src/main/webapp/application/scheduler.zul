@@ -47,7 +47,8 @@
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		</div>
 
-		<hbox align="center" id="header_info">
+		<hbox align="center" id="header_info"
+			visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 
 			<div align="left">
 				<label id="loggerUserOnTable" style="font-style: italic"
@@ -111,9 +112,10 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
-					<div align="right">
-					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_popup.close();" />
-					</div>
+						<div align="right">
+							<toolbarbutton label="X"
+								style="font-weight: bold;" onClick="shift_popup.close();" />
+						</div>
 						<grid width="230px">
 							<columns>
 								<column width="80px"></column>
@@ -144,9 +146,10 @@
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
 					<vbox align="center">
-					<div align="right">
-					<toolbarbutton label="X" style="font-weight: bold;" onClick="task_popup.close();" />
-					</div>
+						<div align="right">
+							<toolbarbutton label="X"
+								style="font-weight: bold;" onClick="task_popup.close();" />
+						</div>
 						<grid width="230px">
 							<columns>
 								<column width="80px"></column>
@@ -177,13 +180,14 @@
 			<panel border="none" collapsible="false"
 				style="margin: 5px 5px 5px 5px">
 				<panelchildren>
-				<div align="right">				
-					<toolbarbutton label="X" style="font-weight: bold;" onClick="day_name_popup.close();" />
-				</div>	
-					<vbox >
-						
+					<div align="right">
+						<toolbarbutton label="X"
+							style="font-weight: bold;" onClick="day_name_popup.close();" />
+					</div>
+					<vbox>
+
 						<a label=" " id="label_statistic_popup"
-							 iconSclass="z-icon-check" />
+							iconSclass="z-icon-check" />
 
 						<label id="userRoles" />
 						<separator />
@@ -276,6 +280,7 @@
 			<panel border="normal" collapsible="false" visible="false"
 				id="panel_shift_period" style="margin: 5px 5px 5px 5px">
 				<caption>
+
 					<hbox align="center">
 						<label value="Imposta Turni Speciale"></label>
 						<a label="Chiudi" style="color:blue"
@@ -283,6 +288,7 @@
 							onClick="panel_shift_period.setVisible(false)">
 						</a>
 					</hbox>
+
 				</caption>
 
 
@@ -352,6 +358,7 @@
 					sclass="btn-info" />
 
 				<a label="Imposta Turni Speciale"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					id="set_panel_shift_period">
 				</a>
 
@@ -365,9 +372,11 @@
 				<panel border="none" collapsible="false"
 					style="margin: 5px 5px 5px 5px">
 					<panelchildren>
-					<div align="right">				
-						<toolbarbutton label="X" style="font-weight: bold;" onClick="day_definition_popup.close();" />
-					</div>				
+						<div align="right">
+							<toolbarbutton label="X"
+								style="font-weight: bold;"
+								onClick="day_definition_popup.close();" />
+						</div>
 						<vbox align="start">
 
 							<a label="Configurazione gionaliera: "
@@ -378,33 +387,41 @@
 							<a id="editor_label_daydefinition" />
 							<a id="controller_label_daydefinition" />
 
-							<separator></separator>
-							<combobox id="shifts_combo_select"
-								autodrop="false" width="300px" autocomplete="true"
-								placeholder="Seleziona un turno..." readonly="false">
-							</combobox>
 
-							<hbox align="center">
-								<a label="Turno di Lavoro"
-									style="color:green" id="preprocessing_select_tl">
-								</a>
+							<div
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+								<separator></separator>
 
-								<a label="Turno di Riposo"
-									style="color:green" id="preprocessing_select_rp">
-								</a>
+								<combobox id="shifts_combo_select"
+									autodrop="false" width="300px" autocomplete="true"
+									placeholder="Seleziona un turno..." readonly="false">
+								</combobox>
 
-								<a label="Giornaliero"
-									style="color:green" id="preprocessing_select_dl">
-								</a>
-							</hbox>
+								<hbox align="center">
+									<a label="Turno di Lavoro"
+										style="color:green" id="preprocessing_select_tl">
+									</a>
 
-							<separator></separator>
-							<hbox>
-								<datebox placeholder="Fino a..."
-									id="day_after_config">
-								</datebox>
+									<a label="Turno di Riposo"
+										style="color:green" id="preprocessing_select_rp">
+									</a>
 
-							</hbox>
+									<a label="Giornaliero"
+										style="color:green" id="preprocessing_select_dl">
+									</a>
+								</hbox>
+
+								<separator></separator>
+
+							</div>
+
+
+							<datebox placeholder="Fino a..."
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
+								id="day_after_config">
+							</datebox>
+
+
 							<separator></separator>
 						</vbox>
 					</panelchildren>
@@ -424,6 +441,7 @@
 				</panel>
 
 				<panel border="none" collapsible="false"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					style="margin: 5px 5px 5px 5px" sclass="transparent">
 					<panelchildren>
 						<separator></separator>
@@ -996,10 +1014,12 @@
 		<div id="program_div" visible="false">
 			<popup id="shift_definition_popup" width="650px">
 				<div align="right">
-					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_definition_popup.close();" />
+					<toolbarbutton label="X" style="font-weight: bold;"
+						onClick="shift_definition_popup.close();" />
 				</div>
 				<vlayout style="margin: 5px 5px 5px 5px">
-					<hbox>
+					<hbox
+						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 						<button id="ok_program"
 							label="Salva Programmazione" sclass="btn-info">
 						</button>
@@ -1008,27 +1028,32 @@
 							label="Cancella Programmazione" sclass="btn-danger">
 						</button>
 
-						
-						
 					</hbox>
 
-					<div id="div_force_shift">
-						<separator></separator>
-						<combobox id="force_shift_combo"
-							placeholder="Seleziona un turno...">
-						</combobox>
+					<div
+						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 
-						<hbox align="center">
-							<a label="Turno di Lavoro"
-								style="color:green" id="programpopup_select_tl">
-							</a>
-							<a label="Riposo Programmato"
-								style="color:green" id="programpopup_select_rp">
-							</a>
-							<a label="Giornaliero" style="color:green"
-								id="programpopup_select_dl">
-							</a>
-						</hbox>
+						<div id="div_force_shift">
+
+							<separator></separator>
+
+							<combobox id="force_shift_combo"
+								placeholder="Seleziona un turno...">
+							</combobox>
+
+							<hbox align="center">
+								<a label="Turno di Lavoro"
+									style="color:green" id="programpopup_select_tl">
+								</a>
+								<a label="Riposo Programmato"
+									style="color:green" id="programpopup_select_rp">
+								</a>
+								<a label="Giornaliero"
+									style="color:green" id="programpopup_select_dl">
+								</a>
+							</hbox>
+
+						</div>
 
 					</div>
 
@@ -1066,47 +1091,67 @@
 									sclass="domain" checkmark="true" multiple="true">
 									<auxhead>
 										<auxheader colspan="4">
-											<label
-												value="Definizione della mansione: ">
-											</label>
 
-											<combobox readonly="true"
-												placeholder="Mansioni" id="program_task">
-											</combobox>
+											<hbox
+												visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 
-										</auxheader>
-									</auxhead>
-									<auxhead>
-										<auxheader colspan="4">
+												<label
+													value="Definizione della mansione: ">
+												</label>
 
-											<label
-												value="Orario di lavoro: ">
-											</label>
+												<combobox
+													readonly="true" placeholder="Mansioni" id="program_task">
+												</combobox>
 
-											<timebox cols="10"
-												placeholder="Ora inizio" id="time_from_program">
-											</timebox>
-
-											<timebox
-												placeholder="Ora fine" cols="10" id="time_to_program">
-											</timebox>
-
+											</hbox>
 
 										</auxheader>
 									</auxhead>
 									<auxhead>
 										<auxheader colspan="4">
 
-											<button label="Aggiungi"
-												id="add_program_item" sclass="btn-info">
-											</button>
+											<hbox
+												visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+												<label
+													value="Orario di lavoro: ">
+												</label>
 
-											<button label="Cancella"
-												id="remove_program_item" sclass="btn-info">
-											</button>
+												<timebox cols="10"
+													placeholder="Ora inizio" id="time_from_program">
+												</timebox>
 
-											<label
-												id="totalHours_Program" value="Totale Ore Programmate: " />
+												<timebox
+													placeholder="Ora fine" cols="10" id="time_to_program">
+												</timebox>
+
+											</hbox>
+
+
+										</auxheader>
+									</auxhead>
+									<auxhead>
+										<auxheader colspan="4">
+
+											<hbox align="center">
+
+												<div
+													visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+													<button
+														label="Aggiungi" id="add_program_item"
+														sclass="btn-info">
+													</button>
+
+													<button
+														label="Cancella" id="remove_program_item"
+														sclass="btn-info">
+													</button>
+
+												</div>
+
+												<label
+													id="totalHours_Program" value="Totale Ore Programmate: " />
+
+											</hbox>
 
 
 
@@ -1178,8 +1223,14 @@
 
 			<separator></separator>
 
-			<button id="download_program_report"
-				label="Scarica Report per Preposti" sclass="btn-info" visible="false"/>
+			<div
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+
+				<button id="download_program_report"
+					label="Scarica Report per Preposti" sclass="btn-info"
+					visible="false" />
+
+			</div>
 
 
 
@@ -1215,6 +1266,7 @@
 
 			<separator></separator>
 			<button id="repogram_users"
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 				label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
 
 
@@ -1736,10 +1788,13 @@
 			<!-- POPUP -->
 			<popup id="shift_definition_popup_review" width="1000px">
 				<vlayout style="margin: 5px 5px 5px 5px">
-				<div align="right">
-					<toolbarbutton label="X" style="font-weight: bold;" onClick="shift_definition_popup_review.close();" />
-				</div>
-					<hbox align="center">
+					<div align="right">
+						<toolbarbutton label="X"
+							style="font-weight: bold;"
+							onClick="shift_definition_popup_review.close();" />
+					</div>
+					<hbox align="center"
+						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 
 						<button id="ok_review" label="Salva Consuntivo"
 							sclass="btn-info">
@@ -1778,21 +1833,28 @@
 								checkmark="true" multiple="true">
 								<auxhead>
 									<auxheader colspan="6">
-										<label
-											value="Definizione della mansione">
-										</label>
 
-										<combobox readonly="true"
-											placeholder="Mansioni" id="review_task">
-										</combobox>
+										<hbox align="center"
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 
-										<timebox cols="10"
-											format="short" placeholder="Ora inizio" id="time_from">
-										</timebox>
+											<label
+												value="Definizione della mansione">
+											</label>
 
-										<timebox placeholder="Ora fine"
-											format="short" cols="10" id="time_to">
-										</timebox>
+											<combobox readonly="true"
+												placeholder="Mansioni" id="review_task">
+											</combobox>
+
+											<timebox cols="10"
+												format="short" placeholder="Ora inizio" id="time_from">
+											</timebox>
+
+											<timebox
+												placeholder="Ora fine" format="short" cols="10"
+												id="time_to">
+											</timebox>
+
+										</hbox>
 
 									</auxheader>
 								</auxhead>
@@ -1800,32 +1862,45 @@
 
 								<auxhead>
 									<auxheader colspan="6">
-										<button label="Aggiungi"
-											id="add_review_item" sclass="btn-info">
-										</button>
-										<button label="Cancella"
-											id="remove_review_item" sclass="btn-info">
-										</button>
-										<label id="totalHours_Review"
-											value="Totale Ore Consuntivate: " />
+
+										<hbox align="center"
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+											<button label="Aggiungi"
+												id="add_review_item" sclass="btn-info">
+											</button>
+											<button label="Cancella"
+												id="remove_review_item" sclass="btn-info">
+											</button>
+											<label
+												id="totalHours_Review" value="Totale Ore Consuntivate: " />
+										</hbox>
+
 									</auxheader>
 								</auxhead>
 								<auxhead>
 									<auxheader colspan="6">
-									
-										<combobox id="ship" 
-											autodrop="true" placeholder="Seleziona da tutte le navi...">
-											<comboitem
-												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
-										</combobox>
-									
-										<combobox id="shipInDay" width="200px"
-											autodrop="true" placeholder="Seleziona da navi in giornata...">
-											<comboitem
-												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
-										</combobox>
-										<textbox id="crane"
-											placeholder="Inserisci crane..." />
+
+										<hbox align="center"
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+											<combobox id="ship"
+												autodrop="true"
+												placeholder="Seleziona da tutte le navi...">
+												<comboitem
+													self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
+											</combobox>
+
+											<combobox id="shipInDay"
+												width="200px" autodrop="true"
+												placeholder="Seleziona da navi in giornata...">
+												<comboitem
+													self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
+											</combobox>
+											<textbox id="crane"
+												placeholder="Inserisci crane..." />
+
+										</hbox>
+
+
 									</auxheader>
 								</auxhead>
 
@@ -1929,6 +2004,7 @@
 				</datebox>
 
 				<button id="assign_program_review"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					label="Assegna programmato" sclass="btn-danger" />
 
 
@@ -2306,9 +2382,9 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
-											
+
 										<listheader label="Mese Anno"
-											align="center" hflex="1" />	
+											align="center" hflex="1" />
 
 										<listheader
 											label="Settimana Anno" align="center" hflex="1" />
@@ -2357,9 +2433,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-											
+
 										<listcell sclass="myBottonCell"
-										label ="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
+											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
@@ -2433,8 +2509,8 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
-										<listheader
-											label="Mese Anno" align="center" hflex="1" />
+										<listheader label="Mese Anno"
+											align="center" hflex="1" />
 										<listheader
 											label="Settimana Anno" align="center" hflex="1" />
 										<listheader label="Tipo Turno"
@@ -2477,10 +2553,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-											
+
 										<listcell sclass="myBottonCell"
-										label ="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />	
-											
+											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
+
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
 
@@ -2550,10 +2626,10 @@
 
 										<listheader label="Data"
 											hflex="1" />
-										
-										<listheader
-											label="Mese Anno" align="center" hflex="1" />
-											
+
+										<listheader label="Mese Anno"
+											align="center" hflex="1" />
+
 										<listheader
 											label="Settimana Anno" align="center" hflex="1" />
 										<listheader label="Tipo Turno"
@@ -2582,10 +2658,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-											
+
 										<listcell sclass="myBottonCell"
-										label ="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
-											
+											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
+
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
 

@@ -44,23 +44,23 @@
 					<div sclass="breadcrumb">
 						<button type="button" class="btn-success"
 							tooltiptext="Home e Dashboard" id="sw_home_button"
-							iconSclass="z-icon-home" visible="false"/>
+							iconSclass="z-icon-home" visible="true"/>
 
 						<button type="button" class="btn-info sw-btn-margin"
 							tooltiptext="Gestione Utenti" id="sw_user_button"
-							iconSclass="z-icon-group"  visible="false" />
+							iconSclass="z-icon-group"  visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 						
 						<button type="button" class="btn-info"
 							tooltiptext="Programmazione Turni" id="sw_scheduler_button"
-							iconSclass="z-icon-list"  visible="false" />
+							iconSclass="z-icon-list"  visible="true" />
 
 						<button type="button" class="btn-warning sw-btn-margin"
 							tooltiptext="Gestione Navi" id="sw_ship_button"
-							iconSclass="z-icon-anchor"  visible="false"/>
+							iconSclass="z-icon-anchor"  visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}" />
 
 						<button type="button" class="btn-warning"
 							tooltiptext="Programmazione Navi" id="sw_shipScheduler_button"
-							iconSclass="z-icon-th"  visible="false"/>
+							iconSclass="z-icon-th"  visible="true"/>
 
 					</div>
 

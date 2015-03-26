@@ -38,7 +38,7 @@
 			access="permitAll" />
 
 		<security:intercept-url pattern="/application/**"
-			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE')" />
+			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_VIEWER')" />
 
 		<security:form-login login-page='/index.zul'
 			authentication-success-handler-ref="successLoginHandler"

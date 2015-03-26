@@ -1,7 +1,5 @@
 package org.uario.seaworkengine.zkevent;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
@@ -101,8 +99,6 @@ public class IndexComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_home_button")
 	public void showHome(final Event event) {
 
-		this.showNavigationButton(false);
-
 		this.include_home.setVisible(true);
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
@@ -139,30 +135,6 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	}
 
-	/**
-	 * Show navigation button... home... Schedules..... users...
-	 *
-	 * @param visible
-	 */
-	private void showNavigationButton(final Boolean visible) {
-		this.sw_home_button.setVisible(visible);
-		this.sw_scheduler_button.setVisible(visible);
-		this.sw_ship_button.setVisible(visible);
-		this.sw_shipScheduler_button.setVisible(visible);
-
-		if (visible) {
-			// show only for SUPERUSERS
-			final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if ((person_logged != null) && person_logged.isAdministrator()) {
-				this.sw_user_button.setVisible(visible);
-			}
-
-		} else {
-			this.sw_user_button.setVisible(visible);
-		}
-
-	}
-
 	private void showPreferences(final Event event) {
 
 		this.include_home.setVisible(false);
@@ -185,8 +157,6 @@ public class IndexComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_scheduler_button, #sw_scheduler_button_main")
 	public void showProgramConfigurator(final Event event) {
 
-		this.showNavigationButton(true);
-
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
@@ -206,7 +176,6 @@ public class IndexComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_shipScheduler_button, #sw_shipScheduler_button_main")
 	public void showShipDetails(final Event event) {
 
-		this.showNavigationButton(true);
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
@@ -225,7 +194,6 @@ public class IndexComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_ship_button, #sw_ship_button_main")
 	public void showShipScheduler(final Event event) {
 
-		this.showNavigationButton(true);
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(false);
 		this.include_preferences.setVisible(false);
@@ -244,8 +212,6 @@ public class IndexComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_user_button, #sw_user_button_main")
 	public void showUserDetais(final Event event) {
-
-		this.showNavigationButton(true);
 
 		this.include_home.setVisible(false);
 		this.include_user_detail.setVisible(true);
