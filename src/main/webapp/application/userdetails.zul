@@ -33,12 +33,13 @@
 		<a id="userName" iconSclass="z-icon-angle-double-right"
 			sclass="subtitle" />
 		<space></space>
-		
-		<button id="qrcode_gen" label="Genera QRCode" sclass="btn-info" visible="false" />
+
+		<button id="qrcode_gen" label="Genera QRCode" sclass="btn-info"
+			visible="false" />
 
 		<button label="Chiudi Anagrafica" sclass="btn-danger"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">
-		</button>	
+		</button>
 
 		<separator></separator>
 
@@ -179,10 +180,9 @@
 										</label>
 										<checkbox id="dailyemployee" />
 									</row>
-									
+
 									<row>
-										<label
-											value="Part Time">
+										<label value="Part Time">
 										</label>
 										<checkbox id="partTime" />
 									</row>
@@ -380,6 +380,23 @@
 										<datebox
 											id="driving_license_emission_user" />
 									</row>
+
+									<row>
+										<label
+											value="Giorni lavorativi per settimana:">
+										</label>
+										<intbox constraint="no negative"
+											id="daywork_w_user" />
+									</row>
+
+									<row>
+										<label
+											value="ore da lavorare per settimana:">
+										</label>
+										<intbox id="hourswork_w_user"
+											constraint="no negative" />
+									</row>
+
 								</rows>
 							</grid>
 
@@ -583,11 +600,10 @@
 			<comboitem label="Preposti" value="Preposti" />
 			<comboitem label="Dipendenti Giornalieri"
 				value="dailyemployee" />
-			<comboitem label="Part Time"
-				value="partTimeEmployee" />
-			<comboitem label="Non in schedula" value="outSchedule"/>
-			<comboitem label="Programmatore" value="programmer"/>
-			<comboitem label="Visore" value="viewer"/>
+			<comboitem label="Part Time" value="partTimeEmployee" />
+			<comboitem label="Non in schedula" value="outSchedule" />
+			<comboitem label="Programmatore" value="programmer" />
+			<comboitem label="Visore" value="viewer" />
 		</combobox>
 
 		<separator></separator>

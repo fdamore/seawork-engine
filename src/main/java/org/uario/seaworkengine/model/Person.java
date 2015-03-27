@@ -21,108 +21,114 @@ import org.uario.seaworkengine.utility.UserTag;
 public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	@XmlTransient
-	public static final Person	NULL				= new Person();
+	public static final Person NULL = new Person();
 
 	/**
 	 *
 	 */
 	@XmlTransient
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@XmlTransient
-	private String				address;
+	private String address;
 
 	@XmlTransient
-	private String				asd					= "asd";
+	private String asd = "asd";
 
 	@XmlTransient
-	private String				authority;
+	private String authority;
 
 	@XmlTransient
-	private java.util.Date		birth_date;
+	private java.util.Date birth_date;
 
 	@XmlTransient
-	private String				birth_place;
+	private String birth_place;
 
 	@XmlTransient
-	private String				birth_province;
+	private String birth_province;
 
 	@XmlTransient
-	private String				city;
+	private String city;
 
 	@XmlTransient
-	private String				country;
+	private String country;
 
 	@XmlTransient
-	private String				current_position;
+	private String current_position;
 
 	@XmlTransient
-	private Boolean				dailyemployee;
-
-	private String				department;
-
-	private String				driving_license;
+	private Boolean dailyemployee;
 
 	@XmlTransient
-	private java.util.Date		driving_license_emission;
+	private Integer daywork_w;
+
+	private String department;
+
+	private String driving_license;
 
 	@XmlTransient
-	private String				education;
+	private java.util.Date driving_license_emission;
 
 	@XmlTransient
-	private String				email;
+	private String education;
+
+	@XmlTransient
+	private String email;
 
 	// matricola
-	private String				employee_identification;
+	private String employee_identification;
 
 	@XmlTransient
-	private Boolean				enabled;
+	private Boolean enabled;
 
 	@XmlTransient
-	private String				family_charge;
+	private String family_charge;
 
-	private String				firstname;
-
-	@XmlTransient
-	private String				fiscal_code;
-
-	private Integer				id;
-
-	private String				lastname;
+	private String firstname;
 
 	@XmlTransient
-	private String				marital_status;
-
-	private String				nbudge;
-
-	private String				ncfl;
-
-	private String				npass;
-
-	private Boolean				out_schedule;
+	private String fiscal_code;
 
 	@XmlTransient
-	private Boolean				part_time;
+	private Integer hourswork_w;
+
+	private Integer id;
+
+	private String lastname;
 
 	@XmlTransient
-	private String				password;
+	private String marital_status;
+
+	private String nbudge;
+
+	private String ncfl;
+
+	private String npass;
+
+	private Boolean out_schedule;
 
 	@XmlTransient
-	private String				personal_code;
-
-	private String				phone;
+	private Boolean part_time;
 
 	@XmlTransient
-	private String				provincia;
+	private String password;
 
 	@XmlTransient
-	private Boolean				sex;
+	private String personal_code;
+
+	private String phone;
 
 	@XmlTransient
-	private String				status;
+	private String provincia;
 
 	@XmlTransient
-	private String				zip;
+	private Boolean sex;
+
+	@XmlTransient
+	private String status;
+
+	@XmlTransient
+	private String zip;
 
 	public Person() {
 
@@ -222,6 +228,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.dailyemployee;
 	}
 
+	public Integer getDaywork_w() {
+		return this.daywork_w;
+	}
+
 	public String getDepartment() {
 		return this.department;
 	}
@@ -263,6 +273,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public String getFiscal_code() {
 		return this.fiscal_code;
+	}
+
+	public Integer getHourswork_w() {
+		return this.hourswork_w;
 	}
 
 	public Integer getId() {
@@ -533,7 +547,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setBirth_place(final String birth_place) {
 		this.birth_place = birth_place;
-	};
+	}
 
 	public void setBirth_province(final String birth_province) {
 		this.birth_province = birth_province;
@@ -541,7 +555,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setCity(final String city) {
 		this.city = city;
-	}
+	};
 
 	public void setCountry(final String country) {
 		this.country = country;
@@ -553,6 +567,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setDailyemployee(final Boolean dailyemployee) {
 		this.dailyemployee = dailyemployee;
+	}
+
+	public void setDaywork_w(final Integer daywork_w) {
+		this.daywork_w = daywork_w;
 	}
 
 	public void setDepartment(final String department) {
@@ -594,6 +612,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setFiscal_code(final String fiscal_code) {
 		this.fiscal_code = fiscal_code;
+	}
+
+	public void setHourswork_w(final Integer hourswork_w) {
+		this.hourswork_w = hourswork_w;
 	}
 
 	public void setId(final Integer id) {

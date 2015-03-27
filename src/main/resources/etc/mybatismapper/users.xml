@@ -44,12 +44,15 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee, 
-		u.part_time
+		u.dailyemployee,
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user u
 		where ( u.authority like
-		CONCAT('%', 'ROLE_SUPERVISOR', '%') )
+		CONCAT('%',
+		'ROLE_SUPERVISOR', '%') )
 		order
 		by
 		u.status
@@ -92,12 +95,15 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee, 
-		u.part_time
+		u.dailyemployee,
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user u
 		where ( u.authority like
-		CONCAT('%', 'ROLE_OPERATIVE', '%') )
+		CONCAT('%',
+		'ROLE_OPERATIVE', '%') )
 		order
 		by
 		u.status
@@ -141,7 +147,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -152,7 +160,7 @@
 		asc
 	</select>
 
-	
+
 	<select id="listViewerEmployee" resultType="org.uario.seaworkengine.model.Person">
 		select
 		u.id,
@@ -187,12 +195,15 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee, 
-		u.part_time
+		u.dailyemployee,
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user u
 		where ( u.authority like
-		CONCAT('%', 'ROLE_VIEWER', '%') )
+		CONCAT('%',
+		'ROLE_VIEWER', '%') )
 		order
 		by
 		u.status
@@ -233,18 +244,21 @@
 		u.sex,
 		u.out_schedule,
 		u.birth_province,
-		u.dailyemployee, 
-		u.part_time
+		u.dailyemployee,
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user u
 		where ( u.authority like
-		CONCAT('%', 'ROLE_BACKOFFICE', '%') )
+		CONCAT('%',
+		'ROLE_BACKOFFICE', '%') )
 		order
 		by
 		u.status
 		asc
 	</select>
-	
+
 	<select id="listOutScheduleEmployee" resultType="org.uario.seaworkengine.model.Person">
 		SELECT
 		u.id,
@@ -280,7 +294,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -289,7 +305,7 @@
 		order by u.firstname
 		asc
 	</select>
-	
+
 
 	<select id="listAllPartTime" resultType="org.uario.seaworkengine.model.Person">
 		SELECT
@@ -326,7 +342,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -372,7 +390,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -419,7 +439,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -465,7 +487,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -516,7 +540,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u order by
@@ -560,7 +586,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user u, schedule s, usershift us
 		WHERE
@@ -612,7 +640,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user u
 		WHERE
@@ -669,7 +699,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -724,7 +756,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -772,7 +806,9 @@
 		u.out_schedule,
 		u.birth_province,
 		u.dailyemployee,
-		u.part_time
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w
 		FROM
 		user
 		u
@@ -811,7 +847,9 @@
 		out_schedule,
 		birth_province,
 		dailyemployee,
-		part_time
+		part_time,
+		daywork_w,
+		hourswork_w
 		)
 		VALUES
 		(#{email},
@@ -846,7 +884,9 @@
 		#{out_schedule},
 		#{birth_province},
 		#{dailyemployee},
-		#{part_time})
+		#{part_time},
+		#{daywork_w},
+		#{hourswork_w})
 	</insert>
 
 	<delete id="deletePerson" parameterType="int">
@@ -901,8 +941,9 @@
 		#{birth_province},
 		dailyemployee =
 		#{dailyemployee},
-		part_time = 
-		#{part_time} 
+		part_time =
+		#{part_time},daywork_w = #{daywork_w},
+		hourswork_w = #{hourswork_w}
 		WHERE id =
 		#{id}
 	</update>
