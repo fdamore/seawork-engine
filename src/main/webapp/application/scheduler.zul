@@ -24,6 +24,8 @@
 
 
 
+
+
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.SchedulerComposer"
 		id="page_panel">
@@ -38,6 +40,44 @@
 			border-color:#CFCFCF;;border-right: 3px solid;
 			border-color:#CFCFCF;}
 		</style>
+
+		<!--  Task List -->
+		<popup id="task_list_popup">
+			<panel border="none" collapsible="false"
+				style="margin: 2px 2px 2px 2px">
+				<panelchildren>
+					<vbox align="center">
+						<div align="right">
+							<toolbarbutton label="X"
+								style="font-weight: bold;" onClick="task_list_popup.close();" />
+						</div>
+
+						<a label=" " id="label_statistic_task_popup"
+							iconSclass="z-icon-check" />
+
+						<listbox sclass="domain" id="list_task_stat"
+							width="20em" checkmark="false" multiple="false">
+
+							<listhead>
+								<listheader label="Mansioni Attive" />
+
+							</listhead>
+
+							<listitem sclass="myCell"
+								self="@{each='item_task_stat'}" value="@{item_task_stat}">
+								<listcell>
+									<label value="@{item_task_stat}">
+									</label>
+								</listcell>
+							</listitem>
+
+
+						</listbox>
+
+					</vbox>
+				</panelchildren>
+			</panel>
+		</popup>
 
 
 		<div sclass="page-header">
@@ -619,10 +659,17 @@
 							<listcell sclass="myBottonCell">
 								<a
 									label="@{dayitem.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
+
 									<attribute name="onClick">
 	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onDayNameClick", page_panel, null);
+	Events.sendEvent("onDayNameClick", page_panel, "left");
 </attribute>
+
+									<attribute name="onRightClick">
+	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onDayNameClick", page_panel, "right");
+</attribute>
+
 								</a>
 
 							</listcell>
@@ -1509,9 +1556,16 @@
 								sclass="myBottonCell, mySeparatorBorder">
 								<a
 									label="@{item.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
+
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onProgramNameClick", page_panel, null);
+	Events.sendEvent("onProgramNameClick", page_panel, "left");
+</attribute>
+
+
+									<attribute name="onRightClick">
+	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onProgramNameClick", page_panel, "right");
 </attribute>
 								</a>
 
@@ -2137,11 +2191,18 @@
 								sclass="myBottonCell, mySeparatorBorder">
 								<a
 									label="@{itemreview.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
+
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onReviewNameClick", page_panel, null);
+	Events.sendEvent("onReviewNameClick", page_panel, "left");
+</attribute>
+
+									<attribute name="onRightClick">
+	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onReviewNameClick", page_panel, "right");
 </attribute>
 								</a>
+
 
 							</listcell>
 
@@ -2423,11 +2484,19 @@
 											sclass="myBottonCell">
 											<a
 												label="@{itemoverviewreview.user}">
+
 												<attribute name="onClick">
 	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onOverviewReviewNameClick", page_panel, null);
+	Events.sendEvent("onOverviewReviewNameClick", page_panel, "left");
 </attribute>
+
+												<attribute name="onRightClick">
+	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewReviewNameClick", page_panel, "right");
+</attribute>
+
 											</a>
+
 										</listcell>
 
 										<listcell sclass="myBottonCell"
@@ -2543,11 +2612,21 @@
 											sclass="myBottonCell">
 											<a
 												label="@{itemoverviewprogram.user}">
+
 												<attribute name="onClick">
 	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onOverviewProgramNameClick", page_panel, null);
+	Events.sendEvent("onOverviewProgramNameClick", page_panel, "left");
 </attribute>
+
+												<attribute name="onRightClick">
+	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewProgramNameClick", page_panel, "right");
+</attribute>
+
 											</a>
+
+
+
 										</listcell>
 
 										<listcell sclass="myBottonCell"
@@ -2648,10 +2727,17 @@
 											sclass="myBottonCell">
 											<a
 												label="@{itemoverviewpreprocessing.name_user}">
+
 												<attribute name="onClick">
 	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
-	Events.sendEvent("onOverviewPreprocessingNameClick", page_panel, null);
+	Events.sendEvent("onOverviewPreprocessingNameClick", page_panel, "left");
 </attribute>
+
+												<attribute name="onRightClick">
+	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onOverviewPreprocessingNameClick", page_panel, "right");
+</attribute>
+
 											</a>
 										</listcell>
 
