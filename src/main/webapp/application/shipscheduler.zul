@@ -30,6 +30,7 @@
 		<hbox align="center">
 
 			<combobox id="scheduler_type_selector" readonly="true"
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 				width="200px">
 				<comboitem label="PROGRAMMAZIONE NAVI"
 					value="PROGRAMMAZIONE" id="program_item">
@@ -466,7 +467,8 @@
 						</toolbarbutton>
 
 						<toolbarbutton
-							id="sw_link_addDetailScheduleShipProgram" style="color:blue" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
+							id="sw_link_addDetailScheduleShipProgram" style="color:blue"
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 							onClick='sw_list_scheduleShipProgram.setSelectedItem((Listitem)self.getParent().getParent()); popup_detail.open(self, "after_pointer");'
 							label="Modifica dettagli">
 						</toolbarbutton>

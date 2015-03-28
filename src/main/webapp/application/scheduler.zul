@@ -73,7 +73,9 @@
 
 		<hbox align="center">
 			<a label="Visualizza Versione: "></a>
-			<combobox id="scheduler_type_selector" readonly="true">
+
+			<combobox id="scheduler_type_selector" readonly="true"
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 				<comboitem label="PREVENTIVAZIONE"
 					value="PREVENTIVAZIONE" id="preprocessing_item">
 				</comboitem>
