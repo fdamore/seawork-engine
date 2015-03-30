@@ -4,6 +4,6 @@
 		<label value="Benvenuti nel " style="font-size:13px;color:#FFFFFF;" ></label>
 		<label value="Seawork Engine" style="font-size:13px;font-weight:bold;color:#FFFFFF" />
 		<label value="(v1.0)" style="font-size:10px;color:#FFFFFF" />
-		<label value=" il sistema integrato per il controllo di processo della Sea Work Services." style="font-size:13px;color:#FFFFFF" />
+		<label value=" il sistema integrato per il controllo di processo della Sea Work Service." style="font-size:13px;color:#FFFFFF" />
 	</caption>
 </window>
