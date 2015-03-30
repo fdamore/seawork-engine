@@ -502,16 +502,19 @@
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<intbox id="shows_rows" constraint="no negative, no zero"
 				value="10" />
+
 			<textbox placeholder="Cerca..." id="full_text_search" />
+
 			<label value="" id="infoDetailShipProgram" />
 			<separator />
 
-			<!-- 
-				<button id="sw_addSchedulerShip" sclass="btn-info"
-				label="Aggiungi Dettaglio Programmazione"/>
-				
-				<space/>
-			-->
+
+			<button id="sw_addSchedulerShip" sclass="btn-info"
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
+				label="Aggiungi Dettaglio Programmazione" />
+
+			<space />
+
 
 			<separator />
 
