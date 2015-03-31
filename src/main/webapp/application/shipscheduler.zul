@@ -38,6 +38,10 @@
 				<comboitem label="DETTAGLIO GIORNALIERO"
 					value="DETTAGLIO GIORNALIERO" id="detail_item">
 				</comboitem>
+
+				<comboitem label="VERIFICA LAVORO NAVI"
+					value="VERIFICA LAVORO NAVI" id="verify_review_ship_item">
+				</comboitem>
 			</combobox>
 		</hbox>
 
@@ -401,6 +405,89 @@
 		</popup>
 
 
+		<!-- POPUP DETAILS -->
+		<popup id="popup_detail_Daily" width="700px">
+			<div align="right">
+				<toolbarbutton label="X" style="font-weight: bold;"
+					onClick="popup_detail_Daily.close();" />
+			</div>
+			<panel border="normal" collapsible="false"
+				sclass="transparent">
+				<caption iconSclass="z-icon-star orange"
+					label="Dettaglio di Programmazione Nave">
+
+
+					<div
+						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+						<toolbarbutton
+							id="modify_scheduleShipsDetailDaily_command"
+							label="Salva Modifiche" style="color: blue" visible="true">
+						</toolbarbutton>
+
+					</div>
+
+				</caption>
+
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Informazioni" />
+						</columns>
+						<rows>
+							<row>
+								<label value="Data Turno:"></label>
+								<datebox id="shiftdate_Daily"
+									placeholder="Data Turno" />
+							</row>
+							<row>
+								<label value="Turno:"></label>
+								<combobox id="shift_Daily"
+									readonly="true" placeholder="Seleziona Turno" mold="rounded" />
+							</row>
+							<row>
+								<label value="Operazione:"></label>
+								<textbox id="operation_Daily"
+									mold="rounded" />
+
+							</row>
+							<row>
+								<label value="Nome Primo Preposto:"></label>
+								<combobox id="user_Daily"
+									readonly="true" placeholder="Seleziona Primo Preposto" />
+							</row>
+							<row>
+								<label value="Nome Secondo Preposto:"></label>
+								<combobox id="usersecond_Daily"
+									readonly="true" placeholder="Seleziona Secondo Preposto" />
+							</row>
+							<row>
+								<label value="Mani di lavoro:"></label>
+								<intbox id="handswork_Daily" />
+							</row>
+							<row>
+								<label value="Numero uomini:"></label>
+								<intbox id="menwork_Daily" />
+							</row>
+							<row>
+								<label value="Note Dettaglio"></label>
+								<textbox id="notedetail" />
+							</row>
+							<row>
+								<label value=""></label>
+								<label value=""></label>
+
+							</row>
+
+
+						</rows>
+					</grid>
+				</panelchildren>
+
+			</panel>
+		</popup>
+
 		<!-- PROGRAMMAZIONE NAVI -->
 		<div id="shipProgram">
 			<a label="Programmazione Navi" iconSclass="z-icon-list"
@@ -485,8 +572,6 @@
 
 			</listbox>
 		</div>
-
-
 
 		<!-- DETTAGLIO GIORNALIERO -->
 		<div id="dailyDetailShip">
@@ -600,88 +685,56 @@
 			</listbox>
 		</div>
 
+		<!-- REVIEW WORK SHIP -->
+		<div id="reviewWorkShip">
 
-		<popup id="popup_detail_Daily" width="700px">
-			<div align="right">
-				<toolbarbutton label="X" style="font-weight: bold;"
-					onClick="popup_detail_Daily.close();" />
-			</div>
-			<panel border="normal" collapsible="false"
-				sclass="transparent">
-				<caption iconSclass="z-icon-star orange"
-					label="Dettaglio di Programmazione Nave">
+			<a label="Verifica Lavoro Navi" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+			<separator></separator>
 
+			<a label="Ricerca per data: "
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
-					<div
-						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-						<toolbarbutton
-							id="modify_scheduleShipsDetailDaily_command"
-							label="Salva Modifiche" style="color: blue" visible="true">
-						</toolbarbutton>
-
-					</div>
-
-				</caption>
-
-				<panelchildren>
-
-					<grid sclass="domain">
-						<columns>
-							<column label="Type" />
-							<column label="Informazioni" />
-						</columns>
-						<rows>
-							<row>
-								<label value="Data Turno:"></label>
-								<datebox id="shiftdate_Daily"
-									placeholder="Data Turno" />
-							</row>
-							<row>
-								<label value="Turno:"></label>
-								<combobox id="shift_Daily"
-									readonly="true" placeholder="Seleziona Turno" mold="rounded" />
-							</row>
-							<row>
-								<label value="Operazione:"></label>
-								<textbox id="operation_Daily"
-									mold="rounded" />
-
-							</row>
-							<row>
-								<label value="Nome Primo Preposto:"></label>
-								<combobox id="user_Daily"
-									readonly="true" placeholder="Seleziona Primo Preposto" />
-							</row>
-							<row>
-								<label value="Nome Secondo Preposto:"></label>
-								<combobox id="usersecond_Daily"
-									readonly="true" placeholder="Seleziona Secondo Preposto" />
-							</row>
-							<row>
-								<label value="Mani di lavoro:"></label>
-								<intbox id="handswork_Daily" />
-							</row>
-							<row>
-								<label value="Numero uomini:"></label>
-								<intbox id="menwork_Daily" />
-							</row>
-							<row>
-								<label value="Note Dettaglio"></label>
-								<textbox id="notedetail" />
-							</row>
-							<row>
-								<label value=""></label>
-								<label value=""></label>
-
-							</row>
+			<datebox id="searchWorkShip" placeholder="Data Turno..." />
 
 
-						</rows>
-					</grid>
-				</panelchildren>
+			<separator />
 
-			</panel>
-		</popup>
+			<listbox id="sw_list_reviewWork" pagingPosition="both"
+				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
+				checkmark="false" multiple="false">
+				<listhead sizable="true">
+
+
+					<listheader label="Nome Nave" />
+					<listheader label="Turno" />
+					<listheader label="Gru" />
+					<listheader label="Tempo (ore)" />
+
+				</listhead>
+
+				<listitem self="@{each='item_review_work'}"
+					value="@{item_review_work}">
+
+					<listcell sclass="myBottonCell"
+						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+						label="@{item_review_work.shipname}">
+					</listcell>
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.shift}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.crane}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.time_work}" />
+
+				</listitem>
+			</listbox>
+		</div>
+
+
 
 
 

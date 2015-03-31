@@ -6,6 +6,25 @@
 	<cache />
 
 
+	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BOP) -->
+	<select id="reviewShipWork" parameterType="map" resultType="org.uario.seaworkengine.model.ReviewShipWork">
+
+		SELECT
+		s.name as shipname,
+		s.id as id_ship,
+		df.shift,
+		df.time as time_work,
+		df.crane
+		FROM
+		detailfinalschedule df,
+		ship s
+		where
+		df.id_ship is not null and DATE_FORMAT(df.time_to,'%Y-%m-%d') = #{dt_arg}
+		and s.id = df.id_ship
+		order by df.id_ship , df.shift
+
+	</select>
+
 
 	<select id="loadScheduleByDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
@@ -186,7 +205,8 @@
 		shift, sync_mobile
 		FROM schedule
 		WHERE user=#{user} and date_schedule >=
-		#{date_from} and #{date_to} >= date_schedule order by date_schedule asc;
+		#{date_from} and #{date_to} >= date_schedule order by date_schedule
+		asc;
 	</select>
 
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
@@ -412,9 +432,12 @@
 	<select id="loadDetailFinalScheduleByIdScheduleAndShift"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		SELECT df.id, df.id_schedule, df.shift, df.task, df.time, df.time_from,
-		df.time_to, df.time_vacation, df.id_ship, df.crane, s.name as nameShip
-		FROM detailfinalschedule df LEFT JOIN ship s ON df.id_ship = s.id
+		SELECT df.id, df.id_schedule, df.shift, df.task,
+		df.time, df.time_from,
+		df.time_to, df.time_vacation, df.id_ship,
+		df.crane, s.name as nameShip
+		FROM detailfinalschedule df LEFT JOIN ship
+		s ON df.id_ship = s.id
 		WHERE df.id_schedule =
 		#{id_schedule} and
 		df.shift = #{shift};
@@ -462,10 +485,14 @@
 
 	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
-		SELECT df.id, df.id_schedule, df.shift, df.task, df.time, df.time_from,
-		df.time_to, df.time_vacation, df.id_ship, df.crane, s.name as nameShip  
-		FROM detailfinalschedule df LEFT JOIN ship s ON df.id_ship = s.id
-		WHERE id_schedule =
+		SELECT df.id, df.id_schedule, df.shift, df.task, df.time,
+		df.time_from,
+		df.time_to, df.time_vacation, df.id_ship, df.crane,
+		s.name as nameShip
+		FROM detailfinalschedule df LEFT JOIN ship s ON
+		df.id_ship = s.id
+		WHERE
+		id_schedule =
 		#{id_schedule};
 	</select>
 

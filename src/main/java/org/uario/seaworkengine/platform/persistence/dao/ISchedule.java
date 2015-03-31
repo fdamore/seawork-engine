@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
 
 public interface ISchedule {
@@ -29,6 +30,8 @@ public interface ISchedule {
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdSchedule(Integer id_schedule);
 
+	public List<ReviewShipWork> loadReviewShipWork(Date date_request);
+
 	public List<Schedule> loadSchedule(Date date_scheduled);
 
 	public Schedule loadSchedule(Date date_scheduler, Integer id_user);
@@ -45,9 +48,9 @@ public interface ISchedule {
 
 	public void removeSchedule(Date date_scheduler, Integer id_user);
 
-	public void removeScheduleUserFired(Integer idUser, Date firedDate);
-
 	public void removeScheduleUser(Integer idUser, Date initialDate, Date finalDate);
+
+	public void removeScheduleUserFired(Integer idUser, Date firedDate);
 
 	public void saveListDetailFinalScheduler(Integer id_schedule, Integer shift, List<DetailFinalSchedule> details);
 
