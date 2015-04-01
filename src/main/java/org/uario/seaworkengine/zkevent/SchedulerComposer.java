@@ -1019,8 +1019,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 							item.getTime_to()) < 0))
 							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(
 									item.getTime_to()) <= 0))
-							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to()
-									.compareTo(item.getTime_to()) >= 0))) {
+									|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to()
+											.compareTo(item.getTime_to()) >= 0))) {
 						return;
 					}
 
@@ -1170,9 +1170,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(
 						item.getTime_to()) < 0)) || ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item
-						.getTime_to().compareTo(item.getTime_to()) <= 0))))
-						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(
-								item.getTime_to()) >= 0))) {
+								.getTime_to().compareTo(item.getTime_to()) <= 0))))
+								|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(
+										item.getTime_to()) >= 0))) {
 					return;
 				}
 			}
@@ -1614,17 +1614,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?",
 				"CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -3300,7 +3300,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Person controller = personDAO.loadPerson(currentSchedule.getController());
 				if (controller != null) {
 					controller_label_review
-					.setLabel("Controllore: " + controller.getFirstname() + " " + controller.getLastname());
+							.setLabel("Controllore: " + controller.getFirstname() + " " + controller.getLastname());
 				}
 			}
 
@@ -3386,8 +3386,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3622,7 +3622,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				continue;
 			}
 
-			statProcedure.workAssignProcedure(shift, date_tomorrow, person.getId(), person_logged.getId());
+			statProcedure.workAssignProcedure(shift, date_tomorrow, person.getId(), null);
 
 		}
 
@@ -3713,17 +3713,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?",
 						"CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				saveShift(shift, date_scheduled, row_item);
 			}
@@ -3948,7 +3948,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (selectedShift.equals(3) && minShiftInDay.equals(4)) || (selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+										.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -4787,7 +4787,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox
-					.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 			return;
 		}
