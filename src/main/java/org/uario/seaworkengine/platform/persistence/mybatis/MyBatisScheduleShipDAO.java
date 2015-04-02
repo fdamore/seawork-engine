@@ -26,56 +26,73 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public ShipTotal calculateHandsWorkInDate(final Timestamp dateFrom, final Timestamp dateTo) {
+	public ShipTotal calculateHandsWorkAndMensByArrivalDateAndShipName(final Date arrivaldate, final String full_text_search, final Integer shift) {
+		MyBatisScheduleShipDAO.logger.info("calculateHandsWorkAndMensByArrivalDateAndShipName");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("arrivaldate", arrivaldate);
+		map.put("full_text_search", full_text_search);
+		map.put("shift", shift);
+
+		return this.getSqlSession().selectOne("scheduleship.calculateHandsWorkAndMensByArrivalDateAndShipName", map);
+	}
+
+	@Override
+	public ShipTotal calculateHandsWorkInDate(final Timestamp dateFrom, final Timestamp dateTo, final Integer shift) {
 		MyBatisScheduleShipDAO.logger.info("calculateHandsWorkInDate");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dateFrom", dateFrom);
 		map.put("dateTo", dateTo);
+		map.put("shift", shift);
 
 		return this.getSqlSession().selectOne("scheduleship.calculateHandsWorkInDateAndShipName", map);
 	}
 
 	@Override
-	public Integer calculateNumberOfShipByShiftDateAndShipName(final Date shiftdate, final String full_text_search) {
-		MyBatisScheduleShipDAO.logger.info("calculateVolumeByShiftDateAndShipName" + shiftdate + " " + full_text_search);
+	public Integer calculateNumberOfShipByArrivalDateAndShipName(final Date arrivaldate, final String full_text_search, final Integer shift) {
+		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShipByArrivalDateAndShipName" + arrivaldate + " " + full_text_search);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("shiftdate", shiftdate);
+		map.put("arrivaldate", arrivaldate);
 		map.put("full_text_search", full_text_search);
+		map.put("shift", shift);
 
-		return this.getSqlSession().selectOne("scheduleship.calculateNumberOfShipByShiftDateAndShipName", map);
+		return this.getSqlSession().selectOne("scheduleship.calculateNumberOfShipByArrivalDateAndShipName", map);
 	}
 
 	@Override
-	public Integer calculateNumberOfShipInDate(final Timestamp dateFrom, final Timestamp dateTo) {
+	public Integer calculateNumberOfShipInDate(final Timestamp dateFrom, final Timestamp dateTo, final Integer shift) {
 		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShipInDate");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dateFrom", dateFrom);
 		map.put("dateTo", dateTo);
+		map.put("shift", shift);
 
 		return this.getSqlSession().selectOne("scheduleship.calculateNumberOfShipInDateAndShipName", map);
 	}
 
 	@Override
-	public Integer calculateVolumeByShiftDateAndShipName(final Date shiftdate, final String full_text_search) {
-		MyBatisScheduleShipDAO.logger.info("calculateVolumeByShiftDateAndShipName" + shiftdate + " " + full_text_search);
+	public Integer calculateVolumeByArrivalDateAndShipName(final Date arrivaldate, final String full_text_search, final Integer shift) {
+		MyBatisScheduleShipDAO.logger.info("calculateVolumeByArrivalDateAndShipName" + arrivaldate + " " + full_text_search);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("shiftdate", shiftdate);
+		map.put("arrivaldate", arrivaldate);
 		map.put("full_text_search", full_text_search);
+		map.put("shift", shift);
 
-		return this.getSqlSession().selectOne("scheduleship.calculateVolumeByShiftDateAndShipName", map);
+		return this.getSqlSession().selectOne("scheduleship.calculateVolumeByArrivalDateAndShipName", map);
 	}
 
 	@Override
-	public Integer calculateVolumeInDate(final Timestamp dateFrom, final Timestamp dateTo) {
+	public Integer calculateVolumeInDate(final Timestamp dateFrom, final Timestamp dateTo, final Integer shift) {
 		MyBatisScheduleShipDAO.logger.info("calculateVolumeInDateAndShipName");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dateFrom", dateFrom);
 		map.put("dateTo", dateTo);
+		map.put("shift", shift);
 
 		return this.getSqlSession().selectOne("scheduleship.calculateVolumeInDateAndShipName", map);
 	}
@@ -135,6 +152,21 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
+	public List<DetailScheduleShip> loadDetailScheduleShipByDateAndShipName(final Date datefrom, final Date dateto, final String full_text_search,
+			final Integer shift) {
+		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("datefrom", datefrom);
+		map.put("dateto", dateto);
+		map.put("full_text_search", full_text_search);
+		map.put("shift", shift);
+
+		return this.getSqlSession().selectList("scheduleship.loadDetailScheduleShipByDateAndShipName", map);
+
+	}
+
+	@Override
 	public List<DetailScheduleShip> loadDetailScheduleShipByIdSchedule(final Integer id_scheduleShip) {
 		MyBatisScheduleShipDAO.logger.info("loadDetailScheduleShipByIdSchedule");
 
@@ -144,12 +176,14 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(final Date shiftdate, final String full_text_search) {
+	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(final Date shiftdate, final String full_text_search,
+			final Integer shift) {
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("shiftdate", shiftdate);
 		map.put("full_text_search", full_text_search);
+		map.put("shift", shift);
 
 		return this.getSqlSession().selectList("scheduleship.loadDetailScheduleShipByShiftDateAndShipName", map);
 	}

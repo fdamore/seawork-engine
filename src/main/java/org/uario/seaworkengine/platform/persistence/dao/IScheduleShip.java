@@ -11,15 +11,17 @@ import org.uario.seaworkengine.statistics.ShipTotal;
 
 public interface IScheduleShip {
 
-	public ShipTotal calculateHandsWorkInDate(Timestamp dateFrom, Timestamp dateTo);
+	public ShipTotal calculateHandsWorkAndMensByArrivalDateAndShipName(Date arrivaldate, String full_text_search, Integer shift);
 
-	public Integer calculateNumberOfShipByShiftDateAndShipName(Date shiftdate, String full_text_search);
+	public ShipTotal calculateHandsWorkInDate(Timestamp dateFrom, Timestamp dateTo, Integer shift);
 
-	public Integer calculateNumberOfShipInDate(Timestamp dateFrom, Timestamp dateTo);
+	public Integer calculateNumberOfShipByArrivalDateAndShipName(Date arrivaldate, String full_text_search, Integer shift);
 
-	public Integer calculateVolumeByShiftDateAndShipName(Date shiftdate, String full_text_search);
+	public Integer calculateNumberOfShipInDate(Timestamp dateFrom, Timestamp dateTo, Integer shift);
 
-	public Integer calculateVolumeInDate(Timestamp dateFrom, Timestamp dateTo);
+	public Integer calculateVolumeByArrivalDateAndShipName(Date arrivaldate, String full_text_search, Integer shift);
+
+	public Integer calculateVolumeInDate(Timestamp dateFrom, Timestamp dateTo, Integer shift);
 
 	public void createDetailScheduleShip(DetailScheduleShip detailscheduleShip);
 
@@ -35,9 +37,11 @@ public interface IScheduleShip {
 
 	public DetailScheduleShip loadDetailScheduleShip(Integer id_detailScheduleShip);
 
+	public List<DetailScheduleShip> loadDetailScheduleShipByDateAndShipName(Date datefrom, Date dateto, String full_text_search, Integer shift);
+
 	public List<DetailScheduleShip> loadDetailScheduleShipByIdSchedule(Integer id_scheduleShip);
 
-	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(Date shiftdate, String full_text_search);
+	public List<DetailScheduleShip> loadDetailScheduleShipByShiftDateAndShipName(Date shiftdate, String full_text_search, Integer shift);
 
 	public List<DetailScheduleShip> loadDetailScheduleWithShiftDateNull();
 

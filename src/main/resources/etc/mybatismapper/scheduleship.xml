@@ -139,8 +139,33 @@
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) order by d.shift asc
+		<if test="shift != null">
+			d.shift = #{shift} and 
+		</if>
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate)
 		) as detail;
+	</select>
+	
+	<select id="calculateHandsWorkAndMensByArrivalDateAndShipName" parameterType="map" resultType="org.uario.seaworkengine.statistics.ShipTotal">
+		SELECT SUM(handswork) as totalhands, SUM(menwork) as totalmen FROM 
+		(
+		SELECT d.handswork, d.menwork
+		FROM
+		detailscheduleship d
+        left join
+    	user us ON (d.idseconduser = us.id),
+		user u, ship
+		s, scheduleship ss  
+		where
+		<if test="full_text_search != null">
+			(s.name like CONCAT('%',#{full_text_search},
+			'%') ) and 
+		</if>
+		<if test="shift != null">
+			d.shift = #{shift} and 
+		</if>
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and date(ss.arrivaldate) = date(#{arrivaldate}) 
+		) as detail;	
 	</select>
 
 
@@ -158,6 +183,9 @@
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
+		</if>
+		<if test="shift != null">
+			d.shift = #{shift} and 
 		</if>
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) order by d.shift asc
 		) as detail;
@@ -180,11 +208,14 @@
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
+		<if test="shift != null">
+			d.shift = #{shift} and 
+		</if>
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) order by d.shift asc
 		) as detail;
 	</select>
 
-	<select id="calculateVolumeByShiftDateAndShipName" parameterType="map" resultType="Integer">
+	<select id="calculateVolumeByArrivalDateAndShipName" parameterType="map" resultType="Integer">
 		SELECT SUM(volume) FROM 
 		(
 		SELECT distinct 
@@ -200,11 +231,14 @@
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate=#{shiftdate} order by d.shift asc
+		<if test="shift != null">
+			d.shift = #{shift} and 
+		</if>
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and ss.arrivaldate=date(#{arrivaldate})
 		) as detail;
 	</select>
 	
-	<select id="calculateNumberOfShipByShiftDateAndShipName" parameterType="map" resultType="Integer">
+	<select id="calculateNumberOfShipByArrivalDateAndShipName" parameterType="map" resultType="Integer">
 		SELECT COUNT(idship) FROM 
 		(
 		SELECT distinct ss.idship
@@ -219,8 +253,44 @@
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate=#{shiftdate} order by d.shift asc
+		<if test="shift != null">
+			d.shift = #{shift} and 
+		</if>
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and ss.arrivaldate=date(#{arrivaldate})
 		) as detail;
+	</select>
+	
+	<select id="loadDetailScheduleShipByDateAndShipName" parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+		SELECT
+		d.shift, d.id, d.notedetail, d.idscheduleship, d.notedetail, s.name, d.operation,
+		ss.note,ss.arrivaldate,
+		ss.departuredate,
+		d.iduser,d.idseconduser, 
+		d.handswork,
+		d.menwork, d.shiftdate, s.id as
+		id_ship,
+		concat(u.lastname, '
+		',
+		u.firstname) AS firstname, 
+		concat(us.lastname, '
+		',
+		us.firstname) AS firstnameSecondUser 
+		FROM
+		detailscheduleship d
+        left join
+    	user us ON (d.idseconduser = us.id),
+		user u, ship
+		s, scheduleship ss  
+		where
+		<if test="full_text_search != null">
+			(s.name like CONCAT('%',#{full_text_search},
+			'%') ) and 
+		</if>
+		<if test="shift != null">
+			d.shift = #{shift} and 
+		</if>
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and  ss.arrivaldate>=#{datefrom} and  #{dateto}>=ss.arrivaldate order by d.shift asc;
+		
 	</select>
 
 	<select id="loadDetailScheduleShipByShiftDateAndShipName"
@@ -249,6 +319,9 @@
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
+		</if>
+		<if test="shift != null">
+			d.shift = #{shift} and 
 		</if>
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate=#{shiftdate} order by d.shift asc;
 	</select>

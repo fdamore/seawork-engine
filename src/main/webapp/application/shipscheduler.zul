@@ -499,10 +499,10 @@
 				<datebox id="searchArrivalDateShipFrom"
 					placeholder="Dalla data..." />
 				<datebox id="searchArrivalDateShipTo"
-					placeholder="Alla data..." />
-				<label value="" id="infoShipProgram" />
-
+					placeholder="Alla data..." />				
 			</hbox>
+			<separator />
+			<label value="" style="color:blue; font-size:10pt;" id="infoShipProgram"  />
 			<separator />
 			<button label="Aggiungi Programmazione" sclass="btn-info"
 				id="sw_addScheduleShipProgram" />
@@ -580,17 +580,47 @@
 				sclass="green lighter rcaption" />
 			<separator></separator>
 
+			<hbox>
+				<a label="Ricerca Navi in intervallo: "
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+				<datebox id="searchArrivalDateShipFrom_detail"
+					placeholder="Dalla data..." />
+				<datebox id="searchArrivalDateShipTo_detail"
+					placeholder="Alla data..." />				
+			</hbox>
+			
+			<separator/>
+
 			<a label="Ricerca per data turno: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<datebox id="searchDateShift" placeholder="Data Turno" />
+			
+			<separator/>
+			
+			<a label="Filtra su numero turno: "/>
+				<combobox placeholder="Scegli turno..." readonly="true"
+					id="select_shift">
+					<comboitem value="TUTTI" label="TUTTI"
+						id="item_all_shift_overview">
+					</comboitem>
+					<comboitem value="1" label="1"></comboitem>
+					<comboitem value="2" label="2"></comboitem>
+					<comboitem value="3" label="3"></comboitem>
+					<comboitem value="4" label="4"></comboitem>
+				</combobox>
+				
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<intbox id="shows_rows" constraint="no negative, no zero"
 				value="10" />
 
 			<textbox placeholder="Cerca..." id="full_text_search" />
+			
+			<button id="refreshDetailView" label="Ricarica"
+				sclass="btn-info" />
 
-			<label value="" id="infoDetailShipProgram" />
+			<separator />
+			<label  value="" style="color:blue; font-size:10pt;" id="infoDetailShipProgram" />
 			<separator />
 
 
