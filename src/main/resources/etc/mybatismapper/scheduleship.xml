@@ -384,7 +384,7 @@
 	<select id="loadShipInDate" parameterType="map"	resultType="org.uario.seaworkengine.model.Ship">
 		SELECT sh.id, sh.name, sh.line, sh.shiptype, sh.shipcondition, sh.twtype  
 		FROM scheduleship s, ship sh
-		WHERE sh.id=s.idship and date(s.arrivalDate) = date(#{arrivalDate});
+		WHERE sh.id=s.idship and  date(#{shipDate}) >= date(s.arrivalDate) and date(s.departureDate)>=date(#{shipDate});
 	</select>
 
 
