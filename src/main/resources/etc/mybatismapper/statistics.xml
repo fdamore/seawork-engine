@@ -143,6 +143,13 @@
 			u.employee_identification = #{my_full_text_search})
 		</if>
 
+		<if test="date_from != null and date_to != null">
+			and (s.date_schedule <![CDATA[>=]]>
+			#{date_from} and s.date_schedule
+			<![CDATA[<=]]>
+			#{date_to})
+		</if>
+
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
