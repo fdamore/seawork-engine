@@ -43,6 +43,8 @@ public class Utility {
 
 	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
 
+	private static SimpleDateFormat	yearFormat		= new SimpleDateFormat("yyyy");
+
 	public static String convertToDateAndTime(final Timestamp date) {
 
 		return Utility.dateTimeformat.format(date);
@@ -225,6 +227,12 @@ public class Utility {
 		final Calendar cal = Calendar.getInstance(Locale.ITALIAN);
 		cal.setTime(date);
 		return cal.get(Calendar.WEEK_OF_YEAR);
+	}
+
+	public static Integer getYear(final Date date) {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.YEAR);
 	}
 
 	/**

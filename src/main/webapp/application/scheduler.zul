@@ -2446,6 +2446,9 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
+											
+										<listheader label="Anno"
+											align="center" hflex="1" />
 
 										<listheader label="Mese Anno"
 											align="center" hflex="1" />
@@ -2505,7 +2508,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-
+										
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
+								
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
 
@@ -2581,6 +2587,9 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
+											
+										<listheader label="Anno" align="center" hflex="1"/>	
+										
 										<listheader label="Mese Anno"
 											align="center" hflex="1" />
 										<listheader
@@ -2635,6 +2644,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+										
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
+								
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
@@ -2706,8 +2719,10 @@
 										<listheader label="Matricola"
 											align="center" hflex="1" />
 
-										<listheader label="Data"
+										<listheader label="Data" align="center" 
 											hflex="1" />
+											
+										<listheader label="Anno" align="center" hflex="1"/>
 
 										<listheader label="Mese Anno"
 											align="center" hflex="1" />
@@ -2747,6 +2762,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+										
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
+								
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
