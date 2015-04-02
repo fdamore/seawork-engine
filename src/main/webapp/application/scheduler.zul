@@ -1941,6 +1941,7 @@
 											<combobox id="ship"
 												autodrop="true"
 												placeholder="Seleziona da tutte le navi...">
+												
 												<comboitem
 													self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
 											</combobox>
