@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -713,6 +714,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Combobox						select_shifttype_overview;
 
+	@Wire
+	public Combobox							select_year;
+
 	// selected day
 	private Integer							selectedDay;
 
@@ -764,23 +768,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Button							shift_period_ok;
-
 	@Wire
 	private Datebox							shift_period_to;
+
 	@Wire
 	private Popup							shift_popup;
-
 	@Wire
 	private Combobox						shifts_combo_select;
+
 	@Wire
 	private Combobox						ship;
-
 	private IShip							shipDAO;
 	@Wire
 	public Combobox							shipInDay;
 	private Ship							shipSelected;
 	@Wire
 	private Intbox							shows_rows;
+
 	private IStatistics						statisticDAO;
 
 	private IStatProcedure					statProcedure;
@@ -1607,17 +1611,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -1686,7 +1690,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * define the view in function of the type of the view required
 	 */
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #date_to_overview, #date_from_overview;onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search; onSelect = #overview_tab")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox; onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search; onSelect = #overview_tab")
 	public void defineSchedulerView() {
 
 		this.setVisibilityDownloadReportButton();
@@ -1759,7 +1763,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.overview_div.setVisible(true);
 
 			// set overview list
-			this.setOverviewLists();
+			if (this.select_year.getSelectedItem() != null) {
+				this.selectedYear();
+			} else {
+				this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
+
+			}
 
 			return;
 		}
@@ -1999,6 +2008,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.ship.setModel(shipList);
 
 		}
+
+		// set year in combobox
+		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
+		final ArrayList<String> years = new ArrayList<String>();
+
+		years.add("TUTTI");
+
+		for (Integer i = 2014; i <= todayYear + 2; i++) {
+			years.add(i.toString());
+		}
+
+		this.select_year.setModel(new ListModelList<String>(years));
 
 		this.getSelf().addEventListener(ZkEventsTag.onDayNameClick, new EventListener<Event>() {
 
@@ -2670,7 +2691,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		return ret;
 
-	};
+	}
 
 	/**
 	 * Return decimal revision time
@@ -2721,7 +2742,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		return this.scheduleDAO.selectSchedulersForPreprocessingOnUserId(start_date, dateBegin, idUser);
 
-	}
+	};
 
 	/**
 	 * Initialize method
@@ -2914,6 +2935,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #overview_month")
 	public void onSelectMonthOverview() {
+
+		this.select_year.setSelectedItem(null);
 
 		this.defineViewCurrentWorkInOverview();
 
@@ -3368,8 +3391,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3692,17 +3715,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -3921,7 +3944,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+										.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -4098,7 +4121,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.select_shifttype_overview.setSelectedItem(null);
 
 		// force refresh
-		this.setOverviewLists();
+		this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
 
 	}
 
@@ -4107,7 +4130,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.taskComboBox.setSelectedItem(null);
 
 		// force refresh
-		this.setOverviewLists();
+		this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
 	}
 
 	@Listen("onClick= #preprocessing_select_rp")
@@ -4152,7 +4175,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// force refresh
-		this.setOverviewLists();
+		this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
 	}
 
 	@Listen("onClick= #programpopup_select_rp")
@@ -4200,7 +4223,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// force refresh
-		this.setOverviewLists();
+		this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
 	}
 
 	@Listen("onClick= #shift_period_select_dl")
@@ -4269,6 +4292,43 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.forceProgramShift();
 	}
 
+	@Listen("onChange =#select_year")
+	public void selectedYear() {
+		if (this.select_year.getSelectedItem() != null) {
+
+			final String yearSelected = this.select_year.getSelectedItem().getValue();
+
+			if (!yearSelected.equals("TUTTI")) {
+
+				this.date_from_overview.setValue(null);
+				this.date_to_overview.setValue(null);
+
+				final Integer year = Integer.parseInt(yearSelected);
+				Date date_from;
+				Date date_to;
+
+				final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+				final String dateFromString = "01/01/" + year;
+				final String dateToString = "31/12/" + year;
+
+				try {
+					date_from = sdf.parse(dateFromString);
+					date_to = sdf.parse(dateToString);
+				} catch (final ParseException e) {
+					return;
+				}
+
+				this.setOverviewLists(date_from, date_to);
+
+			} else {
+				this.date_from_overview.setValue(null);
+				this.date_to_overview.setValue(null);
+				this.setOverviewLists(null, null);
+			}
+		}
+	}
+
 	@Listen("onClick= #preprocessing_select_tl")
 	public void selectStandardWorkInCombo() {
 
@@ -4335,7 +4395,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// force refresh
-		this.setOverviewLists();
+		this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
 
 	}
 
@@ -4707,10 +4767,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onChange = #date_to_overview, #date_from_overview")
+	public void setNullYearSelected() {
+		this.select_year.setSelectedItem(null);
+		this.defineSchedulerView();
+	}
+
 	/**
 	 * Overview list
 	 */
-	private void setOverviewLists() {
+	private void setOverviewLists(final Date date_from_overview, final Date date_to_overview) {
 
 		String full_text_search = null;
 		Integer shift_number = null;
@@ -4739,11 +4805,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// select date
-		if (this.date_from_overview.getValue() != null) {
-			date_from = this.date_from_overview.getValue();
+		if (date_from_overview != null) {
+			date_from = date_from_overview;
 		}
-		if (this.date_to_overview.getValue() != null) {
-			date_to = this.date_to_overview.getValue();
+		if (date_to_overview != null) {
+			date_to = date_to_overview;
 		}
 		if ((date_from == null) && (date_to != null)) {
 			date_from = date_to;
