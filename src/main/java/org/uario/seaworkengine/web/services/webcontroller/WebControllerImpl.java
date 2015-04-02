@@ -187,6 +187,14 @@ public class WebControllerImpl implements IWebServiceController {
 
 		for (final Person person : list) {
 
+			if (person.isBackoffice()) {
+				continue;
+			}
+
+			if (person.isOperative()) {
+				continue;
+			}
+
 			final InitialSchedule item = new InitialSchedule();
 
 			final Schedule schedule = this.scheduleDAO.loadSchedule(date_schedule, person.getId());
