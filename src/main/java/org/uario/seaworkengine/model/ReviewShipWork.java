@@ -1,26 +1,33 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ReviewShipWork implements Serializable {
 
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private String				crane;
+	private String crane;
 
-	private Integer				id_ship;
+	private Date date_request;
 
-	private Integer				shift;
+	private Integer id_ship;
 
-	private String				shipname;
+	private Integer shift;
 
-	private Double				time_work;
+	private String shipname;
+
+	private Double time_work;
 
 	public String getCrane() {
 		return this.crane;
+	}
+
+	public Date getDate_request() {
+		return this.date_request;
 	}
 
 	public Integer getId_ship() {
@@ -41,6 +48,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setCrane(final String crane) {
 		this.crane = crane;
+	}
+
+	public void setDate_request(final Date date_request) {
+		this.date_request = date_request;
 	}
 
 	public void setId_ship(final Integer id_ship) {
