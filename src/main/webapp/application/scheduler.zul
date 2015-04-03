@@ -2337,9 +2337,7 @@
 				<button id="overview_month" label="Mese corrente"
 					sclass="btn-info" />
 
-				<a label="Filtra su anno: "/>
-				<combobox placeholder="Seleziona anno..." readonly="true"
-					id="select_year"/>
+				
 
 				<a label="Scarica dati in CSV" id="overview_download"
 					style="color:green">
@@ -2352,7 +2350,14 @@
 			<separator></separator>
 
 			<hbox align="center">
+				
+				<vbox align="start">
+				<a label="Filtra su anno: "/>
+				<combobox placeholder="Seleziona anno..." readonly="true"
+					id="select_year"/>
+				</vbox>
 
+				<vbox align="start">
 				<a label="Filtra su numero turno: "></a>
 				<combobox placeholder="Scegli turno..." readonly="true"
 					id="select_shift_overview">
@@ -2364,8 +2369,15 @@
 					<comboitem value="3" label="3"></comboitem>
 					<comboitem value="4" label="4"></comboitem>
 				</combobox>
+				</vbox>
 
-				<space></space>
+				<vbox>
+					<a label="Filtra su mansione:"/>
+					<combobox id="taskComboBox" readonly="false"
+						placeholder="Seleziona mansione..." />
+					<a label="Tutti" style="color:green"
+						id="overview_selector_select_allTask" />
+				</vbox>
 
 
 				<vbox align="start">
@@ -2391,14 +2403,8 @@
 					</hbox>
 				</vbox>
 
-				<a label="Filtra su mansione: "></a>
-				<vbox>
-					<space></space>
-					<combobox id="taskComboBox" readonly="false"
-						placeholder="Seleziona mansione..." />
-					<a label="Tutti" style="color:green"
-						id="overview_selector_select_allTask" />
-				</vbox>
+				
+				
 				<space></space>
 
 			</hbox>
