@@ -749,6 +749,7 @@
 					<listheader label="Turno" />
 					<listheader label="Gru" />
 					<listheader label="Tempo (ore)" />
+					<listheader label="Volumi attesi" />
 
 				</listhead>
 
@@ -768,6 +769,9 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.time_work, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.volume}" />
 
 				</listitem>
 			</listbox>

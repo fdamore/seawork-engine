@@ -22,6 +22,8 @@ public class ReviewShipWork implements Serializable {
 
 	private Double time_work;
 
+	private Double volume;
+
 	public String getCrane() {
 		return this.crane;
 	}
@@ -46,6 +48,10 @@ public class ReviewShipWork implements Serializable {
 		return this.time_work;
 	}
 
+	public Double getVolume() {
+		return this.volume;
+	}
+
 	public void setCrane(final String crane) {
 		this.crane = crane;
 	}
@@ -68,6 +74,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setTime_work(final Double time_work) {
 		this.time_work = time_work;
+	}
+
+	public void setVolume(final Double volume) {
+		this.volume = volume;
 	}
 
 }

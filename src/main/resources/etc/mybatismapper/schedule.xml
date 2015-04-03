@@ -10,22 +10,28 @@
 	<select id="reviewShipWork" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ReviewShipWork">
 
-		SELECT
-		s.name as shipname,
-		s.id as id_ship,
-		df.shift,
-		sum(df.time) as time_work,
-		df.crane,
-		date(df.time_to) as date_request
-		FROM
-		detailfinalschedule df,
-		ship s
-		where
-		df.id_ship is not null
-		and date(df.time_to) = #{dt_arg}
-		and s.id = df.id_ship
-		group by df.shift, df.crane
-		order by df.id_ship , df.shift
+	SELECT 
+    s.name as shipname,
+    s.id as id_ship,
+    df.shift,
+    sum(df.time) as time_work,
+    df.crane,
+    date(df.time_to) as date_request,
+    sum(sp.volume) as volume
+FROM
+    detailfinalschedule df,
+    scheduleship sp,
+    detailscheduleship dts,
+    ship s
+where
+    sp.id = dts.idscheduleship
+        and dts.shift = df.shift
+        and date(df.time_to) = dts.shiftdate
+        and df.id_ship is not null
+        and date(df.time_to) = #{dt_arg}
+        and s.id = df.id_ship
+group by df.shift , df.crane
+order by df.id_ship , df.shift
 
 	</select>
 
