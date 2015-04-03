@@ -2346,6 +2346,10 @@
 				<button id="overview_month" label="Mese corrente"
 					sclass="btn-info" />
 
+				<a label="Filtra su anno: " />
+				<combobox placeholder="Seleziona anno..."
+					readonly="true" id="select_year" />
+
 				<a label="Scarica dati in CSV" id="overview_download"
 					style="color:green">
 				</a>
