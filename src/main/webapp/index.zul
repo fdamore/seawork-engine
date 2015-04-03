@@ -37,17 +37,17 @@
 
 			<hbox align="center">
 
-				<label value="Seawork Engine" style="font-size:2em;">
+				<label value="Sea Work Engine" style="font-size:2em;">
 				</label>
 
-				<image src="/img/login.png" width="64px"></image>
+				
 
 
 
 			</hbox>
 
 			<a href="http://slot5.uario.com"
-				label="Ritorna al portale Seawork Service">
+				label="Ritorna al portale Sea Work Service">
 			</a>
 
 			<separator height="30px" />
