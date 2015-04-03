@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,6 +43,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Popup;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
@@ -121,6 +123,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	Toolbarbutton						add_scheduleShipsDetail_command;
 
 	@Wire
+	public Row							alertShiftDate;
+
+	@Wire
+	public Row							alertShiftDate_detail;
+
+	@Wire
 	public Component					dailyDetailShip;
 
 	@Wire
@@ -158,16 +166,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private List<DetailScheduleShip>	listDetailScheduleShip		= new ArrayList<DetailScheduleShip>();
 
 	private final Logger				logger						= Logger.getLogger(UserDetailsComposer.class);
-
 	@Wire
 	private Intbox						menwork;
 	@Wire
 	public Intbox						menwork_Daily;
+
 	@Wire
 	private Component					modify_Scheduleships_command;
 
 	@Wire
 	private Toolbarbutton				modify_scheduleShipsDetail_command;
+
+	@Wire
+	public Label						msgAlert;
+
+	@Wire
+	public Label						msgAlert_detail;
 
 	@Wire
 	private Textbox						note;
@@ -193,6 +207,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Popup						popu_detail;
+
+	@Wire
+	public Popup						popup_detail;
 
 	@Wire
 	public Popup						popup_detail_Daily;
@@ -402,39 +419,81 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			return;
 		} else {
+
 			final DetailScheduleShip detailScheduleShip = new DetailScheduleShip();
 
-			final Person userOperative = (Person) this.user.getSelectedItem().getValue();
+			final Person userOperative = (Person) ShipSchedulerComposer.this.user.getSelectedItem().getValue();
 
-			if (this.usersecond.getSelectedItem() != null) {
-				final Person secondUserOperative = (Person) this.usersecond.getSelectedItem().getValue();
+			if (ShipSchedulerComposer.this.usersecond.getSelectedItem() != null) {
+				final Person secondUserOperative = (Person) ShipSchedulerComposer.this.usersecond.getSelectedItem().getValue();
 				detailScheduleShip.setIdseconduser(secondUserOperative.getId());
 				detailScheduleShip.setFirstnameSecondUser(secondUserOperative.getFirstname() + " " + secondUserOperative.getLastname());
 			}
-			detailScheduleShip.setNotedetail(this.noteshipdetail.getValue());
-			detailScheduleShip.setShift((Integer) this.shift.getSelectedItem().getValue());
-			detailScheduleShip.setOperation(this.operation.getValue());
+			detailScheduleShip.setNotedetail(ShipSchedulerComposer.this.noteshipdetail.getValue());
+			detailScheduleShip.setShift((Integer) ShipSchedulerComposer.this.shift.getSelectedItem().getValue());
+			detailScheduleShip.setOperation(ShipSchedulerComposer.this.operation.getValue());
 			detailScheduleShip.setIduser(userOperative.getId());
-			detailScheduleShip.setHandswork(this.handswork.getValue());
-			detailScheduleShip.setMenwork(this.menwork.getValue());
-			detailScheduleShip.setIdscheduleship(this.scheduleShip_selected.getId());
-			detailScheduleShip.setShiftdate(this.shiftdate.getValue());
+			detailScheduleShip.setHandswork(ShipSchedulerComposer.this.handswork.getValue());
+			detailScheduleShip.setMenwork(ShipSchedulerComposer.this.menwork.getValue());
+			detailScheduleShip.setIdscheduleship(ShipSchedulerComposer.this.scheduleShip_selected.getId());
+			detailScheduleShip.setShiftdate(ShipSchedulerComposer.this.shiftdate.getValue());
 
 			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
 
-			this.shipSchedulerDao.createDetailScheduleShip(detailScheduleShip);
+			this.alertShiftDate.setVisible(false);
 
-			/**
-			 * this.listDetailScheduleShip.add(detailScheduleShip);
-			 *
-			 * final ListModelList<DetailScheduleShip> model = new
-			 * ListModelList<DetailScheduleShip>(this.listDetailScheduleShip);
-			 * model.setMultiple(false);
-			 * this.sw_list_scheduleDetailShip.setModel(model);
-			 */
-			this.addDetailScheduleShipProgram();
+			ShipSchedulerComposer.this.shipSchedulerDao.createDetailScheduleShip(detailScheduleShip);
+
+			ShipSchedulerComposer.this.addDetailScheduleShipProgram();
 
 		}
+	}
+
+	@Listen("onChange = #shiftdate")
+	public void checkShiftDate() {
+
+		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && (ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
+				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0 || ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
+				ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0))) {
+
+			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+			final String msg = "Attenzione: data arrivo nave " + sdf.format(this.scheduleShip_selected.getArrivaldate()) + ", data partenza nave "
+					+ sdf.format(this.scheduleShip_selected.getDeparturedate());
+			this.msgAlert.setValue(msg);
+
+			this.alertShiftDate.setVisible(true);
+
+		} else {
+			this.alertShiftDate.setVisible(false);
+
+		}
+
+	}
+
+	@Listen("onChange = #shiftdate_Daily")
+	public void checkShiftDate_detail() {
+		if (this.sw_list_scheduleShip.getSelectedItem() != null) {
+			this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+		}
+
+		if (((this.detailScheduleShipSelected != null && ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null) && (ShipSchedulerComposer.this.shiftdate_Daily
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0 || ShipSchedulerComposer.this.shiftdate_Daily
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0))) {
+
+			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+			final String msg = "Attenzione: data arrivo nave " + sdf.format(this.detailScheduleShipSelected.getArrivaldate())
+					+ ", data partenza nave " + sdf.format(this.detailScheduleShipSelected.getDeparturedate());
+
+			this.msgAlert_detail.setValue(msg);
+
+			this.alertShiftDate_detail.setVisible(true);
+		} else {
+
+			this.alertShiftDate_detail.setVisible(false);
+		}
+
 	}
 
 	@Listen("onClick= #closeShipSchedule_command")
@@ -1003,7 +1062,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 				this.searchDetailScheduleShipByDateShift();
-
+				this.alertShiftDate_detail.setVisible(false);
 				this.popup_detail_Daily.close();
 			}
 		}
@@ -1030,10 +1089,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onChange = #searchDateShift")
 	public void searchDetailScheduleShipByDateShift() {
+
+		if (this.searchDateShift.getValue() == null && this.searchArrivalDateShipFrom_detail.getValue() != null
+				&& this.searchArrivalDateShipTo_detail.getValue() != null) {
+			this.searchDetailScheduleShipByDate();
+			return;
+		}
+
 		this.searchArrivalDateShipFrom_detail.setValue(null);
 		this.searchArrivalDateShipTo_detail.setValue(null);
 
 		if (this.searchDateShift.getValue() != null) {
+
 			this.setScheduleShipListBox(this.searchDateShift.getValue());
 		} else {
 
@@ -1249,21 +1316,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(list_DetailScheduleShip));
-
-	}
-
-	@Listen("onClick = #sw_addSchedulerShip")
-	public void showAddScheduleShipPanel() {
-
-		// command
-		this.add_scheduleShips_command.setVisible(true);
-		this.modify_Scheduleships_command.setVisible(false);
-
-		// configure tab
-		// this.grid_scheduleShip_details.setVisible(true);
-
-		// set detail to selection
-		this.detail_scheduleShip_tab.getTabbox().setSelectedTab(this.detail_scheduleShip_tab);
 
 	}
 

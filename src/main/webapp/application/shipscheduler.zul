@@ -180,6 +180,11 @@
 								<datebox id="shiftdate"
 									placeholder="Data Turno" />
 							</row>
+							<row  id ="alertShiftDate" visible="false" >
+							<cell colspan="2" >
+								<label  id="msgAlert" />
+								</cell>
+							</row>
 							<row>
 								<label value="Turno:"></label>
 								<combobox id="shift" readonly="true"
@@ -444,6 +449,11 @@
 								<datebox id="shiftdate_Daily"
 									placeholder="Data Turno" />
 							</row>
+							<row  id ="alertShiftDate_detail" visible="false" >
+							<cell colspan="2" >
+								<label  id="msgAlert_detail" />
+								</cell>
+							</row>
 							<row>
 								<label value="Turno:"></label>
 								<combobox id="shift_Daily"
@@ -559,7 +569,7 @@
 						<toolbarbutton
 							id="sw_link_addDetailScheduleShipProgram" style="color:blue"
 							visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
-							onClick='sw_list_scheduleShipProgram.setSelectedItem((Listitem)self.getParent().getParent()); popup_detail.open(self, "after_pointer");'
+							onClick='sw_list_scheduleShipProgram.setSelectedItem((Listitem)self.getParent().getParent()); alertShiftDate.setVisible(false);popup_detail.open(self, "after_pointer"); '
 							label="Modifica dettagli">
 						</toolbarbutton>
 
@@ -624,16 +634,6 @@
 
 			<separator />
 			<label  value="" style="color:blue; font-size:10pt;" id="infoDetailShipProgram" />
-			<separator />
-
-
-			<button id="sw_addSchedulerShip" sclass="btn-info"
-				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
-				label="Aggiungi Dettaglio Programmazione" />
-
-			<space />
-
-
 			<separator />
 
 			<listbox id="sw_list_scheduleShip" pagingPosition="both"
@@ -705,7 +705,7 @@
 
 						<toolbarbutton id="sw_link_modifyscheduleship"
 							style="color:blue"
-							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_detail_Daily.open(self,"after_pointer")'
+							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());alertShiftDate_detail.setVisible(false);popup_detail_Daily.open(self,"after_pointer")'
 							label="Visualizza e Modifica">
 						</toolbarbutton>
 
