@@ -50,6 +50,7 @@
 		<property name="shiftCache" ref="myShiftCache"></property>
 		<property name="taskCache" ref="myTaskCache"></property>
 		<property name="ship_dao" ref="myScheduleShipDAO"></property>
+		<property name="taskDAO" ref="myTasksDAO"></property>
 
 	</bean>
 

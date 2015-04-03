@@ -23,6 +23,7 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
+import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.TaskRunner;
@@ -31,19 +32,21 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private final Logger			logger				= Logger.getLogger(WebControllerImpl.class);
+	private final Logger logger = Logger.getLogger(WebControllerImpl.class);
 
-	private PersonDAO				personDAO;
+	private PersonDAO personDAO;
 
-	private final SimpleDateFormat	remote_format_date	= new SimpleDateFormat("dd-MM-yyyy");
+	private final SimpleDateFormat remote_format_date = new SimpleDateFormat("dd-MM-yyyy");
 
-	private ISchedule				scheduleDAO;
+	private ISchedule scheduleDAO;
 
-	private IShiftCache				shiftCache;
+	private IShiftCache shiftCache;
 
-	private IScheduleShip			ship_dao;
+	private IScheduleShip ship_dao;
 
-	private ITaskCache				taskCache;
+	private ITaskCache taskCache;
+
+	private TasksDAO taskDAO;
 
 	/**
 	 * final synch process
@@ -157,6 +160,10 @@ public class WebControllerImpl implements IWebServiceController {
 		return this.taskCache;
 	}
 
+	public TasksDAO getTaskDAO() {
+		return this.taskDAO;
+	}
+
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
 		return new ArrayList<UserShift>(this.shiftCache.getHash().values());
@@ -213,6 +220,10 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
+			// set info about task
+			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUser(person.getId());
+			person.setUserTaskForMobile(list_tasks);
+
 			// set current object
 			item.setPerson(person);
 			item.setDetail_schedule(details);
@@ -243,6 +254,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public void setTaskCache(final ITaskCache taskCache) {
 		this.taskCache = taskCache;
+	}
+
+	public void setTaskDAO(final TasksDAO taskDAO) {
+		this.taskDAO = taskDAO;
 	}
 
 	@Override
