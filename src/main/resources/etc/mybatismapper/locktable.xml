@@ -25,6 +25,12 @@
 		table_type = #{tableType} and time_to IS NULL;		
 	</select>
 	
+	<select id="loadLastLockTableByTableType" parameterType="String" resultType="org.uario.seaworkengine.model.LockTable">
+		SELECT id, id_user, time_start, time_to, table_type, id_user_closer
+		FROM  locktable 
+		WHERE table_type = #{tableType} and time_to=(SELECT MAX(time_to) FROM locktable where table_type = #{tableType} and time_to is not null)				
+	</select>
+	
 	<delete id="removeLockTable" parameterType="Integer">
 		delete from
 		locktable

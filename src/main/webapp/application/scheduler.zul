@@ -86,6 +86,13 @@
 			<a label="Sistema di programmazione lavoro Seawork"
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		</div>
+		
+		<hbox align="center" id="last_programmer_tag">
+			<label style="font-style: italic" value="Ultima chiusura " />
+			<label style="font-style: italic" id="lastProgrammer"/>
+		</hbox>
+		
+		<separator/>
 
 		<hbox align="center" id="header_info"
 			visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -103,7 +110,9 @@
 				w:onClick="window.open('scheduler.zul?printProgram=1');" />
 
 		</hbox>
-
+		
+		
+		
 		<button label="Stampa" sclass="btn-danger" visible="false"
 			id="print_scheduler" xmlns:w="http://www.zkoss.org/2005/zk/client"
 			w:onClick="window.print()" />

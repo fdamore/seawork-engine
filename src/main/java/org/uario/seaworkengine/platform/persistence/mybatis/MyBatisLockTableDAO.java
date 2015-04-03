@@ -17,6 +17,13 @@ public class MyBatisLockTableDAO extends SqlSessionDaoSupport implements LockTab
 	}
 
 	@Override
+	public LockTable loadLastLockTableByTableType(final String tableType) {
+		MyBatisLockTableDAO.logger.info("Load Last Lock Table By Table Type  " + tableType);
+
+		return this.getSqlSession().selectOne("locktable.loadLastLockTableByTableType", tableType);
+	}
+
+	@Override
 	public LockTable loadLockTableById(final Integer idLockTable) {
 		MyBatisLockTableDAO.logger.info("Load Lock Table By Id " + idLockTable);
 
