@@ -1,4 +1,4 @@
-<?page id="usertfr" title="Seawork Admin"?>
+<?page id="usertfr" title="Sea Work Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
 <zk>

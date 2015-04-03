@@ -1,4 +1,4 @@
-<?page id="ship" title="Seawork Admin"?>
+<?page id="ship" title="Sea Work Admin"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
 <zk>
@@ -18,7 +18,7 @@
 
 		<div sclass="page-header">
 			<label value="Dettagli Navi" />
-			<a label="Navi del sistema Seaworkengine"
+			<a label="Navi del sistema Sea Work Engine"
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		</div>
 	
