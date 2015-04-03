@@ -375,6 +375,9 @@
 								sort="auto(menwork)" />
 							<listheader label="Note Dettaglio" />
 						</listhead>
+						
+										
+						
 
 						<listitem
 							self="@{each='detailscheduleship_item'}"
@@ -651,6 +654,7 @@
 						sort="auto(menwork)" />
 					<listheader label="Note Programmazione" />
 					<listheader label="Note Dettaglio" />
+					<listheader label="Data Turno" />
 					<listheader label="Data inizio attività"
 						sort="auto(arrivaldate)" />
 					<listheader label="Data fine attività"
@@ -687,8 +691,10 @@
 						label="@{detailscheduleship_item.menwork}" />
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.note}" />
-					<listcell sclass="myBottonCell"
+					<listcell sclass="myBottonCell" 
 						label="@{detailscheduleship_item.notedetail}" />
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />	
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.arrivaldate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell sclass="myBottonCell"
