@@ -28,7 +28,7 @@ public interface PersonDAO extends UserDetailsService {
 	 * @param new_password
 	 */
 
-	void changePassword(String username, String new_password);
+	void changePassword(Integer person_id, String username, String new_password);
 
 	/**
 	 * List all users suspended

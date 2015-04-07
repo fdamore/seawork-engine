@@ -114,7 +114,8 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("La password inserita non è corretta", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("La password inserita non è corretta", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -130,7 +131,8 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le mail devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Le mail devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -139,7 +141,8 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changeMail(person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
+			this.personDao.changeMail(person_selected.getId(), this.mailpassword_user.getValue(),
+					this.email_editor_user.getValue());
 
 			person_selected.setEmail(this.email_editor_user.getValue());
 
@@ -184,7 +187,8 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le Password devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Le Password devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
 
 				// Messagebox.show("La password inserita non è corretta",
 				// "Attenzione", 0, null, null, null, null, params);
@@ -193,7 +197,8 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changePassword(person_selected.getEmail(), this.password_editor_user.getValue());
+			this.personDao.changePassword(person_selected.getId(), person_selected.getEmail(),
+					this.password_editor_user.getValue());
 
 			// reset fields
 			this.password_editor_user.setValue("");
@@ -215,7 +220,8 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Errore nell'inserimento dei valori", "ATTENZIONE", buttons, null, Messagebox.ERROR, null, null, params);
+			Messagebox.show("Errore nell'inserimento dei valori", "ATTENZIONE", buttons, null, Messagebox.ERROR, null, null,
+					params);
 
 		}
 

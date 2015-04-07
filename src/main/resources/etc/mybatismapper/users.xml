@@ -959,7 +959,7 @@
 	<update id="changePassword" parameterType="org.uario.seaworkengine.model.Person">
 		UPDATE user set
 		password = #{password}
-		WHERE email = #{email}
+		WHERE id = #{id}		
 	</update>
 
 	<select id="loadCodComune" parameterType="map" resultType="String">

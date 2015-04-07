@@ -275,7 +275,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private static final SimpleDateFormat	formatter_e						= new SimpleDateFormat("E");
 
-	private static final SimpleDateFormat	formatter_last_p				= new SimpleDateFormat("'alle' HH:mm");
+	private static final SimpleDateFormat	formatter_last_p				= new SimpleDateFormat("dd-MM-yyyy 'alle' HH:mm");
 
 	private static final SimpleDateFormat	formatter_MMdd					= new SimpleDateFormat("MM-dd");
 
@@ -4900,7 +4900,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Comboitem version_selected = this.scheduler_type_selector.getSelectedItem();
 
-		if (version_selected == null || version_selected == this.overview_item) {
+		if ((version_selected == null) || (version_selected == this.overview_item)) {
 			this.last_programmer_tag.setVisible(false);
 			return;
 		}

@@ -41,15 +41,15 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
-	public void changePassword(final String email, final String new_password) {
-		MyBatisPersonDAO.logger.info("Change Password for person: " + email);
+	public void changePassword(final Integer person_id, final String email, final String new_password) {
+		MyBatisPersonDAO.logger.info("Change Password for person: " + person_id);
 
 		// define salt...
 		final String hashing_password = Utility.encodeSHA256(new_password, email);
 
 		final Person person_data_handle = new Person();
 		person_data_handle.setPassword(hashing_password);
-		person_data_handle.setEmail(email);
+		person_data_handle.setId(person_id);
 
 		this.getSqlSession().update("person.changePassword", person_data_handle);
 
