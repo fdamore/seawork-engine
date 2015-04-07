@@ -109,13 +109,12 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), person_selected.getEmail());
 			if (!hashing_password.equals(person_selected.getPassword())) {
 
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("La password inserita non è corretta", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-						null, params);
+				Messagebox.show("La password inserita non è corretta", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -126,13 +125,12 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 
 			if (!this.email_editor_user.getValue().equals(this.email_editor_user_retype.getValue())) {
 
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le mail devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
-						params);
+				Messagebox.show("Le mail devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -141,8 +139,7 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changeMail(person_selected.getId(), this.mailpassword_user.getValue(),
-					this.email_editor_user.getValue());
+			this.personDao.changeMail(person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
 
 			person_selected.setEmail(this.email_editor_user.getValue());
 
@@ -151,7 +148,7 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 
 			this.email_user.setValue(person_selected.getEmail());
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -162,7 +159,7 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 
 		catch (final WrongValueException e) {
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -182,29 +179,24 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 			// WARNING
 			if (!this.password_editor_user.getValue().equals(this.password_editor_user_retype.getValue())) {
 
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le Password devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-						null, params);
-
-				// Messagebox.show("La password inserita non è corretta",
-				// "Attenzione", 0, null, null, null, null, params);
+				Messagebox.show("Le Password devono essere uguali", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
 
 			// change password
-			this.personDao.changePassword(person_selected.getId(), person_selected.getEmail(),
-					this.password_editor_user.getValue());
+			this.personDao.changePassword(person_selected.getId(), person_selected.getEmail(), this.password_editor_user.getValue());
 
 			// reset fields
 			this.password_editor_user.setValue("");
 			this.password_editor_user_retype.setValue("");
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -215,13 +207,12 @@ public class MyProfileComposer extends SelectorComposer<Component> {
 
 		catch (final WrongValueException e) {
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Errore nell'inserimento dei valori", "ATTENZIONE", buttons, null, Messagebox.ERROR, null, null,
-					params);
+			Messagebox.show("Errore nell'inserimento dei valori", "ATTENZIONE", buttons, null, Messagebox.ERROR, null, null, params);
 
 		}
 
