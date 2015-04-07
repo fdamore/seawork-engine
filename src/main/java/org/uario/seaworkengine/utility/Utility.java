@@ -39,11 +39,7 @@ public class Utility {
 
 	private static SimpleDateFormat	dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-	private static SimpleDateFormat	mouthFormat		= new SimpleDateFormat("MM");
-
 	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
-
-	private static SimpleDateFormat	yearFormat		= new SimpleDateFormat("yyyy");
 
 	public static String convertToDateAndTime(final Timestamp date) {
 
@@ -83,6 +79,32 @@ public class Utility {
 		final int minuts = (int) Utility.roundOne(decimal * 60);
 
 		return "" + hours + "h " + minuts + "m";
+	}
+
+	/**
+	 * Return dotted name
+	 *
+	 * @param name
+	 * @return
+	 */
+	public static final String dottedName(final String name) {
+
+		final String[] info = name.split(" ");
+		if (info.length >= 2) {
+
+			String surname = info[0];
+			String info_name = info[1];
+
+			if ((surname.length() == 2) && (info.length >= 3)) {
+				surname = info[0] + " " + info[1];
+				info_name = info[2];
+			}
+
+			return surname + " " + info_name.toCharArray()[0] + ".";
+
+		} else {
+			return name;
+		}
 	}
 
 	/**
