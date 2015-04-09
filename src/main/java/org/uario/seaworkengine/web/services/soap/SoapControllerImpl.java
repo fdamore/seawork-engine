@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -14,7 +15,7 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class SoapControllerImpl implements ISoapServiceInterface {
 
-	private IWebServiceController webcontroller;
+	private IWebServiceController	webcontroller;
 
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
@@ -33,6 +34,17 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	@Override
 	public List<Ship> listShip(@WebParam(name = "date_request") final Date date_request) {
 		return this.webcontroller.listShip(date_request);
+	}
+
+	@Override
+	public List<DetailScheduleShip> selectDetailScheduleShip(@WebParam(name = "date_request") final Date date_request) {
+		return this.webcontroller.selectDetailScheduleShip(date_request);
+	}
+
+	@Override
+	public List<DetailScheduleShip> selectDetailScheduleShipByShift(@WebParam(name = "date_request") final Date date_request,
+			@WebParam(name = "no_shift") final Integer no_shift) {
+		return this.webcontroller.selectDetailScheduleShipByShift(date_request, no_shift);
 	}
 
 	@Override

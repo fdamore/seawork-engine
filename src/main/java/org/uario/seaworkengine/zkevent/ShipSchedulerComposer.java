@@ -452,9 +452,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #shiftdate")
 	public void checkShiftDate() {
 
-		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && (ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
-				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0 || ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
-				ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0))) {
+		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
+				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -477,9 +477,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 		}
 
-		if (((this.detailScheduleShipSelected != null && ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null) && (ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0 || ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0))) {
+		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -709,7 +709,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	private Integer getSelectedShift() {
 		Integer shiftSelected = null;
-		if (this.select_shift.getSelectedItem() != null && this.select_shift.getSelectedIndex() != 0) {
+		if ((this.select_shift.getSelectedItem() != null) && (this.select_shift.getSelectedIndex() != 0)) {
 			shiftSelected = this.select_shift.getSelectedIndex();
 		}
 		return shiftSelected;
@@ -1078,8 +1078,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Date dateTo = this.searchArrivalDateShipTo_detail.getValue();
 
 		if (((dateFrom != null) && (dateTo != null)) && (dateTo.compareTo(dateFrom) >= 0)) {
-			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.shipSchedulerDao.loadDetailScheduleShipByDateAndShipName(
-					dateFrom, dateTo, this.full_text_search.getValue(), this.getSelectedShift())));
+
+			final String text_search = this.full_text_search.getValue();
+
+			final Integer no_shift = this.getSelectedShift();
+			final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByDateAndShipName(dateFrom, dateTo, text_search,
+					no_shift);
+
+			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(list));
+
 		} else {
 			return;
 		}
@@ -1090,8 +1097,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #searchDateShift")
 	public void searchDetailScheduleShipByDateShift() {
 
-		if (this.searchDateShift.getValue() == null && this.searchArrivalDateShipFrom_detail.getValue() != null
-				&& this.searchArrivalDateShipTo_detail.getValue() != null) {
+		if ((this.searchDateShift.getValue() == null) && (this.searchArrivalDateShipFrom_detail.getValue() != null)
+				&& (this.searchArrivalDateShipTo_detail.getValue() != null)) {
 			this.searchDetailScheduleShipByDate();
 			return;
 		}

@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.Ship;
@@ -32,21 +33,23 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private final Logger logger = Logger.getLogger(WebControllerImpl.class);
+	private final Logger			logger				= Logger.getLogger(WebControllerImpl.class);
 
-	private PersonDAO personDAO;
+	private PersonDAO				personDAO;
 
-	private final SimpleDateFormat remote_format_date = new SimpleDateFormat("dd-MM-yyyy");
+	private final SimpleDateFormat	remote_format_date	= new SimpleDateFormat("dd-MM-yyyy");
 
-	private ISchedule scheduleDAO;
+	private ISchedule				scheduleDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache				shiftCache;
 
-	private IScheduleShip ship_dao;
+	private IScheduleShip			ship_dao;
 
-	private ITaskCache taskCache;
+	private IScheduleShip			shipSchedulerDao;
 
-	private TasksDAO taskDAO;
+	private ITaskCache				taskCache;
+
+	private TasksDAO				taskDAO;
 
 	/**
 	 * final synch process
@@ -156,6 +159,10 @@ public class WebControllerImpl implements IWebServiceController {
 		return this.ship_dao;
 	}
 
+	public IScheduleShip getShipSchedulerDao() {
+		return this.shipSchedulerDao;
+	}
+
 	public ITaskCache getTaskCache() {
 		return this.taskCache;
 	}
@@ -181,6 +188,35 @@ public class WebControllerImpl implements IWebServiceController {
 		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
 		return this.ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
+	}
+
+	/**
+	 * return detail ship by date
+	 *
+	 * @param date_request
+	 * @return
+	 */
+	@Override
+	public List<DetailScheduleShip> selectDetailScheduleShip(final Date date_request) {
+
+		final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByDateAndShipName(date_request, date_request, null, null);
+
+		return list;
+	}
+
+	/**
+	 * return detail ship by date
+	 *
+	 * @param date_request
+	 * @return
+	 */
+	@Override
+	public List<DetailScheduleShip> selectDetailScheduleShipByShift(final Date date_request, final Integer no_shift) {
+
+		final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByDateAndShipName(date_request, date_request, null,
+				no_shift);
+
+		return list;
 	}
 
 	@Override
@@ -250,6 +286,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public void setShip_dao(final IScheduleShip ship_dao) {
 		this.ship_dao = ship_dao;
+	}
+
+	public void setShipSchedulerDao(final IScheduleShip shipSchedulerDao) {
+		this.shipSchedulerDao = shipSchedulerDao;
 	}
 
 	public void setTaskCache(final ITaskCache taskCache) {
