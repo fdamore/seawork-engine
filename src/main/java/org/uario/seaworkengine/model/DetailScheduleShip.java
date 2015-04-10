@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(namespace = "org.uario.seaworkengine.model")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -30,17 +29,11 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	 * Used only in view mode
 	 */
 	private Date	departuredate;
-	/**
-	 * Used only in view mode
-	 */
-	@XmlTransient
-	private String	firstname;
 
 	/**
-	 * Used only in view mode
+	 * Used only for visualization purpose *
 	 */
-	@XmlTransient
-	private String	firstnameSecondUser;
+	private String	firstOperativeName;
 
 	private Integer	handswork;
 
@@ -55,17 +48,6 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private Integer	iduser;
 
-	/**
-	 * Used only in view mode
-	 */
-	@XmlTransient
-	private String	lastname;
-	/**
-	 * Used only in view mode
-	 */
-	@XmlTransient
-	private String	lastnameSecondUser;
-
 	private Integer	menwork;
 
 	// ship name
@@ -76,6 +58,11 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private String	notedetail;
 
 	private String	operation;
+
+	/**
+	 * Used only for visualization purpose *
+	 */
+	private String	secondOperativeName;
 
 	private Integer	shift;
 
@@ -95,12 +82,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.departuredate;
 	}
 
-	public String getFirstname() {
-		return this.firstname;
-	}
-
-	public String getFirstnameSecondUser() {
-		return this.firstnameSecondUser;
+	public String getFirstOperativeName() {
+		return this.firstOperativeName;
 	}
 
 	public Integer getHandswork() {
@@ -127,10 +110,6 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.iduser;
 	}
 
-	public String getLastnameSecondUser() {
-		return this.lastnameSecondUser;
-	}
-
 	public Integer getMenwork() {
 		return this.menwork;
 	}
@@ -151,8 +130,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.operation;
 	}
 
-	public String getSecondname() {
-		return this.lastname;
+	public String getSecondOperativeName() {
+		return this.secondOperativeName;
 	}
 
 	public Integer getShift() {
@@ -171,12 +150,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.departuredate = shipdeparturedate;
 	}
 
-	public void setFirstname(final String firstname) {
-		this.firstname = firstname;
-	}
-
-	public void setFirstnameSecondUser(final String firstnameSecondUser) {
-		this.firstnameSecondUser = firstnameSecondUser;
+	public void setFirstOperativeName(final String firstOperativeName) {
+		this.firstOperativeName = firstOperativeName;
 	}
 
 	public void setHandswork(final Integer handswork) {
@@ -203,10 +178,6 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.iduser = iduser;
 	}
 
-	public void setLastnameSecondUser(final String lastnameSecondUser) {
-		this.lastnameSecondUser = lastnameSecondUser;
-	}
-
 	public void setMenwork(final Integer menwork) {
 		this.menwork = menwork;
 	}
@@ -227,8 +198,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.operation = operation;
 	}
 
-	public void setSecondname(final String secondname) {
-		this.lastname = secondname;
+	public void setSecondOperativeName(final String secondOperativeName) {
+		this.secondOperativeName = secondOperativeName;
 	}
 
 	public void setShift(final Integer shift) {

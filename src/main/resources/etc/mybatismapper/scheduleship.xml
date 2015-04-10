@@ -62,11 +62,13 @@
 		sh.name
 		FROM
 		scheduleship s, ship sh
+		
 		<if test="my_full_text_search != null">
 			WHERE (sh.name like CONCAT('%',#{my_full_text_search},
 			'%') and s.idship =
 			sh.id)
 		</if>
+		
 		order by s.arrivaldate DESC;
 	</select>
 
@@ -113,8 +115,15 @@
 
 	<select id="loadDetailScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT d.id, d.idscheduleship, d.shift, d.operation,
-		d.iduser, d.notedetail, d.idseconduser, d.handswork, d.menwork, d.shiftdate, u.firstname, u.lastname, us.firstname as firstnameSecondUser, us.lastname as lastnameSecondUser
+		SELECT d.id, 
+		d.idscheduleship, 
+		d.shift, 
+		d.operation,
+		d.iduser, 
+		d.notedetail,		
+		d.idseconduser, d.handswork, d.menwork, d.shiftdate, 
+		concat(u.lastname, ' ', u.firstname) AS firstOperativeName, 
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName 
 		FROM
 		detailscheduleship d
         left join
@@ -205,8 +214,7 @@
 		s, scheduleship ss  
 		where
 		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and 
+			(s.name like CONCAT('%',#{full_text_search},'%') ) and 
 		</if>
 		<if test="shift != null">
 			d.shift = #{shift} and 
@@ -249,13 +257,16 @@
 		user u, ship
 		s, scheduleship ss  
 		where
+		
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
+		
 		<if test="shift != null">
 			d.shift = #{shift} and 
 		</if>
+		
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and ss.arrivaldate=date(#{arrivaldate})
 		) as detail;
 	</select>
@@ -267,14 +278,10 @@
 		ss.departuredate,
 		d.iduser,d.idseconduser, 
 		d.handswork,
-		d.menwork, d.shiftdate, s.id as
-		id_ship,
-		concat(u.lastname, '
-		',
-		u.firstname) AS firstname, 
-		concat(us.lastname, '
-		',
-		us.firstname) AS firstnameSecondUser 
+		d.menwork, d.shiftdate, 
+		s.id as id_ship,
+		concat(u.lastname, ' ', u.firstname) AS firstOperativeName, 
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName 
 		FROM
 		detailscheduleship d
         left join
@@ -282,13 +289,16 @@
 		user u, ship
 		s, scheduleship ss  
 		where
+		
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
+		
 		<if test="shift != null">
 			d.shift = #{shift} and 
 		</if>
+		
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and  ss.arrivaldate>=#{datefrom} and  #{dateto}>=ss.arrivaldate order by d.shift asc;
 		
 	</select>
@@ -299,16 +309,12 @@
 		d.shift, d.id, d.notedetail, d.idscheduleship, d.notedetail, s.name, d.operation,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
-		d.iduser,d.idseconduser, 
+		d.iduser, d.idseconduser, 
 		d.handswork,
 		d.menwork, d.shiftdate, s.id as
 		id_ship,
-		concat(u.lastname, '
-		',
-		u.firstname) AS firstname, 
-		concat(us.lastname, '
-		',
-		us.firstname) AS firstnameSecondUser 
+		concat(u.lastname, ' ', u.firstname) AS firstOperativeName, 
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName 
 		FROM
 		detailscheduleship d
         left join
@@ -316,13 +322,16 @@
 		user u, ship
 		s, scheduleship ss  
 		where
+		
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and 
 		</if>
+		
 		<if test="shift != null">
 			d.shift = #{shift} and 
 		</if>
+		
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and d.shiftdate=#{shiftdate} order by d.shift asc;
 	</select>
 
@@ -333,12 +342,9 @@
 		ss.departuredate, s.id as id_ship,
 		d.iduser,
 		d.handswork, d.menwork,
-		d.shiftdate, concat(u.lastname, '
-		',
-		u.firstname) AS firstname,
-		concat(us.lastname, '
-		',
-		us.firstname) AS firstnameSecondUser 
+		d.shiftdate, 
+		concat(u.lastname, ' ', u.firstname) AS firstOperativeName,
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName 
 		FROM
 		detailscheduleship d
         left join
@@ -354,12 +360,18 @@
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT id, idscheduleship, shift, operation, iduser, idseconduser, handswork, menwork, shiftdate, notedetail 
+		SELECT d.id, d.idscheduleship, d.shift, d.operation, d.iduser, d.idseconduser, d.handswork, d.menwork, d.shiftdate, d.notedetail, 
+		concat(u.lastname, ' ', u.firstname) AS firstOperativeName,
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName  
 		FROM
-		detailscheduleship where
-		idscheduleship =
-		#{id_scheduleShip}
-		order by shiftdate asc, shift asc;
+		detailscheduleship d 
+		left join
+    	user us ON (d.idseconduser = us.id),
+		user u 
+		where
+		d.idscheduleship =
+		#{id_scheduleShip} and d.iduser = u.id 
+		order by d.shiftdate asc, d.shift asc;
 	</select>
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"

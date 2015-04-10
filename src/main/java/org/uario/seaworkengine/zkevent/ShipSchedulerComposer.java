@@ -352,17 +352,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.listDetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
 
-			for (final DetailScheduleShip detailScheduleShip : this.listDetailScheduleShip) {
-				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
-				if (userOperative != null) {
-					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
-				}
-				final Person userSecondOperative = this.personDao.loadPerson(detailScheduleShip.getIdseconduser());
-				if (userSecondOperative != null) {
-					detailScheduleShip.setFirstnameSecondUser(userSecondOperative.getFirstname() + " " + userSecondOperative.getLastname());
-				}
-			}
-
 			this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>(this.listDetailScheduleShip));
 		}
 
@@ -423,22 +412,21 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final DetailScheduleShip detailScheduleShip = new DetailScheduleShip();
 
 			final Person userOperative = (Person) ShipSchedulerComposer.this.user.getSelectedItem().getValue();
+			detailScheduleShip.setIduser(userOperative.getId());
 
 			if (ShipSchedulerComposer.this.usersecond.getSelectedItem() != null) {
 				final Person secondUserOperative = (Person) ShipSchedulerComposer.this.usersecond.getSelectedItem().getValue();
 				detailScheduleShip.setIdseconduser(secondUserOperative.getId());
-				detailScheduleShip.setFirstnameSecondUser(secondUserOperative.getFirstname() + " " + secondUserOperative.getLastname());
 			}
+
 			detailScheduleShip.setNotedetail(ShipSchedulerComposer.this.noteshipdetail.getValue());
 			detailScheduleShip.setShift((Integer) ShipSchedulerComposer.this.shift.getSelectedItem().getValue());
 			detailScheduleShip.setOperation(ShipSchedulerComposer.this.operation.getValue());
-			detailScheduleShip.setIduser(userOperative.getId());
+
 			detailScheduleShip.setHandswork(ShipSchedulerComposer.this.handswork.getValue());
 			detailScheduleShip.setMenwork(ShipSchedulerComposer.this.menwork.getValue());
 			detailScheduleShip.setIdscheduleship(ShipSchedulerComposer.this.scheduleShip_selected.getId());
 			detailScheduleShip.setShiftdate(ShipSchedulerComposer.this.shiftdate.getValue());
-
-			detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
 
 			this.alertShiftDate.setVisible(false);
 
@@ -454,7 +442,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -479,7 +467,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -644,17 +632,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.listDetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
 
-			for (final DetailScheduleShip detailScheduleShip : this.listDetailScheduleShip) {
-				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
-				if (userOperative != null) {
-					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
-				}
-				final Person userSecondOperative = this.personDao.loadPerson(detailScheduleShip.getIdseconduser());
-				if (userSecondOperative != null) {
-					detailScheduleShip.setFirstnameSecondUser(userSecondOperative.getFirstname() + " " + userSecondOperative.getLastname());
-				}
-			}
-
 			this.sw_list_scheduleDetailShipProgram.setModel(new ListModelList<DetailScheduleShip>(this.listDetailScheduleShip));
 		}
 
@@ -683,13 +660,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.shipSchedulerDao.deleteDetailScheduleShip(this.detailScheduleShipSelected.getId());
 
 			this.listDetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
-
-			for (final DetailScheduleShip detailScheduleShip : this.listDetailScheduleShip) {
-				final Person userOperative = this.personDao.loadPerson(detailScheduleShip.getIduser());
-				if (userOperative != null) {
-					detailScheduleShip.setFirstname(userOperative.getFirstname() + " " + userOperative.getLastname());
-				}
-			}
 
 			this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>(this.listDetailScheduleShip));
 		}
@@ -936,15 +906,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipSchedulerComposer.this.deleteDetailship();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipSchedulerComposer.this.deleteDetailship();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -963,18 +933,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-				@Override
-				public void onEvent(final ClickEvent e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-								.getId());
+						@Override
+						public void onEvent(final ClickEvent e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+										.getId());
 
-						ShipSchedulerComposer.this.searchScheduleShipByDate();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								ShipSchedulerComposer.this.searchScheduleShipByDate();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-					}
-				}
-			}, params);
+							}
+						}
+					}, params);
 
 			// sdfsd
 		}
