@@ -197,25 +197,11 @@ public class WebControllerImpl implements IWebServiceController {
 	 * @return
 	 */
 	@Override
-	public List<DetailScheduleShip> selectDetailScheduleShip(final Date date_request) {
+	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(final Date date_request) {
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByDateAndShipName(date_request, date_request, null, null);
+		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		return list;
-	}
-
-	/**
-	 * return detail ship by date
-	 *
-	 * @param date_request
-	 * @return
-	 */
-	@Override
-	public List<DetailScheduleShip> selectDetailScheduleShipByShift(final Date date_request, final Integer no_shift) {
-
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByDateAndShipName(date_request, date_request, null,
-				no_shift);
-
+		final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(date_request_truncate, null, null);
 		return list;
 	}
 

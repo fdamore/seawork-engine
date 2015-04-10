@@ -37,14 +37,8 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public List<DetailScheduleShip> selectDetailScheduleShip(@WebParam(name = "date_request") final Date date_request) {
-		return this.webcontroller.selectDetailScheduleShip(date_request);
-	}
-
-	@Override
-	public List<DetailScheduleShip> selectDetailScheduleShipByShift(@WebParam(name = "date_request") final Date date_request,
-			@WebParam(name = "no_shift") final Integer no_shift) {
-		return this.webcontroller.selectDetailScheduleShipByShift(date_request, no_shift);
+	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(@WebParam(name = "date_request") final Date date_request) {
+		return this.webcontroller.selectDetailScheduleShipByShiftDate(date_request);
 	}
 
 	@Override

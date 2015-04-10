@@ -44,16 +44,7 @@ public interface ISoapServiceInterface {
 	 * @param date_request
 	 * @return
 	 */
-	public List<DetailScheduleShip> selectDetailScheduleShip(Date date_request);
-
-	/**
-	 * Return detail schedule shift
-	 *
-	 * @param date_request
-	 * @param no_shift
-	 * @return
-	 */
-	public List<DetailScheduleShip> selectDetailScheduleShipByShift(Date date_request, Integer no_shift);
+	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(Date date_request);
 
 	/**
 	 * Get initial schedule for each person
