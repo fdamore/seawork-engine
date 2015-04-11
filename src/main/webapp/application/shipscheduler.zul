@@ -39,7 +39,7 @@
 					value="DETTAGLIO GIORNALIERO" id="detail_item">
 				</comboitem>
 
-				<comboitem label="VERIFICA LAVORO NAVI"
+				<comboitem label="VERIFICA LAVORO (BAP)"
 					value="VERIFICA LAVORO NAVI" id="verify_review_ship_item">
 				</comboitem>
 			</combobox>
@@ -447,7 +447,7 @@
 							<row>
 								<label value="Data Turno:"></label>
 								<datebox id="shiftdate_Daily"
-									placeholder="Data Turno" />
+									constraint="no empty" placeholder="Data Turno" />
 							</row>
 							<row id="alertShiftDate_detail"
 								visible="false">
@@ -458,18 +458,20 @@
 							<row>
 								<label value="Turno:"></label>
 								<combobox id="shift_Daily"
-									readonly="true" placeholder="Seleziona Turno" mold="rounded" />
+									constraint="no empty" readonly="true"
+									placeholder="Seleziona Turno" mold="rounded" />
 							</row>
 							<row>
 								<label value="Operazione:"></label>
 								<textbox id="operation_Daily"
-									mold="rounded" />
+									constraint="no empty" mold="rounded" />
 
 							</row>
 							<row>
 								<label value="Nome Primo Preposto:"></label>
 								<combobox id="user_Daily"
-									readonly="true" placeholder="Seleziona Primo Preposto" />
+									constraint="no empty" readonly="true"
+									placeholder="Seleziona Primo Preposto" />
 							</row>
 							<row>
 								<label value="Nome Secondo Preposto:"></label>
@@ -478,21 +480,41 @@
 							</row>
 							<row>
 								<label value="Mani di lavoro:"></label>
-								<intbox id="handswork_Daily" />
+								<intbox id="handswork_Daily"
+									constraint="no empty, no negative" />
 							</row>
 							<row>
 								<label value="Numero uomini:"></label>
-								<intbox id="menwork_Daily" />
+								<intbox id="menwork_Daily"
+									constraint="no empty, no negative" />
 							</row>
 							<row>
 								<label value="Note Dettaglio"></label>
-								<textbox id="notedetail" />
+								<textbox width="90%" rows="5"
+									id="notedetail" />
 							</row>
-							<row>
-								<label value=""></label>
-								<label value=""></label>
 
+							<row>
+								<label value="GRU" style="color:red"></label>
+								<textbox id="cranedetail" />
 							</row>
+
+							<row>
+								<label value="Volumi Finali"
+									style="color:red">
+								</label>
+								<intbox id="finalvolumedetail"
+									constraint="no negative" />
+							</row>
+
+							<row>
+								<label value="Tempo Lavorato"
+									style="color:red">
+								</label>
+								<doublebox constraint="no negative"
+									id="timeworkdetail" />
+							</row>
+
 
 
 						</rows>
@@ -727,11 +749,11 @@
 		<!-- REVIEW WORK SHIP -->
 		<div id="reviewWorkShip">
 
-			<a label="Verifica Lavoro Navi" iconSclass="z-icon-list"
+			<a label="Verifica Lavoro Navi (BAP)" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 			<separator></separator>
 
-			<a label="Ricerca per data: "
+			<a label="Ricerca per data turno: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 			<datebox id="searchWorkShip" placeholder="Data Turno..." />

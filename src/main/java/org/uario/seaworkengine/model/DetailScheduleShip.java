@@ -25,6 +25,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	 */
 	private Date	arrivaldate;
 
+	private String	crane;
+
 	/**
 	 * Used only in view mode
 	 */
@@ -68,6 +70,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private Date	shiftdate;
 
+	private Double	timework;
+
+	private Double	volume;
+
 	@Override
 	public int compareTo(final Person o) {
 		// TODO Auto-generated method stub
@@ -75,79 +81,95 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	}
 
 	public Date getArrivaldate() {
-		return this.arrivaldate;
+		return arrivaldate;
+	}
+
+	public String getCrane() {
+		return crane;
 	}
 
 	public Date getDeparturedate() {
-		return this.departuredate;
+		return departuredate;
 	}
 
 	public String getFirstOperativeName() {
-		return this.firstOperativeName;
+		return firstOperativeName;
 	}
 
 	public Integer getHandswork() {
-		return this.handswork;
+		return handswork;
 	}
 
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
 
 	public Integer getId_ship() {
-		return this.id_ship;
+		return id_ship;
 	}
 
 	public Integer getIdscheduleship() {
-		return this.idscheduleship;
+		return idscheduleship;
 	}
 
 	public Integer getIdseconduser() {
-		return this.idseconduser;
+		return idseconduser;
 	}
 
 	public Integer getIduser() {
-		return this.iduser;
+		return iduser;
 	}
 
 	public Integer getMenwork() {
-		return this.menwork;
+		return menwork;
 	}
 
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
 	public String getNote() {
-		return this.note;
+		return note;
 	}
 
 	public String getNotedetail() {
-		return this.notedetail;
+		return notedetail;
 	}
 
 	public String getOperation() {
-		return this.operation;
+		return operation;
 	}
 
 	public String getSecondOperativeName() {
-		return this.secondOperativeName;
+		return secondOperativeName;
 	}
 
 	public Integer getShift() {
-		return this.shift;
+		return shift;
 	}
 
 	public Date getShiftdate() {
-		return this.shiftdate;
+		return shiftdate;
+	}
+
+	public Double getTimework() {
+		return timework;
+	}
+
+	public Double getVolume() {
+		return volume;
 	}
 
 	public void setArrivaldate(final Date shiparrivaldate) {
-		this.arrivaldate = shiparrivaldate;
+		arrivaldate = shiparrivaldate;
+	}
+
+	public void setCrane(final String crane) {
+		this.crane = crane;
 	}
 
 	public void setDeparturedate(final Date shipdeparturedate) {
-		this.departuredate = shipdeparturedate;
+		departuredate = shipdeparturedate;
 	}
 
 	public void setFirstOperativeName(final String firstOperativeName) {
@@ -183,11 +205,11 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	}
 
 	public void setName(final String shipname) {
-		this.name = shipname;
+		name = shipname;
 	}
 
 	public void setNote(final String shipnote) {
-		this.note = shipnote;
+		note = shipnote;
 	}
 
 	public void setNotedetail(final String notedetail) {
@@ -208,6 +230,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setShiftdate(final Date shiftdate) {
 		this.shiftdate = shiftdate;
+	}
+
+	public void setTimework(final Double timework) {
+		this.timework = timework;
+	}
+
+	public void setVolume(final Double volume) {
+		this.volume = volume;
 	}
 
 }
