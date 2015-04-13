@@ -83,7 +83,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		ship.setTwtype(this.ship_twtype.getValue());
 
 		if (ship.getName() == "" || ship.getLine() == "" || ship.getShiptype() == "" || ship.getShipcondition() == "" || ship.getTwtype() == "") {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -96,7 +96,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 				// reset data info
 				this.resetDataInfo();
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -110,7 +110,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 				this.add_ships_command.setVisible(false);
 				this.modify_ships_command.setVisible(false);
 			} else {
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -125,7 +125,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	public void checkPresence() {
 		if (this.ship_name.getValue() != null) {
 			if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue())) {
-				final Map<String, String> params = new HashMap();
+				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -189,7 +189,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 			this.logger.error("Error removing ship. " + e.getMessage());
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;

@@ -19,6 +19,7 @@ import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
+import net.sf.dynamicreports.report.builder.grid.ColumnTitleGroupBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.PageOrientation;
@@ -42,26 +43,31 @@ import org.zkoss.spring.SpringUtil;
 
 public class ProgramReportBuilder {
 
-	private static ConfigurationDAO	configurationDAO	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+	private static ConfigurationDAO	configurationDAO			= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
-	private static Logger			logger				= Logger.getLogger(ProgramReportBuilder.class);
+	private static Integer			firstShiftNumberOfPerson	= 0;
 
-	private static ISchedule		scheduleDAO			= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+	private static Integer			fourthShiftNumberOfPerson	= 0;
+
+	private static Logger			logger						= Logger.getLogger(ProgramReportBuilder.class);
+
+	private static ISchedule		scheduleDAO					= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+	private static Integer			secondShiftNumberOfPerson	= 0;
+	private static Integer			thirdShiftNumberOfPerson	= 0;
 
 	private static void build(final JasperReportBuilder report) {
 
 		final StyleBuilder textStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point()).setPadding(2);
 
-		final StyleBuilder boldStyle = DynamicReports.stl.style().bold();
-		final StyleBuilder boldCenteredStyle = DynamicReports.stl.style(boldStyle).setHorizontalAlignment(HorizontalAlignment.CENTER);
+		final StyleBuilder columnStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point())
+				.setHorizontalAlignment(HorizontalAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)
+				.setBackgroundColor(Color.lightGray);
 
-		final StyleBuilder columnTitleStyle = DynamicReports.stl.style(boldCenteredStyle).setBorder(DynamicReports.stl.pen1Point())
-				.setBackgroundColor(Color.LIGHT_GRAY);
-
+		// create column
 		final TextColumnBuilder<String> name = DynamicReports.col.column("Nome", "name", DynamicReports.type.stringType());
-
+		name.setWidth(150);
 		final TextColumnBuilder<String> add = DynamicReports.col.column("Add", "add", DynamicReports.type.stringType());
-		add.setWidth(30);
+		add.setWidth(40);
 		final TextColumnBuilder<String> start = DynamicReports.col.column("Entrata", "start", DynamicReports.type.stringType());
 		final TextColumnBuilder<String> end = DynamicReports.col.column("Uscita", "end", DynamicReports.type.stringType());
 		final TextColumnBuilder<String> ship = DynamicReports.col.column("Nave", "ship", DynamicReports.type.stringType());
@@ -70,11 +76,30 @@ public class ProgramReportBuilder {
 		final TextColumnBuilder<String> tw = DynamicReports.col.column("TW", "tw", DynamicReports.type.stringType());
 		tw.setWidth(50);
 		final TextColumnBuilder<String> hands = DynamicReports.col.column("Mani", "hands", DynamicReports.type.stringType());
+		hands.setWidth(50);
 		final TextColumnBuilder<String> cr = DynamicReports.col.column("CR", "cr", DynamicReports.type.stringType());
+		cr.setWidth(50);
+		final TextColumnBuilder<String> pnrStart = DynamicReports.col.column("Uscita", "pnrStart", DynamicReports.type.stringType());
+		final TextColumnBuilder<String> pnrEnd = DynamicReports.col.column("Rientro", "pnrEnd", DynamicReports.type.stringType());
+		final TextColumnBuilder<String> autorizedEntry = DynamicReports.col.column("Uscita/Entrata autorizzata", "autorizedEntry",
+				DynamicReports.type.stringType());
+		final TextColumnBuilder<String> nonAutorizedEntry = DynamicReports.col.column("Uscita/Entrata non autorizzata", "nonAutorizedEntry",
+				DynamicReports.type.stringType());
 
-		report.setColumnStyle(textStyle).columns(name, add, start, end, ship, co, tw, hands, cr)
-		.columnGrid(DynamicReports.grid.horizontalColumnGridList(name, add, start, end, ship, co, tw, hands, cr))
-		.setColumnHeaderStyle(columnTitleStyle);
+		// create group of column
+		final ColumnTitleGroupBuilder presenceInShift = DynamicReports.grid.titleGroup("Presenze in Turno", name, add).setTitleStretchWithOverflow(
+				true);
+		final ColumnTitleGroupBuilder hours = DynamicReports.grid.titleGroup("Orario di", start, end);
+		final ColumnTitleGroupBuilder operation = DynamicReports.grid.titleGroup("Tipo Op.", co, tw);
+		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
+
+		report.setHighlightDetailEvenRows(true)
+		.setColumnTitleStyle(columnStyle)
+				.setColumnStyle(textStyle)
+				.columnGrid(
+						DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, ship, operation, hands, cr, pnr, autorizedEntry,
+								nonAutorizedEntry))
+				.columns(name, add, start, end, ship, co, tw, hands, cr, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry);
 
 	}
 
@@ -84,7 +109,8 @@ public class ProgramReportBuilder {
 	 */
 	private static JRDataSource createDataSource(final ArrayList<RowSchedule> list_rows, final Integer shiftNumber) {
 
-		final DRDataSource dataSource = new DRDataSource("name", "add", "start", "end", "ship", "co", "tw", "hands", "cr");
+		final DRDataSource dataSource = new DRDataSource("name", "add", "start", "end", "ship", "co", "tw", "hands", "cr", "pnrStart", "pnrEnd",
+				"autorizedEntry", "nonAutorizedEntry");
 
 		for (final RowSchedule item : list_rows) {
 
@@ -96,6 +122,7 @@ public class ProgramReportBuilder {
 				if (item.getItem_3().getSchedule() != null) {
 
 					ProgramReportBuilder.updateDataSource(dataSource, shiftNumber, name_user, item);
+					ProgramReportBuilder.firstShiftNumberOfPerson++;
 				}
 			}
 
@@ -104,6 +131,7 @@ public class ProgramReportBuilder {
 				if (item.getItem_3().getSchedule() != null) {
 
 					ProgramReportBuilder.updateDataSource(dataSource, shiftNumber, name_user, item);
+					ProgramReportBuilder.secondShiftNumberOfPerson++;
 				}
 			}
 
@@ -112,6 +140,7 @@ public class ProgramReportBuilder {
 				if (item.getItem_3().getSchedule() != null) {
 
 					ProgramReportBuilder.updateDataSource(dataSource, shiftNumber, name_user, item);
+					ProgramReportBuilder.thirdShiftNumberOfPerson++;
 				}
 			}
 
@@ -120,6 +149,7 @@ public class ProgramReportBuilder {
 				if (item.getItem_3().getSchedule() != null) {
 
 					ProgramReportBuilder.updateDataSource(dataSource, shiftNumber, name_user, item);
+					ProgramReportBuilder.fourthShiftNumberOfPerson++;
 				}
 			}
 
@@ -168,10 +198,23 @@ public class ProgramReportBuilder {
 
 			report.setPageMargin(DynamicReports.margin(20));
 
-			// crate title
-			report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date));
+			ProgramReportBuilder.firstShiftNumberOfPerson = 0;
+			ProgramReportBuilder.secondShiftNumberOfPerson = 0;
+			ProgramReportBuilder.thirdShiftNumberOfPerson = 0;
+			ProgramReportBuilder.fourthShiftNumberOfPerson = 0;
 
 			final JRDataSource datasource = ProgramReportBuilder.createDataSource(list_row, shiftNumber);
+
+			// crate title
+			if (shiftNumber.equals(1)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, ProgramReportBuilder.firstShiftNumberOfPerson));
+			} else if (shiftNumber.equals(2)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, ProgramReportBuilder.secondShiftNumberOfPerson));
+			} else if (shiftNumber.equals(3)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, ProgramReportBuilder.thirdShiftNumberOfPerson));
+			} else if (shiftNumber.equals(4)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, ProgramReportBuilder.fourthShiftNumberOfPerson));
+			}
 
 			report.setDataSource(datasource);
 
@@ -187,7 +230,7 @@ public class ProgramReportBuilder {
 	/**
 	 * Create Title
 	 */
-	private static ComponentBuilder<?, ?> createTitleComponent(final Integer shiftNumber, final Date date) {
+	private static ComponentBuilder<?, ?> createTitleComponent(final Integer shiftNumber, final Date date, final Integer numberOfPerson) {
 
 		final HorizontalListBuilder itm = DynamicReports.cmp.horizontalList();
 
@@ -257,6 +300,13 @@ public class ProgramReportBuilder {
 			itm.setStyle(vsty);
 			itm.newRow().add(DynamicReports.cmp.line()).newRow().add(DynamicReports.cmp.verticalGap(20));
 
+			final HorizontalListBuilder numberOfPersonWorker = DynamicReports.cmp.horizontalList();
+			numberOfPersonWorker.setStyle(DynamicReports.stl.style().setHorizontalAlignment(HorizontalAlignment.LEFT));
+			final TextFieldBuilder<String> numberOfPersonField = DynamicReports.cmp.text("Totale persone: " + numberOfPerson);
+			numberOfPersonWorker.add(numberOfPersonField);
+			itm.newRow().add(numberOfPersonWorker);
+			itm.newRow(3);
+
 		} catch (final Exception e) {
 
 		}
@@ -325,7 +375,7 @@ public class ProgramReportBuilder {
 
 						final String add = task.getCode();
 
-						dataSource.add(name_user, add, "", "", "", "", "", "", "");
+						dataSource.add(name_user, add, "", "", "", "", "", "", "", "", "", "", "");
 
 					}
 				}
