@@ -17,6 +17,8 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	@XmlTransient
 	private static final long	serialVersionUID	= 1L;
 
+	private String				board;
+
 	private String				crane;
 
 	// to show in overview
@@ -80,6 +82,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 			return 1;
 		}
 		return this.getDate_schedule().compareTo(item.getDate_schedule());
+	}
+
+	public String getBoard() {
+		return this.board;
 	}
 
 	public String getCrane() {
@@ -163,6 +169,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public String getUser() {
 		return this.user;
+	}
+
+	public void setBoard(final String board) {
+		this.board = board;
 	}
 
 	public void setCrane(final String crane) {

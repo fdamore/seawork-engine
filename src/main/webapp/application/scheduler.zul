@@ -1859,7 +1859,7 @@
 		<div id="review_div" visible="false">
 
 			<!-- POPUP -->
-			<popup id="shift_definition_popup_review" width="1000px">
+			<popup id="shift_definition_popup_review" width="900px">
 				<vlayout style="margin: 5px 5px 5px 5px">
 					<div align="right">
 						<toolbarbutton label="X"
@@ -1905,7 +1905,7 @@
 							<listbox id="listbox_review" sclass="domain"
 								checkmark="true" multiple="true">
 								<auxhead>
-									<auxheader colspan="6">
+									<auxheader colspan="7">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -1934,7 +1934,7 @@
 
 
 								<auxhead>
-									<auxheader colspan="6">
+									<auxheader colspan="7">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -1951,7 +1951,7 @@
 									</auxheader>
 								</auxhead>
 								<auxhead>
-									<auxheader colspan="6">
+									<auxheader colspan="7">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -1971,6 +1971,7 @@
 											</combobox>
 											<textbox id="crane"
 												placeholder="Inserisci crane..." />
+											<combobox id="board" width="150px" readonly="true" placeholder="A Bordo - Sotto Bordo"/>
 
 										</hbox>
 
@@ -1987,6 +1988,7 @@
 										label="Orario di uscita" />
 									<listheader label="Nave" />
 									<listheader label="Crane" />
+									<listheader label="Postazione" />
 
 								</listhead>
 
@@ -1994,33 +1996,38 @@
 									value="@{itemreview}">
 
 									<listcell>
-										<label width="300px"
+										<label 
 											value="@{itemreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
 										</label>
 									</listcell>
 									<listcell>
-										<label width="150px"
+										<label 
 											value="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeVacationConverter'}">
 										</label>
 									</listcell>
 									<listcell>
-										<label width="200px"
+										<label 
 											value="@{itemreview.time_from}">
 										</label>
 									</listcell>
 									<listcell>
-										<label width="200px"
+										<label 
 											value="@{itemreview.time_to}">
 										</label>
 									</listcell>
 									<listcell>
-										<label width="200px"
+										<label 
 											value="@{itemreview.nameShip}">
 										</label>
 									</listcell>
 									<listcell>
-										<label width="50px"
+										<label 
 											value="@{itemreview.crane}">
+										</label>
+									</listcell>
+									<listcell>
+										<label 
+											value="@{itemreview.board}">
 										</label>
 									</listcell>
 
