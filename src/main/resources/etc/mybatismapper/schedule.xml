@@ -409,10 +409,10 @@
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task, time, time_from,
-		time_to, time_vacation, id_ship, crane)
+		time_to, time_vacation, id_ship, crane, board)
 		VALUES
 		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to},
-		#{time_vacation}, #{id_ship}, #{crane});
+		#{time_vacation}, #{id_ship}, #{crane}, #{board});
 	</insert>
 
 
@@ -435,7 +435,7 @@
 		SELECT df.id, df.id_schedule, df.shift, df.task,
 		df.time, df.time_from,
 		df.time_to, df.time_vacation, df.id_ship,
-		df.crane, s.name as nameShip
+		df.crane, s.name as nameShip, df.board 
 		FROM detailfinalschedule df LEFT JOIN ship
 		s ON df.id_ship = s.id
 		WHERE df.id_schedule =
@@ -487,7 +487,7 @@
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		SELECT df.id, df.id_schedule, df.shift, df.task, df.time,
 		df.time_from,
-		df.time_to, df.time_vacation, df.id_ship, df.crane,
+		df.time_to, df.time_vacation, df.id_ship, df.crane, df.board,  
 		s.name as nameShip
 		FROM detailfinalschedule df LEFT JOIN ship s ON
 		df.id_ship = s.id

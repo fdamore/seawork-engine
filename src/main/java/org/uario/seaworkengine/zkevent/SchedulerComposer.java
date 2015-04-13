@@ -41,6 +41,7 @@ import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.BoardTag;
 import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.utility.TableTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -300,6 +301,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private IBankHolidays					bank_holiday;
 
 	@Wire
+	private Combobox						board;
+
+	@Wire
 	private Button							cancel_day_definition;
 
 	@Wire
@@ -421,9 +425,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_statistic_popup;
-
 	@Wire
 	private A								label_statistic_task_popup;
+
 	@Wire
 	private Component						last_programmer_tag;
 
@@ -1123,38 +1127,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.review_task.getSelectedItem() == null) {
-			// Messagebox.show("Assegnare una mansione all'utente selezionato, prima di procedere alla consuntivazione",
-			// "INFO", Messagebox.OK,Messagebox.EXCLAMATION);
 			return;
 		}
 
 		final UserTask task = this.review_task.getSelectedItem().getValue();
 		if (task == null) {
-			// Messagebox.show("Assegna una mansione", "INFO", Messagebox.OK,
-			// Messagebox.EXCLAMATION);
 			return;
 		}
 
 		final Double time = this.getRevisionTime();
 
 		if (time == null) {
-			// Messagebox.show("Definire il numero di ore lavorate", "INFO",
-			// Messagebox.OK, Messagebox.EXCLAMATION);
 			return;
 		}
 
 		double countHours = 0;
-
-		// check about sum of time
-		/*
-		 * boolean check_sum = true; if (time > 6) { check_sum = false; } if
-		 * (this.list_details_review.size() != 0) { int sum = time; for (final
-		 * DetailFinalSchedule detail : this.list_details_review) { final int
-		 * current_time = detail.getTime(); sum = sum + current_time; if (sum >
-		 * 6) { check_sum = false; break; } } } if (!check_sum) { //
-		 * Messagebox.show("Non si possono assegnare più di sei ore per turno",
-		 * // "INFO", Messagebox.OK, Messagebox.EXCLAMATION); return; }
-		 */
 
 		if (this.currentSchedule == null) {
 			// save scheduler
@@ -1164,6 +1151,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final DetailFinalSchedule new_item = new DetailFinalSchedule();
 		new_item.setId_schedule(this.currentSchedule.getId());
 		new_item.setShift(this.selectedShift);
+
+		// set on board - under board
+		if (this.board.getSelectedItem() != null) {
+			if (this.board.getSelectedItem().getValue().equals(BoardTag.ON_BOARD)) {
+				new_item.setBoard(BoardTag.ON_BOARD);
+			} else if (this.board.getSelectedItem().getValue().equals(BoardTag.UNDER_BOARD)) {
+				new_item.setBoard(BoardTag.UNDER_BOARD);
+			}
+		}
 
 		// check if is absence task
 		if (this.configurationDAO.loadTask(task.getId()).getIsabsence()) {
@@ -1675,17 +1671,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2108,6 +2104,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<UserTask> taskModelList = new ListModelList<UserTask>(taskList);
 
 		this.taskComboBox.setModel(taskModelList);
+
+		// set value in board combo box
+		final List<String> boardList = new ArrayList<String>();
+		boardList.add("--");
+		boardList.add(BoardTag.ON_BOARD);
+		boardList.add(BoardTag.UNDER_BOARD);
+
+		this.board.setModel(new ListModelList<String>(boardList));
 
 		// set visibility of download_program_report button
 		final Person personLogged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -3259,9 +3263,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		// set null combobox all ship and ship in day
+		// set null combobox all ship, ship in day and board
 		this.ship.setSelectedItem(null);
 		this.shipInDay.setSelectedItem(null);
+		this.board.setSelectedItem(null);
 		// set null selected ship
 		this.shipSelected = null;
 		// set null crane value
@@ -3517,8 +3522,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3841,17 +3846,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4070,7 +4075,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+										.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -5090,26 +5095,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (this.ship.getSelectedItem() == null) {
 			return;
 		}
-		final Ship ship = this.ship.getSelectedItem().getValue();
-		if (ship != null) {
-			if (ship.getId() != -1) {
-				this.shipInDay.setSelectedItem(null);
+		if (this.ship.getSelectedItem().getValue() instanceof Ship) {
+			final Ship ship = this.ship.getSelectedItem().getValue();
+			if (ship != null) {
+				if (ship.getId() != -1) {
+					this.shipInDay.setSelectedItem(null);
+				}
 			}
+			// update ship selected
+			this.shipSelected = ship;
 		}
-		// update ship selected
-		this.shipSelected = ship;
 	}
 
 	@Listen("onChange = #shipInDay")
 	public void setShipInDayComboBox() {
-		final Ship ship = this.shipInDay.getSelectedItem().getValue();
-		if (ship != null) {
-			if (ship.getId() != -1) {
-				this.ship.setSelectedItem(null);
+		if (this.shipInDay.getSelectedItem() != null) {
+			if (this.shipInDay.getSelectedItem().getValue() instanceof Ship) {
+				final Ship ship = this.shipInDay.getSelectedItem().getValue();
+				if (ship != null) {
+					if (ship.getId() != -1) {
+						this.ship.setSelectedItem(null);
+					}
+				}
+				// update ship selected
+				this.shipSelected = ship;
 			}
 		}
-		// update ship selected
-		this.shipSelected = ship;
 	}
 
 	@Listen("onClick = #go_today_preprocessing")
