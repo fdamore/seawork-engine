@@ -93,12 +93,11 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, shiftdate, notedetail, crane,
-		timework, volume)
+		idseconduser, handswork, menwork, shiftdate, notedetail)
 		VALUES
 		(#{idscheduleship},
 		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
-		#{notedetail},#{crane},#{timework},#{volume});
+		#{notedetail});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -128,9 +127,7 @@
 		d.notedetail,
 		d.idseconduser, d.handswork, d.menwork, d.shiftdate,
 		concat(u.lastname, ' ', u.firstname) AS firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS secondOperativeName,
-		d.crane,
-		d.timework, d.volume
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName
 		FROM
 		detailscheduleship d
 		left join
@@ -314,9 +311,7 @@
 		id_ship,
 		concat(u.lastname, ' ', u.firstname) AS
 		firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS secondOperativeName,
-		d.crane,
-		d.timework,d.volume
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName
 		FROM
 		detailscheduleship d
 		left join
@@ -354,9 +349,7 @@
 		d.menwork, d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname, ' ', u.firstname) AS firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS secondOperativeName,
-		d.crane,
-		d.timework, d.volume
+		concat(us.lastname, ' ', us.firstname) AS secondOperativeName
 		FROM
 		detailscheduleship d
 		left join
@@ -391,8 +384,7 @@
 		concat(u.lastname, ' ',
 		u.firstname) AS firstOperativeName,
 		concat(us.lastname, ' ',
-		us.firstname) AS secondOperativeName,
-		d.crane, d.timework, d.volume
+		us.firstname) AS secondOperativeName
 		FROM
 		detailscheduleship d
 		left join
@@ -416,8 +408,7 @@
 		concat(u.lastname, ' ', u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ', us.firstname) AS
-		secondOperativeName,
-		d.crane,d.timework,d.volume
+		secondOperativeName
 		FROM
 		detailscheduleship
 		d
@@ -488,10 +479,7 @@
 		handswork = #{handswork},
 		menwork = #{menwork},
 		shiftdate = #{shiftdate},
-		notedetail = #{notedetail},
-		crane = #{crane},
-		timework = #{timework},
-		volume = #{volume}
+		notedetail = #{notedetail}
 		WHERE id = #{id};
 	</update>
 
