@@ -787,7 +787,10 @@
 								<label value="Note:"></label>
 								<textbox id="note_review" width="90%" rows="5" />
 							</row>		
-							
+							<row>
+								<label value=""></label>
+								<label value=""></label>
+							</row>	
 
 						</rows>
 					</grid>

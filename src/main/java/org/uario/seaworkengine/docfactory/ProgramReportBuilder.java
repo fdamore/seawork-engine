@@ -222,7 +222,7 @@ public class ProgramReportBuilder {
 	public static JasperConcatenatedReportBuilder createReport(final ArrayList<RowSchedule> list_row, final List<DetailScheduleShip> shipList,
 			final Date date) throws DRException {
 
-		final StyleBuilder summaryStyle = DynamicReports.stl.style().setPadding(5);
+		final StyleBuilder summaryStyle = DynamicReports.stl.style().setPadding(10);
 
 		final JasperReportBuilder report1Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 1);
@@ -260,8 +260,8 @@ public class ProgramReportBuilder {
 		final StyleBuilder style = DynamicReports.stl.style().setFontSize(10);
 
 		final StringBuilder builder_gb = new StringBuilder();
-		builder_gb.append("Firma compilatore foglio rilevazione presenza montante __________________ " + "\n");
-		builder_gb.append("Firma compilatore foglio rilevazione presenza smontante __________________" + "\n");
+		builder_gb.append("Firma compilatore foglio rilevazione presenza montante __________________ " + "\n" + "\n");
+		builder_gb.append("Firma compilatore foglio rilevazione presenza smontante __________________" + "\n" + "\n");
 		builder_gb.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme." + "\n");
 		builder_gb
 				.append("Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una x se la diversitò di orario è autorizzata o non autorizzata"
