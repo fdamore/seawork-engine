@@ -85,8 +85,8 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-				.columnGrid(DynamicReports.grid.horizontalColumnGridList(presenceInShift, ship, hours, pnr, autorizedEntry, nonAutorizedEntry))
-				.columns(name, add, ship, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry);
+		.columnGrid(DynamicReports.grid.horizontalColumnGridList(presenceInShift, ship, hours, pnr, autorizedEntry, nonAutorizedEntry))
+		.columns(name, add, ship, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry);
 
 	}
 
@@ -119,8 +119,8 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder operation = DynamicReports.grid.titleGroup("Tipo Op.", co, tw).setTitleStretchWithOverflow(true);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-				.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, add, start, end))
-				.columns(ship, co, tw, hands, cr, add, start, end);
+		.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, add, start, end))
+		.columns(ship, co, tw, hands, cr, add, start, end);
 
 	}
 
@@ -176,6 +176,10 @@ public class ProgramReportBuilder {
 
 		}
 
+		for (int i = 0; i < 4; i++) {
+			dataSource.add("", "", "", "", "", "", "", "", "");
+		}
+
 		return dataSource;
 
 	}
@@ -202,6 +206,10 @@ public class ProgramReportBuilder {
 
 		}
 
+		for (int i = 0; i < 20; i++) {
+			dataSource.add("", "", "", "", "", "", "", "");
+		}
+
 		return dataSource;
 
 	}
@@ -213,21 +221,28 @@ public class ProgramReportBuilder {
 	 */
 	public static JasperConcatenatedReportBuilder createReport(final ArrayList<RowSchedule> list_row, final List<DetailScheduleShip> shipList,
 			final Date date) throws DRException {
+
+		final StyleBuilder summaryStyle = DynamicReports.stl.style().setPadding(5);
+
 		final JasperReportBuilder report1Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 1);
+		report1Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 		final JasperReportBuilder report1Ship = ProgramReportBuilder.createShipReport(shipList, date, 1);
 
 		final JasperReportBuilder report2Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 2);
 		final JasperReportBuilder report2Ship = ProgramReportBuilder.createShipReport(shipList, date, 2);
+		report2Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
 		final JasperReportBuilder report3Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 3);
 		final JasperReportBuilder report3Ship = ProgramReportBuilder.createShipReport(shipList, date, 3);
+		report3Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
 		final JasperReportBuilder report4Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 4);
 		final JasperReportBuilder report4Ship = ProgramReportBuilder.createShipReport(shipList, date, 4);
+		report4Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
 		final JasperConcatenatedReportBuilder reportConcatenated = new JasperConcatenatedReportBuilder();
 		reportConcatenated.concatenate(report1Shift, report1Ship, report2Shift, report2Ship, report3Shift, report3Ship, report4Shift, report4Ship);
@@ -237,14 +252,32 @@ public class ProgramReportBuilder {
 	}
 
 	/**
-	 * Exception
-	 *
-	 * @param hotel
-	 * @param booking
-	 * @param list_rooms
-	 * @param cc_security
-	 * @return
+	 * Create Footer for shift sheet
 	 */
+	private static ComponentBuilder<?, ?> createShiftFooterComponent() {
+		final HorizontalListBuilder itm = DynamicReports.cmp.horizontalList();
+
+		final StyleBuilder style = DynamicReports.stl.style().setFontSize(12);
+
+		final StringBuilder builder_gb = new StringBuilder();
+		builder_gb.append("Firma compilatore foglio rilevazione presenza montante __________________ " + "\n");
+		builder_gb.append("Firma compilatore foglio rilevazione presenza smontante __________________" + "\n");
+		builder_gb.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme." + "\n");
+		builder_gb
+		.append("Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una x se la diversitò di orario è autorizzata o non autorizzata"
+				+ "\n");
+
+		final String ingo_gb = builder_gb.toString();
+
+		final TextFieldBuilder<String> text_title = DynamicReports.cmp.text(ingo_gb);
+		text_title.setStyle(style);
+
+		itm.add(text_title);
+
+		return itm;
+
+	}
+
 	private static JasperReportBuilder createShiftReport(final ArrayList<RowSchedule> list_row, final Date date, final Integer shiftNumber) {
 		try {
 			final JasperReportBuilder report = DynamicReports.report();
@@ -282,6 +315,23 @@ public class ProgramReportBuilder {
 		}
 	}
 
+	/**
+	 * Create Footer for ship sheet
+	 */
+	private static ComponentBuilder<?, ?> createShipFooterComponent() {
+		final HorizontalListBuilder itm = DynamicReports.cmp.horizontalList();
+
+		final StyleBuilder style = DynamicReports.stl.style().setFontSize(12).setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+		final TextFieldBuilder<String> text_title = DynamicReports.cmp.text("Firma  ________________________ ");
+		text_title.setStyle(style);
+
+		itm.add(text_title);
+
+		return itm;
+
+	}
+
 	private static JasperReportBuilder createShipReport(final List<DetailScheduleShip> shipList, final Date date, final Integer shiftNumber) {
 		try {
 			final JasperReportBuilder report = DynamicReports.report();
@@ -295,6 +345,7 @@ public class ProgramReportBuilder {
 			// crate title
 			if (shiftNumber.equals(1)) {
 				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, -1));
+
 			} else if (shiftNumber.equals(2)) {
 				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, -1));
 			} else if (shiftNumber.equals(3)) {
@@ -304,6 +355,8 @@ public class ProgramReportBuilder {
 			}
 
 			report.setDataSource(datasource);
+
+			report.pageFooter(ProgramReportBuilder.createShipFooterComponent());
 
 			ProgramReportBuilder.buildShipReport(report);
 
@@ -340,7 +393,11 @@ public class ProgramReportBuilder {
 
 		final SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d MMMM yyyy", Locale.ITALIAN);
 
-		final String title = "Foglio Rilevazione Presenze";
+		String title = "Foglio Rilevazione Presenze";
+		// ship sheet
+		if (numberOfPerson == -1) {
+			title = "Foglio Lavorazione Nave";
+		}
 
 		final StringBuilder shiftString = new StringBuilder();
 		shiftString.append("TURNO: ");
@@ -395,7 +452,6 @@ public class ProgramReportBuilder {
 				numberOfPersonWorker.add(numberOfPersonField);
 				itm.newRow().add(numberOfPersonWorker);
 				itm.newRow(3);
-
 			}
 
 		} catch (final Exception e) {
@@ -405,6 +461,9 @@ public class ProgramReportBuilder {
 		return itm;
 	}
 
+	/**
+	 * Update data source of shift sheet
+	 * */
 	private static void updateDataSource_Shift(final DRDataSource dataSource, final Integer shiftNumber, final String name_user,
 			final RowSchedule item) {
 		final Schedule schedule = item.getItem_3().getSchedule();
