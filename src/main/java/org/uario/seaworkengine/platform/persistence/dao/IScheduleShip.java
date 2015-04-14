@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
@@ -23,9 +24,13 @@ public interface IScheduleShip {
 
 	public Integer calculateVolumeInDate(Timestamp dateFrom, Timestamp dateTo, Integer shift);
 
+	public void createDetailFinalScheduleShip(DetailFinalScheduleShip detailFinalScheduleShip);
+
 	public void createDetailScheduleShip(DetailScheduleShip detailscheduleShip);
 
 	public void createScheduleShip(ScheduleShip scheduleShip);
+
+	public void deleteDetailFinalScheduleShipById(Integer id);
 
 	public void deleteDetailScheduleShip(Integer id_detailScheduleShip);
 
@@ -34,6 +39,10 @@ public interface IScheduleShip {
 	public void deteleDetailSchedueleShipByIdSchedule(Integer id_scheduleShip);
 
 	public List<ScheduleShip> loadAllScheduleShip();
+
+	public DetailFinalScheduleShip loadDetailFinalScheduleShipById(Integer id);
+
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
 
 	public DetailScheduleShip loadDetailScheduleShip(Integer id_detailScheduleShip);
 
@@ -56,6 +65,8 @@ public interface IScheduleShip {
 	public List<Ship> loadShipInDate(Timestamp arrivalDate);
 
 	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);
+
+	public void updateDetailFinalScheduleShip(DetailFinalScheduleShip detailFinalScheduleShip);
 
 	public void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);
 

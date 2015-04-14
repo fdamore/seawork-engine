@@ -494,29 +494,6 @@
 									id="notedetail" />
 							</row>
 
-							<row>
-								<label value="GRU" style="color:red"></label>
-								<textbox id="cranedetail" />
-							</row>
-
-							<row>
-								<label value="Volumi Finali"
-									style="color:red">
-								</label>
-								<intbox id="finalvolumedetail"
-									constraint="no negative" />
-							</row>
-
-							<row>
-								<label value="Tempo Lavorato"
-									style="color:red">
-								</label>
-								<doublebox constraint="no negative"
-									id="timeworkdetail" />
-							</row>
-
-
-
 						</rows>
 					</grid>
 				</panelchildren>
@@ -733,6 +710,12 @@
 							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());alertShiftDate_detail.setVisible(false);popup_detail_Daily.open(self,"after_pointer")'
 							label="Visualizza e Modifica">
 						</toolbarbutton>
+						
+						<toolbarbutton id="sw_link_reviewscheduleship"
+							style="color:blue"
+							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_review_detail.open(self,"after_pointer");'
+							label="Consuntiva">
+						</toolbarbutton>
 
 						<toolbarbutton id="sw_link_deleteship"
 							style="color:blue"
@@ -745,6 +728,103 @@
 				</listitem>
 			</listbox>
 		</div>
+		
+		<!-- Popup Review -->
+		<popup id="popup_review_detail" width="700px">
+			<div align="right">
+				<toolbarbutton label="X" style="font-weight: bold;"
+					onClick="popup_review_detail.close();" />
+			</div>
+			<panel border="normal" collapsible="false"
+				sclass="transparent">
+
+				<caption iconSclass="z-icon-star orange"
+					label="Consuntiva Dettagli Programmazione Nave">
+
+					<toolbarbutton id="add_finalDetailScheduleShip_command"
+						label="Aggiungi Dettaglio" style="color: blue" visible="true">
+					</toolbarbutton>
+
+					<toolbarbutton
+						id="modify_finalDetailScheduleShips_command" label="Modifica Dettaglio"
+						style="color: blue" visible="false">
+					</toolbarbutton>
+
+				</caption>
+
+				<panelchildren>
+
+					<grid sclass="domain">
+						<columns>
+							<column label="Type" />
+							<column label="Informazioni" />
+						</columns>
+						<rows>
+							<row>
+								<label value="Gru:"></label>
+								<intbox id="crane_review"/>
+							</row>
+							<row>
+								<label value="Volume:"></label>
+								<intbox id="volume_review" />
+							</row>
+							<row>
+								<label value="Tempo lavorato:"></label>
+								<timebox id="time_review" format="HH:mm" />
+							</row>
+							
+						</rows>
+					</grid>
+
+					<listbox id="list_reviewDetailScheduleShip"
+						pagingPosition="both" mold="paging"
+						style="border: 1px solid #CCCCCC;" multiple="false"
+						pageSize="10">
+						<listhead sizable="true">
+							<listheader label="Gru"
+								sort="auto(crane)" />
+							<listheader label="Volume"
+								sort="auto(volume)" />
+							<listheader label="Tempo lavorato"
+								sort="auto(timework)" />
+							<listheader label="" />
+						</listhead>
+
+						<listitem
+							self="@{each='detailfinalscheduleship_item'}"
+							value="@{detailfinalscheduleship_item}">
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.crane}" />
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.volume}" />
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.timework, converter='org.uario.seaworkengine.zkevent.converter.DateTimeConverter'}" />
+							
+							<listcell sclass="myBottonCell">
+
+								<toolbarbutton
+									id="deleteDetailFinalScheduleShip" style="color:blue"
+									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
+									label="Cancella">
+								</toolbarbutton>
+
+								<toolbarbutton
+									id="modifyDetailFinalScheduleShip" style="color:blue"
+									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
+									label="Modifica">
+								</toolbarbutton>
+
+							</listcell>
+
+						</listitem>
+
+					</listbox>
+
+				</panelchildren>
+
+			</panel>
+		</popup>
 
 		<!-- REVIEW WORK SHIP -->
 		<div id="reviewWorkShip">

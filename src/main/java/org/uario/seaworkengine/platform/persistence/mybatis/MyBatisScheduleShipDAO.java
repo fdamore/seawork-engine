@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
@@ -98,6 +99,14 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
+	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
+		MyBatisScheduleShipDAO.logger.info("createDetailFinalScheduleShip");
+
+		this.getSqlSession().insert("scheduleship.createDetailFinalScheduleShip", detailFinalScheduleShip);
+
+	}
+
+	@Override
 	public void createDetailScheduleShip(final DetailScheduleShip detailscheduleShip) {
 		MyBatisScheduleShipDAO.logger.info("createDetailScheduleShip");
 
@@ -110,6 +119,14 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		MyBatisScheduleShipDAO.logger.info("createScheduleShip");
 
 		this.getSqlSession().insert("scheduleship.createScheduleShip", scheduleShip);
+
+	}
+
+	@Override
+	public void deleteDetailFinalScheduleShipById(final Integer id) {
+		MyBatisScheduleShipDAO.logger.info("deleteDetailFinalScheduleShipById");
+
+		this.getSqlSession().insert("scheduleship.deleteDetailFinalScheduleShipById", id);
 
 	}
 
@@ -142,6 +159,20 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		MyBatisScheduleShipDAO.logger.info("loadAllScheduleShip");
 
 		return this.getSqlSession().selectList("scheduleship.loadAllScheduleShip");
+	}
+
+	@Override
+	public DetailFinalScheduleShip loadDetailFinalScheduleShipById(final Integer id) {
+		MyBatisScheduleShipDAO.logger.info("loadDetailFinalScheduleShipById");
+
+		return this.getSqlSession().selectOne("scheduleship.loadDetailFinalScheduleShipById", id);
+	}
+
+	@Override
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
+		MyBatisScheduleShipDAO.logger.info("load detailFinalScheduleShip by IdDetailScheduleShip " + idDetailScheduleShip);
+
+		return this.getSqlSession().selectList("scheduleship.loadDetailFinalScheduleShipByIdDetailScheduleShip", idDetailScheduleShip);
 	}
 
 	@Override
@@ -253,6 +284,14 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("my_full_text_search", full_text_search);
 
 		return this.getSqlSession().selectList("scheduleship.selectAllScheduleShipFulltextSearchLike", map);
+	}
+
+	@Override
+	public void updateDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
+		MyBatisScheduleShipDAO.logger.info("updateDetailFinalScheduleShip");
+
+		this.getSqlSession().update("scheduleship.updateDetailFinalScheduleShip", detailFinalScheduleShip);
+
 	}
 
 	@Override
