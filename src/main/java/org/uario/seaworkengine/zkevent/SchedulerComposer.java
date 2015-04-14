@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.docfactory.ProgramReportBuilder;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.LockTable;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
@@ -848,6 +849,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	public Combobox							shipInDay;
 
+	private IScheduleShip					shipSchedulerDao;
+
 	private Ship							shipSelected;
 
 	@Wire
@@ -1671,17 +1674,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2097,6 +2100,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.lockTableDAO = (LockTableDAO) SpringUtil.getBean(BeansTag.LOCK_TABLE_DAO);
 
 		this.shipDAO = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
+
+		this.shipSchedulerDao = (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
 
 		final ListModelList<Ship> shipList = new ListModelList<Ship>(this.shipDAO.loadAllShip());
 
@@ -2558,7 +2563,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					continue;
 				}
 
-				// check for worker peaple
+				// check for worker people
 				final Person person = this.personDAO.loadPerson(item.getUser());
 				if ((person == null) || person.isInOffice()) {
 					continue;
@@ -2571,12 +2576,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final Calendar cal = Calendar.getInstance();
 			cal.setTime(cal.getTime());
 			cal.add(Calendar.DATE, 1);
-			final Date tomorrowDate = cal.getTime();
+			final Date tomorrowDate = DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
-			// ProgramReportBuilder.createReport(final_list,
-			// tomorrowDate).toPdf(stream);
+			final List<DetailScheduleShip> list_DetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(tomorrowDate,
+					null, null);
 
-			ProgramReportBuilder.createReport(final_list, tomorrowDate).toPdf(stream);
+			ProgramReportBuilder.createReport(final_list, list_DetailScheduleShip, tomorrowDate).toPdf(stream);
 
 			decodedInput = new ByteArrayInputStream(stream.toByteArray());
 
@@ -3522,8 +3527,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3846,17 +3851,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4075,7 +4080,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
