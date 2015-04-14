@@ -446,7 +446,7 @@
 						<rows>
 							<row>
 								<label value="Data Turno:"></label>
-								<datebox id="shiftdate_Daily"
+								<datebox id="shiftdate_Daily" onCreate="self.value = new Date()"
 									constraint="no empty" placeholder="Data Turno" />
 							</row>
 							<row id="alertShiftDate_detail"
@@ -457,35 +457,35 @@
 							</row>
 							<row>
 								<label value="Turno:"></label>
-								<combobox id="shift_Daily"
-									constraint="no empty" readonly="true"
-									placeholder="Seleziona Turno" mold="rounded" />
+								<combobox id="shift_Daily" value="Seleziona Turno"
+									 readonly="true" constraint="no empty"
+									placeholder="Seleziona Turno"  mold="rounded" />
 							</row>
 							<row>
 								<label value="Operazione:"></label>
-								<textbox id="operation_Daily"
+								<textbox id="operation_Daily" value="0" 
 									constraint="no empty" mold="rounded" />
 
 							</row>
 							<row>
 								<label value="Nome Primo Preposto:"></label>
-								<combobox id="user_Daily"
-									constraint="no empty" readonly="true"
+								<combobox id="user_Daily" value="Seleziona Primo Preposto"
+									 readonly="true" constraint="no empty"
 									placeholder="Seleziona Primo Preposto" />
 							</row>
 							<row>
 								<label value="Nome Secondo Preposto:"></label>
-								<combobox id="usersecond_Daily"
+								<combobox id="usersecond_Daily" value="Seleziona Secondo Preposto" 
 									readonly="true" placeholder="Seleziona Secondo Preposto" />
 							</row>
 							<row>
 								<label value="Mani di lavoro:"></label>
-								<intbox id="handswork_Daily"
+								<intbox id="handswork_Daily" value="0"
 									constraint="no empty, no negative" />
 							</row>
 							<row>
 								<label value="Numero uomini:"></label>
-								<intbox id="menwork_Daily"
+								<intbox id="menwork_Daily" value="0"
 									constraint="no empty, no negative" />
 							</row>
 							<row>
