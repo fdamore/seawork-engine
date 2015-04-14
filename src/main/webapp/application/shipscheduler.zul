@@ -769,6 +769,10 @@
 								<intbox id="volume_review" />
 							</row>
 							<row>
+								<label value="Volume Sotto Bordo:"></label>
+								<intbox id="volumeunderboard_review" />
+							</row>
+							<row>
 								<label value="Tempo lavorato:"></label>
 
 								<hbox align="center">
@@ -779,6 +783,11 @@
 
 								</hbox>
 							</row>
+							<row>
+								<label value="Note:"></label>
+								<textbox id="note_review" width="90%" rows="5" />
+							</row>		
+							
 
 						</rows>
 					</grid>
@@ -790,9 +799,12 @@
 						<listhead sizable="true">
 							<listheader label="Gru" sort="auto(crane)" />
 							<listheader label="Volume"
-								sort="auto(volume)" />
+								sort="auto(volume)" width="10%"/>
+							<listheader label="Volume Sotto Bordo"
+								sort="auto(volumeunderboard)" />
 							<listheader label="Tempo lavorato"
 								sort="auto(timework)" />
+							<listheader label="Note" />
 							<listheader label="" />
 						</listhead>
 
@@ -805,8 +817,11 @@
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.volume}" />
 							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.volumeunderboard}" />
+							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.timework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
-
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.notedetail}" />
 							<listcell sclass="myBottonCell">
 
 								<toolbarbutton
@@ -852,6 +867,8 @@
 					<listheader label="Gru" />
 					<listheader label="Tempo Lavorato" />
 					<listheader label="Volumi attesi" />
+					<listheader label="Volumi Sotto Bordo" />
+					<listheader label="Note" />
 
 				</listhead>
 
@@ -874,6 +891,12 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.volume}" />
+					
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.volumeunderboard}" />
+						
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.notedetail}" />
 
 				</listitem>
 			</listbox>

@@ -17,7 +17,7 @@
     d.timework as time_work,
     d.crane,
     dss.shiftdate as date_request,
-    d.volume
+    d.volume, d.volumeunderboard, d.notedetail 
 from
     ship s,
     scheduleship ss,

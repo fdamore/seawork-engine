@@ -85,8 +85,8 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-		.columnGrid(DynamicReports.grid.horizontalColumnGridList(presenceInShift, ship, hours, pnr, autorizedEntry, nonAutorizedEntry))
-		.columns(name, add, ship, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry);
+				.columnGrid(DynamicReports.grid.horizontalColumnGridList(presenceInShift, ship, hours, pnr, autorizedEntry, nonAutorizedEntry))
+				.columns(name, add, ship, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry);
 
 	}
 
@@ -119,8 +119,8 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder operation = DynamicReports.grid.titleGroup("Tipo Op.", co, tw).setTitleStretchWithOverflow(true);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-		.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, add, start, end))
-		.columns(ship, co, tw, hands, cr, add, start, end);
+				.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, add, start, end))
+				.columns(ship, co, tw, hands, cr, add, start, end);
 
 	}
 
@@ -257,15 +257,15 @@ public class ProgramReportBuilder {
 	private static ComponentBuilder<?, ?> createShiftFooterComponent() {
 		final HorizontalListBuilder itm = DynamicReports.cmp.horizontalList();
 
-		final StyleBuilder style = DynamicReports.stl.style().setFontSize(12);
+		final StyleBuilder style = DynamicReports.stl.style().setFontSize(10);
 
 		final StringBuilder builder_gb = new StringBuilder();
 		builder_gb.append("Firma compilatore foglio rilevazione presenza montante __________________ " + "\n");
 		builder_gb.append("Firma compilatore foglio rilevazione presenza smontante __________________" + "\n");
 		builder_gb.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme." + "\n");
 		builder_gb
-		.append("Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una x se la diversitò di orario è autorizzata o non autorizzata"
-				+ "\n");
+				.append("Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una x se la diversitò di orario è autorizzata o non autorizzata"
+						+ "\n");
 
 		final String ingo_gb = builder_gb.toString();
 
@@ -321,7 +321,7 @@ public class ProgramReportBuilder {
 	private static ComponentBuilder<?, ?> createShipFooterComponent() {
 		final HorizontalListBuilder itm = DynamicReports.cmp.horizontalList();
 
-		final StyleBuilder style = DynamicReports.stl.style().setFontSize(12).setHorizontalAlignment(HorizontalAlignment.CENTER);
+		final StyleBuilder style = DynamicReports.stl.style().setFontSize(10).setHorizontalAlignment(HorizontalAlignment.CENTER);
 
 		final TextFieldBuilder<String> text_title = DynamicReports.cmp.text("Firma  ________________________ ");
 		text_title.setStyle(style);

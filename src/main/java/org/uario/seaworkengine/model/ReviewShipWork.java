@@ -8,21 +8,25 @@ public class ReviewShipWork implements Serializable {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private String crane;
+	private String				crane;
 
-	private Date date_request;
+	private Date				date_request;
 
-	private Integer id_ship;
+	private Integer				id_ship;
 
-	private Integer shift;
+	private String				notedetail;
 
-	private String shipname;
+	private Integer				shift;
 
-	private Double time_work;
+	private String				shipname;
 
-	private Double volume;
+	private Double				time_work;
+
+	private Double				volume;
+
+	private Integer				volumeunderboard;
 
 	public String getCrane() {
 		return this.crane;
@@ -34,6 +38,10 @@ public class ReviewShipWork implements Serializable {
 
 	public Integer getId_ship() {
 		return this.id_ship;
+	}
+
+	public String getNotedetail() {
+		return this.notedetail;
 	}
 
 	public Integer getShift() {
@@ -52,6 +60,10 @@ public class ReviewShipWork implements Serializable {
 		return this.volume;
 	}
 
+	public Integer getVolumeunderboard() {
+		return this.volumeunderboard;
+	}
+
 	public void setCrane(final String crane) {
 		this.crane = crane;
 	}
@@ -62,6 +74,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setId_ship(final Integer id_ship) {
 		this.id_ship = id_ship;
+	}
+
+	public void setNotedetail(final String notedetail) {
+		this.notedetail = notedetail;
 	}
 
 	public void setShift(final Integer shift) {
@@ -78,6 +94,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setVolume(final Double volume) {
 		this.volume = volume;
+	}
+
+	public void setVolumeunderboard(final Integer volumeunderboard) {
+		this.volumeunderboard = volumeunderboard;
 	}
 
 }
