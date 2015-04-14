@@ -446,8 +446,9 @@
 						<rows>
 							<row>
 								<label value="Data Turno:"></label>
-								<datebox id="shiftdate_Daily" onCreate="self.value = new Date()"
-									constraint="no empty" placeholder="Data Turno" />
+								<datebox id="shiftdate_Daily"
+									onCreate="self.value = new Date()" constraint="no empty"
+									placeholder="Data Turno" />
 							</row>
 							<row id="alertShiftDate_detail"
 								visible="false">
@@ -457,26 +458,27 @@
 							</row>
 							<row>
 								<label value="Turno:"></label>
-								<combobox id="shift_Daily" value="Seleziona Turno"
-									 readonly="true" constraint="no empty"
-									placeholder="Seleziona Turno"  mold="rounded" />
+								<combobox id="shift_Daily"
+									value="Seleziona Turno" readonly="true" constraint="no empty"
+									placeholder="Seleziona Turno" mold="rounded" />
 							</row>
 							<row>
 								<label value="Operazione:"></label>
-								<textbox id="operation_Daily" value="0" 
+								<textbox id="operation_Daily" value="0"
 									constraint="no empty" mold="rounded" />
 
 							</row>
 							<row>
 								<label value="Nome Primo Preposto:"></label>
-								<combobox id="user_Daily" value="Seleziona Primo Preposto"
-									 readonly="true" constraint="no empty"
-									placeholder="Seleziona Primo Preposto" />
+								<combobox id="user_Daily"
+									value="Seleziona Primo Preposto" readonly="true"
+									constraint="no empty" placeholder="Seleziona Primo Preposto" />
 							</row>
 							<row>
 								<label value="Nome Secondo Preposto:"></label>
-								<combobox id="usersecond_Daily" value="Seleziona Secondo Preposto" 
-									readonly="true" placeholder="Seleziona Secondo Preposto" />
+								<combobox id="usersecond_Daily"
+									value="Seleziona Secondo Preposto" readonly="true"
+									placeholder="Seleziona Secondo Preposto" />
 							</row>
 							<row>
 								<label value="Mani di lavoro:"></label>
@@ -710,7 +712,7 @@
 							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());alertShiftDate_detail.setVisible(false);popup_detail_Daily.open(self,"after_pointer")'
 							label="Visualizza e Modifica">
 						</toolbarbutton>
-						
+
 						<toolbarbutton id="sw_link_reviewscheduleship"
 							style="color:blue"
 							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_review_detail.open(self,"after_pointer");'
@@ -728,7 +730,7 @@
 				</listitem>
 			</listbox>
 		</div>
-		
+
 		<!-- Popup Review -->
 		<popup id="popup_review_detail" width="700px">
 			<div align="right">
@@ -741,14 +743,12 @@
 				<caption iconSclass="z-icon-star orange"
 					label="Consuntiva Dettagli Programmazione Nave">
 
-					<toolbarbutton id="add_finalDetailScheduleShip_command"
+					<toolbarbutton
+						id="add_finalDetailScheduleShip_command"
 						label="Aggiungi Dettaglio" style="color: blue" visible="true">
 					</toolbarbutton>
 
-					<toolbarbutton
-						id="modify_finalDetailScheduleShips_command" label="Modifica Dettaglio"
-						style="color: blue" visible="false">
-					</toolbarbutton>
+				
 
 				</caption>
 
@@ -762,7 +762,7 @@
 						<rows>
 							<row>
 								<label value="Gru:"></label>
-								<intbox id="crane_review"/>
+								<intbox id="crane_review" />
 							</row>
 							<row>
 								<label value="Volume:"></label>
@@ -770,9 +770,16 @@
 							</row>
 							<row>
 								<label value="Tempo lavorato:"></label>
-								<timebox id="time_review" format="HH:mm" />
+
+								<hbox align="center">
+									<intbox id="time_review_h"
+										constraint="no negative" placeholder="Ore.." />
+									<intbox id="time_review_m"
+										constraint="no negative" placeholder="Minuti.." />
+
+								</hbox>
 							</row>
-							
+
 						</rows>
 					</grid>
 
@@ -781,8 +788,7 @@
 						style="border: 1px solid #CCCCCC;" multiple="false"
 						pageSize="10">
 						<listhead sizable="true">
-							<listheader label="Gru"
-								sort="auto(crane)" />
+							<listheader label="Gru" sort="auto(crane)" />
 							<listheader label="Volume"
 								sort="auto(volume)" />
 							<listheader label="Tempo lavorato"
@@ -799,21 +805,15 @@
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.volume}" />
 							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.timework, converter='org.uario.seaworkengine.zkevent.converter.DateTimeConverter'}" />
-							
+								label="@{detailfinalscheduleship_item.timework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+
 							<listcell sclass="myBottonCell">
 
 								<toolbarbutton
 									id="deleteDetailFinalScheduleShip" style="color:blue"
 									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
 									label="Cancella">
-								</toolbarbutton>
-
-								<toolbarbutton
-									id="modifyDetailFinalScheduleShip" style="color:blue"
-									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
-									label="Modifica">
-								</toolbarbutton>
+								</toolbarbutton>							
 
 							</listcell>
 
@@ -829,8 +829,8 @@
 		<!-- REVIEW WORK SHIP -->
 		<div id="reviewWorkShip">
 
-			<a label="Verifica Lavoro Navi (BAP)" iconSclass="z-icon-list"
-				sclass="green lighter rcaption" />
+			<a label="Verifica Lavoro Navi (BAP)"
+				iconSclass="z-icon-list" sclass="green lighter rcaption" />
 			<separator></separator>
 
 			<a label="Ricerca per data turno: "
@@ -850,7 +850,7 @@
 					<listheader label="Nome Nave" />
 					<listheader label="Turno" />
 					<listheader label="Gru" />
-					<listheader label="Tempo (ore)" />
+					<listheader label="Tempo Lavorato" />
 					<listheader label="Volumi attesi" />
 
 				</listhead>
@@ -870,7 +870,7 @@
 						label="@{item_review_work.crane}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{item_review_work.time_work, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+						label="@{item_review_work.time_work, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.volume}" />
@@ -878,6 +878,8 @@
 				</listitem>
 			</listbox>
 		</div>
+
+
 
 
 

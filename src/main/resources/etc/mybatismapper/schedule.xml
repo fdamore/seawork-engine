@@ -10,19 +10,25 @@
 	<select id="reviewShipWork" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ReviewShipWork">
 
-		select
-		s.name as shipname, s.id as id_ship, d.shift, d.timework as time_work,
-		d.crane, d.shiftdate as date_request, d.volume
-		from
-		detailscheduleship d,
-		scheduleship ss,
-		ship s
-		where
-		d.idscheduleship = ss.id
-		and s.id = ss.idship
-		and d.shiftdate = #{dt_arg}
-		order by s.name, d.shift
-
+		select 
+    s.name as shipname,
+    s.id as id_ship,
+    dss.shift,
+    d.timework as time_work,
+    d.crane,
+    dss.shiftdate as date_request,
+    d.volume
+from
+    ship s,
+    scheduleship ss,
+    detailscheduleship dss
+        left join
+    detailfinalscheduleship d ON (dss.id = d.iddetailscheduleship)
+where
+    dss.idscheduleship = ss.id
+        and s.id = ss.idship
+        and dss.shiftdate = #{dt_arg}
+order by s.name , dss.shift
 	</select>
 
 

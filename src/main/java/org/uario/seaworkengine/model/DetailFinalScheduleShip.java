@@ -1,7 +1,6 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -11,9 +10,13 @@ public class DetailFinalScheduleShip implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	private Integer				crane;
+
 	private Integer				id;
+
 	private Integer				iddetailscheduleship;
-	private Date				timework;
+
+	private Double				timework;
+
 	private Integer				volume;
 
 	public Integer getCrane() {
@@ -28,7 +31,7 @@ public class DetailFinalScheduleShip implements Serializable {
 		return this.iddetailscheduleship;
 	}
 
-	public Date getTimework() {
+	public Double getTimework() {
 		return this.timework;
 	}
 
@@ -48,7 +51,7 @@ public class DetailFinalScheduleShip implements Serializable {
 		this.iddetailscheduleship = iddetailscheduleship;
 	}
 
-	public void setTimework(final Date timework) {
+	public void setTimework(final Double timework) {
 		this.timework = timework;
 	}
 

@@ -47,7 +47,6 @@ import org.zkoss.zul.Popup;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Timebox;
 import org.zkoss.zul.Toolbarbutton;
 
 public class ShipSchedulerComposer extends SelectorComposer<Component> {
@@ -119,9 +118,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private static final long			serialVersionUID		= 1L;
 
 	@Wire
-	private Toolbarbutton				add_finalDetailScheduleShip_command;
-
-	@Wire
 	private Component					add_scheduleShips_command;
 
 	@Wire
@@ -179,9 +175,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Intbox						menwork_Daily;
-
-	@Wire
-	private Toolbarbutton				modify_finalDetailScheduleShips_command;
 
 	@Wire
 	private Component					modify_Scheduleships_command;
@@ -337,7 +330,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Listbox						sw_list_scheduleShipProgram;
 
 	@Wire
-	private Timebox						time_review;
+	private Intbox						time_review_h;
+
+	@Wire
+	private Intbox						time_review_m;
 
 	@Wire
 	private Combobox					user;
@@ -366,7 +362,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final DetailFinalScheduleShip detailFinalScheduleShip = new DetailFinalScheduleShip();
 			detailFinalScheduleShip.setIddetailscheduleship(((DetailScheduleShip) this.sw_list_scheduleShip.getSelectedItem().getValue()).getId());
 			detailFinalScheduleShip.setCrane(this.crane_review.getValue());
-			detailFinalScheduleShip.setTimework(this.time_review.getValue());
+
+			// set time work
+			final double time_worked = this.getDecimalValue();
+			detailFinalScheduleShip.setTimework(time_worked);
+
 			detailFinalScheduleShip.setVolume(this.volume_review.getValue());
 
 			this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
@@ -676,7 +676,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #deleteDetailFinalScheduleShip")
 	public void deleteDetailFinalScheduleShip() {
-		if (this.sw_list_scheduleShip.getSelectedItem() != null && this.list_reviewDetailScheduleShip.getSelectedItem() != null) {
+		if ((this.sw_list_scheduleShip.getSelectedItem() != null) && (this.list_reviewDetailScheduleShip.getSelectedItem() != null)) {
 			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
 			this.shipSchedulerDao.deleteDetailFinalScheduleShipById(detailFinal.getId());
 
@@ -724,6 +724,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Get decimal value
+	 *
+	 * @return
+	 */
+	private double getDecimalValue() {
+		final int h = this.time_review_h == null ? 0 : this.time_review_h.getValue();
+		final int m = this.time_review_m == null ? 0 : this.time_review_m.getValue();
+		final double val = h + ((double) m / 60);
+		return val;
+	}
+
 	private Integer getSelectedShift() {
 		Integer shiftSelected = null;
 		if ((this.select_shift.getSelectedItem() != null) && (this.select_shift.getSelectedIndex() != 0)) {
@@ -732,39 +744,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		return shiftSelected;
 	}
 
+	/**
+	 * Reset value popup
+	 */
 	private void initPopupReviewDetail() {
-		this.add_finalDetailScheduleShip_command.setVisible(true);
-		this.modify_finalDetailScheduleShips_command.setVisible(false);
 		this.crane_review.setValue(null);
 		this.volume_review.setValue(null);
-		this.time_review.setValue(null);
-	}
 
-	@Listen("onClick = #modifyDetailFinalScheduleShip")
-	public void modifyDetailFinalScheduleShip() {
-		if (this.sw_list_scheduleShip.getSelectedItem() != null && this.list_reviewDetailScheduleShip.getSelectedItem() != null) {
-			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
-			this.crane_review.setValue(detailFinal.getCrane());
-			this.volume_review.setValue(detailFinal.getVolume());
-			this.time_review.setValue(detailFinal.getTimework());
-			this.add_finalDetailScheduleShip_command.setVisible(false);
-			this.modify_finalDetailScheduleShips_command.setVisible(true);
-		}
-	}
-
-	@Listen("onClick = #modify_finalDetailScheduleShips_command")
-	public void modifyDetailFinalScheduleShipCommand() {
-		if (this.sw_list_scheduleShip.getSelectedItem() != null && this.list_reviewDetailScheduleShip.getSelectedItem() != null) {
-			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
-			detailFinal.setCrane(this.crane_review.getValue());
-			detailFinal.setVolume(this.volume_review.getValue());
-			detailFinal.setTimework(this.time_review.getValue());
-
-			this.shipSchedulerDao.updateDetailFinalScheduleShip(detailFinal);
-
-			this.reviewDetailScheduleShip();
-
-		}
+		this.time_review_h.setValue(null);
+		this.time_review_m.setValue(null);
 	}
 
 	@Listen("onClick = #sw_link_modifyDetailship")
