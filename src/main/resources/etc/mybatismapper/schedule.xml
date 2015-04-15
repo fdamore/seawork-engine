@@ -10,7 +10,7 @@
 	<select id="reviewShipWork" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ReviewShipWork">
 
-		select 
+		select d.id as rif_sws,
     s.name as shipname,
     s.id as id_ship,
     dss.shift,

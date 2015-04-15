@@ -748,7 +748,7 @@
 						label="Aggiungi Dettaglio" style="color: blue" visible="true">
 					</toolbarbutton>
 
-				
+
 
 				</caption>
 
@@ -774,23 +774,19 @@
 							</row>
 							<row>
 								<label value="Tempo lavorato:"></label>
-
-								<hbox align="center">
-									<intbox id="time_review_h"
-										constraint="no negative" placeholder="Ore.." />
-									<intbox id="time_review_m"
-										constraint="no negative" placeholder="Minuti.." />
-
-								</hbox>
+								<doublebox constraint="no negative"
+									id="time_review">
+								</doublebox>
 							</row>
 							<row>
 								<label value="Note:"></label>
-								<textbox id="note_review" width="90%" rows="5" />
-							</row>		
+								<textbox id="note_review" width="90%"
+									rows="5" />
+							</row>
 							<row>
 								<label value=""></label>
 								<label value=""></label>
-							</row>	
+							</row>
 
 						</rows>
 					</grid>
@@ -800,9 +796,12 @@
 						style="border: 1px solid #CCCCCC;" multiple="false"
 						pageSize="10">
 						<listhead sizable="true">
+
+							<listheader label="Rif SWS" sort="auto(id)" />
+
 							<listheader label="Gru" sort="auto(crane)" />
 							<listheader label="Volume"
-								sort="auto(volume)" width="10%"/>
+								sort="auto(volume)" width="10%" />
 							<listheader label="Volume Sotto Bordo"
 								sort="auto(volumeunderboard)" />
 							<listheader label="Tempo lavorato"
@@ -814,6 +813,9 @@
 						<listitem
 							self="@{each='detailfinalscheduleship_item'}"
 							value="@{detailfinalscheduleship_item}">
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.id}" />
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.crane}" />
@@ -831,7 +833,7 @@
 									id="deleteDetailFinalScheduleShip" style="color:blue"
 									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
 									label="Cancella">
-								</toolbarbutton>							
+								</toolbarbutton>
 
 							</listcell>
 
@@ -866,6 +868,7 @@
 
 
 					<listheader label="Nome Nave" />
+					<listheader label="Rif SWS" />
 					<listheader label="Turno" />
 					<listheader label="Gru" />
 					<listheader label="Tempo Lavorato" />
@@ -878,10 +881,14 @@
 				<listitem self="@{each='item_review_work'}"
 					value="@{item_review_work}">
 
+
 					<listcell sclass="myBottonCell"
 						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
 						label="@{item_review_work.shipname}">
 					</listcell>
+					
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.rif_sws}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.shift}" />
@@ -894,10 +901,10 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.volume}" />
-					
+
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.volumeunderboard}" />
-						
+
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.notedetail}" />
 

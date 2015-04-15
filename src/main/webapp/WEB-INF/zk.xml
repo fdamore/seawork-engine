@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk>
-	<!-- [Optional]
-	Uncomment if you want to defines the application's name 
-	
-	<preference>
-		<name>org.zkoss.zk.ui.WebApp.name</name>
-		<value>example</value>
-	</preference>
-	-->
-	
-	<!-- <session-config>
-	    <device-type>ajax</device-type>
-	    <session-timeout>5</session-timeout>
-	    <timeout-message>Sessione scaduta. Ricaricare la pagina. Grazie.</timeout-message>
-	    
-	</session-config>
-	 -->
-	 
+	<!-- [Optional] Uncomment if you want to defines the application's name 
+		<preference> <name>org.zkoss.zk.ui.WebApp.name</name> <value>example</value> 
+		</preference> -->
+
+	<!-- <session-config> <device-type>ajax</device-type> <session-timeout>5</session-timeout> 
+		<timeout-message>Sessione scaduta. Ricaricare la pagina. Grazie.</timeout-message> 
+		</session-config> -->
+
 	<session-config>
-	    <device-type>ajax</device-type>
-	    <timeout-uri>/index.zul</timeout-uri>    
-	    
+		<device-type>ajax</device-type>
+		<timeout-uri>/index.zul</timeout-uri>
+
 	</session-config>
-	 
+
 	<library-property>
 		<name>org.zkoss.zkmax.tablet.ui.disabled</name>
 		<value>true</value>
 	</library-property>
-	
+
+	<library-property>
+		<name>org.zkoss.web.preferred.locale</name>
+		<value>it</value>
+	</library-property>
+
 </zk>

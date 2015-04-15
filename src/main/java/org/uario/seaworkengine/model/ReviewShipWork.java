@@ -18,13 +18,15 @@ public class ReviewShipWork implements Serializable {
 
 	private String				notedetail;
 
+	private Integer				rif_sws;
+
 	private Integer				shift;
 
 	private String				shipname;
 
 	private Double				time_work;
 
-	private Double				volume;
+	private Integer				volume;
 
 	private Integer				volumeunderboard;
 
@@ -44,6 +46,10 @@ public class ReviewShipWork implements Serializable {
 		return this.notedetail;
 	}
 
+	public Integer getRif_sws() {
+		return this.rif_sws;
+	}
+
 	public Integer getShift() {
 		return this.shift;
 	}
@@ -56,7 +62,7 @@ public class ReviewShipWork implements Serializable {
 		return this.time_work;
 	}
 
-	public Double getVolume() {
+	public Integer getVolume() {
 		return this.volume;
 	}
 
@@ -80,6 +86,10 @@ public class ReviewShipWork implements Serializable {
 		this.notedetail = notedetail;
 	}
 
+	public void setRif_sws(final Integer rif_sws) {
+		this.rif_sws = rif_sws;
+	}
+
 	public void setShift(final Integer shift) {
 		this.shift = shift;
 	}
@@ -92,7 +102,7 @@ public class ReviewShipWork implements Serializable {
 		this.time_work = time_work;
 	}
 
-	public void setVolume(final Double volume) {
+	public void setVolume(final Integer volume) {
 		this.volume = volume;
 	}
 
