@@ -737,8 +737,9 @@
 				<toolbarbutton label="X" style="font-weight: bold;"
 					onClick="popup_review_detail.close();" />
 			</div>
+			
 			<panel border="normal" collapsible="false"
-				sclass="transparent">
+				style="margin: 2px 2px 2px 2px" sclass="transparent">
 
 				<caption iconSclass="z-icon-star orange"
 					label="Consuntiva Dettagli Programmazione Nave">
@@ -760,18 +761,32 @@
 							<column label="Informazioni" />
 						</columns>
 						<rows>
+
+							<row>
+								<label value="Rif MCT:"></label>
+								<intbox id="rif_mct_review" />
+							</row>
+
 							<row>
 								<label value="Gru:"></label>
 								<intbox id="crane_review" />
 							</row>
 							<row>
-								<label value="Volume:"></label>
+								<label value="Volumi:"></label>
 								<intbox id="volume_review" />
 							</row>
 							<row>
-								<label value="Volume Sotto Bordo:"></label>
+								<label
+									value="Volumi Rizzaggio Da Bordo:">
+								</label>
 								<intbox id="volumeunderboard_review" />
 							</row>
+
+							<row>
+								<label value="Volumi TW MCT:"></label>
+								<intbox id="volumeunde_tw_mct_review" />
+							</row>
+
 							<row>
 								<label value="Tempo lavorato:"></label>
 								<doublebox constraint="no negative"
@@ -783,13 +798,10 @@
 								<textbox id="note_review" width="90%"
 									rows="5" />
 							</row>
-							<row>
-								<label value=""></label>
-								<label value=""></label>
-							</row>
-
 						</rows>
 					</grid>
+
+					<separator></separator>
 
 					<listbox id="list_reviewDetailScheduleShip"
 						pagingPosition="both" mold="paging"
@@ -798,12 +810,19 @@
 						<listhead sizable="true">
 
 							<listheader label="Rif SWS" sort="auto(id)" />
+							<listheader label="Rif MCT"
+								sort="auto(rif_mct)" />
 
 							<listheader label="Gru" sort="auto(crane)" />
+
 							<listheader label="Volume"
 								sort="auto(volume)" width="10%" />
-							<listheader label="Volume Sotto Bordo"
-								sort="auto(volumeunderboard)" />
+							<listheader
+								label="Volumi Rizzaggio Da Bordo" sort="auto(volumeunderboard)" />
+
+							<listheader label="Volumi TW MCT"
+								sort="auto(volume_tw_mct)" />
+
 							<listheader label="Tempo lavorato"
 								sort="auto(timework)" />
 							<listheader label="Note" />
@@ -818,11 +837,22 @@
 								label="@{detailfinalscheduleship_item.id}" />
 
 							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.rif_mct}" />
+
+							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.crane}" />
+
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.volume}" />
+
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.volumeunderboard}" />
+
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.volume_tw_mct}" />
+
+
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.timework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 							<listcell sclass="myBottonCell"
@@ -869,11 +899,13 @@
 
 					<listheader label="Nome Nave" />
 					<listheader label="Rif SWS" />
+					<listheader label="Rif MCT" />
 					<listheader label="Turno" />
 					<listheader label="Gru" />
 					<listheader label="Tempo Lavorato" />
 					<listheader label="Volumi attesi" />
-					<listheader label="Volumi Sotto Bordo" />
+					<listheader label="Volumi Rizzaggio Da Bordo" />
+					<listheader label="Volumi TW MTC" />
 					<listheader label="Note" />
 
 				</listhead>
@@ -886,9 +918,12 @@
 						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
 						label="@{item_review_work.shipname}">
 					</listcell>
-					
+
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.rif_sws}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.rif_mct}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.shift}" />
@@ -904,6 +939,9 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.volumeunderboard}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.volume_tw_mct}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.notedetail}" />

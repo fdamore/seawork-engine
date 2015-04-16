@@ -486,9 +486,10 @@
 	
 	<insert id="createDetailFinalScheduleShip" parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
 		INSERT INTO
-		detailfinalscheduleship (id, crane, volume, timework, iddetailscheduleship, notedetail, volumeunderboard) 
+		detailfinalscheduleship (id, crane, volume, timework, iddetailscheduleship, notedetail, volumeunderboard,
+		volume_tw_mct,rif_mct) 
 		VALUES
-		(#{id}, #{crane}, #{volume}, #{timework}, #{iddetailscheduleship}, #{notedetail}, #{volumeunderboard});
+		(#{id}, #{crane}, #{volume}, #{timework}, #{iddetailscheduleship}, #{notedetail}, #{volumeunderboard},#{volume_tw_mct}, #{rif_mct});
 	</insert>
 	
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -500,7 +501,7 @@
 	
 	<select id="loadDetailFinalScheduleShipById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
-		SELECT id, crane, volume, timework, iddetailscheduleship, notedetail, volumeunderboard 
+		SELECT id, crane, volume, timework, iddetailscheduleship, notedetail, volumeunderboard,volume_tw_mct,rif_mct 
 		FROM
 		detailfinalscheduleship where
 		id = #{id};
@@ -516,12 +517,14 @@
 		volume = #{volume},
 		iddetailscheduleship = #{iddetailscheduleship},
 		notedetail = #{notedetail}, 
-		volumeunderboard = #{volumeunderboard} 
+		volumeunderboard = #{volumeunderboard},
+		volume_tw_mct = #{volume_tw_mct}, 
+		rif_mct = #{rif_mct}		 
 		WHERE id = #{id};
 	</update>
 	
 	<select id="loadDetailFinalScheduleShipByIdDetailScheduleShip" resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip" parameterType="Integer">
-		SELECT id, crane, volume, timework, iddetailscheduleship, notedetail, volumeunderboard 
+		SELECT id, crane, volume, timework, iddetailscheduleship, notedetail, volumeunderboard,volume_tw_mct,rif_mct
 		FROM
 		detailfinalscheduleship where
 		iddetailscheduleship = #{idDetailScheduleShip};

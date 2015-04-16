@@ -10,14 +10,17 @@
 	<select id="reviewShipWork" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ReviewShipWork">
 
-		select d.id as rif_sws,
+		select d.id as rif_sws, d.rif_mct,
     s.name as shipname,
     s.id as id_ship,
     dss.shift,
     d.timework as time_work,
     d.crane,
     dss.shiftdate as date_request,
-    d.volume, d.volumeunderboard, d.notedetail 
+    d.volume, 
+    d.volumeunderboard,
+    d.volume_tw_mct,
+     d.notedetail 
 from
     ship s,
     scheduleship ss,

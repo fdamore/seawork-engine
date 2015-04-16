@@ -18,6 +18,8 @@ public class ReviewShipWork implements Serializable {
 
 	private String				notedetail;
 
+	private Integer				rif_mct;
+
 	private Integer				rif_sws;
 
 	private Integer				shift;
@@ -27,6 +29,8 @@ public class ReviewShipWork implements Serializable {
 	private Double				time_work;
 
 	private Integer				volume;
+
+	private Integer				volume_tw_mct;
 
 	private Integer				volumeunderboard;
 
@@ -44,6 +48,10 @@ public class ReviewShipWork implements Serializable {
 
 	public String getNotedetail() {
 		return this.notedetail;
+	}
+
+	public Integer getRif_mct() {
+		return this.rif_mct;
 	}
 
 	public Integer getRif_sws() {
@@ -66,6 +74,10 @@ public class ReviewShipWork implements Serializable {
 		return this.volume;
 	}
 
+	public Integer getVolume_tw_mct() {
+		return this.volume_tw_mct;
+	}
+
 	public Integer getVolumeunderboard() {
 		return this.volumeunderboard;
 	}
@@ -86,6 +98,10 @@ public class ReviewShipWork implements Serializable {
 		this.notedetail = notedetail;
 	}
 
+	public void setRif_mct(final Integer rif_mct) {
+		this.rif_mct = rif_mct;
+	}
+
 	public void setRif_sws(final Integer rif_sws) {
 		this.rif_sws = rif_sws;
 	}
@@ -104,6 +120,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setVolume(final Integer volume) {
 		this.volume = volume;
+	}
+
+	public void setVolume_tw_mct(final Integer volume_tw_mct) {
+		this.volume_tw_mct = volume_tw_mct;
 	}
 
 	public void setVolumeunderboard(final Integer volumeunderboard) {
