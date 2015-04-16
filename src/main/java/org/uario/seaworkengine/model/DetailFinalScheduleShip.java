@@ -11,6 +11,8 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	private Integer				crane;
 
+	private Boolean				crane_gtw;
+
 	// rif sws
 	private Integer				id;
 
@@ -30,6 +32,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public Integer getCrane() {
 		return this.crane;
+	}
+
+	public Boolean getCrane_gtw() {
+		return this.crane_gtw;
 	}
 
 	public Integer getId() {
@@ -66,6 +72,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setCrane(final Integer crane) {
 		this.crane = crane;
+	}
+
+	public void setCrane_gtw(final Boolean crane_gtw) {
+		this.crane_gtw = crane_gtw;
 	}
 
 	public void setId(final Integer id) {

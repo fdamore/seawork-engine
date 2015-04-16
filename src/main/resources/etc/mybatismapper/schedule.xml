@@ -15,7 +15,7 @@
     s.id as id_ship,
     dss.shift,
     d.timework as time_work,
-    d.crane,
+    d.crane, d.crane_gtw,
     dss.shiftdate as date_request,
     d.volume, 
     d.volumeunderboard,

@@ -131,6 +131,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Row							alertShiftDate_detail;
 
 	@Wire
+	private org.zkoss.zul.Checkbox		crane_gtw_review;
+
+	@Wire
 	private Intbox						crane_review;
 
 	@Wire
@@ -384,6 +387,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			// set time work
 			final double time_worked = this.getDecimalValue();
 			detailFinalScheduleShip.setTimework(time_worked);
+
+			// set type crane
+			final Boolean isgtw = this.crane_gtw_review.isChecked();
+			detailFinalScheduleShip.setCrane_gtw(isgtw);
 
 			this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
 
@@ -774,9 +781,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.crane_review.setValue(null);
 		this.volume_review.setValue(null);
 		this.volumeunderboard_review.setValue(null);
+		this.volumeunde_tw_mct_review.setValue(null);
 		this.note_review.setValue(null);
 
+		this.rif_mct_review.setValue(null);
+
 		this.time_review.setValue(null);
+		this.crane_gtw_review.setChecked(Boolean.FALSE);
+
 	}
 
 	@Listen("onClick = #sw_link_modifyDetailship")

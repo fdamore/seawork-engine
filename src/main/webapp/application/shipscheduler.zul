@@ -737,7 +737,7 @@
 				<toolbarbutton label="X" style="font-weight: bold;"
 					onClick="popup_review_detail.close();" />
 			</div>
-			
+
 			<panel border="normal" collapsible="false"
 				style="margin: 2px 2px 2px 2px" sclass="transparent">
 
@@ -771,6 +771,13 @@
 								<label value="Gru:"></label>
 								<intbox id="crane_review" />
 							</row>
+
+							<row>
+								<label value="Tipo Gru GTW:"></label>
+								<checkbox id="crane_gtw_review"
+									checked="false" />
+							</row>
+
 							<row>
 								<label value="Volumi:"></label>
 								<intbox id="volume_review" />
@@ -840,7 +847,7 @@
 								label="@{detailfinalscheduleship_item.rif_mct}" />
 
 							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.crane}" />
+								label="@{detailfinalscheduleship_item, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.volume}" />
@@ -929,7 +936,7 @@
 						label="@{item_review_work.shift}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{item_review_work.crane}" />
+						label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.time_work, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />

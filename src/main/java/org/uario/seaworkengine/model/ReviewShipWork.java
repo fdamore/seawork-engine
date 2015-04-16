@@ -12,6 +12,8 @@ public class ReviewShipWork implements Serializable {
 
 	private String				crane;
 
+	private Boolean				crane_gtw;
+
 	private Date				date_request;
 
 	private Integer				id_ship;
@@ -36,6 +38,10 @@ public class ReviewShipWork implements Serializable {
 
 	public String getCrane() {
 		return this.crane;
+	}
+
+	public Boolean getCrane_gtw() {
+		return this.crane_gtw;
 	}
 
 	public Date getDate_request() {
@@ -84,6 +90,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setCrane(final String crane) {
 		this.crane = crane;
+	}
+
+	public void setCrane_gtw(final Boolean crane_gtw) {
+		this.crane_gtw = crane_gtw;
 	}
 
 	public void setDate_request(final Date date_request) {
