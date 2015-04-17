@@ -159,11 +159,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Textbox						full_text_search;
 
 	@Wire
+	private Intbox						full_text_search_rifMCT;
+
+	@Wire
+	private Intbox						full_text_search_rifSWS;
+
+	@Wire
+	private Textbox						full_text_search_ship;
+
+	@Wire
 	private Component					grid_scheduleShip;
 
 	@Wire
 	private Component					grid_scheduleShip_details;
-
 	@Wire
 	private Intbox						handswork;
 
@@ -172,6 +180,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label						infoDetailShipProgram;
+
 	@Wire
 	private Label						infoShipProgram;
 
@@ -711,9 +720,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onOK = #shows_rows_ship, #full_text_search_ship")
+	@Listen("onOK = #shows_rows_ship, #full_text_search_ship, #full_text_search_rifSWS, #full_text_search_rifMCT")
 	public void defineView() {
-
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
+		} else {
+			this.sw_list_reviewWork.setPageSize(10);
+		}
+		this.setDateInSearch();
 	}
 
 	@Listen("onClick = #deleteDetailFinalScheduleShip")
@@ -947,6 +961,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #refresh_command")
+	public void refreshBapView() {
+		this.date_from_overview.setValue(null);
+		this.date_to_overview.setValue(null);
+		this.searchWorkShip.setValue(null);
+		this.select_year.setSelectedItem(null);
+
+		this.full_text_search_ship.setValue(null);
+		this.full_text_search_rifSWS.setValue(null);
+		this.full_text_search_rifMCT.setValue(null);
+		this.shows_rows_ship.setValue(10);
+
+		this.searchWorkShip.setValue(Calendar.getInstance().getTime());
+		this.searchReviewShipData();
+	}
+
 	@Listen("onClick = #sw_link_deleteship")
 	public void removeItem() {
 
@@ -1157,11 +1187,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Date date_from = this.searchWorkShip.getValue();
 
+		final String searchText = this.full_text_search_ship.getValue();
+
 		if (date_from != null) {
 			this.date_from_overview.setValue(null);
 			this.date_to_overview.setValue(null);
 
-			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null);
+			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null, searchText,
+					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
 		}
 
@@ -1177,7 +1210,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.date_from_overview.getValue() != null && this.date_to_overview.getValue() != null) {
 			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(),
-					this.date_to_overview.getValue());
+					this.date_to_overview.getValue(), this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(),
+					this.full_text_search_rifMCT.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
 		}
 	}
@@ -1267,7 +1301,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					return;
 				}
 
-				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, date_to);
+				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, date_to,
+						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
 
 				if (this.shows_rows_ship.getValue() != null) {
 					this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
@@ -1278,7 +1313,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
 
 			} else {
-				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(null, null);
+				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(null, null, this.full_text_search_ship.getValue(),
+						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
 				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
 			}
 		}

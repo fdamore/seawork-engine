@@ -914,7 +914,13 @@
 			<intbox id="shows_rows_ship" constraint="no negative, no zero"
 				value="10" />
 
-			<textbox placeholder="Cerca..." id="full_text_search_ship" />
+			<textbox placeholder="Cerca Nome Nave..." id="full_text_search_ship" />
+			
+			<intbox placeholder="Cerca Rif SWS..." id="full_text_search_rifSWS" />
+			<intbox placeholder="Cerca Rif MCT..." id="full_text_search_rifMCT" />
+			
+			<button id="refresh_command" label="Ricarica"
+				sclass="btn-info" />
 			
 			<separator />
 

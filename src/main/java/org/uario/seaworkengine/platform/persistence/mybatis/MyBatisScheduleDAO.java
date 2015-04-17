@@ -154,7 +154,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to) {
+	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
+			final Integer rifMCT) {
 		MyBatisScheduleDAO.logger.info("loadSchedule by date");
 
 		Date dt_arg_from = null;
@@ -167,9 +168,16 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 			dt_arg_to = DateUtils.truncate(date_to, Calendar.DATE);
 		}
 
-		final HashMap<String, Date> map = new HashMap<String, Date>();
+		if (searchText != null && searchText.trim() == "") {
+			searchText = null;
+		}
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dt_arg_from", dt_arg_from);
 		map.put("dt_arg_to", dt_arg_to);
+		map.put("searchText", searchText);
+		map.put("rifSWS", rifSWS);
+		map.put("rifMCT", rifMCT);
 
 		return this.getSqlSession().selectList("schedule.reviewShipWork", map);
 

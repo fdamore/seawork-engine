@@ -40,6 +40,20 @@ where
       		and dss.shiftdate = #{dt_arg_from}
       	</if>
       </if>
+      
+      <if test="searchText != null">
+      	and s.name like CONCAT('%', #{searchText},'%') 
+      </if>
+      
+     
+      <if test="rifSWS != null">
+      	and d.id = #{rifSWS}  
+      </if>
+      
+      <if test="rifMCT != null">
+      	and d.rif_mct = #{rifMCT}  
+      </if>
+      
               
 order by s.name , dss.shift
 	</select>
