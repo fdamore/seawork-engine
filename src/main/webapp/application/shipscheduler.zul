@@ -645,6 +645,7 @@
 				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
 				checkmark="true" multiple="false" pageSize="10">
 				<listhead sizable="true">
+					<listheader label="Data Turno" />
 					<listheader label="Turno" sort="auto(shift)" />
 					<listheader label="Nome Nave" sort="auto(name)" />
 					<listheader label="Operazione"
@@ -659,7 +660,7 @@
 						sort="auto(menwork)" />
 					<listheader label="Note Programmazione" />
 					<listheader label="Note Dettaglio" />
-					<listheader label="Data Turno" />
+					
 					<listheader label="Data inizio attività"
 						sort="auto(arrivaldate)" />
 					<listheader label="Data fine attività"
@@ -670,6 +671,10 @@
 
 				<listitem self="@{each='detailscheduleship_item'}"
 					value="@{detailscheduleship_item}">
+					
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shift}" />
@@ -698,8 +703,6 @@
 						label="@{detailscheduleship_item.note}" />
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.notedetail}" />
-					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.arrivaldate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell sclass="myBottonCell"

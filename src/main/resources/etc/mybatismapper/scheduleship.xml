@@ -331,8 +331,7 @@
 		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate order by
-		d.shift asc;
+		ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate order by d.shiftdate,	d.shift asc;
 
 	</select>
 
