@@ -157,7 +157,11 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to) {
 		MyBatisScheduleDAO.logger.info("loadSchedule by date");
 
-		final Date dt_arg_from = DateUtils.truncate(date_from, Calendar.DATE);
+		Date dt_arg_from = null;
+		if (date_from != null) {
+			dt_arg_from = DateUtils.truncate(date_from, Calendar.DATE);
+		}
+
 		Date dt_arg_to = null;
 		if (date_to != null) {
 			dt_arg_to = DateUtils.truncate(date_to, Calendar.DATE);

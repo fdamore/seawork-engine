@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,6 +25,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.statistics.ShipTotal;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -282,6 +284,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Combobox						select_shift;
 
 	@Wire
+	private Combobox					select_year;
+
+	@Wire
 	private Combobox					shift;
 
 	@Wire
@@ -326,6 +331,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox						shows_rows;
+
+	@Wire
+	private Intbox						shows_rows_ship;
 
 	@Wire
 	private Toolbarbutton				sw_link_reviewscheduleship;
@@ -703,6 +711,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onOK = #shows_rows_ship, #full_text_search_ship")
+	public void defineView() {
+
+	}
+
 	@Listen("onClick = #deleteDetailFinalScheduleShip")
 	public void deleteDetailFinalScheduleShip() {
 		if ((this.sw_list_scheduleShip.getSelectedItem() != null) && (this.list_reviewDetailScheduleShip.getSelectedItem() != null)) {
@@ -752,6 +765,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// SHOW SHIFT CONFIGURATOR
 		this.getSelf().addEventListener(ZkEventsTag.onShowShipScheduler, new StartingEvent());
+
+		// set year in combobox
+		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
+		final ArrayList<String> years = new ArrayList<String>();
+		years.add("TUTTI");
+
+		for (Integer i = 2014; i <= (todayYear + 2); i++) {
+			years.add(i.toString());
+		}
+
+		this.select_year.setModel(new ListModelList<String>(years));
 
 	}
 
@@ -1129,6 +1153,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #searchWorkShip; onOK = #searchWorkShip, #date_from_overview, #date_to_overview")
 	public void searchReviewShipData() {
 
+		this.select_year.setSelectedItem(null);
+
 		final Date date_from = this.searchWorkShip.getValue();
 
 		if (date_from != null) {
@@ -1141,9 +1167,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Search info about data ship for review in interval date
+	 */
 	@Listen("onChange =  #date_from_overview, #date_to_overview; onOK= #date_from_overview, #date_to_overview")
 	public void searchReviewShipIntervalDate() {
 		this.searchWorkShip.setValue(null);
+		this.select_year.setSelectedItem(null);
 
 		if (this.date_from_overview.getValue() != null && this.date_to_overview.getValue() != null) {
 			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(),
@@ -1204,8 +1234,59 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	@Listen("onChange =#select_year")
+	public void selectedYear() {
+
+		this.searchWorkShip.setValue(null);
+		this.date_from_overview.setValue(null);
+		this.date_from_overview.setValue(null);
+
+		if (this.select_year.getSelectedItem() != null) {
+
+			final String yearSelected = this.select_year.getSelectedItem().getValue();
+
+			if (!yearSelected.equals("TUTTI")) {
+
+				this.searchWorkShip.setValue(null);
+				this.date_from_overview.setValue(null);
+				this.date_to_overview.setValue(null);
+
+				final Integer year = Integer.parseInt(yearSelected);
+				Date date_from;
+				Date date_to;
+
+				final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+				final String dateFromString = "01/01/" + year;
+				final String dateToString = "31/12/" + year;
+
+				try {
+					date_from = sdf.parse(dateFromString);
+					date_to = sdf.parse(dateToString);
+				} catch (final ParseException e) {
+					return;
+				}
+
+				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, date_to);
+
+				if (this.shows_rows_ship.getValue() != null) {
+					this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
+				} else {
+					this.sw_list_reviewWork.setPageSize(10);
+				}
+
+				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+
+			} else {
+				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(null, null);
+				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+			}
+		}
+	}
+
 	private void setDateInSearch() {
-		if (this.date_from_overview.getValue() == null && this.date_to_overview.getValue() == null && this.searchWorkShip.getValue() == null) {
+		if (this.date_from_overview.getValue() == null && this.date_to_overview.getValue() == null && this.searchWorkShip.getValue() == null
+				&& this.select_year.getSelectedItem() == null) {
 			this.searchWorkShip.setValue(Calendar.getInstance().getTime());
 			this.searchReviewShipData();
 		} else if (this.date_to_overview.getValue() != null && this.date_from_overview.getValue() != null) {
@@ -1213,6 +1294,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.searchReviewShipIntervalDate();
 		} else if (this.searchWorkShip.getValue() != null) {
 			this.searchReviewShipData();
+		} else if (this.select_year.getSelectedItem() != null) {
+			this.selectedYear();
 		}
 	}
 

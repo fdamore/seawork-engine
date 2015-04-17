@@ -36,8 +36,10 @@ where
        dss.shiftdate <![CDATA[<=]]> #{dt_arg_to}
       </if>
       <if test="dt_arg_to == null">
-      	and dss.shiftdate = #{dt_arg_from}
-      </if> 
+      	<if test="dt_arg_from != null">
+      		and dss.shiftdate = #{dt_arg_from}
+      	</if>
+      </if>
               
 order by s.name , dss.shift
 	</select>

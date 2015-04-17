@@ -899,17 +899,28 @@
 			<a label="Filtra su periodo: "></a>
 				<datebox id="date_from_overview"
 					placeholder="Selezione data iniziale" width="200px"/>
-				
-
+			
 				<datebox id="date_to_overview"
 					placeholder="Selezione data finale" width="200px"/>
-				
+			
+			<a label="Filtra su anno: " />
+				<combobox placeholder="Seleziona anno..."
+					readonly="true" id="select_year" />	
+			
+			<separator />
+			
+			<a label="Righe da visualizzare: "
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+			<intbox id="shows_rows_ship" constraint="no negative, no zero"
+				value="10" />
 
+			<textbox placeholder="Cerca..." id="full_text_search_ship" />
+			
 			<separator />
 
 			<listbox id="sw_list_reviewWork" pagingPosition="both"
 				style="border: 1px solid #CCCCCC;" checkmark="false"
-				multiple="false">
+				multiple="false" mold="paging" pageSize="10">
 				<listhead sizable="true">
 
 
