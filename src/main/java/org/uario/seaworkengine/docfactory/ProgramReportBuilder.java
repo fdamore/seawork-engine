@@ -68,7 +68,6 @@ public class ProgramReportBuilder {
 		add.setWidth(40);
 		final TextColumnBuilder<String> start = DynamicReports.col.column("Entrata", "start", DynamicReports.type.stringType());
 		final TextColumnBuilder<String> end = DynamicReports.col.column("Uscita", "end", DynamicReports.type.stringType());
-		final TextColumnBuilder<String> ship = DynamicReports.col.column("Nave", "ship", DynamicReports.type.stringType());
 
 		final TextColumnBuilder<String> pnrStart = DynamicReports.col.column("Uscita", "pnrStart", DynamicReports.type.stringType());
 		final TextColumnBuilder<String> pnrEnd = DynamicReports.col.column("Rientro", "pnrEnd", DynamicReports.type.stringType());
@@ -77,6 +76,9 @@ public class ProgramReportBuilder {
 		final TextColumnBuilder<String> nonAutorizedEntry = DynamicReports.col.column("Uscita/Entrata non autorizzata", "nonAutorizedEntry",
 				DynamicReports.type.stringType());
 
+		final TextColumnBuilder<String> priority1 = DynamicReports.col.column("Priorità Annullare", "priority1", DynamicReports.type.stringType());
+		final TextColumnBuilder<String> priority2 = DynamicReports.col.column("Priorità Esubero", "priority2", DynamicReports.type.stringType());
+
 		// create group of column
 		final ColumnTitleGroupBuilder presenceInShift = DynamicReports.grid.titleGroup("Presenze in Turno", name, add).setTitleStretchWithOverflow(
 				true);
@@ -84,9 +86,12 @@ public class ProgramReportBuilder {
 
 		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
 
-		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-				.columnGrid(DynamicReports.grid.horizontalColumnGridList(presenceInShift, ship, hours, pnr, autorizedEntry, nonAutorizedEntry))
-				.columns(name, add, ship, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry);
+		report.setHighlightDetailEvenRows(true)
+				.setColumnTitleStyle(columnStyle)
+				.setColumnStyle(textStyle)
+		.columnGrid(
+						DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
+								priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
 
 	}
 
@@ -102,6 +107,10 @@ public class ProgramReportBuilder {
 
 		final TextColumnBuilder<String> ship = DynamicReports.col.column("Nave", "ship", DynamicReports.type.stringType());
 		ship.setWidth(160);
+
+		final TextColumnBuilder<String> user = DynamicReports.col.column("Personale", "user", DynamicReports.type.stringType());
+		user.setWidth(160);
+
 		final TextColumnBuilder<String> co = DynamicReports.col.column("CO", "co", DynamicReports.type.stringType());
 
 		final TextColumnBuilder<String> tw = DynamicReports.col.column("TW", "tw", DynamicReports.type.stringType());
@@ -119,8 +128,8 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder operation = DynamicReports.grid.titleGroup("Tipo Op.", co, tw).setTitleStretchWithOverflow(true);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-				.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, add, start, end))
-				.columns(ship, co, tw, hands, cr, add, start, end);
+		.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, user, operation, hands, cr, add, start, end))
+		.columns(ship, user, co, tw, hands, cr, add, start, end);
 
 	}
 
@@ -130,8 +139,8 @@ public class ProgramReportBuilder {
 	 */
 	private static JRDataSource createDataSource_Shift(final ArrayList<RowSchedule> list_rows, final Integer shiftNumber) {
 
-		final DRDataSource dataSource = new DRDataSource("name", "add", "start", "end", "ship", "pnrStart", "pnrEnd", "autorizedEntry",
-				"nonAutorizedEntry");
+		final DRDataSource dataSource = new DRDataSource("name", "add", "start", "end", "pnrStart", "pnrEnd", "autorizedEntry", "nonAutorizedEntry",
+				"priority1", "priority2");
 
 		for (final RowSchedule item : list_rows) {
 
@@ -177,7 +186,7 @@ public class ProgramReportBuilder {
 		}
 
 		for (int i = 0; i < 4; i++) {
-			dataSource.add("", "", "", "", "", "", "", "", "");
+			dataSource.add("", "", "", "", "", "", "", "", "", "");
 		}
 
 		return dataSource;
@@ -190,7 +199,7 @@ public class ProgramReportBuilder {
 	 */
 	private static JRDataSource createDataSource_Ship(final List<DetailScheduleShip> shipList, final Integer shiftNumber) {
 
-		final DRDataSource dataSource = new DRDataSource("ship", "co", "tw", "hands", "cr", "add", "start", "end");
+		final DRDataSource dataSource = new DRDataSource("ship", "user", "co", "tw", "hands", "cr", "add", "start", "end");
 
 		int shipId = -1;
 
@@ -200,14 +209,14 @@ public class ProgramReportBuilder {
 				final String ship_name = item.getName();
 				shipId = item.getId_ship();
 
-				dataSource.add(ship_name, "", "", "", "", "", "", "");
+				dataSource.add(ship_name, "", "", "", "", "", "", "", "");
 
 			}
 
 		}
 
 		for (int i = 0; i < 20; i++) {
-			dataSource.add("", "", "", "", "", "", "", "");
+			dataSource.add("", "", "", "", "", "", "", "", "");
 		}
 
 		return dataSource;
@@ -264,8 +273,8 @@ public class ProgramReportBuilder {
 		builder_gb.append("Firma compilatore foglio rilevazione presenza smontante __________________" + "\n" + "\n");
 		builder_gb.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme." + "\n");
 		builder_gb
-				.append("Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una x se la diversitò di orario è autorizzata o non autorizzata"
-						+ "\n");
+		.append("Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una x se la diversità di orario è autorizzata o non autorizzata"
+				+ "\n");
 
 		final String ingo_gb = builder_gb.toString();
 
@@ -483,7 +492,7 @@ public class ProgramReportBuilder {
 
 						final String add = task.getCode();
 
-						dataSource.add(name_user, add, "", "", "", "", "", "", "");
+						dataSource.add(name_user, add, "", "", "", "", "", "", "", "");
 
 					}
 				}
