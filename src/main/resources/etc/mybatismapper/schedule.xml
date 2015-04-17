@@ -30,7 +30,15 @@ from
 where
     dss.idscheduleship = ss.id
         and s.id = ss.idship
-        and dss.shiftdate = #{dt_arg}
+        
+      <if test="dt_arg_to != null">
+       and dss.shiftdate <![CDATA[>=]]> #{dt_arg_from} and 
+       dss.shiftdate <![CDATA[<=]]> #{dt_arg_to}
+      </if>
+      <if test="dt_arg_to == null">
+      	and dss.shiftdate = #{dt_arg_from}
+      </if> 
+              
 order by s.name , dss.shift
 	</select>
 

@@ -140,6 +140,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Component					dailyDetailShip;
 
 	@Wire
+	private Datebox						date_from_overview;
+
+	@Wire
+	private Datebox						date_to_overview;
+
+	@Wire
 	private Comboitem					detail_item;
 
 	@Wire
@@ -164,12 +170,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label						infoDetailShipProgram;
-
 	@Wire
 	private Label						infoShipProgram;
 
 	@Wire
 	private Listbox						list_reviewDetailScheduleShip;
+
 	private List<DetailScheduleShip>	listDetailScheduleShip	= new ArrayList<DetailScheduleShip>();
 
 	private final Logger				logger					= Logger.getLogger(UserDetailsComposer.class);
@@ -644,7 +650,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.shipProgram.setVisible(false);
 			this.dailyDetailShip.setVisible(false);
 			this.reviewWorkShip.setVisible(true);
-			this.searchReviewShipData();
+			this.setDateInSearch();
 		}
 	}
 
@@ -1120,18 +1126,30 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Search info about data ship for review
 	 */
-	@Listen("onChange = #searchWorkShip; onOK = #searchWorkShip")
+	@Listen("onChange = #searchWorkShip; onOK = #searchWorkShip, #date_from_overview, #date_to_overview")
 	public void searchReviewShipData() {
 
-		if (this.searchWorkShip.getValue() == null) {
-			this.searchWorkShip.setValue(Calendar.getInstance().getTime());
+		final Date date_from = this.searchWorkShip.getValue();
+
+		if (date_from != null) {
+			this.date_from_overview.setValue(null);
+			this.date_to_overview.setValue(null);
+
+			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null);
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
 		}
 
-		final Date date_to_pick = this.searchWorkShip.getValue();
+	}
 
-		final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_to_pick);
-		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+	@Listen("onChange =  #date_from_overview, #date_to_overview; onOK= #date_from_overview, #date_to_overview")
+	public void searchReviewShipIntervalDate() {
+		this.searchWorkShip.setValue(null);
 
+		if (this.date_from_overview.getValue() != null && this.date_to_overview.getValue() != null) {
+			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(),
+					this.date_to_overview.getValue());
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+		}
 	}
 
 	@Listen("onChange = #searchArrivalDateShipFrom, #searchArrivalDateShipTo")
@@ -1183,6 +1201,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.searchDetailScheduleShipByDateShift();
 		} else {
 			this.searchDetailScheduleShipByDate();
+		}
+	}
+
+	private void setDateInSearch() {
+		if (this.date_from_overview.getValue() == null && this.date_to_overview.getValue() == null && this.searchWorkShip.getValue() == null) {
+			this.searchWorkShip.setValue(Calendar.getInstance().getTime());
+			this.searchReviewShipData();
+		} else if (this.date_to_overview.getValue() != null && this.date_from_overview.getValue() != null) {
+			this.searchWorkShip.setValue(null);
+			this.searchReviewShipIntervalDate();
+		} else if (this.searchWorkShip.getValue() != null) {
+			this.searchReviewShipData();
 		}
 	}
 

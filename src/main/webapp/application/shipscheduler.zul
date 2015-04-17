@@ -610,6 +610,7 @@
 			<a label="Ricerca per data turno: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<datebox id="searchDateShift" placeholder="Data Turno" />
+			
 
 			<separator />
 
@@ -894,7 +895,15 @@
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 			<datebox id="searchWorkShip" placeholder="Data Turno..." />
+			
+			<a label="Filtra su periodo: "></a>
+				<datebox id="date_from_overview"
+					placeholder="Selezione data iniziale" width="200px"/>
+				
 
+				<datebox id="date_to_overview"
+					placeholder="Selezione data finale" width="200px"/>
+				
 
 			<separator />
 
