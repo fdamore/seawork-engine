@@ -152,7 +152,7 @@
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 
-				<caption iconSclass="z-icon-star orange"
+				<caption id="captionDetailProgramShip" iconSclass="z-icon-star orange"
 					label="Dettagli di Programmazione Nave">
 
 					<toolbarbutton id="add_scheduleShipsDetail_command"
@@ -308,7 +308,7 @@
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 
-				<caption iconSclass="z-icon-star orange"
+				<caption id="captionPopupScheduleShip" iconSclass="z-icon-star orange"
 					label="Programmazione Nave">
 
 					<div
@@ -421,7 +421,7 @@
 			</div>
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
-				<caption iconSclass="z-icon-star orange"
+				<caption iconSclass="z-icon-star orange" id="captionShipProgram"
 					label="Dettaglio di Programmazione Nave">
 
 
@@ -745,8 +745,8 @@
 			<panel border="normal" collapsible="false"
 				style="margin: 2px 2px 2px 2px" sclass="transparent">
 
-				<caption iconSclass="z-icon-star orange"
-					label="Consuntiva Dettagli Programmazione Nave">
+				<caption id="captionShip" iconSclass="z-icon-star orange"
+					label="Consuntiva Dettagli Programmazione Nave -">
 
 					<toolbarbutton
 						id="add_finalDetailScheduleShip_command"
