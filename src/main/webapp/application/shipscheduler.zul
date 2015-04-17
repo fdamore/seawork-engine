@@ -736,7 +736,7 @@
 		</div>
 
 		<!-- Popup Review -->
-		<popup id="popup_review_detail" width="700px">
+		<popup id="popup_review_detail" width="800px">
 			<div align="right">
 				<toolbarbutton label="X" style="font-weight: bold;"
 					onClick="popup_review_detail.close();" />
@@ -748,10 +748,17 @@
 				<caption id="captionShip" iconSclass="z-icon-star orange"
 					label="Consuntiva Dettagli Programmazione Nave -">
 
+					<hbox>
 					<toolbarbutton
 						id="add_finalDetailScheduleShip_command"
 						label="Aggiungi Dettaglio" style="color: blue" visible="true">
 					</toolbarbutton>
+					<toolbarbutton
+						id="modify_finalDetailScheduleShip_command"
+						label="Modifica Dettaglio" style="color: blue" visible="false">
+					</toolbarbutton>
+					</hbox>
+					
 
 
 
@@ -874,6 +881,12 @@
 									id="deleteDetailFinalScheduleShip" style="color:blue"
 									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
 									label="Cancella">
+								</toolbarbutton>
+								
+								<toolbarbutton
+									id="modifyDetailFinalScheduleShip" style="color:blue"
+									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
+									label="Modifica">
 								</toolbarbutton>
 
 							</listcell>

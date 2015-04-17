@@ -122,6 +122,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private static final long			serialVersionUID		= 1L;
 
 	@Wire
+	private Toolbarbutton				add_finalDetailScheduleShip_command;
+
+	@Wire
 	private Component					add_scheduleShips_command;
 
 	@Wire
@@ -167,9 +170,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox						date_to_overview;
-
 	@Wire
 	private Comboitem					detail_item;
+
 	@Wire
 	private Tab							detail_scheduleShip_tab;
 
@@ -217,6 +220,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Intbox						menwork_Daily;
+
+	@Wire
+	private Toolbarbutton				modify_finalDetailScheduleShip_command;
 
 	@Wire
 	private Component					modify_Scheduleships_command;
@@ -437,6 +443,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			detailFinalScheduleShip.setCrane_gtw(isgtw);
 
 			this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
+
+			this.add_finalDetailScheduleShip_command.setVisible(true);
+			this.modify_finalDetailScheduleShip_command.setVisible(false);
 
 			this.showReviewShipPopup();
 		}
@@ -864,6 +873,54 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.time_review.setValue(null);
 		this.crane_gtw_review.setChecked(Boolean.FALSE);
 
+		this.add_finalDetailScheduleShip_command.setVisible(true);
+		this.modify_finalDetailScheduleShip_command.setVisible(false);
+
+	}
+
+	@Listen("onClick = #modify_finalDetailScheduleShip_command")
+	public void modify_finalDetailScheduleShip_command() {
+		if ((this.sw_list_scheduleShip.getSelectedItem() != null) && (this.list_reviewDetailScheduleShip.getSelectedItem() != null)) {
+			this.add_finalDetailScheduleShip_command.setVisible(false);
+			this.modify_finalDetailScheduleShip_command.setVisible(true);
+
+			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
+
+			detailFinal.setRif_mct(this.rif_mct_review.getValue());
+			detailFinal.setCrane(this.crane_review.getValue());
+			detailFinal.setCrane_gtw(this.crane_gtw_review.isChecked());
+			detailFinal.setVolume(this.volume_review.getValue());
+			detailFinal.setVolumeunderboard(this.volumeunderboard_review.getValue());
+			detailFinal.setVolume_tw_mct(this.volumeunde_tw_mct_review.getValue());
+			detailFinal.setTimework(this.time_review.getValue());
+			detailFinal.setNotedetail(this.note_review.getValue());
+
+			this.shipSchedulerDao.updateDetailFinalScheduleShip(detailFinal);
+
+			this.showReviewShipPopup();
+
+		}
+	}
+
+	@Listen("onClick = #modifyDetailFinalScheduleShip")
+	public void modifyDetailFinalScheduleShip() {
+		if ((this.sw_list_scheduleShip.getSelectedItem() != null) && (this.list_reviewDetailScheduleShip.getSelectedItem() != null)) {
+
+			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
+
+			this.rif_mct_review.setValue(detailFinal.getRif_mct());
+			this.crane_review.setValue(detailFinal.getCrane());
+			this.crane_gtw_review.setChecked(detailFinal.getCrane_gtw());
+			this.volume_review.setValue(detailFinal.getVolume());
+			this.volumeunderboard_review.setValue(detailFinal.getVolumeunderboard());
+			this.volumeunde_tw_mct_review.setValue(detailFinal.getVolume_tw_mct());
+			this.time_review.setValue(detailFinal.getTimework());
+			this.note_review.setValue(detailFinal.getNotedetail());
+
+			this.add_finalDetailScheduleShip_command.setVisible(false);
+			this.modify_finalDetailScheduleShip_command.setVisible(true);
+
+		}
 	}
 
 	@Listen("onClick = #sw_link_modifyDetailship")
@@ -1563,6 +1620,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.captionShip.setLabel(this.captionShipLabel + " " + detailSelected.getName());
 
 			this.list_reviewDetailScheduleShip.setModel(new ListModelList<DetailFinalScheduleShip>(final_details));
+
+			this.add_finalDetailScheduleShip_command.setVisible(true);
+			this.modify_finalDetailScheduleShip_command.setVisible(false);
 
 			this.initPopupReviewDetail();
 
