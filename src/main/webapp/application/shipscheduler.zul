@@ -472,7 +472,7 @@
 								<label value="Nome Primo Preposto:"></label>
 								<combobox id="user_Daily"
 									value="Seleziona Primo Preposto" readonly="true"
-									constraint="no empty" placeholder="Seleziona Primo Preposto" />
+									placeholder="Seleziona Primo Preposto" />
 							</row>
 							<row>
 								<label value="Nome Secondo Preposto:"></label>
