@@ -954,23 +954,39 @@
 				multiple="false" mold="paging" pageSize="10">
 				<listhead sizable="true">
 
-
-					<listheader label="Nome Nave" />
-					<listheader label="Rif SWS" />
-					<listheader label="Rif MCT" />
+					<listheader label="Settimana"  />
+					<listheader label="Giorno"  />
+					<listheader label="Data" />
+					<listheader label="Nome Nave"  />
+					<listheader label="Rif SWS"  />
+					<listheader label="Rif MCT"  />
 					<listheader label="Turno" />
-					<listheader label="Gru" />
-					<listheader label="Tempo Lavorato" />
-					<listheader label="Volumi attesi" />
+					<listheader label="Gru"  />
+					<listheader label="Tempo Lavorato"  />
+					<listheader label="Volumi attesi"  />
 					<listheader label="Volumi Rizzaggio Da Bordo" />
-					<listheader label="Volumi TW MTC" />
-					<listheader label="Note" />
+					<listheader label="Volumi TW MTC"  />
+					<listheader label="Note"  />
 
 				</listhead>
 
 				<listitem self="@{each='item_review_work'}"
 					value="@{item_review_work}">
 
+					<listcell sclass="myBottonCell"
+						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}">
+					</listcell>
+					
+					<listcell sclass="myBottonCell"
+						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
+					</listcell>
+					
+					<listcell sclass="myBottonCell"
+						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
+					</listcell>
 
 					<listcell sclass="myBottonCell"
 						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"

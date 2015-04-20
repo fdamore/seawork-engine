@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.zkevent.converter;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.uario.seaworkengine.utility.Utility;
@@ -8,8 +7,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
 public class ConverteDateToNumberOfWeek implements TypeConverter {
-
-	SimpleDateFormat	format	= new SimpleDateFormat("dd-MM-yyyy");
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -31,4 +28,5 @@ public class ConverteDateToNumberOfWeek implements TypeConverter {
 		return week.toString();
 
 	}
+
 }
