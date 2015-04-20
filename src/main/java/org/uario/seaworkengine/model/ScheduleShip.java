@@ -31,6 +31,8 @@ public class ScheduleShip implements Serializable {
 
 	private String	note;
 
+	private Integer	rif_mct;
+
 	private Integer	volume;
 
 	public Date getArrivaldate() {
@@ -55,6 +57,10 @@ public class ScheduleShip implements Serializable {
 
 	public String getNote() {
 		return this.note;
+	}
+
+	public Integer getRif_mct() {
+		return this.rif_mct;
 	}
 
 	public Integer getVolume() {
@@ -83,6 +89,10 @@ public class ScheduleShip implements Serializable {
 
 	public void setNote(final String note) {
 		this.note = note;
+	}
+
+	public void setRif_mct(final Integer rif_mct) {
+		this.rif_mct = rif_mct;
 	}
 
 	public void setVolume(final Integer volume) {

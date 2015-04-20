@@ -81,6 +81,11 @@
 									mold="rounded" />
 							</row>
 							<row>
+								<label value="Rif MCT"></label>
+								<intbox id="ship_rif_mcf"
+									mold="rounded" />
+							</row>
+							<row>
 								<label value="Note"></label>
 								<textbox id="note_schedule" />
 							</row>
@@ -154,6 +159,8 @@
 
 				<caption id="captionDetailProgramShip" iconSclass="z-icon-star orange"
 					label="Dettagli di Programmazione Nave">
+					
+					<separator/>
 
 					<toolbarbutton id="add_scheduleShipsDetail_command"
 						label="Aggiungi Dettaglio" style="color: blue" visible="true">
@@ -336,6 +343,11 @@
 							<row>
 								<label value="Volume Atteso"></label>
 								<intbox id="ship_volume" mold="rounded" />
+							</row>
+							<row>
+								<label value="Rif MCT"></label>
+								<intbox id="shipRif_mcf"
+									mold="rounded" />
 							</row>
 							<row>
 								<label value="Note"></label>
@@ -775,7 +787,7 @@
 
 							<row>
 								<label value="Rif MCT:"></label>
-								<intbox id="rif_mct_review" />
+								<label id="rif_mct_review" />
 							</row>
 
 							<row>

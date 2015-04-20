@@ -20,6 +20,7 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	private String				notedetail;
 
+	// using only for view, rif_mct in table scheduleship
 	private Integer				rif_mct;
 
 	private Double				timework;

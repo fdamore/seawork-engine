@@ -10,7 +10,7 @@
 	<select id="reviewShipWork" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ReviewShipWork">
 
-		select d.id as rif_sws, d.rif_mct,
+	select d.id as rif_sws, ss.rif_mct,
     s.name as shipname,
     s.id as id_ship,
     dss.shift,
@@ -51,7 +51,7 @@ where
       </if>
       
       <if test="rifMCT != null">
-      	and d.rif_mct = #{rifMCT}  
+      	and ss.rif_mct = #{rifMCT}  
       </if>
       
               

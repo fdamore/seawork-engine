@@ -19,9 +19,9 @@
 
 	<insert id="createScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip">
 		INSERT INTO
-		scheduleship (idship, volume, note, arrivaldate, departuredate)
+		scheduleship (idship, volume, note, arrivaldate, departuredate, rif_mct)
 		VALUES
-		(#{idship}, #{volume}, #{note}, #{arrivaldate}, #{departuredate});
+		(#{idship}, #{volume}, #{note}, #{arrivaldate}, #{departuredate}, #{rif_mct});
 	</insert>
 
 	<delete id="deleteScheduleShip" parameterType="Integer">
@@ -34,8 +34,7 @@
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate,
-		sh.name
+		s.departuredate, s.rif_mct, sh.name
 		FROM
 		scheduleship s, ship sh
 		where s.idship =
@@ -47,7 +46,7 @@
 	<select id="loadAllScheduleShip" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id,
 		s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
-		sh.name
+		sh.name, s.rif_mct 
 		FROM
 		scheduleship s,
 		ship sh
@@ -59,8 +58,7 @@
 	<select id="selectAllScheduleShipFulltextSearchLike"
 		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate,
-		sh.name
+		s.departuredate, s.rif_mct, sh.name 
 		FROM
 		scheduleship s, ship sh
 
@@ -84,7 +82,9 @@
 		arrivaldate =
 		#{arrivaldate},
 		departuredate =
-		#{departuredate}
+		#{departuredate},
+		rif_mct = 
+		#{rif_mct} 
 		WHERE id =
 		#{id};
 	</update>
@@ -424,7 +424,7 @@
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
 		parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT id, idship, volume, note,
-		arrivaldate, departuredate
+		arrivaldate, departuredate, rif_mct 
 		FROM
 		scheduleship where
 		idship = #{idship} and
@@ -434,7 +434,7 @@
 	<select id="loadScheduleShipByArrivalDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT id,
-		idship, volume, note, arrivaldate, departuredate
+		idship, volume, note, arrivaldate, departuredate, rif_mct 
 		FROM
 		scheduleship where
 		date(arrivaldate) = date(#{arrivaldate});
@@ -456,7 +456,7 @@
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		<![CDATA[
 		
-		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, ss.departuredate, s.name
+		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, ss.departuredate, ss.rif_mct, s.name
 		FROM
 		scheduleship ss, ship s 
 		where
@@ -486,9 +486,9 @@
 	<insert id="createDetailFinalScheduleShip" parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
 		INSERT INTO
 		detailfinalscheduleship (id, crane,crane_gtw, volume, timework, iddetailscheduleship, notedetail, volumeunderboard,
-		volume_tw_mct,rif_mct) 
+		volume_tw_mct) 
 		VALUES
-		(#{id}, #{crane},#{crane_gtw}, #{volume}, #{timework}, #{iddetailscheduleship}, #{notedetail}, #{volumeunderboard},#{volume_tw_mct}, #{rif_mct});
+		(#{id}, #{crane},#{crane_gtw}, #{volume}, #{timework}, #{iddetailscheduleship}, #{notedetail}, #{volumeunderboard},#{volume_tw_mct});
 	</insert>
 	
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -500,10 +500,11 @@
 	
 	<select id="loadDetailFinalScheduleShipById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
-		SELECT id, crane,crane_gtw volume, timework, iddetailscheduleship, notedetail, volumeunderboard,volume_tw_mct,rif_mct 
+		SELECT df.id, df.crane, df.crane_gtw volume, df.timework, df.iddetailscheduleship, df.notedetail, df.volumeunderboard, 
+		df.volume_tw_mct, s.rif_mct  
 		FROM
-		detailfinalscheduleship where
-		id = #{id};
+		detailfinalscheduleship df, detailscheduleship d, scheduleship s where
+		id = #{id} and df.iddetailscheduleship = d.id and d.idscheduleship = s.id;
 	</select>
 	
 	<update id="updateDetailFinalScheduleShip" parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
@@ -518,16 +519,16 @@
 		iddetailscheduleship = #{iddetailscheduleship},
 		notedetail = #{notedetail}, 
 		volumeunderboard = #{volumeunderboard},
-		volume_tw_mct = #{volume_tw_mct}, 
-		rif_mct = #{rif_mct}		 
+		volume_tw_mct = #{volume_tw_mct}  
 		WHERE id = #{id};
 	</update>
 	
 	<select id="loadDetailFinalScheduleShipByIdDetailScheduleShip" resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip" parameterType="Integer">
-		SELECT id, crane,crane_gtw, volume, timework, iddetailscheduleship, notedetail, volumeunderboard,volume_tw_mct,rif_mct
+		SELECT df.id, df.crane,df.crane_gtw, df.volume, df.timework, df.iddetailscheduleship, df.notedetail, df.volumeunderboard, 
+		df.volume_tw_mct, s.rif_mct  
 		FROM
-		detailfinalscheduleship where
-		iddetailscheduleship = #{idDetailScheduleShip};
+		detailfinalscheduleship df, detailscheduleship d, scheduleship s where
+		df.iddetailscheduleship = #{idDetailScheduleShip} and df.iddetailscheduleship = d.id and d.idscheduleship = s.id;
 	</select>
 
 </mapper>
