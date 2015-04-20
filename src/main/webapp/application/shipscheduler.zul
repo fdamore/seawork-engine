@@ -558,6 +558,10 @@
 					<listheader label="Nome Nave" sort="auto(name)" />
 					<listheader label="Volume Atteso"
 						sort="auto(volume)" />
+					<listheader label="Rif MCT"
+						sort="auto(rif_mct)" />
+					<listheader label="Rif SWS"
+						sort="auto(id)" />
 					<listheader label="Note Programmazione" />
 					<listheader label="" />
 				</listhead>
@@ -580,6 +584,13 @@
 					</listcell>
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.volume}" />
+					
+					<listcell sclass="myBottonCell"
+						label="@{scheduleship_item.rif_mct}" />
+						
+					<listcell sclass="myBottonCell"
+						label="@{scheduleship_item.id}" />
+						
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.note}" />
 
