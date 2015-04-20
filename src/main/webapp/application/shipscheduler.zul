@@ -939,6 +939,15 @@
 				sclass="btn-info" />
 			
 			<separator />
+			
+			<label style="color:blue; font-size:10pt;" value="Totale Volumi Attesi: "/>
+			<label style="color:blue; font-size:10pt;" id="TotalVolume" value="0" />
+			<label style="color:blue; font-size:10pt;" value=" - Totale Volumi Rizzaggio da Bordo: "/>
+			<label style="color:blue; font-size:10pt;" id="TotalVolumeOnBoard" value="0"/>
+			<label style="color:blue; font-size:10pt;" value=" - Totale Volumi TW MTC: "/>
+			<label style="color:blue; font-size:10pt;" id="TotalVolumeTWMTC" value="0"/>
+			
+			<separator />
 
 			<listbox id="sw_list_reviewWork" pagingPosition="both"
 				style="border: 1px solid #CCCCCC;" checkmark="false"

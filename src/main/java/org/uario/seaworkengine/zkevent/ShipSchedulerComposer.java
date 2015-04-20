@@ -393,6 +393,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Doublebox					time_review;
 
 	@Wire
+	private Label						TotalVolume;
+
+	@Wire
+	private Label						TotalVolumeOnBoard;
+
+	@Wire
+	private Label						TotalVolumeTWMTC;
+
+	@Wire
 	private Combobox					user;
 
 	@Wire
@@ -557,7 +566,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -582,7 +591,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -1087,15 +1096,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteDetailship();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteDetailship();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -1114,18 +1123,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-						@Override
-						public void onEvent(final ClickEvent e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-										.getId());
+				@Override
+				public void onEvent(final ClickEvent e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+								.getId());
 
-								ShipSchedulerComposer.this.searchScheduleShipByDate();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						ShipSchedulerComposer.this.searchScheduleShipByDate();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-							}
-						}
-					}, params);
+					}
+				}
+			}, params);
 
 			// sdfsd
 		}
@@ -1290,6 +1299,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null, searchText,
 					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+
+			this.setTotalVolumeLabel(list_review_work);
+
 		}
 
 	}
@@ -1307,6 +1319,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					this.date_to_overview.getValue(), this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(),
 					this.full_text_search_rifMCT.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+
+			this.setTotalVolumeLabel(list_review_work);
 		}
 	}
 
@@ -1406,10 +1420,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
 
+				this.setTotalVolumeLabel(list_review_work);
+
 			} else {
 				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(null, null, this.full_text_search_ship.getValue(),
 						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
 				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+
+				this.setTotalVolumeLabel(list_review_work);
 			}
 		}
 	}
@@ -1575,6 +1593,33 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(list_DetailScheduleShip));
 
+	}
+
+	/**
+	 * Set the label total volume value.
+	 * */
+	private void setTotalVolumeLabel(final List<ReviewShipWork> list_review_work) {
+
+		Double sumVolume = 0.0;
+		Double sumVolumeOnBoard = 0.0;
+		Double sumVolumeMTC = 0.0;
+
+		for (final ReviewShipWork reviewShipWork : list_review_work) {
+			if (reviewShipWork.getVolume() != null) {
+				sumVolume += reviewShipWork.getVolume();
+			}
+			if (reviewShipWork.getVolumeunderboard() != null) {
+				sumVolumeOnBoard += reviewShipWork.getVolumeunderboard();
+			}
+			if (reviewShipWork.getVolume_tw_mct() != null) {
+				sumVolumeMTC += reviewShipWork.getVolume_tw_mct();
+			}
+
+		}
+
+		this.TotalVolume.setValue(sumVolume.toString());
+		this.TotalVolumeOnBoard.setValue(sumVolumeOnBoard.toString());
+		this.TotalVolumeTWMTC.setValue(sumVolumeMTC.toString());
 	}
 
 	@Listen("onClick = #sw_addScheduleShipProgram")
