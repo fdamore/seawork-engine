@@ -1010,23 +1010,19 @@
 				<listitem self="@{each='item_review_work'}"
 					value="@{item_review_work}">
 
-					<listcell sclass="myBottonCell"
-						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+					<listcell sclass="myBottonCell" 
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}">
 					</listcell>
 					
-					<listcell sclass="myBottonCell"
-						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+					<listcell sclass="myBottonCell" 
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
 					</listcell>
 					
-					<listcell sclass="myBottonCell"
-						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+					<listcell sclass="myBottonCell" 
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
 					</listcell>
 
-					<listcell sclass="myBottonCell"
-						style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
+					<listcell sclass="myBottonCell" 
 						label="@{item_review_work.shipname}">
 					</listcell>
 
