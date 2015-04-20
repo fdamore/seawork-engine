@@ -85,8 +85,8 @@
 								<intbox id="ship_rif_mcf"
 									mold="rounded" />
 							</row>
-							
-							
+
+
 							<row>
 								<label value="Note"></label>
 								<textbox id="note_schedule" />
@@ -155,15 +155,16 @@
 			<div align="right">
 				<toolbarbutton label="X" style="font-weight: bold;"
 					onClick="popup_detail.close();" />
-				
+
 			</div>
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 
-				<caption id="captionDetailProgramShip" iconSclass="z-icon-star orange"
+				<caption id="captionDetailProgramShip"
+					iconSclass="z-icon-star orange"
 					label="Dettagli di Programmazione Nave">
-					
-					<separator/>
+
+					<separator />
 
 					<toolbarbutton id="add_scheduleShipsDetail_command"
 						label="Aggiungi Dettaglio" style="color: blue" visible="true">
@@ -173,12 +174,12 @@
 						id="modify_scheduleShipsDetail_command" label="Modifica Dettaglio"
 						style="color: blue" visible="false">
 					</toolbarbutton>
-					
-					
+
+
 				</caption>
-				
-							
-				
+
+
+
 
 				<panelchildren>
 
@@ -321,8 +322,8 @@
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
 
-				<caption id="captionPopupScheduleShip" iconSclass="z-icon-star orange"
-					label="Programmazione Nave">
+				<caption id="captionPopupScheduleShip"
+					iconSclass="z-icon-star orange" label="Programmazione Nave">
 
 					<div
 						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -352,8 +353,7 @@
 							</row>
 							<row>
 								<label value="Rif MCT"></label>
-								<intbox id="shipRif_mcf"
-									mold="rounded" />
+								<intbox id="shipRif_mcf" mold="rounded" />
 							</row>
 							<row>
 								<label value="Rif SWS"></label>
@@ -443,8 +443,8 @@
 			</div>
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
-				<caption iconSclass="z-icon-star orange" id="captionShipProgram"
-					label="Dettaglio di Programmazione Nave">
+				<caption iconSclass="z-icon-star orange"
+					id="captionShipProgram" label="Dettaglio di Programmazione Nave">
 
 
 					<div
@@ -558,10 +558,8 @@
 					<listheader label="Nome Nave" sort="auto(name)" />
 					<listheader label="Volume Atteso"
 						sort="auto(volume)" />
-					<listheader label="Rif MCT"
-						sort="auto(rif_mct)" />
-					<listheader label="Rif SWS"
-						sort="auto(id)" />
+					<listheader label="Rif MCT" sort="auto(rif_mct)" />
+					<listheader label="Rif SWS" sort="auto(id)" />
 					<listheader label="Note Programmazione" />
 					<listheader label="" />
 				</listhead>
@@ -584,13 +582,13 @@
 					</listcell>
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.volume}" />
-					
+
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.rif_mct}" />
-						
+
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.id}" />
-						
+
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.note}" />
 
@@ -643,7 +641,7 @@
 			<a label="Ricerca per data turno: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<datebox id="searchDateShift" placeholder="Data Turno" />
-			
+
 
 			<separator />
 
@@ -668,8 +666,8 @@
 
 			<button id="refreshDetailView" label="Ricarica"
 				sclass="btn-info" />
-				
-			
+
+
 			<separator />
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />
@@ -694,7 +692,7 @@
 						sort="auto(menwork)" />
 					<listheader label="Note Programmazione" />
 					<listheader label="Note Dettaglio" />
-					
+
 					<listheader label="Data inizio attività"
 						sort="auto(arrivaldate)" />
 					<listheader label="Data fine attività"
@@ -705,10 +703,10 @@
 
 				<listitem self="@{each='detailscheduleship_item'}"
 					value="@{detailscheduleship_item}">
-					
+
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-					
+
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shift}" />
@@ -776,92 +774,113 @@
 					onClick="popup_review_detail.close();" />
 			</div>
 
+
+
 			<panel border="normal" collapsible="false"
 				style="margin: 2px 2px 2px 2px" sclass="transparent">
 
-				<caption id="captionShip" iconSclass="z-icon-star orange"
+				<caption id="captionShip"
+					iconSclass="z-icon-star orange"
 					label="Consuntiva Dettagli Programmazione Nave">
 
+					<vbox>
+						<hbox align="center">
+							<label value="Nome Nave: "></label>
+							<label id="shipName" value=""
+								style="font-weight: bold; font-size: 18px; " />
+						</hbox>
+
+						<hbox align="center">
+							<label value="Rif MCT:"></label>
+							<label id="rif_mct_review" />
+						</hbox>
+
+						<hbox align="center">
+							<label value="Rif SWS:"></label>
+							<label id="rif_sws_review" />
+						</hbox>
+
+					</vbox>
+
 					<hbox>
-					<toolbarbutton
-						id="add_finalDetailScheduleShip_command"
-						label="Aggiungi Dettaglio" style="color: blue" visible="true">
-					</toolbarbutton>
-					<toolbarbutton
-						id="modify_finalDetailScheduleShip_command"
-						label="Modifica Dettaglio" style="color: blue" visible="false">
-					</toolbarbutton>
+						<toolbarbutton
+							id="add_finalDetailScheduleShip_command"
+							label="Aggiungi Dettaglio" style="color: blue" visible="true">
+						</toolbarbutton>
+						<toolbarbutton
+							id="modify_finalDetailScheduleShip_command"
+							label="Modifica Dettaglio" style="color: blue" visible="false">
+						</toolbarbutton>
 					</hbox>
-					
-
-
 
 				</caption>
 
 				<panelchildren>
-				
-					<grid sclass="domain">
-						<columns>
-							<column label="Type" />
-							<column label="Informazioni" />
-						</columns>
-						<rows>
-						
-							<row>
-								<label value="Nome Nave: "></label>
-								<label id="shipName" value="" style="font-weight: bold; font-size: 18px; " />
-							</row>
 
-							<row>
-								<label value="Rif MCT:"></label>
-								<label id="rif_mct_review" />
-							</row>
-							
-							<row>
-								<label value="Rif SWS:"></label>
-								<label id="rif_sws_review" />
-							</row>
 
-							<row>
-								<label value="Gru:"></label>
-								<intbox id="crane_review" />
-							</row>
 
-							<row>
-								<label value="Tipo Gru GTW:"></label>
-								<checkbox id="crane_gtw_review"
-									checked="false" />
-							</row>
 
-							<row>
-								<label value="Volumi:"></label>
-								<intbox id="volume_review" />
-							</row>
-							<row>
-								<label
-									value="Volumi Rizzaggio Da Bordo:">
-								</label>
-								<intbox id="volumeunderboard_review" />
-							</row>
+					<panel border="normal" collapsible="false"
+						sclass="transparent">
 
-							<row>
-								<label value="Volumi TW MCT:"></label>
-								<intbox id="volumeunde_tw_mct_review" />
-							</row>
+						<panelchildren>
 
-							<row>
-								<label value="Tempo lavorato:"></label>
-								<doublebox constraint="no negative"
-									id="time_review">
-								</doublebox>
-							</row>
-							<row>
-								<label value="Note:"></label>
-								<textbox id="note_review" width="90%"
-									rows="5" />
-							</row>
-						</rows>
-					</grid>
+							<grid sclass="domain">
+								<columns>
+									<column label="Type" />
+									<column label="Informazioni" />
+								</columns>
+								<rows>
+
+
+
+									<row>
+										<label value="Gru:"></label>
+										<intbox id="crane_review" />
+									</row>
+
+									<row>
+										<label value="Tipo Gru GTW:"></label>
+										<checkbox id="crane_gtw_review"
+											checked="false" />
+									</row>
+
+									<row>
+										<label value="Volumi:"></label>
+										<intbox id="volume_review" />
+									</row>
+									<row>
+										<label
+											value="Volumi Rizzaggio Da Bordo:">
+										</label>
+										<intbox
+											id="volumeunderboard_review" />
+									</row>
+
+									<row>
+										<label value="Volumi TW MCT:"></label>
+										<intbox
+											id="volumeunde_tw_mct_review" />
+									</row>
+
+									<row>
+										<label
+											value="Tempo lavorato:">
+										</label>
+										<doublebox
+											constraint="no negative" id="time_review">
+										</doublebox>
+									</row>
+									<row>
+										<label value="Note:"></label>
+										<textbox id="note_review"
+											width="90%" rows="5" />
+									</row>
+								</rows>
+							</grid>
+
+						</panelchildren>
+					</panel>
 
 					<separator></separator>
 
@@ -871,7 +890,8 @@
 						pageSize="10">
 						<listhead sizable="true">
 
-							<listheader label="Rif SWS" sort="auto(rif_sws)" />
+							<listheader label="Rif SWS"
+								sort="auto(rif_sws)" />
 							<listheader label="Rif MCT"
 								sort="auto(rif_mct)" />
 
@@ -926,7 +946,7 @@
 									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
 									label="Cancella">
 								</toolbarbutton>
-								
+
 								<toolbarbutton
 									id="modifyDetailFinalScheduleShip" style="color:blue"
 									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
@@ -955,46 +975,55 @@
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 			<datebox id="searchWorkShip" placeholder="Data Turno..." />
-			
+
 			<a label="Filtra su periodo: "></a>
-				<datebox id="date_from_overview"
-					placeholder="Selezione data iniziale" width="200px"/>
-			
-				<datebox id="date_to_overview"
-					placeholder="Selezione data finale" width="200px"/>
-			
+			<datebox id="date_from_overview"
+				placeholder="Selezione data iniziale" width="200px" />
+
+			<datebox id="date_to_overview"
+				placeholder="Selezione data finale" width="200px" />
+
 			<a label="Filtra su anno: " />
-				<combobox placeholder="Seleziona anno..."
-					readonly="true" id="select_year" />	
-			
+			<combobox placeholder="Seleziona anno..." readonly="true"
+				id="select_year" />
+
 			<separator />
-			
+
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<intbox id="shows_rows_ship" constraint="no negative, no zero"
-				value="10" />
+			<intbox id="shows_rows_ship"
+				constraint="no negative, no zero" value="10" />
 
-			<textbox placeholder="Cerca Nome Nave..." id="full_text_search_ship" />
-			
-			<intbox placeholder="Cerca Rif SWS..." id="full_text_search_rifSWS" />
-			<intbox placeholder="Cerca Rif MCT..." id="full_text_search_rifMCT" />
-			
+			<textbox placeholder="Cerca Nome Nave..."
+				id="full_text_search_ship" />
+
+			<intbox placeholder="Cerca Rif SWS..."
+				id="full_text_search_rifSWS" />
+			<intbox placeholder="Cerca Rif MCT..."
+				id="full_text_search_rifMCT" />
+
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
-				
-				<a label="Scarica dati in CSV" id="overview_download"
-					style="color:green">
-				</a>
-			
+
+			<a label="Scarica dati in CSV" id="overview_download"
+				style="color:green">
+			</a>
+
 			<separator />
-			
-			<label style="color:blue; font-size:10pt;" value="Totale Volumi Attesi: "/>
-			<label style="color:blue; font-size:10pt;" id="TotalVolume" value="0" />
-			<label style="color:blue; font-size:10pt;" value=" - Totale Volumi Rizzaggio da Bordo: "/>
-			<label style="color:blue; font-size:10pt;" id="TotalVolumeOnBoard" value="0"/>
-			<label style="color:blue; font-size:10pt;" value=" - Totale Volumi TW MTC: "/>
-			<label style="color:blue; font-size:10pt;" id="TotalVolumeTWMTC" value="0"/>
-			
+
+			<label style="color:blue; font-size:10pt;"
+				value="Totale Volumi Attesi: " />
+			<label style="color:blue; font-size:10pt;" id="TotalVolume"
+				value="0" />
+			<label style="color:blue; font-size:10pt;"
+				value=" - Totale Volumi Rizzaggio da Bordo: " />
+			<label style="color:blue; font-size:10pt;"
+				id="TotalVolumeOnBoard" value="0" />
+			<label style="color:blue; font-size:10pt;"
+				value=" - Totale Volumi TW MTC: " />
+			<label style="color:blue; font-size:10pt;"
+				id="TotalVolumeTWMTC" value="0" />
+
 			<separator />
 
 			<listbox id="sw_list_reviewWork" pagingPosition="both"
@@ -1002,38 +1031,38 @@
 				multiple="false" mold="paging" pageSize="10">
 				<listhead sizable="true">
 
-					<listheader label="Settimana"  />
-					<listheader label="Giorno"  />
+					<listheader label="Settimana" />
+					<listheader label="Giorno" />
 					<listheader label="Data" />
-					<listheader label="Nome Nave"  />
-					<listheader label="Rif SWS"  />
-					<listheader label="Rif MCT"  />
+					<listheader label="Nome Nave" />
+					<listheader label="Rif SWS" />
+					<listheader label="Rif MCT" />
 					<listheader label="Turno" />
-					<listheader label="Gru"  />
-					<listheader label="Tempo Lavorato"  />
-					<listheader label="Volumi attesi"  />
+					<listheader label="Gru" />
+					<listheader label="Tempo Lavorato" />
+					<listheader label="Volumi attesi" />
 					<listheader label="Volumi Rizzaggio Da Bordo" />
-					<listheader label="Volumi TW MTC"  />
-					<listheader label="Note"  />
+					<listheader label="Volumi TW MTC" />
+					<listheader label="Note" />
 
 				</listhead>
 
 				<listitem self="@{each='item_review_work'}"
 					value="@{item_review_work}">
 
-					<listcell sclass="myBottonCell" 
+					<listcell sclass="myBottonCell"
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}">
 					</listcell>
-					
-					<listcell sclass="myBottonCell" 
+
+					<listcell sclass="myBottonCell"
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
 					</listcell>
-					
-					<listcell sclass="myBottonCell" 
+
+					<listcell sclass="myBottonCell"
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
 					</listcell>
 
-					<listcell sclass="myBottonCell" 
+					<listcell sclass="myBottonCell"
 						label="@{item_review_work.shipname}">
 					</listcell>
 
