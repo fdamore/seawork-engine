@@ -155,6 +155,7 @@
 			<div align="right">
 				<toolbarbutton label="X" style="font-weight: bold;"
 					onClick="popup_detail.close();" />
+				
 			</div>
 			<panel border="normal" collapsible="false"
 				sclass="transparent">
@@ -172,9 +173,12 @@
 						id="modify_scheduleShipsDetail_command" label="Modifica Dettaglio"
 						style="color: blue" visible="false">
 					</toolbarbutton>
-
-
+					
+					
 				</caption>
+				
+							
+				
 
 				<panelchildren>
 
@@ -765,7 +769,7 @@
 				style="margin: 2px 2px 2px 2px" sclass="transparent">
 
 				<caption id="captionShip" iconSclass="z-icon-star orange"
-					label="Consuntiva Dettagli Programmazione Nave -">
+					label="Consuntiva Dettagli Programmazione Nave">
 
 					<hbox>
 					<toolbarbutton
@@ -784,13 +788,18 @@
 				</caption>
 
 				<panelchildren>
-
+				
 					<grid sclass="domain">
 						<columns>
 							<column label="Type" />
 							<column label="Informazioni" />
 						</columns>
 						<rows>
+						
+							<row>
+								<label value="Nome Nave: "></label>
+								<label id="shipName" value="" style="font-weight: bold; font-size: 18px; " />
+							</row>
 
 							<row>
 								<label value="Rif MCT:"></label>
