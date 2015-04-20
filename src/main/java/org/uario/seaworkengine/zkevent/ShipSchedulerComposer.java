@@ -288,6 +288,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Label						rif_mct_review;
 
+	@Wire
+	private Label						rif_sws_review;
+
 	public ISchedule					scheduleDao;
 
 	@Wire
@@ -354,6 +357,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox						ship_rif_mcf;
+
+	@Wire
+	private Label						ship_rif_sws;
 
 	@Wire
 	private Intbox						ship_volume;
@@ -577,7 +583,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -602,7 +608,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -968,6 +974,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.scheduleShip_selected = (ScheduleShip) this.sw_list_scheduleShipProgram.getSelectedItem().getValue();
 
 		if (this.scheduleShip_selected != null) {
+
+			this.ship_rif_sws.setValue(this.scheduleShip_selected.getId().toString());
+
 			this.defineScheduleShipDetailsView(this.scheduleShip_selected);
 		}
 
@@ -1118,15 +1127,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteDetailship();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteDetailship();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -1145,18 +1154,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-						@Override
-						public void onEvent(final ClickEvent e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-										.getId());
+				@Override
+				public void onEvent(final ClickEvent e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+								.getId());
 
-								ShipSchedulerComposer.this.searchScheduleShipByDate();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						ShipSchedulerComposer.this.searchScheduleShipByDate();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-							}
-						}
-					}, params);
+					}
+				}
+			}, params);
 
 			// sdfsd
 		}
@@ -1690,10 +1699,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.rif_mct_review.setValue("");
 
+			this.rif_sws_review.setValue("");
+
 			if (detailSelected != null && detailSelected.getIdscheduleship() != null) {
+
 				final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
+
 				if (scheduleShip != null && scheduleShip.getRif_mct() != null) {
+
 					this.rif_mct_review.setValue(scheduleShip.getRif_mct().toString());
+
+				} else if (scheduleShip != null) {
+
+					this.rif_sws_review.setValue(scheduleShip.getId().toString());
 				}
 			}
 

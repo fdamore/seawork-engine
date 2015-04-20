@@ -23,6 +23,9 @@ public class DetailFinalScheduleShip implements Serializable {
 	// using only for view, rif_mct in table scheduleship
 	private Integer				rif_mct;
 
+	// using only for view, rif_mct in table scheduleship
+	private Integer				rif_sws;
+
 	private Double				timework;
 
 	private Integer				volume;
@@ -53,6 +56,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public Integer getRif_mct() {
 		return this.rif_mct;
+	}
+
+	public Integer getRif_sws() {
+		return this.rif_sws;
 	}
 
 	public Double getTimework() {
@@ -93,6 +100,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setRif_mct(final Integer rif_mct) {
 		this.rif_mct = rif_mct;
+	}
+
+	public void setRif_sws(final Integer rif_sws) {
+		this.rif_sws = rif_sws;
 	}
 
 	public void setTimework(final Double timework) {

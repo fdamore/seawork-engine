@@ -501,7 +501,7 @@
 	<select id="loadDetailFinalScheduleShipById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
 		SELECT df.id, df.crane, df.crane_gtw volume, df.timework, df.iddetailscheduleship, df.notedetail, df.volumeunderboard, 
-		df.volume_tw_mct, s.rif_mct  
+		df.volume_tw_mct, s.rif_mct, s.id as rif_sws 
 		FROM
 		detailfinalscheduleship df, detailscheduleship d, scheduleship s where
 		id = #{id} and df.iddetailscheduleship = d.id and d.idscheduleship = s.id;
@@ -525,7 +525,7 @@
 	
 	<select id="loadDetailFinalScheduleShipByIdDetailScheduleShip" resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip" parameterType="Integer">
 		SELECT df.id, df.crane,df.crane_gtw, df.volume, df.timework, df.iddetailscheduleship, df.notedetail, df.volumeunderboard, 
-		df.volume_tw_mct, s.rif_mct  
+		df.volume_tw_mct, s.rif_mct, s.id as rif_sws   
 		FROM
 		detailfinalscheduleship df, detailscheduleship d, scheduleship s where
 		df.iddetailscheduleship = #{idDetailScheduleShip} and df.iddetailscheduleship = d.id and d.idscheduleship = s.id;

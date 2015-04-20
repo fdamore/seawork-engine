@@ -85,6 +85,8 @@
 								<intbox id="ship_rif_mcf"
 									mold="rounded" />
 							</row>
+							
+							
 							<row>
 								<label value="Note"></label>
 								<textbox id="note_schedule" />
@@ -348,6 +350,10 @@
 								<label value="Rif MCT"></label>
 								<intbox id="shipRif_mcf"
 									mold="rounded" />
+							</row>
+							<row>
+								<label value="Rif SWS"></label>
+								<label id="ship_rif_sws" />
 							</row>
 							<row>
 								<label value="Note"></label>
@@ -789,6 +795,11 @@
 								<label value="Rif MCT:"></label>
 								<label id="rif_mct_review" />
 							</row>
+							
+							<row>
+								<label value="Rif SWS:"></label>
+								<label id="rif_sws_review" />
+							</row>
 
 							<row>
 								<label value="Gru:"></label>
@@ -839,7 +850,7 @@
 						pageSize="10">
 						<listhead sizable="true">
 
-							<listheader label="Rif SWS" sort="auto(id)" />
+							<listheader label="Rif SWS" sort="auto(rif_sws)" />
 							<listheader label="Rif MCT"
 								sort="auto(rif_mct)" />
 
@@ -864,7 +875,7 @@
 							value="@{detailfinalscheduleship_item}">
 
 							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.id}" />
+								label="@{detailfinalscheduleship_item.rif_sws}" />
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.rif_mct}" />
