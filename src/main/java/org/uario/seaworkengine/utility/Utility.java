@@ -33,13 +33,15 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class Utility {
 
-	private static SimpleDateFormat	dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat			dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
 
-	private static SimpleDateFormat	dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
+	private static SimpleDateFormat			dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
 
-	private static SimpleDateFormat	dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	private static SimpleDateFormat			dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-	private static SimpleDateFormat	timeFormat		= new SimpleDateFormat("HH:mm");
+	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
+
+	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
 
 	public static String convertToDateAndTime(final Timestamp date) {
 
@@ -212,6 +214,13 @@ public class Utility {
 		return Utility.getDateFormat().format(date);
 	}
 
+	public static String getDataAsString_it(final Date date) {
+		if (date == null) {
+			return "";
+		}
+		return Utility.dateFormat_it.format(date);
+	}
+
 	/**
 	 * Return the default date format
 	 *
@@ -228,6 +237,11 @@ public class Utility {
 	 */
 	public static SimpleDateFormat getDateFormatIT() {
 		return Utility.dateFormat_it;
+	}
+
+	public static String getDay(final Date date) {
+
+		return Utility.formatDay.format(date);
 	}
 
 	public static Integer getMonthNumber(final Date date) {

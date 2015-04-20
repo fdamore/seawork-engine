@@ -58,7 +58,7 @@ public class CraneTypeConverter implements TypeConverter {
 	 * @param crane
 	 * @return
 	 */
-	private Object defineCraneString(final Boolean crane_gtw, final String crane) {
+	public Object defineCraneString(final Boolean crane_gtw, final String crane) {
 		if (crane_gtw == null) {
 			if (crane != null) {
 				return crane;

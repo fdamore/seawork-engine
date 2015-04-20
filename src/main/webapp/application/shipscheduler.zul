@@ -653,7 +653,8 @@
 
 			<button id="refreshDetailView" label="Ricarica"
 				sclass="btn-info" />
-
+				
+			
 			<separator />
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />
@@ -960,6 +961,10 @@
 			
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
+				
+				<a label="Scarica dati in CSV" id="overview_download"
+					style="color:green">
+				</a>
 			
 			<separator />
 			

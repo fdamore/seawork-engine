@@ -26,6 +26,7 @@ import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.statistics.ShipTotal;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.Utility;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -40,6 +41,7 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
@@ -207,6 +209,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label						infoShipProgram;
+
+	private List<ReviewShipWork>		list_review_work		= new ArrayList<ReviewShipWork>();
 
 	@Wire
 	private Listbox						list_reviewDetailScheduleShip;
@@ -861,6 +865,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #overview_download")
+	public void downloadCSV_ReviewShipWork() {
+
+		if (this.list_review_work.size() != 0) {
+			final StringBuilder builder = UtilityCSV.downloadCSV_ReviewShipWork(this.list_review_work);
+
+			Filedownload.save(builder.toString(), "application/text", "bap.csv");
+		}
+
+	}
+
 	/**
 	 * Get decimal value
 	 *
@@ -1329,11 +1344,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.date_from_overview.setValue(null);
 			this.date_to_overview.setValue(null);
 
-			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null, searchText,
-					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
-			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null, searchText, this.full_text_search_rifSWS.getValue(),
+					this.full_text_search_rifMCT.getValue());
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-			this.setTotalVolumeLabel(list_review_work);
+			this.setTotalVolumeLabel();
 
 		}
 
@@ -1348,12 +1363,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_year.setSelectedItem(null);
 
 		if (this.date_from_overview.getValue() != null && this.date_to_overview.getValue() != null) {
-			final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(),
-					this.date_to_overview.getValue(), this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(),
-					this.full_text_search_rifMCT.getValue());
-			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
+					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-			this.setTotalVolumeLabel(list_review_work);
+			this.setTotalVolumeLabel();
 		}
 	}
 
@@ -1442,8 +1456,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					return;
 				}
 
-				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(date_from, date_to,
-						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+				this.list_review_work = this.scheduleDao.loadReviewShipWork(date_from, date_to, this.full_text_search_ship.getValue(),
+						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
 
 				if (this.shows_rows_ship.getValue() != null) {
 					this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
@@ -1451,16 +1465,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					this.sw_list_reviewWork.setPageSize(10);
 				}
 
-				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-				this.setTotalVolumeLabel(list_review_work);
+				this.setTotalVolumeLabel();
 
 			} else {
-				final List<ReviewShipWork> list_review_work = this.scheduleDao.loadReviewShipWork(null, null, this.full_text_search_ship.getValue(),
+				this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, this.full_text_search_ship.getValue(),
 						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
-				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(list_review_work));
+				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-				this.setTotalVolumeLabel(list_review_work);
+				this.setTotalVolumeLabel();
 			}
 		}
 	}
@@ -1631,13 +1645,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Set the label total volume value.
 	 * */
-	private void setTotalVolumeLabel(final List<ReviewShipWork> list_review_work) {
+	private void setTotalVolumeLabel() {
 
 		Double sumVolume = 0.0;
 		Double sumVolumeOnBoard = 0.0;
 		Double sumVolumeMTC = 0.0;
 
-		for (final ReviewShipWork reviewShipWork : list_review_work) {
+		for (final ReviewShipWork reviewShipWork : this.list_review_work) {
 			if (reviewShipWork.getVolume() != null) {
 				sumVolume += reviewShipWork.getVolume();
 			}
