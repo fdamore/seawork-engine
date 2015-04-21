@@ -53,6 +53,34 @@ public class ProgramReportBuilder {
 	private static Integer			secondShiftNumberOfPerson	= 0;
 	private static Integer			thirdShiftNumberOfPerson	= 0;
 
+	private static void buildNoteShipReport_MeteoCondition(final JasperReportBuilder report) {
+		final StyleBuilder textStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point()).setPadding(2);
+
+		final StyleBuilder columnStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point())
+				.setHorizontalAlignment(HorizontalAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE)
+				.setBackgroundColor(Color.lightGray);
+
+		// create column
+
+		final TextColumnBuilder<String> col1 = DynamicReports.col.column("Vento", "col1", DynamicReports.type.stringType());
+
+		final TextColumnBuilder<String> col2 = DynamicReports.col.column("Pioggia", "col2", DynamicReports.type.stringType());
+
+		final TextColumnBuilder<String> col3 = DynamicReports.col.column("Cielo", "col3", DynamicReports.type.stringType());
+
+		final TextColumnBuilder<String> col4 = DynamicReports.col.column("Temperatura", "col4", DynamicReports.type.stringType());
+
+		final ColumnTitleGroupBuilder meteoCondition = DynamicReports.grid.titleGroup("Condizioni Meteo", col1, col2, col3, col4);
+
+		final VerticalListBuilder body = (VerticalListBuilder) ProgramReportBuilder.createBodyShipNote();
+
+		report.setHighlightDetailEvenRows(false).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
+				.columnGrid(DynamicReports.grid.horizontalColumnGridList(meteoCondition)).columns(col1, col2, col3, col4);
+
+		report.summary(body);
+
+	}
+
 	private static void buildShiftReport(final JasperReportBuilder report) {
 
 		final StyleBuilder textStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point()).setPadding(2);
@@ -87,11 +115,11 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
 
 		report.setHighlightDetailEvenRows(true)
-				.setColumnTitleStyle(columnStyle)
-				.setColumnStyle(textStyle)
-		.columnGrid(
-						DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
-								priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
+		.setColumnTitleStyle(columnStyle)
+		.setColumnStyle(textStyle)
+				.columnGrid(
+				DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
+						priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
 
 	}
 
@@ -128,8 +156,130 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder operation = DynamicReports.grid.titleGroup("Tipo Op.", co, tw).setTitleStretchWithOverflow(true);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-		.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, user, add, start, end))
-		.columns(ship, co, tw, hands, cr, user, add, start, end);
+				.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, user, add, start, end))
+				.columns(ship, co, tw, hands, cr, user, add, start, end);
+
+	}
+
+	/***
+	 * Create body in ship note
+	 **/
+	private static ComponentBuilder<?, ?> createBodyShipNote() {
+		final VerticalListBuilder itm = DynamicReports.cmp.verticalList();
+
+		final StyleBuilder titleStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point()).setBackgroundColor(Color.LIGHT_GRAY)
+				.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+		// MATERIALE CONSEGNATO
+		final TextFieldBuilder<String> materialTitle = DynamicReports.cmp.text("Materiale Consegnato").setStyle(titleStyle);
+		itm.add(materialTitle);
+
+		final StyleBuilder cellStyle = DynamicReports.stl.style().setBorder(DynamicReports.stl.pen1Point())
+				.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+		final StringBuilder builder_gb = new StringBuilder();
+
+		builder_gb.append(" _________________________________________________________________________________________________" + "\n");
+		builder_gb.append(" _________________________________________________________________________________________________" + "\n");
+		builder_gb.append(" _________________________________________________________________________________________________" + "\n");
+		builder_gb.append(" _________________________________________________________________________________________________" + "\n");
+		builder_gb.append(" _________________________________________________________________________________________________" + "\n");
+		builder_gb.append(" _________________________________________________________________________________________________" + "\n");
+
+		final TextFieldBuilder<String> material = DynamicReports.cmp.text(builder_gb.toString()).setStyle(cellStyle);
+
+		itm.add(material);
+
+		// OPERAZIONI
+		final TextFieldBuilder<String> shipTitle = DynamicReports.cmp.text("Operazioni").setStyle(titleStyle);
+		itm.add(shipTitle);
+
+		final HorizontalListBuilder shipDetailContent = DynamicReports.cmp.horizontalList();
+
+		final StringBuilder shipNote = new StringBuilder();
+
+		shipNote.append("Nome Nave" + "\n");
+		shipNote.append("Personale a Bordo" + "\n");
+		shipNote.append("Primo Contenitore a Terra" + "\n");
+		shipNote.append("Ultimo Contenitore a Terra" + "\n");
+		shipNote.append("Personale a Terra" + "\n");
+
+		final TextFieldBuilder<String> noteShip = DynamicReports.cmp.text(shipNote.toString());
+
+		shipDetailContent.add(noteShip);
+
+		final StringBuilder line = new StringBuilder();
+
+		line.append("____________________" + "\n");
+		line.append("____________________" + "\n");
+		line.append("____________________" + "\n");
+		line.append("____________________" + "\n");
+		line.append("____________________" + "\n");
+
+		final TextFieldBuilder<String> lines = DynamicReports.cmp.text(line.toString());
+
+		shipDetailContent.add(lines);
+		shipDetailContent.setStyle(cellStyle);
+
+		noteShip.setStyle(DynamicReports.stl.style().setPadding(5));
+		lines.setStyle(DynamicReports.stl.style().setPadding(5));
+
+		final VerticalListBuilder shipDetailVertical = DynamicReports.cmp.verticalList();
+		final HorizontalListBuilder shipDetailHorizontal = DynamicReports.cmp.horizontalList();
+		shipDetailHorizontal.setStyle(cellStyle);
+
+		shipDetailHorizontal.add(shipDetailContent);
+		shipDetailHorizontal.add(shipDetailContent);
+
+		shipDetailVertical.add(shipDetailHorizontal);
+		shipDetailVertical.add(shipDetailHorizontal);
+		shipDetailVertical.add(shipDetailHorizontal);
+
+		itm.add(shipDetailVertical.setStyle(cellStyle));
+
+		// NOTE
+		final TextFieldBuilder<String> noteTitle = DynamicReports.cmp.text("Note").setStyle(titleStyle);
+		itm.add(noteTitle);
+		final StringBuilder workNote = new StringBuilder();
+
+		workNote.append("\n" + " __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n");
+		workNote.append(" __________________________________________________________________________________________________" + "\n" + "\n");
+
+		final TextFieldBuilder<String> noteWork = DynamicReports.cmp.text(workNote.toString());
+
+		itm.add(noteWork.setStyle(cellStyle));
+
+		final StyleBuilder style = DynamicReports.stl.style().setFontSize(10).setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+		final TextFieldBuilder<String> text_title = DynamicReports.cmp.text("\n" + "\n" + "Firma  ________________________ ");
+		text_title.setStyle(style);
+
+		itm.add(text_title);
+
+		return itm;
+
+	}
+
+	private static JRDataSource createDataSource_NoteShip_MeteoCondition() {
+
+		final DRDataSource dataSource = new DRDataSource("col1", "col2", "col3", "col4");
+
+		dataSource.add("Vento Leggero", "Pioggia Leggera", "Cielo Sereno", "Temp. Bassa");
+		dataSource.add("Vento Medio", "Pioggia Media", "Cielo Coperto", "Temp. Media");
+		dataSource.add("Vento Forte", "Pioggia Intensa", "Cielo Nuvoloso", "Temp. Alta");
+
+		return dataSource;
 
 	}
 
@@ -223,14 +373,39 @@ public class ProgramReportBuilder {
 
 	}
 
-	private static JasperReportBuilder createNoteShipReport() {
-		final JasperReportBuilder report = DynamicReports.report();
+	private static JasperReportBuilder createNoteShipReport(final Date date, final Integer shiftNumber) {
 
-		report.setPageFormat(PageType.A4, PageOrientation.PORTRAIT);
+		try {
+			final JasperReportBuilder report = DynamicReports.report();
 
-		report.setPageMargin(DynamicReports.margin(20));
+			report.setPageFormat(PageType.A4, PageOrientation.PORTRAIT);
 
-		return null;
+			report.setPageMargin(DynamicReports.margin(20));
+
+			// crate title
+			if (shiftNumber.equals(1)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, -1));
+
+			} else if (shiftNumber.equals(2)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, -1));
+			} else if (shiftNumber.equals(3)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, -1));
+			} else if (shiftNumber.equals(4)) {
+				report.title(ProgramReportBuilder.createTitleComponent(shiftNumber, date, -1));
+			}
+
+			final JRDataSource datasource = ProgramReportBuilder.createDataSource_NoteShip_MeteoCondition();
+
+			report.setDataSource(datasource);
+
+			ProgramReportBuilder.buildNoteShipReport_MeteoCondition(report);
+
+			return report;
+
+		} catch (final Exception e) {
+			ProgramReportBuilder.logger.error("Error in creating report. " + e.getMessage());
+			return null;
+		}
 
 	}
 
@@ -244,30 +419,41 @@ public class ProgramReportBuilder {
 
 		final StyleBuilder summaryStyle = DynamicReports.stl.style().setPadding(10);
 
+		// TURNO 1
 		final JasperReportBuilder report1Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 1);
 		report1Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 		final JasperReportBuilder report1Ship = ProgramReportBuilder.createShipReport(shipList, date, 1);
 
-		final JasperReportBuilder noteReport1Ship = ProgramReportBuilder.createNoteShipReport();
+		final JasperReportBuilder noteReportShip1 = ProgramReportBuilder.createNoteShipReport(date, 1);
 
+		// TURNO 2
 		final JasperReportBuilder report2Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 2);
 		final JasperReportBuilder report2Ship = ProgramReportBuilder.createShipReport(shipList, date, 2);
 		report2Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
+		final JasperReportBuilder noteReportShip2 = ProgramReportBuilder.createNoteShipReport(date, 2);
+
+		// TURNO 3
 		final JasperReportBuilder report3Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 3);
 		final JasperReportBuilder report3Ship = ProgramReportBuilder.createShipReport(shipList, date, 3);
 		report3Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
+		final JasperReportBuilder noteReportShip3 = ProgramReportBuilder.createNoteShipReport(date, 3);
+
+		// TURNO 4
 		final JasperReportBuilder report4Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
 				.getDate_schedule(), 4);
 		final JasperReportBuilder report4Ship = ProgramReportBuilder.createShipReport(shipList, date, 4);
 		report4Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
+		final JasperReportBuilder noteReportShip4 = ProgramReportBuilder.createNoteShipReport(date, 4);
+
 		final JasperConcatenatedReportBuilder reportConcatenated = new JasperConcatenatedReportBuilder();
-		reportConcatenated.concatenate(report1Shift, report1Ship, report2Shift, report2Ship, report3Shift, report3Ship, report4Shift, report4Ship);
+		reportConcatenated.concatenate(report1Shift, report1Ship, noteReportShip1, report2Shift, report2Ship, noteReportShip2, report3Shift,
+				report3Ship, noteReportShip3, report4Shift, report4Ship, noteReportShip4);
 
 		return reportConcatenated;
 
@@ -284,21 +470,21 @@ public class ProgramReportBuilder {
 		final StringBuilder builder_gb = new StringBuilder();
 
 		builder_gb
-		.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme. Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una X se la diversità di orario è autorizzata o non autorizzata."
-				+ "\n" + "\n");
+				.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme. Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una X se la diversità di orario è autorizzata o non autorizzata."
+						+ "\n" + "\n");
 
 		builder_gb
-		.append("NOTE:_________________________________________________________________________________________________________________________________________________________________________"
-				+ "\n" + "\n");
-		builder_gb
-		.append("______________________________________________________________________________________________________________________________________________________________________________"
-				+ "\n" + "\n");
-
-		builder_gb
-		.append("Firma compilatore foglio rilevazione presenza montante  ____________________________________ Dalle: ____________________________ Alle: ____________________________"
+				.append("NOTE:_________________________________________________________________________________________________________________________________________________________________________"
 						+ "\n" + "\n");
 		builder_gb
-		.append("Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
+				.append("______________________________________________________________________________________________________________________________________________________________________________"
+						+ "\n" + "\n");
+
+		builder_gb
+				.append("Firma compilatore foglio rilevazione presenza montante  ____________________________________ Dalle: ____________________________ Alle: ____________________________"
+				+ "\n" + "\n");
+		builder_gb
+				.append("Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
 
 		final String ingo_gb = builder_gb.toString();
 
