@@ -19,6 +19,12 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	private IWebServiceController	webcontroller;
 
 	@Override
+	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
+		this.webcontroller.createDetailFinalScheduleShip(detailFinalScheduleShip);
+
+	}
+
+	@Override
 	public void deleteDetailFinalScheduleShipById(final Integer id_detail_final) {
 		this.webcontroller.deleteDetailFinalScheduleShipById(id_detail_final);
 	}

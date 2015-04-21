@@ -18,6 +18,11 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 public interface ISoapServiceInterface {
 
 	/**
+	 * @param detailFinalScheduleShip
+	 */
+	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip);
+
+	/**
 	 * delete details final id
 	 *
 	 * @param id_detail_final

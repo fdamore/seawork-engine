@@ -14,6 +14,13 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 public interface IWebServiceController {
 
 	/**
+	 * create detail final schedule
+	 * 
+	 * @param detailFinalScheduleShip
+	 */
+	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip);
+
+	/**
 	 * delete details final id
 	 *
 	 * @param id_detail_final
@@ -79,7 +86,7 @@ public interface IWebServiceController {
 
 	/**
 	 * Update info about detail final schedule ship
-	 * 
+	 *
 	 * @param detailFinalScheduleShip
 	 */
 	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip);

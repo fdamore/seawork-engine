@@ -507,11 +507,11 @@
 	<insert id="createDetailFinalScheduleShip"
 		parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
 		INSERT INTO
-		detailfinalscheduleship (id, crane,crane_gtw,
+		detailfinalscheduleship (crane,crane_gtw,
 		volume, timework, iddetailscheduleship, notedetail, volumeunderboard,
 		volume_tw_mct)
 		VALUES
-		(#{id}, #{crane},#{crane_gtw}, #{volume}, #{timework},
+		(#{crane},#{crane_gtw}, #{volume}, #{timework},
 		#{iddetailscheduleship}, #{notedetail},
 		#{volumeunderboard},#{volume_tw_mct});
 	</insert>

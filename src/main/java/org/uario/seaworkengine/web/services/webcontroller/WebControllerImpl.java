@@ -53,6 +53,12 @@ public class WebControllerImpl implements IWebServiceController {
 	private TasksDAO				taskDAO;
 
 	@Override
+	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
+		this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
+
+	}
+
+	@Override
 	public void deleteDetailFinalScheduleShipById(final Integer id_detail_final) {
 
 		this.shipSchedulerDao.deleteDetailFinalScheduleShipById(id_detail_final);
