@@ -68,6 +68,13 @@ public interface IScheduleShip {
 
 	public void updateDetailFinalScheduleShip(DetailFinalScheduleShip detailFinalScheduleShip);
 
+	/**
+	 * Update only info regarding mobile app
+	 *
+	 * @param detailFinalScheduleShip
+	 */
+	void updateDetailFinalScheduleShipForMobile(DetailFinalScheduleShip detailFinalScheduleShip);
+
 	public void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);
 
 	public void updateRifMCT(Integer id, Integer rif_mct);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
@@ -16,6 +17,11 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 public class SoapControllerImpl implements ISoapServiceInterface {
 
 	private IWebServiceController	webcontroller;
+
+	@Override
+	public void deleteDetailFinalScheduleShipById(final Integer id_detail_final) {
+		this.webcontroller.deleteDetailFinalScheduleShipById(id_detail_final);
+	}
 
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
@@ -37,6 +43,11 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
+		return this.webcontroller.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+	}
+
+	@Override
 	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(@WebParam(name = "date_request") final Date date_request) {
 		return this.webcontroller.selectDetailScheduleShipByShiftDate(date_request);
 	}
@@ -54,5 +65,11 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	public boolean synchronizeWork(@WebParam(name = "date_request") final Date date_request,
 			@WebParam(name = "list_synch") final List<WorkerShift> list_synch) {
 		return this.webcontroller.synchronizeWork(date_request, list_synch);
+	}
+
+	@Override
+	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
+		this.webcontroller.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
+
 	}
 }

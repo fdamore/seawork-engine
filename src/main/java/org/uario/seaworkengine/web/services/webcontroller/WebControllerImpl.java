@@ -12,6 +12,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
@@ -50,6 +51,13 @@ public class WebControllerImpl implements IWebServiceController {
 	private ITaskCache				taskCache;
 
 	private TasksDAO				taskDAO;
+
+	@Override
+	public void deleteDetailFinalScheduleShipById(final Integer id_detail_final) {
+
+		this.shipSchedulerDao.deleteDetailFinalScheduleShipById(id_detail_final);
+
+	}
 
 	/**
 	 * final synch process
@@ -190,6 +198,15 @@ public class WebControllerImpl implements IWebServiceController {
 		return this.ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
 	}
 
+	@Override
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
+
+		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao
+				.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+
+		return final_details;
+	}
+
 	/**
 	 * return detail ship by date
 	 *
@@ -297,6 +314,12 @@ public class WebControllerImpl implements IWebServiceController {
 		final Date dt = DateUtils.truncate(date_request, Calendar.DATE);
 
 		return this.finalSyncProcess(dt, list_synch);
+
+	}
+
+	@Override
+	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
+		this.shipSchedulerDao.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
 
 	}
 }

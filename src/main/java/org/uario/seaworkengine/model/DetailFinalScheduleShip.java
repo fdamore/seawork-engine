@@ -2,8 +2,13 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+@XmlRootElement(namespace = "org.uario.seaworkengine.model")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DetailFinalScheduleShip implements Serializable {
 
 	@XmlTransient
@@ -21,9 +26,11 @@ public class DetailFinalScheduleShip implements Serializable {
 	private String				notedetail;
 
 	// using only for view, rif_mct in table scheduleship
+	@XmlTransient
 	private Integer				rif_mct;
 
 	// using only for view, rif_mct in table scheduleship
+	@XmlTransient
 	private Integer				rif_sws;
 
 	private Double				timework;
