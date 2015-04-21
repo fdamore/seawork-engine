@@ -303,6 +303,18 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
+	public void updateRifMCT(final Integer id, final Integer rif_mct) {
+		MyBatisScheduleShipDAO.logger.info("updateRifMCT");
+
+		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("id", id);
+		map.put("rif_mct", rif_mct);
+
+		this.getSqlSession().update("scheduleship.updateRifMCT", map);
+
+	}
+
+	@Override
 	public void updateScheduleShip(final ScheduleShip scheduleShip) {
 		MyBatisScheduleShipDAO.logger.info("updateScheduleShip");
 

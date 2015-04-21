@@ -782,25 +782,36 @@
 				<caption id="captionShip"
 					iconSclass="z-icon-star orange"
 					label="Consuntiva Dettagli Programmazione Nave">
-
-					<vbox>
-						<hbox align="center">
-							<label value="Nome Nave: "></label>
-							<label id="shipName" value=""
-								style="font-weight: bold; font-size: 18px; " />
-						</hbox>
-
-						<hbox align="center">
-							<label value="Rif MCT:"></label>
-							<label id="rif_mct_review" />
-						</hbox>
-
-						<hbox align="center">
-							<label value="Rif SWS:"></label>
-							<label id="rif_sws_review" />
-						</hbox>
+					
+					<vbox >
+						<toolbarbutton
+							id="updateRifMCT"
+							label="Aggiorna Rif MCT" style="color: blue" visible="true">
+						</toolbarbutton>
+						
+						<grid style="border: 1px solid #CFCFCF" sclass="domain">
+								<columns>
+									<column label="Type" />
+									<column label="Informazioni" />
+								</columns>
+								<rows>
+									<row>
+										<label value="Nome Nave: "/>
+										<label id="shipName" value="" style="font-weight: bold; font-size: 18px; " />
+									</row>
+									<row>
+										<label value="Rif MCT:"/>
+										<hbox><intbox id="rif_mct_review" /> <label id="messageUpdateRifMCT" value="Aggiornato Rif MCT" visible="false"/></hbox>
+									</row>
+									<row>
+										<label value="Rif SWS:"></label>
+										<label id="rif_sws_review" />
+									</row>
+								</rows>
+						</grid>
 
 					</vbox>
+					
 
 					<hbox>
 						<toolbarbutton
@@ -816,9 +827,6 @@
 				</caption>
 
 				<panelchildren>
-
-
-
 
 					<panel border="normal" collapsible="false"
 						sclass="transparent">

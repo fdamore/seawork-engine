@@ -221,6 +221,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Intbox						menwork_Daily;
 
 	@Wire
+	private Label						messageUpdateRifMCT;
+
+	@Wire
 	private Toolbarbutton				modify_finalDetailScheduleShip_command;
 
 	@Wire
@@ -285,7 +288,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Component					reviewWorkShip;
 
 	@Wire
-	private Label						rif_mct_review;
+	private Intbox						rif_mct_review;
 
 	@Wire
 	private Label						rif_sws_review;
@@ -944,14 +947,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
 
-			this.rif_mct_review.setValue("");
+			this.rif_mct_review.setValue(null);
 
 			final DetailScheduleShip detailScheduleShip = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
 			if (detailScheduleShip != null) {
 				final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailScheduleShip.getIdscheduleship());
 				if (scheduleShip != null && scheduleShip.getRif_mct() != null) {
-					this.rif_mct_review.setValue(scheduleShip.getRif_mct().toString());
+					this.rif_mct_review.setValue(scheduleShip.getRif_mct());
 				}
 			}
 
@@ -1705,9 +1708,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao
 					.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 
+			this.messageUpdateRifMCT.setVisible(false);
+
 			this.shipName.setValue(detailSelected.getName());
 
-			this.rif_mct_review.setValue("");
+			this.rif_mct_review.setValue(null);
 
 			this.rif_sws_review.setValue("");
 
@@ -1717,7 +1722,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (scheduleShip != null && scheduleShip.getRif_mct() != null) {
 
-					this.rif_mct_review.setValue(scheduleShip.getRif_mct().toString());
+					this.rif_mct_review.setValue(scheduleShip.getRif_mct());
+					this.rif_sws_review.setValue(scheduleShip.getId().toString());
 
 				} else if (scheduleShip != null) {
 
@@ -1768,5 +1774,24 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.addDetailScheduleShipProgram();
 
 		}
+	}
+
+	@Listen("onClick = #updateRifMCT")
+	public void updateRifMCT() {
+
+		if (this.sw_list_scheduleShip.getSelectedItem() != null) {
+			final DetailScheduleShip detailSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+			if (detailSelected != null && detailSelected.getIdscheduleship() != null) {
+
+				final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
+
+				if (scheduleShip != null) {
+					this.shipSchedulerDao.updateRifMCT(scheduleShip.getId(), this.rif_mct_review.getValue());
+
+					this.messageUpdateRifMCT.setVisible(true);
+				}
+			}
+		}
+
 	}
 }

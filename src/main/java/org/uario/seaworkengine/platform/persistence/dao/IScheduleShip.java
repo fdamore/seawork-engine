@@ -70,5 +70,7 @@ public interface IScheduleShip {
 
 	public void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);
 
+	public void updateRifMCT(Integer id, Integer rif_mct);
+
 	public void updateScheduleShip(ScheduleShip scheduleShip);
 }

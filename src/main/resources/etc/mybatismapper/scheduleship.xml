@@ -88,6 +88,14 @@
 		WHERE id =
 		#{id};
 	</update>
+	
+	<update id="updateRifMCT" parameterType="map">
+		UPDATE
+		scheduleship
+		SET
+		rif_mct = #{rif_mct} 
+		WHERE id = #{id};
+	</update>
 
 	<insert id="createDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		INSERT INTO
