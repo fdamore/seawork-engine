@@ -157,91 +157,111 @@
 					onClick="popup_detail.close();" />
 
 			</div>
-			<panel border="normal" collapsible="false"
+
+			<panel border="none" collapsible="false"
 				sclass="transparent">
 
 				<caption id="captionDetailProgramShip"
 					iconSclass="z-icon-star orange"
 					label="Dettagli di Programmazione Nave">
 
-					<separator />
+					<vbox>
 
-					<toolbarbutton id="add_scheduleShipsDetail_command"
-						label="Aggiungi Dettaglio" style="color: blue" visible="true">
-					</toolbarbutton>
+						<toolbarbutton
+							id="add_scheduleShipsDetail_command" label="Aggiungi Dettaglio"
+							style="color: blue" visible="true">
+						</toolbarbutton>
 
-					<toolbarbutton
-						id="modify_scheduleShipsDetail_command" label="Modifica Dettaglio"
-						style="color: blue" visible="false">
-					</toolbarbutton>
+						<toolbarbutton
+							id="modify_scheduleShipsDetail_command"
+							label="Modifica Dettaglio" style="color: blue" visible="false">
+						</toolbarbutton>
 
+					</vbox>
 
 				</caption>
 
 
 
-
 				<panelchildren>
 
-					<grid sclass="domain">
-						<columns>
-							<column label="Type" />
-							<column label="Informazioni" />
-						</columns>
-						<rows>
-							<row>
-								<label value="Data Turno:"></label>
-								<datebox id="shiftdate"
-									placeholder="Data Turno" />
-							</row>
-							<row id="alertShiftDate" visible="false">
-								<cell colspan="2">
-									<label id="msgAlert" />
-								</cell>
-							</row>
-							<row>
-								<label value="Turno:"></label>
-								<combobox id="shift" readonly="true"
-									placeholder="Seleziona Turno" mold="rounded" />
-							</row>
-							<row>
-								<label value="Operazione:"></label>
-								<textbox id="operation" mold="rounded" />
-
-							</row>
-							<row>
-								<label value="Nome Primo Preposto:"></label>
-								<combobox id="user" readonly="true"
-									placeholder="Seleziona Primo Preposto" />
-							</row>
-							<row>
-								<label value="Nome Secondo Preposto:"></label>
-								<combobox id="usersecond"
-									readonly="true" placeholder="Seleziona Secondo Preposto" />
-							</row>
-							<row>
-								<label value="Mani di lavoro:"></label>
-								<intbox id="handswork" />
-							</row>
-							<row>
-								<label value="Numero uomini:"></label>
-								<intbox id="menwork" />
-							</row>
-							<row>
-								<label
-									value="Note dettaglio di programmazione:">
-								</label>
-								<textbox id="noteshipdetail" />
-							</row>
-							<row>
-								<label value=""></label>
-								<label value=""></label>
-
-							</row>
 
 
-						</rows>
-					</grid>
+					<panel border="normal" collapsible="false"
+						sclass="transparent">
+
+						<panelchildren>
+
+							<grid sclass="domain">
+								<columns>
+									<column label="Type" />
+									<column label="Informazioni" />
+								</columns>
+								<rows>
+									<row>
+										<label value="Data Turno:"></label>
+										<datebox id="shiftdate"
+											placeholder="Data Turno" />
+									</row>
+									<row id="alertShiftDate"
+										visible="false">
+										<cell colspan="2">
+											<label id="msgAlert" />
+										</cell>
+									</row>
+									<row>
+										<label value="Turno:"></label>
+										<combobox id="shift"
+											readonly="true" placeholder="Seleziona Turno" mold="rounded" />
+									</row>
+									<row>
+										<label value="Operazione:"></label>
+										<textbox id="operation"
+											mold="rounded" />
+
+									</row>
+									<row>
+										<label
+											value="Nome Primo Preposto:">
+										</label>
+										<combobox id="user"
+											readonly="true" placeholder="Seleziona Primo Preposto" />
+									</row>
+									<row>
+										<label
+											value="Nome Secondo Preposto:">
+										</label>
+										<combobox id="usersecond"
+											readonly="true" placeholder="Seleziona Secondo Preposto" />
+									</row>
+									<row>
+										<label
+											value="Mani di lavoro:">
+										</label>
+										<intbox id="handswork" />
+									</row>
+									<row>
+										<label value="Numero uomini:"></label>
+										<intbox id="menwork" />
+									</row>
+									<row>
+										<label
+											value="Note dettaglio di programmazione:">
+										</label>
+										<textbox id="noteshipdetail" />
+									</row>
+									<row>
+										<label value=""></label>
+										<label value=""></label>
+
+									</row>
+
+
+								</rows>
+							</grid>
+
+						</panelchildren>
+					</panel>
 
 
 					<listbox id="sw_list_scheduleDetailShip"
@@ -782,36 +802,44 @@
 				<caption id="captionShip"
 					iconSclass="z-icon-star orange"
 					label="Consuntiva Dettagli Programmazione Nave">
-					
-					<vbox >
-						<toolbarbutton
-							id="updateRifMCT"
-							label="Aggiorna Rif MCT" style="color: blue" visible="true">
-						</toolbarbutton>
-						
-						<grid style="border: 1px solid #CFCFCF" sclass="domain">
-								<columns>
-									<column label="Type" />
-									<column label="Informazioni" />
-								</columns>
-								<rows>
-									<row>
-										<label value="Nome Nave: "/>
-										<label id="shipName" value="" style="font-weight: bold; font-size: 18px; " />
-									</row>
-									<row>
-										<label value="Rif MCT:"/>
-										<hbox><intbox id="rif_mct_review" /> <label id="messageUpdateRifMCT" value="Aggiornato Rif MCT" visible="false"/></hbox>
-									</row>
-									<row>
-										<label value="Rif SWS:"></label>
-										<label id="rif_sws_review" />
-									</row>
-								</rows>
+
+					<vbox>
+
+						<grid style="border: 1px solid #CFCFCF"
+							sclass="domain">
+							<columns>
+								<column label="Type" hflex="1" />
+								<column label="Informazioni" hflex="2" />
+							</columns>
+							<rows>
+								<row>
+									<label value="Nome Nave: " />
+									<label id="shipName" value=""
+										style="font-weight: bold; font-size: 18px; " />
+								</row>
+								<row>
+									<label value="Rif MCT:" />
+									<hbox align="center">
+										<intbox id="rif_mct_review" />
+
+										<button id="updateRifMCT"
+											label="Aggiorna Rif MCT" sclass="btn-info" visible="true">
+										</button>
+
+										<label id="messageUpdateRifMCT"
+											value="Aggiornato Rif MCT" visible="false" />
+
+									</hbox>
+								</row>
+								<row>
+									<label value="Rif SWS:"></label>
+									<label id="rif_sws_review" />
+								</row>
+							</rows>
 						</grid>
 
 					</vbox>
-					
+
 
 					<hbox>
 						<toolbarbutton
@@ -835,8 +863,9 @@
 
 							<grid sclass="domain">
 								<columns>
-									<column label="Type" />
-									<column label="Informazioni" />
+									<column label="Type" hflex="1" />
+									<column label="Informazioni"
+										hflex="2" />
 								</columns>
 								<rows>
 
