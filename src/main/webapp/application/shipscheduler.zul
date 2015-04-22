@@ -697,9 +697,9 @@
 				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
 				checkmark="true" multiple="false" pageSize="10">
 				<listhead sizable="true">
+					<listheader label="Nome Nave" sort="auto(name)" />
 					<listheader label="Data Turno" />
 					<listheader label="Turno" sort="auto(shift)" />
-					<listheader label="Nome Nave" sort="auto(name)" />
 					<listheader label="Operazione"
 						sort="auto(operation)" />
 					<listheader label="Primo Preposto"
@@ -724,12 +724,6 @@
 				<listitem self="@{each='detailscheduleship_item'}"
 					value="@{detailscheduleship_item}">
 
-					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-
-
-					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.shift}" />
 					<listcell sclass="myBottonCell">
 						<label
 							style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
@@ -740,6 +734,14 @@
 </attribute>
 						</label>
 					</listcell>
+
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.shift}" />
+
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.operation}" />
@@ -1049,7 +1051,7 @@
 			<separator />
 
 			<label style="color:blue; font-size:10pt;"
-				value="Totale Volumi Attesi: " />
+				value="Totale Volumi: " />
 			<label style="color:blue; font-size:10pt;" id="TotalVolume"
 				value="0" />
 			<label style="color:blue; font-size:10pt;"
@@ -1068,24 +1070,36 @@
 				multiple="false" mold="paging" pageSize="10">
 				<listhead sizable="true">
 
-					<listheader label="Settimana" />
-					<listheader label="Giorno" />
-					<listheader label="Data" />
-					<listheader label="Nome Nave" />
-					<listheader label="Rif SWS" />
-					<listheader label="Rif MCT" />
-					<listheader label="Turno" />
-					<listheader label="Gru" />
-					<listheader label="Tempo Lavorato" />
-					<listheader label="Volumi attesi" />
-					<listheader label="Volumi Rizzaggio Da Bordo" />
-					<listheader label="Volumi TW MTC" />
-					<listheader label="Note" />
+					<listheader label="Nome Nave" hflex="2" />
+					<listheader label="Data" hflex="2" />
+					<listheader label="Turno" hflex="1" />
+					<listheader label="Settimana" hflex="1" />
+					<listheader label="Giorno" hflex="1" />
+					<listheader label="Rif SWS" hflex="1" />
+					<listheader label="Rif MCT" hflex="1" />
+					<listheader label="Gru" hflex="1" />
+					<listheader label="Tempo Lavorato" hflex="1" />
+					<listheader label="Volumi attesi" hflex="1" />
+					<listheader label="Volumi Rizzaggio Da Bordo"
+						hflex="1" />
+					<listheader label="Volumi TW MTC" hflex="1" />
+					<listheader label="Note" hflex="2" />
 
 				</listhead>
 
 				<listitem self="@{each='item_review_work'}"
 					value="@{item_review_work}">
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.shipname}">
+					</listcell>
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
+					</listcell>
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.shift}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}">
@@ -1095,13 +1109,9 @@
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
 					</listcell>
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
-					</listcell>
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.shipname}">
-					</listcell>
+
+
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.rif_sws}" />
@@ -1109,8 +1119,7 @@
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.rif_mct}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.shift}" />
+
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
