@@ -41,6 +41,9 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	private Integer				volumeunderboard;
 
+	@XmlTransient
+	private Integer				volumeunderboard_sws;
+
 	public Integer getCrane() {
 		return this.crane;
 	}
@@ -85,6 +88,10 @@ public class DetailFinalScheduleShip implements Serializable {
 		return this.volumeunderboard;
 	}
 
+	public Integer getVolumeunderboard_sws() {
+		return this.volumeunderboard_sws;
+	}
+
 	public void setCrane(final Integer crane) {
 		this.crane = crane;
 	}
@@ -127,6 +134,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setVolumeunderboard(final Integer volumeunderboard) {
 		this.volumeunderboard = volumeunderboard;
+	}
+
+	public void setVolumeunderboard_sws(final Integer volumeunderboard_sws) {
+		this.volumeunderboard_sws = volumeunderboard_sws;
 	}
 
 }

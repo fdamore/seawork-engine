@@ -875,7 +875,8 @@
 
 									<row>
 										<label value="Gru:"></label>
-										<intbox id="crane_review" />
+										<intbox id="crane_review"
+											constraint="no negative" />
 									</row>
 
 									<row>
@@ -890,10 +891,18 @@
 									</row>
 									<row>
 										<label
-											value="Volumi Rizzaggio Da Bordo:">
+											value="Volumi Rizz. da Bordo (x Cliente):">
 										</label>
 										<intbox
 											id="volumeunderboard_review" />
+									</row>
+
+									<row>
+										<label
+											value="Volumi Rizz. da Bordo (x SWS):">
+										</label>
+										<intbox
+											id="volumeunderboard_sws_review" />
 									</row>
 
 									<row>
@@ -938,14 +947,21 @@
 
 							<listheader label="Volume"
 								sort="auto(volume)" width="10%" />
+
 							<listheader
-								label="Volumi Rizzaggio Da Bordo" sort="auto(volumeunderboard)" />
+								label="Volumi Rizz. da Bordo (x Cliente)"
+								sort="auto(volumeunderboard)" />
+
+							<listheader
+								label="Volumi Rizz. da Bordo (x SWS)"
+								sort="auto(volumeunderboard_sws)" />
 
 							<listheader label="Volumi TW MCT"
 								sort="auto(volume_tw_mct)" />
 
 							<listheader label="Tempo lavorato"
 								sort="auto(timework)" />
+
 							<listheader label="Note" />
 							<listheader label="" />
 						</listhead>
@@ -968,6 +984,9 @@
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.volumeunderboard}" />
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.volumeunderboard_sws}" />
 
 
 							<listcell sclass="myBottonCell"
@@ -1052,14 +1071,26 @@
 
 			<label style="color:blue; font-size:10pt;"
 				value="Totale Volumi: " />
+
 			<label style="color:blue; font-size:10pt;" id="TotalVolume"
 				value="0" />
+
 			<label style="color:blue; font-size:10pt;"
-				value=" - Totale Volumi Rizzaggio da Bordo: " />
+				value=" - Totale Volumi Rizz. da Bordo (x Cliente): " />
+
 			<label style="color:blue; font-size:10pt;"
 				id="TotalVolumeOnBoard" value="0" />
+
+
+			<label style="color:blue; font-size:10pt;"
+				value=" - Totale Volumi Rizz. da Bordo (x SWS): " />
+
+			<label style="color:blue; font-size:10pt;"
+				id="TotalVolumeOnBoard_sws" value="0" />
+
 			<label style="color:blue; font-size:10pt;"
 				value=" - Totale Volumi TW MTC: " />
+
 			<label style="color:blue; font-size:10pt;"
 				id="TotalVolumeTWMTC" value="0" />
 
@@ -1080,7 +1111,9 @@
 					<listheader label="Gru" hflex="1" />
 					<listheader label="Tempo Lavorato" hflex="1" />
 					<listheader label="Volumi attesi" hflex="1" />
-					<listheader label="Volumi Rizzaggio Da Bordo"
+					<listheader
+						label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
+					<listheader label="Volumi Rizz. da Bordo (x SWS):"
 						hflex="1" />
 					<listheader label="Volumi TW MTC" hflex="1" />
 					<listheader label="Note" hflex="2" />
@@ -1132,6 +1165,8 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.volumeunderboard}" />
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.volumeunderboard_sws}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.volume_tw_mct}" />

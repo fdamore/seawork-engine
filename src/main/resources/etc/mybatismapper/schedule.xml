@@ -12,13 +12,15 @@
 
 		select ss.id as rif_sws, ss.rif_mct,
 		s.name as shipname,
-		s.id as id_ship,
+		s.id as
+		id_ship,
 		dss.shift,
 		d.timework as time_work,
 		d.crane, d.crane_gtw,
 		dss.shiftdate as date_request,
 		d.volume,
 		d.volumeunderboard,
+		d.volumeunderboard_sws,
 		d.volume_tw_mct,
 		d.notedetail
 		from
@@ -471,7 +473,8 @@
 		df.time, df.time_from,
 		df.time_to, df.time_vacation, df.id_ship,
 		df.crane, s.name as nameShip, df.board
-		FROM detailfinalschedule df LEFT JOIN ship
+		FROM detailfinalschedule df LEFT
+		JOIN ship
 		s ON df.id_ship = s.id
 		WHERE
 		df.id_schedule =
@@ -526,7 +529,8 @@
 		df.time_to, df.time_vacation, df.id_ship, df.crane,
 		df.board,
 		s.name as nameShip
-		FROM detailfinalschedule df LEFT JOIN ship s ON
+		FROM detailfinalschedule df LEFT JOIN ship
+		s ON
 		df.id_ship
 		= s.id
 		WHERE

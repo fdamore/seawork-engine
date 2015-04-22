@@ -416,6 +416,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Label						TotalVolumeOnBoard;
 
 	@Wire
+	private Label						TotalVolumeOnBoard_sws;
+
+	@Wire
 	private Label						TotalVolumeTWMTC;
 
 	@Wire
@@ -444,6 +447,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Intbox						volumeunderboard_review;
 
+	@Wire
+	private Intbox						volumeunderboard_sws_review;
+
 	@Listen("onClick = #add_finalDetailScheduleShip_command")
 	public void addDetailFinalScheduleShip() {
 
@@ -453,11 +459,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			detailFinalScheduleShip.setIddetailscheduleship(((DetailScheduleShip) this.sw_list_scheduleShip.getSelectedItem().getValue()).getId());
 
-			detailFinalScheduleShip.setCrane(this.crane_review.getValue());
+			int crn_val = 1;
+			if (this.crane_review.getValue() != null) {
+				crn_val = this.crane_review.getValue();
+			}
+			detailFinalScheduleShip.setCrane(crn_val);
 
 			detailFinalScheduleShip.setVolume(this.volume_review.getValue());
 			detailFinalScheduleShip.setVolume_tw_mct(this.volumeunde_tw_mct_review.getValue());
 			detailFinalScheduleShip.setVolumeunderboard(this.volumeunderboard_review.getValue());
+			detailFinalScheduleShip.setVolumeunderboard_sws(this.volumeunderboard_sws_review.getValue());
+
 			detailFinalScheduleShip.setNotedetail(this.note_review.getValue());
 
 			// set time work
@@ -588,7 +600,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -613,7 +625,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -907,6 +919,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.crane_review.setValue(null);
 		this.volume_review.setValue(null);
 		this.volumeunderboard_review.setValue(null);
+		this.volumeunderboard_sws_review.setValue(null);
 		this.volumeunde_tw_mct_review.setValue(null);
 		this.note_review.setValue(null);
 
@@ -926,10 +939,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
 
-			detailFinal.setCrane(this.crane_review.getValue());
+			int crn_val = 1;
+			if (this.crane_review.getValue() != null) {
+				crn_val = this.crane_review.getValue();
+			}
+			detailFinal.setCrane(crn_val);
+
 			detailFinal.setCrane_gtw(this.crane_gtw_review.isChecked());
 			detailFinal.setVolume(this.volume_review.getValue());
 			detailFinal.setVolumeunderboard(this.volumeunderboard_review.getValue());
+			detailFinal.setVolumeunderboard_sws(this.volumeunderboard_sws_review.getValue());
 			detailFinal.setVolume_tw_mct(this.volumeunde_tw_mct_review.getValue());
 			detailFinal.setTimework(this.time_review.getValue());
 			detailFinal.setNotedetail(this.note_review.getValue());
@@ -962,6 +981,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.crane_gtw_review.setChecked(detailFinal.getCrane_gtw());
 			this.volume_review.setValue(detailFinal.getVolume());
 			this.volumeunderboard_review.setValue(detailFinal.getVolumeunderboard());
+			this.volumeunderboard_sws_review.setValue(detailFinal.getVolumeunderboard_sws());
 			this.volumeunde_tw_mct_review.setValue(detailFinal.getVolume_tw_mct());
 			this.time_review.setValue(detailFinal.getTimework());
 			this.note_review.setValue(detailFinal.getNotedetail());
@@ -1141,15 +1161,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipSchedulerComposer.this.deleteDetailship();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipSchedulerComposer.this.deleteDetailship();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1168,18 +1188,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-				@Override
-				public void onEvent(final ClickEvent e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-								.getId());
+						@Override
+						public void onEvent(final ClickEvent e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+										.getId());
 
-						ShipSchedulerComposer.this.searchScheduleShipByDate();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								ShipSchedulerComposer.this.searchScheduleShipByDate();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-					}
-				}
-			}, params);
+							}
+						}
+					}, params);
 
 			// sdfsd
 		}
@@ -1648,15 +1668,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Double sumVolume = 0.0;
 		Double sumVolumeOnBoard = 0.0;
+		Double sumVolumeOnBoard_sws = 0.0;
 		Double sumVolumeMTC = 0.0;
 
 		for (final ReviewShipWork reviewShipWork : this.list_review_work) {
 			if (reviewShipWork.getVolume() != null) {
 				sumVolume += reviewShipWork.getVolume();
 			}
+
 			if (reviewShipWork.getVolumeunderboard() != null) {
 				sumVolumeOnBoard += reviewShipWork.getVolumeunderboard();
 			}
+
+			if (reviewShipWork.getVolumeunderboard_sws() != null) {
+				sumVolumeOnBoard_sws += reviewShipWork.getVolumeunderboard_sws();
+			}
+
 			if (reviewShipWork.getVolume_tw_mct() != null) {
 				sumVolumeMTC += reviewShipWork.getVolume_tw_mct();
 			}
@@ -1665,6 +1692,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.TotalVolume.setValue(sumVolume.toString());
 		this.TotalVolumeOnBoard.setValue(sumVolumeOnBoard.toString());
+		this.TotalVolumeOnBoard_sws.setValue(sumVolumeOnBoard_sws.toString());
 		this.TotalVolumeTWMTC.setValue(sumVolumeMTC.toString());
 	}
 

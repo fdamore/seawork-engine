@@ -26,25 +26,26 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSV_ReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Lavorato;Volumi Attesi;Volume Rizzaggio da bordo;Volumi TW MTC;\n";
+		final String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Lavorato;Volumi Attesi;Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;\n";
 		builder.append(header);
 
 		final CraneTypeConverter craneConverter = new CraneTypeConverter();
 
-		String week = "";
-		String day = "";
-		String date = "";
-		String shipName = "";
-		String rif_sws = "";
-		String rif_mct = "";
-		String shift = "";
-		String crane = "";
-		String workedTime = "";
-		String volume = "";
-		String volumeOnBoard = "";
-		String volumeTW = "";
-
 		for (final ReviewShipWork item : reviewShipWorkList) {
+
+			String week = "";
+			String day = "";
+			String date = "";
+			String shipName = "";
+			String rif_sws = "";
+			String rif_mct = "";
+			String shift = "";
+			String crane = "";
+			String workedTime = "";
+			String volume = "";
+			String volumeOnBoard = "";
+			String volumeOnBoard_sws = "";
+			String volumeTW = "";
 
 			if (item.getDate_request() != null) {
 				week = Utility.getWeekNumber(item.getDate_request()).toString();
@@ -74,7 +75,7 @@ public class UtilityCSV {
 				shift = item.getShift().toString();
 			}
 
-			if (item.getCrane() != null && item.getCrane_gtw() != null) {
+			if ((item.getCrane() != null) && (item.getCrane_gtw() != null)) {
 				final Boolean crane_gtw = item.getCrane_gtw();
 				final String craneId = item.getCrane();
 
@@ -95,12 +96,16 @@ public class UtilityCSV {
 				volumeOnBoard = item.getVolumeunderboard().toString();
 			}
 
+			if (item.getVolumeunderboard_sws() != null) {
+				volumeOnBoard_sws = item.getVolumeunderboard_sws().toString();
+			}
+
 			if (item.getVolume_tw_mct() != null) {
 				volumeTW = item.getVolume_tw_mct().toString();
 			}
 
 			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + rif_sws + ";" + rif_mct + ";" + shift + ";" + crane + ";"
-					+ workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeTW + ";\n";
+					+ workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";\n";
 			builder.append(line);
 
 		}
@@ -132,7 +137,7 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
 				employee_identification = item.getEmployee_identification();
 			}
 
@@ -202,7 +207,7 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
 				employee_identification = item.getEmployee_identification();
 			}
 
@@ -283,7 +288,7 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
 				employee_identification = item.getEmployee_identification();
 			}
 

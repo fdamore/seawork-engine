@@ -36,6 +36,8 @@ public class ReviewShipWork implements Serializable {
 
 	private Integer				volumeunderboard;
 
+	private Integer				volumeunderboard_sws;
+
 	public String getCrane() {
 		return this.crane;
 	}
@@ -88,6 +90,10 @@ public class ReviewShipWork implements Serializable {
 		return this.volumeunderboard;
 	}
 
+	public Integer getVolumeunderboard_sws() {
+		return this.volumeunderboard_sws;
+	}
+
 	public void setCrane(final String crane) {
 		this.crane = crane;
 	}
@@ -138,6 +144,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setVolumeunderboard(final Integer volumeunderboard) {
 		this.volumeunderboard = volumeunderboard;
+	}
+
+	public void setVolumeunderboard_sws(final Integer volumeunderboard_sws) {
+		this.volumeunderboard_sws = volumeunderboard_sws;
 	}
 
 }
