@@ -86,13 +86,13 @@
 			<a label="Sistema di programmazione lavoro Sea Work"
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		</div>
-		
+
 		<hbox align="center" id="last_programmer_tag">
 			<label style="font-style: italic" value="Ultima chiusura " />
-			<label style="font-style: italic" id="lastProgrammer"/>
+			<label style="font-style: italic" id="lastProgrammer" />
 		</hbox>
-		
-		<separator/>
+
+		<separator />
 
 		<hbox align="center" id="header_info"
 			visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -110,9 +110,9 @@
 				w:onClick="window.open('scheduler.zul?printProgram=1');" />
 
 		</hbox>
-		
-		
-		
+
+
+
 		<button label="Stampa" sclass="btn-danger" visible="false"
 			id="print_scheduler" xmlns:w="http://www.zkoss.org/2005/zk/client"
 			w:onClick="window.print()" />
@@ -667,7 +667,7 @@
 
 							<listcell sclass="myBottonCell">
 								<a
-									label="@{dayitem.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
+									label="@{dayitem.name_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 									<attribute name="onClick">
 	grid_scheduler_day.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1572,7 +1572,7 @@
 							<listcell
 								sclass="myBottonCell, mySeparatorBorder">
 								<a
-									label="@{item.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
+									label="@{item.name_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 									<attribute name="onClick">
 	grid_scheduler.setSelectedItem((Listitem) self.getParent().getParent());
@@ -1971,7 +1971,9 @@
 											</combobox>
 											<textbox id="crane"
 												placeholder="Inserisci crane..." />
-											<combobox id="board" width="150px" readonly="true" placeholder="A Bordo - Sotto Bordo"/>
+											<combobox id="board"
+												width="150px" readonly="true"
+												placeholder="A Bordo - Sotto Bordo" />
 
 										</hbox>
 
@@ -1996,37 +1998,37 @@
 									value="@{itemreview}">
 
 									<listcell>
-										<label 
+										<label
 											value="@{itemreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}">
 										</label>
 									</listcell>
 									<listcell>
-										<label 
+										<label
 											value="@{itemreview, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeVacationConverter'}">
 										</label>
 									</listcell>
 									<listcell>
-										<label 
+										<label
 											value="@{itemreview.time_from}">
 										</label>
 									</listcell>
 									<listcell>
-										<label 
+										<label
 											value="@{itemreview.time_to}">
 										</label>
 									</listcell>
 									<listcell>
-										<label 
+										<label
 											value="@{itemreview.nameShip}">
 										</label>
 									</listcell>
 									<listcell>
-										<label 
+										<label
 											value="@{itemreview.crane}">
 										</label>
 									</listcell>
 									<listcell>
-										<label 
+										<label
 											value="@{itemreview.board}">
 										</label>
 									</listcell>
@@ -2216,7 +2218,7 @@
 							<listcell
 								sclass="myBottonCell, mySeparatorBorder">
 								<a
-									label="@{itemreview.name_user, converter='org.uario.seaworkengine.zkevent.converter.TabelUserNameName'}">
+									label="@{itemreview.name_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 									<attribute name="onClick">
 	grid_scheduler_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -2500,9 +2502,9 @@
 										<listheader label="Crane"
 											hflex="1" align="center" />
 										<listheader label="Ingresso"
-											hflex="1" align="center" />
+											hflex="2" align="center" />
 										<listheader label="Uscita"
-											hflex="1" align="center" />
+											hflex="2" align="center" />
 
 									</listhead>
 
@@ -2514,7 +2516,7 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{itemoverviewreview.user}">
+												label="@{itemoverviewreview.user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 												<attribute name="onClick">
 	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -2634,9 +2636,9 @@
 										<listheader label="Ore chiusura"
 											hflex="1" align="center" />
 										<listheader label="Ingresso"
-											hflex="1" align="center" />
+											hflex="2" align="center" />
 										<listheader label="Uscita"
-											hflex="1" align="center" />
+											hflex="2" align="center" />
 
 
 									</listhead>
@@ -2649,7 +2651,7 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{itemoverviewprogram.user}">
+												label="@{itemoverviewprogram.user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 												<attribute name="onClick">
 	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
@@ -2771,7 +2773,7 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{itemoverviewpreprocessing.name_user}">
+												label="@{itemoverviewpreprocessing.name_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 												<attribute name="onClick">
 	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());

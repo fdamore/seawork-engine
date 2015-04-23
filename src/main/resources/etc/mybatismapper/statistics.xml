@@ -12,11 +12,11 @@
 
 		select s.id,
 		u.id as user,
-		u.employee_identification as employee_identification, 
+		u.employee_identification as
+		employee_identification,
 		s.shift,
 		s.date_schedule,
-		concat(u.lastname, '
-		', u.firstname) AS name_user,
+		concat(u.lastname, ' ', u.firstname) AS name_user,
 		s.editor,
 		s.controller
 		from
@@ -60,28 +60,29 @@
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
 		select
-		concat(u.lastname, ' ', u.firstname) as user, 
-		u.employee_identification as employee_identification, 
+		concat(u.lastname, ' ', u.firstname) as user,
+		u.employee_identification as employee_identification,
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
-		sh.name as nameShip, df.crane as crane,  
+		sh.name as nameShip, df.crane as crane,
 		s.shift as shift_type,
 		dfs.task,
 		dfs.time,
 		dfs.time_vacation,
 		dfs.time_from,
-		dfs.time_to, 
-		dfs.board, 
+		dfs.time_to,
+		dfs.board,
 		s.date_schedule,
 		u.id as id_user
 		from
 		user u,
 		schedule s left
-		outer join detailfinalschedule dfs on (dfs.id_schedule = s.id),
-		detailfinalschedule df LEFT JOIN ship sh ON df.id_ship = sh.id   
+		outer join
+		detailfinalschedule dfs on (dfs.id_schedule = s.id),
+		detailfinalschedule df LEFT JOIN ship sh ON df.id_ship = sh.id
 		where
-		s.user = u.id and df.id = dfs.id 
+		s.user = u.id and df.id = dfs.id
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -104,7 +105,7 @@
 		<if test="shift_type != null">
 			and (s.shift = #{shift_type})
 		</if>
-		
+
 		<if test="task_id != null">
 			and (dfs.task = #{task_id})
 		</if>
@@ -117,8 +118,8 @@
 		parameterType="map">
 		select
 		concat(u.lastname, ' ', u.firstname) as user,
-		u.employee_identification as employee_identification, 
-		u.id as id_user, 
+		u.employee_identification as employee_identification,
+		u.id as id_user,
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
@@ -132,7 +133,8 @@
 		from
 		user u,
 		schedule s left outer join
-		detailinitialschedule dfs on (dfs.id_schedule = s.id)
+		detailinitialschedule dfs on
+		(dfs.id_schedule = s.id)
 		where
 		s.user =
 		u.id
@@ -158,7 +160,7 @@
 		<if test="shift_type != null">
 			and (s.shift = #{shift_type})
 		</if>
-		
+
 		<if test="task_id != null">
 			and (dfs.task = #{task_id})
 		</if>

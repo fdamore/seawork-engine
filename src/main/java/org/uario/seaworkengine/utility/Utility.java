@@ -91,6 +91,10 @@ public class Utility {
 	 */
 	public static final String dottedName(final String name) {
 
+		if (name == null) {
+			return "";
+		}
+
 		final String[] info = name.split(" ");
 		if (info.length >= 2) {
 

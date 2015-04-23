@@ -697,28 +697,30 @@
 				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
 				checkmark="true" multiple="false" pageSize="10">
 				<listhead sizable="true">
-					<listheader label="Nome Nave" sort="auto(name)" />
-					<listheader label="Data Turno" />
-					<listheader label="Turno" sort="auto(shift)" />
-					<listheader label="Operazione"
+					<listheader label="Nome Nave" sort="auto(name)"
+						hflex="2" />
+					<listheader label="Data Turno" hflex="2" />
+					<listheader label="Turno" sort="auto(shift)" 
+						hflex="1" />
+					<listheader label="Operazione" hflex="1"
 						sort="auto(operation)" />
-					<listheader label="Primo Preposto"
+					<listheader label="Primo Preposto" hflex="2"
 						sort="auto(firstOperativeName)" />
-					<listheader label="Secondo Preposto"
+					<listheader label="Secondo Preposto" hflex="2"
 						sort="auto(secondOperativeName)" />
-					<listheader label="Mani di lavoro"
+					<listheader label="Mani di lavoro" hflex="1"
 						sort="auto(handswork)" />
-					<listheader label="Numero Persone"
+					<listheader label="Numero Persone" hflex="1"
 						sort="auto(menwork)" />
-					<listheader label="Note Programmazione" />
-					<listheader label="Note Dettaglio" />
+					<listheader label="Note Programmazione" hflex="1"  />
+					<listheader label="Note Dettaglio" hflex="1" />
 
-					<listheader label="Data inizio attività"
+					<listheader label="Data inizio attività" hflex="2"
 						sort="auto(arrivaldate)" />
-					<listheader label="Data fine attività"
+					<listheader label="Data fine attività" hflex="2"
 						sort="auto(departuredate)" />
 
-					<listheader label="" />
+					<listheader label="" hflex="2" />
 				</listhead>
 
 				<listitem self="@{each='detailscheduleship_item'}"
@@ -746,9 +748,9 @@
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.operation}" />
 					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.firstOperativeName}" />
+						label="@{detailscheduleship_item.firstOperativeName, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}" />
 					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.secondOperativeName}" />
+						label="@{detailscheduleship_item.secondOperativeName, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}" />
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.handswork}" />
 					<listcell sclass="myBottonCell"
@@ -945,8 +947,8 @@
 
 							<listheader label="Gru" sort="auto(crane)" />
 
-							<listheader label="Volume"
-								sort="auto(volume)" width="10%" />
+							<listheader label="Volumi"
+								sort="auto(volume)" />
 
 							<listheader
 								label="Volumi Rizz. da Bordo (x Cliente)"
@@ -1110,7 +1112,7 @@
 					<listheader label="Rif MCT" hflex="1" />
 					<listheader label="Gru" hflex="1" />
 					<listheader label="Tempo Lavorato" hflex="1" />
-					<listheader label="Volumi attesi" hflex="1" />
+					<listheader label="Volumi" hflex="1" />
 					<listheader
 						label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
 					<listheader label="Volumi Rizz. da Bordo (x SWS):"
