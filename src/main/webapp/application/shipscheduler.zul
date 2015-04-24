@@ -700,7 +700,9 @@
 					<listheader label="Nome Nave" sort="auto(name)"
 						hflex="2" />
 					<listheader label="Data Turno" hflex="2" />
-					<listheader label="Turno" sort="auto(shift)" 
+					<listheader label="Periodo di Lavorazione"
+						hflex="1" />
+					<listheader label="Turno" sort="auto(shift)"
 						hflex="1" />
 					<listheader label="Operazione" hflex="1"
 						sort="auto(operation)" />
@@ -712,7 +714,7 @@
 						sort="auto(handswork)" />
 					<listheader label="Numero Persone" hflex="1"
 						sort="auto(menwork)" />
-					<listheader label="Note Programmazione" hflex="1"  />
+					<listheader label="Note Programmazione" hflex="1" />
 					<listheader label="Note Dettaglio" hflex="1" />
 
 					<listheader label="Data inizio attività" hflex="2"
@@ -739,6 +741,9 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
 
 
 					<listcell sclass="myBottonCell"
@@ -1106,6 +1111,8 @@
 					<listheader label="Nome Nave" hflex="2" />
 					<listheader label="Data" hflex="2" />
 					<listheader label="Turno" hflex="1" />
+					<listheader label="Periodo di Lavorazione"
+						hflex="1" />
 					<listheader label="Settimana" hflex="1" />
 					<listheader label="Giorno" hflex="1" />
 					<listheader label="Rif SWS" hflex="1" />
@@ -1135,6 +1142,10 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.shift}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}">
+					</listcell>
 
 					<listcell sclass="myBottonCell"
 						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}">
