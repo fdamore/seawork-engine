@@ -499,11 +499,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.scheduleShip_selected = (ScheduleShip) this.sw_list_scheduleShipProgram.getSelectedItem().getValue();
 
-		// set date
-		if (this.scheduleShip_selected.getArrivaldate() != null) {
-			this.shiftdate.setValue(this.scheduleShip_selected.getArrivaldate());
-		}
-
 		if (this.scheduleShip_selected != null) {
 
 			this.listDetailScheduleShip = this.shipSchedulerDao.loadDetailScheduleShipByIdSchedule(this.scheduleShip_selected.getId());
@@ -1222,7 +1217,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.usersecond.setSelectedItem(null);
 		this.handswork.setValue(0);
 		this.menwork.setValue(0);
-		this.shiftdate.setValue(new Date());
 
 		this.shift_Daily.setSelectedIndex(0);
 		this.operation_Daily.setValue("-");

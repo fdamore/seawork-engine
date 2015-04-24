@@ -20,6 +20,7 @@ import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 
@@ -82,7 +83,8 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		ship.setShipcondition(this.ship_condition.getValue());
 		ship.setTwtype(this.ship_twtype.getValue());
 
-		if (ship.getName() == "" || ship.getLine() == "" || ship.getShiptype() == "" || ship.getShipcondition() == "" || ship.getTwtype() == "") {
+		if ((ship.getName() == "") || (ship.getLine() == "") || (ship.getShiptype() == "") || (ship.getShipcondition() == "")
+				|| (ship.getTwtype() == "")) {
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -225,10 +227,10 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		if (this.ship_name.getValue() == "" || this.ship_line.getValue() == "" || this.ship_type.getValue() == ""
-				|| this.ship_condition.getValue() == "" || this.ship_twtype.getValue() == "") {
+		if ((this.ship_name.getValue() == "") || (this.ship_line.getValue() == "") || (this.ship_type.getValue() == "")
+				|| (this.ship_condition.getValue() == "") || (this.ship_twtype.getValue() == "")) {
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -274,7 +276,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_deleteship")
 	public void removeItem() {
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<String, String>();
 		params.put("sclass", "mybutton Button");
 
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -282,9 +284,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
+				new EventListener<ClickEvent>() {
 					@Override
-					public void onEvent(final Event e) {
+					public void onEvent(final ClickEvent e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
 							ShipDetailsComposer.this.deleteShipCommand();
 						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
