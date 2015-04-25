@@ -18,6 +18,8 @@ public class ReviewShipWork implements Serializable {
 
 	private Integer				id_ship;
 
+	private Integer				invoicing_cycle;
+
 	private String				notedetail;
 
 	private Integer				rif_mct;
@@ -52,6 +54,10 @@ public class ReviewShipWork implements Serializable {
 
 	public Integer getId_ship() {
 		return this.id_ship;
+	}
+
+	public Integer getInvoicing_cycle() {
+		return this.invoicing_cycle;
 	}
 
 	public String getNotedetail() {
@@ -108,6 +114,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setId_ship(final Integer id_ship) {
 		this.id_ship = id_ship;
+	}
+
+	public void setInvoicing_cycle(final Integer invoicing_cycle) {
+		this.invoicing_cycle = invoicing_cycle;
 	}
 
 	public void setNotedetail(final String notedetail) {

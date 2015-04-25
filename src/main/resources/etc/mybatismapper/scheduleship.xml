@@ -511,11 +511,11 @@
 		detailfinalscheduleship (crane,crane_gtw,
 		volume, timework, iddetailscheduleship, notedetail,
 		volumeunderboard,volumeunderboard_sws,
-		volume_tw_mct)
+		volume_tw_mct,invoicing_cycle)
 		VALUES
 		(#{crane},#{crane_gtw}, #{volume}, #{timework},
 		#{iddetailscheduleship}, #{notedetail}, #{volumeunderboard},
-		#{volumeunderboard_sws},#{volume_tw_mct});
+		#{volumeunderboard_sws},#{volume_tw_mct},#{invoicing_cycle});
 	</insert>
 
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -530,7 +530,7 @@
 		SELECT df.id, df.crane, df.crane_gtw volume, df.timework,
 		df.iddetailscheduleship, df.notedetail, df.volumeunderboard,
 		df.volumeunderboard_sws,
-		df.volume_tw_mct, s.rif_mct, s.id as rif_sws
+		df.volume_tw_mct, s.rif_mct, s.id as rif_sws, df.invoicing_cycle
 		FROM
 		detailfinalscheduleship df, detailscheduleship d, scheduleship s
 		where
@@ -557,7 +557,8 @@
 		volumeunderboard = #{volumeunderboard},
 		volumeunderboard_sws = #{volumeunderboard_sws},
 		volume_tw_mct =
-		#{volume_tw_mct}
+		#{volume_tw_mct},
+		invoicing_cycle = #{invoicing_cycle}
 		WHERE id = #{id};
 	</update>
 
@@ -583,7 +584,7 @@
 		df.timework, df.iddetailscheduleship, df.notedetail,
 		df.volumeunderboard,df.volumeunderboard_sws,
 		df.volume_tw_mct,
-		s.rif_mct, s.id as rif_sws
+		s.rif_mct, s.id as rif_sws, df.invoicing_cycle
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship d, scheduleship s where

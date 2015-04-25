@@ -700,8 +700,6 @@
 					<listheader label="Nome Nave" sort="auto(name)"
 						hflex="2" />
 					<listheader label="Data Turno" hflex="2" />
-					<listheader label="Periodo di Lavorazione"
-						hflex="1" />
 					<listheader label="Turno" sort="auto(shift)"
 						hflex="1" />
 					<listheader label="Operazione" hflex="1"
@@ -741,10 +739,6 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-
-					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
-
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shift}" />
@@ -844,6 +838,13 @@
 									<label value="Rif SWS:"></label>
 									<label id="rif_sws_review" />
 								</row>
+								<row>
+									<label
+										value="Periodo di Lavorazione:">
+									</label>
+									<label id="working_cycle_review" />
+								</row>
+
 							</rows>
 						</grid>
 
@@ -884,6 +885,14 @@
 										<label value="Gru:"></label>
 										<intbox id="crane_review"
 											constraint="no negative" />
+									</row>
+
+									<row>
+										<label
+											value="Periodo di Fatturazione:">
+										</label>
+										<intbox
+											id="invoicing_cycle_review" constraint="no negative" />
 									</row>
 
 									<row>
@@ -949,6 +958,8 @@
 								sort="auto(rif_sws)" />
 							<listheader label="Rif MCT"
 								sort="auto(rif_mct)" />
+							<listheader label="Periodo di Fatturazione"
+								sort="auto(invoicing_cycle)" />
 
 							<listheader label="Gru" sort="auto(crane)" />
 
@@ -982,6 +993,9 @@
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.rif_mct}" />
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.invoicing_cycle}" />
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
@@ -1111,7 +1125,7 @@
 					<listheader label="Nome Nave" hflex="2" />
 					<listheader label="Data" hflex="2" />
 					<listheader label="Turno" hflex="1" />
-					<listheader label="Periodo di Lavorazione"
+					<listheader label="Periodo di Fatturazione"
 						hflex="1" />
 					<listheader label="Settimana" hflex="1" />
 					<listheader label="Giorno" hflex="1" />
@@ -1144,7 +1158,7 @@
 						label="@{item_review_work.shift}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}">
+						label="@{item_review_work.invoicing_cycle}">
 					</listcell>
 
 					<listcell sclass="myBottonCell"

@@ -23,6 +23,9 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	private Integer				iddetailscheduleship;
 
+	@XmlTransient
+	private Integer				invoicing_cycle;
+
 	private String				notedetail;
 
 	// using only for view, rif_mct in table scheduleship
@@ -58,6 +61,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public Integer getIddetailscheduleship() {
 		return this.iddetailscheduleship;
+	}
+
+	public Integer getInvoicing_cycle() {
+		return this.invoicing_cycle;
 	}
 
 	public String getNotedetail() {
@@ -106,6 +113,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setIddetailscheduleship(final Integer iddetailscheduleship) {
 		this.iddetailscheduleship = iddetailscheduleship;
+	}
+
+	public void setInvoicing_cycle(final Integer invoicing_cycle) {
+		this.invoicing_cycle = invoicing_cycle;
 	}
 
 	public void setNotedetail(final String notedetail) {

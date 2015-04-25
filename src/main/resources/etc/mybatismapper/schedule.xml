@@ -22,7 +22,7 @@
 		d.volumeunderboard,
 		d.volumeunderboard_sws,
 		d.volume_tw_mct,
-		d.notedetail
+		d.notedetail, d.invoicing_cycle
 		from
 		ship s,
 		scheduleship ss,
