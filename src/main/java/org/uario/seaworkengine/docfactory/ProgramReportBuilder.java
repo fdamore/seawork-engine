@@ -47,10 +47,12 @@ public class ProgramReportBuilder {
 
 	private static Integer			fourthShiftNumberOfPerson	= 0;
 
-	private static Logger			logger						= Logger.getLogger(ProgramReportBuilder.class);
+	private static boolean			isInCounting				= false;
 
+	private static Logger			logger						= Logger.getLogger(ProgramReportBuilder.class);
 	private static ISchedule		scheduleDAO					= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 	private static Integer			secondShiftNumberOfPerson	= 0;
+
 	private static Integer			thirdShiftNumberOfPerson	= 0;
 
 	private static void buildNoteShipReport_MeteoCondition(final JasperReportBuilder report) {
@@ -301,8 +303,14 @@ public class ProgramReportBuilder {
 
 				if (item.getItem_3().getSchedule() != null) {
 
+					ProgramReportBuilder.isInCounting = false;
+
 					ProgramReportBuilder.updateDataSource_Shift(dataSource, shiftNumber, name_user, item);
-					ProgramReportBuilder.firstShiftNumberOfPerson++;
+
+					if (ProgramReportBuilder.isInCounting) {
+						ProgramReportBuilder.firstShiftNumberOfPerson++;
+					}
+
 				}
 			}
 
@@ -310,8 +318,12 @@ public class ProgramReportBuilder {
 
 				if (item.getItem_3().getSchedule() != null) {
 
+					ProgramReportBuilder.isInCounting = false;
 					ProgramReportBuilder.updateDataSource_Shift(dataSource, shiftNumber, name_user, item);
-					ProgramReportBuilder.secondShiftNumberOfPerson++;
+
+					if (ProgramReportBuilder.isInCounting) {
+						ProgramReportBuilder.secondShiftNumberOfPerson++;
+					}
 				}
 			}
 
@@ -319,17 +331,22 @@ public class ProgramReportBuilder {
 
 				if (item.getItem_3().getSchedule() != null) {
 
+					ProgramReportBuilder.isInCounting = false;
 					ProgramReportBuilder.updateDataSource_Shift(dataSource, shiftNumber, name_user, item);
-					ProgramReportBuilder.thirdShiftNumberOfPerson++;
+					if (ProgramReportBuilder.isInCounting) {
+						ProgramReportBuilder.thirdShiftNumberOfPerson++;
+					}
 				}
 			}
 
 			if (shiftNumber == 4 && item.getItem_3() != null && item.getItem_3().getAnchor4() != null) {
 
 				if (item.getItem_3().getSchedule() != null) {
-
+					ProgramReportBuilder.isInCounting = false;
 					ProgramReportBuilder.updateDataSource_Shift(dataSource, shiftNumber, name_user, item);
-					ProgramReportBuilder.fourthShiftNumberOfPerson++;
+					if (ProgramReportBuilder.isInCounting) {
+						ProgramReportBuilder.fourthShiftNumberOfPerson++;
+					}
 				}
 			}
 
@@ -679,6 +696,9 @@ public class ProgramReportBuilder {
 	 * */
 	private static void updateDataSource_Shift(final DRDataSource dataSource, final Integer shiftNumber, final String name_user,
 			final RowSchedule item) {
+
+		ProgramReportBuilder.isInCounting = false;
+
 		final Schedule schedule = item.getItem_3().getSchedule();
 
 		final List<DetailInitialSchedule> list_detail_schedule = ProgramReportBuilder.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule
@@ -697,6 +717,8 @@ public class ProgramReportBuilder {
 						final String add = task.getCode();
 
 						dataSource.add(name_user, add, "", "", "", "", "", "", "", "");
+
+						ProgramReportBuilder.isInCounting = true;
 
 					}
 				}
