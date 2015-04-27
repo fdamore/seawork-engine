@@ -395,12 +395,10 @@
 								<datebox id="ship_departure"
 									format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 							</row>
-							<row>
-								<label value="" />
-								<label value="" />
-							</row>
+							
 						</rows>
 					</grid>
+					<!--  
 					<listbox id="sw_list_scheduleDetailShipProgram"
 						pagingPosition="both" mold="paging"
 						style="border: 1px solid #CCCCCC;" multiple="false"
@@ -450,7 +448,9 @@
 						</listitem>
 
 					</listbox>
-				</panelchildren>
+				
+					-->				
+			</panelchildren>
 			</panel>
 		</popup>
 
