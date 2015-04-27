@@ -602,14 +602,6 @@ public class ProgramReportBuilder {
 				.setHorizontalAlignment(HorizontalAlignment.CENTER);
 		final StyleBuilder dateStyle = DynamicReports.stl.style().setFontSize(12).setItalic(true).setHorizontalAlignment(HorizontalAlignment.CENTER);
 
-		// create logo text
-		final StringBuilder builder_gb = new StringBuilder();
-		builder_gb.append("Sea Work Service S.r.L." + "\n");
-		builder_gb.append("Zona Interporto Porto di Gioia Tauro" + "\n");
-		builder_gb.append("89026 San Ferdinando (RC)" + "\n");
-
-		final String ingo_gb = builder_gb.toString();
-
 		final SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d MMMM yyyy", Locale.ITALIAN);
 
 		String title = "Foglio Rilevazione Presenze";
@@ -625,6 +617,11 @@ public class ProgramReportBuilder {
 		final String shiftInfo = shiftString.toString();
 
 		try {
+			// CREATE QUALITY LOGO
+			final URL urlQualityLogo = ProgramReportBuilder.class.getResource("/etc/reports/quality.jpg");
+			final VerticalListBuilder qualityLogo = DynamicReports.cmp.verticalList();
+			qualityLogo.add(DynamicReports.cmp.image(urlQualityLogo).setFixedHeight(60).setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
 			// FIND URL LOGO IMAGE
 			final URL url = ProgramReportBuilder.class.getResource("/etc/reports/logo_report.png");
 
@@ -650,16 +647,13 @@ public class ProgramReportBuilder {
 
 			logo.add(DynamicReports.cmp.text(link_string).setStyle(italicStyle).setHyperLink(link).setHorizontalAlignment(HorizontalAlignment.LEFT));
 
-			final TextFieldBuilder<String> text_title = DynamicReports.cmp.text(ingo_gb);
-			text_title.setStyle(bold10CenteredStyle);
-
 			final TextFieldBuilder<String> data_title = DynamicReports.cmp.text(sdf.format(date));
 			data_title.setStyle(dateStyle);
 			center_title_container.add(data_title);
 
 			final StyleBuilder vsty = DynamicReports.stl.style();
 			vsty.setAlignment(HorizontalAlignment.CENTER, VerticalAlignment.TOP);
-			itm.add(logo, center_title_container, text_title);
+			itm.add(logo, center_title_container, qualityLogo);
 			itm.setStyle(vsty);
 			itm.newRow().add(DynamicReports.cmp.line()).newRow().add(DynamicReports.cmp.verticalGap(20));
 
