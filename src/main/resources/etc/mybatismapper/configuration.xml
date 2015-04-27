@@ -13,7 +13,7 @@
 	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask" parameterType="Integer">
 		SELECT id,
 		code,
-		description, isabsence, recorded
+		description, isabsence, recorded, hiddenoperative
 		FROM usertask
 		WHERE id=#{id};
 	</select>
@@ -35,17 +35,29 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded
+		t.recorded,
+		t.hiddenoperative 
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
+	</select>
+	
+	<select id="listAllHiddenOperativeTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT t.id,
+		t.code,
+		t.description,
+		t.isabsence,
+		t.recorded, 
+		t.hiddenoperative 
+		FROM usertask t
+		WHERE t.hiddenoperative = 1;
 	</select>
 
 
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded
+		description, isabsence, recorded, hiddenoperative 
 		FROM usertask
 		order by description;
 
@@ -54,7 +66,7 @@
 	<select id="selectAllTasksFulltextSearchLike" parameterType="map" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded
+		description, isabsence, recorded, hiddenoperative
 		FROM usertask
 		<if test="my_full_text_search != null">
 			WHERE (
@@ -104,9 +116,9 @@
 	<insert id="insertTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		INSERT INTO usertask
 		(code,
-		description, isabsence, recorded)
+		description, isabsence, recorded, hiddenoperative)
 		VALUES
-		(#{code},#{description}, #{isabsence}, #{recorded});
+		(#{code},#{description}, #{isabsence}, #{recorded}, #{hiddenoperative});
 
 	</insert>
 
@@ -130,7 +142,8 @@
 		code = #{code},
 		description = #{description} ,
 		isabsence = #{isabsence},
-		recorded = #{recorded}
+		recorded = #{recorded},
+		hiddenoperative = #{hiddenoperative} 
 		WHERE id = #{id}
 
 	</update>

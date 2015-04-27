@@ -74,6 +74,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserTask> listAllHiddenOperativeTask() {
+		MyBatisConfigurationDAO.logger.info("List All Hidden Operative Task..");
+
+		return this.getSqlSession().selectList("configuration.listAllHiddenOperativeTask");
+	}
+
+	@Override
 	public List<UserShift> listAllShifts(final String full_text_search) {
 		MyBatisConfigurationDAO.logger.info("listAllShifts like full_text_search");
 

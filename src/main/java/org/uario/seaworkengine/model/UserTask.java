@@ -16,6 +16,8 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	private String				description;
 
+	private Boolean				hiddenoperative;
+
 	private Integer				id;
 
 	private Boolean				isabsence;
@@ -76,6 +78,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.description;
 	}
 
+	public Boolean getHiddenoperative() {
+		return this.hiddenoperative;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -101,6 +107,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	public void setHiddenoperative(final Boolean hiddenoperative) {
+		this.hiddenoperative = hiddenoperative;
 	}
 
 	public void setId(final Integer id) {

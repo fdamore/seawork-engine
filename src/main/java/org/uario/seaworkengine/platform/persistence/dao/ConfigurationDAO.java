@@ -17,6 +17,8 @@ public interface ConfigurationDAO {
 
 	public List<UserShift> listAllDefaultShift();
 
+	public List<UserTask> listAllHiddenOperativeTask();
+
 	public List<UserShift> listAllShifts(String full_text_search);
 
 	public List<UserTask> listAllTasks(String full_text_search);

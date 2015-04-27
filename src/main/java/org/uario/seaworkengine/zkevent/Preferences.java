@@ -84,6 +84,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Div					grid_task_details;
 
 	@Wire
+	private Checkbox			hiddenoperative_task;
+
+	@Wire
 	private Checkbox			isabsence_task;
 
 	@Wire
@@ -281,6 +284,7 @@ public class Preferences extends SelectorComposer<Component> {
 			task.setDescription(this.description_task.getValue());
 			task.setIsabsence(this.isabsence_task.isChecked());
 			task.setRecorded(this.recorded_task.isChecked());
+			task.setHiddenoperative(this.hiddenoperative_task.isChecked());
 			this.configurationDao.createTask(task);
 
 			this.refreshTaskList();
@@ -598,7 +602,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_task.setValue(task.getCode());
 		this.description_task.setValue(task.getDescription());
 		this.isabsence_task.setChecked(task.getIsabsence());
-
+		this.hiddenoperative_task.setChecked(task.getHiddenoperative());
 		this.recorded_task.setChecked(task.getRecorded());
 
 	}
@@ -628,6 +632,7 @@ public class Preferences extends SelectorComposer<Component> {
 			task.setDescription(this.description_task.getValue());
 			task.setIsabsence(this.isabsence_task.isChecked());
 			task.setRecorded(this.recorded_task.isChecked());
+			task.setHiddenoperative(this.hiddenoperative_task.isChecked());
 
 			this.configurationDao.updateTask(task);
 
@@ -800,6 +805,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.description_task.setValue("");
 		this.isabsence_task.setChecked(false);
 		this.recorded_task.setChecked(false);
+		this.hiddenoperative_task.setChecked(false);
 	}
 
 	@Listen("onSelect = #typeofbreak")
@@ -929,6 +935,15 @@ public class Preferences extends SelectorComposer<Component> {
 		list_usershift = this.configurationDao.listAllDefaultShift();
 
 		this.sw_list_shift.setModel(new ListModelList<UserShift>(list_usershift));
+	}
+
+	@Listen("onClick = #sw_return_hiddenoperativetask")
+	public void showHiddenOperativeTask() {
+		List<UserTask> list_usertask = null;
+
+		list_usertask = this.configurationDao.listAllHiddenOperativeTask();
+
+		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
 	}
 
 	/**

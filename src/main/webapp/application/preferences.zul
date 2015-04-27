@@ -237,6 +237,14 @@
 													<checkbox
 														id="recorded_task" />
 												</row>
+												
+												<row
+													id="row_hiddenoperative_task">
+													<label
+														value="Nascosta al preposto:">
+													</label>
+													<checkbox id="hiddenoperative_task" />
+												</row>
 
 
 
@@ -268,6 +276,10 @@
 								<button id="sw_return_defaulttask"
 									sclass="btn-info" label="Visualizza Mansioni di Assenza">
 								</button>
+								
+								<button id="sw_return_hiddenoperativetask"
+									sclass="btn-info" label="Visualizza Mansioni Nascoste al preposto">
+								</button>
 
 								<separator></separator>
 
@@ -289,11 +301,12 @@
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="10">
 								<listhead sizable="true">
-									<listheader label="Codice" />
+									<listheader label="Codice" sort="auto(code)"/>
 									<listheader label="Descrizione"
 										sort="auto(description)" />
-									<listheader label="Assenza" />
-									<listheader label="Contabilizzato" />
+									<listheader label="Assenza" sort="auto(isabsence)" />
+									<listheader label="Contabilizzato" sort="auto(recorded)" />
+									<listheader label="Nascosta al preposto" sort="auto(hiddenoperative)" />
 									<listheader label="" />
 
 								</listhead>
@@ -319,6 +332,13 @@
 										<image
 											src="@{task_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+
+										<image
+											src="@{task_item.hiddenoperative, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
 									<listcell sclass="myBottonCell">
 
 										<toolbarbutton
