@@ -316,12 +316,12 @@
 
 	</select>
 
-	<select id="selectPercentageSunday" resultType="double"
+	<select id="selectSundayWork" resultType="int"
 		parameterType="map">
 
 
 		select
-		count(distinct ds.date_schedule) / ${count_s} * 100 as perc
+		count(distinct ds.date_schedule) 
 		from
 		schedule ds,
 		usershift us,
@@ -342,12 +342,12 @@
 
 	</select>
 
-	<select id="selectPercentageHoliday" resultType="double"
+	<select id="getSundayAndHolidaysWork" resultType="int"
 		parameterType="map">
 
 
 		select
-		count(distinct ss.date_schedule) / ${count_h} * 100 as perc
+		count(distinct ss.date_schedule)
 		from
 		schedule ss,
 		usershift uss,

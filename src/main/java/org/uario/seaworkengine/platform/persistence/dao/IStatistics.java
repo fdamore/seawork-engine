@@ -58,7 +58,7 @@ public interface IStatistics {
 	 * @param id_user
 	 * @return
 	 */
-	public Double getSundayAndHolidaysWorkPercentage(Integer id_user, Date date_from);
+	public Integer getHolidaysWork(Integer id_user, Date date_from);
 
 	/**
 	 * Get percentage working sunday
@@ -66,7 +66,7 @@ public interface IStatistics {
 	 * @param id_user
 	 * @return
 	 */
-	public Double getSundayWorkPercentage(Integer id_user, Date date_from);
+	public Integer getSundayWork(Integer id_user, Date date_from);
 
 	/**
 	 * Get Time Worked

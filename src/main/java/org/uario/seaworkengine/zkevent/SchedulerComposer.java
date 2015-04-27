@@ -963,10 +963,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label							work_current_year;
 
 	@Wire
-	private Label							work_sunday_perc;
+	private Label							work_holiday_perc;
 
 	@Wire
-	private Label							work_sundayandholiday_perc;
+	private Label							work_sunday_perc;
 
 	@Wire
 	private Label							working_series;
@@ -1674,17 +1674,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -3527,8 +3527,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3851,17 +3851,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4080,7 +4080,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -6206,28 +6206,47 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Date date_first_day_year = DateUtils.truncate(calendar_first_day, Calendar.DATE).getTime();
 
 		// SET WORK SUNDAY
-		final Double perc = SchedulerComposer.this.statisticDAO.getSundayWorkPercentage(id_user, date_first_day_year);
-		String perc_info = "0%";
-		if (perc != null) {
-			perc_info = "" + Utility.roundTwo(perc) + "%";
+
+		// count holidays until now
+		final int count_allsunday = this.bank_holiday.countCurrentSundaysUntilNow();
+
+		// get number of sunday work
+		final Integer sunday_work = this.statisticDAO.getSundayWork(id_user, date_first_day_year);
+
+		Double perc_sunday;
+		if (count_allsunday == 0) {
+			perc_sunday = 0.0;
+		} else {
+			perc_sunday = (double) sunday_work / (double) count_allsunday;
 		}
+		final String perc_info = "" + sunday_work + " (" + Utility.roundTwo(perc_sunday) + "%)";
+
 		// set perc
 		this.work_sunday_perc.setValue(perc_info);
 
 		// SET WORK SUNDAY HOLIDAYS
-		final Double perc_holidays = SchedulerComposer.this.statisticDAO.getSundayAndHolidaysWorkPercentage(id_user, date_first_day_year);
-		String perc_info_holidays = "0%";
-		if (perc_info_holidays != null) {
-			perc_info_holidays = "" + Utility.roundTwo(perc_holidays) + "%";
+
+		// count holidays until now
+		final int count_allholiday = this.bank_holiday.countCurrentHolidaysUntilNow();
+
+		final Integer holidays_work = this.statisticDAO.getHolidaysWork(id_user, date_first_day_year);
+
+		final Double perc_holiday;
+		if (count_allholiday == 0) {
+			perc_holiday = 0.0;
+		} else {
+			perc_holiday = (double) holidays_work / (double) count_allholiday;
 		}
+		final String perc_info_holiday = "" + holidays_work + " (" + Utility.roundTwo(perc_holiday) + "%)";
+
 		// set perc
-		this.work_sundayandholiday_perc.setValue(perc_info_holidays);
+		this.work_holiday_perc.setValue(perc_info_holiday);
 
 		final Calendar c = Calendar.getInstance();
 		c.add(Calendar.DATE, 1);
 
 		// get average - review base
-		RateShift[] statistic = SchedulerComposer.this.statisticDAO.getAverageForShift(id_user, c.getTime(), date_first_day_year);
+		final RateShift[] statistic = SchedulerComposer.this.statisticDAO.getAverageForShift(id_user, c.getTime(), date_first_day_year);
 
 		if (statistic != null) {
 			for (final RateShift av : statistic) {
@@ -6247,25 +6266,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		// get average - program base
-		statistic = SchedulerComposer.this.statisticDAO.getAverageForShiftOnProgram(id_user, c.getTime(), date_first_day_year);
-		if (statistic != null) {
-			for (final RateShift av : statistic) {
-
-				if (av.getShift() == 1) {
-					SchedulerComposer.this.shift_perc_1.setValue(this.shift_perc_1.getValue() + " (" + Utility.roundTwo(av.getRate()) + "%)");
-				}
-				if (av.getShift() == 2) {
-					SchedulerComposer.this.shift_perc_2.setValue(this.shift_perc_2.getValue() + " (" + Utility.roundTwo(av.getRate()) + "%)");
-				}
-				if (av.getShift() == 3) {
-					SchedulerComposer.this.shift_perc_3.setValue(this.shift_perc_3.getValue() + " (" + Utility.roundTwo(av.getRate()) + "%)");
-				}
-				if (av.getShift() == 4) {
-					SchedulerComposer.this.shift_perc_4.setValue(this.shift_perc_4.getValue() + " (" + Utility.roundTwo(av.getRate()) + "%)");
-				}
-			}
-		}
+		/*
+		 * 
+		 * // get average - program base statistic =
+		 * SchedulerComposer.this.statisticDAO
+		 * .getAverageForShiftOnProgram(id_user, c.getTime(),
+		 * date_first_day_year); if (statistic != null) { for (final RateShift
+		 * av : statistic) {
+		 * 
+		 * if (av.getShift() == 1) {
+		 * SchedulerComposer.this.shift_perc_1.setValue
+		 * (this.shift_perc_1.getValue() + " (" + Utility.roundTwo(av.getRate())
+		 * + "%)"); } if (av.getShift() == 2) {
+		 * SchedulerComposer.this.shift_perc_2
+		 * .setValue(this.shift_perc_2.getValue() + " (" +
+		 * Utility.roundTwo(av.getRate()) + "%)"); } if (av.getShift() == 3) {
+		 * SchedulerComposer
+		 * .this.shift_perc_3.setValue(this.shift_perc_3.getValue() + " (" +
+		 * Utility.roundTwo(av.getRate()) + "%)"); } if (av.getShift() == 4) {
+		 * SchedulerComposer
+		 * .this.shift_perc_4.setValue(this.shift_perc_4.getValue() + " (" +
+		 * Utility.roundTwo(av.getRate()) + "%)"); } } }
+		 */
 
 		// set info about week working
 		final Calendar current = Calendar.getInstance();

@@ -259,7 +259,7 @@
 									<row>
 										<label value="Festivi: " />
 										<label
-											id="work_sundayandholiday_perc" />
+											id="work_holiday_perc" />
 									</row>
 
 

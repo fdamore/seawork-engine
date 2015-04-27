@@ -170,16 +170,10 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Double getSundayAndHolidaysWorkPercentage(final Integer id_user, final Date date_from) {
+	public Integer getHolidaysWork(final Integer id_user, final Date date_from) {
 		MyBatisStatisticsDAO.logger.info("getSundayAndHolidaysWorkPercentage..");
 
 		// count holidays until now
-		final int count = this.bank_holiday.countCurrentHolidaysUntilNow();
-
-		// define holidays count
-		if (count == 0) {
-			return 0.0;
-		}
 
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
@@ -204,33 +198,31 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("id_user", id_user);
 		map.put("date_from", date_from_truncate);
 		map.put("days_hol", build.toString());
-		map.put("count_h", count);
 
-		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageHoliday", map);
+		final Integer ret = this.getSqlSession().selectOne("statistics.getSundayAndHolidaysWork", map);
+
+		if (ret == null) {
+			return 0;
+		}
 
 		return ret;
 	}
 
 	@Override
-	public Double getSundayWorkPercentage(final Integer id_user, final Date date_from) {
+	public Integer getSundayWork(final Integer id_user, final Date date_from) {
 		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
-
-		// count holidays until now
-		final int count = this.bank_holiday.countCurrentSundaysUntilNow();
-
-		// define holidays count
-		if (count == 0) {
-			return 0.0;
-		}
 
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id_user", id_user);
 		map.put("date_from", date_from_truncate);
-		map.put("count_s", count);
 
-		final Double ret = this.getSqlSession().selectOne("statistics.selectPercentageSunday", map);
+		final Integer ret = this.getSqlSession().selectOne("statistics.selectSundayWork", map);
+
+		if (ret == 0) {
+			return 0;
+		}
 
 		return ret;
 
