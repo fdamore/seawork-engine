@@ -500,7 +500,7 @@
 		concat(ut.code,' - ',ut.description) as task_mobile_desc
 		FROM
 		detailinitialschedule d, usertask ut
-		WHERE id_schedule =
+		WHERE ut.hiddenoperative = 0 and id_schedule =
 		#{id_schedule}
 		and d.task = ut.id
 	</select>
@@ -514,7 +514,7 @@
 		concat(ut.code,' - ',ut.description) as task_mobile_desc
 		FROM
 		detailfinalschedule d, usertask ut
-		WHERE id_schedule =
+		WHERE ut.hiddenoperative = 0  and id_schedule =
 		#{id_schedule}
 		and d.task = ut.id
 	</select>
