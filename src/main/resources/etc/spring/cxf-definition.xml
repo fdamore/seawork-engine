@@ -1,7 +1,10 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:cxf="http://cxf.apache.org/core"
 	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns="http://www.springframework.org/schema/beans"
-	xsi:schemaLocation="http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd 
+	http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<!-- <import resource="classpath:META-INF/cxf/cxf.xml" /> <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" 
 		/> import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> -->
@@ -16,14 +19,16 @@
 			<ref bean="soapservice" />
 		</jaxws:serviceBean>
 
-
 		<!-- <jaxws:inInterceptors> <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor"> 
 			<constructor-arg> <map> <entry key="action" value="UsernameToken" /> <entry 
-			key="passwordType" value="PasswordText" /> <entry key="user" value="ws-client" 
-			/> <entry key="passwordCallbackRef"> <ref bean="myPasswordCallback" /> </entry> 
-			</map> </constructor-arg> </bean> </jaxws:inInterceptors> -->
+			key="passwordType" value="PasswordText" /> <entry key="passwordCallbackRef"> 
+			<ref bean="myPasswordCallback" /> </entry> </map> </constructor-arg> </bean> 
+			</jaxws:inInterceptors> -->
 
 	</jaxws:server>
+
+
+
 
 	<!-- SECURITY PASSWORD CALLBACK -->
 	<!-- <bean id="myPasswordCallback" class="org.uario.seaworkengine.web.services.security.PasswordCallback" 
@@ -54,6 +59,11 @@
 		<property name="shipSchedulerDao" ref="myScheduleShipDAO"></property>
 
 	</bean>
+
+
+
+
+
 
 
 
