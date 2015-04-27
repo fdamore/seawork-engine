@@ -75,14 +75,13 @@ public interface IWebServiceController {
 
 	/**
 	 * Transmit final scheduler
-	 *
+	 * @param no_shift TODO
 	 * @param shift
-	 *
 	 * @param date
 	 *
 	 * @return
 	 */
-	public boolean synchronizeWork(Date date_request, List<WorkerShift> list_synch);
+	public boolean synchronizeWork(Date date_request, Integer no_shift, List<WorkerShift> list_synch);
 
 	/**
 	 * Update info about detail final schedule ship

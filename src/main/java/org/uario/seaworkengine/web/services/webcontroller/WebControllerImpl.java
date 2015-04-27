@@ -54,14 +54,14 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
+		shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
 
 	}
 
 	@Override
 	public void deleteDetailFinalScheduleShipById(final Integer id_detail_final) {
 
-		this.shipSchedulerDao.deleteDetailFinalScheduleShipById(id_detail_final);
+		shipSchedulerDao.deleteDetailFinalScheduleShipById(id_detail_final);
 
 	}
 
@@ -71,7 +71,7 @@ public class WebControllerImpl implements IWebServiceController {
 	 * @param list_synch
 	 * @return
 	 */
-	private boolean finalSyncProcess(final Date date_request, final List<WorkerShift> list_synch) {
+	private boolean finalSyncProcess(final Date date_request, final Integer no_shift, final List<WorkerShift> list_synch) {
 		// map schedule
 		final HashMap<Integer, Schedule> schedule_map = new HashMap<Integer, Schedule>();
 
@@ -79,8 +79,6 @@ public class WebControllerImpl implements IWebServiceController {
 		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
 		for (final WorkerShift item : list_synch) {
-
-			final Integer no_shift = item.getNumber();
 
 			for (final Worker worker : item.getWorkers()) {
 
@@ -94,12 +92,14 @@ public class WebControllerImpl implements IWebServiceController {
 
 				Schedule schedule = null;
 				schedule = schedule_map.get(worker.getUtente());
+
+				// select schedule
 				if (schedule == null) {
-					schedule = this.scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
+					schedule = scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
 					schedule_map.put(worker.getUtente(), schedule);
 
 					// remove final info in this schedule
-					this.scheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+					scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(schedule.getId(), no_shift);
 				}
 
 				for (final TaskRunner task_item : worker.getTasks()) {
@@ -116,8 +116,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 					// define time
 					try {
-						final Date time_from = this.remote_format_date.parse(task_item.getEntrata());
-						final Date time_to = this.remote_format_date.parse(task_item.getUscita());
+						final Date time_from = remote_format_date.parse(task_item.getEntrata());
+						final Date time_to = remote_format_date.parse(task_item.getUscita());
 
 						final Timestamp timestamp_from = new Timestamp(time_from.getTime());
 						final Timestamp timestamp_to = new Timestamp(time_to.getTime());
@@ -128,7 +128,7 @@ public class WebControllerImpl implements IWebServiceController {
 						// get time
 						final long millis = Math.abs(time_to.getTime() - time_from.getTime());
 						final double h = (double) millis / (1000 * 60 * 60);
-						final UserTask currentTask = this.taskCache.getUserTask(task_item.getID());
+						final UserTask currentTask = taskCache.getUserTask(task_item.getID());
 						if (currentTask.getIsabsence().booleanValue()) {
 							final_detail.setTime(0.0);
 							final_detail.setTime_vacation(h);
@@ -138,12 +138,12 @@ public class WebControllerImpl implements IWebServiceController {
 						}
 
 					} catch (final Exception e) {
-						this.logger.error("Error in parsing remote date and timestamp. " + e);
+						logger.error("Error in parsing remote date and timestamp. " + e);
 
 					}
 
 					// insert new info
-					this.scheduleDAO.createDetailFinalSchedule(final_detail);
+					scheduleDAO.createDetailFinalSchedule(final_detail);
 
 				}
 
@@ -152,48 +152,48 @@ public class WebControllerImpl implements IWebServiceController {
 		}
 
 		// sign as synchronized
-		this.scheduleDAO.updateMobileSynch(true);
+		scheduleDAO.updateMobileSynch(true, no_shift);
 
 		return true;
 	}
 
 	public PersonDAO getPersonDAO() {
-		return this.personDAO;
+		return personDAO;
 	}
 
 	public ISchedule getScheduleDAO() {
-		return this.scheduleDAO;
+		return scheduleDAO;
 	}
 
 	public IShiftCache getShiftCache() {
-		return this.shiftCache;
+		return shiftCache;
 	}
 
 	public IScheduleShip getShip_dao() {
-		return this.ship_dao;
+		return ship_dao;
 	}
 
 	public IScheduleShip getShipSchedulerDao() {
-		return this.shipSchedulerDao;
+		return shipSchedulerDao;
 	}
 
 	public ITaskCache getTaskCache() {
-		return this.taskCache;
+		return taskCache;
 	}
 
 	public TasksDAO getTaskDAO() {
-		return this.taskDAO;
+		return taskDAO;
 	}
 
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
-		return new ArrayList<UserShift>(this.shiftCache.getHash().values());
+		return new ArrayList<UserShift>(shiftCache.getHash().values());
 
 	}
 
 	@Override
 	public List<UserTask> getUserTaskConfiguration() {
-		return new ArrayList<UserTask>(this.taskCache.getHash().values());
+		return new ArrayList<UserTask>(taskCache.getHash().values());
 	}
 
 	@Override
@@ -201,13 +201,13 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		return this.ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
+		return ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
 	}
 
 	@Override
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
 
-		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao
+		final List<DetailFinalScheduleShip> final_details = shipSchedulerDao
 				.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 
 		return final_details;
@@ -224,7 +224,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(date_request_truncate, null, null);
+		final List<DetailScheduleShip> list = shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(
+				date_request_truncate, null, null);
 		return list;
 	}
 
@@ -235,7 +236,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<Person> list = this.personDAO.listAllPersonsForMobile(date_schedule);
+		final List<Person> list = personDAO.listAllPersonsForMobile(date_schedule);
 
 		for (final Person person : list) {
 
@@ -249,29 +250,85 @@ public class WebControllerImpl implements IWebServiceController {
 
 			final InitialSchedule item = new InitialSchedule();
 
-			final Schedule schedule = this.scheduleDAO.loadSchedule(date_schedule, person.getId());
+			final Schedule schedule = scheduleDAO.loadSchedule(date_schedule, person.getId());
 			if (schedule == null) {
 				continue;
 			}
 
-			List<DetailInitialSchedule> details = null;
-			if ((schedule.getSync_mobile() == null) || !schedule.getSync_mobile()) {
-				details = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdSchedule(schedule.getId());
+			final List<DetailInitialSchedule> merging_details = new ArrayList<DetailInitialSchedule>();
+
+			// ADD SHIFT 1
+			if (!schedule.getSync_mobile_1()) {
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 1);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
 			} else {
-				details = this.scheduleDAO.loadDetailFinalScheduleForMobileByIdSchedule(schedule.getId());
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 1);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
 			}
 
-			if ((details == null) || (details.size() == 0)) {
+			// ADD SHIFT 2
+			if (!schedule.getSync_mobile_2()) {
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 2);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
+			} else {
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 2);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
+			}
+
+			// ADD SHIFT 3
+			if (!schedule.getSync_mobile_3()) {
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 3);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
+			} else {
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 3);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
+			}
+
+			// ADD SHIFT 4
+			if (!schedule.getSync_mobile_4()) {
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 4);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
+			} else {
+				final List<DetailInitialSchedule> itm = scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(
+						schedule.getId(), 4);
+				if (itm != null) {
+					merging_details.addAll(itm);
+				}
+			}
+
+			// CHECK IF ANY ITEM TO ADD
+			if (merging_details.size() == 0) {
 				continue;
 			}
 
 			// set info about task
-			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUser(person.getId());
+			final List<UserTask> list_tasks = taskDAO.loadTasksByUser(person.getId());
 			person.setUserTaskForMobile(list_tasks);
 
 			// set current object
 			item.setPerson(person);
-			item.setDetail_schedule(details);
+			item.setDetail_schedule(merging_details);
 			item.setSchedule(schedule);
 
 			ret.add(item);
@@ -311,7 +368,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	@Transactional
-	public boolean synchronizeWork(final Date date_request, final List<WorkerShift> list_synch) {
+	public boolean synchronizeWork(final Date date_request, final Integer no_shift, final List<WorkerShift> list_synch) {
 
 		if (date_request == null) {
 			return false;
@@ -319,13 +376,13 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date dt = DateUtils.truncate(date_request, Calendar.DATE);
 
-		return this.finalSyncProcess(dt, list_synch);
+		return finalSyncProcess(dt, no_shift, list_synch);
 
 	}
 
 	@Override
 	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		this.shipSchedulerDao.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
+		shipSchedulerDao.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
 
 	}
 }

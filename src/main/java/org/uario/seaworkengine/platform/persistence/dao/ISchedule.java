@@ -22,15 +22,16 @@ public interface ISchedule {
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdSchedule(Integer id_schedule);
+	public List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(Integer id_schedule, Integer no_shift);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdSchedule(Integer id_schedule);
+	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(Integer id_schedule, Integer no_shift);
 
-	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, Integer rifMCT, Integer shift);
+	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS,
+			Integer rifMCT, Integer shift);
 
 	public List<Schedule> loadSchedule(Date date_scheduled);
 
@@ -72,6 +73,6 @@ public interface ISchedule {
 
 	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
 
-	public void updateMobileSynch(boolean synch_mobile);
+	public void updateMobileSynch(boolean synch_mobile, Integer shift_no);
 
 }
