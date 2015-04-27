@@ -271,10 +271,6 @@ public class Utility {
 
 	public static Integer getWorkAmount(final Date date_from, final Date date_to, final Integer hours_per_week, final Integer hours_per_day) {
 
-		// number of week from date_from to date_to
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(date_from);
-
 		final long diff = date_to.getTime() - date_from.getTime();
 
 		final Integer numberOfMillsecInWeek = 7 * 24 * 60 * 60 * 1000;
