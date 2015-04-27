@@ -333,6 +333,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Combobox						select_shift;
 
 	@Wire
+	public Combobox						select_shiftBap;
+
+	@Wire
 	private Combobox					select_year;
 
 	@Wire
@@ -616,7 +619,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -639,7 +642,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -1164,6 +1167,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_rifMCT.setValue(null);
 		this.shows_rows_ship.setValue(10);
 
+		this.select_shiftBap.setSelectedIndex(0);
+
 		this.searchWorkShip.setValue(Calendar.getInstance().getTime());
 		this.searchReviewShipData();
 	}
@@ -1185,15 +1190,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteDetailship();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteDetailship();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -1212,18 +1217,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-						@Override
-						public void onEvent(final ClickEvent e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-										.getId());
+				@Override
+				public void onEvent(final ClickEvent e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+								.getId());
 
-								ShipSchedulerComposer.this.searchScheduleShipByDate();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						ShipSchedulerComposer.this.searchScheduleShipByDate();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-							}
-						}
-					}, params);
+					}
+				}
+			}, params);
 
 		}
 	}
@@ -1379,8 +1384,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifSWS.setValue(null);
 
+		Integer shiftNumber = null;
+
+		if (this.select_shiftBap.getSelectedItem() != null) {
+			shiftNumber = this.select_shiftBap.getSelectedIndex();
+			if (shiftNumber == 0) {
+				shiftNumber = null;
+			}
+		}
+
 		if (this.full_text_search_rifMCT.getValue() != null) {
-			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, null, this.full_text_search_rifMCT.getValue());
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, null, this.full_text_search_rifMCT.getValue(), shiftNumber);
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1406,8 +1420,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.date_from_overview.setValue(null);
 			this.date_to_overview.setValue(null);
 
+			Integer shiftNumber = null;
+
+			if (this.select_shiftBap.getSelectedItem() != null) {
+				shiftNumber = this.select_shiftBap.getSelectedIndex();
+				if (shiftNumber == 0) {
+					shiftNumber = null;
+				}
+			}
+
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null, searchText, this.full_text_search_rifSWS.getValue(),
-					this.full_text_search_rifMCT.getValue());
+					this.full_text_search_rifMCT.getValue(), shiftNumber);
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1424,9 +1447,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchWorkShip.setValue(null);
 		this.select_year.setSelectedItem(null);
 
+		Integer shiftNumber = null;
+
+		if (this.select_shiftBap.getSelectedItem() != null) {
+			shiftNumber = this.select_shiftBap.getSelectedIndex();
+			if (shiftNumber == 0) {
+				shiftNumber = null;
+			}
+		}
+
 		if ((this.date_from_overview.getValue() != null) && (this.date_to_overview.getValue() != null)) {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
-					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
+					shiftNumber);
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1485,8 +1518,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifMCT.setValue(null);
 
+		Integer shiftNumber = null;
+
+		if (this.select_shiftBap.getSelectedItem() != null) {
+			shiftNumber = this.select_shiftBap.getSelectedIndex();
+			if (shiftNumber == 0) {
+				shiftNumber = null;
+			}
+		}
+
 		if (this.full_text_search_rifSWS.getValue() != null) {
-			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, this.full_text_search_rifSWS.getValue(), null);
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, this.full_text_search_rifSWS.getValue(), null, shiftNumber);
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1504,12 +1546,53 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.sw_list_reviewWork.setPageSize(10);
 		}
 
+		Integer shiftNumber = null;
+
+		if (this.select_shiftBap.getSelectedItem() != null) {
+			shiftNumber = this.select_shiftBap.getSelectedIndex();
+			if (shiftNumber == 0) {
+				shiftNumber = null;
+			}
+		}
+
 		if (this.searchWorkShip.getValue() == null) {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
-					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
+					shiftNumber);
 		} else {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
-					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
+		}
+
+		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
+
+		this.setTotalVolumeLabel();
+	}
+
+	@Listen("onChange = #select_shiftBap")
+	public void selectBapByShift() {
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
+		} else {
+			this.sw_list_reviewWork.setPageSize(10);
+		}
+
+		Integer shiftNumber = null;
+
+		if (this.select_shiftBap.getSelectedItem() != null) {
+			shiftNumber = this.select_shiftBap.getSelectedIndex();
+			if (shiftNumber == 0) {
+				shiftNumber = null;
+			}
+		}
+
+		if (this.searchWorkShip.getValue() == null) {
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
+					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
+					shiftNumber);
+		} else {
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
+					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
 		}
 
 		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
@@ -1557,8 +1640,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					return;
 				}
 
+				Integer shiftNumber = null;
+
+				if (this.select_shiftBap.getSelectedItem() != null) {
+					shiftNumber = this.select_shiftBap.getSelectedIndex();
+					if (shiftNumber == 0) {
+						shiftNumber = null;
+					}
+				}
+
 				this.list_review_work = this.scheduleDao.loadReviewShipWork(date_from, date_to, this.full_text_search_ship.getValue(),
-						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
 
 				if (this.shows_rows_ship.getValue() != null) {
 					this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
@@ -1571,8 +1663,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				this.setTotalVolumeLabel();
 
 			} else {
+
+				Integer shiftNumber = null;
+
+				if (this.select_shiftBap.getSelectedItem() != null) {
+					shiftNumber = this.select_shiftBap.getSelectedIndex();
+					if (shiftNumber == 0) {
+						shiftNumber = null;
+					}
+				}
+
 				this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, this.full_text_search_ship.getValue(),
-						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
 				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 				this.setTotalVolumeLabel();

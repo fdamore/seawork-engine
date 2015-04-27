@@ -52,7 +52,6 @@
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
 
-
 		<if test="rifSWS != null">
 			and ss.id = #{rifSWS}
 		</if>
@@ -60,7 +59,10 @@
 		<if test="rifMCT != null">
 			and ss.rif_mct = #{rifMCT}
 		</if>
-
+		
+		<if test="shift != null">
+			and dss.shift = #{shift} 
+		</if>
 
 		order by s.name , date_request, dss.shift
 	</select>
