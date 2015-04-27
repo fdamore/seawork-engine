@@ -810,14 +810,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onOK = #shows_rows_ship, #full_text_search_ship, #full_text_search_rifSWS, #full_text_search_rifMCT")
+	@Listen("onOK = #shows_rows_ship")
 	public void defineView() {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
 		} else {
 			this.sw_list_reviewWork.setPageSize(10);
 		}
-		this.setDateInSearch();
+
+		// this.setDateInSearch();
 	}
 
 	@Listen("onClick = #deleteDetailFinalScheduleShip")
@@ -1369,6 +1370,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onOK = #full_text_search_rifMCT")
+	public void searchMCT() {
+		this.searchWorkShip.setValue(null);
+		this.date_from_overview.setValue(null);
+		this.date_to_overview.setValue(null);
+		this.select_year.setSelectedItem(null);
+		this.full_text_search_ship.setValue(null);
+		this.full_text_search_rifSWS.setValue(null);
+
+		if (this.full_text_search_rifMCT.getValue() != null) {
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, null, this.full_text_search_rifMCT.getValue());
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
+
+			this.setTotalVolumeLabel();
+		} else {
+			this.setDateInSearch();
+		}
+
+	}
+
 	/**
 	 * Search info about data ship for review
 	 */
@@ -1453,6 +1474,47 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(list_scheduleShip));
 
 		}
+	}
+
+	@Listen("onOK = #full_text_search_rifSWS")
+	public void searchSWS() {
+		this.searchWorkShip.setValue(null);
+		this.date_from_overview.setValue(null);
+		this.date_to_overview.setValue(null);
+		this.select_year.setSelectedItem(null);
+		this.full_text_search_ship.setValue(null);
+		this.full_text_search_rifMCT.setValue(null);
+
+		if (this.full_text_search_rifSWS.getValue() != null) {
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, this.full_text_search_rifSWS.getValue(), null);
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
+
+			this.setTotalVolumeLabel();
+		} else {
+			this.setDateInSearch();
+		}
+
+	}
+
+	@Listen("onOK = #full_text_search_ship")
+	public void searchText() {
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
+		} else {
+			this.sw_list_reviewWork.setPageSize(10);
+		}
+
+		if (this.searchWorkShip.getValue() == null) {
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
+					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+		} else {
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
+					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue());
+		}
+
+		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
+
+		this.setTotalVolumeLabel();
 	}
 
 	@Listen("onChange = #select_shift")

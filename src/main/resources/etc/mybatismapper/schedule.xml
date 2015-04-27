@@ -34,11 +34,14 @@
 		and s.id = ss.idship
 
 		<if test="dt_arg_to != null">
-			and dss.shiftdate <![CDATA[>=]]>
-			#{dt_arg_from} and
-			dss.shiftdate <![CDATA[<=]]>
-			#{dt_arg_to}
+			<if test="dt_arg_from != null">
+				and dss.shiftdate <![CDATA[>=]]>
+				#{dt_arg_from} and
+				dss.shiftdate <![CDATA[<=]]>
+				#{dt_arg_to}
+			</if>
 		</if>
+		
 		<if test="dt_arg_to == null">
 			<if test="dt_arg_from != null">
 				and dss.shiftdate = #{dt_arg_from}
@@ -51,7 +54,7 @@
 
 
 		<if test="rifSWS != null">
-			and d.id = #{rifSWS}
+			and ss.id = #{rifSWS}
 		</if>
 
 		<if test="rifMCT != null">
