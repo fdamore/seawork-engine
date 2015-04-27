@@ -6217,7 +6217,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (count_allsunday == 0) {
 			perc_sunday = 0.0;
 		} else {
-			perc_sunday = (double) sunday_work / (double) count_allsunday;
+			perc_sunday = (100 * (double) sunday_work) / count_allsunday;
 		}
 		final String perc_info = "" + sunday_work + " (" + Utility.roundTwo(perc_sunday) + "%)";
 
@@ -6235,7 +6235,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (count_allholiday == 0) {
 			perc_holiday = 0.0;
 		} else {
-			perc_holiday = (double) holidays_work / (double) count_allholiday;
+			perc_holiday = (100 * (double) holidays_work) / count_allholiday;
 		}
 		final String perc_info_holiday = "" + holidays_work + " (" + Utility.roundTwo(perc_holiday) + "%)";
 
