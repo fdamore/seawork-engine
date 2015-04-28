@@ -79,6 +79,9 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 	}
 
 	public Boolean getHiddenoperative() {
+		if (this.hiddenoperative == null) {
+			return Boolean.FALSE;
+		}
 		return this.hiddenoperative;
 	}
 

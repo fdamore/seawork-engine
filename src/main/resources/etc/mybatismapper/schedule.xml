@@ -102,17 +102,15 @@
 	<select id="selectSchedulersForPreprocessingOnUserId"
 		resultType="org.uario.seaworkengine.model.Schedule" parameterType="map">
 
-
 		select s.id,
 		u.id as user,
 		s.shift,
 		s.date_schedule,
-		s.sync_mobile_1
+		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
 		s.sync_mobile_4,
-		concat(u.lastname, '
-		', u.firstname) AS name_user
+		concat(u.lastname, ' ', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =

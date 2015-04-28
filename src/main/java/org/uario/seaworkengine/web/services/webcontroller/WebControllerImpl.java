@@ -3,6 +3,7 @@ package org.uario.seaworkengine.web.services.webcontroller;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -68,8 +69,6 @@ public class WebControllerImpl implements IWebServiceController {
 	 * @return
 	 */
 	private boolean finalSyncProcess(final Date date_request, final Integer no_shift, final WorkerShift worker_shift) {
-
-		this.logger.error("Begin synch procedure");
 
 		if (worker_shift == null) {
 			this.logger.error("worker_shift null");
@@ -205,7 +204,22 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	public List<UserTask> getUserTaskConfiguration() {
-		return new ArrayList<UserTask>(this.taskCache.getHash().values());
+
+		final Collection<UserTask> itms = this.taskCache.getHash().values();
+
+		final ArrayList<UserTask> ret = new ArrayList<UserTask>();
+
+		for (final UserTask userTask : itms) {
+			if (userTask.getHiddenoperative()) {
+				continue;
+			}
+
+			ret.add(userTask);
+
+		}
+
+		return ret;
+
 	}
 
 	@Override
