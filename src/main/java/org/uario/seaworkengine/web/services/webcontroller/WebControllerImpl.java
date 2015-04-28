@@ -70,14 +70,17 @@ public class WebControllerImpl implements IWebServiceController {
 	private boolean finalSyncProcess(final Date date_request, final Integer no_shift, final WorkerShift worker_shift) {
 
 		if (worker_shift == null) {
+			this.logger.error("worker_shift null");
 			return false;
 		}
 
 		if (no_shift == null) {
+			this.logger.error("no_shift null");
 			return false;
 		}
 
 		if (date_request == null) {
+			this.logger.error("date_request null");
 			return false;
 		}
 
@@ -87,6 +90,7 @@ public class WebControllerImpl implements IWebServiceController {
 		for (final Worker worker : worker_shift.getWorkers()) {
 
 			if (worker.getUtente() == null) {
+				this.logger.error("Worker null");
 				continue;
 			}
 
@@ -97,6 +101,7 @@ public class WebControllerImpl implements IWebServiceController {
 			final Schedule schedule = this.scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
 
 			if (schedule == null) {
+				this.logger.error("Schedule null");
 				continue;
 			}
 
@@ -120,6 +125,7 @@ public class WebControllerImpl implements IWebServiceController {
 				final Date time_to = task_item.getUscita();
 
 				if ((time_from == null) || (time_to == null)) {
+					this.logger.error("Time from or time to null");
 					continue;
 				}
 
