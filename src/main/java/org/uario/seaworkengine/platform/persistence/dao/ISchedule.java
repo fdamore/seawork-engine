@@ -73,6 +73,6 @@ public interface ISchedule {
 
 	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
 
-	public void updateMobileSynch(boolean synch_mobile, Integer shift_no);
+	public void updateMobileSynch(Integer id_schedule, boolean synch_mobile, Integer shift_no);
 
 }

@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -85,9 +84,6 @@ public class WebControllerImpl implements IWebServiceController {
 		// define data synchronize
 		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
-		// map schedule
-		final HashMap<Integer, Schedule> schedule_map = new HashMap<Integer, Schedule>();
-
 		for (final Worker worker : worker_shift.getWorkers()) {
 
 			if (worker.getUtente() == null) {
@@ -98,17 +94,14 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
-			Schedule schedule = null;
-			schedule = schedule_map.get(worker.getUtente());
+			final Schedule schedule = this.scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
 
-			// select schedule
 			if (schedule == null) {
-				schedule = this.scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
-				schedule_map.put(worker.getUtente(), schedule);
-
-				// remove final info in this schedule
-				this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(schedule.getId(), no_shift);
+				continue;
 			}
+
+			// remove final info in this schedule
+			this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(schedule.getId(), no_shift);
 
 			for (final TaskRunner task_item : worker.getTasks()) {
 
@@ -155,10 +148,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 			}
 
-		}
+			// sign as synchronized
+			this.scheduleDAO.updateMobileSynch(schedule.getId(), true, no_shift);
 
-		// sign as synchronized
-		this.scheduleDAO.updateMobileSynch(true, no_shift);
+		}
 
 		return true;
 	}

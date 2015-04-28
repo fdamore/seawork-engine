@@ -111,7 +111,8 @@
 		s.sync_mobile_2,
 		s.sync_mobile_3,
 		s.sync_mobile_4,
-		concat(u.lastname, ' ',	u.firstname) AS name_user
+		concat(u.lastname, '
+		', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =
@@ -131,12 +132,13 @@
 		select s.id,
 		u.id as user,
 		s.shift,
-		s.date_schedule, 
+		s.date_schedule,
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
 		s.sync_mobile_4,
-		concat(u.lastname, ' ', u.firstname) AS name_user
+		concat(u.lastname, '
+		', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =
@@ -630,28 +632,28 @@
 
 
 	<!-- MOBILE -->
-	<update id="updateMobileSynch1" parameterType="boolean">
+	<update id="updateMobileSynch1" parameterType="map">
 		UPDATE schedule
 		SET
 		sync_mobile_1 = #{sync_mobile}
 		WHERE id = #{id};
 	</update>
 
-	<update id="updateMobileSynch2" parameterType="boolean">
+	<update id="updateMobileSynch2" parameterType="map">
 		UPDATE schedule
 		SET
 		sync_mobile_2 = #{sync_mobile}
 		WHERE id = #{id};
 	</update>
 
-	<update id="updateMobileSynch3" parameterType="boolean">
+	<update id="updateMobileSynch3" parameterType="map">
 		UPDATE schedule
 		SET
 		sync_mobile_3 = #{sync_mobile}
 		WHERE id = #{id};
 	</update>
 
-	<update id="updateMobileSynch4" parameterType="boolean">
+	<update id="updateMobileSynch4" parameterType="map">
 		UPDATE schedule
 		SET
 		sync_mobile_4 = #{sync_mobile}
