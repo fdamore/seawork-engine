@@ -445,7 +445,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	public void updateMobileSynch(final Integer id_schedule, final boolean synch, final Integer shift_no) {
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("synch", new Boolean(synch));
+		map.put("sync_mobile", new Boolean(synch));
 		map.put("id", id_schedule);
 
 		if (shift_no.intValue() == 1) {
