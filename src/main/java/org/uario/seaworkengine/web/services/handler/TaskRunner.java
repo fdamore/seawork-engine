@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.web.services.handler;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,7 +20,7 @@ public class TaskRunner implements Serializable {
 
 	private String				descrizione;
 
-	private String				entrata;
+	private Date				entrata;
 
 	private Integer				ID;
 
@@ -27,7 +28,7 @@ public class TaskRunner implements Serializable {
 
 	private Integer				ship_id;
 
-	private String				uscita;
+	private Date				uscita;
 
 	public String getCrane() {
 		return this.crane;
@@ -37,7 +38,7 @@ public class TaskRunner implements Serializable {
 		return this.descrizione;
 	}
 
-	public String getEntrata() {
+	public Date getEntrata() {
 		return this.entrata;
 	}
 
@@ -53,7 +54,7 @@ public class TaskRunner implements Serializable {
 		return this.ship_id;
 	}
 
-	public String getUscita() {
+	public Date getUscita() {
 		return this.uscita;
 	}
 
@@ -65,7 +66,7 @@ public class TaskRunner implements Serializable {
 		this.descrizione = descrizione;
 	}
 
-	public void setEntrata(final String entrata) {
+	public void setEntrata(final Date entrata) {
 		this.entrata = entrata;
 	}
 
@@ -81,7 +82,7 @@ public class TaskRunner implements Serializable {
 		this.ship_id = ship_id;
 	}
 
-	public void setUscita(final String uscita) {
+	public void setUscita(final Date uscita) {
 		this.uscita = uscita;
 	}
 

@@ -20,47 +20,47 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 
 	@Override
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		webcontroller.createDetailFinalScheduleShip(detailFinalScheduleShip);
+		this.webcontroller.createDetailFinalScheduleShip(detailFinalScheduleShip);
 
 	}
 
 	@Override
 	public void deleteDetailFinalScheduleShipById(final Integer id_detail_final) {
-		webcontroller.deleteDetailFinalScheduleShipById(id_detail_final);
+		this.webcontroller.deleteDetailFinalScheduleShipById(id_detail_final);
 	}
 
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
-		return webcontroller.getUserShiftConfiguration();
+		return this.webcontroller.getUserShiftConfiguration();
 	}
 
 	@Override
 	public List<UserTask> getUserTaskConfiguration() {
-		return webcontroller.getUserTaskConfiguration();
+		return this.webcontroller.getUserTaskConfiguration();
 	}
 
 	public IWebServiceController getWebcontroller() {
-		return webcontroller;
+		return this.webcontroller;
 	}
 
 	@Override
 	public List<Ship> listShip(@WebParam(name = "date_request") final Date date_request) {
-		return webcontroller.listShip(date_request);
+		return this.webcontroller.listShip(date_request);
 	}
 
 	@Override
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
-		return webcontroller.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+		return this.webcontroller.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 	}
 
 	@Override
 	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(@WebParam(name = "date_request") final Date date_request) {
-		return webcontroller.selectDetailScheduleShipByShiftDate(date_request);
+		return this.webcontroller.selectDetailScheduleShipByShiftDate(date_request);
 	}
 
 	@Override
 	public List<InitialSchedule> selectInitialSchedule(@WebParam(name = "date_request") final Date date_request) {
-		return webcontroller.selectInitialSchedule(date_request);
+		return this.webcontroller.selectInitialSchedule(date_request);
 	}
 
 	public void setWebcontroller(final IWebServiceController webcontroller) {
@@ -68,15 +68,16 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public boolean synchronizeWork(@WebParam(name = "date_request") final Date date_request,
-			@WebParam(name = "no_shift") final Integer no_shift, @WebParam(name = "list_synch") final List<WorkerShift> list_synch) {
+	public boolean synchronizeWork(@WebParam(name = "date_request") final Date date_request, @WebParam(name = "no_shift") final Integer no_shift,
+			@WebParam(name = "worker_shift") final WorkerShift worker_shift) {
 
-		return webcontroller.synchronizeWork(date_request, no_shift, list_synch);
+		return this.webcontroller.synchronizeWork(date_request, no_shift, worker_shift);
+
 	}
 
 	@Override
 	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		webcontroller.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
+		this.webcontroller.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
 
 	}
 }

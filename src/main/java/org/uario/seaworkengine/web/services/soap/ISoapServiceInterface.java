@@ -78,7 +78,7 @@ public interface ISoapServiceInterface {
 
 	/**
 	 * Transmit final scheduler
-	 * 
+	 *
 	 * @param no_shift
 	 *            TODO
 	 * @param shift
@@ -86,8 +86,8 @@ public interface ISoapServiceInterface {
 	 *
 	 * @return
 	 */
-	public boolean synchronizeWork(@WebParam(name = "date_request") Date date_request,
-			@WebParam(name = "no_shift") Integer no_shift, @WebParam(name = "list_synch") List<WorkerShift> list_synch);
+	public boolean synchronizeWork(@WebParam(name = "date_request") Date date_request, @WebParam(name = "no_shift") Integer no_shift,
+			@WebParam(name = "worker_shift") WorkerShift worker_shift);
 
 	/**
 	 * Update info about mobile: detail schedule ship

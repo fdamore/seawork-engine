@@ -81,7 +81,7 @@ public interface IWebServiceController {
 	 *
 	 * @return
 	 */
-	public boolean synchronizeWork(Date date_request, Integer no_shift, List<WorkerShift> list_synch);
+	public boolean synchronizeWork(Date date_request, Integer no_shift, WorkerShift worker_shift);
 
 	/**
 	 * Update info about detail final schedule ship
