@@ -69,6 +69,8 @@ public class WebControllerImpl implements IWebServiceController {
 	 */
 	private boolean finalSyncProcess(final Date date_request, final Integer no_shift, final WorkerShift worker_shift) {
 
+		this.logger.error("Begin synch procedure");
+
 		if (worker_shift == null) {
 			this.logger.error("worker_shift null");
 			return false;
@@ -98,6 +100,8 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
+			this.logger.error("Enter damore...");
+
 			final Schedule schedule = this.scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
 
 			if (schedule == null) {
@@ -105,8 +109,17 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
+			this.logger.error("Begin remove info...");
+
 			// remove final info in this schedule
 			this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(schedule.getId(), no_shift);
+
+			this.logger.error("End remove info...");
+
+			if ((worker.getTasks() == null) || (worker.getTasks().size() == 0)) {
+				this.logger.error("Worker Task Collection null or empty");
+				continue;
+			}
 
 			for (final TaskRunner task_item : worker.getTasks()) {
 
@@ -149,15 +162,24 @@ public class WebControllerImpl implements IWebServiceController {
 					final_detail.setTime_vacation(0.0);
 				}
 
+				this.logger.error("Begin create details");
+
 				// insert new info
 				this.scheduleDAO.createDetailFinalSchedule(final_detail);
 
+				this.logger.error("End create details");
 			}
+
+			this.logger.error("Begin update synch");
 
 			// sign as synchronized
 			this.scheduleDAO.updateMobileSynch(schedule.getId(), true, no_shift);
 
+			this.logger.error("End update synch");
+
 		}
+
+		this.logger.error("End synch procedure");
 
 		return true;
 	}
