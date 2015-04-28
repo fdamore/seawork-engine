@@ -4,9 +4,9 @@
 <mapper namespace="tasks">
 
 	<cache-ref namespace="configuration" />
-	
-	
-	
+
+
+
 
 	<select id="selectAllTasksByUser" resultType="org.uario.seaworkengine.model.UserTask"
 		parameterType="map">
@@ -16,12 +16,29 @@
 		t.isabsence,
 		t.recorded,
 		ut.task_default,
-		t.hiddenoperative 
+		t.hiddenoperative
 		FROM
 		usertask t,
 		user_usertask ut where ut.id_user = #{id_user} and
 		ut.id_usertask =
 		t.id;
+
+	</select>
+
+	<select id="loadTasksByUserForMobile" resultType="org.uario.seaworkengine.model.UserTask"
+		parameterType="map">
+		SELECT t.id,
+		t.code,
+		t.description,
+		t.isabsence,
+		t.recorded,
+		ut.task_default,
+		t.hiddenoperative
+		FROM
+		usertask t,
+		user_usertask ut 
+		WHERE ut.id_user = #{id_user} and
+		ut.id_usertask = t.id and t.hiddenoperative = 0
 
 	</select>
 
@@ -31,9 +48,10 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, t.hiddenoperative 
+		t.recorded, t.hiddenoperative
 		FROM usertask t,
-		user_usertask ut where t.id = ut.id_user and ut.id_user = #{id_user}
+		user_usertask ut where t.id = ut.id_user and ut.id_user =
+		#{id_user}
 		and ut.id_usertask =
 		#{id_task};
 
@@ -63,10 +81,12 @@
 
 		SELECT t.id,
 		t.code,
-		t.description, t.isabsence, t.recorded, t.hiddenoperative 
+		t.description, t.isabsence, t.recorded,
+		t.hiddenoperative
 		FROM user_usertask ut, usertask t
 		WHERE
-		ut.task_default = 1 and ut.id_user = #{id_user} and t.id =
+		ut.task_default = 1 and ut.id_user =
+		#{id_user} and t.id =
 		ut.id_usertask
 
 	</select>

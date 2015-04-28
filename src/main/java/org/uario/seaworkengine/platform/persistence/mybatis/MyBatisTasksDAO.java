@@ -80,6 +80,19 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 	}
 
 	@Override
+	public List<UserTask> loadTasksByUserForMobile(final Integer id_user) {
+
+		MyBatisTasksDAO.logger.info("loadTasksByUserForMobile...");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id_user", id_user.toString());
+
+		final List<UserTask> list_tasks = this.getSqlSession().selectList("tasks.loadTasksByUserForMobile", map);
+		return list_tasks;
+
+	}
+
+	@Override
 	public void setAsDefault(final Integer id_user, final Integer id_usertask) {
 		MyBatisTasksDAO.logger.info("setAsDefault");
 
