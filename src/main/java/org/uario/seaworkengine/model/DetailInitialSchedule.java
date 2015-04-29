@@ -28,6 +28,16 @@ public class DetailInitialSchedule implements Serializable {
 	@XmlTransient
 	private String				employee_identification;
 
+	// ** FILED USED IN MOBILE ** //
+	private String				field_mobile_board;
+
+	private String				field_mobile_crane;
+
+	private Integer				field_mobile_id_ship;
+
+	private String				field_mobile_nameShip;
+	// ** END FILED USED IN MOBILE ** //
+
 	private Integer				id;
 
 	private Integer				id_schedule;
@@ -91,6 +101,22 @@ public class DetailInitialSchedule implements Serializable {
 		return this.employee_identification;
 	}
 
+	public String getField_mobile_board() {
+		return this.field_mobile_board;
+	}
+
+	public String getField_mobile_crane() {
+		return this.field_mobile_crane;
+	}
+
+	public Integer getField_mobile_id_ship() {
+		return this.field_mobile_id_ship;
+	}
+
+	public String getField_mobile_nameShip() {
+		return this.field_mobile_nameShip;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -145,6 +171,22 @@ public class DetailInitialSchedule implements Serializable {
 
 	public void setEmployee_identification(final String employee_identification) {
 		this.employee_identification = employee_identification;
+	}
+
+	public void setField_mobile_board(final String field_mobile_board) {
+		this.field_mobile_board = field_mobile_board;
+	}
+
+	public void setField_mobile_crane(final String field_mobile_crane) {
+		this.field_mobile_crane = field_mobile_crane;
+	}
+
+	public void setField_mobile_id_ship(final Integer field_mobile_id_ship) {
+		this.field_mobile_id_ship = field_mobile_id_ship;
+	}
+
+	public void setField_mobile_nameShip(final String field_mobile_nameShip) {
+		this.field_mobile_nameShip = field_mobile_nameShip;
 	}
 
 	public void setId(final int id) {

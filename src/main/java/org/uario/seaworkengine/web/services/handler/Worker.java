@@ -21,14 +21,6 @@ public class Worker implements Serializable {
 
 	private String					entrata;
 
-	private String					gru;
-
-	private String					mansione;
-
-	public String					nave;
-
-	private String					note;
-
 	private int						shift;
 
 	private final List<TaskRunner>	tasks				= new ArrayList<TaskRunner>();
@@ -43,22 +35,6 @@ public class Worker implements Serializable {
 
 	public String getEntrata() {
 		return this.entrata;
-	}
-
-	public String getGru() {
-		return this.gru;
-	}
-
-	public String getMansione() {
-		return this.mansione;
-	}
-
-	public String getNave() {
-		return this.nave;
-	}
-
-	public String getNote() {
-		return this.note;
 	}
 
 	public int getShift() {
@@ -79,22 +55,6 @@ public class Worker implements Serializable {
 
 	public void setEntrata(final String entrata) {
 		this.entrata = entrata;
-	}
-
-	public void setGru(final String gru) {
-		this.gru = gru;
-	}
-
-	public void setMansione(final String mansione) {
-		this.mansione = mansione;
-	}
-
-	public void setNave(final String nave) {
-		this.nave = nave;
-	}
-
-	public void setNote(final String note) {
-		this.note = note;
 	}
 
 	public void setShift(final int shift) {

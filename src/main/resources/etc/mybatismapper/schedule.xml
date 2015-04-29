@@ -688,13 +688,21 @@
 		parameterType="map" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		SELECT d.id, d.id_schedule,
 		d.shift,
-		d.task, d.time, d.time_from, d.time_to, d.time_vacation,
-		concat(ut.code,' - ',ut.description) as task_mobile_desc
+		d.task,
+		d.time, d.time_from, d.time_to, d.time_vacation,
+		concat(ut.code,' - ',ut.description) as task_mobile_desc,
+		d.id_ship as field_mobile_id_ship,
+		d.board as field_mobile_board,
+		s.name as field_mobile_nameShip,
+		d.crane as field_mobile_crane
 		FROM
-		detailfinalschedule d, usertask ut
-		WHERE ut.hiddenoperative = 0 and
+		detailfinalschedule d,
+		usertask ut
+		WHERE
+		ut.hiddenoperative = 0 and
 		id_schedule =
-		#{id_schedule} and d.shift = #{no_shift}
+		#{id_schedule} and d.shift =
+		#{no_shift}
 		and d.task =
 		ut.id
 	</select>
