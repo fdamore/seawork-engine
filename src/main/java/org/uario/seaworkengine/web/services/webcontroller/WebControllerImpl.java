@@ -126,10 +126,14 @@ public class WebControllerImpl implements IWebServiceController {
 				final_detail.setId_ship(task_item.getShip_id());
 				final_detail.setCrane(task_item.getCrane());
 
+				// define on/out board
+				final_detail.setBoard(task_item.getBoard());
+
 				// define time
 				final Date time_from = task_item.getEntrata();
 				final Date time_to = task_item.getUscita();
 
+				// manage time
 				if ((time_from == null) || (time_to == null)) {
 					this.logger.error("Time from or time to null");
 					continue;
@@ -174,6 +178,13 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public ISchedule getScheduleDAO() {
 		return this.scheduleDAO;
+	}
+
+	@Override
+	public String getScheduleNote(final Integer id_schedule) {
+		final Schedule schedule = this.scheduleDAO.loadScheduleById(id_schedule);
+		final String note = schedule.getNote();
+		return note;
 	}
 
 	public IShiftCache getShiftCache() {
@@ -405,5 +416,10 @@ public class WebControllerImpl implements IWebServiceController {
 	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
 		this.shipSchedulerDao.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
 
+	}
+
+	@Override
+	public void updateScheduleNote(final Integer id_schedule, final String note) {
+		this.scheduleDAO.updateScheduleNote(id_schedule, note);
 	}
 }

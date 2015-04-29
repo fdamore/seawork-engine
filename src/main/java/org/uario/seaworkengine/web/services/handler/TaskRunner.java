@@ -16,6 +16,8 @@ public class TaskRunner implements Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	private String				board;
+
 	private String				crane;
 
 	private String				descrizione;
@@ -29,6 +31,10 @@ public class TaskRunner implements Serializable {
 	private Integer				ship_id;
 
 	private Date				uscita;
+
+	public String getBoard() {
+		return this.board;
+	}
 
 	public String getCrane() {
 		return this.crane;
@@ -56,6 +62,10 @@ public class TaskRunner implements Serializable {
 
 	public Date getUscita() {
 		return this.uscita;
+	}
+
+	public void setBoard(final String board) {
+		this.board = board;
 	}
 
 	public void setCrane(final String crane) {

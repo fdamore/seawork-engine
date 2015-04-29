@@ -465,4 +465,15 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		}
 
 	}
+
+	@Override
+	public void updateScheduleNote(final Integer id_schedule, final String note) {
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id_schedule", id_schedule);
+		map.put("note", note);
+
+		this.getSqlSession().update("schedule.updateScheduleNote", map);
+
+	}
 }

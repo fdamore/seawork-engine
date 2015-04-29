@@ -15,7 +15,7 @@ public interface IWebServiceController {
 
 	/**
 	 * create detail final schedule
-	 * 
+	 *
 	 * @param detailFinalScheduleShip
 	 */
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip);
@@ -26,6 +26,14 @@ public interface IWebServiceController {
 	 * @param id_detail_final
 	 */
 	public void deleteDetailFinalScheduleShipById(Integer id_detail_final);
+
+	/**
+	 * Public string get note
+	 *
+	 * @param id_schedule
+	 * @return
+	 */
+	public String getScheduleNote(Integer id_schedule);
 
 	/**
 	 * Get Configuration User shift
@@ -74,8 +82,17 @@ public interface IWebServiceController {
 	public List<InitialSchedule> selectInitialSchedule(Date date_request);
 
 	/**
+	 * Public string get note
+	 *
+	 * @param id_schedule
+	 */
+	public void updateScheduleNote(Integer id_schedule, String note);
+
+	/**
 	 * Transmit final scheduler
-	 * @param no_shift TODO
+	 *
+	 * @param no_shift
+	 *            TODO
 	 * @param shift
 	 * @param date
 	 *

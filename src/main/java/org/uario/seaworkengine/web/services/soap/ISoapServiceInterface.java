@@ -30,6 +30,14 @@ public interface ISoapServiceInterface {
 	public void deleteDetailFinalScheduleShipById(Integer id_detail_final);
 
 	/**
+	 * Public string get note
+	 *
+	 * @param id_schedule
+	 * @return
+	 */
+	public String getScheduleNote(@WebParam(name = "id_schedule") Integer id_schedule);
+
+	/**
 	 * Get Configuration User shift
 	 *
 	 * @return
@@ -95,5 +103,12 @@ public interface ISoapServiceInterface {
 	 * @param detailFinalScheduleShip
 	 */
 	void updateDetailFinalScheduleShipForMobile(DetailFinalScheduleShip detailFinalScheduleShip);
+
+	/**
+	 * Public string get note
+	 *
+	 * @param id_schedule
+	 */
+	public void updateScheduleNote(@WebParam(name = "id_schedule") Integer id_schedule, @WebParam(name = "note") String note);
 
 }

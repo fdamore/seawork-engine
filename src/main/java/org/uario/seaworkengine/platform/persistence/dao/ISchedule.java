@@ -30,8 +30,7 @@ public interface ISchedule {
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(Integer id_schedule, Integer no_shift);
 
-	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS,
-			Integer rifMCT, Integer shift);
+	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, Integer rifMCT, Integer shift);
 
 	public List<Schedule> loadSchedule(Date date_scheduled);
 
@@ -74,5 +73,7 @@ public interface ISchedule {
 	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
 
 	public void updateMobileSynch(Integer id_schedule, boolean synch_mobile, Integer shift_no);
+
+	public void updateScheduleNote(Integer id_schedule, String note);
 
 }

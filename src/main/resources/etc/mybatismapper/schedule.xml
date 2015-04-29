@@ -110,7 +110,8 @@
 		s.sync_mobile_2,
 		s.sync_mobile_3,
 		s.sync_mobile_4,
-		concat(u.lastname, ' ', u.firstname) AS name_user
+		concat(u.lastname, '
+		', u.firstname) AS name_user
 		from
 		user u left join
 		schedule s ON (u.id =
@@ -630,6 +631,14 @@
 
 
 	<!-- MOBILE -->
+
+	<update id="updateScheduleNote" parameterType="map">
+		UPDATE schedule
+		SET
+		note = #{note}
+		WHERE id = #{id_schedule};
+	</update>
+
 	<update id="updateMobileSynch1" parameterType="map">
 		UPDATE schedule
 		SET

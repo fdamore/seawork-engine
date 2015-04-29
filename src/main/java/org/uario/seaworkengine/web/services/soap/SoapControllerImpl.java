@@ -30,6 +30,11 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
+	public String getScheduleNote(final Integer id_schedule) {
+		return this.webcontroller.getScheduleNote(id_schedule);
+	}
+
+	@Override
 	public List<UserShift> getUserShiftConfiguration() {
 		return this.webcontroller.getUserShiftConfiguration();
 	}
@@ -78,6 +83,12 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	@Override
 	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
 		this.webcontroller.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
+
+	}
+
+	@Override
+	public void updateScheduleNote(final Integer id_schedule, final String note) {
+		this.webcontroller.updateScheduleNote(id_schedule, note);
 
 	}
 }
