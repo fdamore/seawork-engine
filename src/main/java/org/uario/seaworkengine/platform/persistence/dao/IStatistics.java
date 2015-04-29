@@ -33,6 +33,17 @@ public interface IStatistics {
 	public RateShift[] getAverageForShiftOnProgram(Integer user, Date date, Date date_from);
 
 	/**
+	 * Get counting sunday work for shift
+	 *
+	 * @param user
+	 *            the user to calculate average
+	 * @param date
+	 *            date
+	 * @return Averages
+	 */
+	public RateShift[] getCountSundayForShift(Integer user, Date date, Date date_from);
+
+	/**
 	 * Get date at work
 	 *
 	 * @param id_user
@@ -90,8 +101,8 @@ public interface IStatistics {
 	 *
 	 * @return
 	 */
-	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-			Date date_from, Date date_to);
+	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type,
+			Integer task_id, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule
@@ -104,8 +115,8 @@ public interface IStatistics {
 	 *
 	 * @return
 	 */
-	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-			Date date_from, Date date_to);
+	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number,
+			Integer shift_type, Integer task_id, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule
