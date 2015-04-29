@@ -10,35 +10,29 @@
 		/> import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> -->
 
 
+	<!-- <jaxws:inInterceptors> <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor"> 
+		<constructor-arg> <map> <entry key="action" value="UsernameToken" /> <entry 
+		key="passwordType" value="PasswordText" /> <entry key="passwordCallbackRef"> 
+		<ref bean="myPasswordCallback" /> </entry> </map> </constructor-arg> </bean> 
+		</jaxws:inInterceptors> -->
+
 
 
 	<!-- SOAP SERVICE -->
+	<jaxws:endpoint address="/soapservice" implementor="#soapservice">
 
-	<jaxws:server address="/soapservice">
-		<jaxws:serviceBean>
-			<ref bean="soapservice" />
-		</jaxws:serviceBean>
-
-		<!-- <jaxws:inInterceptors> <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor"> 
-			<constructor-arg> <map> <entry key="action" value="UsernameToken" /> <entry 
-			key="passwordType" value="PasswordText" /> <entry key="passwordCallbackRef"> 
-			<ref bean="myPasswordCallback" /> </entry> </map> </constructor-arg> </bean> 
-			</jaxws:inInterceptors> -->
-
-	</jaxws:server>
-
-
-
-
-	<!-- SECURITY PASSWORD CALLBACK -->
-	<!-- <bean id="myPasswordCallback" class="org.uario.seaworkengine.web.services.security.PasswordCallback" 
-		/> -->
+	</jaxws:endpoint>
 
 
 	<bean id="soapservice"
 		class="org.uario.seaworkengine.web.services.soap.SoapControllerImpl">
 		<property name="webcontroller" ref="webcontroller" />
 	</bean>
+
+	<!-- SECURITY PASSWORD CALLBACK -->
+	<!-- <bean id="myPasswordCallback" class="org.uario.seaworkengine.web.services.security.PasswordCallback" 
+		/> -->
+
 
 	<!-- END SOAP SERVICE -->
 
