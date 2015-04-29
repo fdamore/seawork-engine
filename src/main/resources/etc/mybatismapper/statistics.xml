@@ -16,7 +16,8 @@
 		employee_identification,
 		s.shift,
 		s.date_schedule,
-		concat(u.lastname, ' ', u.firstname) AS name_user,
+		concat(u.lastname, '
+		', u.firstname) AS name_user,
 		s.editor,
 		s.controller
 		from
@@ -79,8 +80,10 @@
 		user u,
 		schedule s left
 		outer join
-		detailfinalschedule dfs on (dfs.id_schedule = s.id),
-		detailfinalschedule df LEFT JOIN ship sh ON df.id_ship = sh.id
+		detailfinalschedule dfs on
+		(dfs.id_schedule = s.id),
+		detailfinalschedule df LEFT JOIN ship sh ON
+		df.id_ship = sh.id
 		where
 		s.user = u.id and df.id = dfs.id
 
@@ -316,12 +319,11 @@
 
 	</select>
 
-	<select id="selectSundayWork" resultType="int"
-		parameterType="map">
+	<select id="selectSundayWork" resultType="int" parameterType="map">
 
 
 		select
-		count(distinct ds.date_schedule) 
+		count(distinct ds.date_schedule)
 		from
 		schedule ds,
 		usershift us,
@@ -341,6 +343,33 @@
 		#{date_from}
 
 	</select>
+
+	<select id="selectShiftSundayWorkCount" resultType="org.uario.seaworkengine.statistics.RateShift"
+		parameterType="map">
+		select
+		dfs.shift as shift, count(distinct ds.date_schedule) rate
+		from
+		schedule ds,
+		usershift us,
+		detailfinalschedule dfs
+		where
+		dfs.id_schedule =
+		ds.id
+		and ds.shift = us.id
+		and us.presence = 1
+		and dfs.time <![CDATA[<>]]>
+		0
+		and DAYOFWEEK(ds.date_schedule) = 1
+		and ds.user = #{id_user}
+		and
+		ds.date_schedule >= #{date_from}
+		group by ds.shift
+		order by no_shift
+
+	</select>
+
+
+
 
 	<select id="getSundayAndHolidaysWork" resultType="int"
 		parameterType="map">
