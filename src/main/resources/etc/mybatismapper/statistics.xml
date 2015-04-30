@@ -424,5 +424,22 @@
 	</select>
 
 
+	<select id="getWorkCountByUser" resultType="int" parameterType="map">
+
+		SELECT
+		count(time)
+		FROM
+		detailfinalschedule dfs,
+		schedule s,
+		usertask ut
+		WHERE
+		dfs.id_schedule = s.id and (ut.isabsence = 0 or ut.recorded = 1)
+		and dfs.task = ut.id
+		and s.user = #{id_user} and s.date_schedule <![CDATA[>=]]>
+		#{date_from} and
+		s.date_schedule <![CDATA[<=]]>
+		#{date_to}
+
+	</select>
 
 </mapper>

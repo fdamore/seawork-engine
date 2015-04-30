@@ -3,10 +3,20 @@ package org.uario.seaworkengine.statistics;
 import java.util.Date;
 import java.util.List;
 
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 
 public interface IStatProcedure {
+
+	/**
+	 * calcule saturation
+	 * 
+	 * @param user
+	 * @param date_schedule
+	 * @return
+	 */
+	public Integer calculeSaturation(Person user, Date date_schedule);
 
 	/**
 	 * get a random day
