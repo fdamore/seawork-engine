@@ -90,6 +90,16 @@ public interface IStatistics {
 	public Integer getTimeWorked(Integer id_user, Date date_from, Date date_to);
 
 	/**
+	 * Get How many hours user work in period
+	 * 
+	 * @param user
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public Integer getWorkCountByUser(Integer user, Date date_from, Date date_to);
+
+	/**
 	 * List detail initial schedule
 	 *
 	 * @param full_text_search
@@ -101,8 +111,8 @@ public interface IStatistics {
 	 *
 	 * @return
 	 */
-	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type,
-			Integer task_id, Date date_from, Date date_to);
+	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
+			Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule
@@ -115,8 +125,8 @@ public interface IStatistics {
 	 *
 	 * @return
 	 */
-	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number,
-			Integer shift_type, Integer task_id, Date date_from, Date date_to);
+	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
+			Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule

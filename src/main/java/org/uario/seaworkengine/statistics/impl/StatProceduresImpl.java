@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -22,13 +23,42 @@ import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private ISchedule myScheduleDAO;
+	private ISchedule	myScheduleDAO;
 
-	private TasksDAO myTaskDAO;
+	private TasksDAO	myTaskDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache	shiftCache;
 
-	private IStatistics statisticDAO;
+	private IStatistics	statisticDAO;
+
+	@Override
+	public Integer calculeSaturation(final Person user, final Date date_schedule) {
+
+		if ((date_schedule == null) || (user == null)) {
+			return null;
+		}
+
+		final Date date_schedule_truncate = DateUtils.truncate(date_schedule, Calendar.DATE);
+
+		// get first day of the current year
+		final Calendar current_first_day = DateUtils.toCalendar(date_schedule_truncate);
+		current_first_day.set(Calendar.DAY_OF_YEAR, 1);
+
+		// current work
+		final Integer current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), current_first_day.getTime(), date_schedule_truncate);
+
+		// work ammount
+		final Integer work_ammount = Utility.getWorkAmount(current_first_day.getTime(), date_schedule_truncate, user.getHourswork_w(),
+				user.getDaywork_w());
+		// validate date
+		if ((current_work_count == null) || (work_ammount == null)) {
+			return 0;
+		}
+
+		// sat = current work - work_ammount
+		return current_work_count - work_ammount;
+
+	}
 
 	/**
 	 * Get a random day from current day to current_day+borderday
@@ -405,8 +435,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Calendar last = (Calendar) first.clone();
 		last.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
-		final List<Schedule> scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id,
-				first.getTime(), last.getTime());
+		final List<Schedule> scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(), last.getTime());
 
 		final ArrayList<Schedule> ret = new ArrayList<Schedule>();
 
@@ -418,8 +447,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			}
 
 			if (!date_scheduled.equals(schedule.getDate_schedule())) {
-				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType
-						.getAccident_shift())) {
+				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType.getAccident_shift())) {
 					ret.add(schedule);
 				}
 			}
@@ -443,10 +471,6 @@ public class StatProceduresImpl implements IStatProcedure {
 		this.shiftCache = shiftCache;
 	}
 
-	public void setStatisticDAO(final IStatistics statisticDAO) {
-		this.statisticDAO = statisticDAO;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -455,6 +479,10 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
 	 * java.lang.Integer)
 	 */
+
+	public void setStatisticDAO(final IStatistics statisticDAO) {
+		this.statisticDAO = statisticDAO;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -503,8 +531,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * java.lang.Integer)
 	 */
 	@Override
-	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user,
-			final Integer editor) {
+	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
