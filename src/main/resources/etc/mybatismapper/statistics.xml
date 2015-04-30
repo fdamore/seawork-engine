@@ -424,10 +424,10 @@
 	</select>
 
 
-	<select id="getWorkCountByUser" resultType="int" parameterType="map">
+	<select id="getWorkCountByUser" resultType="double" parameterType="map">
 
 		SELECT
-		count(time)
+		sum(time)
 		FROM
 		detailfinalschedule dfs,
 		schedule s,

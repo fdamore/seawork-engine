@@ -281,7 +281,7 @@ public class Utility {
 
 		final Integer dayCount = (int) ((diff - weekCount * numberOfMillsecInWeek) / (numberOfMillsecInDay));
 
-		return weekCount * hours_per_week + dayCount * hours_per_day;
+		return (weekCount * hours_per_week + dayCount * hours_per_day);
 	}
 
 	public static Integer getYear(final Date date) {

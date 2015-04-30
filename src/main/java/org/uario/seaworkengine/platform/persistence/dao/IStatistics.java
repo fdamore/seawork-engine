@@ -91,13 +91,13 @@ public interface IStatistics {
 
 	/**
 	 * Get How many hours user work in period
-	 * 
+	 *
 	 * @param user
 	 * @param date_from
 	 * @param date_to
 	 * @return
 	 */
-	public Integer getWorkCountByUser(Integer user, Date date_from, Date date_to);
+	public Double getWorkCountByUser(Integer user, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule

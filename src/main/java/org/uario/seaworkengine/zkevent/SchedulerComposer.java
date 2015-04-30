@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -764,6 +765,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Auxheader						reviewUser_tot_2_4;
 
+	@Wire
+	private Label							saturation;
+	private String							saturationStyle;
+
 	private ISchedule						scheduleDAO;
 	@Wire
 	private A								scheduler_label;
@@ -772,14 +777,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A								scheduler_label_review;
 	@Wire
 	private Combobox						scheduler_type_selector;
-
 	private IScheduleShip					scheduleShipDAO;
 	@Wire
 	private Combobox						select_shift_overview;
 	@Wire
 	private Combobox						select_shifttype_overview;
+
 	@Wire
 	public Combobox							select_year;
+
 	// selected day
 	private Integer							selectedDay;
 
@@ -1683,17 +1689,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2144,6 +2150,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.ship.setModel(shipList);
 
 		}
+
+		// set initial saturation label style
+		this.saturationStyle = this.saturation.getStyle();
 
 		// set year in combobox
 		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
@@ -2872,7 +2881,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Double ret = millis / (1000 * 60 * 60);
 
 		return ret;
-	}
+	};
 
 	// using for check 10 day working constraint
 	private final List<Schedule> getScheduleTenDayBefore(final Date dateBegin, final Integer idUser) {
@@ -2990,7 +2999,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		currentRow.setItem31(new Schedule(date_init.getTime()));
 
-	};
+	}
 
 	/**
 	 * Main procedure to show
@@ -3536,8 +3545,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3862,17 +3871,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4091,7 +4100,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+										.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -6357,6 +6366,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (roles != "") {
 			this.userRoles.setValue(roles + ".");
 		}
+
+		// set saturation label
+		final Calendar cal = Calendar.getInstance();
+
+		final Double sat = this.statProcedure.calculeSaturation(user, cal.getTime());
+
+		if (sat == null) {
+			this.saturation.setValue(" ");
+		} else {
+
+			if (sat < 0) {
+				this.saturation.setStyle("color:red");
+			} else {
+				this.saturation.setStyle(this.saturationStyle);
+			}
+		}
+
+		this.saturation.setValue(new DecimalFormat("#.##").format(sat));
 
 		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");
 	}

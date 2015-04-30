@@ -32,7 +32,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	private IStatistics	statisticDAO;
 
 	@Override
-	public Integer calculeSaturation(final Person user, final Date date_schedule) {
+	public Double calculeSaturation(final Person user, final Date date_schedule) {
 
 		if ((date_schedule == null) || (user == null)) {
 			return null;
@@ -44,15 +44,15 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Calendar current_first_day = DateUtils.toCalendar(date_schedule_truncate);
 		current_first_day.set(Calendar.DAY_OF_YEAR, 1);
 
-		// current work
-		final Integer current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), current_first_day.getTime(), date_schedule_truncate);
+		// current day work
+		final Double current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), current_first_day.getTime(), date_schedule_truncate) / 24;
 
-		// work ammount
+		// work day ammount
 		final Integer work_ammount = Utility.getWorkAmount(current_first_day.getTime(), date_schedule_truncate, user.getHourswork_w(),
-				user.getDaywork_w());
+				user.getDaywork_w()) / 24;
 		// validate date
 		if ((current_work_count == null) || (work_ammount == null)) {
-			return 0;
+			return 0.0;
 		}
 
 		// sat = current work - work_ammount

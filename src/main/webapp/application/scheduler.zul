@@ -252,6 +252,11 @@
 								<rows>
 									<row>
 										<label
+											value="Saturazione: " />
+										<label id="saturation" />
+									</row>
+									<row>
+										<label
 											value="Lavoro domenicale: " />
 										<label id="work_sunday_perc" />
 									</row>

@@ -271,7 +271,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Integer getWorkCountByUser(final Integer user, final Date date_from, final Date date_to) {
+	public Double getWorkCountByUser(final Integer user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("getWorkCountByUser..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -279,9 +279,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_from", date_from);
 		map.put("date_to", date_to);
 
-		final Integer ret = this.getSqlSession().selectOne("statistics.getWorkCountByUser", map);
-		if (ret == 0) {
-			return 0;
+		final Double ret = this.getSqlSession().selectOne("statistics.getWorkCountByUser", map);
+		if (ret == null || ret == 0.0) {
+			return 0.0;
 		}
 
 		return ret;
