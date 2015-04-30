@@ -6,11 +6,8 @@
 	http://www.springframework.org/schema/util/spring-util.xsd 
 	http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-	<!-- <import resource="classpath:META-INF/cxf/cxf.xml" /> <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" 
-		/> import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> -->
-
-
-
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath*:META-INF/cxf/cxf-extension-*.xml" />
 
 
 	<!-- SOAP SERVICE -->
@@ -18,11 +15,19 @@
 
 
 
-		<!-- <jaxws:inInterceptors> <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor"> 
-			<constructor-arg> <map> <entry key="action" value="UsernameToken" /> <entry 
-			key="passwordType" value="PasswordDigest" /> <entry key="signaturePropFile" 
-			value="..." /> <entry key="passwordCallbackRef"> <ref bean="myPasswordCallback" 
-			/> </entry> </map> </constructor-arg> </bean> </jaxws:inInterceptors> -->
+<!-- 		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+				<constructor-arg>
+					<map>
+						<entry key="action" value="UsernameToken" />
+						<entry key="passwordType" value="PasswordText" />
+						<entry key="passwordCallbackRef">
+							<ref bean="myPasswordCallback" />
+						</entry>
+					</map>
+				</constructor-arg>
+			</bean>
+		</jaxws:inInterceptors> -->
 
 
 	</jaxws:endpoint>
