@@ -696,8 +696,8 @@
 		s.name as field_mobile_nameShip,
 		d.crane as field_mobile_crane
 		FROM
-		detailfinalschedule d,
-		usertask ut
+		usertask ut,
+		detailfinalschedule d LEFT JOIN ship s ON d.id_ship = s.id		
 		WHERE
 		ut.hiddenoperative = 0 and
 		id_schedule =
