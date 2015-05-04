@@ -6,36 +6,33 @@
 	http://www.springframework.org/schema/util/spring-util.xsd 
 	http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
+	<!-- <import resource="classpath:META-INF/cxf/cxf.xml" /> <import resource="classpath*:META-INF/cxf/cxf-extension-*.xml" 
+		/> -->
+
+
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
-	<import resource="classpath*:META-INF/cxf/cxf-extension-*.xml" />
+
 
 
 	<!-- SOAP SERVICE -->
 	<jaxws:endpoint address="/soapservice" implementor="#soapservice">
 
 
-
-<!-- 		<jaxws:inInterceptors>
-			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
-				<constructor-arg>
-					<map>
-						<entry key="action" value="UsernameToken" />
-						<entry key="passwordType" value="PasswordText" />
-						<entry key="passwordCallbackRef">
-							<ref bean="myPasswordCallback" />
-						</entry>
-					</map>
-				</constructor-arg>
-			</bean>
-		</jaxws:inInterceptors> -->
+		<!-- <jaxws:inInterceptors> <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor"> 
+			<constructor-arg> <map> <entry key="action" value="UsernameToken" /> <entry 
+			key="passwordType" value="PasswordText" /> <entry key="passwordCallbackRef"> 
+			<ref bean="passwordCallback" /> </entry> </map> </constructor-arg> </bean> 
+			</jaxws:inInterceptors> -->
 
 
 	</jaxws:endpoint>
 
-	<!-- SECURITY PASSWORD CALLBACK -->
-	<bean id="myPasswordCallback"
-		class="org.uario.seaworkengine.web.services.security.PasswordCallback" />
 
+
+
+	<bean id="passwordCallback"
+		class="org.uario.seaworkengine.web.services.security.PasswordCallback">
+	</bean>
 
 
 	<bean id="soapservice"
