@@ -64,6 +64,8 @@
 					id="tradeunion_user_tab" />
 				<tab label="Contestazioni Disciplinari" visible="false"
 					id="contestations_user_tab" />
+				<tab label="Compensazione Ore" visible="false"
+					id="compensation_user_tab" />
 			</tabs>
 			<tabpanels>
 				<!-- Tab Comments Content -->
@@ -560,6 +562,12 @@
 				<!-- TAB CONTESTATIONS -->
 				<tabpanel>
 					<include mode="defer" src="./userdetailscons.zul">
+					</include>
+				</tabpanel>
+				
+				<!-- TAB COMPENSATION -->
+				<tabpanel>
+					<include mode="defer" src="./userdetailcompensation.zul">
 					</include>
 				</tabpanel>
 

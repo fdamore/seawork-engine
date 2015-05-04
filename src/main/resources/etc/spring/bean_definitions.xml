@@ -179,6 +179,11 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+	<bean id="myUserCompensationDAO" class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisUserCompensationDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 	<bean id="myStatisticsDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisStatisticsDAO">

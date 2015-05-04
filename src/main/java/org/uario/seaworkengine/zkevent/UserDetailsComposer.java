@@ -75,6 +75,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Wire
 	private Textbox				city_user;
 
+	@Wire
+	private Component			compensation_user_tab;
+
 	public Comboitem			comuneSelected;
 
 	@Wire
@@ -431,8 +434,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null,
-					Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 
 		}
 
@@ -441,15 +444,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
 
-		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null)
-				|| (this.birth_place_user.getSelectedItem() == null) || (this.birth_province_user.getSelectedItem() == null)
-				|| (this.birth_date_user.getValue() == null) || (this.sex_user.getSelectedItem() == null)) {
+		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null) || (this.birth_place_user.getSelectedItem() == null)
+				|| (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
+				|| (this.sex_user.getSelectedItem() == null)) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
@@ -526,8 +528,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
@@ -543,8 +544,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// check over password
-			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(),
-					this.person_selected.getEmail());
+			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), this.person_selected.getEmail());
 
 			if (!hashing_password.equals(this.person_selected.getPassword())) {
 
@@ -553,8 +553,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null,
-						params);
+				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 				return;
 
@@ -584,8 +583,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 				// set fields
 				this.email_editor_user.setValue("");
@@ -595,8 +593,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(),
-					this.email_editor_user.getValue());
+			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
 
 			this.person_selected.setEmail(this.email_editor_user.getValue());
 			this.sw_list_user.getSelectedItem().setValue(this.person_selected);
@@ -644,14 +641,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
-						params);
+				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
 
 			// change password
-			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(),
-					this.password_editor_user.getValue());
+			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(), this.password_editor_user.getValue());
 
 			// reset fields
 			this.password_editor_user.setValue("");
@@ -793,8 +788,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		if (person_selected.getBirth_place() != null) {
 
-			this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(person_selected
-					.getBirth_province())));
+			this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
 			this.birth_place_user.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
 			this.birth_place_user.setValue(person_selected.getBirth_place());
 
@@ -826,9 +820,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show(
-					"Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.",
-					"INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
+					buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -906,13 +899,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onSelect=#birth_province_user")
 	public void loadComuni() {
 
-		if ((this.birth_province_user.getSelectedItem() == null)
-				|| (this.birth_province_user.getSelectedItem().getValue() == null)) {
+		if ((this.birth_province_user.getSelectedItem() == null) || (this.birth_province_user.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
-		this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(this.birth_province_user
-				.getSelectedItem().getValue().toString())));
+		this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem()
+				.getValue().toString())));
 	}
 
 	@Listen("onClick = #modify_users_command")
@@ -1036,8 +1028,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION,
-				null, new EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -1210,8 +1202,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final Component comp_cons = Path.getComponent("//cons/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_cons, person_selected);
 
+		// send event to show job cost
 		final Component comp_jc = Path.getComponent("//userjobcost/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_jc, person_selected);
+
+		// send event to show job cost
+		final Component comp_uc = Path.getComponent("//usercompensation/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_uc, person_selected);
 
 	}
 
@@ -1276,6 +1273,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.fiscalcheck_user_tab.setVisible(false);
 		this.tradeunion_user_tab.setVisible(false);
 		this.contestations_user_tab.setVisible(false);
+		this.compensation_user_tab.setVisible(false);
 		this.userName.setVisible(false);
 		this.jobcost_user_tab.setVisible(false);
 
@@ -1313,6 +1311,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.fiscalcheck_user_tab.setVisible(true);
 		this.tradeunion_user_tab.setVisible(true);
 		this.contestations_user_tab.setVisible(true);
+		this.compensation_user_tab.setVisible(true);
 		this.jobcost_user_tab.setVisible(true);
 
 		// generate qr code only in modify view
