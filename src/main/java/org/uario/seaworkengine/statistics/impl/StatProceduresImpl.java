@@ -32,24 +32,21 @@ public class StatProceduresImpl implements IStatProcedure {
 	private IStatistics	statisticDAO;
 
 	@Override
-	public Double calculeSaturation(final Person user, final Date date_schedule) {
+	public Double calculeSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
 
-		if ((date_schedule == null) || (user == null)) {
+		if ((date_from_arg == null) || (user == null) || (date_to_arg == null)) {
 			return null;
 		}
 
-		final Date date_schedule_truncate = DateUtils.truncate(date_schedule, Calendar.DATE);
+		final Date date_to = DateUtils.truncate(date_to_arg, Calendar.DATE);
 
-		// get first day of the current year
-		final Calendar current_first_day = DateUtils.toCalendar(date_schedule_truncate);
-		current_first_day.set(Calendar.DAY_OF_YEAR, 1);
+		final Date date_from = DateUtils.truncate(date_from_arg, Calendar.DATE);
 
 		// current day work
-		final Double current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), current_first_day.getTime(), date_schedule_truncate) / 24;
+		final Double current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), date_from, date_to) / 24;
 
-		// work day ammount
-		final Integer work_ammount = Utility.getWorkAmount(current_first_day.getTime(), date_schedule_truncate, user.getHourswork_w(),
-				user.getDaywork_w()) / 24;
+		// work day amount
+		final Integer work_ammount = Utility.getWorkAmount(date_from, date_to, user.getHourswork_w(), user.getDaywork_w()) / 24;
 		// validate date
 		if ((current_work_count == null) || (work_ammount == null)) {
 			return 0.0;

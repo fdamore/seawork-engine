@@ -13,10 +13,11 @@ public interface IStatProcedure {
 	 * calcule saturation
 	 *
 	 * @param user
-	 * @param date_schedule
+	 * @param date_from
+	 * @param date_to TODO
 	 * @return
 	 */
-	public Double calculeSaturation(Person user, Date date_schedule);
+	public Double calculeSaturation(Person user, Date date_from, Date date_to);
 
 	/**
 	 * get a random day

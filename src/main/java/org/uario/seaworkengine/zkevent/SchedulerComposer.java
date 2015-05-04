@@ -767,6 +767,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label							saturation;
+
+	@Wire
+	private Label							saturation_month;
+
 	private String							saturationStyle;
 
 	private ISchedule						scheduleDAO;
@@ -1689,17 +1693,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -3545,8 +3549,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3871,17 +3875,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4100,7 +4104,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -6368,9 +6372,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set saturation label
-		final Calendar cal = Calendar.getInstance();
+		final Calendar cal_saturation = Calendar.getInstance();
+		cal_saturation.add(Calendar.DAY_OF_YEAR, -1);
+		final Date date_to_on_year = cal_saturation.getTime();
+		cal_saturation.set(Calendar.DAY_OF_YEAR, cal_saturation.getMinimum(Calendar.DAY_OF_YEAR));
+		final Date date_from_on_year = cal_saturation.getTime();
 
-		final Double sat = this.statProcedure.calculeSaturation(user, cal.getTime());
+		final Double sat = this.statProcedure.calculeSaturation(user, date_from_on_year, date_to_on_year);
 
 		if (sat == null) {
 			this.saturation.setValue(" ");
@@ -6385,6 +6393,34 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.saturation.setValue(new DecimalFormat("#.##").format(sat));
 
+		// set saturation month label
+		final Calendar cal_saturation_month = Calendar.getInstance();
+		cal_saturation_month.add(Calendar.MONTH, -1);
+		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+		final Date date_to_on_month = cal_saturation_month.getTime();
+		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation.getMinimum(Calendar.DAY_OF_MONTH));
+		final Date date_from_on_month = cal_saturation_month.getTime();
+
+		final int month = cal_saturation_month.get(Calendar.MONTH);
+
+		Double sat_month = this.statProcedure.calculeSaturation(user, date_from_on_month, date_to_on_month);
+
+		if (sat_month == null) {
+			this.saturation_month.setValue(" ");
+		} else {
+
+			sat_month = sat_month / month;
+
+			if (sat_month < 0) {
+				this.saturation_month.setStyle("color:red");
+			} else {
+				this.saturation_month.setStyle(this.saturationStyle);
+			}
+		}
+
+		this.saturation_month.setValue(new DecimalFormat("#.##").format(sat_month));
+
+		// show popup
 		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");
 	}
 

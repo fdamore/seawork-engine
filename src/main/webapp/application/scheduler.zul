@@ -250,11 +250,19 @@
 									<column width="120px"></column>
 								</columns>
 								<rows>
+
 									<row>
-										<label
-											value="Saturazione: " />
+										<label value="Saturazione: " />
 										<label id="saturation" />
 									</row>
+
+									<row>
+										<label
+											value="Saturazione (Media Mensile): " />
+										<label id="saturation_month" />
+									</row>
+
+
 									<row>
 										<label
 											value="Lavoro domenicale: " />
@@ -263,8 +271,7 @@
 
 									<row>
 										<label value="Festivi: " />
-										<label
-											id="work_holiday_perc" />
+										<label id="work_holiday_perc" />
 									</row>
 
 
