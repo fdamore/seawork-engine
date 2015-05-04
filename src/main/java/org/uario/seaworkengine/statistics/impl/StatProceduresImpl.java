@@ -41,6 +41,10 @@ public class StatProceduresImpl implements IStatProcedure {
 			return null;
 		}
 
+		if ((user.getHourswork_w() == null) || (user.getDaywork_w() == null)) {
+			return null;
+		}
+
 		final Date date_to = DateUtils.truncate(date_to_arg, Calendar.DATE);
 
 		final Date date_from = DateUtils.truncate(date_from_arg, Calendar.DATE);
@@ -61,8 +65,18 @@ public class StatProceduresImpl implements IStatProcedure {
 			comp = 0.0;
 		}
 
-		// sat = current work - compensation - work_ammount
-		return current_work_count - comp - work_ammount;
+		// get shift recorded
+		final Double day_work_shift_recorded = statisticDAO.getShiftRecorded(user.getId(), date_from, date_to);
+		Double hours_work_shift_recorded = 0.0;
+		if (day_work_shift_recorded == null) {
+			hours_work_shift_recorded = 0.0;
+		} else {
+			final Double h_work_per_day = (double) user.getHourswork_w() / (double) user.getDaywork_w();
+			hours_work_shift_recorded = day_work_shift_recorded * h_work_per_day;
+		}
+
+		// sat = current work - shift_rec - compensation - work_ammount
+		return current_work_count - hours_work_shift_recorded - comp - work_ammount;
 
 	}
 

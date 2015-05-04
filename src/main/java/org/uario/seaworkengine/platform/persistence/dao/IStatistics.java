@@ -72,6 +72,16 @@ public interface IStatistics {
 	public Integer getHolidaysWork(Integer id_user, Date date_from);
 
 	/**
+	 * Get number of day with shift recorded
+	 * 
+	 * @param id_user
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public Double getShiftRecorded(Integer id_user, Date date_from, Date date_to);
+
+	/**
 	 * Get percentage working sunday
 	 *
 	 * @param id_user
@@ -111,8 +121,8 @@ public interface IStatistics {
 	 *
 	 * @return
 	 */
-	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-			Date date_from, Date date_to);
+	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type,
+			Integer task_id, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule
@@ -125,8 +135,8 @@ public interface IStatistics {
 	 *
 	 * @return
 	 */
-	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-			Date date_from, Date date_to);
+	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number,
+			Integer shift_type, Integer task_id, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule

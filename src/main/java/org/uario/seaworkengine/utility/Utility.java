@@ -95,7 +95,9 @@ public class Utility {
 			return "";
 		}
 
-		final String[] info = name.split(" ");
+		final String def_string = name.replaceAll("\\s+", "__");
+
+		final String[] info = def_string.split("__");
 		if (info.length >= 2) {
 
 			String surname = info[0];
@@ -269,7 +271,8 @@ public class Utility {
 		return cal.get(Calendar.WEEK_OF_YEAR);
 	}
 
-	public static Integer getWorkAmount(final Date date_from, final Date date_to, final Integer hours_per_week, final Integer hours_per_day) {
+	public static Integer getWorkAmount(final Date date_from, final Date date_to, final Integer hours_per_week,
+			final Integer hours_per_day) {
 
 		final long diff = date_to.getTime() - date_from.getTime();
 
@@ -279,9 +282,9 @@ public class Utility {
 
 		final Integer numberOfMillsecInDay = 24 * 60 * 60 * 1000;
 
-		final Integer dayCount = (int) ((diff - weekCount * numberOfMillsecInWeek) / (numberOfMillsecInDay));
+		final Integer dayCount = (int) ((diff - (weekCount * numberOfMillsecInWeek)) / (numberOfMillsecInDay));
 
-		return (weekCount * hours_per_week + dayCount * hours_per_day);
+		return ((weekCount * hours_per_week) + (dayCount * hours_per_day));
 	}
 
 	public static Integer getYear(final Date date) {

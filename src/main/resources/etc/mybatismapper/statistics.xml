@@ -5,6 +5,28 @@
 
 	<cache-ref namespace="schedule" />
 
+	<select id="getShiftRecorded" resultType="double" parameterType="map">
+
+		SELECT
+		count(distinct s.date_schedule)
+		FROM
+		schedule s,
+		usershift us
+		where
+		s.shift = us.id and us.recorded = 1
+		and us.presence = 0
+		and s.user =
+		#{id_user}
+		and s.date_schedule <![CDATA[>=]]>
+		#{date_from}
+		and s.date_schedule <![CDATA[<=]]>
+		#{date_to}
+
+	</select>
+
+
+
+
 
 
 	<select id="listSchedule" resultType="org.uario.seaworkengine.model.Schedule"
@@ -424,7 +446,8 @@
 	</select>
 
 
-	<select id="getWorkCountByUser" resultType="double" parameterType="map">
+	<select id="getWorkCountByUser" resultType="double"
+		parameterType="map">
 
 		SELECT
 		sum(time)
