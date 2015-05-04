@@ -228,6 +228,7 @@
 		<property name="myTaskDAO" ref="myTasksDAO"></property>
 		<property name="statisticDAO" ref="myStatisticsDAO"></property>
 		<property name="shiftCache" ref="myShiftCache"></property>
+		<property name="compensationDAO" ref="myUserCompensationDAO"></property>
 	</bean>
 
 

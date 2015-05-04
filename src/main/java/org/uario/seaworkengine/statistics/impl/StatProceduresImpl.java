@@ -17,19 +17,22 @@ import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.platform.persistence.dao.UserCompensationDAO;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private ISchedule	myScheduleDAO;
+	private UserCompensationDAO	compensationDAO;
 
-	private TasksDAO	myTaskDAO;
+	private ISchedule			myScheduleDAO;
 
-	private IShiftCache	shiftCache;
+	private TasksDAO			myTaskDAO;
 
-	private IStatistics	statisticDAO;
+	private IShiftCache			shiftCache;
+
+	private IStatistics			statisticDAO;
 
 	@Override
 	public Double calculeSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
@@ -43,7 +46,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date date_from = DateUtils.truncate(date_from_arg, Calendar.DATE);
 
 		// current day work
-		final Double current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), date_from, date_to) / 24;
+		final Double current_work_count = statisticDAO.getWorkCountByUser(user.getId(), date_from, date_to) / 24;
 
 		// work day amount
 		final Integer work_ammount = Utility.getWorkAmount(date_from, date_to, user.getHourswork_w(), user.getDaywork_w()) / 24;
@@ -52,8 +55,14 @@ public class StatProceduresImpl implements IStatProcedure {
 			return 0.0;
 		}
 
-		// sat = current work - work_ammount
-		return current_work_count - work_ammount;
+		// get compensation
+		Double comp = compensationDAO.getTotalHoursInDateYear(user.getId(), date_from);
+		if (comp == null) {
+			comp = 0.0;
+		}
+
+		// sat = current work - compensation - work_ammount
+		return current_work_count - comp - work_ammount;
 
 	}
 
@@ -78,6 +87,10 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	}
 
+	public UserCompensationDAO getCompensationDAO() {
+		return compensationDAO;
+	}
+
 	/**
 	 * Get Maximum Shift in Day
 	 *
@@ -86,7 +99,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Integer getFirstShiftInDay(final Date date_calendar_schedule, final Integer user) {
 
-		return this.myScheduleDAO.getFirstShift(date_calendar_schedule, user);
+		return myScheduleDAO.getFirstShift(date_calendar_schedule, user);
 
 	}
 
@@ -98,7 +111,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Integer getLastShiftInDay(final Date date_calendar_schedule, final Integer user) {
 
-		return this.myScheduleDAO.getLastShift(date_calendar_schedule, user);
+		return myScheduleDAO.getLastShift(date_calendar_schedule, user);
 
 	}
 
@@ -118,14 +131,14 @@ public class StatProceduresImpl implements IStatProcedure {
 		int max_shift = 4;
 
 		// get a shift - 12 after last shift
-		Integer first_shift = this.myScheduleDAO.getFirstShift(calendar.getTime(), user);
+		Integer first_shift = myScheduleDAO.getFirstShift(calendar.getTime(), user);
 
 		if (first_shift != null) {
 
 			// define recall. If -9999 a break is found
 			if (first_shift == -9999) {
 
-				first_shift = this.getMaximumShift(calendar.getTime(), user);
+				first_shift = getMaximumShift(calendar.getTime(), user);
 				return first_shift;
 			}
 
@@ -157,14 +170,14 @@ public class StatProceduresImpl implements IStatProcedure {
 		int min_shift = 1;
 
 		// get a shift - 12 after last shift
-		Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
+		Integer last_shift = myScheduleDAO.getLastShift(calendar.getTime(), user);
 
 		if (last_shift != null) {
 
 			// define recall. If -9999 a break is found
 			if (last_shift == -9999) {
 
-				last_shift = this.getMinimumShift(calendar.getTime(), user);
+				last_shift = getMinimumShift(calendar.getTime(), user);
 				return last_shift;
 			}
 
@@ -185,15 +198,15 @@ public class StatProceduresImpl implements IStatProcedure {
 	}
 
 	public ISchedule getMyScheduleDAO() {
-		return this.myScheduleDAO;
+		return myScheduleDAO;
 	}
 
 	public TasksDAO getMyTaskDAO() {
-		return this.myTaskDAO;
+		return myTaskDAO;
 	}
 
 	public IShiftCache getShiftCache() {
-		return this.shiftCache;
+		return shiftCache;
 	}
 
 	/**
@@ -210,7 +223,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
 		final Date date_first_day_year = calendar_first_day.getTime();
 
-		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
+		final RateShift[] averages = statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
 
 		// get info from last shift
 		final Calendar calendar = Calendar.getInstance();
@@ -218,7 +231,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
 
 		// get a shift - 12 after last shift
-		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
+		final Integer last_shift = myScheduleDAO.getLastShift(calendar.getTime(), user);
 		int min_shift = 1;
 		if (last_shift != null) {
 			if (last_shift == 3) {
@@ -263,7 +276,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	}
 
 	public IStatistics getStatisticDAO() {
-		return this.statisticDAO;
+		return statisticDAO;
 	}
 
 	/**
@@ -285,7 +298,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date date_begin = calendar.getTime();
 
 		// get date_working
-		final List<Date> list = this.statisticDAO.getDateAtWork(user, date_begin, my_pick_date);
+		final List<Date> list = statisticDAO.getDateAtWork(user, date_begin, my_pick_date);
 
 		// current head series
 		Date currentdate = null;
@@ -351,29 +364,29 @@ public class StatProceduresImpl implements IStatProcedure {
 			schedule.setEditor(editor);
 		}
 
-		final UserShift myShift = this.shiftCache.getUserShift(schedule.getShift());
+		final UserShift myShift = shiftCache.getUserShift(schedule.getShift());
 
 		// override
-		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
+		myScheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// if the shift is an absence, delete all details
 		if (!myShift.getPresence().booleanValue()) {
-			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 		} else {
 
 			// check if there is any default task (MANSIONE STANDARD)
-			final UserTask task_default = this.myTaskDAO.getDefault(schedule.getUser());
+			final UserTask task_default = myTaskDAO.getDefault(schedule.getUser());
 			if (task_default == null) {
 				return;
 			}
 
 			// get a shift for a day
-			final Integer my_no_shift = this.getShiftNoForDay(truncDate, schedule.getUser());
+			final Integer my_no_shift = getShiftNoForDay(truncDate, schedule.getUser());
 
 			// remove all detail in any shift
-			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 
 			if (myShift.getDaily_shift().booleanValue()) {
 
@@ -390,8 +403,8 @@ public class StatProceduresImpl implements IStatProcedure {
 				item2.setTime(4.0);
 
 				// create detail
-				this.myScheduleDAO.createDetailInitialSchedule(item1);
-				this.myScheduleDAO.createDetailInitialSchedule(item2);
+				myScheduleDAO.createDetailInitialSchedule(item1);
+				myScheduleDAO.createDetailInitialSchedule(item2);
 
 			} else {
 				final DetailInitialSchedule item = new DetailInitialSchedule();
@@ -401,7 +414,7 @@ public class StatProceduresImpl implements IStatProcedure {
 				item.setTime(6.0);
 
 				// create detail
-				this.myScheduleDAO.createDetailInitialSchedule(item);
+				myScheduleDAO.createDetailInitialSchedule(item);
 
 			}
 
@@ -432,19 +445,21 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Calendar last = (Calendar) first.clone();
 		last.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
-		final List<Schedule> scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(), last.getTime());
+		final List<Schedule> scheduleListInWeek = myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(),
+				last.getTime());
 
 		final ArrayList<Schedule> ret = new ArrayList<Schedule>();
 
 		for (final Schedule schedule : scheduleListInWeek) {
 
-			final UserShift shiftType = this.shiftCache.getUserShift(schedule.getShift());
+			final UserShift shiftType = shiftCache.getUserShift(schedule.getShift());
 			if (shiftType == null) {
 				continue;
 			}
 
 			if (!date_scheduled.equals(schedule.getDate_schedule())) {
-				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType.getAccident_shift())) {
+				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType
+						.getAccident_shift())) {
 					ret.add(schedule);
 				}
 			}
@@ -454,6 +469,10 @@ public class StatProceduresImpl implements IStatProcedure {
 			return null;
 		}
 		return ret;
+	}
+
+	public void setCompensationDAO(final UserCompensationDAO compensationDAO) {
+		this.compensationDAO = compensationDAO;
 	}
 
 	public void setMyScheduleDAO(final ISchedule myScheduleDAO) {
@@ -470,7 +489,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -483,7 +502,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -495,7 +514,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
 		// refresh info about just saved schedule
-		Schedule schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
+		Schedule schedule = myScheduleDAO.loadSchedule(truncDate, user);
 
 		// if schedule == null, create it
 		if (schedule == null) {
@@ -511,29 +530,30 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		// override
-		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
+		myScheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// refresh info about just saved schedule
-		schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
+		schedule = myScheduleDAO.loadSchedule(truncDate, user);
 
-		this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+		myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
 	 * java.lang.Integer)
 	 */
 	@Override
-	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
+	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user,
+			final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
 		// refresh info about just saved schedule
-		Schedule schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
+		Schedule schedule = myScheduleDAO.loadSchedule(truncDate, user);
 
 		// if schedule == null, create it
 		if (schedule == null) {
@@ -549,15 +569,15 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		// override
-		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
+		myScheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// refresh info about just saved schedule
-		schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
+		schedule = myScheduleDAO.loadSchedule(truncDate, user);
 
 		// if the shift is an absence, delete all details
 		if (!shift.getPresence().booleanValue()) {
-			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 		} else {
 
 			// assign work only if current day is today or tomorrow
@@ -577,17 +597,17 @@ public class StatProceduresImpl implements IStatProcedure {
 			// ASSIGN WORK
 
 			// check if there is any default task (MANSIONE STANDARD)
-			final UserTask task_default = this.myTaskDAO.getDefault(user);
+			final UserTask task_default = myTaskDAO.getDefault(user);
 			if (task_default == null) {
 				return;
 			}
 
 			// get a shift for a day
-			final Integer my_no_shift = this.getShiftNoForDay(truncDate, user);
+			final Integer my_no_shift = getShiftNoForDay(truncDate, user);
 
 			// remove all detail in any shift
-			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 
 			// prepare period
 			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
@@ -658,8 +678,8 @@ public class StatProceduresImpl implements IStatProcedure {
 				item2.setTime_to(new Timestamp(cal_shift_3_daily_time_to.getTimeInMillis()));
 
 				// create detail
-				this.myScheduleDAO.createDetailInitialSchedule(item1);
-				this.myScheduleDAO.createDetailInitialSchedule(item2);
+				myScheduleDAO.createDetailInitialSchedule(item1);
+				myScheduleDAO.createDetailInitialSchedule(item2);
 
 			} else {
 				final DetailInitialSchedule item = new DetailInitialSchedule();
@@ -698,7 +718,7 @@ public class StatProceduresImpl implements IStatProcedure {
 				}
 
 				// create detail
-				this.myScheduleDAO.createDetailInitialSchedule(item);
+				myScheduleDAO.createDetailInitialSchedule(item);
 
 			}
 
