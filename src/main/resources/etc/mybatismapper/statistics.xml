@@ -384,8 +384,10 @@
 		and DAYOFWEEK(ds.date_schedule) = 1
 		and ds.user = #{id_user}
 		and
-		ds.date_schedule >= #{date_from}
-		group by ds.shift
+		ds.date_schedule <![CDATA[>=]]>
+		#{date_from} and ds.date_schedule <![CDATA[<=]]>
+		#{date_to}
+		group by shift
 		order by shift
 
 	</select>
@@ -410,8 +412,10 @@
 		and DAYOFWEEK(ds.date_schedule) = 1
 		and ds.user = #{id_user}
 		and
-		ds.date_schedule >= #{date_from}
-		group by ds.shift
+		ds.date_schedule <![CDATA[>=]]>
+		#{date_from} and ds.date_schedule <![CDATA[<=]]>
+		#{date_to}
+		group by shift
 		order by shift
 
 	</select>

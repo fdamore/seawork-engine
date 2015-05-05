@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1702,17 +1701,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -3586,8 +3585,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3912,17 +3911,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4141,7 +4140,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -6273,7 +6272,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// count holidays until now
 		final int count_allsunday = this.bank_holiday.countCurrentSundaysUntilNow();
 
-		// get number of sunday work
+		// get number of Sunday work
 		final Integer sunday_work = this.statisticDAO.getSundayWork(id_user, date_first_day_year);
 
 		Double perc_sunday;
@@ -6329,7 +6328,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		// get average - program base statistic =
+		// get average - set sunady work percentage
 		statistic = SchedulerComposer.this.statisticDAO.getCountSundayForShift(id_user, c.getTime(), date_first_day_year);
 		if (statistic != null) {
 			for (final RateShift av : statistic) {
@@ -6337,20 +6336,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (sunday_work != 0) {
 					if (av.getShift() == 1) {
 						SchedulerComposer.this.shift_perc_1.setValue(this.shift_perc_1.getValue() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+								+ Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
 					}
 					if (av.getShift() == 2) {
 						SchedulerComposer.this.shift_perc_2.setValue(this.shift_perc_2.getValue() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+								+ Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
 					}
 					if (av.getShift() == 3) {
 						SchedulerComposer.this.shift_perc_3.setValue(this.shift_perc_3.getValue() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+								+ Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
 					}
 					if (av.getShift() == 4) {
 						final int a = av.getRate().intValue();
 						SchedulerComposer.this.shift_perc_4.setValue(this.shift_perc_4.getValue() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+								+ Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
 					}
 				} else {
 					if (av.getShift() == 1) {
@@ -6444,12 +6443,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			if (sat < 0) {
 				this.saturation.setStyle("color:red");
-
 				this.saturation.setValue("REC " + Utility.roundTwo(Math.abs(sat)));
 
 			} else {
 				this.saturation.setStyle(this.saturationStyle);
-
 				this.saturation.setValue("OT " + Utility.roundTwo(sat));
 			}
 
@@ -6475,12 +6472,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			if (sat_month < 0) {
 				this.saturation_month.setStyle("color:red");
+				this.saturation_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_month)));
 			} else {
 				this.saturation_month.setStyle(this.saturationStyle);
+				this.saturation_month.setValue("OT " + Utility.roundTwo(sat_month));
 			}
 		}
-
-		this.saturation_month.setValue(new DecimalFormat("#.##").format(sat_month));
 
 		// show popup
 		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");

@@ -106,12 +106,12 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		List<RateShift> lists = null;
 
-		lists = getSqlSession().selectList("statistics.selectRateShiftByUserReviewd", map);
+		lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserReviewd", map);
 		if (lists == null) {
-			lists = getSqlSession().selectList("statistics.selectRateShiftByUserProgram", map);
+			lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserProgram", map);
 		}
 
-		return calculateWorkPercentage(lists);
+		return this.calculateWorkPercentage(lists);
 
 	}
 
@@ -130,14 +130,14 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		List<RateShift> lists = null;
 
-		lists = getSqlSession().selectList("statistics.selectRateShiftByUserProgram", map);
+		lists = this.getSqlSession().selectList("statistics.selectRateShiftByUserProgram", map);
 
-		return calculateWorkPercentage(lists);
+		return this.calculateWorkPercentage(lists);
 
 	}
 
 	public IBankHolidays getBank_holiday() {
-		return bank_holiday;
+		return this.bank_holiday;
 	}
 
 	@Override
@@ -145,22 +145,22 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		MyBatisStatisticsDAO.logger.info("getCountSundayForShift..");
 
 		// truncate date
-		final Date date_truncate = DateUtils.truncate(date, Calendar.DATE);
+		final Date date_to_truncate = DateUtils.truncate(date, Calendar.DATE);
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id_user", user);
-		map.put("date_schedule", date_truncate);
 		map.put("date_from", date_from_truncate);
+		map.put("date_to", date_to_truncate);
 
 		List<RateShift> lists = null;
 
-		lists = getSqlSession().selectList("statistics.selectShiftSundayWorkCountReview", map);
+		lists = this.getSqlSession().selectList("statistics.selectShiftSundayWorkCountReview", map);
 		if (lists == null) {
-			lists = getSqlSession().selectList("statistics.selectShiftSundayWorkCountProgram", map);
+			lists = this.getSqlSession().selectList("statistics.selectShiftSundayWorkCountProgram", map);
 		}
 
-		return calculateWorkPercentage(lists);
+		return this.calculateWorkPercentage(lists);
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
 		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
 
-		final List<Date> ret = getSqlSession().selectList("statistics.dateAtWork", map);
+		final List<Date> ret = this.getSqlSession().selectList("statistics.dateAtWork", map);
 
 		return ret;
 
@@ -187,7 +187,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
 		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
 
-		return getSqlSession().selectOne("statistics.datesBreak", map);
+		return this.getSqlSession().selectOne("statistics.datesBreak", map);
 
 	}
 
@@ -207,7 +207,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		final StringBuilder build = new StringBuilder();
 
 		// define holiday string
-		final List<String> holidays = bank_holiday.getDays();
+		final List<String> holidays = this.bank_holiday.getDays();
 		for (int i = 0; i < holidays.size(); i++) {
 			final String item = holidays.get(i);
 			build.append("'" + item + "'");
@@ -221,7 +221,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_from", date_from_truncate);
 		map.put("days_hol", build.toString());
 
-		final Integer ret = getSqlSession().selectOne("statistics.getSundayAndHolidaysWork", map);
+		final Integer ret = this.getSqlSession().selectOne("statistics.getSundayAndHolidaysWork", map);
 
 		if (ret == null) {
 			return 0;
@@ -242,7 +242,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_from", date_from_truncate);
 		map.put("date_to", date_to_truncate);
 
-		final Double ret = getSqlSession().selectOne("statistics.getShiftRecorded", map);
+		final Double ret = this.getSqlSession().selectOne("statistics.getShiftRecorded", map);
 
 		if (ret == 0) {
 			return 0.0;
@@ -261,7 +261,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("id_user", id_user);
 		map.put("date_from", date_from_truncate);
 
-		final Integer ret = getSqlSession().selectOne("statistics.selectSundayWork", map);
+		final Integer ret = this.getSqlSession().selectOne("statistics.selectSundayWork", map);
 
 		if (ret == 0) {
 			return 0;
@@ -280,13 +280,13 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
 		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
 
-		final Integer ret = getSqlSession().selectOne("statistics.timeWorkedReviewd", map);
+		final Integer ret = this.getSqlSession().selectOne("statistics.timeWorkedReviewd", map);
 
 		if (ret != null) {
 			return ret;
 		} else {
 
-			return getSqlSession().selectOne("statistics.timeWorkedProgram", map);
+			return this.getSqlSession().selectOne("statistics.timeWorkedProgram", map);
 		}
 
 	}
@@ -300,7 +300,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("date_from", date_from);
 		map.put("date_to", date_to);
 
-		final Double ret = getSqlSession().selectOne("statistics.getWorkCountByUser", map);
+		final Double ret = this.getSqlSession().selectOne("statistics.getWorkCountByUser", map);
 		if ((ret == null) || (ret == 0.0)) {
 			return 0.0;
 		}
@@ -309,8 +309,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number,
-			final Integer shift_type, final Integer task_id, final Date date_from, final Date date_to) {
+	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
+			final Integer task_id, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -324,12 +324,12 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			map.put("date_to", DateUtils.truncate(date_to, Calendar.DATE));
 		}
 
-		return getSqlSession().selectList("statistics.overviewFinalSchedule", map);
+		return this.getSqlSession().selectList("statistics.overviewFinalSchedule", map);
 	}
 
 	@Override
-	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search, final Integer shift_number,
-			final Integer shift_type, final Integer task_id, final Date date_from, final Date date_to) {
+	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
+			final Integer task_id, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -343,12 +343,11 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			map.put("date_to", DateUtils.truncate(date_to, Calendar.DATE));
 		}
 
-		return getSqlSession().selectList("statistics.overviewInitalSchedule", map);
+		return this.getSqlSession().selectList("statistics.overviewInitalSchedule", map);
 	}
 
 	@Override
-	public List<Schedule> listSchedule(final String full_text_search, final Integer shift, final Date date_from,
-			final Date date_to) {
+	public List<Schedule> listSchedule(final String full_text_search, final Integer shift, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -360,7 +359,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			map.put("date_to", DateUtils.truncate(date_to, Calendar.DATE));
 		}
 
-		return getSqlSession().selectList("statistics.listSchedule", map);
+		return this.getSqlSession().selectList("statistics.listSchedule", map);
 	}
 
 	public void setBank_holiday(final IBankHolidays bank_holiday) {
