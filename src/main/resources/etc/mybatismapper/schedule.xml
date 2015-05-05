@@ -75,7 +75,8 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4
+		sync_mobile_4, 
+		startTime, endTime 
 		FROM
 		schedule
 		WHERE
@@ -89,7 +90,8 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4
+		sync_mobile_4, 
+		startTime, endTime 
 		FROM
 		schedule
 		WHERE id =
@@ -110,6 +112,7 @@
 		s.sync_mobile_2,
 		s.sync_mobile_3,
 		s.sync_mobile_4,
+		s.startTime, s.endTime, 
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -135,7 +138,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, 
+		s.startTime, s.endTime, 
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -242,7 +246,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4
+		s.sync_mobile_4, 
+		s.startTime, s.endTime 
 		FROM schedule s
 		WHERE s.user =
 		#{id_user}
@@ -268,7 +273,8 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4
+		sync_mobile_4, 
+		startTime, endTime 
 		FROM
 		schedule
 		WHERE
@@ -288,7 +294,9 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, 
+		s.startTime, 
+		s.endTime, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -342,7 +350,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, 
+		s.startTime, s.endTime, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,
@@ -398,7 +407,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, 
+		s.startTime, s.endTime, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -449,7 +459,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, 
+		s.startTime, s.endTime, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,
@@ -707,9 +718,25 @@
 		ut.id
 	</select>
 
+	<update id="updateStartTimeSchedule" parameterType="map">
+		UPDATE schedule
+		SET
+		startTime = #{startTime}
+		WHERE id = #{id_schedule};
+	</update>
+	
+	<update id="updateEndTimeSchedule" parameterType="map">
+		UPDATE schedule
+		SET
+		endTime = #{endTime}
+		WHERE id = #{id_schedule};
+	</update>
 
-
-
+	<select id="loadScheduleStartEndTime" resultType="org.uario.seaworkengine.model.Schedule">
+		SELECT startTime, endTime 
+		FROM schedule
+		WHERE id = #{id_schedule};
+	</select>
 
 
 

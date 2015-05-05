@@ -27,6 +27,8 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	@XmlTransient
 	private String				employee_identification;
 
+	private Date				endTime;
+
 	private Integer				id;
 
 	// used form visualize
@@ -56,6 +58,8 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	private Double				revision_time;
 
 	private Integer				shift;
+
+	private Date				startTime;
 
 	@XmlTransient
 	private Boolean				sync_mobile_1;
@@ -87,98 +91,106 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		if (!(o instanceof Schedule)) {
 			return -1;
 		}
-		if (getDate_schedule() == null) {
+		if (this.getDate_schedule() == null) {
 			return -1;
 		}
 		final Schedule item = o;
 		if (item.getDate_schedule() == null) {
 			return 1;
 		}
-		return getDate_schedule().compareTo(item.getDate_schedule());
+		return this.getDate_schedule().compareTo(item.getDate_schedule());
 	}
 
 	public Integer getController() {
-		return controller;
+		return this.controller;
 	}
 
 	public Date getDate_schedule() {
-		return date_schedule;
+		return this.date_schedule;
 	}
 
 	public Integer getEditor() {
-		return editor;
+		return this.editor;
 	}
 
 	public String getEmployee_identification() {
-		return employee_identification;
+		return this.employee_identification;
+	}
+
+	public Date getEndTime() {
+		return this.endTime;
 	}
 
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getName_controller() {
-		return name_controller;
+		return this.name_controller;
 	}
 
 	public String getName_editor() {
-		return name_editor;
+		return this.name_editor;
 	}
 
 	public String getName_user() {
-		return name_user;
+		return this.name_user;
 	}
 
 	public Integer getNo_shift() {
-		return no_shift;
+		return this.no_shift;
 	}
 
 	public String getNote() {
-		return note;
+		return this.note;
 	}
 
 	public Double getProgram_time() {
-		return program_time;
+		return this.program_time;
 	}
 
 	public Double getRevision_time() {
-		return revision_time;
+		return this.revision_time;
 	}
 
 	public Integer getShift() {
-		return shift;
+		return this.shift;
+	}
+
+	public Date getStartTime() {
+		return this.startTime;
 	}
 
 	public Boolean getSync_mobile_1() {
-		if (sync_mobile_1 == null) {
+		if (this.sync_mobile_1 == null) {
 			return Boolean.FALSE;
 		}
-		return sync_mobile_1;
+		return this.sync_mobile_1;
 	}
 
 	public Boolean getSync_mobile_2() {
-		if (sync_mobile_2 == null) {
+		if (this.sync_mobile_2 == null) {
 			return Boolean.FALSE;
 		}
-		return sync_mobile_2;
+		return this.sync_mobile_2;
 	}
 
 	public Boolean getSync_mobile_3() {
-		if (sync_mobile_3 == null) {
+		if (this.sync_mobile_3 == null) {
 			return Boolean.FALSE;
 		}
-		return sync_mobile_3;
+		return this.sync_mobile_3;
 	}
 
 	public Boolean getSync_mobile_4() {
-		if (sync_mobile_4 == null) {
+		if (this.sync_mobile_4 == null) {
 			return Boolean.FALSE;
 		}
-		return sync_mobile_4;
+		return this.sync_mobile_4;
 	}
 
 	public Integer getUser() {
-		return user;
+		return this.user;
 	}
 
 	public void setController(final Integer controller) {
@@ -195,6 +207,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setEmployee_identification(final String employee_identification) {
 		this.employee_identification = employee_identification;
+	}
+
+	public void setEndTime(final Date endTime) {
+		this.endTime = endTime;
 	}
 
 	public void setId(final Integer id) {
@@ -231,6 +247,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
+	}
+
+	public void setStartTime(final Date startTime) {
+		this.startTime = startTime;
 	}
 
 	public void setSync_mobile_1(final Boolean sync_mobile_1) {

@@ -38,6 +38,8 @@ public interface ISchedule {
 
 	public Schedule loadScheduleById(Integer id);
 
+	public Schedule loadScheduleStartEndTime(Integer id_schedule);
+
 	public void removeAllDetailFinalScheduleBySchedule(Integer id_schedule);
 
 	public void removeAllDetailFinalScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
@@ -72,8 +74,12 @@ public interface ISchedule {
 
 	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
 
+	public void updateEndTimeSchedule(Integer id_schedule, Date endTime);
+
 	public void updateMobileSynch(Integer id_schedule, boolean synch_mobile, Integer shift_no);
 
 	public void updateScheduleNote(Integer id_schedule, String note);
+
+	public void updateStartTimeSchedule(Integer id_schedule, Date startTime);
 
 }
