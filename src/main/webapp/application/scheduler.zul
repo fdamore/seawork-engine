@@ -1894,15 +1894,18 @@
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<panelchildren>
-						
+
 							<vbox align="start">
 								<a id="scheduler_label_review"></a>
 								<a id="label_date_shift_review"
 									sclass="header" iconSclass="z-icon-check" />
+
+								<separator></separator>
+
 								<a id="editor_label_review" />
 								<a id="controller_label_review" />
 							</vbox>
-														
+
 							<hbox align="center" id="day_shift_over">
 								<a
 									label="Finisce il Giorno seguente: ">
@@ -1912,10 +1915,15 @@
 								</checkbox>
 							</hbox>
 
-							<separator/>
-							<space></space>
-							
-							<checkbox  checked="true" label="Invia ad App Mobile" id="sync_schedule"/>
+							<separator></separator>
+
+							<hbox align="center">
+								<a label="Inviato ad App Mobile"></a>
+								<checkbox checked="true"
+									id="sync_schedule" />
+							</hbox>
+
+							<separator></separator>
 
 							<listbox id="listbox_review" sclass="domain"
 								checkmark="true" multiple="true">
@@ -1959,13 +1967,17 @@
 											<button label="Cancella"
 												id="remove_review_item" sclass="btn-info">
 											</button>
-											<label id="totalHours_Review" value="Totale Ore Consuntivate: " />
+											<label
+												id="totalHours_Review" value="Totale Ore Consuntivate: " />
+
 											<label value=" - Entrata: " />
-											<label id="startTime_Review" value="" />
+											<label id="startTime_Review"
+												value="" />
 											<label value="Uscita: " />
-											<label id="endTime_Review" value="" />
-											
-											
+											<label id="endTime_Review"
+												value="" />
+
+
 										</hbox>
 
 									</auxheader>
@@ -2004,10 +2016,8 @@
 								<listhead>
 									<listheader label="Mansioni" />
 									<listheader label="Tempo Lavorato" />
-									<listheader
-										label="Orario di ingresso" />
-									<listheader
-										label="Orario di uscita" />
+									<listheader label="Inizio Attività" />
+									<listheader label="Fine Attività" />
 									<listheader label="Nave" />
 									<listheader label="Crane" />
 									<listheader label="Postazione" />
@@ -2486,18 +2496,18 @@
 									id="list_overview_review">
 
 									<listhead sizable="true">
-									
+
 										<listheader label="Anno"
 											align="center" hflex="1" />
-											
+
 										<listheader label="Mese"
 											align="center" hflex="1" />
-											
-										<listheader
-											label="Settimana" align="center" hflex="1" />
-											
-										<listheader
-											label="Giorno" align="center" hflex="1" />
+
+										<listheader label="Settimana"
+											align="center" hflex="1" />
+
+										<listheader label="Giorno"
+											align="center" hflex="1" />
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="1" />
@@ -2508,7 +2518,7 @@
 										<listheader label="Data"
 											align="center" hflex="1" />
 
-										
+
 										<listheader label="Tipo Turno"
 											align="center" hflex="1" />
 
@@ -2535,23 +2545,23 @@
 									<listitem
 										self="@{each='itemoverviewreview'}"
 										value="@{itemoverviewreview}">
-									
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
-	
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
-									
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
-											
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}" />
-											
-									
+
+
 										<listcell
 											sclass="myBottonCell">
-											
+
 											<a
 												label="@{itemoverviewreview.user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
@@ -2573,9 +2583,9 @@
 											label="@{itemoverviewreview.employee_identification}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />								
-									
-										
+											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+
 
 										<listcell
 											sclass="myBottonCell">
@@ -2637,18 +2647,18 @@
 									id="list_overview_program">
 
 									<listhead sizable="true">
-									
+
 										<listheader label="Anno"
 											align="center" hflex="1" />
-											
+
 										<listheader label="Mese"
 											align="center" hflex="1" />
-											
-										<listheader
-											label="Settimana" align="center" hflex="1" />
-											
-										<listheader
-											label="Giorno" align="center" hflex="1" />
+
+										<listheader label="Settimana"
+											align="center" hflex="1" />
+
+										<listheader label="Giorno"
+											align="center" hflex="1" />
 
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="1" />
@@ -2659,7 +2669,7 @@
 										<listheader label="Data"
 											align="center" hflex="1" />
 
-										
+
 										<listheader label="Tipo Turno"
 											align="center" hflex="1" />
 
@@ -2672,30 +2682,30 @@
 											hflex="1" align="center" />
 										<listheader label="Ore chiusura"
 											hflex="1" align="center" />
-										
+
 										<listheader label="Ingresso"
 											hflex="2" align="center" />
 										<listheader label="Uscita"
 											hflex="2" align="center" />
 
 									</listhead>
-									
+
 									<listitem
 										self="@{each='itemoverviewprogram'}"
 										value="@{itemoverviewprogram}">
-									
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
-									
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToMonthConverter'}" />
-									
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
-									
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}" />
-									
+
 
 
 										<listcell
@@ -2725,7 +2735,7 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
-										
+
 										<listcell
 											sclass="myBottonCell">
 											<a
@@ -2757,8 +2767,8 @@
 											label="@{itemoverviewprogram.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
-											
-											
+
+
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.time_from}" />
 
@@ -2785,18 +2795,18 @@
 									id="list_overview_preprocessing">
 
 									<listhead sizable="true">
-									
+
 										<listheader label="Anno"
 											align="center" hflex="1" />
-										
+
 										<listheader label="Mese"
 											align="center" hflex="1" />
-											
-										<listheader
-											label="Settimana" align="center" hflex="1" />
-										
-										<listheader
-											label="Giorno" align="center" hflex="1" />
+
+										<listheader label="Settimana"
+											align="center" hflex="1" />
+
+										<listheader label="Giorno"
+											align="center" hflex="1" />
 
 										<listheader label="Nome"
 											sort="auto(name_user)" hflex="1" />
@@ -2815,8 +2825,8 @@
 									<listitem
 										self="@{each='itemoverviewpreprocessing'}"
 										value="@{itemoverviewpreprocessing}">
-									
-									<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
 
 										<listcell sclass="myBottonCell"
@@ -2824,10 +2834,10 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}" />
-									
+
 
 										<listcell
 											sclass="myBottonCell">
@@ -2853,7 +2863,7 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
-										
+
 										<listcell
 											sclass="myBottonCell">
 											<a
