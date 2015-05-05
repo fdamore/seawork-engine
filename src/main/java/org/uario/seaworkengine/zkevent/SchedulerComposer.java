@@ -6297,18 +6297,39 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (statistic != null) {
 			for (final RateShift av : statistic) {
 
-				if (av.getShift() == 1) {
-					SchedulerComposer.this.shift_perc_1.setValue(this.shift_perc_1.getValue() + " (" + av.getRate().intValue() + ")");
+				if (sunday_work != 0) {
+					if (av.getShift() == 1) {
+						SchedulerComposer.this.shift_perc_1.setValue(this.shift_perc_1.getValue() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+					}
+					if (av.getShift() == 2) {
+						SchedulerComposer.this.shift_perc_2.setValue(this.shift_perc_2.getValue() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+					}
+					if (av.getShift() == 3) {
+						SchedulerComposer.this.shift_perc_3.setValue(this.shift_perc_3.getValue() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+					}
+					if (av.getShift() == 4) {
+						final int a = av.getRate().intValue();
+						SchedulerComposer.this.shift_perc_4.setValue(this.shift_perc_4.getValue() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work * 100) + "%)");
+					}
+				} else {
+					if (av.getShift() == 1) {
+						SchedulerComposer.this.shift_perc_1.setValue(this.shift_perc_1.getValue() + " (0%)");
+					}
+					if (av.getShift() == 2) {
+						SchedulerComposer.this.shift_perc_2.setValue(this.shift_perc_2.getValue() + " (0%)");
+					}
+					if (av.getShift() == 3) {
+						SchedulerComposer.this.shift_perc_3.setValue(this.shift_perc_3.getValue() + " (0%)");
+					}
+					if (av.getShift() == 4) {
+						SchedulerComposer.this.shift_perc_4.setValue(this.shift_perc_4.getValue() + " (0%)");
+					}
 				}
-				if (av.getShift() == 2) {
-					SchedulerComposer.this.shift_perc_2.setValue(this.shift_perc_2.getValue() + " (" + av.getRate().intValue() + ")");
-				}
-				if (av.getShift() == 3) {
-					SchedulerComposer.this.shift_perc_3.setValue(this.shift_perc_3.getValue() + " (" + av.getRate().intValue() + ")");
-				}
-				if (av.getShift() == 4) {
-					SchedulerComposer.this.shift_perc_4.setValue(this.shift_perc_4.getValue() + " (" + av.getRate().intValue() + ")");
-				}
+
 			}
 		}
 
