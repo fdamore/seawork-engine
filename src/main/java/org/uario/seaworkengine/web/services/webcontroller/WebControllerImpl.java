@@ -252,7 +252,16 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	public List<Date> loadScheduleStartEndTime(final Integer id_schedule) {
+
+		if (id_schedule == null) {
+			return new ArrayList<Date>();
+		}
+
 		final Schedule schedule = this.scheduleDAO.loadScheduleStartEndTime(id_schedule);
+
+		if (schedule == null) {
+			return new ArrayList<Date>();
+		}
 
 		final Date start_date = schedule.getStartTime();
 		final Date end_date = schedule.getEndTime();
