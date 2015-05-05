@@ -427,9 +427,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_statistic_popup;
+
 	@Wire
 	private A								label_statistic_task_popup;
-
 	@Wire
 	private Component						last_programmer_tag;
 
@@ -524,33 +524,34 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabbox							overview_tab;
+
 	@Wire
 	private Panel							panel_shift_period;
-
 	private final String					partTimeMessage					= "Part Time";
+
 	private Person							person_logged					= null;
 	private PersonDAO						personDAO;
 	private Person							personLock;
-
 	@Wire
 	private Div								preprocessing_div;
 
 	@Wire
 	private Comboitem						preprocessing_item;
-	@Wire
-	private Panel							preprocessing_panel;
 
 	@Wire
+	private Panel							preprocessing_panel;
+	@Wire
 	private Component						print_program_videos;
+
 	@Wire
 	private Component						print_scheduler;
 	@Wire
 	private Div								program_div;
 	@Wire
 	private Component						program_head_1_1;
-
 	@Wire
 	private Component						program_head_1_2;
+
 	@Wire
 	private Component						program_head_1_3;
 	@Wire
@@ -559,7 +560,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component						program_head_4_1;
 	@Wire
 	private Component						program_head_4_2;
-
 	@Wire
 	private Component						program_head_4_3;
 
@@ -601,13 +601,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_1_4;
+
 	@Wire
 	private Auxheader						program_tot_2_1;
 	@Wire
 	private Auxheader						program_tot_2_2;
 	@Wire
 	private Auxheader						program_tot_2_3;
-
 	@Wire
 	private Auxheader						program_tot_2_4;
 
@@ -619,15 +619,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_3_3;
+
 	@Wire
 	private Auxheader						program_tot_3_4;
 	@Wire
 	private Auxheader						program_tot_4_1;
 	@Wire
 	private Auxheader						program_tot_4_2;
-
 	@Wire
 	private Auxheader						program_tot_4_3;
+
 	@Wire
 	private Auxheader						program_tot_4_4;
 	@Wire
@@ -650,7 +651,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						programUser_tot_2_1;
 	@Wire
 	private Auxheader						programUser_tot_2_2;
-
 	@Wire
 	private Auxheader						programUser_tot_2_3;
 
@@ -774,11 +774,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private String							saturationStyle;
 
 	private ISchedule						scheduleDAO;
-	@Wire
-	private A								scheduler_label;
 
 	@Wire
+	private A								scheduler_label;
+	@Wire
 	private A								scheduler_label_review;
+
 	@Wire
 	private Combobox						scheduler_type_selector;
 	private IScheduleShip					scheduleShipDAO;
@@ -786,7 +787,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Combobox						select_shift_overview;
 	@Wire
 	private Combobox						select_shifttype_overview;
-
 	@Wire
 	public Combobox							select_year;
 
@@ -878,6 +878,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final String					switchButtonValueClose			= "Chiudi";
 
 	private final String					switchButtonValueOpen			= "Apri";
+
+	@Wire
+	private Checkbox						sync_schedule;
 
 	protected ITaskCache					task_cache;
 
@@ -1693,17 +1696,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -3468,6 +3471,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
+			// check or unchek sync_mobile checkbox
+			if (this.selectedShift.equals(1)) {
+				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_1());
+			}
+			if (this.selectedShift.equals(2)) {
+				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_2());
+			}
+			if (this.selectedShift.equals(3)) {
+				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_3());
+			}
+			if (this.selectedShift.equals(4)) {
+				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_4());
+			}
+
 		}
 
 	}
@@ -3549,8 +3566,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3875,17 +3892,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4104,7 +4121,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -4212,7 +4229,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// save details
 		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_review);
 
-		this.scheduleDAO.updateMobileSynch(this.currentSchedule.getId(), true, this.selectedShift);
+		this.scheduleDAO.updateMobileSynch(this.currentSchedule.getId(), this.sync_schedule.isChecked(), this.selectedShift);
 
 		// refresh grid
 		this.setupGlobalSchedulerGridForShiftReview();

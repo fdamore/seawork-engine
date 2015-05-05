@@ -1894,6 +1894,7 @@
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
 						<panelchildren>
+						
 							<vbox align="start">
 								<a id="scheduler_label_review"></a>
 								<a id="label_date_shift_review"
@@ -1901,8 +1902,7 @@
 								<a id="editor_label_review" />
 								<a id="controller_label_review" />
 							</vbox>
-							<space></space>
-
+														
 							<hbox align="center" id="day_shift_over">
 								<a
 									label="Finisce il Giorno seguente: ">
@@ -1912,7 +1912,10 @@
 								</checkbox>
 							</hbox>
 
+							<separator/>
 							<space></space>
+							
+							<checkbox  checked="true" label="Invia ad App Mobile" id="sync_schedule"/>
 
 							<listbox id="listbox_review" sclass="domain"
 								checkmark="true" multiple="true">
@@ -1958,6 +1961,7 @@
 											</button>
 											<label
 												id="totalHours_Review" value="Totale Ore Consuntivate: " />
+											
 										</hbox>
 
 									</auxheader>
