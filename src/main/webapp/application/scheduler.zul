@@ -2483,6 +2483,7 @@
 					<tab label="CONSUNTIVO"></tab>
 					<tab label="PROGRAMMATO"></tab>
 					<tab label="PREVENTIVATO"></tab>
+					<tab label="STATISTICA"></tab>
 				</tabs>
 				<tabpanels>
 					<tabpanel id="overview_review">
@@ -2884,6 +2885,18 @@
 						</panel>
 
 					</tabpanel>
+
+
+					<tabpanel id="overview_statistics">
+
+						<button id="generate_statistics"
+							label="Aggiorna Statistiche" sclass="btn-info">
+						</button>
+
+
+					</tabpanel>
+
+
 
 				</tabpanels>
 
