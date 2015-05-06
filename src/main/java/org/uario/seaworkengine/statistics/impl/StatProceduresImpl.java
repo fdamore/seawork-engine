@@ -374,26 +374,34 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		// get average - set sunady work percentage
 		statistic = this.statisticDAO.getCountSundayForShift(person.getId(), c.getTime(), date_first_day_year);
+
+		// define sunday count for stat average.
+		int sunday_work_count = 0;
+		for (final RateShift av : statistic) {
+			sunday_work_count += av.getRate();
+
+		}
+
 		if (statistic != null) {
 			for (final RateShift av : statistic) {
 
 				if (sunday_work != 0) {
 					if (av.getShift() == 1) {
-						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
-								+ "%)");
+						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 2) {
-						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
-								+ "%)");
+						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 3) {
-						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
-								+ "%)");
+						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 4) {
 						final int a = av.getRate().intValue();
-						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
-								+ "%)");
+						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 				} else {
 					if (av.getShift() == 1) {
