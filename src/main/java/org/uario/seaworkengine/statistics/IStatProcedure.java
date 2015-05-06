@@ -52,6 +52,14 @@ public interface IStatProcedure {
 	 */
 	public Integer getMinimumShift(final Date date_calendar_schedule, Integer user);
 
+	/**
+	 * Get user static in date interval
+	 *
+	 * @param person
+	 * @param date_from
+	 * @param date_to
+	 * @return UserStatistics
+	 */
 	public UserStatistics getUserStatistics(final Person person);
 
 	/**
