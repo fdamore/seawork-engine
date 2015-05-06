@@ -18,11 +18,15 @@ import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.platform.persistence.dao.UserCompensationDAO;
+import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
+
+	private IBankHolidays		bank_holiday;
 
 	private UserCompensationDAO	compensationDAO;
 
@@ -50,7 +54,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date date_from = DateUtils.truncate(date_from_arg, Calendar.DATE);
 
 		// current day work
-		final Double current_work_count = statisticDAO.getWorkCountByUser(user.getId(), date_from, date_to) / 24;
+		final Double current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), date_from, date_to) / 24;
 
 		// work day amount
 		final Integer work_ammount = Utility.getWorkAmount(date_from, date_to, user.getHourswork_w(), user.getDaywork_w()) / 24;
@@ -60,13 +64,13 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		// get compensation
-		Double comp = compensationDAO.getTotalHoursInDateYear(user.getId(), date_from);
+		Double comp = this.compensationDAO.getTotalHoursInDateYear(user.getId(), date_from);
 		if (comp == null) {
 			comp = 0.0;
 		}
 
 		// get shift recorded
-		final Double day_work_shift_recorded = statisticDAO.getShiftRecorded(user.getId(), date_from, date_to);
+		final Double day_work_shift_recorded = this.statisticDAO.getShiftRecorded(user.getId(), date_from, date_to);
 		Double hours_work_shift_recorded = 0.0;
 		if (day_work_shift_recorded == null) {
 			hours_work_shift_recorded = 0.0;
@@ -101,8 +105,12 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	}
 
+	public IBankHolidays getBank_holiday() {
+		return this.bank_holiday;
+	}
+
 	public UserCompensationDAO getCompensationDAO() {
-		return compensationDAO;
+		return this.compensationDAO;
 	}
 
 	/**
@@ -113,7 +121,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Integer getFirstShiftInDay(final Date date_calendar_schedule, final Integer user) {
 
-		return myScheduleDAO.getFirstShift(date_calendar_schedule, user);
+		return this.myScheduleDAO.getFirstShift(date_calendar_schedule, user);
 
 	}
 
@@ -125,7 +133,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Integer getLastShiftInDay(final Date date_calendar_schedule, final Integer user) {
 
-		return myScheduleDAO.getLastShift(date_calendar_schedule, user);
+		return this.myScheduleDAO.getLastShift(date_calendar_schedule, user);
 
 	}
 
@@ -145,14 +153,14 @@ public class StatProceduresImpl implements IStatProcedure {
 		int max_shift = 4;
 
 		// get a shift - 12 after last shift
-		Integer first_shift = myScheduleDAO.getFirstShift(calendar.getTime(), user);
+		Integer first_shift = this.myScheduleDAO.getFirstShift(calendar.getTime(), user);
 
 		if (first_shift != null) {
 
 			// define recall. If -9999 a break is found
 			if (first_shift == -9999) {
 
-				first_shift = getMaximumShift(calendar.getTime(), user);
+				first_shift = this.getMaximumShift(calendar.getTime(), user);
 				return first_shift;
 			}
 
@@ -184,14 +192,14 @@ public class StatProceduresImpl implements IStatProcedure {
 		int min_shift = 1;
 
 		// get a shift - 12 after last shift
-		Integer last_shift = myScheduleDAO.getLastShift(calendar.getTime(), user);
+		Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
 
 		if (last_shift != null) {
 
 			// define recall. If -9999 a break is found
 			if (last_shift == -9999) {
 
-				last_shift = getMinimumShift(calendar.getTime(), user);
+				last_shift = this.getMinimumShift(calendar.getTime(), user);
 				return last_shift;
 			}
 
@@ -212,15 +220,15 @@ public class StatProceduresImpl implements IStatProcedure {
 	}
 
 	public ISchedule getMyScheduleDAO() {
-		return myScheduleDAO;
+		return this.myScheduleDAO;
 	}
 
 	public TasksDAO getMyTaskDAO() {
-		return myTaskDAO;
+		return this.myTaskDAO;
 	}
 
 	public IShiftCache getShiftCache() {
-		return shiftCache;
+		return this.shiftCache;
 	}
 
 	/**
@@ -237,7 +245,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
 		final Date date_first_day_year = calendar_first_day.getTime();
 
-		final RateShift[] averages = statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
+		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
 
 		// get info from last shift
 		final Calendar calendar = Calendar.getInstance();
@@ -245,7 +253,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
 
 		// get a shift - 12 after last shift
-		final Integer last_shift = myScheduleDAO.getLastShift(calendar.getTime(), user);
+		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
 		int min_shift = 1;
 		if (last_shift != null) {
 			if (last_shift == 3) {
@@ -290,7 +298,209 @@ public class StatProceduresImpl implements IStatProcedure {
 	}
 
 	public IStatistics getStatisticDAO() {
-		return statisticDAO;
+		return this.statisticDAO;
+	}
+
+	@Override
+	public UserStatistics getUserStatistics(final Person person) {
+
+		final UserStatistics userStatistics = new UserStatistics();
+
+		// get info for the begin of current year
+		final Calendar calendar_first_day = Calendar.getInstance();
+		calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
+		final Date date_first_day_year = DateUtils.truncate(calendar_first_day, Calendar.DATE).getTime();
+
+		// SET WORK SUNDAY
+
+		// count holidays until now
+		final int count_allsunday = this.bank_holiday.countCurrentSundaysUntilNow();
+
+		// get number of Sunday work
+		final Integer sunday_work = this.statisticDAO.getSundayWork(person.getId(), date_first_day_year);
+
+		Double perc_sunday;
+		if (count_allsunday == 0) {
+			perc_sunday = 0.0;
+		} else {
+			perc_sunday = (100 * (double) sunday_work) / count_allsunday;
+		}
+		final String perc_info = "" + sunday_work + " (" + Utility.roundTwo(perc_sunday) + "%)";
+
+		// set perc
+		userStatistics.setWork_sunday_perc(perc_info);
+
+		// SET WORK SUNDAY HOLIDAYS
+
+		// count holidays until now
+		final int count_allholiday = this.bank_holiday.countCurrentHolidaysUntilNow();
+
+		final Integer holidays_work = this.statisticDAO.getHolidaysWork(person.getId(), date_first_day_year);
+
+		final Double perc_holiday;
+		if (count_allholiday == 0) {
+			perc_holiday = 0.0;
+		} else {
+			perc_holiday = (100 * (double) holidays_work) / count_allholiday;
+		}
+		final String perc_info_holiday = "" + holidays_work + " (" + Utility.roundTwo(perc_holiday) + "%)";
+
+		// set perc
+		userStatistics.setWork_holiday_perc(perc_info_holiday);
+
+		final Calendar c = Calendar.getInstance();
+		c.add(Calendar.DATE, 1);
+
+		// get average - review base
+		RateShift[] statistic = this.statisticDAO.getAverageForShift(person.getId(), c.getTime(), date_first_day_year);
+
+		if (statistic != null) {
+			for (final RateShift av : statistic) {
+
+				if (av.getShift() == 1) {
+					userStatistics.setShift_perc_1("" + Utility.roundTwo(av.getRate()) + "%");
+				}
+				if (av.getShift() == 2) {
+					userStatistics.setShift_perc_2("" + Utility.roundTwo(av.getRate()) + "%");
+				}
+				if (av.getShift() == 3) {
+					userStatistics.setShift_perc_3("" + Utility.roundTwo(av.getRate()) + "%");
+				}
+				if (av.getShift() == 4) {
+					userStatistics.setShift_perc_4("" + Utility.roundTwo(av.getRate()) + "%");
+				}
+			}
+		}
+
+		// get average - set sunady work percentage
+		statistic = this.statisticDAO.getCountSundayForShift(person.getId(), c.getTime(), date_first_day_year);
+		if (statistic != null) {
+			for (final RateShift av : statistic) {
+
+				if (sunday_work != 0) {
+					if (av.getShift() == 1) {
+						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
+								+ "%)");
+					}
+					if (av.getShift() == 2) {
+						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
+								+ "%)");
+					}
+					if (av.getShift() == 3) {
+						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
+								+ "%)");
+					}
+					if (av.getShift() == 4) {
+						final int a = av.getRate().intValue();
+						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " (" + Utility.roundTwo((av.getRate() / sunday_work) * 100)
+								+ "%)");
+					}
+				} else {
+					if (av.getShift() == 1) {
+						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " (0%)");
+					}
+					if (av.getShift() == 2) {
+						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " (0%)");
+					}
+					if (av.getShift() == 3) {
+						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " (0%)");
+					}
+					if (av.getShift() == 4) {
+						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " (0%)");
+					}
+				}
+
+			}
+		}
+
+		// set info about week working
+		final Calendar current = Calendar.getInstance();
+		final Date date_to = current.getTime();
+
+		current.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		Date date_from = current.getTime();
+
+		Integer week_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
+		if (week_current_hours == null) {
+			week_current_hours = 0;
+		}
+
+		userStatistics.setWork_current_week("" + week_current_hours);
+
+		// set info about month working
+		current.set(Calendar.DAY_OF_MONTH, current.getActualMinimum(Calendar.DAY_OF_MONTH));
+		date_from = current.getTime();
+
+		Integer month_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
+		if (month_current_hours == null) {
+			month_current_hours = 0;
+		}
+
+		userStatistics.setWork_current_month("" + month_current_hours);
+
+		// set info about year working
+		current.set(Calendar.YEAR, current.get(Calendar.YEAR));
+		current.set(Calendar.WEEK_OF_YEAR, 1);
+		current.set(Calendar.DAY_OF_YEAR, 1);
+		date_from = current.getTime();
+
+		Integer year_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
+		if (year_current_hours == null) {
+			year_current_hours = 0;
+		}
+
+		userStatistics.setWork_current_year("" + year_current_hours);
+
+		// working series
+		final Calendar take_today = Calendar.getInstance();
+		final Integer day_series = this.getWorkingSeries(take_today.getTime(), person.getId());
+		String message = "0";
+		if (day_series <= 15) {
+			message = "" + day_series;
+		} else {
+			message = ">=" + day_series;
+		}
+		userStatistics.setWorking_series(message);
+
+		userStatistics.setUserRoles("");
+
+		// set label in statistic popup
+		final String roles = person.getRolesDescription();
+		if (roles != "") {
+			userStatistics.setUserRoles(roles + ".");
+		}
+
+		// set saturation label
+		final Calendar cal_saturation = Calendar.getInstance();
+		cal_saturation.add(Calendar.DAY_OF_YEAR, -1);
+		final Date date_to_on_year = cal_saturation.getTime();
+		cal_saturation.set(Calendar.DAY_OF_YEAR, cal_saturation.getMinimum(Calendar.DAY_OF_YEAR));
+		final Date date_from_on_year = cal_saturation.getTime();
+
+		final Double sat = this.calculeSaturation(person, date_from_on_year, date_to_on_year);
+
+		userStatistics.setSaturation(sat);
+
+		// set saturation month label
+		final Calendar cal_saturation_month = Calendar.getInstance();
+		cal_saturation_month.add(Calendar.MONTH, -1);
+		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+		final Date date_to_on_month = cal_saturation_month.getTime();
+		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation.getMinimum(Calendar.DAY_OF_MONTH));
+		final Date date_from_on_month = cal_saturation_month.getTime();
+
+		final int month = cal_saturation_month.get(Calendar.MONTH);
+
+		Double sat_month = this.calculeSaturation(person, date_from_on_month, date_to_on_month);
+
+		if (sat_month != null) {
+			sat_month = sat_month / month;
+		}
+
+		userStatistics.setSaturation_month(sat_month);
+
+		return userStatistics;
+
 	}
 
 	/**
@@ -312,7 +522,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date date_begin = calendar.getTime();
 
 		// get date_working
-		final List<Date> list = statisticDAO.getDateAtWork(user, date_begin, my_pick_date);
+		final List<Date> list = this.statisticDAO.getDateAtWork(user, date_begin, my_pick_date);
 
 		// current head series
 		Date currentdate = null;
@@ -378,29 +588,29 @@ public class StatProceduresImpl implements IStatProcedure {
 			schedule.setEditor(editor);
 		}
 
-		final UserShift myShift = shiftCache.getUserShift(schedule.getShift());
+		final UserShift myShift = this.shiftCache.getUserShift(schedule.getShift());
 
 		// override
-		myScheduleDAO.saveOrUpdateSchedule(schedule);
+		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// if the shift is an absence, delete all details
 		if (!myShift.getPresence().booleanValue()) {
-			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 		} else {
 
 			// check if there is any default task (MANSIONE STANDARD)
-			final UserTask task_default = myTaskDAO.getDefault(schedule.getUser());
+			final UserTask task_default = this.myTaskDAO.getDefault(schedule.getUser());
 			if (task_default == null) {
 				return;
 			}
 
 			// get a shift for a day
-			final Integer my_no_shift = getShiftNoForDay(truncDate, schedule.getUser());
+			final Integer my_no_shift = this.getShiftNoForDay(truncDate, schedule.getUser());
 
 			// remove all detail in any shift
-			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 
 			if (myShift.getDaily_shift().booleanValue()) {
 
@@ -417,8 +627,8 @@ public class StatProceduresImpl implements IStatProcedure {
 				item2.setTime(4.0);
 
 				// create detail
-				myScheduleDAO.createDetailInitialSchedule(item1);
-				myScheduleDAO.createDetailInitialSchedule(item2);
+				this.myScheduleDAO.createDetailInitialSchedule(item1);
+				this.myScheduleDAO.createDetailInitialSchedule(item2);
 
 			} else {
 				final DetailInitialSchedule item = new DetailInitialSchedule();
@@ -428,7 +638,7 @@ public class StatProceduresImpl implements IStatProcedure {
 				item.setTime(6.0);
 
 				// create detail
-				myScheduleDAO.createDetailInitialSchedule(item);
+				this.myScheduleDAO.createDetailInitialSchedule(item);
 
 			}
 
@@ -459,21 +669,19 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Calendar last = (Calendar) first.clone();
 		last.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
-		final List<Schedule> scheduleListInWeek = myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(),
-				last.getTime());
+		final List<Schedule> scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(), last.getTime());
 
 		final ArrayList<Schedule> ret = new ArrayList<Schedule>();
 
 		for (final Schedule schedule : scheduleListInWeek) {
 
-			final UserShift shiftType = shiftCache.getUserShift(schedule.getShift());
+			final UserShift shiftType = this.shiftCache.getUserShift(schedule.getShift());
 			if (shiftType == null) {
 				continue;
 			}
 
 			if (!date_scheduled.equals(schedule.getDate_schedule())) {
-				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType
-						.getAccident_shift())) {
+				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType.getAccident_shift())) {
 					ret.add(schedule);
 				}
 			}
@@ -485,20 +693,16 @@ public class StatProceduresImpl implements IStatProcedure {
 		return ret;
 	}
 
+	public void setBank_holiday(final IBankHolidays bank_holiday) {
+		this.bank_holiday = bank_holiday;
+	}
+
 	public void setCompensationDAO(final UserCompensationDAO compensationDAO) {
 		this.compensationDAO = compensationDAO;
 	}
 
 	public void setMyScheduleDAO(final ISchedule myScheduleDAO) {
 		this.myScheduleDAO = myScheduleDAO;
-	}
-
-	public void setMyTaskDAO(final TasksDAO myTaskDAO) {
-		this.myTaskDAO = myTaskDAO;
-	}
-
-	public void setShiftCache(final IShiftCache shiftCache) {
-		this.shiftCache = shiftCache;
 	}
 
 	/*
@@ -509,6 +713,14 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
 	 * java.lang.Integer)
 	 */
+
+	public void setMyTaskDAO(final TasksDAO myTaskDAO) {
+		this.myTaskDAO = myTaskDAO;
+	}
+
+	public void setShiftCache(final IShiftCache shiftCache) {
+		this.shiftCache = shiftCache;
+	}
 
 	public void setStatisticDAO(final IStatistics statisticDAO) {
 		this.statisticDAO = statisticDAO;
@@ -528,7 +740,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
 		// refresh info about just saved schedule
-		Schedule schedule = myScheduleDAO.loadSchedule(truncDate, user);
+		Schedule schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
 
 		// if schedule == null, create it
 		if (schedule == null) {
@@ -544,12 +756,12 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		// override
-		myScheduleDAO.saveOrUpdateSchedule(schedule);
+		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// refresh info about just saved schedule
-		schedule = myScheduleDAO.loadSchedule(truncDate, user);
+		schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
 
-		myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+		this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
 	}
 
 	/*
@@ -561,13 +773,12 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * java.lang.Integer)
 	 */
 	@Override
-	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user,
-			final Integer editor) {
+	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
 		// refresh info about just saved schedule
-		Schedule schedule = myScheduleDAO.loadSchedule(truncDate, user);
+		Schedule schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
 
 		// if schedule == null, create it
 		if (schedule == null) {
@@ -583,15 +794,15 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		// override
-		myScheduleDAO.saveOrUpdateSchedule(schedule);
+		this.myScheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// refresh info about just saved schedule
-		schedule = myScheduleDAO.loadSchedule(truncDate, user);
+		schedule = this.myScheduleDAO.loadSchedule(truncDate, user);
 
 		// if the shift is an absence, delete all details
 		if (!shift.getPresence().booleanValue()) {
-			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 		} else {
 
 			// assign work only if current day is today or tomorrow
@@ -611,17 +822,17 @@ public class StatProceduresImpl implements IStatProcedure {
 			// ASSIGN WORK
 
 			// check if there is any default task (MANSIONE STANDARD)
-			final UserTask task_default = myTaskDAO.getDefault(user);
+			final UserTask task_default = this.myTaskDAO.getDefault(user);
 			if (task_default == null) {
 				return;
 			}
 
 			// get a shift for a day
-			final Integer my_no_shift = getShiftNoForDay(truncDate, user);
+			final Integer my_no_shift = this.getShiftNoForDay(truncDate, user);
 
 			// remove all detail in any shift
-			myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
-			myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
+			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 
 			// prepare period
 			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
@@ -692,8 +903,8 @@ public class StatProceduresImpl implements IStatProcedure {
 				item2.setTime_to(new Timestamp(cal_shift_3_daily_time_to.getTimeInMillis()));
 
 				// create detail
-				myScheduleDAO.createDetailInitialSchedule(item1);
-				myScheduleDAO.createDetailInitialSchedule(item2);
+				this.myScheduleDAO.createDetailInitialSchedule(item1);
+				this.myScheduleDAO.createDetailInitialSchedule(item2);
 
 			} else {
 				final DetailInitialSchedule item = new DetailInitialSchedule();
@@ -732,7 +943,7 @@ public class StatProceduresImpl implements IStatProcedure {
 				}
 
 				// create detail
-				myScheduleDAO.createDetailInitialSchedule(item);
+				this.myScheduleDAO.createDetailInitialSchedule(item);
 
 			}
 

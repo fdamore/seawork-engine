@@ -14,7 +14,8 @@ public interface IStatProcedure {
 	 *
 	 * @param user
 	 * @param date_from
-	 * @param date_to TODO
+	 * @param date_to
+	 *            TODO
 	 * @return
 	 */
 	public Double calculeSaturation(Person user, Date date_from, Date date_to);
@@ -50,6 +51,8 @@ public interface IStatProcedure {
 	 * @return
 	 */
 	public Integer getMinimumShift(final Date date_calendar_schedule, Integer user);
+
+	public UserStatistics getUserStatistics(final Person person);
 
 	/**
 	 * Get series

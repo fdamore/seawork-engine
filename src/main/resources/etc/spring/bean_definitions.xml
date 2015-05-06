@@ -229,6 +229,7 @@
 		<property name="statisticDAO" ref="myStatisticsDAO"></property>
 		<property name="shiftCache" ref="myShiftCache"></property>
 		<property name="compensationDAO" ref="myUserCompensationDAO"></property>
+		<property name="bank_holiday" ref="bank_holidays"></property>	
 	</bean>
 
 
