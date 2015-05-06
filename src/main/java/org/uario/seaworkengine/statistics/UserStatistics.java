@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.uario.seaworkengine.model.Person;
 
-public class UserStatistics {
+public class UserStatistics implements Comparable<UserStatistics> {
 
 	private Date	date;
 
@@ -25,6 +25,28 @@ public class UserStatistics {
 	private String	work_sunday_perc;
 
 	private String	working_series;
+
+	@Override
+	public int compareTo(final UserStatistics o) {
+		if (o == null) {
+			return -1;
+		}
+		if (!(o instanceof UserStatistics)) {
+			return -1;
+		}
+		if (this.person.getLastname() == null) {
+			return -1;
+		}
+		final UserStatistics item = o;
+
+		if (item.getPerson() == null) {
+			return -1;
+		}
+		if (item.getPerson().getLastname() == null) {
+			return 1;
+		}
+		return this.person.getLastname().compareTo(item.getPerson().getLastname());
+	}
 
 	public Date getDate() {
 		return this.date;

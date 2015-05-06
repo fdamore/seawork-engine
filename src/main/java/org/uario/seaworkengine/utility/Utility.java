@@ -43,6 +43,10 @@ public class Utility {
 
 	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
 
+	public static String convertToDateAndTime(final Date date) {
+		return Utility.dateTimeformat.format(date);
+	}
+
 	public static String convertToDateAndTime(final Timestamp date) {
 
 		return Utility.dateTimeformat.format(date);
@@ -271,8 +275,7 @@ public class Utility {
 		return cal.get(Calendar.WEEK_OF_YEAR);
 	}
 
-	public static Integer getWorkAmount(final Date date_from, final Date date_to, final Integer hours_per_week,
-			final Integer hours_per_day) {
+	public static Integer getWorkAmount(final Date date_from, final Date date_to, final Integer hours_per_week, final Integer hours_per_day) {
 
 		final long diff = date_to.getTime() - date_from.getTime();
 

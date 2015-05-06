@@ -70,6 +70,7 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
@@ -78,6 +79,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Popup;
+import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Textbox;
@@ -455,6 +457,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private ArrayList<RowSchedule>			list_rows_program;
 
 	@Wire
+	private Listbox							list_statistics;
+
+	@Wire
 	private Listbox							list_task_stat;
 
 	@Wire
@@ -471,6 +476,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	// review program and revision - USED DOWNLOAD
 	private List<Schedule>					listSchedule					= null;
+
+	// statistics - USED DOWNLOAD
+	private List<UserStatistics>			listUserStatistics				= null;
 
 	private LockTableDAO					lockTableDAO;
 
@@ -744,6 +752,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						review_tot_2_4;
 
 	@Wire
+	private Component						reviewSearchBox;
+
+	@Wire
 	private Auxheader						reviewUser_tot_1_1;
 
 	@Wire
@@ -774,11 +785,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label							saturation_month;
 
 	private String							saturationStyle;
-
 	private ISchedule						scheduleDAO;
+
 	@Wire
 	private A								scheduler_label;
-
 	@Wire
 	private A								scheduler_label_review;
 	@Wire
@@ -786,6 +796,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private IScheduleShip					scheduleShipDAO;
 	@Wire
 	private Combobox						select_shift_overview;
+
 	@Wire
 	private Combobox						select_shifttype_overview;
 
@@ -872,6 +883,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label							startTime_Review;
 
 	private IStatistics						statisticDAO;
+
+	@Wire
+	private Tab								statisticsTab;
 
 	private IStatProcedure					statProcedure;
 
@@ -965,6 +979,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						totalUser_review_day_2;
+
+	@Wire
+	private Label							updateStatisticTime;
 
 	private LockTable						userLockTable;
 
@@ -1849,17 +1866,31 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (selected == this.overview_item) {
 
-			this.preprocessing_div.setVisible(false);
-			this.program_div.setVisible(false);
-			this.review_div.setVisible(false);
-			this.overview_div.setVisible(true);
+			if (this.overview_tab.getSelectedTab() == this.statisticsTab) {
+				if ((this.full_text_search.getValue() != null && !this.full_text_search.getValue().equals(""))) {
+					this.refreshUserStatistics(this.full_text_search.getValue());
+				}
 
-			// set overview list
-			if (this.select_year.getSelectedItem() != null) {
-				this.selectedYear();
+				if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+					final int a = this.shows_rows.getValue();
+					this.list_statistics.setPageSize(this.shows_rows.getValue());
+				}
 			} else {
-				this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
 
+				this.preprocessing_div.setVisible(false);
+				this.program_div.setVisible(false);
+				this.review_div.setVisible(false);
+				this.overview_div.setVisible(true);
+
+				this.reviewSearchBox.setVisible(true);
+
+				// set overview list
+				if (this.select_year.getSelectedItem() != null) {
+					this.selectedYear();
+				} else {
+					this.setOverviewLists(this.date_from_overview.getValue(), this.date_to_overview.getValue());
+
+				}
 			}
 
 			return;
@@ -2560,6 +2591,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			Filedownload.save(builder.toString(), "application/text", "preprocessing.csv");
 
+		} else if (this.listUserStatistics != null) {
+			final StringBuilder builder = UtilityCSV.downloadCSVStatistics(this.listUserStatistics);
+
+			Filedownload.save(builder.toString(), "application/text", "statistics.csv");
 		}
 
 	}
@@ -3518,8 +3553,46 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.date_to_overview.setValue(null);
 		this.select_shift_overview.setSelectedItem(this.item_all_shift_overview);
 
+		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
+
+		if (selected == this.overview_item) {
+
+			if (this.overview_tab.getSelectedTab() == this.statisticsTab) {
+
+				if ((this.full_text_search.getValue() != null)) {
+					this.refreshUserStatistics(this.full_text_search.getValue());
+				}
+
+				if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+					final int a = this.shows_rows.getValue();
+					this.list_statistics.setPageSize(this.shows_rows.getValue());
+				}
+			}
+		}
+
 		this.defineSchedulerView();
 
+	}
+
+	private void refreshUserStatistics(final String text) {
+		// get worker user
+		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text);
+
+		this.listUserStatistics = new ListModelList<UserStatistics>();
+
+		for (final Person person : users_schedule) {
+			final UserStatistics user = this.statProcedure.getUserStatistics(person);
+			user.setPerson(person);
+			this.listUserStatistics.add(user);
+		}
+
+		Collections.sort(this.listUserStatistics);
+
+		this.list_statistics.setModel((ListModel<UserStatistics>) this.listUserStatistics);
+
+		final Calendar cal = Calendar.getInstance();
+
+		this.updateStatisticTime.setValue("Statistica aggiornata a: " + Utility.convertToDateAndTime(cal.getTime()));
 	}
 
 	@Listen("onClick = #cancel_day_definition")
@@ -6308,260 +6381,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// show popup
 		SchedulerComposer.this.day_name_popup.open(anchorComponent, "after_pointer");
 
-		// // get info for the begin of current year
-		// final Calendar calendar_first_day = Calendar.getInstance();
-		// calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
-		// final Date date_first_day_year =
-		// DateUtils.truncate(calendar_first_day, Calendar.DATE).getTime();
-		//
-		// // SET WORK SUNDAY
-		//
-		// // count holidays until now
-		// final int count_allsunday =
-		// this.bank_holiday.countCurrentSundaysUntilNow();
-		//
-		// // get number of Sunday work
-		// final Integer sunday_work = this.statisticDAO.getSundayWork(id_user,
-		// date_first_day_year);
-		//
-		// Double perc_sunday;
-		// if (count_allsunday == 0) {
-		// perc_sunday = 0.0;
-		// } else {
-		// perc_sunday = (100 * (double) sunday_work) / count_allsunday;
-		// }
-		// final String perc_info = "" + sunday_work + " (" +
-		// Utility.roundTwo(perc_sunday) + "%)";
-		//
-		// // set perc
-		// this.work_sunday_perc.setValue(perc_info);
-		//
-		// // SET WORK SUNDAY HOLIDAYS
-		//
-		// // count holidays until now
-		// final int count_allholiday =
-		// this.bank_holiday.countCurrentHolidaysUntilNow();
-		//
-		// final Integer holidays_work =
-		// this.statisticDAO.getHolidaysWork(id_user, date_first_day_year);
-		//
-		// final Double perc_holiday;
-		// if (count_allholiday == 0) {
-		// perc_holiday = 0.0;
-		// } else {
-		// perc_holiday = (100 * (double) holidays_work) / count_allholiday;
-		// }
-		// final String perc_info_holiday = "" + holidays_work + " (" +
-		// Utility.roundTwo(perc_holiday) + "%)";
-		//
-		// // set perc
-		// this.work_holiday_perc.setValue(perc_info_holiday);
-		//
-		// final Calendar c = Calendar.getInstance();
-		// c.add(Calendar.DATE, 1);
-		//
-		// // get average - review base
-		// RateShift[] statistic =
-		// SchedulerComposer.this.statisticDAO.getAverageForShift(id_user,
-		// c.getTime(), date_first_day_year);
-		//
-		// if (statistic != null) {
-		// for (final RateShift av : statistic) {
-		//
-		// if (av.getShift() == 1) {
-		// SchedulerComposer.this.shift_perc_1.setValue("" +
-		// Utility.roundTwo(av.getRate()) + "%");
-		// }
-		// if (av.getShift() == 2) {
-		// SchedulerComposer.this.shift_perc_2.setValue("" +
-		// Utility.roundTwo(av.getRate()) + "%");
-		// }
-		// if (av.getShift() == 3) {
-		// SchedulerComposer.this.shift_perc_3.setValue("" +
-		// Utility.roundTwo(av.getRate()) + "%");
-		// }
-		// if (av.getShift() == 4) {
-		// SchedulerComposer.this.shift_perc_4.setValue("" +
-		// Utility.roundTwo(av.getRate()) + "%");
-		// }
-		// }
-		// }
-		//
-		// // get average - set sunady work percentage
-		// statistic =
-		// SchedulerComposer.this.statisticDAO.getCountSundayForShift(id_user,
-		// c.getTime(), date_first_day_year);
-		// if (statistic != null) {
-		// for (final RateShift av : statistic) {
-		//
-		// if (sunday_work != 0) {
-		// if (av.getShift() == 1) {
-		// SchedulerComposer.this.shift_perc_1.setValue(this.shift_perc_1.getValue()
-		// + " ("
-		// + Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
-		// }
-		// if (av.getShift() == 2) {
-		// SchedulerComposer.this.shift_perc_2.setValue(this.shift_perc_2.getValue()
-		// + " ("
-		// + Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
-		// }
-		// if (av.getShift() == 3) {
-		// SchedulerComposer.this.shift_perc_3.setValue(this.shift_perc_3.getValue()
-		// + " ("
-		// + Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
-		// }
-		// if (av.getShift() == 4) {
-		// final int a = av.getRate().intValue();
-		// SchedulerComposer.this.shift_perc_4.setValue(this.shift_perc_4.getValue()
-		// + " ("
-		// + Utility.roundTwo((av.getRate() / sunday_work) * 100) + "%)");
-		// }
-		// } else {
-		// if (av.getShift() == 1) {
-		// SchedulerComposer.this.shift_perc_1.setValue(this.shift_perc_1.getValue()
-		// + " (0%)");
-		// }
-		// if (av.getShift() == 2) {
-		// SchedulerComposer.this.shift_perc_2.setValue(this.shift_perc_2.getValue()
-		// + " (0%)");
-		// }
-		// if (av.getShift() == 3) {
-		// SchedulerComposer.this.shift_perc_3.setValue(this.shift_perc_3.getValue()
-		// + " (0%)");
-		// }
-		// if (av.getShift() == 4) {
-		// SchedulerComposer.this.shift_perc_4.setValue(this.shift_perc_4.getValue()
-		// + " (0%)");
-		// }
-		// }
-		//
-		// }
-		// }
-		//
-		// // set info about week working
-		// final Calendar current = Calendar.getInstance();
-		// final Date date_to = current.getTime();
-		//
-		// current.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		// Date date_from = current.getTime();
-		//
-		// Integer week_current_hours = this.statisticDAO.getTimeWorked(id_user,
-		// date_from, date_to);
-		// if (week_current_hours == null) {
-		// week_current_hours = 0;
-		// }
-		//
-		// this.work_current_week.setValue("" + week_current_hours);
-		//
-		// // set info about month working
-		// current.set(Calendar.DAY_OF_MONTH,
-		// current.getActualMinimum(Calendar.DAY_OF_MONTH));
-		// date_from = current.getTime();
-		//
-		// Integer month_current_hours =
-		// this.statisticDAO.getTimeWorked(id_user, date_from, date_to);
-		// if (month_current_hours == null) {
-		// month_current_hours = 0;
-		// }
-		//
-		// this.work_current_month.setValue("" + month_current_hours);
-		//
-		// // set info about year working
-		// current.set(Calendar.YEAR, current.get(Calendar.YEAR));
-		// current.set(Calendar.WEEK_OF_YEAR, 1);
-		// current.set(Calendar.DAY_OF_YEAR, 1);
-		// date_from = current.getTime();
-		//
-		// Integer year_current_hours = this.statisticDAO.getTimeWorked(id_user,
-		// date_from, date_to);
-		// if (year_current_hours == null) {
-		// year_current_hours = 0;
-		// }
-		//
-		// this.work_current_year.setValue("" + year_current_hours);
-		//
-		// // working series
-		// final Calendar take_today = Calendar.getInstance();
-		// final Integer day_series =
-		// this.statProcedure.getWorkingSeries(take_today.getTime(), id_user);
-		// String message = "0";
-		// if (day_series <= 15) {
-		// message = "" + day_series;
-		// } else {
-		// message = ">=" + day_series;
-		// }
-		// this.working_series.setValue(message);
-		//
-		// final Person user = this.personDAO.loadPerson(id_user);
-		//
-		// this.userRoles.setValue("");
-		//
-		// // set label in statistic popup
-		// final String roles = user.getRolesDescription();
-		// if (roles != "") {
-		// this.userRoles.setValue(roles + ".");
-		// }
-		//
-		// // set saturation label
-		// final Calendar cal_saturation = Calendar.getInstance();
-		// cal_saturation.add(Calendar.DAY_OF_YEAR, -1);
-		// final Date date_to_on_year = cal_saturation.getTime();
-		// cal_saturation.set(Calendar.DAY_OF_YEAR,
-		// cal_saturation.getMinimum(Calendar.DAY_OF_YEAR));
-		// final Date date_from_on_year = cal_saturation.getTime();
-		//
-		// final Double sat = this.statProcedure.calculeSaturation(user,
-		// date_from_on_year, date_to_on_year);
-		//
-		// if (sat == null) {
-		// this.saturation.setValue(" ");
-		// } else {
-		//
-		// if (sat < 0) {
-		// this.saturation.setStyle("color:red");
-		// this.saturation.setValue("REC " + Utility.roundTwo(Math.abs(sat)));
-		//
-		// } else {
-		// this.saturation.setStyle(this.saturationStyle);
-		// this.saturation.setValue("OT " + Utility.roundTwo(sat));
-		// }
-		//
-		// }
-		//
-		// // set saturation month label
-		// final Calendar cal_saturation_month = Calendar.getInstance();
-		// cal_saturation_month.add(Calendar.MONTH, -1);
-		// cal_saturation_month.set(Calendar.DAY_OF_MONTH,
-		// cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
-		// final Date date_to_on_month = cal_saturation_month.getTime();
-		// cal_saturation_month.set(Calendar.DAY_OF_MONTH,
-		// cal_saturation.getMinimum(Calendar.DAY_OF_MONTH));
-		// final Date date_from_on_month = cal_saturation_month.getTime();
-		//
-		// final int month = cal_saturation_month.get(Calendar.MONTH);
-		//
-		// Double sat_month = this.statProcedure.calculeSaturation(user,
-		// date_from_on_month, date_to_on_month);
-		//
-		// if (sat_month == null) {
-		// this.saturation_month.setValue(" ");
-		// } else {
-		//
-		// sat_month = sat_month / month;
-		//
-		// if (sat_month < 0) {
-		// this.saturation_month.setStyle("color:red");
-		// this.saturation_month.setValue("REC " +
-		// Utility.roundTwo(Math.abs(sat_month)));
-		// } else {
-		// this.saturation_month.setStyle(this.saturationStyle);
-		// this.saturation_month.setValue("OT " + Utility.roundTwo(sat_month));
-		// }
-		// }
-		//
-		// // show popup
-		// SchedulerComposer.this.day_name_popup.open(anchorComponent,
-		// "after_pointer");
 	}
 
 	/**

@@ -7,12 +7,14 @@ import java.util.Locale;
 
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
+import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 
 public class UtilityCSV {
@@ -310,6 +312,109 @@ public class UtilityCSV {
 					+ ";" + crane + ";" + time_from + ";" + time_to + ";\n";
 			builder.append(line);
 		}
+		return builder;
+	}
+
+	public static StringBuilder downloadCSVStatistics(final List<UserStatistics> userStatisticsList) {
+		final StringBuilder builder = new StringBuilder();
+
+		final String header = "Nome;Saturazione;Saturazione Media Mensile;Lavoro Domenicale;Festivi;Ore settimana Corrente;Ore Mese Corrente;Ore Anno Corrente;Giorni Consecutivi;Lavoro su turno 1;Lavoro su turno 2;Lavoro su turno 3;Lavoro su turno 4;\n";
+		builder.append(header);
+
+		final CraneTypeConverter craneConverter = new CraneTypeConverter();
+
+		for (final UserStatistics item : userStatisticsList) {
+
+			String name = "";
+			String saturation = "";
+			String saturationMonth = "";
+			String work_sunday_perc = "";
+			String work_holiday_perc = "";
+			String work_current_week = "";
+
+			String work_current_month = "";
+			String work_current_year = "";
+			String working_series = "";
+			String shift_perc_1 = "";
+			String shift_perc_2 = "";
+			String shift_perc_3 = "";
+			String shift_perc_4 = "";
+
+			if (item.getPerson() != null) {
+				final Person p = item.getPerson();
+				name = p.getLastname() + " " + p.getFirstname();
+			}
+
+			if (item.getSaturation() != null) {
+				final Double sat = Utility.roundTwo(item.getSaturation());
+
+				if (sat < 0) {
+					saturation = "REC " + Utility.roundTwo(Math.abs(sat));
+
+				} else {
+					saturation = "OT " + Utility.roundTwo(sat);
+				}
+			}
+
+			if (item.getSaturation() != null) {
+				final Double sat_month = Utility.roundTwo(item.getSaturation_month());
+
+				if (sat_month < 0) {
+					saturationMonth = "REC " + Utility.roundTwo(Math.abs(sat_month));
+				} else {
+					saturationMonth = "OT " + Utility.roundTwo(sat_month);
+				}
+
+			}
+
+			if (item.getWork_sunday_perc() != null) {
+				work_sunday_perc = item.getWork_sunday_perc();
+			}
+
+			if (item.getWork_holiday_perc() != null) {
+				work_holiday_perc = item.getWork_holiday_perc();
+			}
+
+			if (item.getWork_current_week() != null) {
+				work_current_week = item.getWork_current_week();
+			}
+
+			if (item.getWork_current_month() != null) {
+				work_current_month = item.getWork_current_month();
+			}
+
+			if (item.getWork_current_year() != null) {
+				work_current_year = item.getWork_current_year();
+			}
+
+			if (item.getWorking_series() != null) {
+				working_series = item.getWorking_series();
+			}
+
+			if (item.getShift_perc_1() != null) {
+				shift_perc_1 = item.getShift_perc_1();
+			}
+
+			if (item.getShift_perc_2() != null) {
+				shift_perc_2 = item.getShift_perc_2();
+			}
+
+			if (item.getShift_perc_3() != null) {
+				shift_perc_3 = item.getShift_perc_3();
+			}
+
+			if (item.getShift_perc_4() != null) {
+				shift_perc_4 = item.getShift_perc_4();
+			}
+
+			final String line = "" + name + ";" + saturation + ";" + saturationMonth + ";" + work_sunday_perc + ";" + work_holiday_perc + ";"
+					+ work_current_week + ";" + work_current_month + ";" + work_current_year + ";" + working_series + ";" + shift_perc_1 + ";"
+					+ shift_perc_2 + ";" + shift_perc_3 + ";" + shift_perc_4 + ";\n";
+
+			builder.append(line);
+
+		}
+
 		return builder;
 	}
 
