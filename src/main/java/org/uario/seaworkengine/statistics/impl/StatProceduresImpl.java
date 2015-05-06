@@ -399,7 +399,6 @@ public class StatProceduresImpl implements IStatProcedure {
 								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 4) {
-						final int a = av.getRate().intValue();
 						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " ("
 								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
