@@ -1079,6 +1079,12 @@
 			<intbox placeholder="Cerca Rif MCT..."
 				id="full_text_search_rifMCT" />
 				
+			<intbox width="150px" placeholder="Periodo Fatturazione..."
+				id="invoicing_cycle_search" />
+			<intbox width="150px" placeholder="Periodo Lavorazione..."
+				id="working_cycle_search" />
+			
+				
 			<a label="Filtra su numero turno: " />
 			<combobox placeholder="Scegli turno..." readonly="true"
 				id="select_shiftBap">

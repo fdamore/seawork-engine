@@ -30,7 +30,8 @@ public interface ISchedule {
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(Integer id_schedule, Integer no_shift);
 
-	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, Integer rifMCT, Integer shift);
+	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, Integer rifMCT, Integer shift,
+			Integer invoicing_cycle, Integer working_cycle);
 
 	public List<Schedule> loadSchedule(Date date_scheduled);
 

@@ -57,11 +57,19 @@
 		</if>
 
 		<if test="rifMCT != null">
-			and ss.rif_mct = #{rifMCT}
+			and ss.rif_mct = #{rifMCT} 
 		</if>
 
 		<if test="shift != null">
 			and dss.shift = #{shift}
+		</if>
+		
+		<if test="invoicing_cycle_search != null">
+			and d.invoicing_cycle = #{invoicing_cycle_search}
+		</if>
+		
+		<if test="working_cycle_search != null">
+			and MONTH(dss.shiftdate) = #{working_cycle_search}
 		</if>
 
 		order by s.name , date_request, dss.shift

@@ -160,7 +160,7 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 	@Override
 	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
-			final Integer rifMCT, final Integer shift) {
+			final Integer rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer working_cycle) {
 		MyBatisScheduleDAO.logger.info("loadSchedule by date");
 
 		Date dt_arg_from = null;
@@ -184,6 +184,8 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		map.put("rifSWS", rifSWS);
 		map.put("rifMCT", rifMCT);
 		map.put("shift", shift);
+		map.put("invoicing_cycle_search", invoicing_cycle);
+		map.put("working_cycle_search", working_cycle);
 
 		return this.getSqlSession().selectList("schedule.reviewShipWork", map);
 

@@ -216,6 +216,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Intbox						invoicing_cycle_review;
 
+	@Wire
+	private Intbox						invoicing_cycle_search;
+
 	private List<ReviewShipWork>		list_review_work		= new ArrayList<ReviewShipWork>();
 
 	@Wire
@@ -405,11 +408,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Listbox						sw_list_reviewWork;
 
-	@Wire
-	private Listbox						sw_list_scheduleDetailShip;
-
 	// @Wire
 	// private Listbox sw_list_scheduleDetailShipProgram;
+
+	@Wire
+	private Listbox						sw_list_scheduleDetailShip;
 
 	@Wire
 	private Listbox						sw_list_scheduleShip;
@@ -463,6 +466,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label						working_cycle_review;
+
+	@Wire
+	private Intbox						working_cycle_search;
 
 	@Listen("onClick = #add_finalDetailScheduleShip_command")
 	public void addDetailFinalScheduleShip() throws ParseException {
@@ -619,7 +625,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -642,7 +648,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -1190,15 +1196,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteDetailship();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteDetailship();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -1217,18 +1223,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-						@Override
-						public void onEvent(final ClickEvent e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-										.getId());
+				@Override
+				public void onEvent(final ClickEvent e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+								.getId());
 
-								ShipSchedulerComposer.this.searchScheduleShipByDate();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						ShipSchedulerComposer.this.searchScheduleShipByDate();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-							}
-						}
-					}, params);
+					}
+				}
+			}, params);
 
 		}
 	}
@@ -1394,7 +1400,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.full_text_search_rifMCT.getValue() != null) {
-			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, null, this.full_text_search_rifMCT.getValue(), shiftNumber);
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, null, this.full_text_search_rifMCT.getValue(), shiftNumber,
+					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1430,7 +1437,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(date_from, null, searchText, this.full_text_search_rifSWS.getValue(),
-					this.full_text_search_rifMCT.getValue(), shiftNumber);
+					this.full_text_search_rifMCT.getValue(), shiftNumber, this.invoicing_cycle_search.getValue(),
+					this.working_cycle_search.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1459,7 +1467,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if ((this.date_from_overview.getValue() != null) && (this.date_to_overview.getValue() != null)) {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
 					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-					shiftNumber);
+					shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1528,7 +1536,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (this.full_text_search_rifSWS.getValue() != null) {
-			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, this.full_text_search_rifSWS.getValue(), null, shiftNumber);
+			this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, null, this.full_text_search_rifSWS.getValue(), null, shiftNumber,
+					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 			this.setTotalVolumeLabel();
@@ -1538,7 +1547,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onOK = #full_text_search_ship")
+	@Listen("onOK = #full_text_search_ship, #invoicing_cycle_search, #working_cycle_search")
 	public void searchText() {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
@@ -1558,10 +1567,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if (this.searchWorkShip.getValue() == null) {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
 					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-					shiftNumber);
+					shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 		} else {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
-					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
+					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber,
+					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 		}
 
 		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
@@ -1589,10 +1599,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if (this.searchWorkShip.getValue() == null) {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
 					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-					shiftNumber);
+					shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 		} else {
 			this.list_review_work = this.scheduleDao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
-					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
+					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber,
+					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 		}
 
 		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
@@ -1650,7 +1661,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				this.list_review_work = this.scheduleDao.loadReviewShipWork(date_from, date_to, this.full_text_search_ship.getValue(),
-						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
+						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber,
+						this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 
 				if (this.shows_rows_ship.getValue() != null) {
 					this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
@@ -1674,7 +1686,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				this.list_review_work = this.scheduleDao.loadReviewShipWork(null, null, this.full_text_search_ship.getValue(),
-						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber);
+						this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber,
+						this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
 				this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
 				this.setTotalVolumeLabel();
