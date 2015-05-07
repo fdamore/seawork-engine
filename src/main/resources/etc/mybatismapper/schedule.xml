@@ -724,6 +724,14 @@
 		FROM badge 
 		WHERE idschedule = #{id_schedule};
 	</select>
+	
+	<delete id="deleteBadge" parameterType="Integer">
+		DELETE
+		FROM
+		badge
+		WHERE
+		id =#{id_badge};
+	</delete>
 
 </mapper>	
 	
