@@ -9,7 +9,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
-import org.uario.seaworkengine.model.Badge;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.ReviewShipWork;
@@ -17,6 +16,7 @@ import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.web.services.handler.Badge;
 
 public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedule {
 	private static Logger	logger	= Logger.getLogger(MyBatisScheduleDAO.class);

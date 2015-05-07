@@ -48,6 +48,7 @@ import org.uario.seaworkengine.utility.TableTag;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
+import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
@@ -412,6 +413,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component						header_info;
 
 	@Wire
+	private Label							infoBadge;
+
+	@Wire
 	private Comboitem						item_all_shift_overview;
 
 	@Wire
@@ -425,9 +429,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_shift_review;
-
 	@Wire
 	private A								label_statistic_popup;
+
 	@Wire
 	private A								label_statistic_task_popup;
 
@@ -528,34 +532,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabpanel						overview_review;
-
 	@Wire
 	private Tabbox							overview_tab;
+
 	@Wire
 	private Panel							panel_shift_period;
-
 	private final String					partTimeMessage					= "Part Time";
 	private Person							person_logged					= null;
 	private PersonDAO						personDAO;
+
 	private Person							personLock;
 
 	@Wire
 	private Div								preprocessing_div;
-
 	@Wire
 	private Comboitem						preprocessing_item;
+
 	@Wire
 	private Panel							preprocessing_panel;
-
 	@Wire
 	private Component						print_program_videos;
 	@Wire
 	private Component						print_scheduler;
 	@Wire
 	private Div								program_div;
+
 	@Wire
 	private Component						program_head_1_1;
-
 	@Wire
 	private Component						program_head_1_2;
 	@Wire
@@ -564,6 +567,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component						program_head_1_4;
 	@Wire
 	private Component						program_head_4_1;
+
 	@Wire
 	private Component						program_head_4_2;
 
@@ -605,13 +609,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_1_3;
-
 	@Wire
 	private Auxheader						program_tot_1_4;
 	@Wire
 	private Auxheader						program_tot_2_1;
 	@Wire
 	private Auxheader						program_tot_2_2;
+
 	@Wire
 	private Auxheader						program_tot_2_3;
 
@@ -623,16 +627,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_3_2;
-
 	@Wire
 	private Auxheader						program_tot_3_3;
 	@Wire
 	private Auxheader						program_tot_3_4;
 	@Wire
 	private Auxheader						program_tot_4_1;
+
 	@Wire
 	private Auxheader						program_tot_4_2;
-
 	@Wire
 	private Auxheader						program_tot_4_3;
 	@Wire
@@ -655,6 +658,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						programUser_tot_1_4;
 	@Wire
 	private Auxheader						programUser_tot_2_1;
+
 	@Wire
 	private Auxheader						programUser_tot_2_2;
 
@@ -780,10 +784,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label							saturation_month;
-
 	private String							saturationStyle;
-	private ISchedule						scheduleDAO;
 
+	private ISchedule						scheduleDAO;
 	@Wire
 	private A								scheduler_label;
 	@Wire
@@ -791,6 +794,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Combobox						scheduler_type_selector;
 	private IScheduleShip					scheduleShipDAO;
+
 	@Wire
 	private Combobox						select_shift_overview;
 
@@ -2885,7 +2889,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		return ret;
 
-	}
+	};
 
 	/**
 	 * Return decimal revision time
@@ -2922,7 +2926,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Double ret = millis / (1000 * 60 * 60);
 
 		return ret;
-	};
+	}
 
 	// using for check 10 day working constraint
 	private final List<Schedule> getScheduleTenDayBefore(final Date dateBegin, final Integer idUser) {
@@ -3405,8 +3409,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// take the right scheduler
 		SchedulerComposer.this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
 
-		// set label
+		// set label list badge
+		this.setLabelListBadge(this.currentSchedule.getId());
 
+		// set label
 		if (this.personDAO.loadPerson(this.selectedUser).getPart_time()) {
 			this.scheduler_label_review.setLabel(row_scheduler.getName_user() + " " + this.partTimeMessage + ". Giorno: "
 					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
@@ -4984,6 +4990,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void setLabelListBadge(final Integer idSchedule) {
+		final List<Badge> badgeList = this.scheduleDAO.loadBadgeByScheduleId(idSchedule);
+
+		String badgeInfo = "";
+
+		if (badgeList != null) {
+			for (final Badge badge : badgeList) {
+				if (badge != null) {
+					if (!badge.getEventType()) {
+						badgeInfo = badgeInfo + " - E: " + Utility.getTimeFormat().format(badge.getEventTime());
+					} else {
+						badgeInfo = badgeInfo + " - U: " + Utility.getTimeFormat().format(badge.getEventTime());
+					}
+				}
+			}
+		}
+
+		this.infoBadge.setValue(badgeInfo);
+
+	}
+
 	private void setLabelTotalHoursProgram(final ListModelList<DetailInitialSchedule> model) {
 		if (model != null) {
 			double total = 0;
@@ -5014,6 +5041,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 			this.totalHours_Review.setValue("Totale Ore Consuntivate: " + Utility.decimatToTime(total));
+
 		}
 
 	}

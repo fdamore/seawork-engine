@@ -719,7 +719,7 @@
 		VALUES (#{eventTime}, #{eventType}, #{idschedule});
 	</insert>
 	
-	<select id="loadBadgeByScheduleId" parameterType="Integer" resultType="org.uario.seaworkengine.model.Badge">
+	<select id="loadBadgeByScheduleId" parameterType="Integer" resultType="org.uario.seaworkengine.web.services.handler.Badge">
 		SELECT id, eventTime, eventType, idschedule 
 		FROM badge 
 		WHERE idschedule = #{id_schedule};

@@ -17,7 +17,7 @@ public class Worker implements Serializable {
 	 */
 	private static final long		serialVersionUID	= 1L;
 
-	private final List<Badged>		badgeList			= new ArrayList<Badged>();
+	private final List<Badge>		badgeList			= new ArrayList<Badge>();
 
 	private String					entrata;
 
@@ -29,7 +29,7 @@ public class Worker implements Serializable {
 
 	private Integer					utente;
 
-	public List<Badged> getBadgeList() {
+	public List<Badge> getBadgeList() {
 		return this.badgeList;
 	}
 
