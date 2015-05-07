@@ -222,11 +222,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public Schedule loadScheduleStartEndTime(final Integer id_schedule) {
-		return this.getSqlSession().selectOne("schedule.loadScheduleStartEndTime", id_schedule);
-	}
-
-	@Override
 	public void removeAllDetailFinalScheduleBySchedule(final Integer id_schedule) {
 		MyBatisScheduleDAO.logger.info("removeAllDetailFinalScheduleBySchedule");
 
@@ -447,16 +442,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public void updateEndTimeSchedule(final Integer id_schedule, final Date endTime) {
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_schedule", id_schedule);
-		map.put("endTime", endTime);
-
-		this.getSqlSession().update("schedule.updateEndTimeSchedule", map);
-
-	}
-
-	@Override
 	public void updateMobileSynch(final Integer id_schedule, final boolean synch, final Integer shift_no) {
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -492,13 +477,4 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 	}
 
-	@Override
-	public void updateStartTimeSchedule(final Integer id_schedule, final Date startTime) {
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_schedule", id_schedule);
-		map.put("startTime", startTime);
-
-		this.getSqlSession().update("schedule.updateStartTimeSchedule", map);
-
-	}
 }

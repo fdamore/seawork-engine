@@ -1970,13 +1970,7 @@
 											<label
 												id="totalHours_Review" value="Totale Ore Consuntivate: " />
 
-											<label value=" - Entrata: " />
-											<label id="startTime_Review"
-												value="" />
-											<label value="Uscita: " />
-											<label id="endTime_Review"
-												value="" />
-
+											
 
 										</hbox>
 

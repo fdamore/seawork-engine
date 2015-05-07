@@ -59,11 +59,6 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public List<Date> loadScheduleStartEndTime(@WebParam(name = "id_schedule") final Integer id_schedule) {
-		return this.webcontroller.loadScheduleStartEndTime(id_schedule);
-	}
-
-	@Override
 	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(@WebParam(name = "date_request") final Date date_request) {
 		return this.webcontroller.selectDetailScheduleShipByShiftDate(date_request);
 	}
@@ -92,20 +87,9 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public void updateEndTimeSchedule(@WebParam(name = "id_schedule") final Integer id_schedule, @WebParam(name = "endTime") final Date endTime) {
-		this.webcontroller.updateEndTimeSchedule(id_schedule, endTime);
-
-	}
-
-	@Override
 	public void updateScheduleNote(final Integer id_schedule, final String note) {
 		this.webcontroller.updateScheduleNote(id_schedule, note);
 
 	}
 
-	@Override
-	public void updateStartTimeSchedule(@WebParam(name = "id_schedule") final Integer id_schedule, @WebParam(name = "startTime") final Date startTime) {
-		this.webcontroller.updateStartTimeSchedule(id_schedule, startTime);
-
-	}
 }

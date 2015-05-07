@@ -27,8 +27,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	@XmlTransient
 	private String				employee_identification;
 
-	private Date				endTime;
-
 	private Integer				id;
 
 	// used form visualize
@@ -58,8 +56,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	private Double				revision_time;
 
 	private Integer				shift;
-
-	private Date				startTime;
 
 	@XmlTransient
 	private Boolean				sync_mobile_1;
@@ -117,10 +113,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.employee_identification;
 	}
 
-	public Date getEndTime() {
-		return this.endTime;
-	}
-
 	public Integer getId() {
 		return this.id;
 	}
@@ -155,10 +147,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public Integer getShift() {
 		return this.shift;
-	}
-
-	public Date getStartTime() {
-		return this.startTime;
 	}
 
 	public Boolean getSync_mobile_1() {
@@ -209,10 +197,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		this.employee_identification = employee_identification;
 	}
 
-	public void setEndTime(final Date endTime) {
-		this.endTime = endTime;
-	}
-
 	public void setId(final Integer id) {
 		this.id = id;
 	}
@@ -247,10 +231,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
-	}
-
-	public void setStartTime(final Date startTime) {
-		this.startTime = startTime;
 	}
 
 	public void setSync_mobile_1(final Boolean sync_mobile_1) {

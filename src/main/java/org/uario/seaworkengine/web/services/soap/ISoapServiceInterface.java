@@ -69,12 +69,6 @@ public interface ISoapServiceInterface {
 			@WebParam(name = "idDetailScheduleShip") Integer idDetailScheduleShip);
 
 	/**
-	 * @param id_schedule
-	 * @return
-	 */
-	public List<Date> loadScheduleStartEndTime(@WebParam(name = "id_schedule") Integer id_schedule);
-
-	/**
 	 * Return Detail Scheduler
 	 *
 	 * @param date_request
@@ -111,26 +105,10 @@ public interface ISoapServiceInterface {
 	void updateDetailFinalScheduleShipForMobile(DetailFinalScheduleShip detailFinalScheduleShip);
 
 	/**
-	 * Update End Time
-	 *
-	 * @param id_schedule
-	 * @param endTime
-	 */
-	public void updateEndTimeSchedule(@WebParam(name = "id_schedule") Integer id_schedule, @WebParam(name = "endTime") Date endTime);
-
-	/**
 	 * Public string get note
 	 *
 	 * @param id_schedule
 	 */
 	public void updateScheduleNote(@WebParam(name = "id_schedule") Integer id_schedule, @WebParam(name = "note") String note);
-
-	/**
-	 * Update start time
-	 *
-	 * @param id_schedule
-	 * @param startTime
-	 */
-	public void updateStartTimeSchedule(@WebParam(name = "id_schedule") Integer id_schedule, @WebParam(name = "startTime") Date startTime);
 
 }

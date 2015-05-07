@@ -250,29 +250,6 @@ public class WebControllerImpl implements IWebServiceController {
 		return final_details;
 	}
 
-	@Override
-	public List<Date> loadScheduleStartEndTime(final Integer id_schedule) {
-
-		if (id_schedule == null) {
-			return new ArrayList<Date>();
-		}
-
-		final Schedule schedule = this.scheduleDAO.loadScheduleStartEndTime(id_schedule);
-
-		if (schedule == null) {
-			return new ArrayList<Date>();
-		}
-
-		final Date start_date = schedule.getStartTime();
-		final Date end_date = schedule.getEndTime();
-
-		final ArrayList<Date> ret = new ArrayList<Date>();
-		ret.add(start_date);
-		ret.add(end_date);
-
-		return ret;
-	}
-
 	/**
 	 * return detail ship by date
 	 *
@@ -442,18 +419,8 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public void updateEndTimeSchedule(final Integer id_schedule, final Date endTime) {
-		this.scheduleDAO.updateEndTimeSchedule(id_schedule, endTime);
-
-	}
-
-	@Override
 	public void updateScheduleNote(final Integer id_schedule, final String note) {
 		this.scheduleDAO.updateScheduleNote(id_schedule, note);
 	}
 
-	@Override
-	public void updateStartTimeSchedule(final Integer id_schedule, final Date startTime) {
-		this.scheduleDAO.updateStartTimeSchedule(id_schedule, startTime);
-	}
 }

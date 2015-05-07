@@ -66,14 +66,6 @@ public interface IWebServiceController {
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
 
 	/**
-	 * Load start and end time
-	 * 
-	 * @param id_schedule
-	 * @return
-	 */
-	public List<Date> loadScheduleStartEndTime(Integer id_schedule);
-
-	/**
 	 * Return Detail Scheduler
 	 *
 	 * @param date_request
@@ -109,26 +101,10 @@ public interface IWebServiceController {
 	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip);
 
 	/**
-	 * Update End Time
-	 *
-	 * @param id_schedule
-	 * @param endTime
-	 */
-	public void updateEndTimeSchedule(Integer id_schedule, Date endTime);
-
-	/**
 	 * Public string get note
 	 *
 	 * @param id_schedule
 	 */
 	public void updateScheduleNote(Integer id_schedule, String note);
-
-	/**
-	 * Update start time
-	 *
-	 * @param id_schedule
-	 * @param startTime
-	 */
-	public void updateStartTimeSchedule(Integer id_schedule, Date startTime);
 
 }
