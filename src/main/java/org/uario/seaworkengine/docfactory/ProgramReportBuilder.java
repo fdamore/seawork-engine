@@ -77,7 +77,7 @@ public class ProgramReportBuilder {
 		final VerticalListBuilder body = (VerticalListBuilder) ProgramReportBuilder.createBodyShipNote();
 
 		report.setHighlightDetailEvenRows(false).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-		.columnGrid(DynamicReports.grid.horizontalColumnGridList(meteoCondition)).columns(col1, col2, col3, col4);
+				.columnGrid(DynamicReports.grid.horizontalColumnGridList(meteoCondition)).columns(col1, col2, col3, col4);
 
 		report.summary(body);
 
@@ -117,11 +117,11 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
 
 		report.setHighlightDetailEvenRows(true)
-				.setColumnTitleStyle(columnStyle)
-				.setColumnStyle(textStyle)
-		.columnGrid(
-						DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
-								priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
+		.setColumnTitleStyle(columnStyle)
+		.setColumnStyle(textStyle)
+				.columnGrid(
+				DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
+						priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
 
 	}
 
@@ -158,8 +158,8 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder operation = DynamicReports.grid.titleGroup("Tipo Op.", co, tw).setTitleStretchWithOverflow(true);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-		.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, user, add, start, end))
-		.columns(ship, co, tw, hands, cr, user, add, start, end);
+				.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, user, add, start, end))
+				.columns(ship, co, tw, hands, cr, user, add, start, end);
 
 	}
 
@@ -469,8 +469,8 @@ public class ProgramReportBuilder {
 		final JasperReportBuilder noteReportShip4 = ProgramReportBuilder.createNoteShipReport(date, 4);
 
 		final JasperConcatenatedReportBuilder reportConcatenated = new JasperConcatenatedReportBuilder();
-		reportConcatenated.concatenate(report1Shift, report1Ship, noteReportShip1, report2Shift, report2Ship, noteReportShip2, report3Shift,
-				report3Ship, noteReportShip3, report4Shift, report4Ship, noteReportShip4);
+		reportConcatenated.concatenate(report1Shift, report2Shift, report3Shift, report4Shift, report1Ship, noteReportShip1, report2Ship,
+				noteReportShip2, report3Ship, noteReportShip3, report4Ship, noteReportShip4);
 
 		return reportConcatenated;
 
@@ -487,21 +487,21 @@ public class ProgramReportBuilder {
 		final StringBuilder builder_gb = new StringBuilder();
 
 		builder_gb
-		.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme. Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una X se la diversità di orario è autorizzata o non autorizzata."
-				+ "\n" + "\n");
+				.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme. Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una X se la diversità di orario è autorizzata o non autorizzata."
+						+ "\n" + "\n");
 
 		builder_gb
-		.append("NOTE:_________________________________________________________________________________________________________________________________________________________________________"
-				+ "\n" + "\n");
-		builder_gb
-		.append("______________________________________________________________________________________________________________________________________________________________________________"
-				+ "\n" + "\n");
-
-		builder_gb
-		.append("Firma compilatore foglio rilevazione presenza montante  ____________________________________ Dalle: ____________________________ Alle: ____________________________"
+				.append("NOTE:_________________________________________________________________________________________________________________________________________________________________________"
 						+ "\n" + "\n");
 		builder_gb
-		.append("Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
+				.append("______________________________________________________________________________________________________________________________________________________________________________"
+						+ "\n" + "\n");
+
+		builder_gb
+				.append("Firma compilatore foglio rilevazione presenza montante  ____________________________________ Dalle: ____________________________ Alle: ____________________________"
+				+ "\n" + "\n");
+		builder_gb
+				.append("Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
 
 		final String ingo_gb = builder_gb.toString();
 
