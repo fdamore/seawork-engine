@@ -26,6 +26,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.web.services.IWebServiceController;
+import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.TaskRunner;
 import org.uario.seaworkengine.web.services.handler.Worker;
@@ -50,9 +51,19 @@ public class WebControllerImpl implements IWebServiceController {
 	private TasksDAO		taskDAO;
 
 	@Override
+	public void createBadge(final Badge badge) {
+		this.scheduleDAO.createBadge(badge);
+	}
+
+	@Override
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
 		this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
 
+	}
+
+	@Override
+	public void deleteBadge(final Integer id_badge) {
+		this.scheduleDAO.deleteBadge(id_badge);
 	}
 
 	@Override
@@ -248,6 +259,12 @@ public class WebControllerImpl implements IWebServiceController {
 				.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 
 		return final_details;
+	}
+
+	@Override
+	public List<Badge> loadListBadge(final Integer id_schedule) {
+		return this.scheduleDAO.loadBadgeByScheduleId(id_schedule);
+
 	}
 
 	/**

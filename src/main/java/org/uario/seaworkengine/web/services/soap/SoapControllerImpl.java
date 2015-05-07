@@ -11,6 +11,7 @@ import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.web.services.IWebServiceController;
+import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
@@ -19,8 +20,20 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	private IWebServiceController	webcontroller;
 
 	@Override
+	public void createBadge(final Badge badge) {
+		this.webcontroller.createBadge(badge);
+
+	}
+
+	@Override
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
 		this.webcontroller.createDetailFinalScheduleShip(detailFinalScheduleShip);
+
+	}
+
+	@Override
+	public void deleteBadge(final Integer id_badge) {
+		this.webcontroller.deleteBadge(id_badge);
 
 	}
 
@@ -56,6 +69,11 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	@Override
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
 		return this.webcontroller.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+	}
+
+	@Override
+	public List<Badge> loadListBudge(final Integer id_schedule) {
+		return this.webcontroller.loadListBadge(id_schedule);
 	}
 
 	@Override

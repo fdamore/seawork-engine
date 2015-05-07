@@ -11,6 +11,7 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
@@ -18,9 +19,19 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 public interface ISoapServiceInterface {
 
 	/**
+	 * @param badge
+	 */
+	public void createBadge(@WebParam(name = "badge") Badge badge);
+
+	/**
 	 * @param detailFinalScheduleShip
 	 */
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip);
+
+	/**
+	 * @param id_badge
+	 */
+	public void deleteBadge(@WebParam(name = "id_badge") Integer id_badge);
 
 	/**
 	 * delete details final id
@@ -67,6 +78,12 @@ public interface ISoapServiceInterface {
 	 */
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(
 			@WebParam(name = "idDetailScheduleShip") Integer idDetailScheduleShip);
+
+	/**
+	 * @param id_schedule
+	 * @return
+	 */
+	public List<Badge> loadListBudge(@WebParam(name = "id_schedule") Integer id_schedule);
 
 	/**
 	 * Return Detail Scheduler

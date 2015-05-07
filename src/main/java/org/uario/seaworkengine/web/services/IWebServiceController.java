@@ -8,10 +8,16 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public interface IWebServiceController {
+
+	/**
+	 * @param badge
+	 */
+	public void createBadge(Badge badge);
 
 	/**
 	 * create detail final schedule
@@ -19,6 +25,11 @@ public interface IWebServiceController {
 	 * @param detailFinalScheduleShip
 	 */
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip);
+
+	/**
+	 * @param id_badge
+	 */
+	public void deleteBadge(Integer id_badge);
 
 	/**
 	 * delete details final id
@@ -66,6 +77,12 @@ public interface IWebServiceController {
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
 
 	/**
+	 * @param id_schedule
+	 * @return
+	 */
+	public List<Badge> loadListBadge(Integer id_schedule);
+
+	/**
 	 * Return Detail Scheduler
 	 *
 	 * @param date_request
@@ -85,7 +102,7 @@ public interface IWebServiceController {
 	 * Transmit final scheduler
 	 *
 	 * @param no_shift
-	 *            TODO
+	 *            *
 	 * @param shift
 	 * @param date
 	 *
