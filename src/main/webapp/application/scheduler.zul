@@ -1967,10 +1967,9 @@
 											<button label="Cancella"
 												id="remove_review_item" sclass="btn-info">
 											</button>
-											<label
-												id="totalHours_Review" value="Totale Ore Consuntivate: " />
+											<label id="totalHours_Review" value="Totale Ore Consuntivate: " />
 
-											
+											<label id="infoBadge" value=""/>
 
 										</hbox>
 

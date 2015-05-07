@@ -3,6 +3,7 @@ package org.uario.seaworkengine.platform.persistence.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.uario.seaworkengine.model.Badge;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.ReviewShipWork;
@@ -10,13 +11,19 @@ import org.uario.seaworkengine.model.Schedule;
 
 public interface ISchedule {
 
+	public void createBadge(Badge badge);
+
 	public void createDetailFinalSchedule(DetailFinalSchedule detail_schedule);
 
 	public void createDetailInitialSchedule(DetailInitialSchedule detail_schedule);
 
+	public void deleteBadge(Integer id_badge);
+
 	public Integer getFirstShift(Date date_scheduled, Integer user);
 
 	public Integer getLastShift(Date date_scheduled, Integer user);
+
+	public List<Badge> loadBadgeByScheduleId(Integer id_schedule);
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(Integer id_schedule);
 

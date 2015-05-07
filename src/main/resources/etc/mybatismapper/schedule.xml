@@ -105,8 +105,6 @@
 	</select>
 
 
-
-
 	<select id="selectSchedulersForPreprocessingOnUserId"
 		resultType="org.uario.seaworkengine.model.Schedule" parameterType="map">
 
@@ -713,6 +711,18 @@
 		#{no_shift}
 		and d.task =
 		ut.id
+	</select>
+	
+	<insert id="createBadge">
+		INSERT INTO 
+		badge (eventTime, eventType, idschedule) 
+		VALUES (#{eventTime}, #{eventType}, #{idschedule});
+	</insert>
+	
+	<select id="loadBadgeByScheduleId" parameterType="Integer" resultType="org.uario.seaworkengine.model.Badge">
+		SELECT id, eventTime, eventType, idschedule 
+		FROM badge 
+		WHERE idschedule = #{id_schedule};
 	</select>
 
 </mapper>	

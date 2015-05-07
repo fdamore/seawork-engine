@@ -9,6 +9,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
+import org.uario.seaworkengine.model.Badge;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.ReviewShipWork;
@@ -23,6 +24,15 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	private IShiftCache		shift_cache;
 
 	@Override
+	public void createBadge(final Badge badge) {
+
+		MyBatisScheduleDAO.logger.info("createBadge");
+
+		this.getSqlSession().insert("schedule.createBadge", badge);
+
+	}
+
+	@Override
 	public void createDetailFinalSchedule(final DetailFinalSchedule detail_schedule) {
 		MyBatisScheduleDAO.logger.info("createDetailFinalSchedule");
 
@@ -35,6 +45,14 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 		MyBatisScheduleDAO.logger.info("createDetailInitialSchedule");
 
 		this.getSqlSession().insert("schedule.createDetailInitialSchedule", detail_schedule);
+
+	}
+
+	@Override
+	public void deleteBadge(final Integer id_badge) {
+		MyBatisScheduleDAO.logger.info("deleteBadge");
+
+		this.getSqlSession().delete("schedule.deleteBadge", id_badge);
 
 	}
 
@@ -98,6 +116,13 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 
 	public IShiftCache getShift_cache() {
 		return this.shift_cache;
+	}
+
+	@Override
+	public List<Badge> loadBadgeByScheduleId(final Integer id_schedule) {
+		MyBatisScheduleDAO.logger.info("loadBadgeByScheduleId");
+
+		return this.getSqlSession().selectList("schedule.loadBadgeByScheduleId", id_schedule);
 	}
 
 	@Override
