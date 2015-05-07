@@ -816,8 +816,8 @@
 							</columns>
 							<rows>
 								<row>
-									<label value="Nome Nave: " />
-									<label id="shipName" value=""
+									<label value="Nome Nave e Turno: " />
+									<label id="infoShipNameAndShift" value=""
 										style="font-weight: bold; font-size: 18px; " />
 								</row>
 								<row>
@@ -879,14 +879,6 @@
 								</columns>
 								<rows>
 
-
-
-									<row>
-										<label value="Gru:"></label>
-										<intbox id="crane_review"
-											constraint="no negative" />
-									</row>
-
 									<row>
 										<label
 											value="Periodo di Fatturazione:">
@@ -894,13 +886,19 @@
 										<intbox
 											id="invoicing_cycle_review" constraint="no negative" />
 									</row>
-
+									
 									<row>
 										<label value="Tipo Gru GTW:"></label>
 										<checkbox id="crane_gtw_review"
 											checked="false" />
 									</row>
 
+									<row>
+										<label value="Gru:"></label>
+										<intbox id="crane_review"
+											constraint="no negative" />
+									</row>
+									
 									<row>
 										<label value="Volumi:"></label>
 										<intbox id="volume_review" />
