@@ -656,6 +656,10 @@
 			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
 			u.employee_identification = #{my_full_text_search})
 		</if>
+		
+		<if test="department != null">
+			and u.department = #{department} 
+		</if>
 
 		order by u.status asc
 

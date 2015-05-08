@@ -141,11 +141,12 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
-	public List<Person> listWorkerPersons(final String full_text_search) {
+	public List<Person> listWorkerPersons(final String full_text_search, final String department) {
 		MyBatisPersonDAO.logger.info("list all worker persons...");
 
 		final HashMap<String, String> map = new HashMap<String, String>();
 		map.put("my_full_text_search", full_text_search);
+		map.put("department", department);
 
 		return this.getSqlSession().selectList("person.selectWorkerPerson", map);
 	}

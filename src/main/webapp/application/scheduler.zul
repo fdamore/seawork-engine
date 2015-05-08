@@ -2904,40 +2904,40 @@
 											sort="auto(person)" hflex="1" />
 
 										<listheader label="Saturazione"
-											align="center" hflex="1" />
+											align="center"  />
 
 										<listheader label="Saturazione Media Mensile"
-											align="center" hflex="1" />
+											align="center"  />
 
 										<listheader label="Lavoro Domenicale"
-											hflex="1" align="center" />
+											 align="center" />
 											
 										<listheader label="Festivi"
-											hflex="1" align="center" />
+											 align="center" />
 										
-										<listheader label="Ore settimana Corrente"
-											hflex="1" align="center" />
+										<listheader label="Ore Settimana"
+											 align="center" />
 											
-										<listheader label="Ore Mese Corrente"
-											hflex="1" align="center" />
+										<listheader label="Ore Mese"
+											 align="center" />
 										
-										<listheader label="Ore Anno Corrente"
-											hflex="1" align="center" />
+										<listheader label="Ore Anno"
+											 align="center" />
 											
 										<listheader label="Giorni consencutivi"
-											hflex="1" align="center" />
+											 align="center" />
 											
-										<listheader label="Lavoro su Turno 1"
-											hflex="1" align="center" />
+										<listheader label="Turno 1"
+											 align="center" />
 											
-										<listheader label="Lavoro su Turno 2"
-											hflex="1" align="center" />
+										<listheader label="Turno 2"
+											 align="center" />
 										
-										<listheader label="Lavoro su Turno 3"
-											hflex="1" align="center" />
+										<listheader label="Turno 3"
+											 align="center" />
 										
-										<listheader label="Lavoro su Turno 4"
-											hflex="1" align="center" />
+										<listheader label="Turno 4"
+											 align="center" />
 
 									</listhead>
 

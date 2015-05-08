@@ -3562,7 +3562,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private void refreshUserStatistics(final String text) {
 		// get worker user
-		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text);
+		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text, null);
 
 		this.listUserStatistics = new ListModelList<UserStatistics>();
 
@@ -5851,7 +5851,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.totalUser_program_day_5.setLabel(count_Day_Users[4].toString());
 
 		// get all user to schedule
-		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);
+		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person, null);
 
 		for (final Person person : users_schedule) {
 			if (sign_scheduled.containsKey(person.getId())) {
@@ -6122,7 +6122,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.setCheckTotalUserReview(totalUserReviewDay1, totalUserReviewDay2, this.totalUser_review_day_1, this.totalUser_review_day_2);
 
 		// get all user to schedule
-		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person);
+		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person, null);
 
 		for (final Person person : users_schedule) {
 			if (sign_scheduled.containsKey(person.getId())) {
