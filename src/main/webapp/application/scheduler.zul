@@ -244,12 +244,18 @@
 						<separator />
 						<hbox align="center">
 
-							<grid width="250px">
+							<grid width="270px">
 								<columns>
 									<column width="130px"></column>
-									<column width="120px"></column>
+									<column width="140px"></column>
 								</columns>
 								<rows>
+								
+									<row>
+										<label
+											value="Reparto: " />
+										<label id="userDepartment" />
+									</row>
 
 									<row>
 										<label value="Saturazione: " />
@@ -2902,6 +2908,8 @@
 
 										<listheader label="Nome"
 											sort="auto(person)" hflex="1" />
+											
+										<listheader label="Reparto"/>
 
 										<listheader label="Saturazione"
 											align="center"  />
@@ -2949,6 +2957,9 @@
 										<listcell sclass="myBottonCell">
 											<a label="@{userschedule.person, converter='org.uario.seaworkengine.zkevent.converter.PersonToDottedNameConverter'}"/>
 										</listcell>
+										
+										<listcell sclass="myBottonCell"
+											label="@{userschedule.department}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.saturation, converter='org.uario.seaworkengine.zkevent.converter.SaturationConverter'}" 

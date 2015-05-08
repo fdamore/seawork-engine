@@ -981,6 +981,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Label							updateStatisticTime;
 
+	@Wire
+	private Label							userDepartment;
+
 	private LockTable						userLockTable;
 
 	@Wire
@@ -1716,17 +1719,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -1863,6 +1866,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (selected == this.overview_item) {
+
+			this.overview_div.setVisible(true);
+			this.preprocessing_div.setVisible(false);
+			this.program_div.setVisible(false);
+			this.review_div.setVisible(false);
 
 			if (this.overview_tab.getSelectedTab() == this.statisticsTab) {
 				if ((this.full_text_search.getValue() != null && !this.full_text_search.getValue().equals(""))) {
@@ -2851,7 +2859,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		list.addAll(list_task_absence);
 		Collections.sort(list);
 		return list;
-	}
+	};
 
 	/**
 	 * Programmed time in decimal
@@ -2889,7 +2897,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		return ret;
 
-	};
+	}
 
 	/**
 	 * Return decimal revision time
@@ -3644,8 +3652,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -3970,17 +3978,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4199,7 +4207,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -6345,7 +6353,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Calendar cal = Calendar.getInstance();
 
-		final UserStatistics userStatistics = this.statProcedure.getUserStatistics(this.personDAO.loadPerson(id_user));
+		final Person user = this.personDAO.loadPerson(id_user);
+
+		final UserStatistics userStatistics = this.statProcedure.getUserStatistics(user);
+
+		this.userRoles.setValue("");
+
+		// set label user roles in statistic popup
+		final String roles = user.getRolesDescription();
+		if (roles != "") {
+			this.userRoles.setValue(roles + ".");
+		}
+
+		// set department in statistic popup
+		this.userDepartment.setValue("");
+		final String department = user.getDepartment();
+		if (department != null) {
+			this.userDepartment.setValue(department);
+		}
 
 		final Double sat = userStatistics.getSaturation();
 		this.saturation.setValue(sat.toString());

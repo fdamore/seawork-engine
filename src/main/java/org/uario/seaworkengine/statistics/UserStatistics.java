@@ -8,10 +8,11 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	private Date	date;
 
+	private String	department;
 	private Person	person;
 	private Double	saturation;
-	private Double	saturation_month;
 
+	private Double	saturation_month;
 	private String	shift_perc_1;
 	private String	shift_perc_2;
 	private String	shift_perc_3;
@@ -20,6 +21,7 @@ public class UserStatistics implements Comparable<UserStatistics> {
 	private String	work_current_month;
 	private String	work_current_week;
 	private String	work_current_year;
+
 	private String	work_holiday_perc;
 
 	private String	work_sunday_perc;
@@ -50,6 +52,10 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	public Date getDate() {
 		return this.date;
+	}
+
+	public String getDepartment() {
+		return this.department;
 	}
 
 	public Person getPerson() {
@@ -110,6 +116,10 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	public void setDate(final Date date) {
 		this.date = date;
+	}
+
+	public void setDepartment(final String department) {
+		this.department = department;
 	}
 
 	public void setPerson(final Person person) {
