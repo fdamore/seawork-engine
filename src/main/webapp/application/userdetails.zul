@@ -332,7 +332,7 @@
 										<label
 											value="Dipartimento o Settore:">
 										</label>
-										<combobox placeholder="Seleziona dipartimento" id="department_user" />
+										<combobox readonly="true"  placeholder="Seleziona dipartimento" id="department_user" />
 									</row>
 
 									<row>
