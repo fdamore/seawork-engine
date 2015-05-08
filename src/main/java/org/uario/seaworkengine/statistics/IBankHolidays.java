@@ -1,22 +1,30 @@
 package org.uario.seaworkengine.statistics;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IBankHolidays {
 
 	/**
 	 * Count current Holidays until now
+	 * @param date_from TODO
+	 * @param date_to TODO
 	 *
 	 * @return
 	 */
-	public int countCurrentHolidaysUntilNow();
+	public int countHolidays(Date date_from, Date date_to);
 
 	/**
 	 * Count current Sunday until now
+	 * 
+	 * @param date_from
+	 *            TODO
+	 * @param date_to
+	 *            TODO
 	 *
 	 * @return
 	 */
-	public int countCurrentSundaysUntilNow();
+	public int countSundaysUntilDate(Date date_from, Date date_to);
 
 	/**
 	 * Get Bank Holidays

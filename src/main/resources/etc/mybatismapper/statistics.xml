@@ -362,7 +362,8 @@
 		= #{id_user}
 		and
 		ds.date_schedule <![CDATA[>=]]>
-		#{date_from}
+		#{date_from} and ds.date_schedule <![CDATA[<=]]>
+		#{date_to}
 
 	</select>
 
@@ -437,7 +438,8 @@
 		dfss.id_schedule = ss.id and dfss.time <![CDATA[<>]]>
 		0
 		and ss.date_schedule <![CDATA[>=]]>
-		#{date_from}
+		#{date_from} and ss.date_schedule <![CDATA[<=]]>
+		#{date_to}
 		and ss.user = #{id_user}
 		and ss.shift = uss.id
 		and

@@ -22,21 +22,24 @@ public class ItalianBankHolidays implements IBankHolidays {
 	private final HashMap<Integer, String>	map_easter	= new HashMap<Integer, String>();
 
 	@Override
-	public int countCurrentHolidaysUntilNow() {
+	public int countHolidays(final Date date_from, final Date date_to) {
 
 		// counter
 		int count = 0;
 
-		final Calendar current_calendar = Calendar.getInstance();
+		final Calendar current_calendar = DateUtils.toCalendar(date_to);
+
+		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
+		final Date date_to_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
 		// support date array
 		final ArrayList<Date> dtlist = new ArrayList<Date>();
 
-		for (final String item : this.getDays()) {
+		for (final String item : getDays()) {
 
 			try {
 				Date date_item;
-				date_item = this.format.parse(item);
+				date_item = format.parse(item);
 				final Calendar calendar = DateUtils.toCalendar(date_item);
 				calendar.set(Calendar.YEAR, current_calendar.get(Calendar.YEAR));
 				dtlist.add(calendar.getTime());
@@ -50,11 +53,9 @@ public class ItalianBankHolidays implements IBankHolidays {
 		// sort for date asc
 		Collections.sort(dtlist);
 
-		// current date for comparison
-		final Date current = current_calendar.getTime();
-
 		for (final Date item : dtlist) {
-			if (item.before(current)) {
+			if (((item.before(date_to_truncate) && item.after(date_from_truncate)) || (DateUtils
+					.isSameDay(date_to_truncate, item) || DateUtils.isSameDay(date_from_truncate, item)))) {
 				count++;
 			} else {
 				break;
@@ -66,15 +67,14 @@ public class ItalianBankHolidays implements IBankHolidays {
 	}
 
 	@Override
-	public int countCurrentSundaysUntilNow() {
+	public int countSundaysUntilDate(final Date date_from, final Date date_to) {
 
 		// counter
 		int count = 0;
 
-		final Calendar current_calendar = Calendar.getInstance();
+		final Calendar calendar_index = DateUtils.toCalendar(date_from);
 
-		final Calendar calendar_index = Calendar.getInstance();
-		calendar_index.set(Calendar.DAY_OF_YEAR, 1);
+		final Calendar current_calendar = DateUtils.toCalendar(date_to);
 
 		Date date_index = calendar_index.getTime();
 
@@ -102,15 +102,15 @@ public class ItalianBankHolidays implements IBankHolidays {
 		// check if easter calculate
 		final int year = Calendar.getInstance().get(Calendar.YEAR);
 
-		final boolean check = this.map_easter.containsKey(year);
+		final boolean check = map_easter.containsKey(year);
 		if (check) {
-			return this.days;
+			return days;
 		} else {
 			final Date easter = Utility.findAfterEaster(year);
-			final String to_add = this.format.format(easter);
-			this.map_easter.put(year, to_add);
-			this.days.add(to_add);
-			return this.days;
+			final String to_add = format.format(easter);
+			map_easter.put(year, to_add);
+			days.add(to_add);
+			return days;
 		}
 
 	}

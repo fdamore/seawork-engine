@@ -67,9 +67,10 @@ public interface IStatistics {
 	 * Get percentage working sunday and holidays
 	 *
 	 * @param id_user
+	 * @param date_to TODO
 	 * @return
 	 */
-	public Integer getHolidaysWork(Integer id_user, Date date_from);
+	public Integer getHolidaysWork(Integer id_user, Date date_from, Date date_to);
 
 	/**
 	 * Get number of day with shift recorded
@@ -85,9 +86,10 @@ public interface IStatistics {
 	 * Get percentage working sunday
 	 *
 	 * @param id_user
+	 * @param date_to TODO
 	 * @return
 	 */
-	public Integer getSundayWork(Integer id_user, Date date_from);
+	public Integer getSundayWork(Integer id_user, Date date_from, Date date_to);
 
 	/**
 	 * Get Time Worked
