@@ -1,14 +1,11 @@
 package org.uario.seaworkengine.statistics;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
-import org.uario.seaworkengine.utility.Utility;
 
 public interface IStatProcedure {
 
@@ -66,6 +63,16 @@ public interface IStatProcedure {
 	public UserStatistics getUserStatistics(final Person person);
 
 	/**
+	 * get user statistics in period
+	 * 
+	 * @param person
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to);
+
+	/**
 	 * Get series
 	 *
 	 * @param date
@@ -109,7 +116,5 @@ public interface IStatProcedure {
 	 *
 	 */
 	public void workAssignProcedure(UserShift shift, Date current_date_scheduled, Integer user, Integer editor);
-
-	public abstract UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to);
 
 }
