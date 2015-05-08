@@ -24,8 +24,8 @@ public class ItalianBankHolidays implements IBankHolidays {
 	@Override
 	public int countHolidays(final Date date_from, final Date date_to) {
 
-		// check data integrity
-		if (date_to.after(date_from)) {
+		// CHECK DATA INTEGRITY!
+		if (date_from.after(date_to)) {
 			return 0;
 		}
 
@@ -36,8 +36,8 @@ public class ItalianBankHolidays implements IBankHolidays {
 		final Calendar date_from_calendar = DateUtils.toCalendar(date_from);
 		final Calendar date_to_calendar = DateUtils.toCalendar(date_to);
 
-		final int year_from = date_from_calendar.get(Calendar.DATE);
-		final int year_to = date_to_calendar.get(Calendar.DATE);
+		final int year_from = date_from_calendar.get(Calendar.YEAR);
+		final int year_to = date_to_calendar.get(Calendar.YEAR);
 		final int diff = year_to - year_from;
 
 		if (diff == 0) {
@@ -81,9 +81,19 @@ public class ItalianBankHolidays implements IBankHolidays {
 
 			return count;
 		} else {
-			final int count_up = this.countHolidays(date_from, date_to);
-			final int count_down = this.countHolidays(date_from, date_to);
-			return -999;
+
+			final Calendar calendar_first_day_year = DateUtils.toCalendar(date_to);
+			calendar_first_day_year.set(Calendar.DAY_OF_YEAR, calendar_first_day_year.getActualMinimum(Calendar.DAY_OF_YEAR));
+
+			final Calendar calendar_last_day_year = DateUtils.toCalendar(date_from);
+			calendar_last_day_year.set(Calendar.DAY_OF_YEAR, calendar_first_day_year.getActualMaximum(Calendar.DAY_OF_YEAR));
+
+			final int count_up = this.countHolidays(calendar_first_day_year.getTime(), date_to);
+			final int count_down = this.countHolidays(date_from, calendar_last_day_year.getTime());
+
+			final int factor = diff - 1;
+			return count_down + count_up + (factor * this.getNumberOfHolidays());
+
 		}
 
 	}
@@ -151,6 +161,17 @@ public class ItalianBankHolidays implements IBankHolidays {
 			this.map_easter.put(year, to_add);
 			this.days.add(to_add);
 			return this.days;
+		}
+
+	}
+
+	@Override
+	public Integer getNumberOfHolidays() {
+		final List<String> list = this.getDays();
+		if ((list == null) || (list.size() == 0)) {
+			return 0;
+		} else {
+			return list.size();
 		}
 
 	}

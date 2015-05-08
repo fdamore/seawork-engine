@@ -7,8 +7,11 @@ public interface IBankHolidays {
 
 	/**
 	 * Count current Holidays until now
-	 * @param date_from TODO
-	 * @param date_to TODO
+	 *
+	 * @param date_from
+	 *            TODO
+	 * @param date_to
+	 *            TODO
 	 *
 	 * @return
 	 */
@@ -16,7 +19,7 @@ public interface IBankHolidays {
 
 	/**
 	 * Count current Sunday until now
-	 * 
+	 *
 	 * @param date_from
 	 *            TODO
 	 * @param date_to
@@ -32,4 +35,11 @@ public interface IBankHolidays {
 	 * @return
 	 */
 	public List<String> getDays();
+
+	/**
+	 * Get number of holidays
+	 * 
+	 * @return
+	 */
+	public Integer getNumberOfHolidays();
 }
