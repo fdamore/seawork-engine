@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -521,52 +520,48 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Integer getWorkingSeries(final Date date, final Integer user) {
 
-		final Date my_pick_date = DateUtils.truncate(date, Calendar.DATE);
-
-		// get begin date
-		final Calendar calendar = DateUtils.toCalendar(my_pick_date);
-		calendar.add(Calendar.DAY_OF_YEAR, -15);
-		final Date date_begin = calendar.getTime();
-
-		// get date_working
-		final List<Date> list = this.statisticDAO.getDateAtWork(user, date_begin, my_pick_date);
-
-		// current head series
-		Date currentdate = null;
-
-		// the current length
-		int lenght_series = 0;
-
-		for (final Iterator<Date> iterator = list.iterator(); iterator.hasNext();) {
-
-			// get date
-			final Date item = iterator.next();
-
-			if (lenght_series == 0) {
-				lenght_series++;
-				currentdate = DateUtils.truncate(item, Calendar.DATE);
-				continue;
-			}
-
-			final Date item_date = DateUtils.truncate(item, Calendar.DATE);
-
-			// Difference between date
-			final int diff = Utility.daysBetweenDate(item_date, currentdate);
-
-			if (diff == 1) {
-				lenght_series++;
-				currentdate = DateUtils.truncate(item, Calendar.DATE);
-
-			} else {
-
-				lenght_series = 1;
-				currentdate = DateUtils.truncate(item, Calendar.DATE);
-
-			}
-
+		if ((date == null) || (user == null)) {
+			return 0;
 		}
 
-		return lenght_series;
+		final Date my_pick_date = DateUtils.truncate(date, Calendar.DATE);
+
+		// EXIT CONDITION
+		final Calendar exit_condition = Calendar.getInstance();
+		exit_condition.set(Calendar.YEAR, 2015);
+		exit_condition.set(Calendar.MONTH, Calendar.JANUARY);
+		exit_condition.set(Calendar.DAY_OF_YEAR, 1);
+		if (my_pick_date.before(exit_condition.getTime())) {
+			return 0;
+		}
+
+		final Schedule schedule = this.myScheduleDAO.loadSchedule(my_pick_date, user);
+
+		if (schedule == null) {
+
+			final Calendar cal = DateUtils.toCalendar(my_pick_date);
+			cal.add(Calendar.DAY_OF_YEAR, -1);
+
+			return 1 + this.getWorkingSeries(cal.getTime(), user);
+
+		} else {
+			final Integer shift_type = schedule.getShift();
+			if (shift_type == null) {
+				return 0;
+			}
+
+			final UserShift shift = this.shiftCache.getUserShift(shift_type);
+			if (shift.getPresence()) {
+
+				final Calendar cal = DateUtils.toCalendar(my_pick_date);
+				cal.add(Calendar.DAY_OF_YEAR, -1);
+
+				return 1 + this.getWorkingSeries(cal.getTime(), user);
+
+			} else {
+				return 0;
+			}
+		}
 
 	}
 
