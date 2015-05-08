@@ -17,8 +17,6 @@ public class Worker implements Serializable {
 	 */
 	private static final long		serialVersionUID	= 1L;
 
-	private final List<Badge>		badgeList			= new ArrayList<Badge>();
-
 	private String					entrata;
 
 	private int						shift;
@@ -29,28 +27,24 @@ public class Worker implements Serializable {
 
 	private Integer					utente;
 
-	public List<Badge> getBadgeList() {
-		return this.badgeList;
-	}
-
 	public String getEntrata() {
-		return this.entrata;
+		return entrata;
 	}
 
 	public int getShift() {
-		return this.shift;
+		return shift;
 	}
 
 	public List<TaskRunner> getTasks() {
-		return this.tasks;
+		return tasks;
 	}
 
 	public String getUscita() {
-		return this.uscita;
+		return uscita;
 	}
 
 	public Integer getUtente() {
-		return this.utente;
+		return utente;
 	}
 
 	public void setEntrata(final String entrata) {
