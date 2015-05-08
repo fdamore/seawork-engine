@@ -83,7 +83,7 @@ public interface PersonDAO extends UserDetailsService {
 	 *
 	 * @return Return a list of worker persons
 	 */
-	public List<Person> listWorkerPersons(String full_text_search);
+	public List<Person> listWorkerPersons(String full_text_search, String department);
 
 	public List<String> loadAllProvincia();
 

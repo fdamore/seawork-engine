@@ -322,6 +322,8 @@ public class StatProceduresImpl implements IStatProcedure {
 	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to) {
 		final UserStatistics userStatistics = new UserStatistics();
 
+		userStatistics.setDepartment(person.getDepartment());
+
 		// SET WORK SUNDAY
 		// count holidays until now
 		final int count_allsunday = this.bank_holiday.countSundaysUntilDate(date_from, date_to);
@@ -712,7 +714,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -733,7 +735,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -771,7 +773,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,

@@ -42,28 +42,28 @@ public class EngineServiceImpl implements IEngineService {
 
 	}
 
-	private static final SimpleDateFormat formatter_MMdd = new SimpleDateFormat("MM-dd");
+	private static final SimpleDateFormat	formatter_MMdd	= new SimpleDateFormat("MM-dd");
 
 	// logger
-	private static Logger logger = Logger.getLogger(EngineServiceImpl.class);
+	private static Logger					logger			= Logger.getLogger(EngineServiceImpl.class);
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays					bank_holiday;
 
-	private final SimpleDateFormat date_fromatter = new SimpleDateFormat("yyyy-MM-dd");
+	private final SimpleDateFormat			date_fromatter	= new SimpleDateFormat("yyyy-MM-dd");
 
-	private long initialDelay;
+	private long							initialDelay;
 
-	private IParams params;
+	private IParams							params;
 
-	private long period;
+	private long							period;
 
-	private PersonDAO personDAO;
+	private PersonDAO						personDAO;
 
-	private ISchedule scheduleDAO;
+	private ISchedule						scheduleDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache						shiftCache;
 
-	private IStatProcedure statProcedure;
+	private IStatProcedure					statProcedure;
 
 	public IBankHolidays getBank_holiday() {
 		return this.bank_holiday;
@@ -193,7 +193,7 @@ public class EngineServiceImpl implements IEngineService {
 
 			// ASSIGN WORK FOR TOMORROW-------- BEGIN SUB PROCEDURE
 			// get all persons
-			final List<Person> list_person = this.personDAO.listWorkerPersons(null);
+			final List<Person> list_person = this.personDAO.listWorkerPersons(null, null);
 			for (final Person person : list_person) {
 
 				Schedule schedule = this.scheduleDAO.loadSchedule(date_tomorrow, person.getId());
@@ -208,8 +208,7 @@ public class EngineServiceImpl implements IEngineService {
 				if (lenght_series_working >= 10) {
 
 					// remove all break in current weeks
-					final List<Schedule> list_break_day = this.statProcedure.searchBreakInCurrentWeek(date_tomorrow,
-							person.getId());
+					final List<Schedule> list_break_day = this.statProcedure.searchBreakInCurrentWeek(date_tomorrow, person.getId());
 					if (list_break_day != null) {
 						for (final Schedule itm : list_break_day) {
 
@@ -237,8 +236,7 @@ public class EngineServiceImpl implements IEngineService {
 
 					if (!isScheduleNull) {
 
-						final List<DetailInitialSchedule> list_check = this.scheduleDAO
-								.loadDetailInitialScheduleByIdSchedule(schedule.getId());
+						final List<DetailInitialSchedule> list_check = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule.getId());
 
 						if ((list_check == null) || (list_check.size() != 0)) {
 							isDayEmpty = false;
@@ -361,8 +359,7 @@ public class EngineServiceImpl implements IEngineService {
 			final Calendar next_monday = (Calendar) next_sunday.clone();
 			next_monday.add(Calendar.DAY_OF_YEAR, 1);
 
-			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(),
-					person.getId());
+			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId());
 
 			if (list_break_second_week == null) {
 
@@ -382,16 +379,14 @@ public class EngineServiceImpl implements IEngineService {
 			// check is some break is already setted
 			final Calendar next_monday = (Calendar) next_sunday.clone();
 			next_monday.add(Calendar.DAY_OF_YEAR, 1);
-			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(),
-					person.getId());
+			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId());
 
 			if (list_break_second_week == null) {
 
 				final Calendar cal = DateUtils.truncate(next_sunday, Calendar.DATE);
 				cal.add(Calendar.DAY_OF_YEAR, -1);
 
-				final List<Schedule> list_break_first_week = this.statProcedure.searchBreakInCurrentWeek(cal.getTime(),
-						person.getId());
+				final List<Schedule> list_break_first_week = this.statProcedure.searchBreakInCurrentWeek(cal.getTime(), person.getId());
 
 				int max_day_to_break = 7;
 

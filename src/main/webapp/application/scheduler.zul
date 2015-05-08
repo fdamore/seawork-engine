@@ -244,12 +244,18 @@
 						<separator />
 						<hbox align="center">
 
-							<grid width="250px">
+							<grid width="270px">
 								<columns>
 									<column width="130px"></column>
-									<column width="120px"></column>
+									<column width="140px"></column>
 								</columns>
 								<rows>
+								
+									<row>
+										<label
+											value="Reparto: " />
+										<label id="userDepartment" />
+									</row>
 
 									<row>
 										<label value="Saturazione: " />
@@ -2902,42 +2908,44 @@
 
 										<listheader label="Nome"
 											sort="auto(person)" hflex="1" />
+											
+										<listheader label="Reparto"/>
 
 										<listheader label="Saturazione"
-											align="center" hflex="1" />
+											align="center"  />
 
 										<listheader label="Saturazione Media Mensile"
-											align="center" hflex="1" />
+											align="center"  />
 
 										<listheader label="Lavoro Domenicale"
-											hflex="1" align="center" />
+											 align="center" />
 											
 										<listheader label="Festivi"
-											hflex="1" align="center" />
+											 align="center" />
 										
-										<listheader label="Ore settimana Corrente"
-											hflex="1" align="center" />
+										<listheader label="Ore Settimana"
+											 align="center" />
 											
-										<listheader label="Ore Mese Corrente"
-											hflex="1" align="center" />
+										<listheader label="Ore Mese"
+											 align="center" />
 										
-										<listheader label="Ore Anno Corrente"
-											hflex="1" align="center" />
+										<listheader label="Ore Anno"
+											 align="center" />
 											
 										<listheader label="Giorni consencutivi"
-											hflex="1" align="center" />
+											 align="center" />
 											
-										<listheader label="Lavoro su Turno 1"
-											hflex="1" align="center" />
+										<listheader label="Turno 1"
+											 align="center" />
 											
-										<listheader label="Lavoro su Turno 2"
-											hflex="1" align="center" />
+										<listheader label="Turno 2"
+											 align="center" />
 										
-										<listheader label="Lavoro su Turno 3"
-											hflex="1" align="center" />
+										<listheader label="Turno 3"
+											 align="center" />
 										
-										<listheader label="Lavoro su Turno 4"
-											hflex="1" align="center" />
+										<listheader label="Turno 4"
+											 align="center" />
 
 									</listhead>
 
@@ -2949,6 +2957,9 @@
 										<listcell sclass="myBottonCell">
 											<a label="@{userschedule.person, converter='org.uario.seaworkengine.zkevent.converter.PersonToDottedNameConverter'}"/>
 										</listcell>
+										
+										<listcell sclass="myBottonCell"
+											label="@{userschedule.department}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.saturation, converter='org.uario.seaworkengine.zkevent.converter.SaturationConverter'}" 
