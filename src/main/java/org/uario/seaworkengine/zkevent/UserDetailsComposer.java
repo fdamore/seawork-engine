@@ -2,6 +2,7 @@ package org.uario.seaworkengine.zkevent;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.CFGenerator;
+import org.uario.seaworkengine.utility.DepartmentTag;
 import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.UserTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -37,6 +39,7 @@ import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -96,7 +99,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Intbox				daywork_w_user;
 
 	@Wire
-	private Textbox				department_user;
+	private Combobox			department_user;
+
+	List<String>				departmentItems		= new ArrayList<String>();
 
 	@Wire
 	private Tab					detail_user_tab;
@@ -340,7 +345,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			person.setPart_time(this.partTime.isChecked());
 			person.setEducation(this.education_user.getValue());
 			person.setNcfl(this.ncfl_user.getValue());
-			person.setDepartment(this.department_user.getValue());
+			person.setDepartment("");
+			if (this.department_user.getSelectedItem() != null) {
+				person.setDepartment(this.department_user.getSelectedItem().getValue().toString());
+			}
 			person.setCurrent_position(this.current_position_user.getValue());
 			person.setNbudge(this.nbudje_user.getValue());
 			person.setNpass(this.npass_user.getValue());
@@ -741,7 +749,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		this.education_user.setValue(person_selected.getEducation());
 		this.ncfl_user.setValue(person_selected.getNcfl());
-		this.department_user.setValue(person_selected.getDepartment());
+
+		final ListModel<String> items = this.department_user.getModel();
+		for (int i = 0; i < items.getSize(); i++) {
+			if (items.getElementAt(i).toString().equals(person_selected.getDepartment())) {
+				this.department_user.setSelectedItem(this.department_user.getItemAtIndex(i));
+			}
+		}
+
 		this.current_position_user.setValue(person_selected.getCurrent_position());
 
 		this.nbudje_user.setValue(person_selected.getNbudge());
@@ -867,6 +882,11 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 		});
 
+		// create comboitem department
+		UserDetailsComposer.this.departmentItems.add(DepartmentTag.ADMINISTRATION);
+		UserDetailsComposer.this.departmentItems.add(DepartmentTag.OPERATIVE);
+		UserDetailsComposer.this.department_user.setModel(new ListModelList<String>(UserDetailsComposer.this.departmentItems));
+
 	}
 
 	@Listen("onClick = #qrcode_gen")
@@ -930,7 +950,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.person_selected.setPart_time(this.partTime.isChecked());
 		this.person_selected.setEducation(this.education_user.getValue());
 		this.person_selected.setNcfl(this.ncfl_user.getValue());
-		this.person_selected.setDepartment(this.department_user.getValue());
+		if (this.department_user.getSelectedItem() != null) {
+			this.person_selected.setDepartment(this.department_user.getSelectedItem().getValue().toString());
+		}
 		this.person_selected.setCurrent_position(this.current_position_user.getValue());
 		this.person_selected.setCountry(this.country_user.getValue());
 		this.person_selected.setNbudge(this.nbudje_user.getValue());
@@ -1030,15 +1052,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposer.this.deleteUserCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposer.this.deleteUserCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -1071,7 +1093,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.education_user.setValue("");
 		this.country_user.setValue("");
 		this.ncfl_user.setValue("");
-		this.department_user.setValue("");
+		this.department_user.setSelectedItem(null);
 		this.current_position_user.setValue("");
 		this.personal_code_user.setValue("");
 		this.sex_user.setSelectedItem(null);
