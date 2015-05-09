@@ -2959,8 +2959,7 @@
 										<listheader label="Ore Anno"
 											align="center" />
 
-										<listheader
-											label="Giorni consencutivi" align="center" />
+
 
 										<listheader label="Turno 1"
 											align="center" />
@@ -3012,8 +3011,7 @@
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_current_year}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{userschedule.working_series}" />
+
 
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.shift_perc_1}" />
