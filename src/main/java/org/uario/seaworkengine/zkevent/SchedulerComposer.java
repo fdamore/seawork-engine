@@ -260,7 +260,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	private static final String				ALL_ITEM						= "TUTTI";
+	private static final String				ALL_ITEM						= "ANNUNLLA FILTRO";
 
 	private static final int				DAY_REVIEW_IN_PROGRAM_SHIFT		= 1;
 
@@ -1141,8 +1141,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 							item.getTime_to()) < 0))
 							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(
 									item.getTime_to()) <= 0))
-							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to()
-									.compareTo(item.getTime_to()) >= 0))) {
+									|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to()
+											.compareTo(item.getTime_to()) >= 0))) {
 						return;
 					}
 
@@ -1282,9 +1282,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(
 						item.getTime_to()) < 0)) || ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item
-						.getTime_to().compareTo(item.getTime_to()) <= 0))))
-						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(
-								item.getTime_to()) >= 0))) {
+								.getTime_to().compareTo(item.getTime_to()) <= 0))))
+								|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(
+										item.getTime_to()) >= 0))) {
 					return;
 				}
 			}
@@ -1733,17 +1733,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?",
 				"CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -3526,7 +3526,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Person controller = personDAO.loadPerson(currentSchedule.getController());
 				if (controller != null) {
 					controller_label_review
-							.setLabel("Controllore: " + controller.getFirstname() + " " + controller.getLastname());
+					.setLabel("Controllore: " + controller.getFirstname() + " " + controller.getLastname());
 				}
 			}
 
@@ -3551,20 +3551,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #refresh_command")
 	public void refreshCommand() {
 
-		full_text_search.setValue(null);
-
-		// refresh for overview
-		date_from_overview.setValue(null);
-		date_to_overview.setValue(null);
 		select_shift_overview.setSelectedItem(item_all_shift_overview);
-
-		// set selected item
-		combo_user_dip.setSelectedItem(null);
 
 		// if statistic tab is selected, fire refresh on user statistic
 		if (statisticsTab.isSelected()) {
 
 			refreshUserStatistics(full_text_search.getValue(), combo_user_dip.getValue());
+
+		} else {
+
+			// refresh for overview
+			full_text_search.setValue(null);
+			date_from_overview.setValue(null);
+			date_to_overview.setValue(null);
+
+			// set selected item
+			combo_user_dip.setSelectedItem(null);
+
 		}
 
 		defineSchedulerView();
@@ -3591,10 +3594,31 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// get worker user
 		final List<Person> users_schedule = personDAO.listWorkerPersons(text_select, department_select);
 
+		// init list
 		listUserStatistics = new ListModelList<UserStatistics>();
 
+		// select date period
+		Date date_from = date_from_overview.getValue();
+		Date date_to = date_to_overview.getValue();
+		boolean use_date = false;
+		if ((date_from != null) && (date_to != null) && !date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
+			use_date = true;
+
+			// truncate
+			date_from = DateUtils.truncate(date_from, Calendar.DATE);
+			date_to = DateUtils.truncate(date_to, Calendar.DATE);
+		}
+
 		for (final Person person : users_schedule) {
-			final UserStatistics user = statProcedure.getUserStatistics(person);
+
+			UserStatistics user = null;
+
+			if (use_date) {
+				user = statProcedure.getUserStatistics(person, date_from, date_to);
+			} else {
+				user = statProcedure.getUserStatistics(person);
+			}
+
 			user.setPerson(person);
 			listUserStatistics.add(user);
 		}
@@ -3609,7 +3633,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Calendar cal = Calendar.getInstance();
 
-		updateStatisticTime.setValue("Statistica aggiornata a: " + Utility.convertToDateAndTime(cal.getTime()));
+		final String tstamp = Utility.convertToDateAndTime(cal.getTime());
+		if (!use_date) {
+			updateStatisticTime.setValue("Statistica aggiornata a: " + tstamp);
+		} else {
+
+			final String msg = "Statistica aggiornata a: " + tstamp + " riferito al periodo "
+					+ Utility.getDataAsString_it(date_from) + " - " + Utility.getDataAsString_it(date_to);
+
+			updateStatisticTime.setValue(msg);
+		}
 	}
 
 	@Listen("onClick = #cancel_day_definition")
@@ -3676,8 +3709,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4005,17 +4038,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?",
 						"CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				saveShift(shift, date_scheduled, row_item);
 			}
@@ -4240,7 +4273,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (selectedShift.equals(3) && minShiftInDay.equals(4)) || (selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+										.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -4617,6 +4650,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				} catch (final ParseException e) {
 					return;
 				}
+
+				date_from_overview.setValue(date_from);
+				date_to_overview.setValue(date_to);
 
 				setOverviewLists(date_from, date_to);
 
@@ -5183,7 +5219,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox
-					.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 			return;
 		}

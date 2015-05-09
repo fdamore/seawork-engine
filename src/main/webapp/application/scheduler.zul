@@ -2382,7 +2382,7 @@
 		<div id="overview_div" visible="false">
 
 			<hbox>
-				<vbox id="reviewSearchBox">
+				<vbox>
 					<hbox align="center">
 						<a label="Filtra su periodo: "></a>
 						<datebox id="date_from_overview"
@@ -2402,73 +2402,75 @@
 
 					</hbox>
 
-
 					<separator></separator>
 
-					<hbox align="center">
+					<div id="reviewSearchBox">
 
-						<a label="Filtra su numero turno: "></a>
-						<combobox placeholder="Scegli turno..."
-							readonly="true" id="select_shift_overview">
-							<comboitem value="TUTTI" label="TUTTI"
-								id="item_all_shift_overview">
-							</comboitem>
-							<comboitem value="1" label="1"></comboitem>
-							<comboitem value="2" label="2"></comboitem>
-							<comboitem value="3" label="3"></comboitem>
-							<comboitem value="4" label="4"></comboitem>
-						</combobox>
+						<hbox align="center">
 
-						<space></space>
-
-
-						<vbox align="start">
-							<a label="Filtra su tipo turno: "></a>
-							<combobox placeholder="Scegli tipo turno..."
-								readonly="false" id="select_shifttype_overview">
+							<a label="Filtra su numero turno: "></a>
+							<combobox placeholder="Scegli turno..."
+								readonly="true" id="select_shift_overview">
+								<comboitem value="TUTTI" label="TUTTI"
+									id="item_all_shift_overview">
+								</comboitem>
+								<comboitem value="1" label="1"></comboitem>
+								<comboitem value="2" label="2"></comboitem>
+								<comboitem value="3" label="3"></comboitem>
+								<comboitem value="4" label="4"></comboitem>
 							</combobox>
 
-							<hbox align="center">
-								<a label="Turno di Lavoro"
-									style="color:green" id="overview_selector_select_tl">
-								</a>
-								<a label="Riposo Programmato"
-									style="color:green" id="overview_selector_select_rp">
-								</a>
-								<a label="Giornaliero"
-									style="color:green" id="overview_selector_select_dl">
-								</a>
-								<a label="Tutti" style="color:green"
-									id="overview_selector_select_all">
-								</a>
+							<space></space>
 
+
+							<vbox align="start">
+								<a label="Filtra su tipo turno: "></a>
+								<combobox
+									placeholder="Scegli tipo turno..." readonly="false"
+									id="select_shifttype_overview">
+								</combobox>
+
+								<hbox align="center">
+									<a label="Turno di Lavoro"
+										style="color:green" id="overview_selector_select_tl">
+									</a>
+									<a label="Riposo Programmato"
+										style="color:green" id="overview_selector_select_rp">
+									</a>
+									<a label="Giornaliero"
+										style="color:green" id="overview_selector_select_dl">
+									</a>
+									<a label="Tutti" style="color:green"
+										id="overview_selector_select_all">
+									</a>
+
+								</hbox>
+							</vbox>
+
+							<a label="Filtra su mansione: "></a>
+							<vbox>
+								<space></space>
+								<combobox id="taskComboBox"
+									readonly="false" placeholder="Seleziona mansione..." />
+								<a label="Tutti" style="color:green"
+									id="overview_selector_select_allTask" />
+							</vbox>
+							<space></space>
+
+						</hbox>
+
+						<!-- COUNTING -->
+						<vbox align="start">
+							<hbox align="center">
+								<a label="Ore lavorate:"></a>
+								<label id="overview_count_h"></label>
+							</hbox>
+							<hbox>
+								<a label="Ore a chiusura turno:"></a>
+								<label id="overview_count_h_c"></label>
 							</hbox>
 						</vbox>
-
-						<a label="Filtra su mansione: "></a>
-						<vbox>
-							<space></space>
-							<combobox id="taskComboBox" readonly="false"
-								placeholder="Seleziona mansione..." />
-							<a label="Tutti" style="color:green"
-								id="overview_selector_select_allTask" />
-						</vbox>
-						<space></space>
-
-					</hbox>
-
-					<!-- COUNTING -->
-					<vbox align="start">
-						<hbox align="center">
-							<a label="Ore lavorate:"></a>
-							<label id="overview_count_h"></label>
-						</hbox>
-						<hbox>
-							<a label="Ore a chiusura turno:"></a>
-							<label id="overview_count_h_c"></label>
-						</hbox>
-					</vbox>
-
+					</div>
 				</vbox>
 
 				<a label="Scarica dati in CSV" id="overview_download"
