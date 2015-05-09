@@ -250,10 +250,9 @@
 									<column width="140px"></column>
 								</columns>
 								<rows>
-								
+
 									<row>
-										<label
-											value="Reparto: " />
+										<label value="Reparto: " />
 										<label id="userDepartment" />
 									</row>
 
@@ -1973,9 +1972,11 @@
 											<button label="Cancella"
 												id="remove_review_item" sclass="btn-info">
 											</button>
-											<label id="totalHours_Review" value="Totale Ore Consuntivate: " />
+											<label
+												id="totalHours_Review" value="Totale Ore Consuntivate: " />
 
-											<label id="infoBadge" value=""/>
+											<label id="infoBadge"
+												value="" />
 
 										</hbox>
 
@@ -2381,113 +2382,122 @@
 		<div id="overview_div" visible="false">
 
 			<hbox>
-				<vbox id = "reviewSearchBox">
-				<hbox align="center">
-					<a label="Filtra su periodo: "></a>
-					<datebox id="date_from_overview"
-						placeholder="Selezione data iniziale" width="200px">
-					</datebox>
-	
-					<datebox id="date_to_overview"
-						placeholder="Selezione data finale" width="200px">
-					</datebox>
-	
-					<button id="overview_month" label="Mese corrente"
-						sclass="btn-info" />
-	
-					<a label="Filtra su anno: " />
-					<combobox placeholder="Seleziona anno..."
-						readonly="true" id="select_year" />				
-	
-				</hbox>
-	
-				<separator></separator>
-	
-				<hbox align="center">
-	
-					<a label="Filtra su numero turno: "></a>
-					<combobox placeholder="Scegli turno..." readonly="true"
-						id="select_shift_overview">
-						<comboitem value="TUTTI" label="TUTTI"
-							id="item_all_shift_overview">
-						</comboitem>
-						<comboitem value="1" label="1"></comboitem>
-						<comboitem value="2" label="2"></comboitem>
-						<comboitem value="3" label="3"></comboitem>
-						<comboitem value="4" label="4"></comboitem>
-					</combobox>
-	
-					<space></space>
-	
-	
-					<vbox align="start">
-						<a label="Filtra su tipo turno: "></a>
-						<combobox placeholder="Scegli tipo turno..."
-							readonly="false" id="select_shifttype_overview">
+				<vbox id="reviewSearchBox">
+					<hbox align="center">
+						<a label="Filtra su periodo: "></a>
+						<datebox id="date_from_overview"
+							placeholder="Selezione data iniziale" width="200px">
+						</datebox>
+
+						<datebox id="date_to_overview"
+							placeholder="Selezione data finale" width="200px">
+						</datebox>
+
+						<button id="overview_month"
+							label="Mese corrente" sclass="btn-info" />
+
+						<a label="Filtra su anno: " />
+						<combobox placeholder="Seleziona anno..."
+							readonly="true" id="select_year" />
+
+					</hbox>
+
+
+					<separator></separator>
+
+					<hbox align="center">
+
+						<a label="Filtra su numero turno: "></a>
+						<combobox placeholder="Scegli turno..."
+							readonly="true" id="select_shift_overview">
+							<comboitem value="TUTTI" label="TUTTI"
+								id="item_all_shift_overview">
+							</comboitem>
+							<comboitem value="1" label="1"></comboitem>
+							<comboitem value="2" label="2"></comboitem>
+							<comboitem value="3" label="3"></comboitem>
+							<comboitem value="4" label="4"></comboitem>
 						</combobox>
-	
-						<hbox align="center">
-							<a label="Turno di Lavoro" style="color:green"
-								id="overview_selector_select_tl">
-							</a>
-							<a label="Riposo Programmato"
-								style="color:green" id="overview_selector_select_rp">
-							</a>
-							<a label="Giornaliero" style="color:green"
-								id="overview_selector_select_dl">
-							</a>
+
+						<space></space>
+
+
+						<vbox align="start">
+							<a label="Filtra su tipo turno: "></a>
+							<combobox placeholder="Scegli tipo turno..."
+								readonly="false" id="select_shifttype_overview">
+							</combobox>
+
+							<hbox align="center">
+								<a label="Turno di Lavoro"
+									style="color:green" id="overview_selector_select_tl">
+								</a>
+								<a label="Riposo Programmato"
+									style="color:green" id="overview_selector_select_rp">
+								</a>
+								<a label="Giornaliero"
+									style="color:green" id="overview_selector_select_dl">
+								</a>
+								<a label="Tutti" style="color:green"
+									id="overview_selector_select_all">
+								</a>
+
+							</hbox>
+						</vbox>
+
+						<a label="Filtra su mansione: "></a>
+						<vbox>
+							<space></space>
+							<combobox id="taskComboBox" readonly="false"
+								placeholder="Seleziona mansione..." />
 							<a label="Tutti" style="color:green"
-								id="overview_selector_select_all">
-							</a>
-	
+								id="overview_selector_select_allTask" />
+						</vbox>
+						<space></space>
+
+					</hbox>
+
+					<!-- COUNTING -->
+					<vbox align="start">
+						<hbox align="center">
+							<a label="Ore lavorate:"></a>
+							<label id="overview_count_h"></label>
+						</hbox>
+						<hbox>
+							<a label="Ore a chiusura turno:"></a>
+							<label id="overview_count_h_c"></label>
 						</hbox>
 					</vbox>
-	
-					<a label="Filtra su mansione: "></a>
-					<vbox>
-						<space></space>
-						<combobox id="taskComboBox" readonly="false"
-							placeholder="Seleziona mansione..." />
-						<a label="Tutti" style="color:green"
-							id="overview_selector_select_allTask" />
-					</vbox>
-					<space></space>
-	
-				</hbox>
-
-				<!-- COUNTING -->
-				<vbox align="start">
-					<hbox align="center">
-						<a label="Ore lavorate:"></a>
-						<label id="overview_count_h"></label>
-					</hbox>
-					<hbox>
-						<a label="Ore a chiusura turno:"></a>
-						<label id="overview_count_h_c"></label>
-					</hbox>
-				</vbox>
 
 				</vbox>
-				
+
 				<a label="Scarica dati in CSV" id="overview_download"
-						style="color:green">
-					</a>
-				
+					style="color:green">
+				</a>
+
 			</hbox>
 
 			<separator></separator>
 
-			
+
 
 
 			<separator></separator>
 
 			<tabbox id="overview_tab">
 				<tabs>
-					<tab label="CONSUNTIVO" id="reviewTab" onClick="reviewSearchBox.setVisible(true);"></tab>
-					<tab label="PROGRAMMATO" id="programTab" onClick="reviewSearchBox.setVisible(true);"></tab>
-					<tab label="PREVENTIVATO" id="previewTab" onClick="reviewSearchBox.setVisible(true);"></tab>
-					<tab label="STATISTICA" id="statisticsTab" onClick="reviewSearchBox.setVisible(false);"></tab>
+					<tab label="CONSUNTIVO" id="reviewTab"
+						onClick="reviewSearchBox.setVisible(true);">
+					</tab>
+					<tab label="PROGRAMMATO" id="programTab"
+						onClick="reviewSearchBox.setVisible(true);">
+					</tab>
+					<tab label="PREVENTIVATO" id="previewTab"
+						onClick="reviewSearchBox.setVisible(true);">
+					</tab>
+					<tab label="STATISTICA" id="statisticsTab"
+						onClick="reviewSearchBox.setVisible(false);">
+					</tab>
 				</tabs>
 				<tabpanels>
 					<tabpanel id="overview_review">
@@ -2892,120 +2902,136 @@
 
 
 					<tabpanel id="overview_statistics">
-					
-					<separator/>
-					<label id="updateStatisticTime" style="font-weight:bold"/>
-					<separator/>
-				
+
+						<combobox id="combo_user_dip" readonly="true"
+							placeholder="Filtra per Reparto...">
+
+							<comboitem label="TUTTI" value="TUTTI">
+							</comboitem>
+
+							<comboitem label="AMMINISTRAZIONE"
+								value="AMMINISTRAZIONE">
+							</comboitem>
+							<comboitem label="OPERATIVO"
+								value="OPERATIVO">
+							</comboitem>
+
+						</combobox>
+
+						<separator />
+						<label id="updateStatisticTime"
+							style="font-weight:bold" />
+						<separator />
+
 						<panel border="normal" collapsible="false"
 							sclass="transparent">
 							<panelchildren>
 								<listbox sclass="domain" mold="paging"
-									pageSize="10" pagingPosition="both"
-									id="list_statistics">
+									pageSize="10" pagingPosition="both" id="list_statistics">
 
 									<listhead sizable="true">
 
 										<listheader label="Nome"
 											sort="auto(person)" hflex="1" />
-											
-										<listheader label="Reparto"/>
+
+										<listheader label="Reparto" />
 
 										<listheader label="Saturazione"
-											align="center"  />
+											align="center" />
 
-										<listheader label="Saturazione Media Mensile"
-											align="center"  />
+										<listheader
+											label="Saturazione Media Mensile" align="center" />
 
-										<listheader label="Lavoro Domenicale"
-											 align="center" />
-											
+										<listheader
+											label="Lavoro Domenicale" align="center" />
+
 										<listheader label="Festivi"
-											 align="center" />
-										
-										<listheader label="Ore Settimana"
-											 align="center" />
-											
+											align="center" />
+
+										<listheader
+											label="Ore Settimana" align="center" />
+
 										<listheader label="Ore Mese"
-											 align="center" />
-										
+											align="center" />
+
 										<listheader label="Ore Anno"
-											 align="center" />
-											
-										<listheader label="Giorni consencutivi"
-											 align="center" />
-											
+											align="center" />
+
+										<listheader
+											label="Giorni consencutivi" align="center" />
+
 										<listheader label="Turno 1"
-											 align="center" />
-											
+											align="center" />
+
 										<listheader label="Turno 2"
-											 align="center" />
-										
+											align="center" />
+
 										<listheader label="Turno 3"
-											 align="center" />
-										
+											align="center" />
+
 										<listheader label="Turno 4"
-											 align="center" />
+											align="center" />
 
 									</listhead>
 
 									<listitem
-										self="@{each='userschedule'}"
-										value="@{userschedule}">
+										self="@{each='userschedule'}" value="@{userschedule}">
 
-										
-										<listcell sclass="myBottonCell">
-											<a label="@{userschedule.person, converter='org.uario.seaworkengine.zkevent.converter.PersonToDottedNameConverter'}"/>
+
+										<listcell
+											sclass="myBottonCell">
+											<a
+												label="@{userschedule.person, converter='org.uario.seaworkengine.zkevent.converter.PersonToDottedNameConverter'}" />
 										</listcell>
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.department}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{userschedule.saturation, converter='org.uario.seaworkengine.zkevent.converter.SaturationConverter'}" 
-											style="@{userschedule.saturation, converter='org.uario.seaworkengine.zkevent.converter.SaturationStyleConverter'}"/>
+											label="@{userschedule.saturation, converter='org.uario.seaworkengine.zkevent.converter.SaturationConverter'}"
+											style="@{userschedule.saturation, converter='org.uario.seaworkengine.zkevent.converter.SaturationStyleConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{userschedule.saturation_month, converter='org.uario.seaworkengine.zkevent.converter.SaturationConverter'}" 
-											style="@{userschedule.saturation_month, converter='org.uario.seaworkengine.zkevent.converter.SaturationStyleConverter'}"/>
+											label="@{userschedule.saturation_month, converter='org.uario.seaworkengine.zkevent.converter.SaturationConverter'}"
+											style="@{userschedule.saturation_month, converter='org.uario.seaworkengine.zkevent.converter.SaturationStyleConverter'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_sunday_perc}" />
-											
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_holiday_perc}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_current_week}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_current_month}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_current_year}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.working_series}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.shift_perc_1}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.shift_perc_2}" />
-										
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.shift_perc_3}" />
-											
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.shift_perc_4}" />
-										
+
 									</listitem>
 
 								</listbox>
 
 							</panelchildren>
 						</panel>
-						
+
 
 
 					</tabpanel>
