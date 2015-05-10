@@ -593,13 +593,7 @@
 			label="Aggiungi Utente">
 		</button>
 
-
-
-		<button id="sw_refresh_list" sclass="btn-info"
-			label="Aggiorna Lista Utenti">
-		</button>
-
-
+	
 		<combobox id="select_specific_user" readonly="true"
 			placeholder="Seleziona Utenti Default" mold="rounded">
 			<comboitem label="--" value="--" />
@@ -613,11 +607,18 @@
 			<comboitem label="Programmatore" value="programmer" />
 			<comboitem label="Visore" value="viewer" />
 		</combobox>
+		
+		<combobox readonly="true" placeholder="Rapporto di Lavoro" 
+		id="user_status_filter"/>
+		
+		<button id="sw_refresh_list" sclass="btn-info"
+			label="Ricarica">
+		</button>
 
 		<separator></separator>
 	</div>
 
-	<!-- SHOW ROWS AND SEARCH -->
+	<!-- SHOW ROWS, SEARCH AND USER STATUS FILTER -->
 	<hbox>
 		<a label="Righe da visualizzare: "
 			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
@@ -626,9 +627,10 @@
 		</intbox>
 
 		<textbox placeholder="Cerca..." id="full_text_search"></textbox>
-
+		
+		
 	</hbox>
-
+	
 
 	<separator></separator>
 
@@ -644,6 +646,7 @@
 			<listheader label="Città" sort="auto(city)" />
 			<listheader label="Telefono" sort="auto(phone)" />
 			<listheader label="Ruolo" />
+			<listheader label="Qualifica" />
 			<listheader label="" />
 		</listhead>
 
@@ -663,6 +666,8 @@
 			<listcell sclass="myBottonCell" label="@{user_item.phone}" />
 			<listcell sclass="myBottonCell"
 				label="@{user_item.authority, converter='org.uario.seaworkengine.zkevent.converter.UserRoleConverter'}" />
+			
+			<listcell sclass="myBottonCell" label="@{user_item.current_position}" />
 
 			<listcell sclass="myBottonCell">
 

@@ -267,7 +267,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Label				user_status;
 
 	@Wire
+	private Combobox			user_status_filter;
+
+	@Wire
 	private A					userName;
+
+	List<String>				userStatusItems		= new ArrayList<String>();
 
 	@Wire
 	private Checkbox			viewer_user;
@@ -887,6 +892,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.OPERATIVE);
 		UserDetailsComposer.this.department_user.setModel(new ListModelList<String>(UserDetailsComposer.this.departmentItems));
 
+		// create comboitem user status
+		this.userStatusItems.add(UserStatusTag.OPEN);
+		this.userStatusItems.add(UserStatusTag.SUSPENDED);
+		this.userStatusItems.add(UserStatusTag.FIRED);
+		this.user_status_filter.setModel(new ListModelList<String>(this.userStatusItems));
+
 	}
 
 	@Listen("onClick = #qrcode_gen")
@@ -1035,6 +1046,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
+		this.user_status_filter.setSelectedItem(null);
 
 		// set user listbox
 		this.setUserListBox();
@@ -1052,15 +1064,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposer.this.deleteUserCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposer.this.deleteUserCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1124,6 +1136,17 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.hourswork_w_user.setValue(null);
 	}
 
+	@Listen("onChange = #user_status_filter")
+	public void searchUserStatus() {
+		if (this.user_status_filter.getSelectedItem() != null) {
+			final ListModelList<Person> list_person = new ListModelList<Person>(this.personDao.listAllPersonByUserStatus(this.user_status_filter
+					.getSelectedItem().getValue().toString()));
+			this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+			this.full_text_search.setValue(null);
+			this.select_specific_user.setSelectedItem(null);
+		}
+	}
+
 	private void selectAdmins() {
 
 		final List<Person> list_person = this.personDao.usersAdmin();
@@ -1166,6 +1189,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onChange=#select_specific_user")
 	public void selectSpecificUser() {
+		this.full_text_search.setValue(null);
+		this.user_status_filter.setSelectedItem(null);
 		final String selected = this.select_specific_user.getSelectedItem().getValue().toString();
 		if (selected.equals("Amministratori di Sistema")) {
 			this.selectAdmins();
@@ -1260,6 +1285,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void setUserListBox() {
 
 		this.select_specific_user.setSelectedItem(null);
+		this.user_status_filter.setSelectedItem(null);
 
 		List<Person> list_person = null;
 

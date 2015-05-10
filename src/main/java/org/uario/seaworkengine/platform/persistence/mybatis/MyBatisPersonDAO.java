@@ -72,6 +72,14 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
+	public List<Person> listAllPersonByUserStatus(final String userStatus) {
+		MyBatisPersonDAO.logger.info("listAllPersons by user status " + userStatus);
+
+		return this.getSqlSession().selectList("person.listAllPersonByUserStatus", userStatus);
+
+	}
+
+	@Override
 	public List<Person> listAllPersons() {
 		MyBatisPersonDAO.logger.info("Get all person..");
 		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPerson");
