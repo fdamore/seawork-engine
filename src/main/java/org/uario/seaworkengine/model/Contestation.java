@@ -20,6 +20,8 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	private String				note;
 
+	private Boolean				recall;
+
 	private Date				stop_from;
 
 	private Date				stop_to;
@@ -48,6 +50,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 		return this.date_contestation;
 	}
 
+	public String getFile_name() {
+		return this.file_name;
+	}
+
 	public int getId() {
 		return this.id;
 	}
@@ -58,6 +64,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public String getNote() {
 		return this.note;
+	}
+
+	public Boolean getRecall() {
+		return this.recall;
 	}
 
 	public Date getStop_from() {
@@ -76,6 +86,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 		this.date_contestation = date_contestation;
 	}
 
+	public void setFile_name(final String file_name) {
+		this.file_name = file_name;
+	}
+
 	public void setId(final int id) {
 		this.id = id;
 	}
@@ -88,6 +102,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 		this.note = note;
 	}
 
+	public void setRecall(final Boolean recall) {
+		this.recall = recall;
+	}
+
 	public void setStop_from(final Date stop_from) {
 		this.stop_from = stop_from;
 	}
@@ -98,14 +116,6 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public void setTyp(final String typ) {
 		this.typ = typ;
-	}
-
-	public String getFile_name() {
-		return file_name;
-	}
-
-	public void setFile_name(String file_name) {
-		this.file_name = file_name;
 	}
 
 }

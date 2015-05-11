@@ -104,6 +104,11 @@
 							</div>
 						</row>
 
+						<row>
+							<label value="Ricorso:"></label>
+							<checkbox id="recall" />
+						</row>
+
 
 					</rows>
 				</grid>
@@ -135,7 +140,7 @@
 			</div>
 
 
-			
+
 			<div id="box_update_status" visible="false">
 
 				<a

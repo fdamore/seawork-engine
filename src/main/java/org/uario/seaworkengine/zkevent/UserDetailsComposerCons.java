@@ -36,6 +36,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Filedownload;
@@ -119,6 +120,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	// dao interface
 	private IContestation		contestationDAO;
+
 	@Wire
 	private Component			current_document;
 
@@ -141,6 +143,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private IParams				paramsDAO;
 
 	private Person				person_selected;
+
+	@Wire
+	private Checkbox			recall;
 
 	private ISchedule			scheduleDAO;
 
@@ -173,6 +178,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 		this.stop_from.setDisabled(true);
 		this.stop_to.setDisabled(true);
+
+		this.recall.setChecked(Boolean.FALSE);
 
 		this.note.setValue("");
 
@@ -311,6 +318,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.stop_from.setValue(item.getStop_from());
 		this.stop_to.setValue(item.getStop_to());
 		this.typ.setValue(item.getTyp());
+		this.recall.setChecked(item.getRecall());
 
 		// set null current contestaion doc
 		this.currentDoc = null;
@@ -597,11 +605,13 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	 * @throws FileNotFoundException
 	 */
 	private void setupItemWithValues(final Contestation item) throws IOException {
+
 		item.setDate_contestation(this.date_contestation.getValue());
 		item.setNote(this.note.getValue());
 		item.setStop_from(this.stop_from.getValue());
 		item.setStop_to(this.stop_to.getValue());
 		item.setTyp(this.typ.getValue());
+		item.setRecall(this.recall.isChecked());
 
 		// set file name
 		if (this.currentDoc != null) {
