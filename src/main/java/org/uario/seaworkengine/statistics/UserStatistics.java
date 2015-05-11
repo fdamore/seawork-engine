@@ -18,12 +18,13 @@ public class UserStatistics implements Comparable<UserStatistics> {
 	private String	shift_perc_3;
 	private String	shift_perc_4;
 	private String	userRoles;
+	private String	work_current;
 	private String	work_current_month;
+
 	private String	work_current_week;
+
 	private String	work_current_year;
-
 	private String	work_holiday_perc;
-
 	private String	work_sunday_perc;
 
 	private String	working_series;
@@ -90,6 +91,10 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.userRoles;
 	}
 
+	public String getWork_current() {
+		return this.work_current;
+	}
+
 	public String getWork_current_month() {
 		return this.work_current_month;
 	}
@@ -152,6 +157,10 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	public void setUserRoles(final String userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	public void setWork_current(final String work_current) {
+		this.work_current = work_current;
 	}
 
 	public void setWork_current_month(final String work_current_month) {

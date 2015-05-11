@@ -301,7 +301,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	}
 
 	@Override
-	public UserStatistics getUserStatistics(final Person person) {
+	public UserStatistics getUserStatistics(final Person person, final boolean ext_info) {
 
 		// get info for the begin of current year
 		final Calendar calendar_first_day = Calendar.getInstance();
@@ -313,12 +313,12 @@ public class StatProceduresImpl implements IStatProcedure {
 		current_calednar.add(Calendar.DATE, 1);
 		final Date current_day = DateUtils.truncate(current_calednar.getTime(), Calendar.DATE);
 
-		return this.getUserStatistics(person, date_first_day_year, current_day);
+		return this.getUserStatistics(person, date_first_day_year, current_day, ext_info);
 
 	}
 
 	@Override
-	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to) {
+	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to, final boolean ext_info) {
 		final UserStatistics userStatistics = new UserStatistics();
 
 		userStatistics.setDepartment(person.getDepartment());
@@ -428,83 +428,95 @@ public class StatProceduresImpl implements IStatProcedure {
 			}
 		}
 
-		// set info about week working
-		final Calendar current = DateUtils.toCalendar(date_to);
-		current.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-		Date date_start = current.getTime();
-
-		Integer week_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
-		if (week_current_hours == null) {
-			week_current_hours = 0;
-		}
-
-		userStatistics.setWork_current_week("" + week_current_hours);
-
-		// set info about month working
-		current.set(Calendar.DAY_OF_MONTH, current.getActualMinimum(Calendar.DAY_OF_MONTH));
-		date_start = current.getTime();
-
-		Integer month_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
-		if (month_current_hours == null) {
-			month_current_hours = 0;
-		}
-
-		userStatistics.setWork_current_month("" + month_current_hours);
-
-		// set info about year working
-		current.set(Calendar.YEAR, current.get(Calendar.YEAR));
-		current.set(Calendar.WEEK_OF_YEAR, 1);
-		current.set(Calendar.DAY_OF_YEAR, 1);
-		date_start = current.getTime();
-
-		Integer year_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
-		if (year_current_hours == null) {
-			year_current_hours = 0;
-		}
-
-		userStatistics.setWork_current_year("" + year_current_hours);
-
-		// working series
-		final Calendar take_today = Calendar.getInstance();
-		final Integer day_series = this.getWorkingSeries(take_today.getTime(), person.getId());
-		String message = "0";
-		if (day_series <= 15) {
-			message = "" + day_series;
-		} else {
-			message = ">=" + day_series;
-		}
-		userStatistics.setWorking_series(message);
-
-		userStatistics.setUserRoles("");
-
-		// set label in statistic popup
-		final String roles = person.getRolesDescription();
-		if (roles != "") {
-			userStatistics.setUserRoles(roles + ".");
-		}
-
 		// set saturation label
 		final Double sat = this.calculeSaturation(person, date_from, date_to);
 		userStatistics.setSaturation(sat);
 
-		// set saturation month label
-		final Calendar cal_saturation_month = DateUtils.toCalendar(date_to);
-		cal_saturation_month.add(Calendar.MONTH, -1);
-		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
-		final Date date_to_on_month = cal_saturation_month.getTime();
-		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getMinimum(Calendar.DAY_OF_MONTH));
-		final Date date_from_on_month = cal_saturation_month.getTime();
+		if (ext_info) {
+			// set info about week working
+			final Calendar current = DateUtils.toCalendar(date_to);
+			current.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			Date date_start = current.getTime();
 
-		Double sat_month = this.calculeSaturation(person, date_from_on_month, date_to_on_month);
+			Integer week_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
+			if (week_current_hours == null) {
+				week_current_hours = 0;
+			}
 
-		// get month count
-		final int month_count = cal_saturation_month.get(Calendar.MONTH);
+			userStatistics.setWork_current_week("" + week_current_hours);
 
-		if (sat_month != null) {
-			sat_month = sat_month / month_count;
+			// set info about month working
+			current.set(Calendar.DAY_OF_MONTH, current.getActualMinimum(Calendar.DAY_OF_MONTH));
+			date_start = current.getTime();
+
+			Integer month_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
+			if (month_current_hours == null) {
+				month_current_hours = 0;
+			}
+
+			userStatistics.setWork_current_month("" + month_current_hours);
+
+			// set info about year working
+			current.set(Calendar.YEAR, current.get(Calendar.YEAR));
+			current.set(Calendar.WEEK_OF_YEAR, 1);
+			current.set(Calendar.DAY_OF_YEAR, 1);
+			date_start = current.getTime();
+
+			Integer year_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
+			if (year_current_hours == null) {
+				year_current_hours = 0;
+			}
+
+			userStatistics.setWork_current_year("" + year_current_hours);
+
+			// working series
+			final Calendar take_today = Calendar.getInstance();
+			final Integer day_series = this.getWorkingSeries(take_today.getTime(), person.getId());
+			String message = "0";
+			if (day_series <= 15) {
+				message = "" + day_series;
+			} else {
+				message = ">=" + day_series;
+			}
+			userStatistics.setWorking_series(message);
+
+			// set saturation month label
+			final Calendar cal_saturation_month = DateUtils.toCalendar(date_to);
+			cal_saturation_month.add(Calendar.MONTH, -1);
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+			final Date date_to_on_month = cal_saturation_month.getTime();
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getMinimum(Calendar.DAY_OF_MONTH));
+			final Date date_from_on_month = cal_saturation_month.getTime();
+
+			Double sat_month = this.calculeSaturation(person, date_from_on_month, date_to_on_month);
+
+			// get month count
+			final int month_count = cal_saturation_month.get(Calendar.MONTH);
+
+			if (sat_month != null) {
+				sat_month = sat_month / month_count;
+			}
+
+			userStatistics.setSaturation_month(sat_month);
+
+		} else {
+
+			// adding current_work on period
+			Integer year_current = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
+			if (year_current == null) {
+				year_current = 0;
+			}
+
+			userStatistics.setWork_current("" + year_current);
+
 		}
 
-		userStatistics.setSaturation_month(sat_month);
+		// set label in statistic popup
+		userStatistics.setUserRoles("");
+		final String roles = person.getRolesDescription();
+		if (roles != "") {
+			userStatistics.setUserRoles(roles + ".");
+		}
 
 		return userStatistics;
 	}

@@ -2941,8 +2941,9 @@
 										<listheader label="Saturazione"
 											align="center" />
 
-										<listheader
-											label="Saturazione Media Mensile" align="center" />
+										<listheader label="Ore Lavorate"
+											align="center" />
+
 
 										<listheader
 											label="Lavoro Domenicale" align="center" />
@@ -2950,14 +2951,7 @@
 										<listheader label="Festivi"
 											align="center" />
 
-										<listheader
-											label="Ore Settimana" align="center" />
 
-										<listheader label="Ore Mese"
-											align="center" />
-
-										<listheader label="Ore Anno"
-											align="center" />
 
 
 
@@ -2993,24 +2987,13 @@
 											style="@{userschedule.saturation, converter='org.uario.seaworkengine.zkevent.converter.SaturationStyleConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{userschedule.saturation_month, converter='org.uario.seaworkengine.zkevent.converter.SaturationConverter'}"
-											style="@{userschedule.saturation_month, converter='org.uario.seaworkengine.zkevent.converter.SaturationStyleConverter'}" />
+											label="@{userschedule.work_current}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_sunday_perc}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.work_holiday_perc}" />
-
-										<listcell sclass="myBottonCell"
-											label="@{userschedule.work_current_week}" />
-
-										<listcell sclass="myBottonCell"
-											label="@{userschedule.work_current_month}" />
-
-										<listcell sclass="myBottonCell"
-											label="@{userschedule.work_current_year}" />
-
 
 
 										<listcell sclass="myBottonCell"

@@ -318,23 +318,17 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVStatistics(final List<UserStatistics> userStatisticsList) {
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome;Saturazione;Saturazione Media Mensile;Lavoro Domenicale;Festivi;Ore settimana Corrente;Ore Mese Corrente;Ore Anno Corrente;Giorni Consecutivi;Lavoro su turno 1;Lavoro su turno 2;Lavoro su turno 3;Lavoro su turno 4;\n";
+		final String header = "Nome;Saturazione;Ore Lavorate;Lavoro Domenicale;Festivi;Turno 1;Turno 2;Turno 3;Turno 4;\n";
 		builder.append(header);
-
-		final CraneTypeConverter craneConverter = new CraneTypeConverter();
 
 		for (final UserStatistics item : userStatisticsList) {
 
 			String name = "";
 			String saturation = "";
-			String saturationMonth = "";
+			String work_current = "";
+
 			String work_sunday_perc = "";
 			String work_holiday_perc = "";
-			String work_current_week = "";
-
-			String work_current_month = "";
-			String work_current_year = "";
-			String working_series = "";
 			String shift_perc_1 = "";
 			String shift_perc_2 = "";
 			String shift_perc_3 = "";
@@ -356,15 +350,8 @@ public class UtilityCSV {
 				}
 			}
 
-			if (item.getSaturation() != null) {
-				final Double sat_month = Utility.roundTwo(item.getSaturation_month());
-
-				if (sat_month < 0) {
-					saturationMonth = "REC " + Utility.roundTwo(Math.abs(sat_month));
-				} else {
-					saturationMonth = "OT " + Utility.roundTwo(sat_month);
-				}
-
+			if (item.getWork_current() != null) {
+				work_current = item.getWork_current();
 			}
 
 			if (item.getWork_sunday_perc() != null) {
@@ -373,22 +360,6 @@ public class UtilityCSV {
 
 			if (item.getWork_holiday_perc() != null) {
 				work_holiday_perc = item.getWork_holiday_perc();
-			}
-
-			if (item.getWork_current_week() != null) {
-				work_current_week = item.getWork_current_week();
-			}
-
-			if (item.getWork_current_month() != null) {
-				work_current_month = item.getWork_current_month();
-			}
-
-			if (item.getWork_current_year() != null) {
-				work_current_year = item.getWork_current_year();
-			}
-
-			if (item.getWorking_series() != null) {
-				working_series = item.getWorking_series();
 			}
 
 			if (item.getShift_perc_1() != null) {
@@ -407,9 +378,8 @@ public class UtilityCSV {
 				shift_perc_4 = item.getShift_perc_4();
 			}
 
-			final String line = "" + name + ";" + saturation + ";" + saturationMonth + ";" + work_sunday_perc + ";" + work_holiday_perc + ";"
-					+ work_current_week + ";" + work_current_month + ";" + work_current_year + ";" + working_series + ";" + shift_perc_1 + ";"
-					+ shift_perc_2 + ";" + shift_perc_3 + ";" + shift_perc_4 + ";\n";
+			final String line = "" + name + ";" + saturation + ";" + work_current + ";" + work_sunday_perc + ";" + work_holiday_perc + ";"
+					+ shift_perc_1 + ";" + shift_perc_2 + ";" + shift_perc_3 + ";" + shift_perc_4 + ";\n";
 
 			builder.append(line);
 

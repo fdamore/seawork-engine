@@ -56,11 +56,12 @@ public interface IStatProcedure {
 	 * Get user static in date interval
 	 *
 	 * @param person
+	 * @param ext_info TODO
 	 * @param date_from
 	 * @param date_to
 	 * @return UserStatistics
 	 */
-	public UserStatistics getUserStatistics(final Person person);
+	public UserStatistics getUserStatistics(final Person person, boolean ext_info);
 
 	/**
 	 * get user statistics in period
@@ -68,9 +69,10 @@ public interface IStatProcedure {
 	 * @param person
 	 * @param date_from
 	 * @param date_to
+	 * @param ext_info TODO
 	 * @return
 	 */
-	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to);
+	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to, boolean ext_info);
 
 	/**
 	 * Get series
