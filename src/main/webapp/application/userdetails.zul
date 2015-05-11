@@ -639,15 +639,15 @@
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 		pageSize="10">
 		<listhead sizable="true">
-			<listheader label="Id" sort="auto(id)" />
-			<listheader label="Rapporto di Lavoro" sort="auto(status)" />
-			<listheader label="Abilitato" />
-			<listheader label="Nome" sort="auto(individualName)" />
-			<listheader label="Città" sort="auto(city)" />
-			<listheader label="Telefono" sort="auto(phone)" />
-			<listheader label="Ruolo" />
-			<listheader label="Qualifica" />
-			<listheader label="" />
+			<listheader label="Id" sort="auto(id)" hflex="1" />
+			<listheader label="Rapp. Lav." sort="auto(status)" hflex="2" />
+			<listheader label="Abil.to" hflex="2" />
+			<listheader label="Nome" sort="auto(individualName)" hflex="2" />
+			<listheader label="Città" sort="auto(city)" hflex="4" />
+			<listheader label="Telefono" sort="auto(phone)" hflex="4" />
+			<listheader label="Ruolo" hflex="3" />
+			<listheader label="Qualifica" hflex="4" />
+			<listheader label="" hflex="2" />
 		</listhead>
 
 		<listitem sclass="myBottonCell" self="@{each='user_item'}"
@@ -660,7 +660,7 @@
 				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />
 
 			<listcell sclass="myBottonCell"
-				label="@{user_item.individualName}" />
+				label="@{user_item.individualName, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}" />
 
 			<listcell sclass="myBottonCell" label="@{user_item.city}" />
 			<listcell sclass="myBottonCell" label="@{user_item.phone}" />
