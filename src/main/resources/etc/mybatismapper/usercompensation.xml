@@ -6,9 +6,9 @@
 	<cache />
 
 	<insert id="createUserCompensation" parameterType="org.uario.seaworkengine.model.UserCompensation">
-		INSERT INTO user_compensation (id_user, time_comp, date_submit)
+		INSERT INTO user_compensation (id_user, time_comp, date_submit, note)
 		VALUES
-		(#{id_user}, #{time_comp}, #{date_submit});
+		(#{id_user}, #{time_comp}, #{date_submit},#{note});
 	</insert>
 	
 	<delete id="deleteUserCompensation" parameterType="Integer">
@@ -19,7 +19,7 @@
 	</delete>
 	
 	<select id="loadUserCompensationById" parameterType="Integer" resultType="org.uario.seaworkengine.model.UserCompensation">
-		select id,id_user, time_comp, date_submit
+		select id,id_user, time_comp, date_submit, note
 		from user_compensation
 		where id=#{id} 
 		order by date_submit;
@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="loadAllUserCompensationByUserId" parameterType="Integer" resultType="org.uario.seaworkengine.model.UserCompensation">
-		select id,id_user, time_comp, date_submit
+		select id,id_user, time_comp, date_submit, note
 		from user_compensation
 		where id_user=#{id_user} 
 		order by date_submit;
@@ -39,7 +39,8 @@
 		id_user =
 		#{id_user},
 		time_comp = #{time_comp},
-		date_submit = #{date_submit} 
+		date_submit = #{date_submit} ,
+		note = #{note}
 		WHERE id = #{id};
 	</update>
 	
@@ -51,7 +52,7 @@
 	</select>
 	
 	<select id="loadAllUserCompensationByUserIdInDate" parameterType="map" resultType="org.uario.seaworkengine.model.UserCompensation">
-		SELECT id,id_user, time_comp, date_submit
+		SELECT id,id_user, time_comp, date_submit, note
 		from user_compensation
 		where id_user=#{id_user} and YEAR(date_submit) = #{yearDate} 
 		order by date_submit;

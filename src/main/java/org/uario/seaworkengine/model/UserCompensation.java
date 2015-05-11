@@ -16,6 +16,8 @@ public class UserCompensation implements Serializable {
 
 	private Integer				id_user;
 
+	private String				note;
+
 	private Double				time_comp;
 
 	public Date getDate_submit() {
@@ -28,6 +30,10 @@ public class UserCompensation implements Serializable {
 
 	public Integer getId_user() {
 		return this.id_user;
+	}
+
+	public String getNote() {
+		return this.note;
 	}
 
 	public Double getTime_comp() {
@@ -44,6 +50,10 @@ public class UserCompensation implements Serializable {
 
 	public void setId_user(final Integer id_user) {
 		this.id_user = id_user;
+	}
+
+	public void setNote(final String note) {
+		this.note = note;
 	}
 
 	public void setTime_comp(final Double time_comp) {

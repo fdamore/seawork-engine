@@ -24,6 +24,7 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Textbox;
 
 public class UserDetailsCompensationComposer extends SelectorComposer<Component> {
 
@@ -43,6 +44,9 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	@Wire
 	private Component			grid_details;
+
+	@Wire
+	private Textbox				note_compUser;
 
 	private Person				person_selected;
 
@@ -135,14 +139,17 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	@Listen("onClick= #saveCompensation")
 	public void saveCompensation() {
-		if (this.person_selected != null && this.date_submitUser.getValue() != null && this.time_compUser.getValue() != null) {
+		if ((this.person_selected != null) && (this.date_submitUser.getValue() != null) && (this.time_compUser.getValue() != null)) {
 
 			if (this.userCompensationInUpdate == null) {
+
 				final UserCompensation userCompensation = new UserCompensation();
 				userCompensation.setDate_submit(this.date_submitUser.getValue());
 				userCompensation.setTime_comp(this.time_compUser.getValue());
 				userCompensation.setId_user(this.person_selected.getId());
+				userCompensation.setNote(this.note_compUser.getValue());
 				this.userCompensationDAO.createUserCompensation(userCompensation);
+
 			} else {
 				this.userCompensationInUpdate.setDate_submit(this.date_submitUser.getValue());
 				this.userCompensationInUpdate.setTime_comp(this.time_compUser.getValue());

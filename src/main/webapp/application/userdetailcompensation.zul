@@ -14,33 +14,30 @@
 
 
 		<panelchildren>
-		
-		
+
+
 			<div id="grid_details" visible="false">
 
-				<button label="Salva Compensazione"
-					 sclass="btn-info" id="saveCompensation"
-					visible="false">
+				<button label="Salva Compensazione" sclass="btn-info"
+					id="saveCompensation" visible="false">
 				</button>
-				
-				<button label="Chiudi"
-					 sclass="btn-info" id="closeModifyCompensation"
-					visible="false">
+
+				<button label="Chiudi" sclass="btn-info"
+					id="closeModifyCompensation" visible="false">
 				</button>
-				
+
 				<space></space>
 
-				<!-- ADD COMPENSATION -->								
+				<!-- ADD COMPENSATION -->
 				<grid sclass="domain">
 					<columns>
 						<column label="Tipo" />
 						<column label="Informazioni" />
 					</columns>
 					<rows>
-						
+
 						<row>
-							<label
-								value="Data di assegnazione:">
+							<label value="Data di assegnazione:">
 							</label>
 							<datebox id="date_submitUser"
 								placeholder="Seleziona data" width="200px" />
@@ -51,33 +48,40 @@
 							<doublebox id="time_compUser" width="200px" />
 						</row>
 
-						
+						<row>
+							<label value="Note:"></label>
+							<textbox id="note_compUser" width="200px"
+								rows="5" />
+						</row>
+
+
 					</rows>
 				</grid>
 
-		
+
 				<space></space>
 
 			</div>
 
-				
-				
 
-			<a label="Lista Ore Compensate" iconSclass="z-icon-list" sclass="green lighter rcaption" />
-				
-			<separator/>
-			
+
+
+			<a label="Lista Ore Compensate" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+
+			<separator />
+
 			<a label="Filtra su anno: " />
-			<combobox placeholder="Seleziona anno..."
-					readonly="true" id="select_year" />		
-			
-			<button label="Aggiungi Compensazione" 
-				onClick="grid_details.setVisible(true);saveCompensation.setVisible(true);closeModifyCompensation.setVisible(true);addCompensation.setVisible(false);" sclass="btn-info" id="addCompensation"
-				visible="true"/>
-						
-			
+			<combobox placeholder="Seleziona anno..." readonly="true"
+				id="select_year" />
 
-			<separator/>			
+			<button label="Aggiungi Compensazione"
+				onClick="grid_details.setVisible(true);saveCompensation.setVisible(true);closeModifyCompensation.setVisible(true);addCompensation.setVisible(false);"
+				sclass="btn-info" id="addCompensation" visible="true" />
+
+
+
+			<separator />
 
 
 			<listbox id="sw_list" pagingPosition="both" mold="paging"
@@ -85,19 +89,19 @@
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="20">
 				<listhead sizable="true">
-					<listheader label="Data" sort="auto(date_submit)"/>
+					<listheader label="Data" sort="auto(date_submit)" />
 					<listheader label="Ore Assegnate" />
 					<listheader label="" />
 				</listhead>
 
 				<listitem self="@{each='item'}" value="@{item}">
-					
+
 					<listcell
 						label="@{item.date_submit, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-					
+
 					<listcell label="@{item.time_comp }" />
-					
-					
+
+
 					<listcell>
 
 						<toolbarbutton id="sw_link_delete"
@@ -108,7 +112,7 @@
 
 						<toolbarbutton id="sw_link_edit"
 							style="color:blue"
- 							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
 							label="Modifica">
 						</toolbarbutton>
 
