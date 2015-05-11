@@ -40,7 +40,8 @@
 							<label value="Data di assegnazione:">
 							</label>
 							<datebox id="date_submitUser"
-								placeholder="Seleziona data" width="200px" />
+								onCreate="self.value = new Date()" placeholder="Seleziona data"
+								width="200px" />
 						</row>
 
 						<row>
@@ -91,6 +92,7 @@
 				<listhead sizable="true">
 					<listheader label="Data" sort="auto(date_submit)" />
 					<listheader label="Ore Assegnate" />
+					<listheader label="Note" />
 					<listheader label="" />
 				</listhead>
 
@@ -100,6 +102,8 @@
 						label="@{item.date_submit, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
 					<listcell label="@{item.time_comp }" />
+
+					<listcell label="@{item.note }" />
 
 
 					<listcell>

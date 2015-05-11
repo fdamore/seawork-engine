@@ -69,23 +69,24 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	@Listen("onClick = #closeModifyCompensation")
 	public void closeModifyCompensation() {
-		this.grid_details.setVisible(false);
-		this.saveCompensation.setVisible(false);
-		this.closeModifyCompensation.setVisible(false);
-		this.addCompensation.setVisible(true);
+		grid_details.setVisible(false);
+		saveCompensation.setVisible(false);
+		closeModifyCompensation.setVisible(false);
+		addCompensation.setVisible(true);
 
-		this.date_submitUser.setValue(null);
-		this.time_compUser.setValue(null);
+		date_submitUser.setValue(Calendar.getInstance().getTime());
+		time_compUser.setValue(null);
+		note_compUser.setValue(null);
 
-		this.userCompensationInUpdate = null;
+		userCompensationInUpdate = null;
 	}
 
 	@Listen("onClick = #sw_link_delete")
 	public void deleteCompensation() {
-		if (this.sw_list.getSelectedItem() != null) {
-			final UserCompensation userCompensation = this.sw_list.getSelectedItem().getValue();
-			this.userCompensationDAO.deleteUserCompensation(userCompensation.getId());
-			this.setInitialView();
+		if (sw_list.getSelectedItem() != null) {
+			final UserCompensation userCompensation = sw_list.getSelectedItem().getValue();
+			userCompensationDAO.deleteUserCompensation(userCompensation.getId());
+			setInitialView();
 
 		}
 	}
@@ -93,7 +94,7 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 	@Override
 	public void doFinally() throws Exception {
 
-		this.getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
+		getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
 
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
@@ -102,10 +103,10 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 				if ((arg0.getData() == null) || !(arg0.getData() instanceof Person)) {
 					return;
 				}
-				UserDetailsCompensationComposer.this.person_selected = (Person) arg0.getData();
+				person_selected = (Person) arg0.getData();
 
 				// get the dao
-				UserDetailsCompensationComposer.this.userCompensationDAO = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
+				userCompensationDAO = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
 
 				// set year in combobox
 				final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
@@ -117,7 +118,7 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 					years.add(i.toString());
 				}
 
-				UserDetailsCompensationComposer.this.select_year.setModel(new ListModelList<String>(years));
+				select_year.setModel(new ListModelList<String>(years));
 
 				UserDetailsCompensationComposer.this.setInitialView();
 
@@ -128,35 +129,39 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	@Listen("onClick = #sw_link_edit")
 	public void modifyCompensation() {
-		if (this.sw_list.getSelectedItem() != null) {
-			this.userCompensationInUpdate = this.sw_list.getSelectedItem().getValue();
-			this.date_submitUser.setValue(this.userCompensationInUpdate.getDate_submit());
-			this.time_compUser.setValue(this.userCompensationInUpdate.getTime_comp());
-			this.saveCompensation.setVisible(true);
-			this.closeModifyCompensation.setVisible(true);
+		if (sw_list.getSelectedItem() != null) {
+			userCompensationInUpdate = sw_list.getSelectedItem().getValue();
+			date_submitUser.setValue(userCompensationInUpdate.getDate_submit());
+			time_compUser.setValue(userCompensationInUpdate.getTime_comp());
+			note_compUser.setValue(userCompensationInUpdate.getNote());
+
+			saveCompensation.setVisible(true);
+			closeModifyCompensation.setVisible(true);
+
 		}
 	}
 
 	@Listen("onClick= #saveCompensation")
 	public void saveCompensation() {
-		if ((this.person_selected != null) && (this.date_submitUser.getValue() != null) && (this.time_compUser.getValue() != null)) {
+		if ((person_selected != null) && (date_submitUser.getValue() != null) && (time_compUser.getValue() != null)) {
 
-			if (this.userCompensationInUpdate == null) {
+			if (userCompensationInUpdate == null) {
 
 				final UserCompensation userCompensation = new UserCompensation();
-				userCompensation.setDate_submit(this.date_submitUser.getValue());
-				userCompensation.setTime_comp(this.time_compUser.getValue());
-				userCompensation.setId_user(this.person_selected.getId());
-				userCompensation.setNote(this.note_compUser.getValue());
-				this.userCompensationDAO.createUserCompensation(userCompensation);
+				userCompensation.setDate_submit(date_submitUser.getValue());
+				userCompensation.setTime_comp(time_compUser.getValue());
+				userCompensation.setId_user(person_selected.getId());
+				userCompensation.setNote(note_compUser.getValue());
+
+				userCompensationDAO.createUserCompensation(userCompensation);
 
 			} else {
-				this.userCompensationInUpdate.setDate_submit(this.date_submitUser.getValue());
-				this.userCompensationInUpdate.setTime_comp(this.time_compUser.getValue());
-				this.userCompensationDAO.updateUserCompensation(this.userCompensationInUpdate);
+				userCompensationInUpdate.setDate_submit(date_submitUser.getValue());
+				userCompensationInUpdate.setTime_comp(time_compUser.getValue());
+				userCompensationDAO.updateUserCompensation(userCompensationInUpdate);
 			}
 
-			this.setInitialView();
+			setInitialView();
 
 		} else {
 			Messagebox.show("Verificare valori inseriti.", "Errore", Messagebox.OK, Messagebox.EXCLAMATION);
@@ -165,47 +170,49 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	@Listen("onChange =#select_year")
 	public void selectedYear() {
-		if (this.select_year.getSelectedItem() != null) {
+		if (select_year.getSelectedItem() != null) {
 
-			final String yearSelected = this.select_year.getSelectedItem().getValue();
+			final String yearSelected = select_year.getSelectedItem().getValue();
 
 			if (!yearSelected.equals("TUTTI")) {
 
 				final Integer year = Integer.parseInt(yearSelected);
 
-				final List<UserCompensation> list = this.userCompensationDAO.loadAllUserCompensationByUserId(this.person_selected.getId(), year);
+				final List<UserCompensation> list = userCompensationDAO.loadAllUserCompensationByUserId(person_selected.getId(),
+						year);
 
 				if (list != null) {
 					final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
 
-					this.sw_list.setModel(model);
+					sw_list.setModel(model);
 				}
 
 			} else {
-				this.setInitialView();
+				setInitialView();
 			}
 		}
 	}
 
 	protected void setInitialView() {
-		this.grid_details.setVisible(false);
-		this.saveCompensation.setVisible(false);
-		this.addCompensation.setVisible(true);
-		this.closeModifyCompensation.setVisible(false);
+		grid_details.setVisible(false);
+		saveCompensation.setVisible(false);
+		addCompensation.setVisible(true);
+		closeModifyCompensation.setVisible(false);
 
-		this.date_submitUser.setValue(null);
-		this.time_compUser.setValue(null);
+		date_submitUser.setValue(Calendar.getInstance().getTime());
+		time_compUser.setValue(null);
+		note_compUser.setValue(null);
 
-		this.userCompensationInUpdate = null;
+		userCompensationInUpdate = null;
 
-		this.select_year.setSelectedItem(null);
+		select_year.setSelectedItem(null);
 
-		final List<UserCompensation> list = this.userCompensationDAO.loadAllUserCompensationByUserId(this.person_selected.getId());
+		final List<UserCompensation> list = userCompensationDAO.loadAllUserCompensationByUserId(person_selected.getId());
 
 		if (list != null) {
 			final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
 
-			this.sw_list.setModel(model);
+			sw_list.setModel(model);
 		}
 
 	}
