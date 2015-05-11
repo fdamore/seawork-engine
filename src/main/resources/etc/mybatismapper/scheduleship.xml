@@ -348,7 +348,7 @@
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate 
-		order by s.name, d.shiftdate, d.shift asc;
+		order by d.shiftdate, d.shift, s.name asc;
 
 	</select>
 
@@ -387,7 +387,7 @@
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		d.shiftdate=#{shiftdate} 
-		order by s.name, d.shiftdate, d.shift asc;
+		order by d.shiftdate, d.shift, s.name asc;
 	</select>
 
 	<select id="loadDetailScheduleWithShiftDateNull" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
@@ -415,7 +415,7 @@
 		d.iduser = u.id
 		and
 		d.shiftdate IS NULL
-		order by s.name, d.shiftdate, d.shift asc;
+		order by d.shiftdate, d.shift, s.name asc;
 	</select>
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
