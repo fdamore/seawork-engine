@@ -26,6 +26,7 @@ import org.uario.seaworkengine.model.LockTable;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.model.UserCompensation;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
@@ -38,6 +39,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.platform.persistence.dao.UserCompensationDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.UserStatistics;
@@ -324,6 +326,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Combobox						combo_user_dip;
 
+	@Wire
+	private Popup							compensation_popup;
+
 	private ConfigurationDAO				configurationDAO;
 
 	@Wire
@@ -547,20 +552,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private PersonDAO						personDAO;
 
 	private Person							personLock;
+
 	@Wire
 	private Div								preprocessing_div;
 
 	@Wire
 	private Comboitem						preprocessing_item;
+
 	@Wire
 	private Panel							preprocessing_panel;
 	@Wire
 	private Component						print_program_videos;
 	@Wire
 	private Component						print_scheduler;
-
 	@Wire
 	private Div								program_div;
+
 	@Wire
 	private Component						program_head_1_1;
 	@Wire
@@ -569,7 +576,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component						program_head_1_3;
 	@Wire
 	private Component						program_head_1_4;
-
 	@Wire
 	private Component						program_head_4_1;
 
@@ -611,13 +617,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_1_2;
+
 	@Wire
 	private Auxheader						program_tot_1_3;
 	@Wire
 	private Auxheader						program_tot_1_4;
 	@Wire
 	private Auxheader						program_tot_2_1;
-
 	@Wire
 	private Auxheader						program_tot_2_2;
 
@@ -629,15 +635,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_3_1;
+
 	@Wire
 	private Auxheader						program_tot_3_2;
 	@Wire
 	private Auxheader						program_tot_3_3;
 	@Wire
 	private Auxheader						program_tot_3_4;
-
 	@Wire
 	private Auxheader						program_tot_4_1;
+
 	@Wire
 	private Auxheader						program_tot_4_2;
 	@Wire
@@ -660,7 +667,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						programUser_tot_1_3;
 	@Wire
 	private Auxheader						programUser_tot_1_4;
-
 	@Wire
 	private Auxheader						programUser_tot_2_1;
 
@@ -786,10 +792,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label							saturation;
+
 	@Wire
 	private Label							saturation_month;
-
 	private String							saturationStyle;
+
 	private ISchedule						scheduleDAO;
 	@Wire
 	private A								scheduler_label;
@@ -797,7 +804,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A								scheduler_label_review;
 	@Wire
 	private Combobox						scheduler_type_selector;
-
 	private IScheduleShip					scheduleShipDAO;
 
 	@Wire
@@ -895,6 +901,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final String					styleComboItemPopup				= "color: #F5290A;";
 
 	@Wire
+	private Listbox							sw_compensation_list;
+
+	@Wire
 	private Button							switchButton;
 
 	private final String					switchButtonValueClose			= "Chiudi";
@@ -985,6 +994,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label							updateStatisticTime;
+
+	private UserCompensationDAO				userCompensationDAO;
 
 	@Wire
 	private Label							userDepartment;
@@ -1729,17 +1740,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2164,6 +2175,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.shipSchedulerDao = (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
 
+		this.userCompensationDAO = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
+
 		final ListModelList<Ship> shipList = new ListModelList<Ship>(this.shipDAO.loadAllShip());
 
 		final List<UserTask> taskList = this.configurationDAO.loadTasks();
@@ -2211,6 +2224,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.select_year.setModel(new ListModelList<String>(years));
+
+		this.getSelf().addEventListener(ZkEventsTag.onNameCompensationClick, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(final Event arg0) throws Exception {
+
+				if (SchedulerComposer.this.list_statistics.getSelectedItem() == null) {
+					return;
+				}
+
+				final UserStatistics user_statistic = SchedulerComposer.this.list_statistics.getSelectedItem().getValue();
+
+				// get user id
+				final Integer user_id = user_statistic.getPerson().getId();
+
+				// get calendar for year
+				final int year = Calendar.getInstance().get(Calendar.YEAR);
+
+				final List<UserCompensation> list = SchedulerComposer.this.userCompensationDAO.loadAllUserCompensationByUserId(user_id, year);
+				final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
+				SchedulerComposer.this.sw_compensation_list.setModel(model);
+
+				SchedulerComposer.this.compensation_popup.open(SchedulerComposer.this.list_statistics, "after_pointer");
+
+			}
+
+		});
 
 		this.getSelf().addEventListener(ZkEventsTag.onDayNameClick, new EventListener<Event>() {
 
@@ -3685,8 +3725,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4011,17 +4051,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4240,7 +4280,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}

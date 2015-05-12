@@ -41,6 +41,74 @@
 			border-color:#CFCFCF;}
 		</style>
 
+
+		<!--  Task List -->
+		<popup id="compensation_popup">
+			<panel border="none" collapsible="false"
+				style="margin: 2px 2px 2px 2px">
+				<panelchildren>
+					<vbox align="center">
+						<div align="right">
+							<toolbarbutton label="X"
+								style="font-weight: bold;"
+								onClick="compensation_popup.close();" />
+						</div>
+
+						<hbox align="left">
+							<label
+								value="Gestione Compensazione Annuale" />
+							<a id="compe_popup_year"
+								iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+						</hbox>
+
+						<listbox id="sw_compensation_list" pagingPosition="both"
+							width="50em" style="border: 1px solid #CCCCCC;" checkmark="true"
+							multiple="false">
+							<listhead sizable="true">
+								<listheader label="Data"
+									sort="auto(date_submit)" />
+								<listheader label="Ore Assegnate" />
+								<listheader label="Note" />
+								<listheader label="" />
+							</listhead>
+
+							<listitem self="@{each='item'}"
+								value="@{item}">
+
+								<listcell
+									label="@{item.date_submit, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+								<listcell label="@{item.time_comp }" />
+
+								<listcell label="@{item.note }" />
+
+
+								<listcell>
+
+									<toolbarbutton id="sw_link_delete"
+										style="color:blue"
+										onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
+										label="Cancella">
+									</toolbarbutton>
+
+									<toolbarbutton id="sw_link_edit"
+										style="color:blue"
+										onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
+										label="Modifica">
+									</toolbarbutton>
+
+								</listcell>
+
+							</listitem>
+
+						</listbox>
+
+					</vbox>
+				</panelchildren>
+			</panel>
+		</popup>
+
+
 		<!--  Task List -->
 		<popup id="task_list_popup">
 			<panel border="none" collapsible="false"
@@ -2976,7 +3044,14 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{userschedule.person, converter='org.uario.seaworkengine.zkevent.converter.PersonToDottedNameConverter'}" />
+												label="@{userschedule.person, converter='org.uario.seaworkengine.zkevent.converter.PersonToDottedNameConverter'}">
+
+												<attribute name="onClick">
+	list_statistics.setSelectedItem((Listitem) self.getParent().getParent());
+	Events.sendEvent("onNameCompensationClick", page_panel, "left");
+</attribute>
+
+											</a>
 										</listcell>
 
 										<listcell sclass="myBottonCell"
