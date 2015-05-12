@@ -47,12 +47,16 @@
 			<panel border="none" collapsible="false"
 				style="margin: 2px 2px 2px 2px">
 				<panelchildren>
-					<vbox align="center">
-						<div align="right">
-							<toolbarbutton label="X"
-								style="font-weight: bold;"
-								onClick="compensation_popup.close();" />
-						</div>
+
+					<div align="right">
+						<toolbarbutton label="X"
+							style="font-weight: bold;" onClick="compensation_popup.close();" />
+					</div>
+
+					<hbox align="left">
+						<button sclass="btn-info" label="Aggiungi"
+							id="sw_link_add_comp">
+						</button>
 
 						<hbox align="left">
 							<label
@@ -61,49 +65,100 @@
 								iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 						</hbox>
 
-						<listbox id="sw_compensation_list" pagingPosition="both"
-							width="50em" style="border: 1px solid #CCCCCC;" checkmark="true"
-							multiple="false">
-							<listhead sizable="true">
-								<listheader label="Data"
-									sort="auto(date_submit)" />
-								<listheader label="Ore Assegnate" />
-								<listheader label="Note" />
-								<listheader label="" />
-							</listhead>
+					</hbox>
 
-							<listitem self="@{each='item'}"
-								value="@{item}">
+					<separator></separator>
 
-								<listcell
-									label="@{item.date_submit, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-
-								<listcell label="@{item.time_comp }" />
-
-								<listcell label="@{item.note }" />
+					<!-- COMP EDITOR -->
+					<div id="comp_editor" visible="false"
+						width="50em">
 
 
-								<listcell>
+						<grid sclass="domain">
+							<columns>
+								<column label="Tipo" />
+								<column label="Informazioni" />
+							</columns>
+							<rows>
 
-									<toolbarbutton id="sw_link_delete"
-										style="color:blue"
-										onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
-										label="Cancella">
-									</toolbarbutton>
+								<row>
+									<label
+										value="Data di assegnazione:">
+									</label>
+									<datebox id="date_submitUser"
+										placeholder="Seleziona data" width="200px" />
+								</row>
 
-									<toolbarbutton id="sw_link_edit"
-										style="color:blue"
-										onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
-										label="Modifica">
-									</toolbarbutton>
+								<row>
+									<label
+										value="Numero ore assegnate:">
+									</label>
+									<doublebox id="time_compUser"
+										width="200px" />
+								</row>
 
-								</listcell>
+								<row>
+									<label value="Note:"></label>
+									<textbox id="note_compUser"
+										width="200px" rows="5" />
+								</row>
 
-							</listitem>
 
-						</listbox>
+							</rows>
+						</grid>
 
-					</vbox>
+						<button sclass="btn-info" label="OK"
+							id="sw_link_add_comp_command">
+						</button>
+
+						<separator></separator>
+
+					</div>
+
+					<listbox id="sw_compensation_list"
+						pagingPosition="both" width="50em"
+						style="border: 1px solid #CCCCCC;" checkmark="true"
+						multiple="false">
+						<listhead sizable="true">
+							<listheader label="Data"
+								sort="auto(date_submit)" />
+							<listheader label="Ore Assegnate" />
+							<listheader label="Note" />
+							<listheader label="" />
+						</listhead>
+
+						<listitem self="@{each='item'}"
+							value="@{item}">
+
+							<listcell
+								label="@{item.date_submit, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+							<listcell label="@{item.time_comp }" />
+
+							<listcell label="@{item.note }" />
+
+
+							<listcell>
+
+								<toolbarbutton id="sw_link_delete_comp"
+									style="color:blue"
+									onClick="sw_compensation_list.setSelectedItem((Listitem)self.getParent().getParent());"
+									label="Cancella">
+								</toolbarbutton>
+
+								<toolbarbutton id="sw_link_edit_comp"
+									style="color:blue"
+									onClick="sw_compensation_list.setSelectedItem((Listitem)self.getParent().getParent());"
+									label="Modifica">
+								</toolbarbutton>
+
+							</listcell>
+
+						</listitem>
+
+					</listbox>
+
+
 				</panelchildren>
 			</panel>
 		</popup>

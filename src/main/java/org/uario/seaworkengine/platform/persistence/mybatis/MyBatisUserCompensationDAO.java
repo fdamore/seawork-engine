@@ -19,7 +19,7 @@ public class MyBatisUserCompensationDAO extends SqlSessionDaoSupport implements 
 	public void createUserCompensation(final UserCompensation userCompensation) {
 		MyBatisUserCompensationDAO.logger.info("Create User Compensation id " + userCompensation.getId());
 
-		this.getSqlSession().insert("usercompensation.createUserCompensation", userCompensation);
+		getSqlSession().insert("usercompensation.createUserCompensation", userCompensation);
 
 	}
 
@@ -27,7 +27,7 @@ public class MyBatisUserCompensationDAO extends SqlSessionDaoSupport implements 
 	public void deleteUserCompensation(final Integer id) {
 		MyBatisUserCompensationDAO.logger.info("Delete UserCompensation id " + id);
 
-		this.getSqlSession().delete("usercompensation.deleteUserCompensation", id);
+		getSqlSession().delete("usercompensation.deleteUserCompensation", id);
 
 	}
 
@@ -41,7 +41,7 @@ public class MyBatisUserCompensationDAO extends SqlSessionDaoSupport implements 
 		map.put("date_submit", dt_arg);
 		map.put("id_user", idUser);
 
-		return this.getSqlSession().selectOne("usercompensation.getTotalHoursInDateYear");
+		return getSqlSession().selectOne("usercompensation.getTotalHoursInDateYear", map);
 
 	}
 
@@ -49,7 +49,7 @@ public class MyBatisUserCompensationDAO extends SqlSessionDaoSupport implements 
 	public List<UserCompensation> loadAllUserCompensationByUserId(final Integer id_user) {
 		MyBatisUserCompensationDAO.logger.info("Load All UserCompensationById iduser " + id_user);
 
-		return this.getSqlSession().selectList("usercompensation.loadAllUserCompensationByUserId", id_user);
+		return getSqlSession().selectList("usercompensation.loadAllUserCompensationByUserId", id_user);
 	}
 
 	@Override
@@ -60,21 +60,21 @@ public class MyBatisUserCompensationDAO extends SqlSessionDaoSupport implements 
 		map.put("yearDate", year);
 		map.put("id_user", id_user);
 
-		return this.getSqlSession().selectList("usercompensation.loadAllUserCompensationByUserIdInDate", map);
+		return getSqlSession().selectList("usercompensation.loadAllUserCompensationByUserIdInDate", map);
 	}
 
 	@Override
 	public UserCompensation loadUserCompensationById(final Integer id) {
 		MyBatisUserCompensationDAO.logger.info("Load UserCompensationById id " + id);
 
-		return this.getSqlSession().selectOne("usercompensation.loadUserCompensationById", id);
+		return getSqlSession().selectOne("usercompensation.loadUserCompensationById", id);
 	}
 
 	@Override
 	public void updateUserCompensation(final UserCompensation userCompensation) {
 		MyBatisUserCompensationDAO.logger.info("Update UserCompensationById id " + userCompensation.getId());
 
-		this.getSqlSession().update("usercompensation.updateUserCompensation", userCompensation);
+		getSqlSession().update("usercompensation.updateUserCompensation", userCompensation);
 
 	}
 

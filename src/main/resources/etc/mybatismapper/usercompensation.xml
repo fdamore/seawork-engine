@@ -44,7 +44,7 @@
 		WHERE id = #{id};
 	</update>
 	
-	<select id="getTotalHoursInDateYear" parameterType="map" resultType="Integer">
+	<select id="getTotalHoursInDateYear" parameterType="map" resultType="double">
 		SELECT sum(time_comp) as totalTimeComp 
 		FROM user_compensation
 		WHERE
