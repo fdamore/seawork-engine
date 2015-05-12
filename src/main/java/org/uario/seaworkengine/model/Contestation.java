@@ -10,6 +10,8 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	private Date				date_bp;
+
 	private Date				date_contestation;
 
 	private String				file_name;
@@ -36,50 +38,58 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 		if (!(o instanceof Contestation)) {
 			return -1;
 		}
-		if (this.getDate_contestation() == null) {
+		if (getDate_contestation() == null) {
 			return -1;
 		}
 		final Contestation item = o;
 		if (item.getDate_contestation() == null) {
 			return 1;
 		}
-		return this.getDate_contestation().compareTo(item.getDate_contestation());
+		return getDate_contestation().compareTo(item.getDate_contestation());
+	}
+
+	public Date getDate_bp() {
+		return date_bp;
 	}
 
 	public Date getDate_contestation() {
-		return this.date_contestation;
+		return date_contestation;
 	}
 
 	public String getFile_name() {
-		return this.file_name;
+		return file_name;
 	}
 
 	public int getId() {
-		return this.id;
+		return id;
 	}
 
 	public int getId_user() {
-		return this.id_user;
+		return id_user;
 	}
 
 	public String getNote() {
-		return this.note;
+		return note;
 	}
 
 	public Boolean getRecall() {
-		return this.recall;
+		return recall;
 	}
 
 	public Date getStop_from() {
-		return this.stop_from;
+		return stop_from;
 	}
 
 	public Date getStop_to() {
-		return this.stop_to;
+		return stop_to;
 	}
 
 	public String getTyp() {
-		return this.typ;
+		return typ;
+	}
+
+	public void setDate_bp(final Date date_bp) {
+		this.date_bp = date_bp;
 	}
 
 	public void setDate_contestation(final Date date_contestation) {

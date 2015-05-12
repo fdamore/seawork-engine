@@ -8,9 +8,11 @@
 	<insert id="createContestation" parameterType="org.uario.seaworkengine.model.Contestation">
 		INSERT INTO
 		contestation (typ, date_contestation, id_user, note, stop_from,
-		stop_to, file_name,recall) VALUES (#{typ}, #{date_contestation}, #{id_user},
+		stop_to, file_name,recall, date_bp) VALUES (#{typ},
+		#{date_contestation}, #{id_user},
 		#{note},
-		#{stop_from}, #{stop_to}, #{file_name},#{recall});
+		#{stop_from}, #{stop_to},
+		#{file_name},#{recall},#{date_bp});
 	</insert>
 
 	<select id="loadUserContestation" resultType="org.uario.seaworkengine.model.Contestation"
@@ -22,10 +24,13 @@
 		id_user,
 		stop_from,
 		stop_to,
-		file_name,recall
+		file_name,
+		recall,
+		date_bp
 		FROM
 		contestation where
-		id_user = #{id_user} order by
+		id_user = #{id_user}
+		order by
 		date_contestation desc;
 	</select>
 
@@ -50,8 +55,10 @@
 		stop_to =
 		#{stop_to},
 		file_name = #{file_name},
-		recall = #{recall}
-		WHERE id = #{id};
+		recall = #{recall},
+		date_bp = #{date_bp}
+		WHERE id =
+		#{id};
 	</update>
 
 

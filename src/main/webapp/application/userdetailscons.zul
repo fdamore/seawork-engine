@@ -75,6 +75,14 @@
 						</row>
 
 						<row>
+							<label value="Mese e Anno Imputazione BP"></label>
+							<datebox id="date_bp" format="MM/yyyy"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+
+
+						<row>
 							<label value="Sospeso da:"></label>
 							<datebox id="stop_from"
 								placeholder="Seleziona La Data" width="200px" />
@@ -168,6 +176,7 @@
 						sort="date_contestation" />
 					<listheader label="Sospeso Da" />
 					<listheader label="Fino a" />
+					<listheader label="Mese-Anno BP" />
 					<listheader label="" />
 					<listheader label="" />
 				</listhead>
@@ -186,6 +195,9 @@
 
 					<listcell
 						label="@{item.stop_to, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+					<listcell
+						label="@{item.date_bp, converter='org.uario.seaworkengine.zkevent.converter.DateConverterMMYY'}" />
 
 
 					<listcell>
