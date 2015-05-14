@@ -41,12 +41,12 @@
 							<combobox id="bill_center"
 								placeholder="Scegli il centro di costo" readonly="true"
 								width="200px">
-								<comboitem value="IMPIEGATI" label="IMPIEGATI"></comboitem>
-								<comboitem value="AMMINISTRATIVI" label="AMMINISTRATIVI"></comboitem>
-								<comboitem value="PREPOSTI" label="PREPOSTI"></comboitem>
-								<comboitem value="RIZZATORI" label="RIZZATORI"></comboitem>
+							<comboitem self="@{each='billcenter'}" label="@{billcenter.description}" value="@{billcenter}" />
 								
 							</combobox>
+								
+								
+							
 						</row>					
 
 						<row>

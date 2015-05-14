@@ -144,6 +144,7 @@
 		<tabs>
 			<tab label="Mansioni" id="task" selected="true" />
 			<tab label="Turni" id="shift" />
+			<tab label="Centri di Costo" id="billcenter" />
 
 			<tab label="Tipo Rapporto di Lavoro" id="status" />
 		</tabs>
@@ -367,7 +368,6 @@
 					</panelchildren>
 				</panel>
 			</tabpanel>
-
 
 			<tabpanel>
 				<panel id="panel_shift" border="normal"
@@ -646,6 +646,143 @@
 					</panelchildren>
 				</panel>
 
+			</tabpanel>
+
+			<tabpanel>
+				<panel id="panel_billcenter" border="normal"
+					collapsible="false" sclass="transparent">
+					<caption iconSclass="z-icon-star orange"
+						label="Gestione Mansioni">
+					</caption>
+
+					<panelchildren>
+
+						<!-- BILL CENTER -->
+						<div>
+
+							<a label="Mansioni" iconSclass="z-icon-list"
+								sclass="green lighter rcaption" />
+
+							<!-- BILL CENTER EDITOR -->
+							<div id="grid_billcenter_details"
+								visible="false">
+
+								<panel border="normal"
+									collapsible="false" sclass="transparent">
+									<caption
+										iconSclass="z-icon-star orange" label="Dettagli Mansione">
+
+										<toolbarbutton label="Chiudi" id="closeBillCenterDetail"
+											style="color: blue"
+											onClick="grid_billcenter_details.setVisible(false);add_billcenter_command.setVisible(false);modify_billcenter_command.setVisible(false);">
+										</toolbarbutton>
+
+										<toolbarbutton
+											id="add_billcenter_command" label="Aggiungi" style="color: blue"
+											visible="false">
+										</toolbarbutton>
+
+										<toolbarbutton
+											id="modify_billcenter_command" label="Modifica"
+											style="color: blue" visible="false">
+										</toolbarbutton>
+
+									</caption>
+
+									<panelchildren>
+
+										<grid sclass="domain">
+											<columns>
+												<column label="Tipo" />
+												<column
+													label="Informazioni" />
+											</columns>
+											<rows>
+												<row
+													id="row_description_billcenter">
+													<label
+														value="Descrizione:">
+													</label>
+													<textbox
+														id="description_billcenter" mold="rounded" />
+												</row>
+											</rows>
+										</grid>
+
+
+									</panelchildren>
+
+								</panel>
+
+
+
+							</div>
+
+
+							<div>
+								<separator></separator>
+
+								<button id="sw_addBillCenter"
+									sclass="btn-info" label="Aggiungi Centro di Costo"
+									onClick="modify_billcenter_command.setVisible(false);add_billcenter_command.setVisible(true);grid_billcenter_details.setVisible(true)">
+								</button>
+
+								<button id="sw_refresh_billcenterlist"
+									sclass="btn-info" label="Ricarica">
+								</button>
+
+								
+								<separator></separator>
+
+								
+
+								
+							</div>
+
+							<listbox id="sw_list_billcenter"
+								pagingPosition="both" mold="paging"
+								style="border: 1px solid #CCCCCC;" checkmark="true"
+								multiple="false" pageSize="10">
+								<listhead sizable="true">
+									<listheader label="Descrizione" sort="auto(description)" />
+									
+									<listheader label="" />
+
+								</listhead>
+
+								<listitem self="@{each='billcenter_item'}"
+									value="@{billcenter_item}">
+
+									<listcell sclass="myBottonCell"
+										label="@{billcenter_item.description}" />
+
+									<listcell sclass="myBottonCell">
+
+										<toolbarbutton
+											id="sw_link_deleteBillCenter" style="color:blue"
+											onClick="sw_list_billcenter.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Cancella">
+										</toolbarbutton>
+
+										<toolbarbutton
+											id="sw_link_modifyBillCenter" style="color:blue"
+											onClick="sw_list_billcenter.setSelectedItem((Listitem)self.getParent().getParent());add_billcenter_command.setVisible(false);modify_billcenter_command.setVisible(true);grid_billcenter_details.setVisible(true);"
+											label="Modifica">
+										</toolbarbutton>
+
+									</listcell>
+
+
+
+
+								</listitem>
+
+							</listbox>
+
+						</div>
+
+					</panelchildren>
+				</panel>
 			</tabpanel>
 
 			<tabpanel>

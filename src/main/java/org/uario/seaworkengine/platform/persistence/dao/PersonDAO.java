@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 
@@ -31,11 +32,35 @@ public interface PersonDAO extends UserDetailsService {
 	void changePassword(Integer person_id, String username, String new_password);
 
 	/**
+	 * create billcenter
+	 *
+	 * @param billcenter
+	 *
+	 */
+	public void createBillCenter(BillCenter billCenter);
+
+	/**
+	 * delete billcenter
+	 *
+	 * @param idBillCenter
+	 *
+	 */
+	public void deleteBillCenter(Integer idBillCenter);
+
+	/**
 	 * List all users suspended
 	 *
 	 * @return Return a list of User suspended
 	 */
 	public List<Person> getSuspendendUsers();
+
+	/**
+	 * list all billcenter
+	 *
+	 * @param idBillCenter
+	 *
+	 */
+	public List<BillCenter> listAllBillCenter();
 
 	public List<Person> listAllPartTime();
 
@@ -89,6 +114,14 @@ public interface PersonDAO extends UserDetailsService {
 
 	public List<String> loadAllProvincia();
 
+	/**
+	 * load billcenter
+	 *
+	 * @param idBillCenter
+	 *
+	 */
+	public void loadBillCenter(Integer idBillCenter);
+
 	public String loadCodComune(String provincia, String comune);
 
 	public List<String> loadComuniByProvincia(String provincia);
@@ -139,6 +172,14 @@ public interface PersonDAO extends UserDetailsService {
 	 * @throws UserNameJustPresentExcpetion
 	 */
 	public void savePerson(Person person) throws UserNameJustPresentExcpetion;
+
+	/**
+	 * update billcenter
+	 *
+	 * @param billcenter
+	 *
+	 */
+	public void updateBillCenter(BillCenter billCenter);
 
 	/**
 	 * update person

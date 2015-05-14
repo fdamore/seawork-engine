@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.JobCost;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.IJobCost;
+import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
@@ -54,7 +56,10 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	private Component			grid_details;
 	// dao interface
 	private IJobCost			jobCostDAO;
+
 	private Person				person_selected;
+
+	private PersonDAO			personDao;
 
 	// status ADD or MODIFY
 	private boolean				status_add			= false;
@@ -166,6 +171,8 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 				// get the dao
 				UserDetailsComposerJobCost.this.jobCostDAO = (IJobCost) SpringUtil.getBean(BeansTag.JOB_COST_DAO);
+
+				UserDetailsComposerJobCost.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
 				UserDetailsComposerJobCost.this.setInitialView();
 
@@ -288,15 +295,15 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerJobCost.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerJobCost.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -309,6 +316,11 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		final List<JobCost> list = this.jobCostDAO.loadJobCostByUser(this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<JobCost>(list));
+
+		final List<BillCenter> billCenterList = this.personDao.listAllBillCenter();
+		if (billCenterList != null) {
+			this.bill_center.setModel(new ListModelList<BillCenter>(billCenterList));
+		}
 
 		this.grid_details.setVisible(false);
 	}
@@ -326,7 +338,8 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		if (this.bill_center.getSelectedItem() == null) {
 			item.setBill_center(null);
 		} else {
-			final String itm = this.bill_center.getSelectedItem().getValue();
+			final BillCenter billCenterSelected = this.bill_center.getSelectedItem().getValue();
+			final String itm = billCenterSelected.getDescription();
 			item.setBill_center(itm);
 		}
 

@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
+import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ParamsTag;
@@ -40,7 +42,12 @@ public class Preferences extends SelectorComposer<Component> {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	@Wire
+	private Component			add_billcenter_command;
+
 	private IBankHolidays		bank_holiday;
+
+	private BillCenter			billCenterSelected;
 
 	@Wire
 	private Textbox				code_shift;
@@ -52,6 +59,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Textbox				code_task;
 
 	private ConfigurationDAO	configurationDao;
+
+	@Wire
+	private Textbox				description_billcenter;
 
 	@Wire
 	private Textbox				description_shift;
@@ -73,6 +83,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox				full_text_searchTask;
+
+	@Wire
+	private Component			grid_billcenter_details;
 
 	@Wire
 	private Div					grid_shift_details;
@@ -101,9 +114,14 @@ public class Preferences extends SelectorComposer<Component> {
 	@Wire
 	private Listbox				list_bankholiday;
 
+	@Wire
+	private Component			modify_billcenter_command;
+
 	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
 
 	private IParams				paramsDAO;
+
+	private PersonDAO			personDao;
 
 	@Wire
 	public Checkbox				recorded_shift;
@@ -120,6 +138,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Intbox				shows_rowsTask;
 
 	@Wire
+	private Listbox				sw_list_billcenter;
+
+	@Wire
 	private Listbox				sw_list_shift;
 
 	@Wire
@@ -133,6 +154,16 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox			typeofbreak;
+
+	@Listen("onClick = #add_billcenter_command")
+	public void addBillCenterCommand() {
+		if (this.description_billcenter.getValue() != null && this.description_billcenter.getValue().trim() != "") {
+			final BillCenter billCenter = new BillCenter();
+			billCenter.setDescription(this.description_billcenter.getValue());
+			this.personDao.createBillCenter(billCenter);
+			this.refreshBillCenterList();
+		}
+	}
 
 	@Listen("onClick = #add_shifts_command")
 	public void addShift() {
@@ -316,6 +347,21 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #closeBillCenterDetail")
+	public void closeBillCenterDetail() {
+		this.description_billcenter.setValue("");
+	}
+
+	@Listen("onClick = #sw_link_deleteBillCenter")
+	public void deleteBillCenter() {
+		if (this.sw_list_billcenter.getSelectedItem() != null) {
+			this.billCenterSelected = this.sw_list_billcenter.getSelectedItem().getValue();
+			this.personDao.deleteBillCenter(this.billCenterSelected.getId());
+			this.refreshBillCenterList();
+		}
+
+	}
+
 	private void deleteShift() {
 
 		if (this.sw_list_shift.getSelectedItem() == null) {
@@ -376,6 +422,7 @@ public class Preferences extends SelectorComposer<Component> {
 				Preferences.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 				Preferences.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
 				Preferences.this.bank_holiday = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
+				Preferences.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
 				// define memory info
 				Preferences.this.showMemory();
@@ -410,6 +457,30 @@ public class Preferences extends SelectorComposer<Component> {
 
 		// recall..
 		this.showMemory();
+	}
+
+	@Listen("onClick = #sw_link_modifyBillCenter")
+	public void modifyBillCenter() {
+
+		if (this.sw_list_billcenter.getSelectedItem() != null) {
+			this.billCenterSelected = this.sw_list_billcenter.getSelectedItem().getValue();
+			this.description_billcenter.setValue(this.billCenterSelected.getDescription());
+		}
+
+	}
+
+	@Listen("onClick = #modify_billcenter_command")
+	public void modifyBillCenterCommand() {
+		if (this.billCenterSelected != null && this.description_billcenter.getValue() != null && this.description_billcenter.getValue().trim() != "") {
+			this.billCenterSelected.setDescription(this.description_billcenter.getValue());
+			this.personDao.updateBillCenter(this.billCenterSelected);
+
+			this.grid_billcenter_details.setVisible(false);
+			this.add_billcenter_command.setVisible(false);
+			this.modify_billcenter_command.setVisible(false);
+
+			this.refreshBillCenterList();
+		}
 	}
 
 	@Listen("onClick = #sw_link_modifyshift")
@@ -645,6 +716,19 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_refresh_billcenterlist, #billcenter")
+	public void refreshBillCenterList() {
+
+		this.description_billcenter.setValue("");
+
+		final List<BillCenter> listBillCenter = this.personDao.listAllBillCenter();
+
+		if (listBillCenter != null) {
+			this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));
+		}
+
+	}
+
 	@Listen("onClick = #sw_refresh_shiftlist")
 	public void refreshShiftCommand() {
 		this.refreshShiftList();
@@ -707,15 +791,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								Preferences.this.deleteShift();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// Cancel is clicked
-							}
-						}
-					}, params);
+				@Override
+				public void onEvent(final Event e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						Preferences.this.deleteShift();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
+					}
+				}
+			}, params);
 
 		} else {
 			final Map<String, String> params = new HashMap();
@@ -753,15 +837,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteStatus();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteStatus();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -776,15 +860,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteTask();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					Preferences.this.deleteTask();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
