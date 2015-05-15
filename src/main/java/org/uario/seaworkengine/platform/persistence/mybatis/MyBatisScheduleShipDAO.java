@@ -295,18 +295,18 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		MyBatisScheduleShipDAO.logger.info("updateDetailFinalScheduleShip");
-
-		this.getSqlSession().update("scheduleship.updateDetailFinalScheduleShipForMobile", detailFinalScheduleShip);
-
-	}
-
-	@Override
 	public void updateDetailScheduleShip(final DetailScheduleShip detailScheduleShip) {
 		MyBatisScheduleShipDAO.logger.info("updateDetailScheduleShip");
 
 		this.getSqlSession().update("scheduleship.updateDetailScheduleShip", detailScheduleShip);
+
+	}
+
+	@Override
+	public void updateDetailScheduleShipForMobile(final DetailScheduleShip sch) {
+		MyBatisScheduleShipDAO.logger.info("updateDetailScheduleShip");
+
+		this.getSqlSession().update("scheduleship.updateDetailScheduleShipForMobile", sch);
 
 	}
 

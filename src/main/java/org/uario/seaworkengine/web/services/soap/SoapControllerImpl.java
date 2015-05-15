@@ -99,8 +99,10 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		this.webcontroller.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
+	public void updateDetailScheduleShipForMobile(@WebParam(name = "detail_schedule_ship_id") final Integer detail_schedule_ship_id,
+			@WebParam(name = "operation") final String operation, @WebParam(name = "menwork") final Integer menwork) {
+
+		this.webcontroller.updateDetailScheduleShipForMobile(detail_schedule_ship_id, operation, menwork);
 
 	}
 

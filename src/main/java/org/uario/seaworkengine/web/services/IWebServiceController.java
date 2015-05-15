@@ -111,11 +111,13 @@ public interface IWebServiceController {
 	public boolean synchronizeWork(Date date_request, Integer no_shift, WorkerShift worker_shift);
 
 	/**
-	 * Update info about detail final schedule ship
+	 * Update scheduler ship for mobile
 	 *
-	 * @param detailFinalScheduleShip
+	 * @param detail_schedule_ship_id
+	 * @param operation
+	 * @param menwork
 	 */
-	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip);
+	public void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer menwork);
 
 	/**
 	 * Public string get note

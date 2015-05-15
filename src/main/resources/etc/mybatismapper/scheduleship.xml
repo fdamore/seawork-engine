@@ -347,8 +347,9 @@
 		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate 
-		order by d.shiftdate, d.shift, s.name asc;
+		ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate
+		order by
+		d.shiftdate, d.shift, s.name asc;
 
 	</select>
 
@@ -386,7 +387,7 @@
 		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		d.shiftdate=#{shiftdate} 
+		d.shiftdate=#{shiftdate}
 		order by d.shiftdate, d.shift, s.name asc;
 	</select>
 
@@ -437,8 +438,9 @@
 		where
 		d.idscheduleship =
 		#{id_scheduleShip} and d.iduser = u.id
-		order by 
-		d.shiftdate , d.shift asc;
+		order by
+		d.shiftdate , d.shift
+		asc;
 	</select>
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
@@ -504,6 +506,15 @@
 		WHERE id = #{id};
 	</update>
 
+	<update id="updateDetailScheduleShipForMobile" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
+		UPDATE
+		detailscheduleship SET
+		operation = #{operation},
+		handswork =
+		#{handswork}
+		WHERE id = #{id};
+	</update>
+
 
 	<insert id="createDetailFinalScheduleShip"
 		parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
@@ -530,11 +541,14 @@
 		SELECT df.id, df.crane, df.crane_gtw volume, df.timework,
 		df.iddetailscheduleship, df.notedetail, df.volumeunderboard,
 		df.volumeunderboard_sws,
-		df.volume_tw_mct, s.rif_mct, s.id as rif_sws, df.invoicing_cycle
+		df.volume_tw_mct, s.rif_mct, s.id as rif_sws,
+		df.invoicing_cycle
 		FROM
-		detailfinalscheduleship df, detailscheduleship d, scheduleship s
+		detailfinalscheduleship df, detailscheduleship
+		d, scheduleship s
 		where
-		id = #{id} and df.iddetailscheduleship = d.id and
+		id = #{id} and df.iddetailscheduleship = d.id
+		and
 		d.idscheduleship =
 		s.id;
 	</select>
@@ -563,19 +577,7 @@
 	</update>
 
 
-	<update id="updateDetailFinalScheduleShipForMobile"
-		parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
-		UPDATE detailfinalscheduleship
-		SET
-		crane = #{crane},
-		crane_gtw = #{crane_gtw},
-		timework = #{timework},
-		volume = #{volume},
-		notedetail = #{notedetail},
-		volumeunderboard = #{volumeunderboard},
-		volume_tw_mct = #{volume_tw_mct}
-		WHERE id = #{id};
-	</update>
+
 
 	<select id="loadDetailFinalScheduleShipByIdDetailScheduleShip"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip"

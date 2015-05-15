@@ -444,8 +444,14 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public void updateDetailFinalScheduleShipForMobile(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		this.shipSchedulerDao.updateDetailFinalScheduleShipForMobile(detailFinalScheduleShip);
+	public void updateDetailScheduleShipForMobile(final Integer detail_schedule_ship_id, final String operation, final Integer menwork) {
+
+		final DetailScheduleShip sch = new DetailScheduleShip();
+		sch.setId(detail_schedule_ship_id);
+		sch.setOperation(operation);
+		sch.setMenwork(menwork);
+
+		this.shipSchedulerDao.updateDetailScheduleShipForMobile(sch);
 
 	}
 

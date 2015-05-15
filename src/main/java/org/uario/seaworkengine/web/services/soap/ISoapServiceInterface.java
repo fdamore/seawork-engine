@@ -105,7 +105,7 @@ public interface ISoapServiceInterface {
 	 * Transmit final scheduler
 	 *
 	 * @param no_shift
-	 *            TODO
+	 *            *
 	 * @param shift
 	 * @param date
 	 *
@@ -115,11 +115,14 @@ public interface ISoapServiceInterface {
 			@WebParam(name = "worker_shift") WorkerShift worker_shift);
 
 	/**
-	 * Update info about mobile: detail schedule ship
+	 * Update scheduler ship for mobile
 	 *
-	 * @param detailFinalScheduleShip
+	 * @param detail_schedule_ship_id
+	 * @param operation
+	 * @param menwork
 	 */
-	void updateDetailFinalScheduleShipForMobile(DetailFinalScheduleShip detailFinalScheduleShip);
+	public void updateDetailScheduleShipForMobile(@WebParam(name = "detail_schedule_ship_id") Integer detail_schedule_ship_id,
+			@WebParam(name = "operation") String operation, @WebParam(name = "menwork") Integer menwork);
 
 	/**
 	 * Public string get note
