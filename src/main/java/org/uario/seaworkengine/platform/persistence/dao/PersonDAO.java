@@ -39,6 +39,8 @@ public interface PersonDAO extends UserDetailsService {
 
 	public List<Person> listAllPartTime();
 
+	public List<Person> listAllPersonByContractualLevel(Integer contractual_level);
+
 	public List<Person> listAllPersonByUserStatus(String userStatus);
 
 	public List<Person> listAllPersons();

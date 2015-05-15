@@ -72,6 +72,13 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
+	public List<Person> listAllPersonByContractualLevel(final Integer contractual_level) {
+		MyBatisPersonDAO.logger.info("listAllPersonByContractualLevel " + contractual_level);
+
+		return this.getSqlSession().selectList("person.listAllPersonByContractualLevel", contractual_level);
+	}
+
+	@Override
 	public List<Person> listAllPersonByUserStatus(final String userStatus) {
 		MyBatisPersonDAO.logger.info("listAllPersons by user status " + userStatus);
 

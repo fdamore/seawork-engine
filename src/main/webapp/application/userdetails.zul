@@ -619,6 +619,15 @@
 		<combobox readonly="true" placeholder="Rapporto di Lavoro" 
 		id="user_status_filter"/>
 		
+		<combobox id="contractual_level_filter" placeholder="Seleziona per livello" readonly="true">
+			<comboitem label="1" value="1" />
+			<comboitem label="2" value="2" />
+			<comboitem label="3" value="3" />
+			<comboitem label="4" value="4" />
+			<comboitem label="5" value="5" />
+			<comboitem label="6" value="6" />
+		</combobox>
+
 		<button id="sw_refresh_list" sclass="btn-info"
 			label="Ricarica">
 		</button>

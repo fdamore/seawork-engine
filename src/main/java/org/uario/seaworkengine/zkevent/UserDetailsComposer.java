@@ -88,6 +88,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Component			contestations_user_tab;
 
 	@Wire
+	private Combobox			contractual_level_filter;
+
+	@Wire
 	private Textbox				country_user;
 
 	@Wire
@@ -1062,6 +1065,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
+		this.contractual_level_filter.setSelectedItem(null);
 
 		// set user listbox
 		this.setUserListBox();
@@ -1170,6 +1174,19 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onChange=#contractual_level_filter")
+	public void selectByContractLevel() {
+		this.select_specific_user.setSelectedItem(null);
+		this.user_status_filter.setSelectedItem(null);
+		if (this.contractual_level_filter.getSelectedItem() != null) {
+			final ListModelList<Person> list_person = new ListModelList<Person>(this.personDao.listAllPersonByContractualLevel(Integer
+					.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
+			this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+			this.full_text_search.setValue(null);
+			this.select_specific_user.setSelectedItem(null);
+		}
+	}
+
 	private void selectDailyEmployee() {
 		final List<Person> list_person = this.personDao.listDailyEmployee();
 
@@ -1206,6 +1223,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void selectSpecificUser() {
 		this.full_text_search.setValue(null);
 		this.user_status_filter.setSelectedItem(null);
+		this.contractual_level_filter.setSelectedItem(null);
 		final String selected = this.select_specific_user.getSelectedItem().getValue().toString();
 		if (selected.equals("Amministratori di Sistema")) {
 			this.selectAdmins();
@@ -1301,6 +1319,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
+		this.contractual_level_filter.setSelectedItem(null);
 
 		List<Person> list_person = null;
 
