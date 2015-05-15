@@ -10,9 +10,13 @@ public class JobCost implements Comparable<Person>, Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	private Double				basicsalary;
+
 	private String				bill_center;
 
 	private Double				business_job_cost;
+
+	private Double				contingency;
 
 	private String				contractual_level;
 
@@ -20,16 +24,24 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	private Date				date_to;
 
+	private Double				edr;
+
 	private Double				final_job_cost;
 
 	private Integer				id;
 
 	private Integer				id_user;
 
+	private Double				shots;
+
 	@Override
 	public int compareTo(final Person arg0) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public Double getBasicsalary() {
+		return this.basicsalary;
 	}
 
 	public String getBill_center() {
@@ -38,6 +50,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	public Double getBusiness_job_cost() {
 		return this.business_job_cost;
+	}
+
+	public Double getContingency() {
+		return this.contingency;
 	}
 
 	public String getContractual_level() {
@@ -52,6 +68,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.date_to;
 	}
 
+	public Double getEdr() {
+		return this.edr;
+	}
+
 	public Double getFinal_job_cost() {
 		return this.final_job_cost;
 	}
@@ -64,12 +84,24 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.id_user;
 	}
 
+	public Double getShots() {
+		return this.shots;
+	}
+
+	public void setBasicsalary(final Double basicsalary) {
+		this.basicsalary = basicsalary;
+	}
+
 	public void setBill_center(final String bill_center) {
 		this.bill_center = bill_center;
 	}
 
 	public void setBusiness_job_cost(final Double business_job_cost) {
 		this.business_job_cost = business_job_cost;
+	}
+
+	public void setContingency(final Double contingency) {
+		this.contingency = contingency;
 	}
 
 	public void setContractual_level(final String contractual_level) {
@@ -84,6 +116,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 		this.date_to = date_to;
 	}
 
+	public void setEdr(final Double edr) {
+		this.edr = edr;
+	}
+
 	public void setFinal_job_cost(final Double final_job_cost) {
 		this.final_job_cost = final_job_cost;
 	}
@@ -94,6 +130,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	public void setId_user(final Integer id_user) {
 		this.id_user = id_user;
+	}
+
+	public void setShots(final Double shots) {
+		this.shots = shots;
 	}
 
 }

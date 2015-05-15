@@ -77,6 +77,26 @@
 							<label value="Livello Contrattuale:"></label>
 							<textbox id="contractual_level" width="200px" />
 						</row>
+						
+						<row>
+							<label value="Paga base:"></label>
+							<doublebox id="basicsalary" width="200px" />
+						</row>
+						
+						<row>
+							<label value="Contingenza:"></label>
+							<doublebox id="contingency" width="200px" />
+						</row>
+						
+						<row>
+							<label value="Scatti"></label>
+							<doublebox id="shots" width="200px" />
+						</row>
+						
+						<row>
+							<label value="EDR"></label>
+							<doublebox id="edr" width="200px" />
+						</row>
 
 						
 
@@ -116,13 +136,16 @@
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="20">
 				<listhead sizable="true">
-					<listheader label="Centro di Costo" />
+					<listheader label="Centro di Costo" width="200px"/>
 					<listheader label="Dalla data" />
 					<listheader label="Alla data" />
 					<listheader label="Costo Orario Aziendale" />
 					<listheader label="Costo Orario Effettivo" />
 					<listheader label="Livello Contrattuale" />
-					
+					<listheader label="Paga base" />
+					<listheader label="Contingenza" />
+					<listheader label="Scatti" />
+					<listheader label="EDR" />
 
 
 					<listheader label="" />
@@ -139,9 +162,14 @@
 					<listcell label="@{item.final_job_cost}" />
 					
 					<listcell label="@{item.contractual_level}" />
+						
+					<listcell label="@{item.basicsalary}" />
 					
+					<listcell label="@{item.contingency}" />
 					
+					<listcell label="@{item.shots}" />
 					
+					<listcell label="@{item.edr}" />
 
 					<listcell>
 

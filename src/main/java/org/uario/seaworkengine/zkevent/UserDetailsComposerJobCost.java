@@ -36,30 +36,42 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	private static final long	serialVersionUID	= 1L;
 
 	@Wire
+	private Doublebox			basicsalary;
+
+	@Wire
 	private Combobox			bill_center;
 
 	@Wire
 	private Doublebox			business_job_cost;
 
 	@Wire
+	private Doublebox			contingency;
+
+	@Wire
 	private Textbox				contractual_level;
 
 	@Wire
 	private Datebox				date_from;
-
 	@Wire
 	private Datebox				date_to;
+	@Wire
+	private Doublebox			edr;
 
 	@Wire
 	private Doublebox			final_job_cost;
+
 	@Wire
 	private Component			grid_details;
+
 	// dao interface
 	private IJobCost			jobCostDAO;
 
 	private Person				person_selected;
 
 	private PersonDAO			personDao;
+
+	@Wire
+	private Doublebox			shots;
 
 	// status ADD or MODIFY
 	private boolean				status_add			= false;
@@ -78,6 +90,11 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.date_from.setValue(null);
 		this.date_to.setValue(null);
 		this.contractual_level.setValue("");
+		this.basicsalary.setValue(null);
+		this.contingency.setValue(null);
+		this.shots.setValue(null);
+		this.edr.setValue(null);
+
 	}
 
 	private Boolean compareDate(final JobCost jc, final Date from, final Date to) {
@@ -148,8 +165,6 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
 
-		Messagebox.show("Centro di costo rimosso", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
-
 		// Refresh list task
 		this.setInitialView();
 
@@ -203,6 +218,10 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.date_from.setValue(item.getDate_from());
 		this.date_to.setValue(item.getDate_to());
 		this.contractual_level.setValue(item.getContractual_level());
+		this.basicsalary.setValue(item.getBasicsalary());
+		this.contingency.setValue(item.getContingency());
+		this.shots.setValue(item.getShots());
+		this.edr.setValue(item.getEdr());
 
 		this.bill_center.setValue(item.getBill_center());
 
@@ -333,6 +352,11 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		item.setDate_from(this.date_from.getValue());
 		item.setDate_to(this.date_to.getValue());
 		item.setId_user(this.person_selected.getId());
+
+		item.setBasicsalary(this.basicsalary.getValue());
+		item.setContingency(this.contingency.getValue());
+		item.setShots(this.shots.getValue());
+		item.setEdr(this.edr.getValue());
 
 		// set result communication type
 		if (this.bill_center.getSelectedItem() == null) {
