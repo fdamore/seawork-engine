@@ -73,9 +73,13 @@
 		where id = #{id};
 	</update>
 	
-	<select id="listAllBillCenter" resultType="org.uario.seaworkengine.model.BillCenter">
+	<select id="listAllBillCenter" resultType="org.uario.seaworkengine.model.BillCenter" parameterType="String">
 		select id,description 
-		from billcenter;
+		from billcenter
+		<if test="textsearch != null">
+			where description like CONCAT('%', #{textsearch}, '%')
+		</if>
+		
 	</select>
 	
 	

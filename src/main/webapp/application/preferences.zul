@@ -145,7 +145,6 @@
 			<tab label="Mansioni" id="task" selected="true" />
 			<tab label="Turni" id="shift" />
 			<tab label="Centri di Costo" id="billcenter" />
-
 			<tab label="Tipo Rapporto di Lavoro" id="status" />
 		</tabs>
 
@@ -652,7 +651,7 @@
 				<panel id="panel_billcenter" border="normal"
 					collapsible="false" sclass="transparent">
 					<caption iconSclass="z-icon-star orange"
-						label="Gestione Mansioni">
+						label="Gestione Centri Costo">
 					</caption>
 
 					<panelchildren>
@@ -660,7 +659,7 @@
 						<!-- BILL CENTER -->
 						<div>
 
-							<a label="Mansioni" iconSclass="z-icon-list"
+							<a label="Centri di Costo" iconSclass="z-icon-list"
 								sclass="green lighter rcaption" />
 
 							<!-- BILL CENTER EDITOR -->
@@ -734,9 +733,18 @@
 								
 								<separator></separator>
 
-								
+								<a label="Righe da visualizzare: "
+									iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+								<intbox id="shows_rows"
+									constraint="no negative, no zero" value="10">
+								</intbox>
 
+								<textbox placeholder="Cerca..." id="full_text_search_BillCenter">
+								</textbox>
 								
+								<separator></separator>
+
+
 							</div>
 
 							<listbox id="sw_list_billcenter"

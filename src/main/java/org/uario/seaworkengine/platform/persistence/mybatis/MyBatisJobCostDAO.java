@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -36,10 +37,13 @@ public class MyBatisJobCostDAO extends SqlSessionDaoSupport implements IJobCost 
 	}
 
 	@Override
-	public List<BillCenter> listAllBillCenter() {
+	public List<BillCenter> listAllBillCenter(final String textsearch) {
 		MyBatisJobCostDAO.logger.info("List all BillCentert ");
 
-		return this.getSqlSession().selectList("jobcost.listAllBillCenter");
+		final HashMap<String, String> map = new HashMap<String, String>();
+		map.put("textsearch", textsearch);
+
+		return this.getSqlSession().selectList("jobcost.listAllBillCenter", map);
 
 	}
 

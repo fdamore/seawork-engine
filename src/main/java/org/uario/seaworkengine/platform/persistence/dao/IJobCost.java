@@ -31,7 +31,7 @@ public interface IJobCost {
 	 * @param idBillCenter
 	 *
 	 */
-	public List<BillCenter> listAllBillCenter();
+	public List<BillCenter> listAllBillCenter(String textsearch);
 
 	/**
 	 * load billcenter

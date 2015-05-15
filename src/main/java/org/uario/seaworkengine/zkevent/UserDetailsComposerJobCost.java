@@ -295,15 +295,15 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerJobCost.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerJobCost.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -317,7 +317,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		final List<JobCost> list = this.jobCostDAO.loadJobCostByUser(this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<JobCost>(list));
 
-		final List<BillCenter> billCenterList = this.jobCostDAO.listAllBillCenter();
+		final List<BillCenter> billCenterList = this.jobCostDAO.listAllBillCenter(null);
 		if (billCenterList != null) {
 			this.bill_center.setModel(new ListModelList<BillCenter>(billCenterList));
 		}

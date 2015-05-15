@@ -79,6 +79,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Checkbox			forceable;
 
 	@Wire
+	private Textbox				full_text_search_BillCenter;
+
+	@Wire
 	private Textbox				full_text_searchShift;
 
 	@Wire
@@ -130,6 +133,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Checkbox			recorded_task;
 
 	private final Runtime		runtime				= Runtime.getRuntime();
+
+	@Wire
+	private Intbox				shows_rows;
 
 	@Wire
 	private Intbox				shows_rowsShift;
@@ -721,7 +727,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.description_billcenter.setValue("");
 
-		final List<BillCenter> listBillCenter = this.jobCostDao.listAllBillCenter();
+		this.full_text_search_BillCenter.setValue("");
+
+		final List<BillCenter> listBillCenter = this.jobCostDao.listAllBillCenter(null);
 
 		if (listBillCenter != null) {
 			this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));
@@ -791,15 +799,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener() {
-				@Override
-				public void onEvent(final Event e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						Preferences.this.deleteShift();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
-					}
-				}
-			}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								Preferences.this.deleteShift();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					}, params);
 
 		} else {
 			final Map<String, String> params = new HashMap();
@@ -837,15 +845,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteStatus();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -860,15 +868,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -890,6 +898,17 @@ public class Preferences extends SelectorComposer<Component> {
 		this.isabsence_task.setChecked(false);
 		this.recorded_task.setChecked(false);
 		this.hiddenoperative_task.setChecked(false);
+	}
+
+	@Listen("onChange = #full_text_search_BillCenter; onOK = #full_text_search_BillCenter")
+	public void searchBillCenterText() {
+		if (this.full_text_search_BillCenter.getValue() != null) {
+			final List<BillCenter> listBillCenter = this.jobCostDao.listAllBillCenter(this.full_text_search_BillCenter.getValue());
+
+			if (listBillCenter != null) {
+				this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));
+			}
+		}
 	}
 
 	@Listen("onSelect = #typeofbreak")
@@ -1046,6 +1065,13 @@ public class Preferences extends SelectorComposer<Component> {
 		this.label_max_meomry.setValue(max_memory_info);
 		this.label_free_meomry.setValue(free_memory_info);
 		this.label_allocated_meomry.setValue(allocated_memory_info);
+	}
+
+	@Listen("onChange = #shows_rows; onOK = #shows_rows")
+	public void showRows() {
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_billcenter.setPageSize(this.shows_rows.getValue());
+		}
 	}
 
 	@Listen("onClick = #update_doc_repo")
