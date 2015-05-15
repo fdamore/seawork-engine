@@ -9,8 +9,8 @@ import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
+import org.uario.seaworkengine.platform.persistence.dao.IJobCost;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
-import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ParamsTag;
@@ -102,6 +102,8 @@ public class Preferences extends SelectorComposer<Component> {
 	@Wire
 	private Checkbox			isabsence_task;
 
+	private IJobCost			jobCostDao;
+
 	@Wire
 	private Label				label_allocated_meomry;
 
@@ -120,8 +122,6 @@ public class Preferences extends SelectorComposer<Component> {
 	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
 
 	private IParams				paramsDAO;
-
-	private PersonDAO			personDao;
 
 	@Wire
 	public Checkbox				recorded_shift;
@@ -160,7 +160,7 @@ public class Preferences extends SelectorComposer<Component> {
 		if (this.description_billcenter.getValue() != null && this.description_billcenter.getValue().trim() != "") {
 			final BillCenter billCenter = new BillCenter();
 			billCenter.setDescription(this.description_billcenter.getValue());
-			this.personDao.createBillCenter(billCenter);
+			this.jobCostDao.createBillCenter(billCenter);
 			this.refreshBillCenterList();
 		}
 	}
@@ -356,7 +356,7 @@ public class Preferences extends SelectorComposer<Component> {
 	public void deleteBillCenter() {
 		if (this.sw_list_billcenter.getSelectedItem() != null) {
 			this.billCenterSelected = this.sw_list_billcenter.getSelectedItem().getValue();
-			this.personDao.deleteBillCenter(this.billCenterSelected.getId());
+			this.jobCostDao.deleteBillCenter(this.billCenterSelected.getId());
 			this.refreshBillCenterList();
 		}
 
@@ -422,7 +422,7 @@ public class Preferences extends SelectorComposer<Component> {
 				Preferences.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 				Preferences.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
 				Preferences.this.bank_holiday = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
-				Preferences.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+				Preferences.this.jobCostDao = (IJobCost) SpringUtil.getBean(BeansTag.JOB_COST_DAO);
 
 				// define memory info
 				Preferences.this.showMemory();
@@ -473,7 +473,7 @@ public class Preferences extends SelectorComposer<Component> {
 	public void modifyBillCenterCommand() {
 		if (this.billCenterSelected != null && this.description_billcenter.getValue() != null && this.description_billcenter.getValue().trim() != "") {
 			this.billCenterSelected.setDescription(this.description_billcenter.getValue());
-			this.personDao.updateBillCenter(this.billCenterSelected);
+			this.jobCostDao.updateBillCenter(this.billCenterSelected);
 
 			this.grid_billcenter_details.setVisible(false);
 			this.add_billcenter_command.setVisible(false);
@@ -721,7 +721,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.description_billcenter.setValue("");
 
-		final List<BillCenter> listBillCenter = this.personDao.listAllBillCenter();
+		final List<BillCenter> listBillCenter = this.jobCostDao.listAllBillCenter();
 
 		if (listBillCenter != null) {
 			this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));

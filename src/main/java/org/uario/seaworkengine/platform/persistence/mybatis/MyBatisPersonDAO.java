@@ -15,7 +15,6 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
@@ -57,21 +56,6 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
-	public void createBillCenter(final BillCenter billCenter) {
-		MyBatisPersonDAO.logger.info("Create BillCentert " + billCenter.getId());
-
-		this.getSqlSession().insert("person.createBillCenter", billCenter);
-
-	}
-
-	@Override
-	public void deleteBillCenter(final Integer idBillCenter) {
-		MyBatisPersonDAO.logger.info("Delete BillCentert " + idBillCenter);
-
-		this.getSqlSession().delete("person.deleteBillCenter", idBillCenter);
-	}
-
-	@Override
 	public List<Person> getSuspendendUsers() {
 		MyBatisPersonDAO.logger.info("Get suspended users ");
 
@@ -80,14 +64,6 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 		final List<Person> suspendedUsers = this.getSqlSession().selectList("person.selectSuspendedUsers", idSuspended);
 
 		return suspendedUsers;
-	}
-
-	@Override
-	public List<BillCenter> listAllBillCenter() {
-		MyBatisPersonDAO.logger.info("List all BillCentert ");
-
-		return this.getSqlSession().selectList("person.listAllBillCenter");
-
 	}
 
 	@Override
@@ -190,14 +166,6 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
-	public void loadBillCenter(final Integer idBillCenter) {
-		MyBatisPersonDAO.logger.info("Load BillCentert " + idBillCenter);
-
-		this.getSqlSession().selectOne("person.loadBillCenter", idBillCenter);
-
-	}
-
-	@Override
 	public String loadCodComune(final String provincia, final String comune) {
 		MyBatisPersonDAO.logger.info("Get cod comune by provincia e nome comune");
 		final HashMap<String, String> map = new HashMap<String, String>();
@@ -287,14 +255,6 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 		person.setPassword(encodedPass);
 
 		this.getSqlSession().insert("person.insertPerson", person);
-
-	}
-
-	@Override
-	public void updateBillCenter(final BillCenter billCenter) {
-		MyBatisPersonDAO.logger.info("Update BillCentert " + billCenter.getId());
-
-		this.getSqlSession().insert("person.updateBillCenter", billCenter);
 
 	}
 

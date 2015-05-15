@@ -1034,34 +1034,7 @@
 	</select>
 
 
-	<insert id="createBillCenter" parameterType="org.uario.seaworkengine.model.BillCenter">
-		INSERT INTO billcenter
-		(description)
-		VALUES
-		(#{description});
-	</insert>
 	
-	<delete id="deleteBillCenter" parameterType="Integer">
-		delete from billcenter where
-		id = #{idBillCenter};
-	</delete>
-	
-	<select id="loadBillCenter" parameterType="Integer" resultType="org.uario.seaworkengine.model.BillCenter">
-		select id,description 
-		from billcenter  
-		where id = #{idBillCenter};
-	</select>
-	
-	<update id="updateBillCenter" parameterType="org.uario.seaworkengine.model.BillCenter">
-		UPDATE billcenter set
-		description = #{description} 
-		where id = #{id};
-	</update>
-	
-	<select id="listAllBillCenter" resultType="org.uario.seaworkengine.model.BillCenter">
-		select id,description 
-		from billcenter;
-	</select>
 	
 
 </mapper>

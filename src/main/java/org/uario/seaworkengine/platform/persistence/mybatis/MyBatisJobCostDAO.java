@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.JobCost;
 import org.uario.seaworkengine.platform.persistence.dao.IJobCost;
 
@@ -12,10 +13,41 @@ public class MyBatisJobCostDAO extends SqlSessionDaoSupport implements IJobCost 
 	private static Logger	logger	= Logger.getLogger(MyBatisJobCostDAO.class);
 
 	@Override
+	public void createBillCenter(final BillCenter billCenter) {
+		MyBatisJobCostDAO.logger.info("Create BillCentert " + billCenter.getId());
+
+		this.getSqlSession().insert("jobcost.createBillCenter", billCenter);
+
+	}
+
+	@Override
 	public void createJobCost(final JobCost item) {
 		MyBatisJobCostDAO.logger.info("createJob_Cost");
 
 		this.getSqlSession().insert("jobcost.createJobCost", item);
+
+	}
+
+	@Override
+	public void deleteBillCenter(final Integer idBillCenter) {
+		MyBatisJobCostDAO.logger.info("Delete BillCentert " + idBillCenter);
+
+		this.getSqlSession().delete("jobcost.deleteBillCenter", idBillCenter);
+	}
+
+	@Override
+	public List<BillCenter> listAllBillCenter() {
+		MyBatisJobCostDAO.logger.info("List all BillCentert ");
+
+		return this.getSqlSession().selectList("jobcost.listAllBillCenter");
+
+	}
+
+	@Override
+	public void loadBillCenter(final Integer idBillCenter) {
+		MyBatisJobCostDAO.logger.info("Load BillCentert " + idBillCenter);
+
+		this.getSqlSession().selectOne("jobcost.loadBillCenter", idBillCenter);
 
 	}
 
@@ -40,6 +72,14 @@ public class MyBatisJobCostDAO extends SqlSessionDaoSupport implements IJobCost 
 		MyBatisJobCostDAO.logger.info("remove job cost");
 
 		this.getSqlSession().delete("jobcost.removeJobCost", id);
+	}
+
+	@Override
+	public void updateBillCenter(final BillCenter billCenter) {
+		MyBatisJobCostDAO.logger.info("Update BillCentert " + billCenter.getId());
+
+		this.getSqlSession().insert("jobcost.updateBillCenter", billCenter);
+
 	}
 
 	@Override
