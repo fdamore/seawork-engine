@@ -22,9 +22,9 @@
 	
 		
 	<select id="selectJobCostByUser" parameterType="Integer" resultType="org.uario.seaworkengine.model.JobCost">
-		SELECT id, business_job_cost, final_job_cost, date_from, date_to, contractual_level, bill_center, id_user, basicsalary, contingency, shots, edr
-		FROM job_cost
-		WHERE id_user=#{id_user};
+		SELECT j.id, j.business_job_cost, j.final_job_cost, j.date_from, j.date_to, j.contractual_level, j.bill_center, j.id_user, j.basicsalary, j.contingency, j.shots, j.edr, b.description as billcenterDescription 
+		FROM job_cost j, billcenter b 
+		WHERE j.id_user=#{id_user} and j.bill_center=b.id;
 	</select>
 	
 	
@@ -79,7 +79,7 @@
 	
 	<select id="listAllBillCenter" resultType="org.uario.seaworkengine.model.BillCenter" parameterType="String">
 		select id,description 
-		from billcenter
+		from billcenter 
 		<if test="textsearch != null">
 			where description like CONCAT('%', #{textsearch}, '%')
 		</if>

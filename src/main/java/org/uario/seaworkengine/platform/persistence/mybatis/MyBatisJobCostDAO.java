@@ -48,10 +48,10 @@ public class MyBatisJobCostDAO extends SqlSessionDaoSupport implements IJobCost 
 	}
 
 	@Override
-	public void loadBillCenter(final Integer idBillCenter) {
+	public BillCenter loadBillCenter(final Integer idBillCenter) {
 		MyBatisJobCostDAO.logger.info("Load BillCentert " + idBillCenter);
 
-		this.getSqlSession().selectOne("jobcost.loadBillCenter", idBillCenter);
+		return this.getSqlSession().selectOne("jobcost.loadBillCenter", idBillCenter);
 
 	}
 

@@ -12,7 +12,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	private Double				basicsalary;
 
-	private String				bill_center;
+	private Integer				bill_center;
+
+	// used only in listbox
+	private String				billcenterDescription;
 
 	private Double				business_job_cost;
 
@@ -44,8 +47,12 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.basicsalary;
 	}
 
-	public String getBill_center() {
+	public Integer getBill_center() {
 		return this.bill_center;
+	}
+
+	public String getBillcenterDescription() {
+		return this.billcenterDescription;
 	}
 
 	public Double getBusiness_job_cost() {
@@ -92,8 +99,12 @@ public class JobCost implements Comparable<Person>, Serializable {
 		this.basicsalary = basicsalary;
 	}
 
-	public void setBill_center(final String bill_center) {
+	public void setBill_center(final Integer bill_center) {
 		this.bill_center = bill_center;
+	}
+
+	public void setBillcenterDescription(final String billcenterDescription) {
+		this.billcenterDescription = billcenterDescription;
 	}
 
 	public void setBusiness_job_cost(final Double business_job_cost) {

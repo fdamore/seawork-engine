@@ -39,7 +39,7 @@ public interface IJobCost {
 	 * @param idBillCenter
 	 *
 	 */
-	public void loadBillCenter(Integer idBillCenter);
+	public BillCenter loadBillCenter(Integer idBillCenter);
 
 	public List<JobCost> loadJobCostByBillCenter(String bill_center);
 

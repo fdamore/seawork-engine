@@ -160,7 +160,7 @@
 
 				<listitem self="@{each='item'}" value="@{item}">
 					
-					<listcell label="@{item.bill_center}" />
+					<listcell label="@{item.billcenterDescription}" />
 					<listcell
 						label="@{item.date_from, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell

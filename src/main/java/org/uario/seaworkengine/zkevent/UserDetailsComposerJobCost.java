@@ -227,17 +227,21 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.shots.setValue(item.getShots());
 		this.edr.setValue(item.getEdr());
 
-		this.bill_center.setValue(item.getBill_center());
+		this.bill_center.setSelectedItem(null);
+		if (item.getBill_center() != null) {
+			final BillCenter billcenter = this.jobCostDAO.loadBillCenter(item.getBill_center());
 
-		// set bill center type
-		final String billCenter_type = item.getBill_center();
-		if (billCenter_type != null) {
-			for (final Comboitem itm : this.bill_center.getItems()) {
-				if (itm.getValue().equals(billCenter_type)) {
-					this.bill_center.setSelectedItem(itm);
+			final String description = billcenter.getDescription();
+
+			if (description != null) {
+				for (final Comboitem itm : this.bill_center.getItems()) {
+					if (itm.getLabel().equals(description)) {
+						this.bill_center.setSelectedItem(itm);
+					}
+
 				}
-
 			}
+
 		}
 
 	}
@@ -318,15 +322,15 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerJobCost.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerJobCost.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -370,8 +374,9 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 			item.setBill_center(null);
 		} else {
 			final BillCenter billCenterSelected = this.bill_center.getSelectedItem().getValue();
-			final String itm = billCenterSelected.getDescription();
-			item.setBill_center(itm);
+
+			item.setBill_center(billCenterSelected.getId());
+
 		}
 
 	}
