@@ -27,7 +27,6 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -42,6 +41,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	private static final long	serialVersionUID	= 1L;
 
 	private ConfigurationDAO	configurationDao;
+
+	@Wire
+	private Combobox			contractual_level;
 
 	@Wire
 	private Datebox				date_modifiled;
@@ -69,6 +71,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	private String				status_upload		= "";
 
+	private List<String>		statusList;
+
 	@Wire
 	private Listbox				sw_list;
 
@@ -79,7 +83,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		this.date_modifiled.setValue(Calendar.getInstance().getTime());
 		this.note.setValue("");
 		this.status.setValue(null);
-		this.setStatusComboBox();
+		this.contractual_level.setValue(null);
 
 	}
 
@@ -101,8 +105,6 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
-
-		Messagebox.show("Informazione rimossa", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.setInitialView();
@@ -127,6 +129,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 				UserDetailsComposerStatus.this.employmentDao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
 				UserDetailsComposerStatus.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 				UserDetailsComposerStatus.this.scheduleDao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+
+				UserDetailsComposerStatus.this.setStatusComboBox();
 
 				UserDetailsComposerStatus.this.setInitialView();
 
@@ -170,8 +174,6 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		this.status_add = false;
 
-		this.setStatusComboBox();
-
 		// get selected item
 		final Employment item = this.sw_list.getSelectedItem().getValue();
 
@@ -188,15 +190,20 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		// set status
 		final String status_info = item.getStatus();
-		final List<Comboitem> lists = this.status.getItems();
-		for (final Comboitem item_combo : lists) {
-			if (item_combo.getValue().equals(status_info)) {
-				this.status.setSelectedItem(item_combo);
+		int i = 0;
+		for (i = 0; i < this.statusList.size(); i++) {
+			if (this.statusList.get(i).equals(status_info)) {
+				this.status.setSelectedIndex(i);
 				break;
+
 			}
 		}
 
 		this.date_modifiled.setValue(item.getDate_modified());
+
+		if (item.getContractual_level() != null) {
+			this.contractual_level.setSelectedIndex(item.getContractual_level() - 1);
+		}
 
 	}
 
@@ -280,7 +287,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			 *           Cancel is clicked } } });
 			 **/
 
-			UserDetailsComposerStatus.this.onUpdateStatus();
+			UserDetailsComposerStatus.this.onUpdateStatus(item);
 			if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED)) {
 				UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(idUser, dateStatus);
 			}
@@ -294,7 +301,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	}
 
-	private void onUpdateStatus() {
+	private void onUpdateStatus(final Employment item) {
 
 		if (this.status_upload == null) {
 			return;
@@ -302,7 +309,10 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		// send event to show user task
 		final Component comp = Path.getComponent("//user/page_user_detail");
-		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, this.status_upload);
+
+		// Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp,
+		// this.status_upload);
+		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
 	}
 
 	@Listen("onClick = #sw_link_delete")
@@ -316,15 +326,15 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerStatus.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerStatus.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -335,7 +345,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		// send event to show user task
 		final Component comp = Path.getComponent("//user/page_user_detail");
-		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item.getStatus());
+
+		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
 
 		UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(item.getId_user(), item.getDate_modified());
 
@@ -362,17 +373,36 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	}
 
 	private void setStatusComboBox() {
-		final List<String> list = this.configurationDao.selectAllStatus();
-		this.status.setModel(new ListModelList<String>(list));
+
+		if (this.statusList != null) {
+			this.statusList.clear();
+
+		}
+
+		this.status.getItems().clear();
+
+		this.statusList = this.configurationDao.selectAllStatus();
+
+		for (int i = 0; i < this.statusList.size(); i++) {
+			this.status.appendItem(this.statusList.get(i));
+		}
+
+		// this.status.setModel(new ListModelList<String>(this.statusList));
+
 	}
 
 	private Boolean setupItemWithValues(final Employment item) {
 
 		item.setNote(this.note.getValue());
+		item.setId_user(this.person_selected.getId());
+
+		if (this.contractual_level.getSelectedItem() != null) {
+			item.setContractual_level(Integer.parseInt(this.contractual_level.getSelectedItem().getValue().toString()));
+		}
 
 		// set status
 		if (this.status.getSelectedItem() != null) {
-			final String status_val = this.status.getSelectedItem().getValue();
+			final String status_val = this.status.getSelectedItem().getLabel();
 			item.setStatus(status_val);
 		} else {
 			final Map<String, String> params = new HashMap();

@@ -19,13 +19,7 @@ public class MyBatisEmploymentDAO extends SqlSessionDaoSupport implements Employ
 	public void createEmploymentForUser(final Integer id_user, final Employment employment) {
 		MyBatisEmploymentDAO.logger.info("createEmploymentForUser");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_user", id_user.toString());
-		map.put("status", employment.getStatus());
-		map.put("note", employment.getNote());
-		map.put("date_modified", employment.getDate_modified());
-
-		this.getSqlSession().insert("employment.createItemForUser", map);
+		this.getSqlSession().insert("employment.createItemForUser", employment);
 	}
 
 	@Override

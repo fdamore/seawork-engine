@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
@@ -259,6 +260,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component			tradeunion_user_tab;
+
+	@Wire
+	private Label				user_contractual_level;
 
 	@Wire
 	private Checkbox			user_enabled;
@@ -774,6 +778,11 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// set status
 		this.user_status.setValue(person_selected.getStatus());
 
+		// set contractual level
+		if (person_selected.getContractual_level() != null) {
+			this.user_contractual_level.setValue(person_selected.getContractual_level().toString());
+		}
+
 		// set users
 		this.admin_user.setChecked(person_selected.isAdministrator());
 		this.out_schedule_user.setChecked(person_selected.getOut_schedule());
@@ -872,14 +881,20 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 					return;
 				}
 
-				final String status = (String) arg0.getData();
+				final Employment item = (Employment) arg0.getData();
 
-				UserDetailsComposer.this.person_selected.setStatus(status);
+				UserDetailsComposer.this.person_selected.setStatus(item.getStatus());
+				UserDetailsComposer.this.person_selected.setContractual_level(item.getContractual_level());
 
 				UserDetailsComposer.this.personDao.updatePerson(UserDetailsComposer.this.person_selected);
 
 				// set status
-				UserDetailsComposer.this.user_status.setValue(status);
+				UserDetailsComposer.this.user_status.setValue(item.getStatus());
+
+				if (item.getContractual_level() != null) {
+					// set contratctual level
+					UserDetailsComposer.this.user_contractual_level.setValue(item.getContractual_level().toString());
+				}
 
 				// set user listbox
 				UserDetailsComposer.this.setUserListBox();
@@ -1064,15 +1079,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposer.this.deleteUserCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposer.this.deleteUserCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 

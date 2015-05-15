@@ -11,7 +11,7 @@
 		status,
 		note,
 		date_modified,
-		id_user
+		id_user, contractual_level 
 		FROM
 		employment where
 		id_user = #{id_user} order by date_modified desc;
@@ -20,17 +20,18 @@
 
 
 
-	<insert id="createItemForUser" parameterType="map">
+	<insert id="createItemForUser" parameterType="org.uario.seaworkengine.model.Employment">
 		INSERT INTO
 		employment
 		(status, note,
 		date_modified,
-		id_user)
+		id_user, contractual_level)
 		VALUES
 		(#{status},
 		#{note},
 		#{date_modified},
-		#{id_user});
+		#{id_user}, 
+		#{contractual_level});
 
 	</insert>
 
@@ -45,13 +46,11 @@
 	<update id="udapteItem" parameterType="org.uario.seaworkengine.model.Employment">
 
 		UPDATE employment set
-		status
-		= #{status},
+		status = #{status},
 		note = #{note},
-		date_modified = #{date_modified}
-		WHERE id
-		= #{id}
-
+		date_modified = #{date_modified}, 
+		contractual_level = #{contractual_level} 
+		WHERE id = #{id}
 
 	</update>
 

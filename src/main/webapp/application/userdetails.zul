@@ -115,6 +115,14 @@
 										<label id="user_status"></label>
 
 									</row>
+									
+									<row>
+										<label
+											value="Livello Contrattuale">
+										</label>
+										<label id="user_contractual_level"></label>
+
+									</row>
 
 									<row id="row_email_user_retype">
 										<label
@@ -641,6 +649,7 @@
 		<listhead sizable="true">
 			<listheader label="Id" sort="auto(id)" hflex="1" />
 			<listheader label="Rapp. Lav." sort="auto(status)" hflex="2" />
+			<listheader label="Livello cont." sort="auto(contractual_level)" hflex="2" />
 			<listheader label="Abil.to" hflex="2" />
 			<listheader label="Nome" sort="auto(individualName)" hflex="2" />
 			<listheader label="Città" sort="auto(city)" hflex="4" />
@@ -655,6 +664,8 @@
 
 			<listcell sclass="myBottonCell" label="@{user_item.id}" />
 			<listcell sclass="myBottonCell" label="@{user_item.status}" />
+			
+			<listcell sclass="myBottonCell" label="@{user_item.contractual_level}" />
 
 			<listcell sclass="myBottonCell"
 				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />

@@ -43,7 +43,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w,
+		u.contractual_level 
 		FROM
 		user u
 		where ( u.authority like
@@ -94,7 +95,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level
 		FROM
 		user u
 		where ( u.authority like
@@ -145,7 +147,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u
@@ -194,7 +197,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w,
+		u.contractual_level 
 		FROM
 		user u
 		where ( u.authority like
@@ -243,7 +247,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w,
+		u.contractual_level 
 		FROM
 		user u
 		where ( u.authority like
@@ -292,7 +297,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u
@@ -339,7 +345,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u
@@ -387,7 +394,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u
@@ -435,7 +443,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u
@@ -484,7 +493,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u
@@ -532,7 +542,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u
@@ -585,7 +596,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user
 		u order by
@@ -631,7 +643,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user u, schedule s, usershift us
 		WHERE
@@ -685,7 +698,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w,
+		u.contractual_level
 		FROM
 		user u
 		WHERE
@@ -748,7 +762,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level 
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -805,7 +820,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level
 		FROM
 		user
 		u
@@ -855,7 +871,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w
+		u.hourswork_w, 
+		u.contractual_level
 		FROM
 		user
 		u
@@ -896,7 +913,7 @@
 		dailyemployee,
 		part_time,
 		daywork_w,
-		hourswork_w
+		hourswork_w 
 		)
 		VALUES
 		(#{email},
@@ -990,7 +1007,8 @@
 		#{dailyemployee},
 		part_time =
 		#{part_time},daywork_w = #{daywork_w},
-		hourswork_w = #{hourswork_w}
+		hourswork_w = #{hourswork_w},
+		contractual_level = #{contractual_level} 
 		WHERE id =
 		#{id}
 	</update>

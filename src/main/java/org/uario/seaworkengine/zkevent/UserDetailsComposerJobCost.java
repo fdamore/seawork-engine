@@ -26,7 +26,6 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 
 public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
@@ -48,7 +47,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	private Doublebox			contingency;
 
 	@Wire
-	private Textbox				contractual_level;
+	private Combobox			contractual_level;
 
 	@Wire
 	private Datebox				date_from;
@@ -89,7 +88,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.final_job_cost.setValue(null);
 		this.date_from.setValue(null);
 		this.date_to.setValue(null);
-		this.contractual_level.setValue("");
+		this.contractual_level.setSelectedItem(null);
 		this.basicsalary.setValue(null);
 		this.contingency.setValue(null);
 		this.shots.setValue(null);
@@ -217,7 +216,12 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.final_job_cost.setValue(item.getFinal_job_cost());
 		this.date_from.setValue(item.getDate_from());
 		this.date_to.setValue(item.getDate_to());
-		this.contractual_level.setValue(item.getContractual_level());
+
+		this.contractual_level.setSelectedItem(null);
+		if (item.getContractual_level() != null) {
+			this.contractual_level.setSelectedIndex(Integer.parseInt(item.getContractual_level()) - 1);
+		}
+
 		this.basicsalary.setValue(item.getBasicsalary());
 		this.contingency.setValue(item.getContingency());
 		this.shots.setValue(item.getShots());
@@ -348,7 +352,10 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		item.setBusiness_job_cost((this.business_job_cost.getValue()));
 		item.setFinal_job_cost(this.final_job_cost.getValue());
-		item.setContractual_level(this.contractual_level.getValue());
+		if (this.contractual_level.getSelectedItem() != null) {
+			item.setContractual_level(this.contractual_level.getSelectedItem().getValue().toString());
+		}
+
 		item.setDate_from(this.date_from.getValue());
 		item.setDate_to(this.date_to.getValue());
 		item.setId_user(this.person_selected.getId());

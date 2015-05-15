@@ -37,7 +37,7 @@
 
 						<row>
 							<label value="Rapporto di Lavoro"></label>
-							<combobox id="status"
+							<combobox id="status" 
 								placeholder="Seleziona lo stato utente" readonly="true">
 
 							</combobox>
@@ -48,6 +48,18 @@
 							<label value="Data Modifica:"></label>
 							<datebox id="date_modifiled"
 								placeholder="Seleziona La Data" width="200px" />
+						</row>
+						
+						<row>
+							<label value="Livello Contrattuale:"></label>
+							<combobox id="contractual_level" readonly="true">
+								<comboitem label="1" value="1"/>
+								<comboitem label="2" value="2"/>
+								<comboitem label="3" value="3"/>
+								<comboitem label="4" value="4"/>
+								<comboitem label="5" value="5"/>
+								<comboitem label="6" value="6"/>
+							</combobox>
 						</row>
 
 						<row>
@@ -94,6 +106,7 @@
 
 					<listheader label="Status" />
 					<listheader label="Data Modifica" />
+					<listheader label="Livello contrattuale" />
 
 					<listheader label="" />
 				</listhead>
@@ -103,6 +116,8 @@
 					<listcell label="@{item.status}" />
 					<listcell
 						label="@{item.date_modified, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+						
+					<listcell label="@{item.contractual_level}" />
 
 					<listcell>
 

@@ -10,6 +10,8 @@ public class Employment implements Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	private Integer				contractual_level;
+
 	private Date				date_modified;
 
 	private Integer				id;
@@ -19,6 +21,10 @@ public class Employment implements Serializable {
 	private String				note;
 
 	private String				status;
+
+	public Integer getContractual_level() {
+		return this.contractual_level;
+	}
 
 	public Date getDate_modified() {
 		return this.date_modified;
@@ -38,6 +44,10 @@ public class Employment implements Serializable {
 
 	public String getStatus() {
 		return this.status;
+	}
+
+	public void setContractual_level(final Integer contractual_level) {
+		this.contractual_level = contractual_level;
 	}
 
 	public void setDate_modified(final Date date_modified) {

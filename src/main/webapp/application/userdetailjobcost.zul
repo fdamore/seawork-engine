@@ -75,9 +75,16 @@
 
 						<row>
 							<label value="Livello Contrattuale:"></label>
-							<textbox id="contractual_level" width="200px" />
+							<combobox id="contractual_level" readonly="true">
+								<comboitem label="1" value="1"/>
+								<comboitem label="2" value="2"/>
+								<comboitem label="3" value="3"/>
+								<comboitem label="4" value="4"/>
+								<comboitem label="5" value="5"/>
+								<comboitem label="6" value="6"/>
+							</combobox>
 						</row>
-						
+
 						<row>
 							<label value="Paga base:"></label>
 							<doublebox id="basicsalary" width="200px" />
