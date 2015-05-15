@@ -4,51 +4,70 @@
 <mapper namespace="configuration">
 
 	<cache />
-	
+
 	<select id="loadAllTaskCode" resultType="String">
 		SELECT t.code
-		FROM usertask t;				
+		FROM
+		usertask t;
 	</select>
-	
-	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask" parameterType="Integer">
+
+	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask"
+		parameterType="Integer">
 		SELECT id,
 		code,
-		description, isabsence, recorded, hiddenoperative
+		description, isabsence, recorded,
+		hiddenoperative
 		FROM usertask
 		WHERE id=#{id};
 	</select>
-	
+
 	<select id="loadAllShiftCode" resultType="String">
 		SELECT s.code
-		FROM usershift s		
+		FROM
+		usershift s
 	</select>
-	
-	
+
+
 	<select id="loadShiftById" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded 
+		SELECT id, code,
+		description, presence, forceable, break_shift, disease_shift,
+		accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
 		FROM usershift
-		WHERE id=#{id};		
+		WHERE id=#{id};
 	</select>
-	
+
 	<select id="listAllAbsenceTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
 		t.code,
 		t.description,
 		t.isabsence,
 		t.recorded,
-		t.hiddenoperative 
+		t.hiddenoperative
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
 	</select>
-	
+
+
+	<select id="listAllAbsenceTaskForMobile" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT t.id,
+		t.code,
+		t.description,
+		t.isabsence,
+		t.recorded,
+		t.hiddenoperative
+		FROM usertask t
+		WHERE t.isabsence = 1 and t.hiddenoperative = 0;
+
+	</select>
+
 	<select id="listAllHiddenOperativeTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, 
-		t.hiddenoperative 
+		t.recorded,
+		t.hiddenoperative
 		FROM usertask t
 		WHERE t.hiddenoperative = 1;
 	</select>
@@ -57,45 +76,58 @@
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, hiddenoperative 
+		description, isabsence, recorded, hiddenoperative
 		FROM usertask
 		order by description;
 
 	</select>
-	
-	<select id="selectAllTasksFulltextSearchLike" parameterType="map" resultType="org.uario.seaworkengine.model.UserTask">
+
+	<select id="selectAllTasksFulltextSearchLike" parameterType="map"
+		resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
 		description, isabsence, recorded, hiddenoperative
-		FROM usertask
+		FROM
+		usertask
 		<if test="my_full_text_search != null">
 			WHERE (
-			code like CONCAT('%', #{my_full_text_search}, '%') or
+			code like CONCAT('%', #{my_full_text_search}, '%')
+			or
 			description like CONCAT('%', #{my_full_text_search}, '%')
 			)
 		</if>
 		ORDER BY description;
 	</select>
-	
+
 	<select id="selectAllDefaultShifts" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
+		SELECT id, code,
+		description, presence, forceable, break_shift, disease_shift,
+		accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
 		FROM usershift
-		WHERE (break_shift='1' or disease_shift='1' or accident_shift='1' or waitbreak_shift='1' or standard_shift='1' or daily_shift='1')
+		WHERE (break_shift='1' or disease_shift='1' or
+		accident_shift='1' or waitbreak_shift='1' or standard_shift='1' or
+		daily_shift='1')
 		ORDER BY description;
 	</select>
 
 	<select id="selectAllShifts" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
+		SELECT id, code,
+		description, presence, forceable, break_shift, disease_shift,
+		accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
 		FROM usershift
 		ORDER BY description;
 	</select>
-	
-	<select id="selectAllShiftsFulltextSearchLike" parameterType="map" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT id, code, description, presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded 
+
+	<select id="selectAllShiftsFulltextSearchLike" parameterType="map"
+		resultType="org.uario.seaworkengine.model.UserShift">
+		SELECT id, code, description, presence, forceable, break_shift,
+		disease_shift, accident_shift, waitbreak_shift, standard_shift,
+		daily_shift, recorded
 		FROM usershift
 		<if test="my_full_text_search != null">
 			WHERE (
-			code like CONCAT('%', #{my_full_text_search}, '%') or
+			code like CONCAT('%', #{my_full_text_search}, '%')
+			or
 			description like CONCAT('%', #{my_full_text_search}, '%')
 			)
 		</if>
@@ -118,7 +150,8 @@
 		(code,
 		description, isabsence, recorded, hiddenoperative)
 		VALUES
-		(#{code},#{description}, #{isabsence}, #{recorded}, #{hiddenoperative});
+		(#{code},#{description}, #{isabsence}, #{recorded},
+		#{hiddenoperative});
 
 	</insert>
 
@@ -127,11 +160,15 @@
 		usershift
 		(code,
 		description,
-		presence, forceable, break_shift, disease_shift, accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded)
+		presence, forceable, break_shift, disease_shift,
+		accident_shift, waitbreak_shift, standard_shift, daily_shift,
+		recorded)
 		VALUES
-		(#{code},#{description},#{presence},#{forceable},#{break_shift}, #{disease_shift}, #{accident_shift}, #{waitbreak_shift}, #{standard_shift}, #{daily_shift}, #{recorded});
+		(#{code},#{description},#{presence},#{forceable},#{break_shift},
+		#{disease_shift}, #{accident_shift}, #{waitbreak_shift},
+		#{standard_shift}, #{daily_shift}, #{recorded});
 	</insert>
-	
+
 
 	<update id="updateTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		UPDATE
@@ -141,9 +178,11 @@
 		#{id},
 		code = #{code},
 		description = #{description} ,
-		isabsence = #{isabsence},
+		isabsence =
+		#{isabsence},
 		recorded = #{recorded},
-		hiddenoperative = #{hiddenoperative} 
+		hiddenoperative =
+		#{hiddenoperative}
 		WHERE id = #{id}
 
 	</update>
@@ -152,41 +191,47 @@
 		UPDATE
 		usershift
 		SET
-		id = #{id},
+		id =
+		#{id},
 		code = #{code},
 		description = #{description},
-		presence = #{presence},
+		presence =
+		#{presence},
 		forceable = #{forceable},
 		break_shift = #{break_shift},
-		disease_shift = #{disease_shift}, 
-		accident_shift = #{accident_shift}, 
+		disease_shift = #{disease_shift},
+		accident_shift = #{accident_shift},
 		waitbreak_shift = #{waitbreak_shift},
 		standard_shift = #{standard_shift},
-		daily_shift = #{daily_shift},
-		recorded = #{recorded} 
+		daily_shift =
+		#{daily_shift},
+		recorded = #{recorded}
 		WHERE id = #{id};
 
 
 	</update>
-	
+
 	<insert id="addStatus" parameterType="String">
-		INSERT INTO status (description)
+		INSERT INTO status
+		(description)
 		VALUES (#{description});
 	</insert>
-	
+
 	<delete id="removeStatus">
 		DELETE FROM status
 		WHERE description=#{description};
 	</delete>
-	
+
 	<select id="selectAllStatus" resultType="String">
 		SELECT description
-		FROM status;
+		FROM
+		status;
 	</select>
-	
+
 	<update id="updateStatus" parameterType="String">
 		UPDATE status
-		SET description = #{description}
+		SET
+		description = #{description}
 		WHERE d
 	</update>
 
@@ -194,66 +239,74 @@
 		UPDATE usershift
 		SET break_shift = 0;
 	</update>
-	
+
 	<update id="setShiftAsBreak" parameterType="Integer">
 		UPDATE usershift
-		SET break_shift = 1, forceable = 0, presence = 0
-		WHERE id = #{id_usershift};
+		SET
+		break_shift = 1, forceable = 0, presence = 0
+		WHERE id =
+		#{id_usershift};
 	</update>
-	
+
 	<update id="removeAllDiseaseShift">
 		UPDATE usershift
 		SET disease_shift = 0;
 	</update>
-	
+
 	<update id="setShiftAsDisease" parameterType="Integer">
 		UPDATE usershift
 		SET disease_shift = 1, forceable = 0, presence = 0
-		WHERE id = #{id_usershift};
+		WHERE id =
+		#{id_usershift};
 	</update>
-	
+
 	<update id="removeAllAccidentShift">
 		UPDATE usershift
 		SET accident_shift = 0;
 	</update>
-	
+
 	<update id="setShiftAsAccident" parameterType="Integer">
 		UPDATE usershift
 		SET accident_shift = 1, forceable = 0, presence = 0
-		WHERE id = #{id_usershift};
+		WHERE id =
+		#{id_usershift};
 	</update>
-	
+
 	<update id="removeAllWaitBreakShift">
 		UPDATE usershift
 		SET waitbreak_shift = 0;
-	</update>		
-	
+	</update>
+
 	<update id="setShiftAsWaitBreak" parameterType="Integer">
 		UPDATE usershift
 		SET waitbreak_shift = 1, forceable = 0, presence = 0
-		WHERE id = #{id_usershift};
+		WHERE id =
+		#{id_usershift};
 	</update>
-	
+
 	<update id="removeAllStandardShift">
 		UPDATE usershift
 		SET standard_shift = 0;
 	</update>
-	
+
 	<update id="setShiftAsStandardShift" parameterType="Integer">
-		UPDATE usershift
+		UPDATE
+		usershift
 		SET standard_shift = 1, forceable = 0, presence = 1
-		WHERE id = #{id_usershift};
+		WHERE id =
+		#{id_usershift};
 	</update>
-	
+
 	<update id="removeAllDailyShift">
 		UPDATE usershift
 		SET daily_shift = 0;
 	</update>
-	
+
 	<update id="setShiftAsDailyShift" parameterType="Integer">
 		UPDATE usershift
 		SET daily_shift = 1, forceable = 1, presence = 1
-		WHERE id = #{id_usershift};
+		WHERE id =
+		#{id_usershift};
 	</update>
 
 

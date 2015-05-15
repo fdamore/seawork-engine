@@ -66,6 +66,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserTask> listAllAbsenceTaskForMobile() {
+		MyBatisConfigurationDAO.logger.info("List All Absence Task, no hidden..");
+
+		return this.getSqlSession().selectList("configuration.listAllAbsenceTaskForMobile");
+	}
+
+	@Override
 	public List<UserShift> listAllDefaultShift() {
 		MyBatisConfigurationDAO.logger.info("listAllDefaultShifts");
 

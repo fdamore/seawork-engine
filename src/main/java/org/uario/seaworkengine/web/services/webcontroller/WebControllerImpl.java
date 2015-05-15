@@ -21,6 +21,7 @@ import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
@@ -34,21 +35,23 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private final Logger	logger	= Logger.getLogger(WebControllerImpl.class);
+	private ConfigurationDAO	configurationDAO;
 
-	private PersonDAO		personDAO;
+	private final Logger		logger	= Logger.getLogger(WebControllerImpl.class);
 
-	private ISchedule		scheduleDAO;
+	private PersonDAO			personDAO;
 
-	private IShiftCache		shiftCache;
+	private ISchedule			scheduleDAO;
 
-	private IScheduleShip	ship_dao;
+	private IShiftCache			shiftCache;
 
-	private IScheduleShip	shipSchedulerDao;
+	private IScheduleShip		ship_dao;
 
-	private ITaskCache		taskCache;
+	private IScheduleShip		shipSchedulerDao;
 
-	private TasksDAO		taskDAO;
+	private ITaskCache			taskCache;
+
+	private TasksDAO			taskDAO;
 
 	@Override
 	public void createBadge(final Badge badge) {
@@ -181,6 +184,10 @@ public class WebControllerImpl implements IWebServiceController {
 		}
 
 		return true;
+	}
+
+	public ConfigurationDAO getConfigurationDAO() {
+		return this.configurationDAO;
 	}
 
 	public PersonDAO getPersonDAO() {
@@ -373,6 +380,9 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// set info about task
 			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUserForMobile(person.getId());
+			final List<UserTask> list_tasks_absence = this.configurationDAO.listAllAbsenceTaskForMobile();
+			list_tasks.addAll(list_tasks_absence);
+
 			person.setUserTaskForMobile(list_tasks);
 
 			// set current object
@@ -385,6 +395,10 @@ public class WebControllerImpl implements IWebServiceController {
 		}
 
 		return ret;
+	}
+
+	public void setConfigurationDAO(final ConfigurationDAO configurationDAO) {
+		this.configurationDAO = configurationDAO;
 	}
 
 	public void setPersonDAO(final PersonDAO personDAO) {

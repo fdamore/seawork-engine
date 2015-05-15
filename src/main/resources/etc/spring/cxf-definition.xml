@@ -60,6 +60,7 @@
 		<property name="ship_dao" ref="myScheduleShipDAO"></property>
 		<property name="taskDAO" ref="myTasksDAO"></property>
 		<property name="shipSchedulerDao" ref="myScheduleShipDAO"></property>
+		<property name="configurationDAO" ref="myConfigurationDAO"></property>
 
 	</bean>
 
