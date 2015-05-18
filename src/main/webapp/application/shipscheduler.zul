@@ -216,8 +216,19 @@
 									</row>
 									<row>
 										<label value="Operazione:"></label>
-										<textbox id="operation"
-											mold="rounded" />
+										
+										<combobox id="operation"
+											placeholder="Seleziona il tipo di operazione"
+											readonly="true">
+											<comboitem label="-"
+												value="-" />
+											<comboitem label="COMPLETA"
+												value="COMPLETA">
+											</comboitem>
+											<comboitem label="TWISTER"
+												value="TWISTER">
+											</comboitem>
+										</combobox>
 
 									</row>
 									<row>
@@ -506,8 +517,17 @@
 							</row>
 							<row>
 								<label value="Operazione:"></label>
-								<textbox id="operation_Daily" value="0"
-									constraint="no empty" mold="rounded" />
+								<combobox id="operation_Daily"
+									placeholder="Seleziona il tipo di operazione"
+									readonly="true">
+									<comboitem label="-" value="-"/>
+									<comboitem label="COMPLETA"
+										value="COMPLETA">
+									</comboitem>
+									<comboitem label="TWISTER"
+										value="TWISTER">
+									</comboitem>
+								</combobox>
 
 							</row>
 							<row>

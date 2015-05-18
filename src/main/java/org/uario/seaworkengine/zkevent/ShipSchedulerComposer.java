@@ -268,10 +268,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Textbox						noteshipdetail;
 
 	@Wire
-	private Textbox						operation;
+	private Combobox						operation;
 
 	@Wire
-	public Textbox						operation_Daily;
+	public Combobox						operation_Daily;
 
 	private Person						person_logged;
 
@@ -1252,7 +1252,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.menwork.setValue(0);
 
 		this.shift_Daily.setSelectedIndex(0);
-		this.operation_Daily.setValue("-");
+		this.operation_Daily.setSelectedItem(null);
 		this.user_Daily.setSelectedItem(null);
 		this.usersecond_Daily.setSelectedItem(null);
 		this.handswork_Daily.setValue(0);
