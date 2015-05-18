@@ -3599,8 +3599,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// take the right scheduler
 		SchedulerComposer.this.currentSchedule = scheduleDAO.loadSchedule(date_schedule, selectedUser);
 
-		// set label list badge
-		setLabelListBadge(currentSchedule.getId());
+		if (currentSchedule != null) {
+			// set label list badge
+			setLabelListBadge(currentSchedule.getId());
+		}
 
 		// set label
 		if (personDAO.loadPerson(selectedUser).getPart_time()) {
