@@ -2056,7 +2056,7 @@
 							<listbox id="listbox_review" sclass="domain"
 								checkmark="true" multiple="true">
 								<auxhead>
-									<auxheader colspan="7">
+									<auxheader colspan="8">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2077,6 +2077,12 @@
 												placeholder="Ora fine" format="short" cols="10"
 												id="time_to">
 											</timebox>
+											
+											<label
+												value="Consuntiva Fascia Oraria">
+											</label>
+											<checkbox checked="false"
+												id="reviewShift" />
 
 										</hbox>
 
@@ -2085,7 +2091,7 @@
 
 
 								<auxhead>
-									<auxheader colspan="7">
+									<auxheader colspan="8">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2106,7 +2112,7 @@
 									</auxheader>
 								</auxhead>
 								<auxhead>
-									<auxheader colspan="7">
+									<auxheader colspan="8">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2144,6 +2150,7 @@
 									<listheader label="Nave" />
 									<listheader label="Crane" />
 									<listheader label="Postazione" />
+									<listheader label="Consuntiva Fascia" />
 
 								</listhead>
 
@@ -2184,6 +2191,9 @@
 										<label
 											value="@{itemreview.board}">
 										</label>
+									</listcell>
+									<listcell>
+										<checkbox checked="@{itemreview.reviewshift}" disabled="true"/>
 									</listcell>
 
 
@@ -2679,6 +2689,8 @@
 											hflex="2" align="center" />
 										<listheader label="Uscita"
 											hflex="2" align="center" />
+										<listheader label="Consuntiva Fascia Ora."
+											hflex="2" align="center" />	
 
 									</listhead>
 
@@ -2769,6 +2781,12 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time_to}" />
+
+										<listcell
+											sclass="myBottonCell">
+											<checkbox
+												checked="@{itemoverviewreview.reviewshift}" disabled="true" />
+										</listcell>
 
 									</listitem>
 

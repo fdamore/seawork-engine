@@ -18,6 +18,8 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	private static final long	serialVersionUID	= 1L;
 
 	private String				board;
+	
+	private Boolean reviewshift;
 
 	private String				crane;
 
@@ -237,6 +239,14 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setUser(final String user) {
 		this.user = user;
+	}
+
+	public Boolean getReviewshift() {
+		return reviewshift;
+	}
+
+	public void setReviewshift(Boolean reviewshift) {
+		this.reviewshift = reviewshift;
 	}
 
 }

@@ -95,7 +95,7 @@
 		dfs.time_vacation,
 		dfs.time_from,
 		dfs.time_to,
-		dfs.board,
+		dfs.board, dfs.reviewshift, 
 		s.date_schedule,
 		u.id as id_user
 		from

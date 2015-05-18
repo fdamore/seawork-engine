@@ -1275,6 +1275,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			new_item.setTime(time);
 			new_item.setTime_vacation(0.0);
 		}
+		
+		//check if review shift
+		new_item.setReviewshift(false);
+		if (reviewShift.isChecked()){
+			new_item.setReviewshift(true);
+		}
 
 		countHours = time;
 
@@ -3543,6 +3549,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		shift_definition_popup_review.open(review_div, "after_pointer");
+		reviewShift.setChecked(false);
 
 		if (SchedulerComposer.this.grid_scheduler_review.getSelectedItem() == null) {
 			return;
@@ -4481,6 +4488,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// refresh grid
 		setupGlobalSchedulerGridForShift();
 	}
+	
+	@Wire
+	private Checkbox reviewShift;
 
 	/**
 	 * Save review
