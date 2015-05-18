@@ -5255,9 +5255,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			for (final Badge badge : badgeList) {
 				if (badge != null) {
 					if (!badge.getEventType()) {
-						badgeInfo = badgeInfo + " - E: " + Utility.getTimeFormat().format(badge.getEventTime());
-					} else {
 						badgeInfo = badgeInfo + " - U: " + Utility.getTimeFormat().format(badge.getEventTime());
+					} else {
+						badgeInfo = badgeInfo + " - E: " + Utility.getTimeFormat().format(badge.getEventTime());
 					}
 				}
 			}
