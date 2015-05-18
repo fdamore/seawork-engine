@@ -122,7 +122,7 @@ public interface ISoapServiceInterface {
 	 * @param menwork
 	 */
 	public void updateDetailScheduleShipForMobile(@WebParam(name = "detail_schedule_ship_id") Integer detail_schedule_ship_id,
-			@WebParam(name = "operation") String operation, @WebParam(name = "menwork") Integer menwork);
+			@WebParam(name = "operation") String operation, @WebParam(name = "handswork") Integer handswork);
 
 	/**
 	 * Public string get note
