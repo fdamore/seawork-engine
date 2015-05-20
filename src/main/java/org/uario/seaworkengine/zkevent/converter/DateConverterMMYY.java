@@ -8,7 +8,7 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class DateConverterMMYY implements TypeConverter {
 
-	SimpleDateFormat	format	= new SimpleDateFormat("MM/yyyyy");
+	SimpleDateFormat	format	= new SimpleDateFormat("MM/yyyy");
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
