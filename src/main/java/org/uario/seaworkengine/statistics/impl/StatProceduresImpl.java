@@ -849,13 +849,13 @@ public class StatProceduresImpl implements IStatProcedure {
 			this.myScheduleDAO.removeAllDetailFinalScheduleBySchedule(schedule.getId());
 
 			// prepare period
-			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
-
 			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 7);
+			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
 			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+			
+			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
+			cal_shift_1_time_to.set(Calendar.MINUTE, 0);		
 
 			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
 			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
