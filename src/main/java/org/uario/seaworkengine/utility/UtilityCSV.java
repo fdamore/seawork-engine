@@ -308,7 +308,7 @@ public class UtilityCSV {
 			}
 			
 			String reviewshift = "No";
-			if (item.getReviewshift()){
+			if (item.getReviewshift()!=null && item.getReviewshift()){
 				reviewshift = "Si";
 			}
 
