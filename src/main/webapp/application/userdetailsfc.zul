@@ -147,8 +147,8 @@
 					<listheader label="Sede Inps" />
 					<listheader label="Risultato" />
 					<listheader label="Comunicazione" />
-					<listheader label="Malattida da" />
-					<listheader label="Malattida a" />
+					<listheader label="Malattia da" />
+					<listheader label="Malattia a" />
 
 
 					<listheader label="" />
