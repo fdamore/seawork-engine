@@ -88,7 +88,7 @@
 		dfs.id,
 		dfs.id_schedule,
 		dfs.shift,
-		dfs.id_ship as nameShip, dfs.crane as crane,
+		dfs.id_ship, dfs.crane as crane,
 		s.shift as shift_type,
 		dfs.task,
 		dfs.time,

@@ -6,10 +6,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
 
 public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
-	private static Logger logger = Logger.getLogger(MyBatisShipDAO.class);
+
+	private static Logger	logger	= Logger.getLogger(MyBatisShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisShipDAO.logger;
@@ -19,11 +21,17 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		MyBatisShipDAO.logger = logger;
 	}
 
+	private IShipCache	ship_cache;
+
 	@Override
 	public void createShip(final Ship ship) {
 		MyBatisShipDAO.logger.info("createShip");
 
 		this.getSqlSession().insert("ship.createShip", ship);
+
+		// recreate cache
+		final List<Ship> list = this.loadAllShip();
+		this.ship_cache.buildCache(list);
 
 	}
 
@@ -33,6 +41,28 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 
 		this.getSqlSession().delete("ship.deleteShip", id_ship);
 
+		// recreate cache
+		final List<Ship> list = this.loadAllShip();
+		this.ship_cache.buildCache(list);
+
+	}
+
+	@Override
+	public Ship getActivityHShip() {
+		MyBatisShipDAO.logger.info("getActivityHShip");
+		final Ship ship = this.getSqlSession().selectOne("ship.getActivityHShip");
+		return ship;
+	}
+
+	@Override
+	public Ship getNoWorkShip() {
+		MyBatisShipDAO.logger.info("getNoWorkShip");
+		final Ship ship = this.getSqlSession().selectOne("ship.getNoWorkShip");
+		return ship;
+	}
+
+	public IShipCache getShip_cache() {
+		return this.ship_cache;
 	}
 
 	@Override
@@ -50,16 +80,14 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		final HashMap<String, String> map = new HashMap<String, String>();
 		map.put("my_full_text_search", full_text_search);
 
-		return this.getSqlSession().selectList(
-				"ship.selectAllShipFulltextSearchLike", map);
+		return this.getSqlSession().selectList("ship.selectAllShipFulltextSearchLike", map);
 	}
 
 	@Override
 	public List<Integer> listIdShipByName(final String shipName) {
 		MyBatisShipDAO.logger.info("listIdShipByName");
 
-		return this.getSqlSession().selectList("ship.listIdShipByName",
-				shipName);
+		return this.getSqlSession().selectList("ship.listIdShipByName", shipName);
 	}
 
 	@Override
@@ -78,15 +106,64 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	}
 
 	@Override
+	public void removeShipActivityH() {
+		final Ship ship = this.getActivityHShip();
+		if (ship != null) {
+			ship.setActivityh(false);
+			this.updateShip(ship);
+		}
+	}
+
+	@Override
+	public void removeShipNoWork() {
+		final Ship ship = this.getNoWorkShip();
+		if (ship != null) {
+			ship.setNowork(false);
+			this.updateShip(ship);
+		}
+
+	}
+
+	public void setShip_cache(final IShipCache ship_cache) {
+		this.ship_cache = ship_cache;
+	}
+
+	@Override
+	public void setShipAsActivityH(final Integer shipId) {
+		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
+
+		// remove old nowork ship if exist
+		this.removeShipActivityH();
+
+		this.getSqlSession().update("ship.setShipAsActivityH", shipId);
+
+	}
+
+	@Override
+	public void setShipAsNoWork(final Integer shipId) {
+		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
+
+		// remove old nowork ship if exist
+		this.removeShipNoWork();
+
+		this.getSqlSession().update("ship.setShipAsNoWork", shipId);
+
+	}
+
+	@Override
 	public void updateShip(final Ship ship) {
 		MyBatisShipDAO.logger.info("updateShip");
 
 		this.getSqlSession().update("ship.updateShip", ship);
 
+		// recreate cache
+		final List<Ship> list = this.loadAllShip();
+		this.ship_cache.buildCache(list);
+
 	}
 
 	@Override
-	public Boolean verifyIfShipExistByName(final String name, Integer idShipNoCheck) {
+	public Boolean verifyIfShipExistByName(final String name, final Integer idShipNoCheck) {
 		MyBatisShipDAO.logger.info("verifyIfShipExistByName: " + name);
 
 		final List<Ship> ships = this.loadAllShip();
@@ -95,13 +172,10 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 			for (final Ship item : ships) {
 				if (item != null) {
 					if (idShipNoCheck != null) {
-						if (item.getId() != idShipNoCheck
-								&& item.getName() != null
-								&& item.getName().equals(name)) {
+						if ((item.getId() != idShipNoCheck) && (item.getName() != null) && item.getName().equals(name)) {
 							return true;
 						}
-					} else if (item.getName() != null
-							&& item.getName().equals(name)) {
+					} else if ((item.getName() != null) && item.getName().equals(name)) {
 						return true;
 					}
 				}
@@ -111,61 +185,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 
 		return false;
 
-	}
-
-	@Override
-	public void setShipAsNoWork(Integer shipId) {
-		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
-
-		// remove old nowork ship if exist
-		removeShipNoWork();
-
-		this.getSqlSession().update("ship.setShipAsNoWork", shipId);
-
-	}
-
-	@Override
-	public Ship getNoWorkShip() {
-		MyBatisShipDAO.logger.info("getNoWorkShip");
-		Ship ship = this.getSqlSession().selectOne("ship.getNoWorkShip");
-		return ship;
-	}
-
-	@Override
-	public void setShipAsActivityH(Integer shipId) {
-		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
-
-		// remove old nowork ship if exist
-		removeShipActivityH();
-
-		this.getSqlSession().update("ship.setShipAsActivityH", shipId);
-
-	}
-
-	@Override
-	public Ship getActivityHShip() {
-		MyBatisShipDAO.logger.info("getActivityHShip");
-		Ship ship = this.getSqlSession().selectOne("ship.getActivityHShip");
-		return ship;
-	}
-
-	@Override
-	public void removeShipNoWork() {
-		Ship ship = getNoWorkShip();
-		if (ship!=null){
-			ship.setNowork(false);
-			updateShip(ship);
-		}
-
-	}
-
-	@Override
-	public void removeShipActivityH() {
-		Ship ship = getActivityHShip();
-		if (ship != null) {
-			ship.setActivityh(false);
-			updateShip(ship);
-		}
 	}
 
 }

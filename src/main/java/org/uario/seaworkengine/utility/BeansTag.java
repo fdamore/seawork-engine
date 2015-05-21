@@ -28,6 +28,8 @@ public interface BeansTag {
 
 	public static String	SHIFT_CACHE				= "myShiftCache";
 
+	public static String	SHIP_CACHE				= "myShipCache";
+
 	public static String	SHIP_DAO				= "myShipDAO";
 
 	public static String	STAT_PROCEDURE			= "myStatProcedure";

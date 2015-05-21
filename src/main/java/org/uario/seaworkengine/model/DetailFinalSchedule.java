@@ -18,8 +18,6 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	private static final long	serialVersionUID	= 1L;
 
 	private String				board;
-	
-	private Boolean reviewshift;
 
 	private String				crane;
 
@@ -40,8 +38,7 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	// to show in overview on break shift
 	private Integer				id_user;
 
-	// to show in review popup
-	private String				nameShip;
+	private Boolean				reviewshift;
 
 	@XmlElement(name = "no_shift")
 	private Integer				shift;
@@ -137,8 +134,8 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.id_user;
 	}
 
-	public String getNameShip() {
-		return this.nameShip;
+	public Boolean getReviewshift() {
+		return this.reviewshift;
 	}
 
 	public Integer getShift() {
@@ -205,8 +202,8 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		this.id_user = id_user;
 	}
 
-	public void setNameShip(final String nameShip) {
-		this.nameShip = nameShip;
+	public void setReviewshift(final Boolean reviewshift) {
+		this.reviewshift = reviewshift;
 	}
 
 	public void setShift(final Integer shift) {
@@ -239,14 +236,6 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setUser(final String user) {
 		this.user = user;
-	}
-
-	public Boolean getReviewshift() {
-		return reviewshift;
-	}
-
-	public void setReviewshift(Boolean reviewshift) {
-		this.reviewshift = reviewshift;
 	}
 
 }

@@ -10,9 +10,11 @@ import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
@@ -233,7 +235,7 @@ public class UtilityCSV {
 	}
 
 	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final ITaskCache task_cache,
-			final IShiftCache shift_cache) {
+			final IShiftCache shift_cache, final IShipCache ship_cache) {
 		final StringBuilder builder = new StringBuilder();
 		final String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore;ore_chiusura;nome nave;crane;ingresso;uscita;consuntiva fascia oraria\n";
 		builder.append(header);
@@ -275,8 +277,15 @@ public class UtilityCSV {
 			}
 
 			String nameShip = "";
-			if (item.getNameShip() != null) {
-				nameShip = item.getNameShip();
+			if (item.getId_ship() != null) {
+
+				final Ship ship = ship_cache.getShip(item.getId_ship());
+				if (ship != null) {
+					nameShip = ship.getName();
+				} else {
+					nameShip = "NULL";
+				}
+
 			}
 
 			String crane = "";
@@ -306,15 +315,15 @@ public class UtilityCSV {
 			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
 				employee_identification = item.getEmployee_identification();
 			}
-			
+
 			String reviewshift = "No";
-			if (item.getReviewshift()!=null && item.getReviewshift()){
+			if ((item.getReviewshift() != null) && item.getReviewshift()) {
 				reviewshift = "Si";
 			}
 
 			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";"
 					+ date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + nameShip
-					+ ";" + crane + ";" + time_from + ";" + time_to + ";" + reviewshift +";\n";
+					+ ";" + crane + ";" + time_from + ";" + time_to + ";" + reviewshift + ";\n";
 			builder.append(line);
 		}
 		return builder;

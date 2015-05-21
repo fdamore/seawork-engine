@@ -196,6 +196,7 @@
 	<bean id="myShipDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisShipDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="ship_cache" ref="myShipCache"></property>
 
 	</bean>
 
@@ -220,6 +221,12 @@
 	<bean id="myShiftCache"
 		class="org.uario.seaworkengine.platform.persistence.cache.task.ShiftCacheImpl">
 	</bean>
+	
+	<bean id="myShipCache"
+		class="org.uario.seaworkengine.platform.persistence.cache.task.ShipCacheImpl">
+	</bean>
+	
+
 
 	<!-- STAT PROCEDURE -->
 	<bean id="myStatProcedure"
