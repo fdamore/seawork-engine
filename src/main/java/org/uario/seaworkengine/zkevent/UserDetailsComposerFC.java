@@ -30,52 +30,61 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Datebox				control_date;
+	private Datebox control_date;
 
 	// dao interface
-	private FiscalControlDAO	fcDAO;
+	private FiscalControlDAO fcDAO;
 
 	@Wire
-	private Component			grid_details;
+	private Component grid_details;
 
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposerFC.class);
-
-	@Wire
-	private Textbox				note;
-
-	private Person				person_selected;
+	private final Logger logger = Logger.getLogger(UserDetailsComposerFC.class);
 
 	@Wire
-	private Datebox				request_date;
+	private Textbox note;
+
+	private Person person_selected;
 
 	@Wire
-	private Textbox				result;
+	private Datebox request_date;
 
 	@Wire
-	private Combobox			result_comunication_type;
+	private Textbox result;
 
 	@Wire
-	private Textbox				sede_inps;
+	private Combobox result_comunication_type;
 
 	@Wire
-	private Datebox				sikness_from;
+	private Textbox sede_inps;
 
 	@Wire
-	private Datebox				sikness_to;
+	private Datebox sikness_from;
+
+	@Wire
+	private Datebox sikness_to;
 
 	// status ADD or MODIFY
-	private boolean				status_add			= false;
+	private boolean status_add = false;
 
 	@Wire
-	private Listbox				sw_list;
+	private Listbox sw_list;
 
 	@Listen("onClick = #sw_add")
 	public void addItem() {
 
 		this.status_add = true;
+
+		this.request_date.setValue(null);
+		this.control_date.setValue(null);
+		this.sede_inps.setValue("");
+		this.result.setValue(null);
+		this.result_comunication_type.setSelectedItem(null);
+		this.sikness_from.setValue(null);
+		this.sikness_to.setValue(null);
+		this.note.setValue(null);
 
 	}
 
@@ -98,7 +107,8 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
 
-		Messagebox.show("Visita Fiscale rimossa", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+		Messagebox.show("Visita Fiscale rimossa", "INFO", buttons, null,
+				Messagebox.INFORMATION, null, null, params);
 
 		// Refresh list task
 		this.setInitialView();
@@ -108,24 +118,28 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 	@Override
 	public void doFinally() throws Exception {
 
-		this.getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
+		this.getSelf().addEventListener(ZkEventsTag.onShowUsers,
+				new EventListener<Event>() {
 
-			@Override
-			public void onEvent(final Event arg0) throws Exception {
+					@Override
+					public void onEvent(final Event arg0) throws Exception {
 
-				// get selected person
-				if ((arg0.getData() == null) || !(arg0.getData() instanceof Person)) {
-					return;
-				}
-				UserDetailsComposerFC.this.person_selected = (Person) arg0.getData();
+						// get selected person
+						if ((arg0.getData() == null)
+								|| !(arg0.getData() instanceof Person)) {
+							return;
+						}
+						UserDetailsComposerFC.this.person_selected = (Person) arg0
+								.getData();
 
-				// get the dao
-				UserDetailsComposerFC.this.fcDAO = (FiscalControlDAO) SpringUtil.getBean(BeansTag.FISCAL_CONTROL_DAO);
+						// get the dao
+						UserDetailsComposerFC.this.fcDAO = (FiscalControlDAO) SpringUtil
+								.getBean(BeansTag.FISCAL_CONTROL_DAO);
 
-				UserDetailsComposerFC.this.setInitialView();
+						UserDetailsComposerFC.this.setInitialView();
 
-			}
-		});
+					}
+				});
 
 	}
 
@@ -189,12 +203,14 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Visita fiscale aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+			Messagebox.show("Visita fiscale aggiunta all'utente", "INFO",
+					buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		} else {
 
 			// get selected item
-			final FiscalControl item = this.sw_list.getSelectedItem().getValue();
+			final FiscalControl item = this.sw_list.getSelectedItem()
+					.getValue();
 			if (item == null) {
 				return;
 			}
@@ -220,17 +236,18 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerFC.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+		Messagebox.show("Vuoi cancellare la voce selezionata?",
+				"CONFERMA CANCELLAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerFC.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -241,7 +258,8 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 			return;
 		}
 
-		final List<FiscalControl> list = this.fcDAO.loadFiscalControlByUser(this.person_selected.getId());
+		final List<FiscalControl> list = this.fcDAO
+				.loadFiscalControlByUser(this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<FiscalControl>(list));
 
 		this.grid_details.setVisible(false);
@@ -257,7 +275,8 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 		if (this.result_comunication_type.getSelectedItem() == null) {
 			item.setResult_comunication_type(null);
 		} else {
-			final String itm = this.result_comunication_type.getSelectedItem().getValue();
+			final String itm = this.result_comunication_type.getSelectedItem()
+					.getValue();
 			item.setResult_comunication_type(itm);
 		}
 
