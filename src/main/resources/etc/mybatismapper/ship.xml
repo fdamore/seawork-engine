@@ -6,9 +6,9 @@
 	<cache />
 
 	<insert id="createShip" parameterType="org.uario.seaworkengine.model.Ship">
-		INSERT INTO ship (name, line, shiptype, shipcondition, twtype)
+		INSERT INTO ship (name, line, shiptype, shipcondition, twtype, nowork, activityh)
 		VALUES
-		(#{name}, #{line}, #{shiptype}, #{shipcondition}, #{twtype});
+		(#{name}, #{line}, #{shiptype}, #{shipcondition}, #{twtype} , #{nowork}, #{activityh});
 	</insert>
 	
 	<delete id="deleteShip" parameterType="Integer">
@@ -19,7 +19,7 @@
 	</delete>
 	
 	<select id="loadShip" parameterType="Integer" resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype
+		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
 		FROM
 		ship where
 		id = #{id_ship};		
@@ -39,14 +39,14 @@
 	</select>
 	
 	<select id="loadAllShip" resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype
+		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
 		FROM ship
 		order by name;		
 	</select>
 	
 	<select id="selectAllShipFulltextSearchLike" parameterType="String"
 		resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype
+		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
 		FROM
 		ship
 		<if test="my_full_text_search != null">
@@ -67,11 +67,35 @@
 		line = #{line},
 		shiptype = #{shiptype},
 		shipcondition = #{shipcondition},
-		twtype = #{twtype}
+		twtype = #{twtype},
+		nowork = #{nowork}, 
+		activityh = #{activityh}  
 		WHERE id = #{id}
 	</update>
 	
+	<update id="setShipAsNoWork" parameterType="org.uario.seaworkengine.model.Ship">
+		UPDATE ship SET
+		nowork = 1 
+		where id = #{id};
+	</update>
+		
+	<update id="setShipAsActivityH" parameterType="org.uario.seaworkengine.model.Ship">
+		UPDATE ship SET
+		activityh = 1 
+		where id = #{id};
+	</update>
 	
+	<select id="getNoWorkShip" resultType="org.uario.seaworkengine.model.Ship">
+		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
+		from ship 
+		where nowork = 1;
+	</select>
+	
+	<select id="getActivityHShip" resultType="org.uario.seaworkengine.model.Ship">
+		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
+		from ship 
+		where activityh = 1;
+	</select>
 	
 	
 </mapper>

@@ -9,7 +9,7 @@ import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
 
 public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
-	private static Logger	logger	= Logger.getLogger(MyBatisShipDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisShipDAO.logger;
@@ -50,14 +50,16 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		final HashMap<String, String> map = new HashMap<String, String>();
 		map.put("my_full_text_search", full_text_search);
 
-		return this.getSqlSession().selectList("ship.selectAllShipFulltextSearchLike", map);
+		return this.getSqlSession().selectList(
+				"ship.selectAllShipFulltextSearchLike", map);
 	}
 
 	@Override
 	public List<Integer> listIdShipByName(final String shipName) {
 		MyBatisShipDAO.logger.info("listIdShipByName");
 
-		return this.getSqlSession().selectList("ship.listIdShipByName", shipName);
+		return this.getSqlSession().selectList("ship.listIdShipByName",
+				shipName);
 	}
 
 	@Override
@@ -84,17 +86,86 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	}
 
 	@Override
-	public Boolean verifyIfShipExistByName(final String name) {
+	public Boolean verifyIfShipExistByName(final String name, Integer idShipNoCheck) {
 		MyBatisShipDAO.logger.info("verifyIfShipExistByName: " + name);
 
-		final List<String> namesShip = this.listAllNameShip();
+		final List<Ship> ships = this.loadAllShip();
 
-		for (final String nameShip : namesShip) {
-			if (nameShip.equals(name)) {
-				return true;
+		if (ships != null) {
+			for (final Ship item : ships) {
+				if (item != null) {
+					if (idShipNoCheck != null) {
+						if (item.getId() != idShipNoCheck
+								&& item.getName() != null
+								&& item.getName().equals(name)) {
+							return true;
+						}
+					} else if (item.getName() != null
+							&& item.getName().equals(name)) {
+						return true;
+					}
+				}
+
 			}
 		}
+
 		return false;
 
 	}
+
+	@Override
+	public void setShipAsNoWork(Integer shipId) {
+		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
+
+		// remove old nowork ship if exist
+		removeShipNoWork();
+
+		this.getSqlSession().update("ship.setShipAsNoWork", shipId);
+
+	}
+
+	@Override
+	public Ship getNoWorkShip() {
+		MyBatisShipDAO.logger.info("getNoWorkShip");
+		Ship ship = this.getSqlSession().selectOne("ship.getNoWorkShip");
+		return ship;
+	}
+
+	@Override
+	public void setShipAsActivityH(Integer shipId) {
+		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
+
+		// remove old nowork ship if exist
+		removeShipActivityH();
+
+		this.getSqlSession().update("ship.setShipAsActivityH", shipId);
+
+	}
+
+	@Override
+	public Ship getActivityHShip() {
+		MyBatisShipDAO.logger.info("getActivityHShip");
+		Ship ship = this.getSqlSession().selectOne("ship.getActivityHShip");
+		return ship;
+	}
+
+	@Override
+	public void removeShipNoWork() {
+		Ship ship = getNoWorkShip();
+		if (ship!=null){
+			ship.setNowork(false);
+			updateShip(ship);
+		}
+
+	}
+
+	@Override
+	public void removeShipActivityH() {
+		Ship ship = getActivityHShip();
+		if (ship != null) {
+			ship.setActivityh(false);
+			updateShip(ship);
+		}
+	}
+
 }

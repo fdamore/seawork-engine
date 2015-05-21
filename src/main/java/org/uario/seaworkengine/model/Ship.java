@@ -29,6 +29,11 @@ public class Ship implements Serializable {
 	private String	shiptype;
 
 	private String	twtype;
+	
+	private Boolean nowork;
+	
+	private Boolean activityh;
+	
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -59,7 +64,9 @@ public class Ship implements Serializable {
 	}
 
 	public String getName() {
-		return this.name;
+		
+		return name; 
+			
 	}
 
 	public String getShipcondition() {
@@ -100,7 +107,34 @@ public class Ship implements Serializable {
 
 	@Override
 	public String toString() {
-		return "" + this.name;
+		if (activityh!=null && nowork!=null){
+			if (activityh || nowork){
+				return this.name+"*";
+			}else{
+				return name; 
+			}			
+		}
+		return name; 
 	}
+
+	public Boolean getNowork() {
+		return nowork;
+	}
+
+	public void setNowork(Boolean nowork) {
+		this.nowork = nowork;
+	}
+
+	public Boolean getActivityh() {
+		return activityh;
+	}
+
+	public void setActivityh(Boolean activityh) {
+		this.activityh = activityh;
+	}
+	
+	
+		
+	
 
 }

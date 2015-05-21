@@ -22,6 +22,18 @@ public interface IShip {
 
 	public void updateShip(Ship ship);
 
-	public Boolean verifyIfShipExistByName(String name);
+	public Boolean verifyIfShipExistByName(String name, Integer idShipNoCheck);
+	
+	public void setShipAsNoWork(Integer shipId);
+	
+	public void setShipAsActivityH(Integer shipId);
+	
+	public Ship getActivityHShip();
+	
+	public Ship getNoWorkShip();
+	
+	public void removeShipNoWork();
+	
+	public void removeShipActivityH();
 
 }

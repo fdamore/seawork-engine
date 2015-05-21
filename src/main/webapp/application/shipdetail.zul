@@ -108,6 +108,16 @@
 										<label value="Tipo Twist"></label>
 										<textbox id="ship_twtype" />
 									</row>
+									
+									<row>
+										<label value="Non Lavoro"></label>
+										<checkbox id="ship_nowork" onCheck="ship_activity.setChecked(false)"/>
+									</row>
+									
+									<row>
+										<label value="Attività H"></label>
+										<checkbox id="ship_activity" onCheck="ship_nowork.setChecked(false)"/>
+									</row>
 
 								</rows>
 							</grid>
@@ -145,8 +155,18 @@
 		<button id="sw_refresh_list" sclass="btn-info"
 			label="Aggiorna Lista Navi">
 		</button>
-
 		
+		<space/>
+
+		<button id="getNoWorkShip" sclass="btn-primary"
+			label="Nave No Lavoro">
+		</button>
+		
+		<space/>
+		
+		<button id="getActvityHShip" sclass="btn-success"
+			label="Nave Attività H">
+		</button>
 
 		<separator></separator>
 	</div>
@@ -177,6 +197,8 @@
 			<listheader label="Tipo" />
 			<listheader label="Condizioni"  />
 			<listheader label="Tipo Twist"  />
+			<listheader label="Non Lavoro"  />
+			<listheader label="Attività H"  />
 			
 			<listheader label="" />
 		</listhead>
@@ -184,11 +206,27 @@
 		<listitem  self="@{each='ship_item'}" value="@{ship_item}">
 
 			
-			<listcell sclass="myBottonCell" label="@{ship_item.name}" />
+			<listcell sclass="myBottonCell" label="@{ship_item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShipName'}" />
 			<listcell sclass="myBottonCell" label="@{ship_item.line}" />
-			<listcell sclass="myBottonCell" label="@{ship_item.shiptype}" />
-			<listcell sclass="myBottonCell" label="@{ship_item.shipcondition}" />
+			<listcell sclass="myBottonCell"
+				label="@{ship_item.shiptype}" />
+			<listcell sclass="myBottonCell"
+				label="@{ship_item.shipcondition}" />
 			<listcell sclass="myBottonCell" label="@{ship_item.twtype}" />
+
+
+			<listcell style="text-align: center"
+				sclass="myBottonCell">
+				<image
+					src="@{ship_item.nowork, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+			</listcell>
+			<listcell style="text-align: center"
+				sclass="myBottonCell">
+				<image
+					src="@{ship_item.activityh, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+			</listcell>
+
+
 
 
 			<listcell sclass="myBottonCell">

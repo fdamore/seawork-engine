@@ -135,7 +135,7 @@
 							<listitem self="@{each='ship'}"
 								value="@{ship}">
 								<listcell sclass="myBottonCell"
-									label="@{ship.name}" />
+									label="@{ship, converter='org.uario.seaworkengine.zkevent.converter.ConverterShipName'}" />
 								<listcell sclass="myBottonCell"
 									label="@{ship.line}" />
 								<listcell sclass="myBottonCell"

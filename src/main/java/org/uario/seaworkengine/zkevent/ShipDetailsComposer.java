@@ -23,6 +23,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Checkbox;
 
 public class ShipDetailsComposer extends SelectorComposer<Component> {
 
@@ -72,6 +73,14 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox				sw_list_ship;
+	
+	@Wire
+	private Checkbox			ship_nowork;
+
+	@Wire
+	private Checkbox			ship_activity;
+	
+		
 
 	@Listen("onClick = #add_ships_command")
 	public void addShipCommand() {
@@ -82,60 +91,156 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		ship.setShiptype(this.ship_type.getValue());
 		ship.setShipcondition(this.ship_condition.getValue());
 		ship.setTwtype(this.ship_twtype.getValue());
+		ship.setNowork(ship_nowork.isChecked());
+		ship.setActivityh(ship_activity.isChecked());
 
-		if ((ship.getName() == "") || (ship.getLine() == "") || (ship.getShiptype() == "") || (ship.getShipcondition() == "")
-				|| (ship.getTwtype() == "")) {
+		if ((ship.getName() == "") || (ship.getLine() == "")
+				|| (ship.getShiptype() == "")
+				|| (ship.getShipcondition() == "") || (ship.getTwtype() == "")) {
+
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE",
+					buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
-		} else {
-			if (!this.shipDao.verifyIfShipExistByName(ship.getName())) {
-				this.shipDao.createShip(ship);
-
-				// reset data info
-				this.resetDataInfo();
-				final Map<String, String> params = new HashMap<String, String>();
-				params.put("sclass", "mybutton Button");
-				final Messagebox.Button[] buttons = new Messagebox.Button[1];
-				buttons[0] = Messagebox.Button.OK;
-
-				Messagebox.show("Nave aggiunta", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
-
-				// set ship ListBox
-				this.setShipListBox();
-
-				this.grid_ship_details.setVisible(false);
-				this.add_ships_command.setVisible(false);
-				this.modify_ships_command.setVisible(false);
+		} else if (!ship.getNowork() && !ship.getActivityh()) {
+			if (!this.shipDao.verifyIfShipExistByName(ship.getName(), null)) {
+				createShip(ship);
 			} else {
 				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Nave già presente in anagrafica!", "INFO",
+						buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
 			}
-		}
+		} else if (ship.getNowork() || ship.getActivityh()) {
+			if (!this.shipDao.verifyIfShipExistByName(ship.getName(), null)) {
 
-	}
+				if (ship.getNowork()) {
 
-	@Listen("onBlur = #ship_name")
-	public void checkPresence() {
-		if (this.ship_name.getValue() != null) {
-			if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue())) {
+					Ship noWorkShip = shipDao.getNoWorkShip();
+					if (noWorkShip == null) {
+						createShip(ship);
+					} else {
+						final Map<String, String> params = new HashMap<String, String>();
+						params.put("sclass", "mybutton Button");
+
+						final Messagebox.Button[] buttons = new Messagebox.Button[2];
+						buttons[0] = Messagebox.Button.OK;
+						buttons[1] = Messagebox.Button.CANCEL;
+
+						Messagebox.show(
+								"Nave No Lavoro già presente, proseguire?",
+								"CONFERMA INSERIMENTO", buttons, null,
+								Messagebox.EXCLAMATION, null,
+								new EventListener<ClickEvent>() {
+
+									@Override
+									public void onEvent(final ClickEvent e) {
+										if (Messagebox.ON_OK.equals(e.getName())) {
+
+											shipDao.removeShipNoWork();
+											createShip(ship);
+
+										} else if (Messagebox.ON_CANCEL
+												.equals(e.getName())) {
+											return;
+										}
+									}
+								}, params);
+					}
+
+				} else {
+
+					Ship activityHShip = shipDao.getActivityHShip();
+					if (activityHShip == null) {
+						createShip(ship);
+					} else {
+						final Map<String, String> params = new HashMap<String, String>();
+						params.put("sclass", "mybutton Button");
+
+						final Messagebox.Button[] buttons = new Messagebox.Button[2];
+						buttons[0] = Messagebox.Button.OK;
+						buttons[1] = Messagebox.Button.CANCEL;
+
+						Messagebox.show(
+								"Nave AttivitàH già presente, proseguire?",
+								"CONFERMA INSERIMENTO", buttons, null,
+								Messagebox.EXCLAMATION, null,
+								new EventListener<ClickEvent>() {
+
+									@Override
+									public void onEvent(final ClickEvent e) {
+										if (Messagebox.ON_OK.equals(e.getName())) {
+
+											shipDao.removeShipActivityH();
+											createShip(ship);
+
+										} else if (Messagebox.ON_CANCEL
+												.equals(e.getName())) {
+											return;
+										}
+									}
+								}, params);
+					}
+
+				}
+
+			} else {
 				final Map<String, String> params = new HashMap<String, String>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Nave già presente in anagrafica!", "INFO",
+						buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
+			}
+
+		}
+
+	}
+	
+	private void createShip(Ship ship){
+		this.shipDao.createShip(ship);
+
+		// reset data info
+		this.resetDataInfo();
+		
+		// set ship ListBox
+		this.setShipListBox();
+
+		this.grid_ship_details.setVisible(false);
+		this.add_ships_command.setVisible(false);
+		this.modify_ships_command.setVisible(false);
+	}
+
+	@Listen("onBlur = #ship_name")
+	public void checkPresence() {
+		if (this.ship_name.getValue() != null) {
+			Integer shipId = null;
+			if (isInModify && ship_selected != null) {
+				shipId = ship_selected.getId();
+			}
+			if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue(),shipId)) {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Nave già presente in anagrafica!", "INFO",
+						buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
 
 				this.ship_name.setValue("");
 			}
+
 		}
 	}
 
@@ -146,10 +251,14 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		this.ship_selected = this.sw_list_ship.getSelectedItem().getValue();
 
 	}
+	
+	private Boolean isInModify = false;
 
 	@Listen("onClick = #sw_link_modifyship")
 	public void defineModifyView() {
 
+		isInModify = true;
+		
 		if ((this.sw_list_ship.getSelectedItem() == null) || (this.sw_list_ship.getSelectedItem().getValue() == null)
 				|| !(this.sw_list_ship.getSelectedItem().getValue() instanceof Ship)) {
 			return;
@@ -163,6 +272,16 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		// general details
 		this.defineShipDetailsView(this.ship_selected);
+		
+		// command
+		this.add_ships_command.setVisible(false);
+		this.modify_ships_command.setVisible(true);
+
+		// configure tab
+		this.grid_ship_details.setVisible(true);
+
+		// set detail to selection
+		this.detail_ship_tab.getTabbox().setSelectedTab(this.detail_ship_tab);
 
 	}
 
@@ -172,6 +291,8 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		this.ship_type.setValue(ship_selected.getShiptype());
 		this.ship_condition.setValue(ship_selected.getShipcondition());
 		this.ship_twtype.setValue(ship_selected.getTwtype());
+		this.ship_activity.setChecked(ship_selected.getActivityh());
+		this.ship_nowork.setChecked(ship_selected.getNowork());
 
 	}
 
@@ -220,6 +341,32 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		});
 
 	}
+	
+	@Listen("onClick = #getNoWorkShip")
+	public void showNoWorkShip(){
+		ListModelList<Ship> list_ship = new ListModelList<Ship>();
+
+		Ship ship = shipDao.getNoWorkShip();
+		
+		if (ship!=null){
+			list_ship.add(ship);
+		}
+
+		this.sw_list_ship.setModel(new ListModelList<Ship>(list_ship));
+	}
+	
+	@Listen("onClick = #getActvityHShip")
+	public void showActivityHShip(){
+		ListModelList<Ship> list_ship = new ListModelList<Ship>();
+
+		Ship ship = shipDao.getActivityHShip();
+		
+		if (ship!=null){
+			list_ship.add(ship);
+		}
+
+		this.sw_list_ship.setModel(new ListModelList<Ship>(list_ship));
+	}
 
 	@Listen("onClick = #modify_ships_command")
 	public void mofifyShipsCommand() {
@@ -227,42 +374,133 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		if ((this.ship_name.getValue() == "") || (this.ship_line.getValue() == "") || (this.ship_type.getValue() == "")
-				|| (this.ship_condition.getValue() == "") || (this.ship_twtype.getValue() == "")) {
+		if ((this.ship_name.getValue() == "")
+				|| (this.ship_line.getValue() == "")
+				|| (this.ship_type.getValue() == "")
+				|| (this.ship_condition.getValue() == "")
+				|| (this.ship_twtype.getValue() == "")) {
 
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare i valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Controllare i valori inseriti.", "ATTENZIONE",
+					buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
+			isInModify = true;
 
 		} else {
+
 			this.ship_selected.setName(this.ship_name.getValue());
 			this.ship_selected.setLine(this.ship_line.getValue());
 			this.ship_selected.setShiptype(this.ship_type.getValue());
 			this.ship_selected.setShipcondition(this.ship_condition.getValue());
 			this.ship_selected.setTwtype(this.ship_twtype.getValue());
+			this.ship_selected.setActivityh(ship_activity.isChecked());
+			this.ship_selected.setNowork(ship_nowork.isChecked());
 
-			// update
-			this.shipDao.updateShip(this.ship_selected);
+			if (!ship_nowork.isChecked() && !ship_activity.isChecked()) {
+				shipDao.updateShip(ship_selected);
 
-			// update list
-			this.setShipListBox();
+				showOkMessageBox();
 
-			this.grid_ship_details.setVisible(false);
+			} else if (ship_nowork.isChecked() || ship_activity.isChecked()) {
 
-			this.resetDataInfo();
+				if (ship_nowork.isChecked()) {
 
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
+					Ship noWorkShip = shipDao.getNoWorkShip();
+					if (noWorkShip == null || noWorkShip.getId() == ship_selected.getId()) {
+						shipDao.updateShip(ship_selected);
+						showOkMessageBox();
+					} else {
+						final Map<String, String> params = new HashMap<String, String>();
+						params.put("sclass", "mybutton Button");
 
-			Messagebox.show("Dati Nave aggiornati", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+						final Messagebox.Button[] buttons = new Messagebox.Button[2];
+						buttons[0] = Messagebox.Button.OK;
+						buttons[1] = Messagebox.Button.CANCEL;
+
+						Messagebox.show(
+								"Nave No Lavoro già presente, proseguire?",
+								"CONFERMA INSERIMENTO", buttons, null,
+								Messagebox.EXCLAMATION, null,
+								new EventListener<ClickEvent>() {
+
+									@Override
+									public void onEvent(final ClickEvent e) {
+										if (Messagebox.ON_OK.equals(e.getName())) {
+
+											shipDao.removeShipNoWork();
+											shipDao.updateShip(ship_selected);
+
+											showOkMessageBox();
+
+										} else if (Messagebox.ON_CANCEL
+												.equals(e.getName())) {
+											isInModify = true;
+											return;
+										}
+									}
+								}, params);
+					}
+
+				} else {
+
+					Ship activityHShip = shipDao.getActivityHShip();
+					if (activityHShip == null || activityHShip.getId() == ship_selected.getId()) {
+						shipDao.updateShip(ship_selected);
+						showOkMessageBox();
+
+					} else {
+						final Map<String, String> params = new HashMap<String, String>();
+						params.put("sclass", "mybutton Button");
+
+						final Messagebox.Button[] buttons = new Messagebox.Button[2];
+						buttons[0] = Messagebox.Button.OK;
+						buttons[1] = Messagebox.Button.CANCEL;
+
+						Messagebox.show(
+								"Nave AttivitàH già presente, proseguire?",
+								"CONFERMA INSERIMENTO", buttons, null,
+								Messagebox.EXCLAMATION, null,
+								new EventListener<ClickEvent>() {
+
+									@Override
+									public void onEvent(final ClickEvent e) {
+										if (Messagebox.ON_OK.equals(e.getName())) {
+
+											shipDao.removeShipActivityH();
+											shipDao.updateShip(ship_selected);
+
+											showOkMessageBox();
+
+										} else if (Messagebox.ON_CANCEL
+												.equals(e.getName())) {
+											isInModify = true;
+											return;
+										}
+									}
+								}, params);
+					}
+
+				}
+
+			}
 
 		}
 
+	}
+	
+	private void showOkMessageBox(){
+		// update list
+		setShipListBox();
+
+		grid_ship_details.setVisible(false);
+
+		resetDataInfo();
+		
+		isInModify = false;
 	}
 
 	@Listen("onClick = #sw_refresh_list;")
@@ -361,21 +599,12 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		// set detail to selection
 		this.detail_ship_tab.getTabbox().setSelectedTab(this.detail_ship_tab);
+		
+		ship_activity.setChecked(false);
+		ship_nowork.setChecked(false);
 
 	}
 
-	@Listen("onClick = #sw_link_modifyship")
-	public void showModifyShipPanel() {
-
-		// command
-		this.add_ships_command.setVisible(false);
-		this.modify_ships_command.setVisible(true);
-
-		// configure tab
-		this.grid_ship_details.setVisible(true);
-
-		// set detail to selection
-		this.detail_ship_tab.getTabbox().setSelectedTab(this.detail_ship_tab);
-	}
+	
 
 }
