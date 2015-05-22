@@ -31,12 +31,7 @@
 		order by name;
 	</select>
 	
-	<select id="listIdShipByName" parameterType="String"  resultType="Integer">
-		SELECT id
-		FROM
-		ship where
-		name = #{shipName};		
-	</select>
+	
 	
 	<select id="loadAllShip" resultType="org.uario.seaworkengine.model.Ship">
 		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh

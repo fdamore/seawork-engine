@@ -84,13 +84,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	}
 
 	@Override
-	public List<Integer> listIdShipByName(final String shipName) {
-		MyBatisShipDAO.logger.info("listIdShipByName");
-
-		return this.getSqlSession().selectList("ship.listIdShipByName", shipName);
-	}
-
-	@Override
 	public List<Ship> loadAllShip() {
 		MyBatisShipDAO.logger.info("loadAllShip");
 
