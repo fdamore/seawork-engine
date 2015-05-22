@@ -1288,7 +1288,7 @@
 								<listbox id="listbox_program"
 									sclass="domain" checkmark="true" multiple="true">
 									<auxhead>
-										<auxheader colspan="4">
+										<auxheader colspan="5">
 
 											<hbox
 												visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -1306,7 +1306,7 @@
 										</auxheader>
 									</auxhead>
 									<auxhead>
-										<auxheader colspan="4">
+										<auxheader colspan="5">
 
 											<hbox
 												visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -1328,7 +1328,7 @@
 										</auxheader>
 									</auxhead>
 									<auxhead>
-										<auxheader colspan="4">
+										<auxheader colspan="5">
 
 											<hbox align="center">
 
@@ -1341,6 +1341,16 @@
 
 													<button
 														label="Cancella" id="remove_program_item"
+														sclass="btn-info">
+													</button>
+													
+													<button
+														label="Salva" visible="false" id="save_program_item"
+														sclass="btn-info">
+													</button>
+													
+													<button
+														label="Annulla" visible="false" id="cancel_modify_program"
 														sclass="btn-info">
 													</button>
 
@@ -1364,6 +1374,9 @@
 											label="Orario di ingresso" />
 										<listheader
 											label="Orario di uscita" />
+										<listheader
+											label="" />
+											
 									</listhead>
 
 									<listitem sclass="myCell"
@@ -1387,6 +1400,13 @@
 											<label width="200px"
 												value="@{item_program.time_to}">
 											</label>
+										</listcell>
+										<listcell>
+											<toolbarbutton
+												id="sw_link_edit_program" style="color:blue"
+												onClick="listbox_program.setSelectedItem((Listitem)self.getParent().getParent());"
+												label="Modifica">
+											</toolbarbutton>
 										</listcell>
 
 
@@ -2056,7 +2076,7 @@
 							<listbox id="listbox_review" sclass="domain"
 								checkmark="true" multiple="true">
 								<auxhead>
-									<auxheader colspan="8">
+									<auxheader colspan="9">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2077,7 +2097,7 @@
 												placeholder="Ora fine" format="short" cols="10"
 												id="time_to">
 											</timebox>
-
+											
 											<label
 												value="Consuntiva Fascia Oraria">
 											</label>
@@ -2091,7 +2111,7 @@
 
 
 								<auxhead>
-									<auxheader colspan="8">
+									<auxheader colspan="9">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2101,6 +2121,14 @@
 											<button label="Cancella"
 												id="remove_review_item" sclass="btn-info">
 											</button>
+											<button label="Salva" visible="false"
+												id="save_review_item" sclass="btn-info">
+											</button>
+											<button label="Annulla"
+													visible="false" id="cancel_modify" sclass="btn-info">
+											</button>
+											
+											
 											<label
 												id="totalHours_Review" value="Totale Ore Consuntivate: " />
 
@@ -2112,7 +2140,7 @@
 									</auxheader>
 								</auxhead>
 								<auxhead>
-									<auxheader colspan="8">
+									<auxheader colspan="9">
 
 										<hbox align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2150,8 +2178,9 @@
 									<listheader label="Nave" />
 									<listheader label="Crane" />
 									<listheader label="Postazione" />
-									<listheader
-										label="Consuntiva Fascia" />
+									<listheader label="Consuntiva Fascia" />
+									<listheader label=""/>
+									
 
 								</listhead>
 
@@ -2194,8 +2223,14 @@
 										</label>
 									</listcell>
 									<listcell>
-										<checkbox
-											checked="@{itemreview.reviewshift}" disabled="true" />
+										<checkbox checked="@{itemreview.reviewshift}" disabled="true"/>
+									</listcell>
+									<listcell>
+									<toolbarbutton
+										id="sw_link_edit_review" style="color:blue"
+										onClick="listbox_review.setSelectedItem((Listitem)self.getParent().getParent());"
+										label="Modifica">
+									</toolbarbutton>
 									</listcell>
 
 
@@ -2691,8 +2726,8 @@
 											hflex="2" align="center" />
 										<listheader label="Uscita"
 											hflex="2" align="center" />
-										<listheader
-											label="Consuntiva Fascia Ora." hflex="2" align="center" />
+										<listheader label="Consuntiva Fascia Ora."
+											hflex="2" align="center" />	
 
 									</listhead>
 
@@ -2773,7 +2808,7 @@
 											label="@{itemoverviewreview.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.id_ship, converter='org.uario.seaworkengine.zkevent.converter.ShipNameConverter'}" />
+											label="@{itemoverviewreview.nameShip}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.crane}" />
