@@ -1216,17 +1216,27 @@
 						onClick="shift_definition_popup.close();" />
 				</div>
 				<vlayout style="margin: 5px 5px 5px 5px">
-					<hbox
-						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-						<button id="ok_program"
-							label="Salva Programmazione" sclass="btn-info">
-						</button>
+					<vbox>
+						<label id="alertMinHours" visible="false"
+							style="color:red"
+							value="Attenzione, orario programmato minore di 6 ore." />
+						
+						<separator/>
+							
+						<hbox
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 
-						<button id="cancel_program"
-							label="Cancella Programmazione" sclass="btn-danger">
-						</button>
+							<button id="ok_program"
+								label="Salva Programmazione" sclass="btn-info">
+							</button>
 
-					</hbox>
+							<button id="cancel_program"
+								label="Cancella Programmazione" sclass="btn-danger">
+							</button>
+
+						</hbox>
+					</vbox>
+
 
 					<div
 						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2026,7 +2036,12 @@
 							style="font-weight: bold;"
 							onClick="shift_definition_popup_review.close();" />
 					</div>
-					<hbox align="center"
+					
+					<vbox>
+						<label id="alertMinHoursReview" visible="false"
+							style="color:red"
+							value="Attenzione, orario consuntivato minore di 6 ore." />
+						<hbox align="center"
 						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 
 						<button id="ok_review" label="Salva Consuntivo"
@@ -2036,8 +2051,10 @@
 						<button id="cancel_review"
 							label="Cancella Consuntivazione" sclass="btn-danger">
 						</button>
-
 					</hbox>
+					</vbox>
+					
+					
 
 					<panel border="normal" collapsible="false"
 						sclass="transparent">
