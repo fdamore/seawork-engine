@@ -1309,33 +1309,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	@Listen("onClick= #add_review_item")
-	public void addReviewItem() {
+	public Boolean addReviewItem() {
 
 		if (!this.checkConnection()) {
-			return;
+			return false;
 		}
 
 		if (this.list_details_review == null) {
-			return;
+			return false;
 		}
 
 		if (this.selectedShift == null) {
-			return;
+			return false;
 		}
 
 		if (this.review_task.getSelectedItem() == null) {
-			return;
+			return false;
 		}
 
 		final UserTask task = this.review_task.getSelectedItem().getValue();
 		if (task == null) {
-			return;
+			return false;
 		}
 
 		final Double time = this.getRevisionTime();
 
 		if (time == null) {
-			return;
+			return false;
 		}
 
 		double countHours = 0;
@@ -1442,7 +1442,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				countHours = countHours + item.getTime()
 						+ item.getTime_vacation();
 				if (countHours > 6) {
-					return;
+					return false;
 				}
 
 				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item
@@ -1452,13 +1452,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						|| ((new_item.getTime_from().compareTo(
 								item.getTime_from()) <= 0) && (new_item
 								.getTime_to().compareTo(item.getTime_to()) >= 0))) {
-					return;
+					return false;
 				}
 			}
 		}
 
 		if (countHours > 6) {
-			return;
+			return false;
 		}
 
 		// update program list
@@ -1480,6 +1480,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.minHoursAlert = false;
 			this.alertMinHoursReview.setVisible(false);
 		}
+
+		return true;
 
 	}
 
@@ -5118,8 +5120,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.add_program_item.setVisible(true);
 		this.remove_program_item.setVisible(true);
 
+		final DetailInitialSchedule itm = this.listbox_program
+				.getSelectedItem().getValue();
+
 		this.removeProgramItem();
-		this.addProgramItem();
+
+		if (!this.addProgramItem()) {
+			this.list_details_program.add(itm);
+			this.listbox_program
+			.setModel(new ListModelList<DetailInitialSchedule>(
+					this.list_details_program));
+		}
 
 	}
 
@@ -5225,8 +5236,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.add_review_item.setVisible(true);
 		this.remove_review_item.setVisible(true);
 
+		final DetailFinalSchedule itm = this.listbox_review.getSelectedItem()
+				.getValue();
+
 		this.removeReviewItem();
-		this.addReviewItem();
+		if (!this.addReviewItem()) {
+			this.list_details_review.add(itm);
+			this.listbox_review
+			.setModel(new ListModelList<DetailFinalSchedule>(
+					this.list_details_review));
+		}
 
 	}
 

@@ -1324,11 +1324,11 @@
 													value="Orario di lavoro: ">
 												</label>
 
-												<timebox cols="10"
+												<timebox cols="10" format="short"
 													placeholder="Ora inizio" id="time_from_program">
 												</timebox>
 
-												<timebox
+												<timebox format="short"
 													placeholder="Ora fine" cols="10" id="time_to_program">
 												</timebox>
 
