@@ -25,17 +25,17 @@ import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private IBankHolidays		bank_holiday;
+	private IBankHolidays bank_holiday;
 
-	private UserCompensationDAO	compensationDAO;
+	private UserCompensationDAO compensationDAO;
 
-	private ISchedule			myScheduleDAO;
+	private ISchedule myScheduleDAO;
 
-	private TasksDAO			myTaskDAO;
+	private TasksDAO myTaskDAO;
 
-	private IShiftCache			shiftCache;
+	private IShiftCache shiftCache;
 
-	private IStatistics			statisticDAO;
+	private IStatistics statisticDAO;
 
 	@Override
 	public Double calculeSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
@@ -438,10 +438,11 @@ public class StatProceduresImpl implements IStatProcedure {
 			current.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			Date date_start = current.getTime();
 
-			Integer week_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
+			Double week_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
 			if (week_current_hours == null) {
-				week_current_hours = 0;
+				week_current_hours = 0.0;
 			}
+			week_current_hours = Utility.roundTwo(week_current_hours);
 
 			userStatistics.setWork_current_week("" + week_current_hours);
 
@@ -449,10 +450,11 @@ public class StatProceduresImpl implements IStatProcedure {
 			current.set(Calendar.DAY_OF_MONTH, current.getActualMinimum(Calendar.DAY_OF_MONTH));
 			date_start = current.getTime();
 
-			Integer month_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
+			Double month_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
 			if (month_current_hours == null) {
-				month_current_hours = 0;
+				month_current_hours = 0.0;
 			}
+			month_current_hours = Utility.roundTwo(month_current_hours);
 
 			userStatistics.setWork_current_month("" + month_current_hours);
 
@@ -462,10 +464,11 @@ public class StatProceduresImpl implements IStatProcedure {
 			current.set(Calendar.DAY_OF_YEAR, 1);
 			date_start = current.getTime();
 
-			Integer year_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
+			Double year_current_hours = this.statisticDAO.getTimeWorked(person.getId(), date_start, date_to);
 			if (year_current_hours == null) {
-				year_current_hours = 0;
+				year_current_hours = 0.0;
 			}
+			year_current_hours = Utility.roundTwo(year_current_hours);
 
 			userStatistics.setWork_current_year("" + year_current_hours);
 
@@ -502,10 +505,11 @@ public class StatProceduresImpl implements IStatProcedure {
 		} else {
 
 			// adding current_work on period
-			Integer year_current = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
+			Double year_current = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
 			if (year_current == null) {
-				year_current = 0;
+				year_current = 0.0;
 			}
+			year_current = Utility.roundTwo(year_current);
 
 			userStatistics.setWork_current("" + year_current);
 
@@ -852,10 +856,10 @@ public class StatProceduresImpl implements IStatProcedure {
 			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
 			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
 			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
-			
+
 			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
 			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_1_time_to.set(Calendar.MINUTE, 0);		
+			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
 
 			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
 			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);

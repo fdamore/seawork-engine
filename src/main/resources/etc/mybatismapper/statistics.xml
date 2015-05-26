@@ -229,7 +229,7 @@
 		#{date_schedule_from}
 	</select>
 
-	<select id="timeWorkedReviewd" resultType="int" parameterType="map">
+	<select id="timeWorkedReviewd" resultType="double" parameterType="map">
 		select
 		sum(d_1.time)
 		from
