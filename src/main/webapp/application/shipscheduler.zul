@@ -225,7 +225,7 @@
 											<comboitem label="COMPLETA"
 												value="COMPLETA">
 											</comboitem>
-											<comboitem label="TWISTER"
+											<comboitem label="TW"
 												value="TWISTER">
 											</comboitem>
 										</combobox>
@@ -524,7 +524,7 @@
 									<comboitem label="COMPLETA"
 										value="COMPLETA">
 									</comboitem>
-									<comboitem label="TWISTER"
+									<comboitem label="TW"
 										value="TWISTER">
 									</comboitem>
 								</combobox>
