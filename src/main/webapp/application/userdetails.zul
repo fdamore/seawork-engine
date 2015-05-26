@@ -60,6 +60,8 @@
 				<tab label="TFR" visible="false" id="tfr_user_tab" />
 				<tab label="Visite Fiscali" visible="false"
 					id="fiscalcheck_user_tab" />
+				<tab label="Visite Mediche" visible="false"
+					id="medicalexamination_user_tab" />
 				<tab label="Sindacati" visible="false"
 					id="tradeunion_user_tab" />
 				<tab label="Contestazioni Disciplinari" visible="false"
@@ -557,6 +559,12 @@
 				<!-- TAB FISCAL CHECK -->
 				<tabpanel>
 					<include mode="defer" src="./userdetailsfc.zul">
+					</include>
+				</tabpanel>
+				
+				<!-- TAB MEDICAL EXAMINATION -->
+				<tabpanel>
+					<include mode="defer" src="./userdetailsmedicalexamination.zul">
 					</include>
 				</tabpanel>
 

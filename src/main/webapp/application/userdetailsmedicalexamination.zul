@@ -1,0 +1,155 @@
+<?page id="usermedicalexamination" title="Sea Work Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
+<zk>
+
+	<panel id="panel" border="none" collapsible="false"
+		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerMedicalExamination"
+		sclass="transparent">
+
+		<caption iconSclass="z-icon-star orange"
+			label="Dettagli Visite Mediche">
+
+		</caption>
+
+
+		<panelchildren>
+
+			<div id="grid_details" visible="false">
+
+				<space></space>
+
+				<button id="ok_command" label="OK"
+					sclass="btn-info">
+				</button>
+				<button label="Chiudi"
+					onClick="grid_details.setVisible(false);" sclass="btn-info"
+					visible="true">
+				</button>
+				<space></space>
+
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Tipo" />
+						<column label="Informazioni" />
+					</columns>
+					<rows>
+
+						<row>
+							<label
+								value="Data Visita:">
+							</label>
+							<datebox id="date_examination"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+						
+						<row>
+							<label
+								value="Data Prossima Visita:">
+							</label>
+							<datebox id="next_date_examination"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+						<row>
+							<label value="Esito:"></label>
+							<textbox id="result_examination" width="200px" rows="3"/>
+						</row>
+
+						<row>
+							<label value="Prescrizioni:"></label>
+							<textbox id="prescriptions" width="200px" rows="3"/>
+						</row>
+
+						<row>
+							<label value="Note:"></label>
+							<textbox id="note_examination" width="200px" rows="3"/>
+						</row>
+						
+						
+
+						
+					</rows>
+				</grid>
+
+
+				<space></space>
+
+			</div>
+
+
+
+			<a label="Lista Visite Mediche" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+
+			<div>
+				<separator></separator>
+				
+				<button id="sw_add" sclass="btn-info"
+					label="Aggiungi Visita Medica"
+					onClick="grid_details.setVisible(true);">
+				</button>
+
+				<button id="sw_refresh_list"
+					onClick="grid_details.setVisible(false)" sclass="btn-info"
+					label="Aggiorna Lista Visite Mediche">
+				</button>
+
+				<separator></separator>
+			</div>
+
+
+			
+			<listbox id="sw_list" pagingPosition="both" mold="paging"
+				onSelect="grid_details.setVisible(false)"
+				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+				pageSize="20">
+				<listhead sizable="true">
+					<listheader label="Data Visita" />
+					<listheader label="Data prossima visita"/>
+					<listheader label="Esito" />
+					<listheader label="Prescrizioni" />
+					<listheader label="Note" />
+					
+					<listheader label="" />
+				</listhead>
+
+				<listitem self="@{each='item'}" value="@{item}">
+
+
+					<listcell label="@{item.date_examination, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell label="@{item.next_date_examination, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell label="@{item.result_examination}" />
+					<listcell label="@{item.prescriptions}" />
+					<listcell label="@{item.note_examination}" />
+					
+					<listcell>
+
+						<toolbarbutton id="sw_link_delete"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
+							label="Cancella">
+						</toolbarbutton>
+
+						<toolbarbutton id="sw_link_edit"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
+							label="Edita">
+						</toolbarbutton>
+
+					</listcell>
+
+
+
+
+				</listitem>
+
+			</listbox>
+
+
+		</panelchildren>
+
+	</panel>
+
+</zk>

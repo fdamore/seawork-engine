@@ -138,6 +138,12 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
+	
+	<bean id="myMedicalExaminationDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisMedicalExaminationDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
 
 	<bean id="myTradeUnionDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisTradeUnionDAO">

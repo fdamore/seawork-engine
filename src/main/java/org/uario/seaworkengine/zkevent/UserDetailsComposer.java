@@ -180,6 +180,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Textbox marital_status_user;
 
 	@Wire
+	private Component medicalexamination_user_tab;
+
+	@Wire
 	private Component modify_users_command;
 
 	@Wire
@@ -1285,6 +1288,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final Component comp_fc = Path.getComponent("//userfc/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_fc, person_selected);
 
+		// send event to show user fc
+		final Component comp_medicalEx = Path.getComponent("//usermedicalexamination/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_medicalEx, person_selected);
+
 		// send event to show user td
 		final Component comp_td = Path.getComponent("//usertd/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_td, person_selected);
@@ -1368,6 +1375,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.status_user_tab.setVisible(false);
 		this.tfr_user_tab.setVisible(false);
 		this.fiscalcheck_user_tab.setVisible(false);
+		this.medicalexamination_user_tab.setVisible(false);
 		this.tradeunion_user_tab.setVisible(false);
 		this.contestations_user_tab.setVisible(false);
 		this.compensation_user_tab.setVisible(false);
@@ -1410,6 +1418,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.contestations_user_tab.setVisible(true);
 		this.compensation_user_tab.setVisible(true);
 		this.jobcost_user_tab.setVisible(true);
+		this.medicalexamination_user_tab.setVisible(true);
 
 		// generate qr code only in modify view
 		this.qrcode_gen.setVisible(true);
