@@ -65,12 +65,12 @@
 
 						<row>
 							<label value="Costo aziendale orario:"></label>
-							<doublebox id="business_job_cost" width="200px" />
+							<doublebox id="business_job_cost" width="200px" format="#,##0.##" />
 						</row>
 
 						<row>
 							<label value="Costo consuntivo orario:"></label>
-							<doublebox id="final_job_cost" width="200px" />
+							<doublebox id="final_job_cost" width="200px" format="#,##0.##"/>
 						</row>
 
 						<row>
@@ -87,22 +87,22 @@
 
 						<row>
 							<label value="Paga base:"></label>
-							<doublebox id="basicsalary" width="200px" />
+							<doublebox id="basicsalary" width="200px" format="#,##0.##"/>
 						</row>
 						
 						<row>
 							<label value="Contingenza:"></label>
-							<doublebox id="contingency" width="200px" />
+							<doublebox id="contingency" width="200px" format="#,##0.##"/>
 						</row>
 						
 						<row>
 							<label value="Scatti"></label>
-							<doublebox id="shots" width="200px" />
+							<doublebox id="shots" width="200px" format="#,##0.##"/>
 						</row>
 						
 						<row>
 							<label value="EDR"></label>
-							<doublebox id="edr" width="200px" />
+							<doublebox id="edr" width="200px" format="#,##0.##"/>
 						</row>
 
 						<row>
@@ -168,18 +168,18 @@
 						label="@{item.date_from, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell
 						label="@{item.date_to, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-					<listcell label="@{item.business_job_cost}" />
-					<listcell label="@{item.final_job_cost}" />
+					<listcell label="@{item.business_job_cost, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
+					<listcell label="@{item.final_job_cost, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 					
 					<listcell label="@{item.contractual_level}" />
 						
-					<listcell label="@{item.basicsalary}" />
+					<listcell label="@{item.basicsalary, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 					
-					<listcell label="@{item.contingency}" />
+					<listcell label="@{item.contingency, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 					
-					<listcell label="@{item.shots}" />
+					<listcell label="@{item.shots, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 					
-					<listcell label="@{item.edr}" />
+					<listcell label="@{item.edr, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 
 					<listcell>
 
