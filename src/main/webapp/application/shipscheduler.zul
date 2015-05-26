@@ -72,12 +72,13 @@
 							<row>
 								<label value="Nome nave:"></label>
 								<vbox>
-									<combobox id="ship_name_schedule" readonly="true" placeholder="Seleziona Nome Nave" mold="rounded" />
-									<hbox>
-										<a label="Non Lavoro" style="color:green" id="selectShipNoWork"/>
-										<space/>
-										<a label="Attività H" style="color:green" id="selectShipActivityH"/>
-									</hbox>
+									<combobox id="ship_name_schedule"
+										readonly="true" placeholder="Seleziona Nome Nave"
+										mold="rounded" />
+
+									<a label="Non Lavoro"
+										style="color:green" id="selectShipNoWork" />
+
 								</vbox>
 							</row>
 							<row>
@@ -221,7 +222,7 @@
 									</row>
 									<row>
 										<label value="Operazione:"></label>
-										
+
 										<combobox id="operation"
 											placeholder="Seleziona il tipo di operazione"
 											readonly="true">
@@ -384,13 +385,8 @@
 									<combobox id="ship_name"
 										readonly="true" placeholder="Seleziona Nome Nave"
 										mold="rounded" />
-									<hbox>
-										<a label="Non Lavoro"
-											style="color:green" id="selectShipNoWorkPopup" />
-										<space />
-										<a label="Attività H"
-											style="color:green" id="selectShipActivityHPopup" />
-									</hbox>
+									<a label="Non Lavoro"
+										style="color:green" id="selectShipNoWorkPopup" />
 								</vbox>
 							</row>
 							<row>
@@ -421,62 +417,62 @@
 								<datebox id="ship_departure"
 									format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 							</row>
-							
+
 						</rows>
 					</grid>
 					<!--  
-					<listbox id="sw_list_scheduleDetailShipProgram"
+						<listbox id="sw_list_scheduleDetailShipProgram"
 						pagingPosition="both" mold="paging"
 						style="border: 1px solid #CCCCCC;" multiple="false"
 						pageSize="10">
 						<listhead sizable="true">
-							<listheader label="Data"
-								sort="auto(shiftdate)" />
-							<listheader label="Turno"
-								sort="auto(shift)" />
-							<listheader label="Operazione"
-								sort="auto(operation)" />
-							<listheader label="Nome primo preposto"
-								sort="auto(firstOperativeName)" />
-							<listheader label="Nome secondo preposto"
-								sort="auto(secondOperativeName)" />
-							<listheader label="Mani di lavoro"
-								sort="auto(handswork)" />
-							<listheader label="Numero di uomini"
-								sort="auto(menwork)" />
-							<listheader label="Note Dettaglio" />
+						<listheader label="Data"
+						sort="auto(shiftdate)" />
+						<listheader label="Turno"
+						sort="auto(shift)" />
+						<listheader label="Operazione"
+						sort="auto(operation)" />
+						<listheader label="Nome primo preposto"
+						sort="auto(firstOperativeName)" />
+						<listheader label="Nome secondo preposto"
+						sort="auto(secondOperativeName)" />
+						<listheader label="Mani di lavoro"
+						sort="auto(handswork)" />
+						<listheader label="Numero di uomini"
+						sort="auto(menwork)" />
+						<listheader label="Note Dettaglio" />
 						</listhead>
-
-
-
-
+						
+						
+						
+						
 						<listitem
-							self="@{each='detailscheduleship_item'}"
-							value="@{detailscheduleship_item}">
-
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.shift}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.operation}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.firstOperativeName}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.secondOperativeName}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.handswork}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.menwork}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.notedetail}" />
-
+						self="@{each='detailscheduleship_item'}"
+						value="@{detailscheduleship_item}">
+						
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.shift}" />
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.operation}" />
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.firstOperativeName}" />
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.secondOperativeName}" />
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.handswork}" />
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.menwork}" />
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.notedetail}" />
+						
 						</listitem>
-
-					</listbox>
-				
-					-->				
-			</panelchildren>
+						
+						</listbox>
+						
+					-->
+				</panelchildren>
 			</panel>
 		</popup>
 
@@ -535,7 +531,7 @@
 								<combobox id="operation_Daily"
 									placeholder="Seleziona il tipo di operazione"
 									readonly="true">
-									<comboitem label="-" value="-"/>
+									<comboitem label="-" value="-" />
 									<comboitem label="COMPLETA"
 										value="COMPLETA">
 									</comboitem>
@@ -852,8 +848,8 @@
 							<rows>
 								<row>
 									<label value="Nome Nave e Turno: " />
-									<label id="infoShipNameAndShift" value=""
-										style="font-weight: bold; font-size: 18px; " />
+									<label id="infoShipNameAndShift"
+										value="" style="font-weight: bold; font-size: 18px; " />
 								</row>
 								<row>
 									<label value="Rif MCT:" />
@@ -921,7 +917,7 @@
 										<intbox
 											id="invoicing_cycle_review" constraint="no negative" />
 									</row>
-									
+
 									<row>
 										<label value="Tipo Gru GTW:"></label>
 										<checkbox id="crane_gtw_review"
@@ -933,7 +929,7 @@
 										<intbox id="crane_review"
 											constraint="no negative" />
 									</row>
-									
+
 									<row>
 										<label value="Volumi:"></label>
 										<intbox id="volume_review" />
@@ -1113,17 +1109,17 @@
 				id="full_text_search_rifSWS" />
 			<intbox placeholder="Cerca Rif MCT..."
 				id="full_text_search_rifMCT" />
-				
+
 			<intbox width="150px" placeholder="Periodo Fatturazione..."
 				id="invoicing_cycle_search" />
 			<intbox width="150px" placeholder="Periodo Lavorazione..."
 				id="working_cycle_search" />
-			
-				
+
+
 			<a label="Filtra su numero turno: " />
 			<combobox placeholder="Scegli turno..." readonly="true"
 				id="select_shiftBap">
-				<comboitem value="TUTTI" label="TUTTI"/>
+				<comboitem value="TUTTI" label="TUTTI" />
 				<comboitem value="1" label="1"></comboitem>
 				<comboitem value="2" label="2"></comboitem>
 				<comboitem value="3" label="3"></comboitem>

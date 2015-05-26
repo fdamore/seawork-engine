@@ -2180,9 +2180,7 @@
 														label="Non Lavoro" style="color:green; font-size:9pt"
 														id="selectShipNoWork" />
 													<space />
-													<a
-														label="Attività H" style="color:green; font-size:9pt"
-														id="selectShipActivityH" />
+													
 												</hbox>
 
 											</vbox>

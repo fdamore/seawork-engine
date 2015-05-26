@@ -48,9 +48,9 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	}
 
 	@Override
-	public Ship getActivityHShip() {
+	public List<Ship> getActivityHShip() {
 		MyBatisShipDAO.logger.info("getActivityHShip");
-		final Ship ship = this.getSqlSession().selectOne("ship.getActivityHShip");
+		final List<Ship> ship = this.getSqlSession().selectList("ship.getActivityHShip");
 		return ship;
 	}
 
@@ -99,15 +99,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	}
 
 	@Override
-	public void removeShipActivityH() {
-		final Ship ship = this.getActivityHShip();
-		if (ship != null) {
-			ship.setActivityh(false);
-			this.updateShip(ship);
-		}
-	}
-
-	@Override
 	public void removeShipNoWork() {
 		final Ship ship = this.getNoWorkShip();
 		if (ship != null) {
@@ -124,9 +115,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	@Override
 	public void setShipAsActivityH(final Integer shipId) {
 		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
-
-		// remove old nowork ship if exist
-		this.removeShipActivityH();
 
 		this.getSqlSession().update("ship.setShipAsActivityH", shipId);
 

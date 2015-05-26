@@ -10,7 +10,7 @@ public interface IShip {
 
 	public void deleteShip(Integer id_ship);
 
-	public Ship getActivityHShip();
+	public List<Ship> getActivityHShip();
 
 	public Ship getNoWorkShip();
 
@@ -21,8 +21,6 @@ public interface IShip {
 	public List<Ship> loadAllShip();
 
 	public Ship loadShip(Integer id_ship);
-
-	public void removeShipActivityH();
 
 	public void removeShipNoWork();
 
