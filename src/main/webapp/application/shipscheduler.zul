@@ -74,9 +74,9 @@
 								<vbox>
 									<combobox id="ship_name_schedule" readonly="true" placeholder="Seleziona Nome Nave" mold="rounded" />
 									<hbox>
-										<a label="Nave Non Lavoro" style="color:green" id="selectShipNoWork"/>
+										<a label="Non Lavoro" style="color:green" id="selectShipNoWork"/>
 										<space/>
-										<a label="Nave Attività H" style="color:green" id="selectShipActivityH"/>
+										<a label="Attività H" style="color:green" id="selectShipActivityH"/>
 									</hbox>
 								</vbox>
 							</row>
@@ -385,10 +385,10 @@
 										readonly="true" placeholder="Seleziona Nome Nave"
 										mold="rounded" />
 									<hbox>
-										<a label="Nave Non Lavoro"
+										<a label="Non Lavoro"
 											style="color:green" id="selectShipNoWorkPopup" />
 										<space />
-										<a label="Nave Attività H"
+										<a label="Attività H"
 											style="color:green" id="selectShipActivityHPopup" />
 									</hbox>
 								</vbox>

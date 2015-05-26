@@ -159,13 +159,13 @@
 		<space/>
 
 		<button id="getNoWorkShip" sclass="btn-primary"
-			label="Nave No Lavoro">
+			label="Non Lavoro">
 		</button>
 		
 		<space/>
 		
 		<button id="getActvityHShip" sclass="btn-success"
-			label="Nave Attività H">
+			label="Attività H">
 		</button>
 
 		<separator></separator>

@@ -1895,17 +1895,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -3964,8 +3964,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4290,17 +4290,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4530,7 +4530,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -4964,6 +4964,52 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				this.setOverviewLists(null, null);
 			}
 		}
+	}
+
+	@Listen("onClick = #selectShipActivityH")
+	public void selectShipActivityHPopup() {
+		final Ship shipActivityH = this.shipDAO.getActivityHShip();
+
+		this.ship.setSelectedItem(null);
+		this.shipInDay.setSelectedItem(null);
+
+		if (shipActivityH != null) {
+			final List<Comboitem> list = this.ship.getItems();
+
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					final Ship ship = list.get(i).getValue();
+					if (ship.getId() == shipActivityH.getId()) {
+						this.ship.setSelectedIndex(i);
+						this.shipSelected = ship;
+					}
+				}
+			}
+		}
+	}
+
+	@Listen("onClick = #selectShipNoWork")
+	public void selectShipNoWorkInCombobox() {
+		final Ship shipNoWork = this.shipDAO.getNoWorkShip();
+
+		this.ship.setSelectedItem(null);
+		this.shipInDay.setSelectedItem(null);
+
+		if (shipNoWork != null) {
+			final List<Comboitem> list = this.ship.getItems();
+
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					final Ship ship = list.get(i).getValue();
+					if (ship.getId() == shipNoWork.getId()) {
+						this.ship.setSelectedIndex(i);
+						this.shipSelected = ship;
+					}
+				}
+			}
+
+		}
+
 	}
 
 	@Listen("onClick= #preprocessing_select_tl")
