@@ -106,8 +106,8 @@
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="20">
 				<listhead sizable="true">
-					<listheader label="Data Visita" />
-					<listheader label="Data prossima visita"/>
+					<listheader label="Data Visita" sort="auto(date_examination)"/>
+					<listheader label="Data prossima visita" sort="auto(next_date_examination)"/>
 					<listheader label="Esito" />
 					<listheader label="Prescrizioni" />
 					<listheader label="Note" />

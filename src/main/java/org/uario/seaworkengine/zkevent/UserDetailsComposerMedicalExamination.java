@@ -167,13 +167,6 @@ public class UserDetailsComposerMedicalExamination extends SelectorComposer<Comp
 
 			this.medicalExaminationDAO.createMedicalExamination(item);
 
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
-
-			Messagebox.show("Visita medica aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
-
 		} else {
 
 			// get selected item
@@ -205,15 +198,15 @@ public class UserDetailsComposerMedicalExamination extends SelectorComposer<Comp
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerMedicalExamination.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerMedicalExamination.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 

@@ -47,7 +47,8 @@
 		result_examination, next_date_examination
 		FROM
 		medicalexamination where
-		iduser = #{id_user};
+		iduser = #{id_user}
+		order by date_examination desc;
 		
 	</select>
 	
