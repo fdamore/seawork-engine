@@ -432,12 +432,16 @@
 		detailscheduleship
 		d
 		left join
+		user u ON
+		(d.iduser = u.id),
+		detailscheduleship
+		d1
+		left join
 		user us ON
-		(d.idseconduser = us.id),
-		user u
+		(d1.idseconduser = us.id)
 		where
 		d.idscheduleship =
-		#{id_scheduleShip} and d.iduser = u.id
+		#{id_scheduleShip} and d1.id = d.id
 		order by
 		d.shiftdate , d.shift
 		asc;
