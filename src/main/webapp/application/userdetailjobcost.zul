@@ -105,7 +105,10 @@
 							<doublebox id="edr" width="200px" />
 						</row>
 
-						
+						<row>
+							<label value="Note"></label>
+							<textbox rows="5" id="note" width="200px" />
+						</row>
 
 					</rows>
 				</grid>

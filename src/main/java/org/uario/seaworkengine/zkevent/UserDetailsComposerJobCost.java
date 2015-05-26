@@ -26,57 +26,61 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Textbox;
 
 public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Doublebox			basicsalary;
+	private Doublebox basicsalary;
 
 	@Wire
-	private Combobox			bill_center;
+	private Combobox bill_center;
 
 	@Wire
-	private Doublebox			business_job_cost;
+	private Doublebox business_job_cost;
 
 	@Wire
-	private Doublebox			contingency;
+	private Doublebox contingency;
 
 	@Wire
-	private Combobox			contractual_level;
+	private Combobox contractual_level;
 
 	@Wire
-	private Datebox				date_from;
+	private Datebox date_from;
 	@Wire
-	private Datebox				date_to;
+	private Datebox date_to;
 	@Wire
-	private Doublebox			edr;
+	private Doublebox edr;
 
 	@Wire
-	private Doublebox			final_job_cost;
+	private Doublebox final_job_cost;
 
 	@Wire
-	private Component			grid_details;
+	private Component grid_details;
 
 	// dao interface
-	private IJobCost			jobCostDAO;
-
-	private Person				person_selected;
-
-	private PersonDAO			personDao;
+	private IJobCost jobCostDAO;
 
 	@Wire
-	private Doublebox			shots;
+	private Textbox note;
+
+	private Person person_selected;
+
+	private PersonDAO personDao;
+
+	@Wire
+	private Doublebox shots;
 
 	// status ADD or MODIFY
-	private boolean				status_add			= false;
+	private boolean status_add = false;
 
 	@Wire
-	private Listbox				sw_list;
+	private Listbox sw_list;
 
 	@Listen("onClick = #sw_add")
 	public void addItem() {
@@ -93,15 +97,16 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.contingency.setValue(null);
 		this.shots.setValue(null);
 		this.edr.setValue(null);
+		this.note.setValue(null);
 
 	}
 
 	private Boolean compareDate(final JobCost jc, final Date from, final Date to) {
-		if (jc.getDate_from() != null && jc.getDate_to() != null) {
-			if (from.compareTo(jc.getDate_from()) >= 0 && from.compareTo(jc.getDate_to()) <= 0) {
+		if ((jc.getDate_from() != null) && (jc.getDate_to() != null)) {
+			if ((from.compareTo(jc.getDate_from()) >= 0) && (from.compareTo(jc.getDate_to()) <= 0)) {
 				return false;
 			}
-			if (to.compareTo(jc.getDate_from()) >= 0 && to.compareTo(jc.getDate_to()) <= 0) {
+			if ((to.compareTo(jc.getDate_from()) >= 0) && (to.compareTo(jc.getDate_to()) <= 0)) {
 				return false;
 			}
 		}
@@ -109,7 +114,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	}
 
 	private Boolean controlDate(final Date from, final Date to) {
-		if (from == null || to == null) {
+		if ((from == null) || (to == null)) {
 			return false;
 		}
 
@@ -226,6 +231,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.contingency.setValue(item.getContingency());
 		this.shots.setValue(item.getShots());
 		this.edr.setValue(item.getEdr());
+		this.note.setValue(item.getNote());
 
 		this.bill_center.setSelectedItem(null);
 		if (item.getBill_center() != null) {
@@ -322,15 +328,15 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerJobCost.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerJobCost.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -368,6 +374,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		item.setContingency(this.contingency.getValue());
 		item.setShots(this.shots.getValue());
 		item.setEdr(this.edr.getValue());
+		item.setNote(this.note.getValue());
 
 		// set result communication type
 		if (this.bill_center.getSelectedItem() == null) {

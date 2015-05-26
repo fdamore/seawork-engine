@@ -8,34 +8,36 @@ public class JobCost implements Comparable<Person>, Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Double				basicsalary;
+	private Double basicsalary;
 
-	private Integer				bill_center;
+	private Integer bill_center;
 
 	// used only in listbox
-	private String				billcenterDescription;
+	private String billcenterDescription;
 
-	private Double				business_job_cost;
+	private Double business_job_cost;
 
-	private Double				contingency;
+	private Double contingency;
 
-	private String				contractual_level;
+	private String contractual_level;
 
-	private Date				date_from;
+	private Date date_from;
 
-	private Date				date_to;
+	private Date date_to;
 
-	private Double				edr;
+	private Double edr;
 
-	private Double				final_job_cost;
+	private Double final_job_cost;
 
-	private Integer				id;
+	private Integer id;
 
-	private Integer				id_user;
+	private Integer id_user;
 
-	private Double				shots;
+	private String note;
+
+	private Double shots;
 
 	@Override
 	public int compareTo(final Person arg0) {
@@ -91,6 +93,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.id_user;
 	}
 
+	public String getNote() {
+		return this.note;
+	}
+
 	public Double getShots() {
 		return this.shots;
 	}
@@ -141,6 +147,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	public void setId_user(final Integer id_user) {
 		this.id_user = id_user;
+	}
+
+	public void setNote(final String note) {
+		this.note = note;
 	}
 
 	public void setShots(final Double shots) {
