@@ -511,7 +511,7 @@
 							<row>
 								<label value="Data Turno:"></label>
 								<datebox id="shiftdate_Daily"
-									onCreate="self.value = new Date()" constraint="no empty"
+									onCreate="self.value = new Date()" 
 									placeholder="Data Turno" />
 							</row>
 							<row id="alertShiftDate_detail"
@@ -523,7 +523,7 @@
 							<row>
 								<label value="Turno:"></label>
 								<combobox id="shift_Daily"
-									value="Seleziona Turno" readonly="true" constraint="no empty"
+									value="Seleziona Turno" readonly="true" 
 									placeholder="Seleziona Turno" mold="rounded" />
 							</row>
 							<row>
@@ -556,12 +556,12 @@
 							<row>
 								<label value="Mani di lavoro:"></label>
 								<intbox id="handswork_Daily" value="0"
-									constraint="no empty, no negative" />
+									constraint="no negative" />
 							</row>
 							<row>
 								<label value="Numero uomini:"></label>
 								<intbox id="menwork_Daily" value="0"
-									constraint="no empty, no negative" />
+									constraint="no negative" />
 							</row>
 							<row>
 								<label value="Note Dettaglio"></label>

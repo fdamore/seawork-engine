@@ -581,45 +581,38 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #add_scheduleShipsDetail_command")
 	public void addScheduleShipsDetailCommand() {
 
-		if ((this.shift.getSelectedItem() == null) || (this.operation.getValue() == null) || (this.user.getSelectedItem() == null)
-				|| (this.handswork.getValue() == null) || (this.menwork.getValue() == null) || (this.shiftdate.getValue() == null)) {
-
-			final Map<String, String> params = new HashMap<String, String>();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
-
-			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+		if (this.shift.getSelectedItem() == null) {
 
 			return;
-		} else {
-
-			final DetailScheduleShip detailScheduleShip = new DetailScheduleShip();
-
-			final Person userOperative = (Person) ShipSchedulerComposer.this.user.getSelectedItem().getValue();
-			detailScheduleShip.setIduser(userOperative.getId());
-
-			if (ShipSchedulerComposer.this.usersecond.getSelectedItem() != null) {
-				final Person secondUserOperative = (Person) ShipSchedulerComposer.this.usersecond.getSelectedItem().getValue();
-				detailScheduleShip.setIdseconduser(secondUserOperative.getId());
-			}
-
-			detailScheduleShip.setNotedetail(ShipSchedulerComposer.this.noteshipdetail.getValue());
-			detailScheduleShip.setShift((Integer) ShipSchedulerComposer.this.shift.getSelectedItem().getValue());
-			detailScheduleShip.setOperation(ShipSchedulerComposer.this.operation.getValue());
-
-			detailScheduleShip.setHandswork(ShipSchedulerComposer.this.handswork.getValue());
-			detailScheduleShip.setMenwork(ShipSchedulerComposer.this.menwork.getValue());
-			detailScheduleShip.setIdscheduleship(ShipSchedulerComposer.this.scheduleShip_selected.getId());
-			detailScheduleShip.setShiftdate(ShipSchedulerComposer.this.shiftdate.getValue());
-
-			this.alertShiftDate.setVisible(false);
-
-			ShipSchedulerComposer.this.shipSchedulerDao.createDetailScheduleShip(detailScheduleShip);
-
-			ShipSchedulerComposer.this.addDetailScheduleShipProgram();
-
 		}
+
+		final DetailScheduleShip detailScheduleShip = new DetailScheduleShip();
+
+		if (this.user.getSelectedItem() != null) {
+			final Person userOperative = (Person) this.user.getSelectedItem().getValue();
+			detailScheduleShip.setIduser(userOperative.getId());
+		}
+
+		if (this.usersecond.getSelectedItem() != null) {
+			final Person secondUserOperative = (Person) this.usersecond.getSelectedItem().getValue();
+			detailScheduleShip.setIdseconduser(secondUserOperative.getId());
+		}
+
+		detailScheduleShip.setNotedetail(ShipSchedulerComposer.this.noteshipdetail.getValue());
+		detailScheduleShip.setShift((Integer) ShipSchedulerComposer.this.shift.getSelectedItem().getValue());
+		detailScheduleShip.setOperation(ShipSchedulerComposer.this.operation.getValue());
+
+		detailScheduleShip.setHandswork(ShipSchedulerComposer.this.handswork.getValue());
+		detailScheduleShip.setMenwork(ShipSchedulerComposer.this.menwork.getValue());
+		detailScheduleShip.setIdscheduleship(ShipSchedulerComposer.this.scheduleShip_selected.getId());
+		detailScheduleShip.setShiftdate(ShipSchedulerComposer.this.shiftdate.getValue());
+
+		this.alertShiftDate.setVisible(false);
+
+		ShipSchedulerComposer.this.shipSchedulerDao.createDetailScheduleShip(detailScheduleShip);
+
+		ShipSchedulerComposer.this.addDetailScheduleShipProgram();
+
 	}
 
 	@Listen("onChange = #shiftdate")
@@ -2033,26 +2026,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #modify_scheduleShipsDetail_command")
 	public void updateDetail() {
-		if ((this.shift.getSelectedItem() == null) || (this.operation.getValue() == null) || (this.user.getSelectedItem() == null)
-				|| (this.handswork.getValue() == null) || (this.menwork.getValue() == null) || (this.shiftdate.getValue() == null)) {
-
-			final Map<String, String> params = new HashMap<String, String>();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
-
-			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
-
+		if (this.shift.getSelectedItem() == null) {
 			return;
 		} else {
 			this.detailScheduleShipSelected.setShiftdate(this.shiftdate.getValue());
 			final Integer shift = Integer.parseInt(this.shift.getValue().toString());
 			this.detailScheduleShipSelected.setShift(shift);
 			this.detailScheduleShipSelected.setOperation(this.operation.getValue().toString());
-			this.detailScheduleShipSelected.setIduser(((Person) this.user.getSelectedItem().getValue()).getId());
+
+			if (this.user.getSelectedItem() != null) {
+				Person person = (Person) this.user.getSelectedItem().getValue();
+				this.detailScheduleShipSelected.setIduser(person.getId());
+			} else {
+				this.detailScheduleShipSelected.setIduser(null);
+			}
 
 			if (this.usersecond.getSelectedItem() != null) {
-				this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond.getSelectedItem().getValue()).getId());
+				Person person = (Person) this.usersecond.getSelectedItem().getValue();
+				this.detailScheduleShipSelected.setIdseconduser(person.getId());
+			} else {
+				this.detailScheduleShipSelected.setIdseconduser(null);
 			}
 
 			this.detailScheduleShipSelected.setHandswork(this.handswork.getValue());
