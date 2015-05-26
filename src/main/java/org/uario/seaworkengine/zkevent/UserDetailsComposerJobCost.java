@@ -36,6 +36,9 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	private static final long serialVersionUID = 1L;
 
 	@Wire
+	private Doublebox awards;
+
+	@Wire
 	private Doublebox basicsalary;
 
 	@Wire
@@ -49,11 +52,11 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox contractual_level;
-
 	@Wire
 	private Datebox date_from;
 	@Wire
 	private Datebox date_to;
+
 	@Wire
 	private Doublebox edr;
 
@@ -98,6 +101,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.shots.setValue(null);
 		this.edr.setValue(null);
 		this.note.setValue(null);
+		this.awards.setValue(null);
 
 	}
 
@@ -231,6 +235,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.contingency.setValue(item.getContingency());
 		this.shots.setValue(item.getShots());
 		this.edr.setValue(item.getEdr());
+		this.awards.setValue(item.getAwards());
 		this.note.setValue(item.getNote());
 
 		this.bill_center.setSelectedItem(null);
@@ -328,15 +333,15 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerJobCost.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerJobCost.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -375,6 +380,7 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		item.setShots(this.shots.getValue());
 		item.setEdr(this.edr.getValue());
 		item.setNote(this.note.getValue());
+		item.setAwards(this.awards.getValue());
 
 		// set result communication type
 		if (this.bill_center.getSelectedItem() == null) {

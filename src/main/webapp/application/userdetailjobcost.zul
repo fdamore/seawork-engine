@@ -104,6 +104,12 @@
 							<label value="EDR"></label>
 							<doublebox id="edr" width="200px" format="#,##0.##"/>
 						</row>
+						
+						
+						<row>
+							<label value="Premi o altro"></label>
+							<doublebox id="awards" width="200px" format="#,##0.##"/>
+						</row>
 
 						<row>
 							<label value="Note"></label>
@@ -156,6 +162,7 @@
 					<listheader label="Contingenza" />
 					<listheader label="Scatti" />
 					<listheader label="EDR" />
+					<listheader label="Premi o altro"/>
 
 
 					<listheader label="" />
@@ -180,6 +187,8 @@
 					<listcell label="@{item.shots, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 					
 					<listcell label="@{item.edr, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
+					
+					<listcell label="@{item.awards, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 
 					<listcell>
 

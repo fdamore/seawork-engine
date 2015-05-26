@@ -10,6 +10,8 @@ public class JobCost implements Comparable<Person>, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private Double awards;
+
 	private Double basicsalary;
 
 	private Integer bill_center;
@@ -43,6 +45,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 	public int compareTo(final Person arg0) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public Double getAwards() {
+		return this.awards;
 	}
 
 	public Double getBasicsalary() {
@@ -99,6 +105,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	public Double getShots() {
 		return this.shots;
+	}
+
+	public void setAwards(final Double awards) {
+		this.awards = awards;
 	}
 
 	public void setBasicsalary(final Double basicsalary) {
