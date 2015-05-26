@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="medicalexamination">
+
+	<cache />
+	
+	<insert id="createMedicalExamination" parameterType="org.uario.seaworkengine.model.MedicalExamination">
+	
+		INSERT INTO
+		medicalexamination
+		(date_examination,
+		iduser,
+		note_examination,
+		prescriptions,
+		result_examination, next_date_examination
+		)
+		VALUES
+		(#{date_examination},
+		#{iduser},
+		#{note_examination},
+		#{prescriptions},
+		#{result_examination},
+		#{next_date_examination});
+		
+	</insert>
+	
+	<select id="loadMedicalExamination" resultType="org.uario.seaworkengine.model.MedicalExamination" parameterType="Integer">
+	
+		SELECT id, date_examination,
+		iduser,
+		note_examination,
+		prescriptions,
+		result_examination, next_date_examination
+		FROM
+		medicalexamination where
+		id = #{idMedicalExamination};
+		
+	</select>
+
+	<select id="loadMedicalExaminationByUserId" resultType="org.uario.seaworkengine.model.MedicalExamination" parameterType="Integer">
+	
+		SELECT id, date_examination,
+		iduser,
+		note_examination,
+		prescriptions,
+		result_examination, next_date_examination
+		FROM
+		medicalexamination where
+		iduser = #{id_user}
+		order by date_examination desc;
+		
+	</select>
+	
+	<delete id="removeMedicalExamination" parameterType="Integer">
+	
+		delete from
+		medicalexamination
+		where
+		id = #{idMedicalExamination}
+		
+	</delete>
+
+	<update id="updateMedicalExamination" parameterType="org.uario.seaworkengine.model.MedicalExamination">
+
+		UPDATE medicalexamination set
+		date_examination = #{date_examination},
+		iduser = #{iduser},
+		note_examination = #{note_examination},
+		prescriptions = #{prescriptions}, 
+		result_examination = #{result_examination},
+		next_date_examination = #{next_date_examination} 
+		WHERE id= #{id}
+
+	</update>
+
+</mapper>
