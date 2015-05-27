@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -17,6 +19,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -33,7 +36,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	private static final long	serialVersionUID	= 1L;
 
 	@Wire
+	private Div					add_customer_div;
+
+	@Wire
 	private Component			add_ships_command;
+
+	@Wire
+	private Textbox				customer_name;
+
+	private ICustomerDAO		customerDAO;
 
 	@Wire
 	private Tab					detail_ship_tab;
@@ -80,7 +91,28 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	private Intbox				shows_rows;
 
 	@Wire
+	private Listbox				sw_list_customer;
+
+	@Wire
 	private Listbox				sw_list_ship;
+
+	@Listen("onClick = #sw_addcustomer_ok")
+	public void addCustomerOK() {
+
+		if (this.customer_name.getValue() == null) {
+			return;
+		}
+
+		final Customer customer = new Customer();
+		customer.setName(this.customer_name.getValue());
+		this.customerDAO.createCustomer(customer);
+
+		// set customer listbox
+		this.setCustomerListBox();
+
+		this.add_customer_div.setVisible(false);
+
+	}
 
 	@Listen("onClick = #add_ships_command")
 	public void addShipCommand() {
@@ -241,6 +273,22 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_link_modifycustomer")
+	public void deleteCustomerCommand() {
+
+		if ((this.sw_list_customer.getSelectedItem() == null) || (this.sw_list_customer.getSelectedItem().getValue() == null)) {
+			return;
+		}
+
+		final Customer customer = this.sw_list_customer.getSelectedItem().getValue();
+
+		this.customerDAO.deleteCustomer(customer.getId());
+
+		// update list
+		this.setCustomerListBox();
+
+	}
+
 	private void deleteShipCommand() {
 
 		try {
@@ -279,6 +327,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 				// get the DAOs
 				ShipDetailsComposer.this.shipDao = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
+
+				// get the DAOs
+				ShipDetailsComposer.this.customerDAO = (ICustomerDAO) SpringUtil.getBean(BeansTag.CUSTOMER_DAO);
 
 				ShipDetailsComposer.this.setInitialView();
 
@@ -406,6 +457,14 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onOK = #sw_refresh_list_customer")
+	public void setCustomerListBox() {
+
+		final List<Customer> list_ship = this.customerDAO.listAllCustomers();
+
+		this.sw_list_customer.setModel(new ListModelList<Customer>(list_ship));
+	}
+
 	/**
 	 * Show ships
 	 */
@@ -415,6 +474,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		// set ship listbox
 		this.setShipListBox();
+
+		// set customer listbox
+		this.setCustomerListBox();
 
 		// initial view
 		this.grid_ship_details.setVisible(false);
@@ -450,6 +512,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		final List<Ship> list_ship = this.shipDao.getActivityHShip();
 
 		this.sw_list_ship.setModel(new ListModelList<Ship>(list_ship));
+	}
+
+	@Listen("onClick = #sw_addcustomer")
+	public void showAddCustomer() {
+
+		this.customer_name.setValue(null);
+
+		this.add_customer_div.setVisible(true);
+
 	}
 
 	@Listen("onClick = #sw_addship")

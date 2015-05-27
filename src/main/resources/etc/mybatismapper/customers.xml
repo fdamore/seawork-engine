@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="customer">
+
+	<cache></cache>
+
+
+	<select id="selectAllCustomers" resultType="org.uario.seaworkengine.model.Customer">
+		SELECT id, name
+		FROM
+		customer
+	</select>
+
+	<select id="selectCustomerById" resultType="org.uario.seaworkengine.model.Customer">
+		SELECT id, name
+		FROM
+		customer
+		where id = #{id}
+	</select>
+
+
+
+	<insert id="createCustomer" parameterType="org.uario.seaworkengine.model.Customer">
+		INSERT INTO customer
+		(id,
+		name)
+		VALUES
+		(#{id}, #{name})
+	</insert>
+
+	<delete id="deleteCustomer" parameterType="int">
+		delete from customer
+		where
+		id = #{id}
+	</delete>
+
+	<update id="updateCustomer" parameterType="org.uario.seaworkengine.model.Customer">
+		UPDATE customer
+		SET
+		name = #{name}
+		WHERE id = #{id};
+	</update>
+
+
+
+</mapper>

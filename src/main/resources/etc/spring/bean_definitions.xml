@@ -138,7 +138,7 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myMedicalExaminationDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisMedicalExaminationDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
@@ -185,8 +185,9 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
-	<bean id="myUserCompensationDAO" class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisUserCompensationDAO">
+
+	<bean id="myUserCompensationDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisUserCompensationDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
@@ -218,6 +219,15 @@
 
 	</bean>
 
+	<bean id="myCustomerDAO"
+		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisCustomerDAO">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+
+	</bean>
+
+
+
+
 
 	<!-- SETUP PLATFORM CACHES -->
 	<bean id="myTaskCache"
@@ -227,11 +237,11 @@
 	<bean id="myShiftCache"
 		class="org.uario.seaworkengine.platform.persistence.cache.task.ShiftCacheImpl">
 	</bean>
-	
+
 	<bean id="myShipCache"
 		class="org.uario.seaworkengine.platform.persistence.cache.task.ShipCacheImpl">
 	</bean>
-	
+
 
 
 	<!-- STAT PROCEDURE -->
@@ -242,7 +252,7 @@
 		<property name="statisticDAO" ref="myStatisticsDAO"></property>
 		<property name="shiftCache" ref="myShiftCache"></property>
 		<property name="compensationDAO" ref="myUserCompensationDAO"></property>
-		<property name="bank_holiday" ref="bank_holidays"></property>	
+		<property name="bank_holiday" ref="bank_holidays"></property>
 	</bean>
 
 

@@ -8,129 +8,360 @@
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.ShipDetailsComposer"
 		id="page_ship_detail">
-		
+
 		<style>
 
-		.myBottonCell { border-bottom: 1px solid; border-right: 1px
+			.myBottonCell { border-bottom: 1px solid; border-right: 1px
 			solid; border-color:#CFCFCF;}
 
 		</style>
 
 		<div sclass="page-header">
 			<label value="Dettagli Navi" />
-			<a label="Navi del sistema Sea Work Engine"
+			<a label="Navi e lista clienti"
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 		</div>
-	
+
 		<space></space>
-
-		<!-- SHIP EDITOR -->
-	<div id="grid_ship_details" visible="false">
-
-
-		<a id="shipName" iconSclass="z-icon-angle-double-right"
-			sclass="subtitle" />
-
-
-		<button label="Chiudi Anagrafica" sclass="btn-danger"
-			onClick="grid_ship_details.setVisible(false);add_ships_command.setVisible(false);modify_ships_command.setVisible(false);ship_name.setValue(null);ship_type.setValue(null);ship_line.setValue(null);ship_condition.setValue(null);ship_twtype.setValue(null); ">
-		</button>
-
-		<separator></separator>
 
 		<tabbox>
 			<tabs>
-				<tab label="Informazioni Generali" id="detail_ship_tab"
-					selected="true" />
-				
-				<tab label="Tipo" visible="false"
-					id="type_ship_tab" />
-							
+				<tab label="Lista Navi" selected="true" />
+
+				<tab label="Lista Clienti" />
+
 			</tabs>
 			<tabpanels>
-				<!-- Tab Comments Content -->
 				<tabpanel>
-					<panel border="normal" collapsible="false"
-						sclass="transparent">
-						<caption iconSclass="z-icon-star orange"
-							label="Dettagli navi">
 
-							<toolbarbutton id="add_ships_command"
-								label="Aggiungi Nave"  style="color: blue" visible="false">
-							</toolbarbutton>
-
-							<toolbarbutton id="modify_ships_command"
-								label="Modifica Nave" style="color: blue" visible="false">
-							</toolbarbutton>
-
-						</caption>
-
-						<panelchildren>
-
-							<grid sclass="domain">
-								<columns>
-									<column label="Type" />
-									<column label="Informazioni" />
-								</columns>
-								<rows>
-									<row>
-										<label
-											value="Nome:">
-										</label>
-										
-										<textbox id="ship_name"
-											mold="rounded" />
-											
-									</row>
-
-									<row>
-										<label
-											value="Linea">
-										</label>
-										<textbox id="ship_line"
-											mold="rounded" />
-
-									</row>									
-									
-									<row>
-										<label value="Tipo"></label>
-										<textbox id="ship_type" />
-									</row>
-
-									<row>
-										<label
-											value="Condizioni">
-										</label>
-										<textbox id="ship_condition" />
-									</row>
-
-									<row>
-										<label value="Tipo Twist"></label>
-										<textbox id="ship_twtype" />
-									</row>
-									
-									<row>
-										<label value="Non Lavoro"></label>
-										<checkbox id="ship_nowork" onCheck="ship_activity.setChecked(false)"/>
-									</row>
-									
-									<row>
-										<label value="Attività H"></label>
-										<checkbox id="ship_activity" onCheck="ship_nowork.setChecked(false)"/>
-									</row>
-
-								</rows>
-							</grid>
+					<!-- SHIP EDITOR -->
+					<div id="grid_ship_details" visible="false">
 
 
-						</panelchildren>
+						<a id="shipName"
+							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
-					</panel>
 
+						<button label="Chiudi Anagrafica"
+							sclass="btn-danger"
+							onClick="grid_ship_details.setVisible(false);add_ships_command.setVisible(false);modify_ships_command.setVisible(false);ship_name.setValue(null);ship_type.setValue(null);ship_line.setValue(null);ship_condition.setValue(null);ship_twtype.setValue(null); ">
+						</button>
+
+						<separator></separator>
+
+						<tabbox>
+							<tabs>
+								<tab label="Informazioni Generali"
+									id="detail_ship_tab" selected="true" />
+
+								<tab label="Tipo" visible="false"
+									id="type_ship_tab" />
+
+							</tabs>
+							<tabpanels>
+								<!-- Tab Comments Content -->
+								<tabpanel>
+									<panel border="normal"
+										collapsible="false" sclass="transparent">
+										<caption
+											iconSclass="z-icon-star orange" label="Dettagli navi">
+
+											<toolbarbutton
+												id="add_ships_command" label="Aggiungi Nave"
+												style="color: blue" visible="false">
+											</toolbarbutton>
+
+											<toolbarbutton
+												id="modify_ships_command" label="Modifica Nave"
+												style="color: blue" visible="false">
+											</toolbarbutton>
+
+										</caption>
+
+										<panelchildren>
+
+											<grid sclass="domain">
+												<columns>
+													<column
+														label="Type" />
+													<column
+														label="Informazioni" />
+												</columns>
+												<rows>
+													<row>
+														<label
+															value="Nome:">
+														</label>
+
+														<textbox
+															id="ship_name" mold="rounded" />
+
+													</row>
+
+													<row>
+														<label
+															value="Linea">
+														</label>
+														<textbox
+															id="ship_line" mold="rounded" />
+
+													</row>
+
+													<row>
+														<label
+															value="Tipo">
+														</label>
+														<textbox
+															id="ship_type" />
+													</row>
+
+													<row>
+														<label
+															value="Condizioni">
+														</label>
+														<textbox
+															id="ship_condition" />
+													</row>
+
+													<row>
+														<label
+															value="Tipo Twist">
+														</label>
+														<textbox
+															id="ship_twtype" />
+													</row>
+
+													<row>
+														<label
+															value="Non Lavoro">
+														</label>
+														<checkbox
+															id="ship_nowork"
+															onCheck="ship_activity.setChecked(false)" />
+													</row>
+
+													<row>
+														<label
+															value="Attività H">
+														</label>
+														<checkbox
+															id="ship_activity"
+															onCheck="ship_nowork.setChecked(false)" />
+													</row>
+
+												</rows>
+											</grid>
+
+
+										</panelchildren>
+
+									</panel>
+
+								</tabpanel>
+
+
+
+
+
+							</tabpanels>
+						</tabbox>
+
+
+
+					</div>
+
+					<space></space>
+
+					<a label="Lista Navi" iconSclass="z-icon-list"
+						sclass="green lighter rcaption" />
+
+					<div>
+						<separator></separator>
+
+						<button id="sw_addship" sclass="btn-info"
+							label="Aggiungi Nave">
+						</button>
+
+						<button id="sw_refresh_list" sclass="btn-info"
+							label="Aggiorna Lista Navi">
+						</button>
+
+						<space />
+
+						<button id="getNoWorkShip" sclass="btn-primary"
+							label="Non Lavoro">
+						</button>
+
+						<space />
+
+						<button id="getActvityHShip"
+							sclass="btn-success" label="Attività H">
+						</button>
+
+						<separator></separator>
+					</div>
+
+					<!-- SHOW ROWS AND SEARCH -->
+					<hbox>
+						<a label="Righe da visualizzare: "
+							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+						<intbox id="shows_rows"
+							constraint="no negative, no zero" value="10">
+						</intbox>
+
+						<textbox placeholder="Cerca..."
+							id="full_text_search">
+						</textbox>
+
+					</hbox>
+
+
+					<separator></separator>
+
+					<listbox id="sw_list_ship" pagingPosition="both"
+						mold="paging" onSelect="grid_ship_details.setVisible(false)"
+						style="border: 1px solid #CCCCCC;" checkmark="true"
+						multiple="false" pageSize="10">
+						<listhead sizable="true">
+
+							<listheader label="Nome" sort="auto(name)" />
+							<listheader label="Linea" />
+							<listheader label="Tipo" />
+							<listheader label="Condizioni" />
+							<listheader label="Tipo Twist" />
+							<listheader label="Non Lavoro" />
+							<listheader label="Attività H" />
+
+							<listheader label="" />
+						</listhead>
+
+						<listitem self="@{each='ship_item'}"
+							value="@{ship_item}">
+
+
+							<listcell sclass="myBottonCell"
+								label="@{ship_item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShipName'}" />
+							<listcell sclass="myBottonCell"
+								label="@{ship_item.line}" />
+							<listcell sclass="myBottonCell"
+								label="@{ship_item.shiptype}" />
+							<listcell sclass="myBottonCell"
+								label="@{ship_item.shipcondition}" />
+							<listcell sclass="myBottonCell"
+								label="@{ship_item.twtype}" />
+
+
+							<listcell style="text-align: center"
+								sclass="myBottonCell">
+								<image
+									src="@{ship_item.nowork, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+							</listcell>
+							<listcell style="text-align: center"
+								sclass="myBottonCell">
+								<image
+									src="@{ship_item.activityh, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
+							</listcell>
+
+
+
+
+							<listcell sclass="myBottonCell">
+
+								<toolbarbutton id="sw_link_deleteship"
+									style="color:blue"
+									onClick="sw_list_ship.setSelectedItem((Listitem)self.getParent().getParent());"
+									label="Cancella">
+								</toolbarbutton>
+
+								<toolbarbutton id="sw_link_modifyship"
+									style="color:blue"
+									onClick="sw_list_ship.setSelectedItem((Listitem)self.getParent().getParent());"
+									label="Visualizza e Modifica">
+								</toolbarbutton>
+
+							</listcell>
+
+
+
+
+						</listitem>
+
+					</listbox>
 				</tabpanel>
 
-				
 
+				<tabpanel>
+
+					<div id="add_customer_div" visible="false">
+
+						<hbox align="center">
+							<label value="Nome Utente: "></label>
+							<textbox placeholder="Nome Utente..."
+								id="customer_name">
+							</textbox>
+						</hbox>
+						
+						<separator></separator>
+						
+						<button id="sw_addcustomer_ok" sclass="btn-info"
+							label="OK">
+						</button>
+						
+
+					</div>
+
+					<space></space>
+
+					<a label="Lista CLienti" iconSclass="z-icon-list"
+						sclass="green lighter rcaption" />
+
+					<div>
+						<separator></separator>
+
+						<button id="sw_addcustomer" sclass="btn-info"
+							label="Aggiungi Cliente">
+						</button>
+
+						<button id="sw_refresh_list_customer"
+							sclass="btn-info" label="Aggiorna Lista Cliente">
+						</button>
+
+						<separator></separator>
+					</div>
+
+					<separator></separator>
+
+					<listbox id="sw_list_customer"
+						onSelect="add_customer_div.setVisible(false)"
+						style="border: 1px solid #CCCCCC;" checkmark="true"
+						multiple="false">
+						<listhead sizable="true">
+
+							<listheader label="Nome" sort="auto(name)" />
+							<listheader label="" />
+						</listhead>
+
+						<listitem self="@{each='customer_item'}"
+							value="@{customer_item}">
+
+
+							<listcell sclass="myBottonCell"
+								label="@{customer_item.name}" />
+
+							<listcell sclass="myBottonCell">
+								<toolbarbutton
+									id="sw_link_modifycustomer" style="color:blue"
+									onClick="sw_list_customer.setSelectedItem((Listitem)self.getParent().getParent());"
+									label="Cancella">
+								</toolbarbutton>
+							</listcell>
+
+						</listitem>
+
+					</listbox>
+
+
+				</tabpanel>
 
 
 			</tabpanels>
@@ -138,122 +369,6 @@
 
 
 
-	</div>
-
-	<space></space>
-
-	<a label="Lista Navi" iconSclass="z-icon-list"
-		sclass="green lighter rcaption" />
-
-	<div>
-		<separator></separator>
-
-		<button id="sw_addship" sclass="btn-info"
-			label="Aggiungi Nave">
-		</button>
-
-		<button id="sw_refresh_list" sclass="btn-info"
-			label="Aggiorna Lista Navi">
-		</button>
-		
-		<space/>
-
-		<button id="getNoWorkShip" sclass="btn-primary"
-			label="Non Lavoro">
-		</button>
-		
-		<space/>
-		
-		<button id="getActvityHShip" sclass="btn-success"
-			label="Attività H">
-		</button>
-
-		<separator></separator>
-	</div>
-
-	<!-- SHOW ROWS AND SEARCH -->
-	<hbox>
-		<a label="Righe da visualizzare: "
-			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-		<intbox id="shows_rows" constraint="no negative, no zero"
-			value="10">
-		</intbox>
-
-		<textbox placeholder="Cerca..." id="full_text_search"></textbox>
-
-	</hbox>
-
-
-	<separator></separator>
-
-	<listbox id="sw_list_ship" pagingPosition="both" mold="paging"
-		onSelect="grid_ship_details.setVisible(false)"
-		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
-		pageSize="10">
-		<listhead sizable="true">
-			
-			<listheader label="Nome" sort="auto(name)" />
-			<listheader label="Linea" />
-			<listheader label="Tipo" />
-			<listheader label="Condizioni"  />
-			<listheader label="Tipo Twist"  />
-			<listheader label="Non Lavoro"  />
-			<listheader label="Attività H"  />
-			
-			<listheader label="" />
-		</listhead>
-
-		<listitem  self="@{each='ship_item'}" value="@{ship_item}">
-
-			
-			<listcell sclass="myBottonCell" label="@{ship_item, converter='org.uario.seaworkengine.zkevent.converter.ConverterShipName'}" />
-			<listcell sclass="myBottonCell" label="@{ship_item.line}" />
-			<listcell sclass="myBottonCell"
-				label="@{ship_item.shiptype}" />
-			<listcell sclass="myBottonCell"
-				label="@{ship_item.shipcondition}" />
-			<listcell sclass="myBottonCell" label="@{ship_item.twtype}" />
-
-
-			<listcell style="text-align: center"
-				sclass="myBottonCell">
-				<image
-					src="@{ship_item.nowork, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
-			</listcell>
-			<listcell style="text-align: center"
-				sclass="myBottonCell">
-				<image
-					src="@{ship_item.activityh, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
-			</listcell>
-
-
-
-
-			<listcell sclass="myBottonCell">
-
-				<toolbarbutton id="sw_link_deleteship"
-					style="color:blue"
-					onClick="sw_list_ship.setSelectedItem((Listitem)self.getParent().getParent());"
-					label="Cancella">
-				</toolbarbutton>
-
-				<toolbarbutton id="sw_link_modifyship"
-					style="color:blue"
-					onClick="sw_list_ship.setSelectedItem((Listitem)self.getParent().getParent());"
-					label="Visualizza e Modifica">
-				</toolbarbutton>
-
-			</listcell>
-
-
-
-
-		</listitem>
-
-	</listbox>
-		
-		
-		
 
 	</vlayout>
 
