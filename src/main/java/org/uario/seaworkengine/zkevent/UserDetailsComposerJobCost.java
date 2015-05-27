@@ -214,6 +214,46 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 	}
 
+	private void insertItem() {
+		if (UserDetailsComposerJobCost.this.person_selected == null) {
+			return;
+		}
+		if (UserDetailsComposerJobCost.this.status_add) {
+
+			final JobCost item = new JobCost();
+
+			// setup item with values
+			UserDetailsComposerJobCost.this.setupItemWithValues(item);
+
+			UserDetailsComposerJobCost.this.jobCostDAO.createJobCost(item);
+			// this.createFCForUser(this.person_selected.getId(),
+			// item);
+
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Costo orario aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+
+		} else {
+
+			// get selected item
+			final JobCost item = UserDetailsComposerJobCost.this.sw_list.getSelectedItem().getValue();
+			if (item == null) {
+				return;
+			}
+
+			// add values to the items
+			UserDetailsComposerJobCost.this.setupItemWithValues(item);
+
+			UserDetailsComposerJobCost.this.jobCostDAO.updateJobCost(item);
+		}
+
+		// Refresh list task
+		UserDetailsComposerJobCost.this.setInitialView();
+	}
+
 	@Listen("onClick = #sw_link_edit")
 	public void modifyItem() {
 
@@ -286,51 +326,26 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		if (!this.controlDate(this.date_from.getValue(), this.date_to.getValue())) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			final Messagebox.Button[] buttons = new Messagebox.Button[2];
 			buttons[0] = Messagebox.Button.OK;
+			buttons[1] = Messagebox.Button.CANCEL;
 
-			Messagebox.show("Controllare date inserite!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+			Messagebox.show("Data mancante, procedere?", "CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
+				@Override
+				public void onEvent(final Event e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
 
-			return;
-		}
+						UserDetailsComposerJobCost.this.insertItem();
 
-		if (this.person_selected == null) {
-			return;
-		}
-
-		if (this.status_add) {
-
-			final JobCost item = new JobCost();
-
-			// setup item with values
-			this.setupItemWithValues(item);
-
-			this.jobCostDAO.createJobCost(item);
-			// this.createFCForUser(this.person_selected.getId(), item);
-
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
-
-			Messagebox.show("Costo orario aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						// Cancel is clicked
+					}
+				}
+			}, params);
 
 		} else {
-
-			// get selected item
-			final JobCost item = this.sw_list.getSelectedItem().getValue();
-			if (item == null) {
-				return;
-			}
-
-			// add values to the items
-			this.setupItemWithValues(item);
-
-			this.jobCostDAO.updateJobCost(item);
+			this.insertItem();
 		}
-
-		// Refresh list task
-		this.setInitialView();
 
 	}
 
