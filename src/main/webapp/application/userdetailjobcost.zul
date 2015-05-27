@@ -105,12 +105,16 @@
 							<doublebox id="edr" width="200px" format="#,##0.##"/>
 						</row>
 						
+						<row>
+							<label value="Totale (Paga Base + Contingenza + Scatti + EDR)"></label>
+							<label id="total" />
+						</row>						
 						
 						<row>
 							<label value="Premi o altro"></label>
 							<doublebox id="awards" width="200px" format="#,##0.##"/>
 						</row>
-
+										
 						<row>
 							<label value="Note"></label>
 							<textbox rows="5" id="note" width="200px" />
@@ -162,7 +166,9 @@
 					<listheader label="Contingenza" />
 					<listheader label="Scatti" />
 					<listheader label="EDR" />
+					<listheader label="Totale"/>
 					<listheader label="Premi o altro"/>
+					
 
 
 					<listheader label="" />
@@ -187,6 +193,8 @@
 					<listcell label="@{item.shots, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 					
 					<listcell label="@{item.edr, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
+					
+					<listcell label="@{item.total, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 					
 					<listcell label="@{item.awards, converter='org.uario.seaworkengine.zkevent.converter.MoneyConverter'}" />
 

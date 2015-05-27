@@ -22,7 +22,8 @@
 	
 		
 	<select id="selectJobCostByUser" parameterType="Integer" resultType="org.uario.seaworkengine.model.JobCost">
-		SELECT j.id, j.business_job_cost, j.final_job_cost, j.date_from, j.date_to, j.contractual_level, j.bill_center, j.id_user, j.basicsalary, j.contingency, j.shots, j.note, j.edr, j.awards, b.description as billcenterDescription 
+		SELECT j.id, j.business_job_cost, j.final_job_cost, j.date_from, j.date_to, j.contractual_level, j.bill_center, j.id_user, j.basicsalary, j.contingency, j.shots, j.note, j.edr, j.awards, b.description as billcenterDescription, 
+		 (COALESCE(j.basicsalary,0) + COALESCE(j.contingency,0) + COALESCE(j.shots,0) + COALESCE(j.edr,0)) as total
 		FROM job_cost j, billcenter b 
 		WHERE j.id_user=#{id_user} and j.bill_center=b.id;
 	</select>

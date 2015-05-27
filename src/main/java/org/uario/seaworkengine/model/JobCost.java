@@ -41,6 +41,9 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	private Double shots;
 
+	// using in listbox
+	private Double total;
+
 	@Override
 	public int compareTo(final Person arg0) {
 		// TODO Auto-generated method stub
@@ -107,6 +110,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.shots;
 	}
 
+	public Double getTotal() {
+		return this.total;
+	}
+
 	public void setAwards(final Double awards) {
 		this.awards = awards;
 	}
@@ -165,6 +172,10 @@ public class JobCost implements Comparable<Person>, Serializable {
 
 	public void setShots(final Double shots) {
 		this.shots = shots;
+	}
+
+	public void setTotal(final Double total) {
+		this.total = total;
 	}
 
 }

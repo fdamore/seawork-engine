@@ -1,8 +1,10 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.uario.seaworkengine.model.BillCenter;
@@ -23,6 +25,7 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -63,6 +66,8 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	@Wire
 	private Doublebox final_job_cost;
 
+	private final NumberFormat format = NumberFormat.getNumberInstance(Locale.ITALY);
+
 	@Wire
 	private Component grid_details;
 
@@ -85,6 +90,9 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	@Wire
 	private Listbox sw_list;
 
+	@Wire
+	private Label total;
+
 	@Listen("onClick = #sw_add")
 	public void addItem() {
 
@@ -102,6 +110,8 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.edr.setValue(null);
 		this.note.setValue(null);
 		this.awards.setValue(null);
+
+		this.total.setValue(null);
 
 	}
 
@@ -238,6 +248,8 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		this.awards.setValue(item.getAwards());
 		this.note.setValue(item.getNote());
 
+		this.setTotalLabel();
+
 		this.bill_center.setSelectedItem(null);
 		if (item.getBill_center() != null) {
 			final BillCenter billcenter = this.jobCostDAO.loadBillCenter(item.getBill_center());
@@ -361,6 +373,31 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		}
 
 		this.grid_details.setVisible(false);
+	}
+
+	@Listen("onChange = #basicsalary, #contingency, #shots, #edr; onOK = #basicsalary, #contingency, #shots, #edr")
+	public void setTotalLabel() {
+
+		Double sum = 0.0;
+
+		if (this.basicsalary.getValue() != null) {
+			sum = this.basicsalary.getValue();
+		}
+
+		if (this.contingency.getValue() != null) {
+			sum += this.contingency.getValue();
+		}
+
+		if (this.shots.getValue() != null) {
+			sum += this.shots.getValue();
+		}
+
+		if (this.edr.getValue() != null) {
+			sum += this.edr.getValue();
+		}
+
+		this.total.setValue(this.format.format(sum));
+
 	}
 
 	private void setupItemWithValues(final JobCost item) {
