@@ -13,6 +13,8 @@ public interface ConfigurationDAO {
 
 	public void createTask(UserTask task);
 
+	public UserTask getDelayOperationTask();
+
 	public UserTask getEndOperationTask();
 
 	public UserTask getOverflowTask();
@@ -47,6 +49,8 @@ public interface ConfigurationDAO {
 
 	public void removeAllDailyShift();
 
+	public void removeAllDelayOperationTasks();
+
 	public void removeAllDiseaseShift();
 
 	public void removeAllEndoperationTasks();
@@ -76,6 +80,8 @@ public interface ConfigurationDAO {
 	public void setShiftAsExpectedBreak(final Integer id_usershift);
 
 	public void setShiftAsStandardShift(final Integer id_usershift);
+
+	public void setTaskAsDelayOperation(Integer idTask);
 
 	public void setTaskAsEndoperation(Integer idTask);
 

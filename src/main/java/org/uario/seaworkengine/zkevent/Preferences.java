@@ -62,6 +62,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private ConfigurationDAO configurationDao;
 
 	@Wire
+	private Checkbox delayoperation_task;
+
+	@Wire
 	private Textbox description_billcenter;
 
 	@Wire
@@ -331,26 +334,21 @@ public class Preferences extends SelectorComposer<Component> {
 
 			final UserTask actualOverFlowTask = this.configurationDao.getOverflowTask();
 			final UserTask actualEndOperationTask = this.configurationDao.getEndOperationTask();
+			final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
 
-			if (this.overflow_task.isChecked() && !this.endoperation_task.isChecked() && (actualOverFlowTask != null)) {
-
+			if (this.overflow_task.isChecked() && (actualOverFlowTask != null)) {
+				alertMessage = "Mansione di Esubero per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 1;
+			}
 
-				alertMessage = "Mansione di esubero per app mobile già presente, continuare?";
-
-			} else if (this.endoperation_task.isChecked() && !this.overflow_task.isChecked() && (actualEndOperationTask != null)) {
-
+			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null)) {
+				alertMessage = "Mansione di Fine operazione per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 2;
+			}
 
-				alertMessage = "Mansione di fine operazione per app mobile già presente, continuare?";
-
-			} else if (this.endoperation_task.isChecked() && this.overflow_task.isChecked() && (actualOverFlowTask != null)
-					&& (actualEndOperationTask != null)) {
-
+			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)) {
+				alertMessage = "Mansione di Ritado per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 3;
-
-				alertMessage = "Mansione di fine operazione e Mansione di esubero per app mobile già presenti, continuare?";
-
 			}
 
 			if (alertMessage != null) {
@@ -370,10 +368,11 @@ public class Preferences extends SelectorComposer<Component> {
 							} else if (Preferences.this.selectedOptionMobileTask == 2) {
 								Preferences.this.configurationDao.removeAllEndoperationTasks();
 							} else if (Preferences.this.selectedOptionMobileTask == 3) {
-								Preferences.this.configurationDao.removeAllOverflowTasks();
-								Preferences.this.configurationDao.removeAllEndoperationTasks();
+								Preferences.this.configurationDao.removeAllDelayOperationTasks();
 							}
+
 							Preferences.this.createTask(task);
+
 						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 							return;
 						}
@@ -417,6 +416,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setDescription(this.description_task.getValue());
 		task.setIsabsence(this.isabsence_task.isChecked());
 		task.setOverflow(this.overflow_task.isChecked());
+		task.setDelayoperation(this.delayoperation_task.isChecked());
 		task.setEndoperation(this.endoperation_task.isChecked());
 		task.setRecorded(this.recorded_task.isChecked());
 		task.setHiddenoperative(this.hiddenoperative_task.isChecked());
@@ -770,6 +770,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.description_task.setValue(task.getDescription());
 		this.isabsence_task.setChecked(task.getIsabsence());
 		this.overflow_task.setChecked(task.getOverflow());
+		this.delayoperation_task.setChecked(task.getDelayoperation());
 		this.endoperation_task.setChecked(task.getEndoperation());
 		this.hiddenoperative_task.setChecked(task.getHiddenoperative());
 		this.recorded_task.setChecked(task.getRecorded());
@@ -804,29 +805,21 @@ public class Preferences extends SelectorComposer<Component> {
 
 			final UserTask actualOverFlowTask = this.configurationDao.getOverflowTask();
 			final UserTask actualEndOperationTask = this.configurationDao.getEndOperationTask();
+			final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
 
-			if (this.overflow_task.isChecked() && !this.endoperation_task.isChecked()
-					&& ((actualOverFlowTask != null) && !actualOverFlowTask.getId().equals(task.getId()))) {
-
+			if (this.overflow_task.isChecked() && (actualOverFlowTask != null)) {
+				alertMessage = "Mansione di Esubero per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 1;
+			}
 
-				alertMessage = "Mansione di esubero per app mobile già presente, continuare?";
-
-			} else if (this.endoperation_task.isChecked() && !this.overflow_task.isChecked()
-					&& ((actualEndOperationTask != null) && !actualEndOperationTask.getId().equals(task.getId()))) {
-
+			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null)) {
+				alertMessage = "Mansione di Fine operazione per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 2;
+			}
 
-				alertMessage = "Mansione di fine operazione per app mobile già presente, continuare?";
-
-			} else if (this.endoperation_task.isChecked() && this.overflow_task.isChecked() && (actualOverFlowTask != null)
-					&& !actualOverFlowTask.getId().equals(task.getId()) && (actualEndOperationTask != null)
-					&& !actualEndOperationTask.getId().equals(task.getId())) {
-
+			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)) {
+				alertMessage = "Mansione di Ritado per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 3;
-
-				alertMessage = "Mansione di fine operazione e Mansione di esubero per app mobile già presenti, continuare?";
-
 			}
 
 			if (alertMessage != null) {
@@ -846,10 +839,11 @@ public class Preferences extends SelectorComposer<Component> {
 							} else if (Preferences.this.selectedOptionMobileTask == 2) {
 								Preferences.this.configurationDao.removeAllEndoperationTasks();
 							} else if (Preferences.this.selectedOptionMobileTask == 3) {
-								Preferences.this.configurationDao.removeAllOverflowTasks();
-								Preferences.this.configurationDao.removeAllEndoperationTasks();
+								Preferences.this.configurationDao.removeAllDelayOperationTasks();
 							}
+
 							Preferences.this.updateTask(task);
+
 						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 							return;
 						}
@@ -940,15 +934,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener() {
-				@Override
-				public void onEvent(final Event e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						Preferences.this.deleteShift();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
-					}
-				}
-			}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								Preferences.this.deleteShift();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					}, params);
 
 		} else {
 			final Map<String, String> params = new HashMap();
@@ -986,15 +980,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteStatus();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1009,15 +1003,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1038,6 +1032,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.description_task.setValue("");
 		this.isabsence_task.setChecked(false);
 		this.overflow_task.setChecked(false);
+		this.delayoperation_task.setChecked(false);
 		this.endoperation_task.setChecked(false);
 		this.recorded_task.setChecked(false);
 		this.hiddenoperative_task.setChecked(false);
@@ -1237,6 +1232,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setIsabsence(this.isabsence_task.isChecked());
 		task.setEndoperation(this.endoperation_task.isChecked());
 		task.setOverflow(this.overflow_task.isChecked());
+		task.setDelayoperation(this.delayoperation_task.isChecked());
 		task.setRecorded(this.recorded_task.isChecked());
 		task.setHiddenoperative(this.hiddenoperative_task.isChecked());
 

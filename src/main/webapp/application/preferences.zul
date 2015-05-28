@@ -252,7 +252,7 @@
 														value="Fine Operazione (per Applicazione Mobile)">
 													</label>
 													<checkbox
-														id="endoperation_task" />
+														id="endoperation_task" onCheck="overflow_task.setChecked(false);delayoperation_task.setChecked(false);"/>
 												</row>
 												
 												<row
@@ -261,7 +261,16 @@
 														value="Esubero (per Applicazione Mobile):">
 													</label>
 													<checkbox
-														id="overflow_task" />
+														id="overflow_task" onCheck="endoperation_task.setChecked(false);delayoperation_task.setChecked(false);"/>
+												</row>
+												
+												<row
+													id="row_delayoperation_task">
+													<label
+														value="Ritardo (per Applicazione Mobile):">
+													</label>
+													<checkbox
+														id="delayoperation_task" onCheck="overflow_task.setChecked(false);endoperation_task.setChecked(false);"/>
 												</row>
 
 
@@ -332,6 +341,7 @@
 									<listheader label="Nascosta al preposto" sort="auto(hiddenoperative)" />
 									<listheader label="Fine Operazione (App Mobile)" sort="auto(endoperation)" />
 									<listheader label="Esubero (App Mobile)" sort="auto(overflow)" />
+									<listheader label="Ritardo (App Mobile)" sort="auto(delayoperation)" />
 									<listheader label="" />
 
 								</listhead>
@@ -374,6 +384,12 @@
 
 										<image
 											src="@{task_item.overflow, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+
+										<image
+											src="@{task_item.delayoperation, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 									
 									<listcell sclass="myBottonCell">

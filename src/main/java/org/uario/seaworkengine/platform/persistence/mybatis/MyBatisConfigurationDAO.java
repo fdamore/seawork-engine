@@ -50,6 +50,12 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public UserTask getDelayOperationTask() {
+		MyBatisConfigurationDAO.logger.info("getDelayOperationTask");
+		return this.getSqlSession().selectOne("configuration.getDelayOperationTask");
+	}
+
+	@Override
 	public UserTask getEndOperationTask() {
 		MyBatisConfigurationDAO.logger.info("getEndOperationTask");
 		return this.getSqlSession().selectOne("configuration.getEndOperationTask");
@@ -181,6 +187,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	public void removeAllDailyShift() {
 		MyBatisConfigurationDAO.logger.info("removeAllDailyShift");
 		this.getSqlSession().update("configuration.removeAllDailyShift");
+
+	}
+
+	@Override
+	public void removeAllDelayOperationTasks() {
+		MyBatisConfigurationDAO.logger.info("removeAllDelayOperationTasks");
+		this.getSqlSession().update("configuration.removeAllDelayOperationTasks");
 
 	}
 
@@ -321,6 +334,16 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 	public void setTask_cache(final ITaskCache task_cache) {
 		this.task_cache = task_cache;
+	}
+
+	@Override
+	public void setTaskAsDelayOperation(final Integer idTask) {
+		MyBatisConfigurationDAO.logger.info("setTaskAsDelayOperation");
+
+		this.removeAllDelayOperationTasks();
+
+		this.getSqlSession().update("configuration.setTaskAsDelayOperation", idTask);
+
 	}
 
 	@Override

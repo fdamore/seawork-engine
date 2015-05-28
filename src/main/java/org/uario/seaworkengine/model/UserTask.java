@@ -14,6 +14,8 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	private String code;
 
+	private Boolean delayoperation;
+
 	private String description;
 
 	private Boolean endoperation;
@@ -78,6 +80,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.code;
 	}
 
+	public Boolean getDelayoperation() {
+		return this.delayoperation;
+	}
+
 	public String getDescription() {
 		return this.description;
 	}
@@ -118,6 +124,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setCode(final String code) {
 		this.code = code;
+	}
+
+	public void setDelayoperation(final Boolean delayoperation) {
+		this.delayoperation = delayoperation;
 	}
 
 	public void setDescription(final String description) {
