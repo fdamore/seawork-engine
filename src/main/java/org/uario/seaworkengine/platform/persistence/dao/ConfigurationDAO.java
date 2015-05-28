@@ -45,6 +45,10 @@ public interface ConfigurationDAO {
 
 	public void removeAllDiseaseShift();
 
+	public void removeAllEndoperationTasks();
+
+	public void removeAllOverflowTasks();
+
 	public void removeAllStandardShift();
 
 	public void removeAllWaitBreakShift();
@@ -68,6 +72,10 @@ public interface ConfigurationDAO {
 	public void setShiftAsExpectedBreak(final Integer id_usershift);
 
 	public void setShiftAsStandardShift(final Integer id_usershift);
+
+	public void setTaskAsEndoperation(Integer idTask);
+
+	public void setTaskAsOverflow(Integer idTask);
 
 	public void updateShift(UserShift shift);
 

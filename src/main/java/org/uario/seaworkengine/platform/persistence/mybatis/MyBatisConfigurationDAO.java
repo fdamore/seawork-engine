@@ -16,11 +16,11 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 
 public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements ConfigurationDAO {
-	private static Logger	logger	= Logger.getLogger(MyBatisConfigurationDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisConfigurationDAO.class);
 
-	private IShiftCache		shift_cache;
+	private IShiftCache shift_cache;
 
-	private ITaskCache		task_cache;
+	private ITaskCache task_cache;
 
 	@Override
 	public void addStatus(final String status) {
@@ -179,6 +179,20 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void removeAllEndoperationTasks() {
+		MyBatisConfigurationDAO.logger.info("removeAllEndoperationTasks");
+		this.getSqlSession().update("configuration.removeAllEndoperationTasks");
+
+	}
+
+	@Override
+	public void removeAllOverflowTasks() {
+		MyBatisConfigurationDAO.logger.info("removeAllOverflowTasks");
+		this.getSqlSession().update("configuration.removeAllOverflowTasks");
+
+	}
+
+	@Override
 	public void removeAllStandardShift() {
 		MyBatisConfigurationDAO.logger.info("removeAllStandardShift");
 		this.getSqlSession().update("configuration.removeAllStandardShift");
@@ -295,6 +309,26 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 	public void setTask_cache(final ITaskCache task_cache) {
 		this.task_cache = task_cache;
+	}
+
+	@Override
+	public void setTaskAsEndoperation(final Integer idTask) {
+		MyBatisConfigurationDAO.logger.info("setTaskAsEndoperation");
+
+		this.getSqlSession().update("configuration.removeAllEndoperationTasks");
+
+		this.getSqlSession().update("configuration.setTaskAsEndoperation", idTask);
+
+	}
+
+	@Override
+	public void setTaskAsOverflow(final Integer idTask) {
+		MyBatisConfigurationDAO.logger.info("setTaskAsEndoperation");
+
+		this.getSqlSession().update("configuration.removeAllOverflowTasks");
+
+		this.getSqlSession().update("configuration.setTaskAsOverflow", idTask);
+
 	}
 
 	@Override

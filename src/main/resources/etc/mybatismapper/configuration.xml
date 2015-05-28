@@ -308,6 +308,30 @@
 		WHERE id =
 		#{id_usershift};
 	</update>
+	
+	<update id="removeAllEndoperationTasks">
+		UPDATE usertask
+		SET endoperation = 0;
+	</update>
+	
+	<update id="setTaskAsEndoperation" parameterType="Integer">
+		UPDATE usertask
+		SET endoperation = 1 
+		WHERE id =
+		#{idTask};
+	</update>
+	
+	<update id="removeAllOverflowTasks">
+		UPDATE usertask
+		SET overflow = 0;
+	</update>
+	
+	<update id="setTaskAsOverflow" parameterType="Integer">
+		UPDATE usertask
+		SET overflow = 1 
+		WHERE id =
+		#{idTask};
+	</update>
 
 
 </mapper>

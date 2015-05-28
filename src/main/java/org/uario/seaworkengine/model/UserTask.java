@@ -10,22 +10,26 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private String				code;
+	private String code;
 
-	private String				description;
+	private String description;
 
-	private Boolean				hiddenoperative;
+	private Boolean endoperation;
 
-	private Integer				id;
+	private Boolean hiddenoperative;
 
-	private Boolean				isabsence;
+	private Integer id;
 
-	private Boolean				recorded;
+	private Boolean isabsence;
+
+	private Boolean overflow;
+
+	private Boolean recorded;
 
 	// used in join with user
-	private Boolean				task_default;
+	private Boolean task_default;
 
 	@Override
 	public int compareTo(final UserTask o) {
@@ -78,6 +82,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.description;
 	}
 
+	public Boolean getEndoperation() {
+		return this.endoperation;
+	}
+
 	public Boolean getHiddenoperative() {
 		if (this.hiddenoperative == null) {
 			return Boolean.FALSE;
@@ -91,6 +99,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public Boolean getIsabsence() {
 		return this.isabsence;
+	}
+
+	public Boolean getOverflow() {
+		return this.overflow;
 	}
 
 	public Boolean getRecorded() {
@@ -112,6 +124,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		this.description = description;
 	}
 
+	public void setEndoperation(final Boolean endoperation) {
+		this.endoperation = endoperation;
+	}
+
 	public void setHiddenoperative(final Boolean hiddenoperative) {
 		this.hiddenoperative = hiddenoperative;
 	}
@@ -122,6 +138,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setIsabsence(final Boolean isabsence) {
 		this.isabsence = isabsence;
+	}
+
+	public void setOverflow(final Boolean overflow) {
+		this.overflow = overflow;
 	}
 
 	public void setRecorded(final Boolean recorded) {
