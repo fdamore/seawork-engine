@@ -57,17 +57,17 @@
 		</if>
 
 		<if test="rifMCT != null">
-			and ss.rif_mct = #{rifMCT} 
+			and ss.rif_mct = #{rifMCT}
 		</if>
 
 		<if test="shift != null">
 			and dss.shift = #{shift}
 		</if>
-		
+
 		<if test="invoicing_cycle_search != null">
 			and d.invoicing_cycle = #{invoicing_cycle_search}
 		</if>
-		
+
 		<if test="working_cycle_search != null">
 			and MONTH(dss.shiftdate) = #{working_cycle_search}
 		</if>
@@ -83,7 +83,7 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4 
+		sync_mobile_4
 		FROM
 		schedule
 		WHERE
@@ -97,7 +97,7 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4 
+		sync_mobile_4
 		FROM
 		schedule
 		WHERE id =
@@ -115,12 +115,13 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
 		user u left join
-		schedule s ON (u.id =
+		schedule s ON (u.id
+		=
 		s.user and s.date_schedule <![CDATA[>=]]>
 		#{date_from} and
 		s.date_schedule <![CDATA[<]]>
@@ -141,12 +142,13 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
 		user u left join
-		schedule s ON (u.id =
+		schedule s ON (u.id
+		=
 		s.user and s.date_schedule <![CDATA[>=]]>
 		#{date_from} and
 		s.date_schedule <![CDATA[<]]>
@@ -248,7 +250,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4 
+		s.sync_mobile_4
 		FROM schedule s
 		WHERE s.user =
 		#{id_user}
@@ -274,7 +276,7 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4 
+		sync_mobile_4
 		FROM
 		schedule
 		WHERE
@@ -294,7 +296,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -304,7 +306,8 @@
 		s.controller,
 		u.id as
 		user,
-		concat(u.lastname, ' ', u.firstname) AS
+		concat(u.lastname, ' ', u.firstname)
+		AS
 		name_user
 		from
 		user u,
@@ -348,7 +351,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,
@@ -358,19 +361,22 @@
 		s.controller,
 		u.id as
 		user,
-		concat(u.lastname, ' ', u.firstname) AS
+		concat(u.lastname, ' ', u.firstname)
+		AS
 		name_user
 		from
 		user u,
 		schedule s
 		left join
-		detailfinalschedule ds ON (s.id
+		detailfinalschedule ds ON
+		(s.id
 		= ds.id_schedule)
 		where
 		u.id =
 		s.user
 		and
-		s.date_schedule >= #{date_from}
+		s.date_schedule >=
+		#{date_from}
 		and
 		s.date_schedule  <![CDATA[<]]>
 		#{date_to}
@@ -404,7 +410,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -414,7 +420,8 @@
 		s.controller,
 		u.id as
 		user,
-		concat(u.lastname, ' ', u.firstname) AS
+		concat(u.lastname, ' ', u.firstname)
+		AS
 		name_user
 		from
 		user u,
@@ -455,7 +462,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,
@@ -465,17 +472,20 @@
 		s.controller,
 		u.id as
 		user,
-		concat(u.lastname, ' ', u.firstname) AS name_user
+		concat(u.lastname, ' ', u.firstname)
+		AS name_user
 		from
 		user u,
 		schedule s
 		left join
-		detailfinalschedule ds ON (s.id = ds.id_schedule)
+		detailfinalschedule ds ON
+		(s.id = ds.id_schedule)
 		where
 		u.id =
 		s.user
 		and
-		s.date_schedule = #{date_from} and u.status <![CDATA[<>]]>
+		s.date_schedule =
+		#{date_from} and u.status <![CDATA[<>]]>
 		'LICENZIATO' and u.status <![CDATA[<>]]>
 		'SOSPESO' and u.out_schedule = 0
 
@@ -536,7 +546,7 @@
 		SELECT df.id, df.id_schedule, df.shift, df.task,
 		df.time, df.time_from,
 		df.time_to, df.time_vacation, df.id_ship,
-		df.crane, s.name as nameShip, df.board, df.reviewshift 
+		df.crane, s.name as nameShip, df.board, df.reviewshift
 		FROM detailfinalschedule df LEFT
 		JOIN ship
 		s ON df.id_ship = s.id
@@ -679,14 +689,12 @@
 		SELECT d.id, d.id_schedule,
 		d.shift,
 		d.task, d.time, d.time_from, d.time_to, d.time_vacation,
-		ut.code as task_mobile_desc
+		ut.code as
+		task_mobile_desc
 		FROM
-		detailinitialschedule d, usertask ut
-		WHERE ut.hiddenoperative = 0 and
+		detailinitialschedule d and
 		id_schedule =
 		#{id_schedule} and d.shift = #{no_shift}
-		and d.task =
-		ut.id
 	</select>
 
 	<!-- LOAD THE FINAL INFO IN INITIAL STRUCTURE -->
@@ -696,41 +704,43 @@
 		d.shift,
 		d.task,
 		d.time, d.time_from, d.time_to, d.time_vacation,
-		ut.code as task_mobile_desc,
+		ut.code as
+		task_mobile_desc,
 		d.id_ship as field_mobile_id_ship,
-		d.board as field_mobile_board,
+		d.board as
+		field_mobile_board,
 		s.name as field_mobile_nameShip,
-		d.crane as field_mobile_crane
+		d.crane as
+		field_mobile_crane
 		FROM
-		usertask ut,
-		detailfinalschedule d LEFT JOIN ship s ON d.id_ship = s.id		
+		detailfinalschedule d LEFT JOIN ship s ON d.id_ship = s.id
 		WHERE
-		ut.hiddenoperative = 0 and
 		id_schedule =
 		#{id_schedule} and d.shift =
 		#{no_shift}
-		and d.task =
-		ut.id
+
 	</select>
-	
+
 	<insert id="createBadge">
-		INSERT INTO 
-		badge (eventTime, eventType, idschedule) 
+		INSERT INTO
+		badge (eventTime, eventType, idschedule)
 		VALUES (#{eventTime}, #{eventType}, #{idschedule});
 	</insert>
-	
-	<select id="loadBadgeByScheduleId" parameterType="Integer" resultType="org.uario.seaworkengine.web.services.handler.Badge">
-		SELECT id, eventTime, eventType, idschedule 
-		FROM badge 
+
+	<select id="loadBadgeByScheduleId" parameterType="Integer"
+		resultType="org.uario.seaworkengine.web.services.handler.Badge">
+		SELECT id, eventTime, eventType, idschedule
+		FROM badge
 		WHERE idschedule = #{id_schedule};
 	</select>
-	
+
 	<delete id="deleteBadge" parameterType="Integer">
 		DELETE
 		FROM
 		badge
 		WHERE
-		id =#{id_badge};
+		id
+		=#{id_badge};
 	</delete>
 
 </mapper>	
