@@ -811,17 +811,18 @@ public class Preferences extends SelectorComposer<Component> {
 			final UserTask actualEndOperationTask = this.configurationDao.getEndOperationTask();
 			final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
 
-			if (this.overflow_task.isChecked() && (actualOverFlowTask != null)) {
+			if (this.overflow_task.isChecked() && (actualOverFlowTask != null) && (!actualOverFlowTask.getId().equals(task.getId()))) {
 				alertMessage = "Mansione di Esubero per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 1;
 			}
 
-			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null)) {
+			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null) && (!actualEndOperationTask.getId().equals(task.getId()))) {
 				alertMessage = "Mansione di Fine operazione per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 2;
 			}
 
-			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)) {
+			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)
+					&& (!actualDelayOperationTask.getId().equals(task.getId()))) {
 				alertMessage = "Mansione di Ritado per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 3;
 			}
@@ -938,15 +939,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener() {
-				@Override
-				public void onEvent(final Event e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						Preferences.this.deleteShift();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-						// Cancel is clicked
-					}
-				}
-			}, params);
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								Preferences.this.deleteShift();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					}, params);
 
 		} else {
 			final Map<String, String> params = new HashMap();
@@ -984,15 +985,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteStatus();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteStatus();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1007,15 +1008,15 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					Preferences.this.deleteTask();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Preferences.this.deleteTask();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
