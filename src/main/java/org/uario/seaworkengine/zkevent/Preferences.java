@@ -806,17 +806,18 @@ public class Preferences extends SelectorComposer<Component> {
 			final UserTask actualEndOperationTask = this.configurationDao.getEndOperationTask();
 			final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
 
-			if (this.overflow_task.isChecked() && (actualOverFlowTask != null)) {
+			if (this.overflow_task.isChecked() && (actualOverFlowTask != null) && (!actualOverFlowTask.getId().equals(task.getId()))) {
 				alertMessage = "Mansione di Esubero per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 1;
 			}
 
-			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null)) {
+			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null) && (!actualEndOperationTask.getId().equals(task.getId()))) {
 				alertMessage = "Mansione di Fine operazione per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 2;
 			}
 
-			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)) {
+			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)
+					&& (!actualDelayOperationTask.getId().equals(task.getId()))) {
 				alertMessage = "Mansione di Ritado per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 3;
 			}
