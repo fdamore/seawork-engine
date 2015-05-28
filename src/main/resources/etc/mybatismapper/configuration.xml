@@ -49,32 +49,6 @@
 	</select>
 
 
-	<select id="listAllAbsenceTaskForMobile" resultType="org.uario.seaworkengine.model.UserTask">
-		SELECT t.id,
-		t.code,
-		t.description,
-		t.isabsence,
-		t.recorded,
-		t.hiddenoperative, 
-		t.endoperation, t.overflow, t.delayoperation 
-		FROM usertask t
-		WHERE t.isabsence = 1 and t.hiddenoperative = 0;
-
-	</select>
-
-	<select id="listAllHiddenOperativeTask" resultType="org.uario.seaworkengine.model.UserTask">
-		SELECT t.id,
-		t.code,
-		t.description,
-		t.isabsence,
-		t.recorded,
-		t.hiddenoperative, 
-		t.endoperation, t.overflow, t.delayoperation 
-		FROM usertask t
-		WHERE t.hiddenoperative = 1;
-	</select>
-
-
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,

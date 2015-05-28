@@ -3,7 +3,6 @@ package org.uario.seaworkengine.web.services.webcontroller;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -190,6 +189,21 @@ public class WebControllerImpl implements IWebServiceController {
 		return this.configurationDAO;
 	}
 
+	@Override
+	public UserTask getDelayOperation() {
+		return this.configurationDAO.getDelayOperationTask();
+	}
+
+	@Override
+	public UserTask getEndOperationTask() {
+		return this.configurationDAO.getEndOperationTask();
+	}
+
+	@Override
+	public UserTask getOverflowTask() {
+		return this.configurationDAO.getOverflowTask();
+	}
+
 	public PersonDAO getPersonDAO() {
 		return this.personDAO;
 	}
@@ -228,26 +242,6 @@ public class WebControllerImpl implements IWebServiceController {
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
 		return new ArrayList<UserShift>(this.shiftCache.getHash().values());
-
-	}
-
-	@Override
-	public List<UserTask> getUserTaskConfiguration() {
-
-		final Collection<UserTask> itms = this.taskCache.getHash().values();
-
-		final ArrayList<UserTask> ret = new ArrayList<UserTask>();
-
-		for (final UserTask userTask : itms) {
-			if (userTask.getHiddenoperative()) {
-				continue;
-			}
-
-			ret.add(userTask);
-
-		}
-
-		return ret;
 
 	}
 
@@ -377,13 +371,6 @@ public class WebControllerImpl implements IWebServiceController {
 			if (merging_details.size() == 0) {
 				continue;
 			}
-
-			// set info about task
-			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUserForMobile(person.getId());
-			final List<UserTask> list_tasks_absence = this.configurationDAO.listAllAbsenceTaskForMobile();
-			list_tasks.addAll(list_tasks_absence);
-
-			person.setUserTaskForMobile(list_tasks);
 
 			// set current object
 			item.setPerson(person);

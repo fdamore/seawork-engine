@@ -238,13 +238,7 @@
 														id="recorded_task" />
 												</row>
 												
-												<row
-													id="row_hiddenoperative_task">
-													<label
-														value="Nascosta al preposto:">
-													</label>
-													<checkbox id="hiddenoperative_task" />
-												</row>
+												
 												
 												<row
 													id="row_endoperation_task">
@@ -304,12 +298,10 @@
 									sclass="btn-info" label="Mansioni di Assenza">
 								</button>
 								
-								<button id="sw_return_hiddenoperativetask"
-									sclass="btn-info" label="Mansioni Nascoste al preposto">
-								</button>
+								
 								
 								<button id="sw_return_mobiletask"
-									sclass="btn-info" label="Mansioni Applicazione Mobile">
+									sclass="btn-info" label="Mansioni Usate in Applicazione Mobile">
 								</button>
 															
 
@@ -338,7 +330,7 @@
 										sort="auto(description)" />
 									<listheader label="Assenza" sort="auto(isabsence)" />
 									<listheader label="Contabilizzato" sort="auto(recorded)" />
-									<listheader label="Nascosta al preposto" sort="auto(hiddenoperative)" />
+									
 									<listheader label="Fine Operazione (App Mobile)" sort="auto(endoperation)" />
 									<listheader label="Esubero (App Mobile)" sort="auto(overflow)" />
 									<listheader label="Ritardo (App Mobile)" sort="auto(delayoperation)" />
@@ -368,11 +360,7 @@
 											src="@{task_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 									
-									<listcell style="text-align: center" sclass="myBottonCell">
-
-										<image
-											src="@{task_item.hiddenoperative, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
-									</listcell>
+									
 									
 									<listcell style="text-align: center" sclass="myBottonCell">
 

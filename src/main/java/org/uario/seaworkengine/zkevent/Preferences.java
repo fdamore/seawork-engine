@@ -41,137 +41,134 @@ public class Preferences extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Component add_billcenter_command;
+	private Component			add_billcenter_command;
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays		bank_holiday;
 
-	private BillCenter billCenterSelected;
-
-	@Wire
-	private Textbox code_shift;
+	private BillCenter			billCenterSelected;
 
 	@Wire
-	private Textbox code_status;
+	private Textbox				code_shift;
 
 	@Wire
-	private Textbox code_task;
-
-	private ConfigurationDAO configurationDao;
+	private Textbox				code_status;
 
 	@Wire
-	private Checkbox delayoperation_task;
+	private Textbox				code_task;
+
+	private ConfigurationDAO	configurationDao;
 
 	@Wire
-	private Textbox description_billcenter;
+	private Checkbox			delayoperation_task;
 
 	@Wire
-	private Textbox description_shift;
+	private Textbox				description_billcenter;
 
 	@Wire
-	private Textbox description_status;
+	private Textbox				description_shift;
 
 	@Wire
-	private Textbox description_task;
+	private Textbox				description_status;
 
 	@Wire
-	private Textbox docrepo;
+	private Textbox				description_task;
 
 	@Wire
-	private Checkbox endoperation_task;
+	private Textbox				docrepo;
 
 	@Wire
-	private Checkbox forceable;
+	private Checkbox			endoperation_task;
 
 	@Wire
-	private Textbox full_text_search_BillCenter;
+	private Checkbox			forceable;
 
 	@Wire
-	private Textbox full_text_searchShift;
+	private Textbox				full_text_search_BillCenter;
 
 	@Wire
-	private Textbox full_text_searchTask;
+	private Textbox				full_text_searchShift;
 
 	@Wire
-	private Component grid_billcenter_details;
+	private Textbox				full_text_searchTask;
 
 	@Wire
-	private Div grid_shift_details;
+	private Component			grid_billcenter_details;
 
 	@Wire
-	private Div grid_status_details;
+	private Div					grid_shift_details;
 
 	@Wire
-	private Div grid_task_details;
+	private Div					grid_status_details;
 
 	@Wire
-	private Checkbox hiddenoperative_task;
+	private Div					grid_task_details;
 
 	@Wire
-	private Checkbox isabsence_task;
+	private Checkbox			isabsence_task;
 
-	private IJobCost jobCostDao;
-
-	@Wire
-	private Label label_allocated_meomry;
+	private IJobCost			jobCostDao;
 
 	@Wire
-	private Label label_free_meomry;
+	private Label				label_allocated_meomry;
 
 	@Wire
-	private Label label_max_meomry;
+	private Label				label_free_meomry;
 
 	@Wire
-	private Listbox list_bankholiday;
+	private Label				label_max_meomry;
 
 	@Wire
-	private Component modify_billcenter_command;
-
-	private final NumberFormat numberFormat = NumberFormat.getInstance();
+	private Listbox				list_bankholiday;
 
 	@Wire
-	private Checkbox overflow_task;
+	private Component			modify_billcenter_command;
 
-	private IParams paramsDAO;
-
-	@Wire
-	public Checkbox recorded_shift;
+	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
 
 	@Wire
-	private Checkbox recorded_task;
+	private Checkbox			overflow_task;
 
-	private final Runtime runtime = Runtime.getRuntime();
-
-	private int selectedOptionMobileTask;
+	private IParams				paramsDAO;
 
 	@Wire
-	private Intbox shows_rows;
+	public Checkbox				recorded_shift;
 
 	@Wire
-	private Intbox shows_rowsShift;
+	private Checkbox			recorded_task;
+
+	private final Runtime		runtime				= Runtime.getRuntime();
+
+	private int					selectedOptionMobileTask;
 
 	@Wire
-	private Intbox shows_rowsTask;
+	private Intbox				shows_rows;
 
 	@Wire
-	private Listbox sw_list_billcenter;
+	private Intbox				shows_rowsShift;
 
 	@Wire
-	private Listbox sw_list_shift;
+	private Intbox				shows_rowsTask;
 
 	@Wire
-	private Listbox sw_list_status;
+	private Listbox				sw_list_billcenter;
 
 	@Wire
-	private Listbox sw_list_task;
+	private Listbox				sw_list_shift;
 
 	@Wire
-	private Combobox type_shift;
+	private Listbox				sw_list_status;
 
 	@Wire
-	private Combobox typeofbreak;
+	private Listbox				sw_list_task;
+
+	@Wire
+	private Combobox			type_shift;
+
+	@Wire
+	private Combobox			typeofbreak;
 
 	@Listen("onClick = #add_billcenter_command")
 	public void addBillCenterCommand() {
@@ -419,7 +416,6 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setDelayoperation(this.delayoperation_task.isChecked());
 		task.setEndoperation(this.endoperation_task.isChecked());
 		task.setRecorded(this.recorded_task.isChecked());
-		task.setHiddenoperative(this.hiddenoperative_task.isChecked());
 
 		this.configurationDao.createTask(task);
 
@@ -776,7 +772,6 @@ public class Preferences extends SelectorComposer<Component> {
 		this.overflow_task.setChecked(task.getOverflow());
 		this.delayoperation_task.setChecked(task.getDelayoperation());
 		this.endoperation_task.setChecked(task.getEndoperation());
-		this.hiddenoperative_task.setChecked(task.getHiddenoperative());
 		this.recorded_task.setChecked(task.getRecorded());
 
 	}
@@ -1040,7 +1035,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.delayoperation_task.setChecked(false);
 		this.endoperation_task.setChecked(false);
 		this.recorded_task.setChecked(false);
-		this.hiddenoperative_task.setChecked(false);
+
 	}
 
 	@Listen("onChange = #full_text_search_BillCenter; onOK = #full_text_search_BillCenter")
@@ -1183,15 +1178,6 @@ public class Preferences extends SelectorComposer<Component> {
 		this.sw_list_shift.setModel(new ListModelList<UserShift>(list_usershift));
 	}
 
-	@Listen("onClick = #sw_return_hiddenoperativetask")
-	public void showHiddenOperativeTask() {
-		List<UserTask> list_usertask = null;
-
-		list_usertask = this.configurationDao.listAllHiddenOperativeTask();
-
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
-	}
-
 	/**
 	 * Calculate memory
 	 */
@@ -1239,7 +1225,6 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setOverflow(this.overflow_task.isChecked());
 		task.setDelayoperation(this.delayoperation_task.isChecked());
 		task.setRecorded(this.recorded_task.isChecked());
-		task.setHiddenoperative(this.hiddenoperative_task.isChecked());
 
 		this.configurationDao.updateTask(task);
 

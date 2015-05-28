@@ -77,7 +77,7 @@ public class ProgramReportBuilder {
 		final VerticalListBuilder body = (VerticalListBuilder) ProgramReportBuilder.createBodyShipNote();
 
 		report.setHighlightDetailEvenRows(false).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-				.columnGrid(DynamicReports.grid.horizontalColumnGridList(meteoCondition)).columns(col1, col2, col3, col4);
+		.columnGrid(DynamicReports.grid.horizontalColumnGridList(meteoCondition)).columns(col1, col2, col3, col4);
 
 		report.summary(body);
 
@@ -117,11 +117,11 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
 
 		report.setHighlightDetailEvenRows(true)
-		.setColumnTitleStyle(columnStyle)
-		.setColumnStyle(textStyle)
-				.columnGrid(
-				DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
-						priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
+				.setColumnTitleStyle(columnStyle)
+				.setColumnStyle(textStyle)
+		.columnGrid(
+						DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
+								priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
 
 	}
 
@@ -158,8 +158,8 @@ public class ProgramReportBuilder {
 		final ColumnTitleGroupBuilder operation = DynamicReports.grid.titleGroup("Tipo Op.", co, tw).setTitleStretchWithOverflow(true);
 
 		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle).setColumnStyle(textStyle)
-				.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, user, add, start, end))
-				.columns(ship, co, tw, hands, cr, user, add, start, end);
+		.columnGrid(DynamicReports.grid.horizontalColumnGridList(ship, operation, hands, cr, user, add, start, end))
+		.columns(ship, co, tw, hands, cr, user, add, start, end);
 
 	}
 
@@ -299,7 +299,7 @@ public class ProgramReportBuilder {
 			String name_user = item.getName_user();
 			name_user = Utility.dottedName(name_user);
 
-			if (shiftNumber == 1 && item.getItem_3() != null && item.getItem_3().getAnchor1() != null) {
+			if ((shiftNumber == 1) && (item.getItem_3() != null) && (item.getItem_3().getAnchor1() != null)) {
 
 				if (item.getItem_3().getSchedule() != null) {
 
@@ -314,7 +314,7 @@ public class ProgramReportBuilder {
 				}
 			}
 
-			if (shiftNumber == 2 && item.getItem_3() != null && item.getItem_3().getAnchor2() != null) {
+			if ((shiftNumber == 2) && (item.getItem_3() != null) && (item.getItem_3().getAnchor2() != null)) {
 
 				if (item.getItem_3().getSchedule() != null) {
 
@@ -327,7 +327,7 @@ public class ProgramReportBuilder {
 				}
 			}
 
-			if (shiftNumber == 3 && item.getItem_3() != null && item.getItem_3().getAnchor3() != null) {
+			if ((shiftNumber == 3) && (item.getItem_3() != null) && (item.getItem_3().getAnchor3() != null)) {
 
 				if (item.getItem_3().getSchedule() != null) {
 
@@ -339,7 +339,7 @@ public class ProgramReportBuilder {
 				}
 			}
 
-			if (shiftNumber == 4 && item.getItem_3() != null && item.getItem_3().getAnchor4() != null) {
+			if ((shiftNumber == 4) && (item.getItem_3() != null) && (item.getItem_3().getAnchor4() != null)) {
 
 				if (item.getItem_3().getSchedule() != null) {
 					ProgramReportBuilder.isInCounting = false;
@@ -372,7 +372,7 @@ public class ProgramReportBuilder {
 
 		for (final DetailScheduleShip item : shipList) {
 
-			if (item.getShift().equals(shiftNumber) && shipId != item.getId_ship()) {
+			if (item.getShift().equals(shiftNumber) && (shipId != item.getId_ship())) {
 				final String ship_name = item.getName();
 				shipId = item.getId_ship();
 
@@ -487,21 +487,21 @@ public class ProgramReportBuilder {
 		final StringBuilder builder_gb = new StringBuilder();
 
 		builder_gb
-				.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme. Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una X se la diversità di orario è autorizzata o non autorizzata."
-						+ "\n" + "\n");
+		.append("Nel caso si verifichi che il compilatore montante e smontante è lo stesso, si dovrà apporre due firme. Se il dipendente ha un orario diverso da quello programmato equivalente al 1°-2°-3°-4°, il preposto deve segnare con una X se la diversità di orario è autorizzata o non autorizzata."
+				+ "\n" + "\n");
 
 		builder_gb
-				.append("NOTE:_________________________________________________________________________________________________________________________________________________________________________"
-						+ "\n" + "\n");
-		builder_gb
-				.append("______________________________________________________________________________________________________________________________________________________________________________"
-						+ "\n" + "\n");
-
-		builder_gb
-				.append("Firma compilatore foglio rilevazione presenza montante  ____________________________________ Dalle: ____________________________ Alle: ____________________________"
+		.append("NOTE:_________________________________________________________________________________________________________________________________________________________________________"
 				+ "\n" + "\n");
 		builder_gb
-				.append("Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
+		.append("______________________________________________________________________________________________________________________________________________________________________________"
+				+ "\n" + "\n");
+
+		builder_gb
+		.append("Firma compilatore foglio rilevazione presenza montante  ____________________________________ Dalle: ____________________________ Alle: ____________________________"
+						+ "\n" + "\n");
+		builder_gb
+		.append("Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
 
 		final String ingo_gb = builder_gb.toString();
 
@@ -710,9 +710,9 @@ public class ProgramReportBuilder {
 
 				final Integer idTask = detailInitialSchedule.getTask();
 
-				if (idTask != null && detailInitialSchedule.getShift().equals(shiftNumber)) {
+				if ((idTask != null) && detailInitialSchedule.getShift().equals(shiftNumber)) {
 					final UserTask task = ProgramReportBuilder.configurationDAO.loadTask(idTask);
-					if (task != null && !task.getHiddenoperative()) {
+					if (task != null) {
 
 						final String add = task.getCode();
 

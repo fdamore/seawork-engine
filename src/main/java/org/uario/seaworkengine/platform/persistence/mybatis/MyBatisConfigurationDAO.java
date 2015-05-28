@@ -16,11 +16,11 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 
 public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements ConfigurationDAO {
-	private static Logger logger = Logger.getLogger(MyBatisConfigurationDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisConfigurationDAO.class);
 
-	private IShiftCache shift_cache;
+	private IShiftCache		shift_cache;
 
-	private ITaskCache task_cache;
+	private ITaskCache		task_cache;
 
 	@Override
 	public void addStatus(final String status) {
@@ -84,25 +84,11 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
-	public List<UserTask> listAllAbsenceTaskForMobile() {
-		MyBatisConfigurationDAO.logger.info("List All Absence Task, no hidden..");
-
-		return this.getSqlSession().selectList("configuration.listAllAbsenceTaskForMobile");
-	}
-
-	@Override
 	public List<UserShift> listAllDefaultShift() {
 		MyBatisConfigurationDAO.logger.info("listAllDefaultShifts");
 
 		final List<UserShift> list_shift = this.getSqlSession().selectList("configuration.selectAllDefaultShifts");
 		return list_shift;
-	}
-
-	@Override
-	public List<UserTask> listAllHiddenOperativeTask() {
-		MyBatisConfigurationDAO.logger.info("List All Hidden Operative Task..");
-
-		return this.getSqlSession().selectList("configuration.listAllHiddenOperativeTask");
 	}
 
 	@Override
