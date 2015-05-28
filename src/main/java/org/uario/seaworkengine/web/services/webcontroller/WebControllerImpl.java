@@ -285,7 +285,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.loadDetailScheduleShipByShiftDateAndShipName(date_request_truncate, null, null);
+		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShip(date_request_truncate, null, null);
 		return list;
 	}
 

@@ -312,8 +312,8 @@
 		) as detail;
 	</select>
 
-	<select id="loadDetailScheduleShipByDateAndShipName"
-		parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+	<select id="searchDetailScheduleShipPeriod" parameterType="map"
+		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, d.notedetail,
 		s.name, d.operation,
@@ -330,31 +330,38 @@
 		FROM
 		detailscheduleship d
 		left join
-		user us ON
-		(d.idseconduser = us.id),
-		user
-		u, ship
-		s, scheduleship ss
+		user u ON
+		(d.iduser = u.id),
+		detailscheduleship d1
+		left join
+		user us ON (d1.idseconduser = us.id),
+		ship s, scheduleship ss
 		where
 
 		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
+			(s.name like CONCAT('%',#{full_text_search}, '%') ) and
 		</if>
 
 		<if test="shift != null">
 			d.shift = #{shift} and
 		</if>
 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate
-		order by
-		d.shiftdate, d.shift, s.name asc;
+		<if test="datefrom != null">
+			ss.arrivaldate>=#{datefrom} and
+		</if>
+
+		<if test="dateto != null">
+			#{dateto}>=ss.arrivaldate and
+		</if>
+
+
+		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
+		order by d.shiftdate, d.shift, s.name asc;
 
 	</select>
 
-	<select id="loadDetailScheduleShipByShiftDateAndShipName"
-		parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+	<select id="searchDetailScheduleShip" parameterType="map"
+		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, d.notedetail,
 		s.name, d.operation,
@@ -370,11 +377,12 @@
 		FROM
 		detailscheduleship d
 		left join
-		user us ON
-		(d.idseconduser = us.id),
-		user
-		u, ship
-		s, scheduleship ss
+		user u ON
+		(d.iduser = u.id),
+		detailscheduleship d1
+		left join
+		user us ON (d1.idseconduser = us.id),
+		ship s, scheduleship ss
 		where
 
 		<if test="full_text_search != null">
@@ -386,38 +394,14 @@
 			d.shift = #{shift} and
 		</if>
 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		d.shiftdate=#{shiftdate}
+		<if test="shiftdate != null">
+			d.shiftdate=#{shiftdate} and
+		</if>
+
+		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
 		order by d.shiftdate, d.shift, s.name asc;
 	</select>
 
-	<select id="loadDetailScheduleWithShiftDateNull" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT
-		d.shift, d.id, d.idscheduleship, d.notedetail, s.name,
-		d.operation,
-		ss.note,ss.arrivaldate,
-		ss.departuredate, s.id as id_ship,
-		d.iduser,
-		d.handswork, d.menwork,
-		d.shiftdate,
-		concat(u.lastname, ' ',
-		u.firstname) AS firstOperativeName,
-		concat(us.lastname, ' ',
-		us.firstname) AS secondOperativeName
-		FROM
-		detailscheduleship d
-		left join
-		user us ON (d.idseconduser = us.id),
-		user u, ship s,
-		scheduleship ss
-		where
-		d.idscheduleship = ss.id and
-		ss.idship = s.id and
-		d.iduser = u.id
-		and
-		d.shiftdate IS NULL
-		order by d.shiftdate, d.shift, s.name asc;
-	</select>
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
@@ -433,16 +417,19 @@
 		d
 		left join
 		user u ON
-		(d.iduser = u.id),
+		(d.iduser
+		= u.id),
 		detailscheduleship
 		d1
 		left join
 		user us ON
-		(d1.idseconduser = us.id)
+		(d1.idseconduser =
+		us.id)
 		where
 		d.idscheduleship =
 		#{id_scheduleShip} and d1.id = d.id
-		order by
+		order
+		by
 		d.shiftdate , d.shift
 		asc;
 	</select>

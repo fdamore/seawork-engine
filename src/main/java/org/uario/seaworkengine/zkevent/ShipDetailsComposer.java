@@ -33,68 +33,68 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Div					add_customer_div;
+	private Div add_customer_div;
 
 	@Wire
-	private Component			add_ships_command;
+	private Component add_ships_command;
 
 	@Wire
-	private Textbox				customer_name;
+	private Textbox customer_name;
 
-	private ICustomerDAO		customerDAO;
-
-	@Wire
-	private Tab					detail_ship_tab;
+	private ICustomerDAO customerDAO;
 
 	@Wire
-	private Textbox				full_text_search;
+	private Tab detail_ship_tab;
 
 	@Wire
-	private Component			grid_ship_details;
-
-	private Boolean				isInModify			= false;
-
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
+	private Textbox full_text_search;
 
 	@Wire
-	private Component			modify_ships_command;
+	private Component grid_ship_details;
+
+	private Boolean isInModify = false;
+
+	private final Logger logger = Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Checkbox			ship_activity;
+	private Component modify_ships_command;
 
 	@Wire
-	private Textbox				ship_condition;
+	private Checkbox ship_activity;
 
 	@Wire
-	private Textbox				ship_line;
+	private Textbox ship_condition;
 
 	@Wire
-	private Textbox				ship_name;
+	private Textbox ship_line;
 
 	@Wire
-	private Checkbox			ship_nowork;
-
-	Ship						ship_selected		= null;
+	private Textbox ship_name;
 
 	@Wire
-	private Textbox				ship_twtype;
+	private Checkbox ship_nowork;
+
+	Ship ship_selected = null;
 
 	@Wire
-	private Textbox				ship_type;
-
-	protected IShip				shipDao;
+	private Textbox ship_twtype;
 
 	@Wire
-	private Intbox				shows_rows;
+	private Textbox ship_type;
+
+	protected IShip shipDao;
 
 	@Wire
-	private Listbox				sw_list_customer;
+	private Intbox shows_rows;
 
 	@Wire
-	private Listbox				sw_list_ship;
+	private Listbox sw_list_customer;
+
+	@Wire
+	private Listbox sw_list_ship;
 
 	@Listen("onClick = #sw_addcustomer_ok")
 	public void addCustomerOK() {
@@ -117,29 +117,19 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #add_ships_command")
 	public void addShipCommand() {
 
-		final Ship ship = new Ship();
-		ship.setName(this.ship_name.getValue());
-		ship.setLine(this.ship_line.getValue());
-		ship.setShiptype(this.ship_type.getValue());
-		ship.setShipcondition(this.ship_condition.getValue());
-		ship.setTwtype(this.ship_twtype.getValue());
-		ship.setNowork(this.ship_nowork.isChecked());
-		ship.setActivityh(this.ship_activity.isChecked());
-
-		if ((ship.getName() == "") || (ship.getLine() == "") || (ship.getShiptype() == "") || (ship.getShipcondition() == "")
-				|| (ship.getTwtype() == "")) {
+		if ((this.ship_name.getValue() == null) || this.ship_name.getValue().equals("")) {
 
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare i valori inseriti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Devi inserire un nome nave", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 
 		}
 
-		if (this.shipDao.verifyIfShipExistByName(ship.getName(), null)) {
+		if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue(), null)) {
 
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
@@ -150,6 +140,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			return;
 
 		}
+
+		final Ship ship = new Ship();
+		ship.setName(this.ship_name.getValue());
+		ship.setLine(this.ship_line.getValue());
+		ship.setShiptype(this.ship_type.getValue());
+		ship.setShipcondition(this.ship_condition.getValue());
+		ship.setTwtype(this.ship_twtype.getValue());
+		ship.setNowork(this.ship_nowork.isChecked());
+		ship.setActivityh(this.ship_activity.isChecked());
 
 		if (!ship.getNowork()) {
 			this.createShip(ship);
