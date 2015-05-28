@@ -292,12 +292,17 @@
 								</button>
 
 								<button id="sw_return_defaulttask"
-									sclass="btn-info" label="Visualizza Mansioni di Assenza">
+									sclass="btn-info" label="Mansioni di Assenza">
 								</button>
 								
 								<button id="sw_return_hiddenoperativetask"
-									sclass="btn-info" label="Visualizza Mansioni Nascoste al preposto">
+									sclass="btn-info" label="Mansioni Nascoste al preposto">
 								</button>
+								
+								<button id="sw_return_mobiletask"
+									sclass="btn-info" label="Mansioni Applicazione Mobile">
+								</button>
+															
 
 								<separator></separator>
 
