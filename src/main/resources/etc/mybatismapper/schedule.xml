@@ -692,9 +692,12 @@
 		ut.code as
 		task_mobile_desc
 		FROM
-		detailinitialschedule d WHERE		
+		detailinitialschedule d, usertask ut
+		WHERE
 		id_schedule =
 		#{id_schedule} and d.shift = #{no_shift}
+		and d.task =
+		ut.id
 	</select>
 
 	<!-- LOAD THE FINAL INFO IN INITIAL STRUCTURE -->
@@ -713,12 +716,11 @@
 		d.crane as
 		field_mobile_crane
 		FROM
-		detailfinalschedule d LEFT JOIN ship s ON d.id_ship = s.id
+		usertask ut,
+		detailfinalschedule d LEFT JOIN ship
+		s ON d.id_ship = s.id
 		WHERE
-		id_schedule =
-		#{id_schedule} and d.shift =
-		#{no_shift}
-
+		id_schedule = #{id_schedule} and d.shift = #{no_shift} and d.task = ut.id
 	</select>
 
 	<insert id="createBadge">
