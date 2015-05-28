@@ -692,7 +692,7 @@
 		ut.code as
 		task_mobile_desc
 		FROM
-		detailinitialschedule d and
+		detailinitialschedule d WHERE		
 		id_schedule =
 		#{id_schedule} and d.shift = #{no_shift}
 	</select>

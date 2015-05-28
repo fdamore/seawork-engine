@@ -374,6 +374,9 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// set info about task
 			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUserForMobile(person.getId());
+			list_tasks.add(this.configurationDAO.getDelayOperationTask());
+			list_tasks.add(this.configurationDAO.getEndOperationTask());
+			list_tasks.add(this.configurationDAO.getOverflowTask());
 
 			person.setUserTaskForMobile(list_tasks);
 
