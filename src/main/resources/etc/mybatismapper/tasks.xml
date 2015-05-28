@@ -15,8 +15,7 @@
 		t.description,
 		t.isabsence,
 		t.recorded,
-		ut.task_default,
-		t.hiddenoperative
+		ut.task_default
 		FROM
 		usertask t,
 		user_usertask ut where ut.id_user = #{id_user} and
@@ -32,13 +31,12 @@
 		t.description,
 		t.isabsence,
 		t.recorded,
-		ut.task_default,
-		t.hiddenoperative
+		ut.task_default
 		FROM
 		usertask t,
 		user_usertask ut 
 		WHERE ut.id_user = #{id_user} and
-		ut.id_usertask = t.id and t.hiddenoperative = 0
+		ut.id_usertask = t.id
 
 	</select>
 
@@ -48,7 +46,7 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, t.hiddenoperative
+		t.recorded
 		FROM usertask t,
 		user_usertask ut where t.id = ut.id_user and ut.id_user =
 		#{id_user}
@@ -81,8 +79,7 @@
 
 		SELECT t.id,
 		t.code,
-		t.description, t.isabsence, t.recorded,
-		t.hiddenoperative
+		t.description, t.isabsence, t.recorded
 		FROM user_usertask ut, usertask t
 		WHERE
 		ut.task_default = 1 and ut.id_user =

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -130,6 +131,11 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	@XmlTransient
 	private String				status;
+
+	/**
+	 * this list of user task is used only bu mobile app
+	 */
+	private List<UserTask>		userTaskForMobile;
 
 	@XmlTransient
 	private String				zip;
@@ -417,6 +423,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	}
 
+	public List<UserTask> getUserTaskForMobile() {
+		return this.userTaskForMobile;
+	}
+
 	public String getZip() {
 		return this.zip;
 	}
@@ -580,11 +590,11 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setCity(final String city) {
 		this.city = city;
-	};
+	}
 
 	public void setContractual_level(final Integer contractual_level) {
 		this.contractual_level = contractual_level;
-	}
+	};
 
 	public void setCountry(final String country) {
 		this.country = country;
@@ -701,6 +711,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	public void setUserTaskForMobile(final List<UserTask> userTaskForMobile) {
+		this.userTaskForMobile = userTaskForMobile;
 	}
 
 	public void setZip(final String zip) {

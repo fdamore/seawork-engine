@@ -15,7 +15,7 @@
 		parameterType="Integer">
 		SELECT id,
 		code,
-		description, isabsence, recorded,  hiddenoperative, overflow, endoperation, delayoperation 
+		description, isabsence, recorded,  overflow, endoperation, delayoperation 
 		FROM usertask
 		WHERE id=#{id};
 	</select>
@@ -40,8 +40,7 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded,
-		t.hiddenoperative, 
+		t.recorded
 		t.endoperation, t.overflow, t.delayoperation 
 		FROM usertask t
 		WHERE t.isabsence = 1;
@@ -52,7 +51,7 @@
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, hiddenoperative, endoperation, overflow, delayoperation 
+		description, isabsence, recorded, endoperation, overflow, delayoperation 
 		FROM usertask
 		order by description;
 
@@ -62,7 +61,7 @@
 		resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, hiddenoperative, endoperation, overflow, delayoperation 
+		description, isabsence, recorded, endoperation, overflow, delayoperation 
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -124,10 +123,9 @@
 	<insert id="insertTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		INSERT INTO usertask
 		(code,
-		description, isabsence, recorded, hiddenoperative, endoperation, overflow, delayoperation)
+		description, isabsence, recorded, endoperation, overflow, delayoperation)
 		VALUES
-		(#{code},#{description}, #{isabsence}, #{recorded},
-		#{hiddenoperative}, #{endoperation}, #{overflow}, #{delayoperation});
+		(#{code},#{description}, #{isabsence}, #{recorded}, #{endoperation}, #{overflow}, #{delayoperation});
 
 	</insert>
 
@@ -156,9 +154,7 @@
 		description = #{description} ,
 		isabsence =
 		#{isabsence},
-		recorded = #{recorded},
-		hiddenoperative =
-		#{hiddenoperative}, 
+		recorded = #{recorded},		
 		endoperation = 
 		#{endoperation}, 
 		overflow = 

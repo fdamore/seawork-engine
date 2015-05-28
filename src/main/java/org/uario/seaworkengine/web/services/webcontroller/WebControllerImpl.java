@@ -372,6 +372,11 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
+			// set info about task
+			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUserForMobile(person.getId());
+
+			person.setUserTaskForMobile(list_tasks);
+
 			// set current object
 			item.setPerson(person);
 			item.setDetail_schedule(merging_details);
