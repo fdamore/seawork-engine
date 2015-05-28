@@ -292,6 +292,9 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final List<Person> list = this.personDAO.listAllPersonsForMobile(date_schedule);
 
+		// get special task
+		final List<UserTask> list_special = this.configurationDAO.listSpecialTaskMobile();
+
 		for (final Person person : list) {
 
 			if (person.isBackoffice()) {
@@ -374,9 +377,9 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// set info about task
 			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUserForMobile(person.getId());
-			list_tasks.add(this.configurationDAO.getDelayOperationTask());
-			list_tasks.add(this.configurationDAO.getEndOperationTask());
-			list_tasks.add(this.configurationDAO.getOverflowTask());
+
+			// add special task
+			list_tasks.addAll(list_special);
 
 			person.setUserTaskForMobile(list_tasks);
 

@@ -1,7 +1,6 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -535,21 +534,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_return_mobiletask")
 	public void getMobileTask() {
-		final List<UserTask> list_MobileUsertask = new ArrayList<UserTask>();
-
-		final UserTask actualOverFlowTask = this.configurationDao.getOverflowTask();
-		final UserTask actualEndOperationTask = this.configurationDao.getEndOperationTask();
-		final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
-
-		if (actualEndOperationTask != null) {
-			list_MobileUsertask.add(actualEndOperationTask);
-		}
-		if (actualOverFlowTask != null) {
-			list_MobileUsertask.add(actualOverFlowTask);
-		}
-		if (actualDelayOperationTask != null) {
-			list_MobileUsertask.add(actualDelayOperationTask);
-		}
+		final List<UserTask> list_MobileUsertask = this.configurationDao.listSpecialTaskMobile();
 
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_MobileUsertask));
 	}

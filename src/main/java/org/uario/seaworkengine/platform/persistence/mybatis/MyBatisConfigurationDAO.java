@@ -115,6 +115,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserTask> listSpecialTaskMobile() {
+		MyBatisConfigurationDAO.logger.info("Load all shift code");
+
+		return this.getSqlSession().selectList("configuration.listSpecialTaskMobile");
+	}
+
+	@Override
 	public List<String> loadAllShiftCode() {
 		MyBatisConfigurationDAO.logger.info("Load all shift code");
 

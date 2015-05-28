@@ -27,6 +27,8 @@ public interface ConfigurationDAO {
 
 	public List<UserTask> listAllTasks(String full_text_search);
 
+	public List<UserTask> listSpecialTaskMobile();
+
 	public List<String> loadAllShiftCode();
 
 	public List<String> loadAllTaskCode();

@@ -15,7 +15,8 @@
 		parameterType="Integer">
 		SELECT id,
 		code,
-		description, isabsence, recorded,  overflow, endoperation, delayoperation 
+		description, isabsence, recorded,
+		overflow, endoperation, delayoperation
 		FROM usertask
 		WHERE id=#{id};
 	</select>
@@ -41,7 +42,8 @@
 		t.description,
 		t.isabsence,
 		t.recorded
-		t.endoperation, t.overflow, t.delayoperation 
+		t.endoperation, t.overflow,
+		t.delayoperation
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
@@ -51,7 +53,8 @@
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, endoperation, overflow, delayoperation 
+		description, isabsence, recorded, endoperation, overflow,
+		delayoperation
 		FROM usertask
 		order by description;
 
@@ -61,7 +64,8 @@
 		resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, endoperation, overflow, delayoperation 
+		description, isabsence, recorded, endoperation,
+		overflow, delayoperation
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -77,7 +81,7 @@
 	<select id="selectAllDefaultShifts" resultType="org.uario.seaworkengine.model.UserShift">
 		SELECT id, code,
 		description, presence, forceable, break_shift, disease_shift,
-		accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded  
+		accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
 		FROM usershift
 		WHERE (break_shift='1' or disease_shift='1' or
 		accident_shift='1' or waitbreak_shift='1' or standard_shift='1' or
@@ -123,9 +127,11 @@
 	<insert id="insertTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		INSERT INTO usertask
 		(code,
-		description, isabsence, recorded, endoperation, overflow, delayoperation)
+		description, isabsence, recorded, endoperation, overflow,
+		delayoperation)
 		VALUES
-		(#{code},#{description}, #{isabsence}, #{recorded}, #{endoperation}, #{overflow}, #{delayoperation});
+		(#{code},#{description}, #{isabsence},
+		#{recorded}, #{endoperation}, #{overflow}, #{delayoperation});
 
 	</insert>
 
@@ -154,13 +160,13 @@
 		description = #{description} ,
 		isabsence =
 		#{isabsence},
-		recorded = #{recorded},		
-		endoperation = 
-		#{endoperation}, 
-		overflow = 
+		recorded = #{recorded},
+		endoperation =
+		#{endoperation},
+		overflow =
 		#{overflow},
-		delayoperation = 
-		#{delayoperation} 
+		delayoperation =
+		#{delayoperation}
 		WHERE id = #{id}
 
 	</update>
@@ -180,7 +186,8 @@
 		disease_shift = #{disease_shift},
 		accident_shift = #{accident_shift},
 		waitbreak_shift = #{waitbreak_shift},
-		standard_shift = #{standard_shift},
+		standard_shift =
+		#{standard_shift},
 		daily_shift =
 		#{daily_shift},
 		recorded = #{recorded}
@@ -286,60 +293,75 @@
 		WHERE id =
 		#{id_usershift};
 	</update>
-	
+
 	<update id="removeAllEndoperationTasks">
 		UPDATE usertask
 		SET endoperation = 0;
 	</update>
-	
+
 	<update id="setTaskAsEndoperation" parameterType="Integer">
 		UPDATE usertask
-		SET endoperation = 1 
+		SET endoperation = 1
 		WHERE id =
 		#{idTask};
 	</update>
-	
+
 	<update id="removeAllOverflowTasks">
 		UPDATE usertask
 		SET overflow = 0;
 	</update>
-	
+
 	<update id="setTaskAsOverflow" parameterType="Integer">
 		UPDATE usertask
-		SET overflow = 1 
+		SET
+		overflow = 1
 		WHERE id =
 		#{idTask};
 	</update>
-		
+
 	<select id="getOverflowTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT *
-		FROM usertask 
+		FROM usertask
 		WHERE overflow=1;
 	</select>
-	
+
 	<select id="getEndOperationTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT *
-		FROM usertask 
+		FROM
+		usertask
 		WHERE endoperation=1;
 	</select>
-	
+
+	<select id="getDelayOperationTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM
+		usertask
+		WHERE delayoperation=1;
+	</select>
+
+	<select id="listSpecialTaskMobile" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM
+		usertask
+		WHERE overflow=1 or endoperation=1 or delayoperation=1;
+	</select>
+
+
+
 	<update id="removeAllDelayOperationTasks">
 		UPDATE usertask
 		SET delayoperation = 0;
 	</update>
-	
+
 	<update id="setTaskAsDelayOperation" parameterType="Integer">
-		UPDATE usertask
-		SET delayoperation = 1 
+		UPDATE
+		usertask
+		SET delayoperation = 1
 		WHERE id =
 		#{idTask};
 	</update>
-	
-	<select id="getDelayOperationTask" resultType="org.uario.seaworkengine.model.UserTask">
-		SELECT *
-		FROM usertask 
-		WHERE delayoperation=1;
-	</select>
+
+
 
 
 </mapper>
