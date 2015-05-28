@@ -15,8 +15,7 @@
 		parameterType="Integer">
 		SELECT id,
 		code,
-		description, isabsence, recorded,
-		hiddenoperative
+		description, isabsence, recorded,  hiddenoperative, overflow, endoperation 
 		FROM usertask
 		WHERE id=#{id};
 	</select>
@@ -42,7 +41,8 @@
 		t.description,
 		t.isabsence,
 		t.recorded,
-		t.hiddenoperative
+		t.hiddenoperative, 
+		t.endoperation, t.overflow 
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
@@ -55,7 +55,8 @@
 		t.description,
 		t.isabsence,
 		t.recorded,
-		t.hiddenoperative
+		t.hiddenoperative, 
+		t.endoperation, t.overflow 
 		FROM usertask t
 		WHERE t.isabsence = 1 and t.hiddenoperative = 0;
 
@@ -67,7 +68,8 @@
 		t.description,
 		t.isabsence,
 		t.recorded,
-		t.hiddenoperative
+		t.hiddenoperative, 
+		t.endoperation, t.overflow 
 		FROM usertask t
 		WHERE t.hiddenoperative = 1;
 	</select>
@@ -76,7 +78,7 @@
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, hiddenoperative
+		description, isabsence, recorded, hiddenoperative, endoperation, overflow 
 		FROM usertask
 		order by description;
 
@@ -86,7 +88,7 @@
 		resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, hiddenoperative
+		description, isabsence, recorded, hiddenoperative, endoperation, overflow 
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -102,7 +104,7 @@
 	<select id="selectAllDefaultShifts" resultType="org.uario.seaworkengine.model.UserShift">
 		SELECT id, code,
 		description, presence, forceable, break_shift, disease_shift,
-		accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded
+		accident_shift, waitbreak_shift, standard_shift, daily_shift, recorded  
 		FROM usershift
 		WHERE (break_shift='1' or disease_shift='1' or
 		accident_shift='1' or waitbreak_shift='1' or standard_shift='1' or
@@ -148,10 +150,10 @@
 	<insert id="insertTask" parameterType="org.uario.seaworkengine.model.UserTask">
 		INSERT INTO usertask
 		(code,
-		description, isabsence, recorded, hiddenoperative)
+		description, isabsence, recorded, hiddenoperative, endoperation, overflow)
 		VALUES
 		(#{code},#{description}, #{isabsence}, #{recorded},
-		#{hiddenoperative});
+		#{hiddenoperative}, #{endoperation}, #{overflow});
 
 	</insert>
 
@@ -182,7 +184,11 @@
 		#{isabsence},
 		recorded = #{recorded},
 		hiddenoperative =
-		#{hiddenoperative}
+		#{hiddenoperative}, 
+		endoperation = 
+		#{endoperation}, 
+		overflow = 
+		#{overflow} 
 		WHERE id = #{id}
 
 	</update>
@@ -332,6 +338,18 @@
 		WHERE id =
 		#{idTask};
 	</update>
+		
+	<select id="getOverflowTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM usertask 
+		WHERE overflow=1;
+	</select>
+	
+	<select id="getEndOperationTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM usertask 
+		WHERE endoperation=1;
+	</select>
 
 
 </mapper>

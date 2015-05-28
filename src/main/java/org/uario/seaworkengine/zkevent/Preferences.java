@@ -40,130 +40,138 @@ public class Preferences extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Component			add_billcenter_command;
+	private Component add_billcenter_command;
 
-	private IBankHolidays		bank_holiday;
+	private IBankHolidays bank_holiday;
 
-	private BillCenter			billCenterSelected;
-
-	@Wire
-	private Textbox				code_shift;
+	private BillCenter billCenterSelected;
 
 	@Wire
-	private Textbox				code_status;
+	private Textbox code_shift;
 
 	@Wire
-	private Textbox				code_task;
-
-	private ConfigurationDAO	configurationDao;
+	private Textbox code_status;
 
 	@Wire
-	private Textbox				description_billcenter;
+	private Textbox code_task;
+
+	private ConfigurationDAO configurationDao;
 
 	@Wire
-	private Textbox				description_shift;
+	private Textbox description_billcenter;
 
 	@Wire
-	private Textbox				description_status;
+	private Textbox description_shift;
 
 	@Wire
-	private Textbox				description_task;
+	private Textbox description_status;
 
 	@Wire
-	private Textbox				docrepo;
+	private Textbox description_task;
 
 	@Wire
-	private Checkbox			forceable;
+	private Textbox docrepo;
 
 	@Wire
-	private Textbox				full_text_search_BillCenter;
+	private Checkbox endoperation_task;
 
 	@Wire
-	private Textbox				full_text_searchShift;
+	private Checkbox forceable;
 
 	@Wire
-	private Textbox				full_text_searchTask;
+	private Textbox full_text_search_BillCenter;
 
 	@Wire
-	private Component			grid_billcenter_details;
+	private Textbox full_text_searchShift;
 
 	@Wire
-	private Div					grid_shift_details;
+	private Textbox full_text_searchTask;
 
 	@Wire
-	private Div					grid_status_details;
+	private Component grid_billcenter_details;
 
 	@Wire
-	private Div					grid_task_details;
+	private Div grid_shift_details;
 
 	@Wire
-	private Checkbox			hiddenoperative_task;
+	private Div grid_status_details;
 
 	@Wire
-	private Checkbox			isabsence_task;
-
-	private IJobCost			jobCostDao;
+	private Div grid_task_details;
 
 	@Wire
-	private Label				label_allocated_meomry;
+	private Checkbox hiddenoperative_task;
 
 	@Wire
-	private Label				label_free_meomry;
+	private Checkbox isabsence_task;
+
+	private IJobCost jobCostDao;
 
 	@Wire
-	private Label				label_max_meomry;
+	private Label label_allocated_meomry;
 
 	@Wire
-	private Listbox				list_bankholiday;
+	private Label label_free_meomry;
 
 	@Wire
-	private Component			modify_billcenter_command;
-
-	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
-
-	private IParams				paramsDAO;
+	private Label label_max_meomry;
 
 	@Wire
-	public Checkbox				recorded_shift;
+	private Listbox list_bankholiday;
 
 	@Wire
-	private Checkbox			recorded_task;
+	private Component modify_billcenter_command;
 
-	private final Runtime		runtime				= Runtime.getRuntime();
-
-	@Wire
-	private Intbox				shows_rows;
+	private final NumberFormat numberFormat = NumberFormat.getInstance();
 
 	@Wire
-	private Intbox				shows_rowsShift;
+	private Checkbox overflow_task;
+
+	private IParams paramsDAO;
 
 	@Wire
-	private Intbox				shows_rowsTask;
+	public Checkbox recorded_shift;
 
 	@Wire
-	private Listbox				sw_list_billcenter;
+	private Checkbox recorded_task;
+
+	private final Runtime runtime = Runtime.getRuntime();
+
+	private int selectedOptionMobileTask;
 
 	@Wire
-	private Listbox				sw_list_shift;
+	private Intbox shows_rows;
 
 	@Wire
-	private Listbox				sw_list_status;
+	private Intbox shows_rowsShift;
 
 	@Wire
-	private Listbox				sw_list_task;
+	private Intbox shows_rowsTask;
 
 	@Wire
-	private Combobox			type_shift;
+	private Listbox sw_list_billcenter;
 
 	@Wire
-	private Combobox			typeofbreak;
+	private Listbox sw_list_shift;
+
+	@Wire
+	private Listbox sw_list_status;
+
+	@Wire
+	private Listbox sw_list_task;
+
+	@Wire
+	private Combobox type_shift;
+
+	@Wire
+	private Combobox typeofbreak;
 
 	@Listen("onClick = #add_billcenter_command")
 	public void addBillCenterCommand() {
-		if (this.description_billcenter.getValue() != null && this.description_billcenter.getValue().trim() != "") {
+		if ((this.description_billcenter.getValue() != null) && (this.description_billcenter.getValue().trim() != "")) {
 			final BillCenter billCenter = new BillCenter();
 			billCenter.setDescription(this.description_billcenter.getValue());
 			this.jobCostDao.createBillCenter(billCenter);
@@ -317,18 +325,63 @@ public class Preferences extends SelectorComposer<Component> {
 			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 		} else {
 
-			task.setCode(this.code_task.getValue());
-			task.setDescription(this.description_task.getValue());
-			task.setIsabsence(this.isabsence_task.isChecked());
-			task.setRecorded(this.recorded_task.isChecked());
-			task.setHiddenoperative(this.hiddenoperative_task.isChecked());
-			this.configurationDao.createTask(task);
+			String alertMessage = null;
+			this.selectedOptionMobileTask = 0;
 
-			this.refreshTaskList();
+			final UserTask actualOverFlowTask = this.configurationDao.getOverflowTask();
+			final UserTask actualEndOperationTask = this.configurationDao.getEndOperationTask();
 
-			this.resetTaskInfo();
+			if (this.overflow_task.isChecked() && !this.endoperation_task.isChecked() && (actualOverFlowTask != null)) {
 
-			this.grid_task_details.setVisible(false);
+				this.selectedOptionMobileTask = 1;
+
+				alertMessage = "Mansione di esubero per app mobile già presente, continuare?";
+
+			} else if (this.endoperation_task.isChecked() && !this.overflow_task.isChecked() && (actualEndOperationTask != null)) {
+
+				this.selectedOptionMobileTask = 2;
+
+				alertMessage = "Mansione di fine operazione per app mobile già presente, continuare?";
+
+			} else if (this.endoperation_task.isChecked() && this.overflow_task.isChecked() && (actualOverFlowTask != null)
+					&& (actualEndOperationTask != null)) {
+
+				this.selectedOptionMobileTask = 3;
+
+				alertMessage = "Mansione di fine operazione e Mansione di esubero per app mobile già presenti, continuare?";
+
+			}
+
+			if (alertMessage != null) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.CANCEL;
+
+				Messagebox.show(alertMessage, "CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							if (Preferences.this.selectedOptionMobileTask == 1) {
+								Preferences.this.configurationDao.removeAllOverflowTasks();
+							} else if (Preferences.this.selectedOptionMobileTask == 2) {
+								Preferences.this.configurationDao.removeAllEndoperationTasks();
+							} else if (Preferences.this.selectedOptionMobileTask == 3) {
+								Preferences.this.configurationDao.removeAllOverflowTasks();
+								Preferences.this.configurationDao.removeAllEndoperationTasks();
+							}
+							Preferences.this.createTask(task);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
+			} else {
+				this.createTask(task);
+			}
+
 		}
 
 	}
@@ -356,6 +409,24 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onClick = #closeBillCenterDetail")
 	public void closeBillCenterDetail() {
 		this.description_billcenter.setValue("");
+	}
+
+	private void createTask(final UserTask task) {
+		task.setCode(this.code_task.getValue());
+		task.setDescription(this.description_task.getValue());
+		task.setIsabsence(this.isabsence_task.isChecked());
+		task.setOverflow(this.overflow_task.isChecked());
+		task.setEndoperation(this.endoperation_task.isChecked());
+		task.setRecorded(this.recorded_task.isChecked());
+		task.setHiddenoperative(this.hiddenoperative_task.isChecked());
+
+		this.configurationDao.createTask(task);
+
+		this.refreshTaskList();
+
+		this.resetTaskInfo();
+
+		this.grid_task_details.setVisible(false);
 	}
 
 	@Listen("onClick = #sw_link_deleteBillCenter")
@@ -477,7 +548,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onClick = #modify_billcenter_command")
 	public void modifyBillCenterCommand() {
-		if (this.billCenterSelected != null && this.description_billcenter.getValue() != null && this.description_billcenter.getValue().trim() != "") {
+		if ((this.billCenterSelected != null) && (this.description_billcenter.getValue() != null)
+				&& (this.description_billcenter.getValue().trim() != "")) {
 			this.billCenterSelected.setDescription(this.description_billcenter.getValue());
 			this.jobCostDao.updateBillCenter(this.billCenterSelected);
 
@@ -610,7 +682,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 			// if shift is a default shift, user cannot modify shift as a non
 			// default shift
-			if (((isDefault && this.typeofbreak.getSelectedItem() != null && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito"))))
+			if (((isDefault && (this.typeofbreak.getSelectedItem() != null) && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito"))))
 					|| (!isDefault)) {
 				shift.setBreak_shift(false);
 				shift.setDisease_shift(false);
@@ -679,6 +751,8 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_task.setValue(task.getCode());
 		this.description_task.setValue(task.getDescription());
 		this.isabsence_task.setChecked(task.getIsabsence());
+		this.overflow_task.setChecked(task.getOverflow());
+		this.endoperation_task.setChecked(task.getEndoperation());
 		this.hiddenoperative_task.setChecked(task.getHiddenoperative());
 		this.recorded_task.setChecked(task.getRecorded());
 
@@ -705,19 +779,68 @@ public class Preferences extends SelectorComposer<Component> {
 
 			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 		} else {
-			task.setCode(this.code_task.getValue());
-			task.setDescription(this.description_task.getValue());
-			task.setIsabsence(this.isabsence_task.isChecked());
-			task.setRecorded(this.recorded_task.isChecked());
-			task.setHiddenoperative(this.hiddenoperative_task.isChecked());
 
-			this.configurationDao.updateTask(task);
+			String alertMessage = null;
 
-			this.refreshTaskList();
+			this.selectedOptionMobileTask = 0;
 
-			this.resetTaskInfo();
+			final UserTask actualOverFlowTask = this.configurationDao.getOverflowTask();
+			final UserTask actualEndOperationTask = this.configurationDao.getEndOperationTask();
 
-			this.grid_task_details.setVisible(false);
+			if (this.overflow_task.isChecked() && !this.endoperation_task.isChecked()
+					&& ((actualOverFlowTask != null) && !actualOverFlowTask.getId().equals(task.getId()))) {
+
+				this.selectedOptionMobileTask = 1;
+
+				alertMessage = "Mansione di esubero per app mobile già presente, continuare?";
+
+			} else if (this.endoperation_task.isChecked() && !this.overflow_task.isChecked()
+					&& ((actualEndOperationTask != null) && !actualEndOperationTask.getId().equals(task.getId()))) {
+
+				this.selectedOptionMobileTask = 2;
+
+				alertMessage = "Mansione di fine operazione per app mobile già presente, continuare?";
+
+			} else if (this.endoperation_task.isChecked() && this.overflow_task.isChecked() && (actualOverFlowTask != null)
+					&& !actualOverFlowTask.getId().equals(task.getId()) && (actualEndOperationTask != null)
+					&& !actualEndOperationTask.getId().equals(task.getId())) {
+
+				this.selectedOptionMobileTask = 3;
+
+				alertMessage = "Mansione di fine operazione e Mansione di esubero per app mobile già presenti, continuare?";
+
+			}
+
+			if (alertMessage != null) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.CANCEL;
+
+				Messagebox.show(alertMessage, "CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							if (Preferences.this.selectedOptionMobileTask == 1) {
+								Preferences.this.configurationDao.removeAllOverflowTasks();
+							} else if (Preferences.this.selectedOptionMobileTask == 2) {
+								Preferences.this.configurationDao.removeAllEndoperationTasks();
+							} else if (Preferences.this.selectedOptionMobileTask == 3) {
+								Preferences.this.configurationDao.removeAllOverflowTasks();
+								Preferences.this.configurationDao.removeAllEndoperationTasks();
+							}
+							Preferences.this.updateTask(task);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
+			} else {
+				this.updateTask(task);
+			}
+
 		}
 
 	}
@@ -896,6 +1019,8 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_task.setValue("");
 		this.description_task.setValue("");
 		this.isabsence_task.setChecked(false);
+		this.overflow_task.setChecked(false);
+		this.endoperation_task.setChecked(false);
 		this.recorded_task.setChecked(false);
 		this.hiddenoperative_task.setChecked(false);
 	}
@@ -1086,6 +1211,24 @@ public class Preferences extends SelectorComposer<Component> {
 
 		Messagebox.show("Doc Repository Aggiornato con successo", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
+	}
+
+	private void updateTask(final UserTask task) {
+		task.setCode(this.code_task.getValue());
+		task.setDescription(this.description_task.getValue());
+		task.setIsabsence(this.isabsence_task.isChecked());
+		task.setEndoperation(this.endoperation_task.isChecked());
+		task.setOverflow(this.overflow_task.isChecked());
+		task.setRecorded(this.recorded_task.isChecked());
+		task.setHiddenoperative(this.hiddenoperative_task.isChecked());
+
+		this.configurationDao.updateTask(task);
+
+		this.refreshTaskList();
+
+		this.resetTaskInfo();
+
+		this.grid_task_details.setVisible(false);
 	}
 
 }

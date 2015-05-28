@@ -49,6 +49,18 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 		this.task_cache.buildCache(this.loadTasks());
 	}
 
+	@Override
+	public UserTask getEndOperationTask() {
+		MyBatisConfigurationDAO.logger.info("getEndOperationTask");
+		return this.getSqlSession().selectOne("configuration.getEndOperationTask");
+	}
+
+	@Override
+	public UserTask getOverflowTask() {
+		MyBatisConfigurationDAO.logger.info("getOverflowTask");
+		return this.getSqlSession().selectOne("configuration.getOverflowTask");
+	}
+
 	public IShiftCache getShift_cache() {
 		return this.shift_cache;
 	}

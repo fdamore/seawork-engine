@@ -13,6 +13,10 @@ public interface ConfigurationDAO {
 
 	public void createTask(UserTask task);
 
+	public UserTask getEndOperationTask();
+
+	public UserTask getOverflowTask();
+
 	public List<UserTask> listAllAbsenceTask();
 
 	public List<UserTask> listAllAbsenceTaskForMobile();

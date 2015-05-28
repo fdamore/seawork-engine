@@ -245,6 +245,24 @@
 													</label>
 													<checkbox id="hiddenoperative_task" />
 												</row>
+												
+												<row
+													id="row_endoperation_task">
+													<label
+														value="Fine Operazione (per Applicazione Mobile)">
+													</label>
+													<checkbox
+														id="endoperation_task" />
+												</row>
+												
+												<row
+													id="row_overflow_task">
+													<label
+														value="Esubero (per Applicazione Mobile):">
+													</label>
+													<checkbox
+														id="overflow_task" />
+												</row>
 
 
 
@@ -307,6 +325,8 @@
 									<listheader label="Assenza" sort="auto(isabsence)" />
 									<listheader label="Contabilizzato" sort="auto(recorded)" />
 									<listheader label="Nascosta al preposto" sort="auto(hiddenoperative)" />
+									<listheader label="Fine Operazione (App Mobile)" sort="auto(endoperation)" />
+									<listheader label="Esubero (App Mobile)" sort="auto(overflow)" />
 									<listheader label="" />
 
 								</listhead>
@@ -337,6 +357,18 @@
 
 										<image
 											src="@{task_item.hiddenoperative, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+
+										<image
+											src="@{task_item.endoperation, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+
+										<image
+											src="@{task_item.overflow, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 									
 									<listcell sclass="myBottonCell">
