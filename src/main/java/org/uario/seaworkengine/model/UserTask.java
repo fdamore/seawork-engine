@@ -10,28 +10,26 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private String code;
+	private String				code;
 
-	private Boolean delayoperation;
+	private Boolean				delayoperation;
 
-	private String description;
+	private String				description;
 
-	private Boolean endoperation;
+	private Boolean				endoperation;
 
-	private Boolean hiddenoperative;
+	private Integer				id;
 
-	private Integer id;
+	private Boolean				isabsence;
 
-	private Boolean isabsence;
+	private Boolean				overflow;
 
-	private Boolean overflow;
-
-	private Boolean recorded;
+	private Boolean				recorded;
 
 	// used in join with user
-	private Boolean task_default;
+	private Boolean				task_default;
 
 	@Override
 	public int compareTo(final UserTask o) {
@@ -92,13 +90,6 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.endoperation;
 	}
 
-	public Boolean getHiddenoperative() {
-		if (this.hiddenoperative == null) {
-			return Boolean.FALSE;
-		}
-		return this.hiddenoperative;
-	}
-
 	public Integer getId() {
 		return this.id;
 	}
@@ -136,10 +127,6 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setEndoperation(final Boolean endoperation) {
 		this.endoperation = endoperation;
-	}
-
-	public void setHiddenoperative(final Boolean hiddenoperative) {
-		this.hiddenoperative = hiddenoperative;
 	}
 
 	public void setId(final Integer id) {

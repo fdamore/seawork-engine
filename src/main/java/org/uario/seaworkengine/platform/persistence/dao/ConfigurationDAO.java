@@ -21,11 +21,7 @@ public interface ConfigurationDAO {
 
 	public List<UserTask> listAllAbsenceTask();
 
-	public List<UserTask> listAllAbsenceTaskForMobile();
-
 	public List<UserShift> listAllDefaultShift();
-
-	public List<UserTask> listAllHiddenOperativeTask();
 
 	public List<UserShift> listAllShifts(String full_text_search);
 

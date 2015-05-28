@@ -43,6 +43,21 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
+	public UserTask getDelayOperation() {
+		return this.webcontroller.getDelayOperation();
+	}
+
+	@Override
+	public UserTask getEndOperationTask() {
+		return this.webcontroller.getEndOperationTask();
+	}
+
+	@Override
+	public UserTask getOverflowTask() {
+		return this.webcontroller.getOverflowTask();
+	}
+
+	@Override
 	public String getScheduleNote(final Integer id_schedule) {
 		return this.webcontroller.getScheduleNote(id_schedule);
 	}
@@ -50,11 +65,6 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
 		return this.webcontroller.getUserShiftConfiguration();
-	}
-
-	@Override
-	public List<UserTask> getUserTaskConfiguration() {
-		return this.webcontroller.getUserTaskConfiguration();
 	}
 
 	public IWebServiceController getWebcontroller() {

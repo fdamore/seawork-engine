@@ -41,6 +41,21 @@ public interface ISoapServiceInterface {
 	public void deleteDetailFinalScheduleShipById(Integer id_detail_final);
 
 	/**
+	 * @return
+	 */
+	public UserTask getDelayOperation();
+
+	/**
+	 * @return
+	 */
+	public UserTask getEndOperationTask();
+
+	/**
+	 * @return
+	 */
+	public UserTask getOverflowTask();
+
+	/**
 	 * Public string get note
 	 *
 	 * @param id_schedule
@@ -54,13 +69,6 @@ public interface ISoapServiceInterface {
 	 * @return
 	 */
 	public List<UserShift> getUserShiftConfiguration();
-
-	/**
-	 * Get Configuration User task
-	 *
-	 * @return
-	 */
-	public List<UserTask> getUserTaskConfiguration();
 
 	/**
 	 * Get list of ship schedulated today
