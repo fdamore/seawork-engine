@@ -696,7 +696,7 @@
 		d.shift,
 		d.task,
 		d.time, d.time_from, d.time_to, d.time_vacation,
-		concat(ut.code,' - ',ut.description) as task_mobile_desc,
+		ut.code as task_mobile_desc,
 		d.id_ship as field_mobile_id_ship,
 		d.board as field_mobile_board,
 		s.name as field_mobile_nameShip,
