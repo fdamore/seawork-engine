@@ -16,7 +16,7 @@ import org.uario.seaworkengine.statistics.ShipTotal;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
 
-	private static Logger logger = Logger.getLogger(MyBatisScheduleShipDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisScheduleShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisScheduleShipDAO.logger;
@@ -176,28 +176,6 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public DetailScheduleShip loadDetailScheduleShip(final Integer id_detailScheduleShip) {
-		MyBatisScheduleShipDAO.logger.info("loadDetailScheduleShip");
-
-		return this.getSqlSession().selectOne("scheduleship.loadDetailScheduleShip", id_detailScheduleShip);
-	}
-
-	@Override
-	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final String full_text_search,
-			final Integer shift) {
-		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("datefrom", datefrom);
-		map.put("dateto", dateto);
-		map.put("full_text_search", full_text_search);
-		map.put("shift", shift);
-
-		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipPeriod", map);
-
-	}
-
-	@Override
 	public List<DetailScheduleShip> loadDetailScheduleShipByIdSchedule(final Integer id_scheduleShip) {
 		MyBatisScheduleShipDAO.logger.info("loadDetailScheduleShipByIdSchedule");
 
@@ -254,6 +232,21 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("shipDate", shipDate);
 
 		return this.getSqlSession().selectList("scheduleship.loadShipInDate", map);
+	}
+
+	@Override
+	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final String full_text_search,
+			final Integer shift) {
+		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("datefrom", datefrom);
+		map.put("dateto", dateto);
+		map.put("full_text_search", full_text_search);
+		map.put("shift", shift);
+
+		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipPeriod", map);
+
 	}
 
 	@Override

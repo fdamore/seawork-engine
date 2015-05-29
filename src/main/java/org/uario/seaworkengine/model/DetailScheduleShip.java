@@ -25,6 +25,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	 */
 	private Date	arrivaldate;
 
+	private Integer	customer_id;
+
 	/**
 	 * Used only in view mode
 	 */
@@ -76,6 +78,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public Date getArrivaldate() {
 		return this.arrivaldate;
+	}
+
+	public Integer getCustomer_id() {
+		return this.customer_id;
 	}
 
 	public Date getDeparturedate() {
@@ -144,6 +150,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setArrivaldate(final Date shiparrivaldate) {
 		this.arrivaldate = shiparrivaldate;
+	}
+
+	public void setCustomer_id(final Integer customer_id) {
+		this.customer_id = customer_id;
 	}
 
 	public void setDeparturedate(final Date shipdeparturedate) {

@@ -44,8 +44,6 @@ public interface IScheduleShip {
 
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
 
-	public DetailScheduleShip loadDetailScheduleShip(Integer id_detailScheduleShip);
-
 	public List<DetailScheduleShip> loadDetailScheduleShipByIdSchedule(Integer id_scheduleShip);
 
 	public ScheduleShip loadScheduleShip(Integer id_scheduleShip);

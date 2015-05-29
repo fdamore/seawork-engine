@@ -13,6 +13,22 @@ public class Customer implements Serializable {
 
 	private String				name;
 
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof Customer)) {
+			return false;
+		}
+
+		final Customer custo_itm = (Customer) obj;
+
+		return this.getId().equals(custo_itm.getId());
+
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -27,6 +43,11 @@ public class Customer implements Serializable {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return this.getName();
 	}
 
 }

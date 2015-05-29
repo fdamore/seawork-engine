@@ -106,11 +106,11 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, shiftdate, notedetail)
+		idseconduser, handswork, menwork, shiftdate, notedetail, customer_id)
 		VALUES
 		(#{idscheduleship},
 		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
-		#{notedetail});
+		#{notedetail},#{customer_id});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -130,30 +130,7 @@
 	</delete>
 
 
-	<select id="loadDetailScheduleShip" parameterType="Integer"
-		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT d.id,
-		d.idscheduleship,
-		d.shift,
-		d.operation,
-		d.iduser,
-		d.notedetail,
-		d.idseconduser, d.handswork, d.menwork, d.shiftdate,
-		concat(u.lastname, ' ', u.firstname) AS firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS secondOperativeName
-		FROM
-		detailscheduleship d
-		left join
-		user us ON
-		(d.idseconduser = us.id),
-		user u
-		where
-		d.id =
-		#{id_detailScheduleShip}
-		and d.iduser = u.id
-		order by d.shift
-		asc;
-	</select>
+
 
 	<select id="calculateHandsWorkInDateAndShipName" parameterType="map"
 		resultType="org.uario.seaworkengine.statistics.ShipTotal">
@@ -315,7 +292,8 @@
 	<select id="searchDetailScheduleShipPeriod" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
-		d.shift, d.id, d.notedetail, d.idscheduleship, d.notedetail,
+		d.shift, d.id, d.notedetail, d.idscheduleship,
+		d.notedetail,d.customer_id,
 		s.name, d.operation,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
@@ -324,9 +302,11 @@
 		d.menwork, d.shiftdate,
 		s.id as
 		id_ship,
-		concat(u.lastname, ' ', u.firstname) AS
+		concat(u.lastname, '
+		', u.firstname) AS
 		firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS secondOperativeName
+		concat(us.lastname, ' ',
+		us.firstname) AS secondOperativeName
 		FROM
 		detailscheduleship d
 		left join
@@ -334,7 +314,8 @@
 		(d.iduser = u.id),
 		detailscheduleship d1
 		left join
-		user us ON (d1.idseconduser = us.id),
+		user us ON
+		(d1.idseconduser = us.id),
 		ship s, scheduleship ss
 		where
 
@@ -356,14 +337,16 @@
 
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
-		order by d.shiftdate, d.shift, s.name asc;
+		order by
+		d.shiftdate, d.shift, s.name asc;
 
 	</select>
 
 	<select id="searchDetailScheduleShip" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
-		d.shift, d.id, d.notedetail, d.idscheduleship, d.notedetail,
+		d.shift, d.id, d.notedetail, d.idscheduleship,
+		d.notedetail,d.customer_id,
 		s.name, d.operation,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
@@ -372,8 +355,10 @@
 		d.handswork,
 		d.menwork, d.shiftdate, s.id as
 		id_ship,
-		concat(u.lastname, ' ', u.firstname) AS firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS secondOperativeName
+		concat(u.lastname,
+		' ', u.firstname) AS firstOperativeName,
+		concat(us.lastname, ' ',
+		us.firstname) AS secondOperativeName
 		FROM
 		detailscheduleship d
 		left join
@@ -381,7 +366,8 @@
 		(d.iduser = u.id),
 		detailscheduleship d1
 		left join
-		user us ON (d1.idseconduser = us.id),
+		user us ON
+		(d1.idseconduser = us.id),
 		ship s, scheduleship ss
 		where
 
@@ -399,18 +385,24 @@
 		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
-		order by d.shiftdate, d.shift, s.name asc;
+		order by
+		d.shiftdate, d.shift, s.name asc;
 	</select>
 
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT d.id, d.idscheduleship, d.shift, d.operation,
-		d.iduser, d.idseconduser, d.handswork, d.menwork, d.shiftdate,
+		SELECT d.id, d.idscheduleship,
+		d.operation,d.customer_id, 
+		d.iduser, d.idseconduser,
+		d.handswork, d.menwork,
+		d.shiftdate,
 		d.notedetail,
-		concat(u.lastname, ' ', u.firstname) AS
+		concat(u.lastname, '
+		', u.firstname) AS
 		firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS
+		concat(us.lastname, ' ',
+		us.firstname) AS
 		secondOperativeName
 		FROM
 		detailscheduleship
@@ -427,7 +419,8 @@
 		us.id)
 		where
 		d.idscheduleship =
-		#{id_scheduleShip} and d1.id = d.id
+		#{id_scheduleShip} and
+		d1.id = d.id
 		order
 		by
 		d.shiftdate , d.shift
@@ -493,7 +486,9 @@
 		handswork = #{handswork},
 		menwork = #{menwork},
 		shiftdate = #{shiftdate},
-		notedetail = #{notedetail}
+		notedetail = #{notedetail},
+		customer_id =
+		#{customer_id}
 		WHERE id = #{id};
 	</update>
 
