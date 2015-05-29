@@ -41,7 +41,7 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded
+		t.recorded,
 		t.endoperation, t.overflow,
 		t.delayoperation
 		FROM usertask t
