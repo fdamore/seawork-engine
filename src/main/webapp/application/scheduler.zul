@@ -2180,7 +2180,7 @@
 														label="Non Lavoro" style="color:green; font-size:9pt"
 														id="selectShipNoWork" />
 													<space />
-													
+
 												</hbox>
 
 											</vbox>
@@ -2613,19 +2613,21 @@
 
 					<div id="reviewSearchBox">
 
-						<hbox align="center">
+						<hbox align="start">
 
-							<a label="Filtra su numero turno: "></a>
-							<combobox placeholder="Scegli turno..."
-								readonly="true" id="select_shift_overview">
-								<comboitem value="TUTTI" label="TUTTI"
-									id="item_all_shift_overview">
-								</comboitem>
-								<comboitem value="1" label="1"></comboitem>
-								<comboitem value="2" label="2"></comboitem>
-								<comboitem value="3" label="3"></comboitem>
-								<comboitem value="4" label="4"></comboitem>
-							</combobox>
+							<vbox align="start">
+								<a label="Filtra su numero turno: "></a>
+								<combobox placeholder="Scegli turno..."
+									readonly="true" id="select_shift_overview">
+									<comboitem value="TUTTI"
+										label="TUTTI" id="item_all_shift_overview">
+									</comboitem>
+									<comboitem value="1" label="1"></comboitem>
+									<comboitem value="2" label="2"></comboitem>
+									<comboitem value="3" label="3"></comboitem>
+									<comboitem value="4" label="4"></comboitem>
+								</combobox>
+							</vbox>
 
 							<space></space>
 
@@ -2654,14 +2656,16 @@
 								</hbox>
 							</vbox>
 
-							<a label="Filtra su mansione: "></a>
-							<vbox>
-								<space></space>
+							<space></space>
+
+							<vbox align="start">
+								<a label="Filtra su mansione: "></a>
 								<combobox id="taskComboBox"
 									readonly="false" placeholder="Seleziona mansione..." />
 								<a label="Tutti" style="color:green"
 									id="overview_selector_select_allTask" />
 							</vbox>
+
 							<space></space>
 
 						</hbox>
@@ -2764,7 +2768,7 @@
 										<listheader label="Uscita"
 											hflex="2" align="center" />
 										<listheader
-											label="Consuntiva Fascia Ora." hflex="2" align="center" />
+											label="Fascia Oraria" hflex="2" align="center" />
 
 									</listhead>
 
