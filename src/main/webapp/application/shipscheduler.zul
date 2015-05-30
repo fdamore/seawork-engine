@@ -116,6 +116,7 @@
 		</div>
 
 		<popup id="popup_ship">
+
 			<panel border="none" collapsible="false"
 				style="margin: 5px 5px 5px 5px;" width="700px">
 				<panelchildren>
@@ -165,261 +166,308 @@
 
 			</div>
 
-			<panel border="normal" collapsible="false" visible="false"
-				id="panel_detail_program" style="margin: 5px 5px 5px 5px"
+
+			<panel border="none" collapsible="false"
 				sclass="transparent">
 
 				<caption id="captionDetailProgramShip"
 					iconSclass="z-icon-star orange"
 					label="Dettagli di Programmazione Nave">
 
-					<hbox align="center">
-
-						<toolbarbutton
-							id="add_scheduleShipsDetail_command" label="Aggiungi Dettaglio"
-							style="color: blue" visible="true">
-						</toolbarbutton>
-
-						<toolbarbutton
-							id="modify_scheduleShipsDetail_command"
-							label="Modifica Dettaglio" style="color: blue" visible="false">
-						</toolbarbutton>
-
-						<toolbarbutton label="Chiudi"
-							onClick="panel_detail_program.setVisible(false)"
-							style="color: blue">
-						</toolbarbutton>
-
-					</hbox>
-
 				</caption>
-
-
 
 				<panelchildren>
 
-
-
 					<panel border="normal" collapsible="false"
-						sclass="transparent">
+						visible="false" id="panel_detail_program"
+						style="margin: 5px 5px 5px 5px" sclass="transparent">
+
+						<caption>
+
+							<hbox align="center">
+
+								<toolbarbutton
+									id="add_scheduleShipsDetail_command" label="Aggiungi Dettaglio"
+									style="color: blue" visible="true">
+								</toolbarbutton>
+
+								<toolbarbutton
+									id="modify_scheduleShipsDetail_command"
+									label="Modifica Dettaglio" style="color: blue"
+									visible="false">
+								</toolbarbutton>
+
+								<toolbarbutton label="Chiudi"
+									onClick="panel_detail_program.setVisible(false)"
+									style="color: blue">
+								</toolbarbutton>
+
+							</hbox>
+
+						</caption>
+
+
 
 						<panelchildren>
 
-							<grid sclass="domain">
-								<columns>
-									<column label="Type" />
-									<column label="Informazioni" />
-								</columns>
-								<rows>
-									<row>
-										<label value="Data Turno:"></label>
-										<datebox id="shiftdate"
-											placeholder="Data Turno" />
-									</row>
-									<row id="alertShiftDate"
-										visible="false">
-										<cell colspan="2">
-											<label id="msgAlert" />
-										</cell>
-									</row>
-									<row>
-										<label value="Turno:"></label>
-										<combobox id="shift"
-											readonly="true" placeholder="Seleziona Turno"
-											mold="rounded">
-											<comboitem value="1"
-												label="1">
-											</comboitem>
-											<comboitem value="2"
-												label="2">
-											</comboitem>
-											<comboitem value="3"
-												label="3">
-											</comboitem>
-											<comboitem value="4"
-												label="4">
-											</comboitem>
-										</combobox>
-									</row>
-
-									<row>
-										<label value="Cliente:"></label>
-										<combobox id="ship_customer"
-											readonly="true" placeholder="Seleziona Cliente"
-											mold="rounded" />
-									</row>
 
 
-									<row
-										id="row_info_activity_ship_program">
-										<label
-											value="Nave per attività:">
-										</label>
-										<vbox align="left">
-											<combobox id="ship_activity"
-												readonly="true" placeholder="Attività su nave..."
-												mold="rounded" />
-											<button label="Nessuna"
-												sclass="btn-info"
-												onClick="ship_activity.setSelectedItem(null); ship_from.setValue(null);ship_to.setValue(null);">
-											</button>
-										</vbox>
-									</row>
+							<panel border="normal" collapsible="false"
+								sclass="transparent">
 
-									<row id="h_program_period">
-										<label value="Fascia Oraria:">
-										</label>
+								<panelchildren>
 
-										<hbox align="left">
-											<timebox id="ship_from"
-												placeholder="Da..." mold="rounded" />
+									<grid sclass="domain">
+										<columns>
+											<column label="Type" />
+											<column
+												label="Informazioni" />
+										</columns>
+										<rows>
+											<row>
+												<label
+													value="Data Turno:">
+												</label>
+												<datebox id="shiftdate"
+													placeholder="Data Turno" />
+											</row>
+											<row id="alertShiftDate"
+												visible="false">
+												<cell colspan="2">
+													<label
+														id="msgAlert" />
+												</cell>
+											</row>
+											<row>
+												<label value="Turno:"></label>
+												<combobox id="shift"
+													readonly="true" placeholder="Seleziona Turno"
+													mold="rounded">
+													<comboitem value="1"
+														label="1">
+													</comboitem>
+													<comboitem value="2"
+														label="2">
+													</comboitem>
+													<comboitem value="3"
+														label="3">
+													</comboitem>
+													<comboitem value="4"
+														label="4">
+													</comboitem>
+												</combobox>
+											</row>
 
-											<timebox id="ship_to"
-												placeholder="A..." mold="rounded" />
+											<row>
+												<label
+													value="Cliente:">
+												</label>
+												<hbox>
+													<combobox
+														id="ship_customer" readonly="true"
+														placeholder="Seleziona Cliente" mold="rounded" />
 
-											<checkbox
-												label="Finisce il Giorno Dopo" checked="false">
-											</checkbox>
+													<button
+														label="Nessuno" sclass="btn-info"
+														onClick="ship_customer.setValue(null)">
+													</button>
+												</hbox>
+											</row>
 
-										</hbox>
-									</row>
 
-									<row>
-										<label value="Operazione:"></label>
+											<row
+												id="row_info_activity_ship_program">
+												<label
+													value="Nave per attività:">
+												</label>
+												<hbox>
+													<combobox
+														id="ship_activity" readonly="true"
+														placeholder="Attività su nave..." mold="rounded" />
+													<button
+														label="Nessuna" sclass="btn-info"
+														onClick="ship_activity.setSelectedItem(null); ship_from.setValue(null);ship_to.setValue(null);">
+													</button>
+												</hbox>
+											</row>
 
-										<combobox id="operation"
-											placeholder="Seleziona il tipo di operazione"
-											readonly="true">
-											<comboitem label="-"
-												value="-" />
-											<comboitem label="COMPLETA"
-												value="COMPLETA">
-											</comboitem>
-											<comboitem label="TW"
-												value="TWISTER">
-											</comboitem>
-										</combobox>
+											<row
+												id="h_program_period">
+												<label
+													value="Fascia Oraria:">
+												</label>
 
-									</row>
-									<row>
-										<label
-											value="Nome Primo Preposto:">
-										</label>
-										<combobox id="user"
-											readonly="true" placeholder="Seleziona Primo Preposto" />
-									</row>
-									<row>
-										<label
-											value="Nome Secondo Preposto:">
-										</label>
-										<combobox id="usersecond"
-											readonly="true" placeholder="Seleziona Secondo Preposto" />
-									</row>
-									<row>
-										<label
-											value="Mani di lavoro:">
-										</label>
-										<intbox id="handswork" />
-									</row>
-									<row>
-										<label value="Numero uomini:"></label>
-										<intbox id="menwork" />
-									</row>
-									<row>
-										<label
-											value="Note dettaglio:">
-										</label>
-										<textbox id="noteshipdetail" />
-									</row>
-								</rows>
-							</grid>
+												<hbox align="left">
+													<timebox
+														id="ship_from" placeholder="Da..." mold="rounded" />
+
+													<timebox
+														id="ship_to" placeholder="A..." mold="rounded" />
+
+													<checkbox
+														label="Finisce il Giorno Dopo" checked="false">
+													</checkbox>
+
+												</hbox>
+											</row>
+
+											<row>
+												<label
+													value="Operazione:">
+												</label>
+
+												<combobox id="operation"
+													placeholder="Seleziona il tipo di operazione"
+													readonly="true">
+													<comboitem label="-"
+														value="-" />
+													<comboitem
+														label="COMPLETA" value="COMPLETA">
+													</comboitem>
+													<comboitem
+														label="TW" value="TWISTER">
+													</comboitem>
+												</combobox>
+
+											</row>
+											<row>
+												<label
+													value="Nome Primo Preposto:">
+												</label>
+												<combobox id="user"
+													readonly="true" placeholder="Seleziona Primo Preposto" />
+											</row>
+											<row>
+												<label
+													value="Nome Secondo Preposto:">
+												</label>
+												<combobox
+													id="usersecond" readonly="true"
+													placeholder="Seleziona Secondo Preposto" />
+											</row>
+											<row>
+												<label
+													value="Mani di lavoro:">
+												</label>
+												<intbox id="handswork" />
+											</row>
+											<row>
+												<label
+													value="Numero uomini:">
+												</label>
+												<intbox id="menwork" />
+											</row>
+											<row>
+												<label
+													value="Note dettaglio:">
+												</label>
+												<textbox rows="5"
+													id="noteshipdetail" />
+											</row>
+										</rows>
+									</grid>
+
+								</panelchildren>
+							</panel>
 
 						</panelchildren>
+
 					</panel>
-
-				</panelchildren>
-
-			</panel>
-
-			<separator></separator>
-
-			<panel border="none" style="margin: 5px 5px 5px 5px">
-
-				<panelchildren>
-
-					<button label="Aggiungi Dettaglio"
-						id="show_add_panel_program" sclass="btn-info">
-					</button>
 
 					<separator></separator>
 
-					<listbox id="sw_list_scheduleDetailShip"
-						pagingPosition="both" mold="paging"
-						style="border: 1px solid #CCCCCC;" multiple="false"
-						pageSize="10">
-						<listhead sizable="true">
-							<listheader label="Data"
-								sort="auto(shiftdate)" />
-							<listheader label="Turno"
-								sort="auto(shift)" />
-							<listheader label="Operazione"
-								sort="auto(operation)" />
-							<listheader label="Primo preposto"
-								sort="auto(firstOperativeName)" />
-							<listheader label="Secondo preposto"
-								sort="auto(secondOperativeName)" />
-							<listheader label="Mani"
-								sort="auto(handswork)" />
-							<listheader label="Uomini"
-								sort="auto(menwork)" />
+					<panel border="none"
+						style="margin: 5px 5px 5px 5px">
 
-							<listheader label="" />
-						</listhead>
+						<panelchildren>
 
-						<listitem
-							self="@{each='detailscheduleship_item'}"
-							value="@{detailscheduleship_item}">
+							<button label="Aggiungi Dettaglio"
+								id="show_add_panel_program" sclass="btn-info">
+							</button>
 
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.shift}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.operation}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.firstOperativeName}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.secondOperativeName}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.handswork}" />
-							<listcell sclass="myBottonCell"
-								label="@{detailscheduleship_item.menwork}" />
+							<separator></separator>
 
-							<listcell sclass="myBottonCell">
+							<listbox id="sw_list_scheduleDetailShip"
+								pagingPosition="both" mold="paging"
+								style="border: 1px solid #CCCCCC;" multiple="false"
+								pageSize="10">
+								<listhead sizable="true">
+									<listheader label="Data"
+										sort="auto(shiftdate)" />
+									<listheader label="Turno"
+										sort="auto(shift)" />
+									<listheader label="Operazione"
+										sort="auto(operation)" />
+									<listheader label="Primo preposto"
+										sort="auto(firstOperativeName)" />
+									<listheader label="Secondo preposto"
+										sort="auto(secondOperativeName)" />
+									<listheader label="Mani"
+										sort="auto(handswork)" />
+									<listheader label="Uomini"
+										sort="auto(menwork)" />
 
-								<toolbarbutton
-									id="sw_link_deleteDetailship" style="color:blue"
-									onClick="sw_list_scheduleDetailShip.selectItem((Listitem)self.getParent().getParent());sw_list_scheduleDetailShip.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="Cancella">
-								</toolbarbutton>
+									<listheader label="" />
+								</listhead>
 
-								<toolbarbutton
-									id="sw_link_modifyDetailship" style="color:blue"
-									onClick="panel_detail_program.setVisible(true);sw_list_scheduleDetailShip.selectItem((Listitem)self.getParent().getParent());sw_list_scheduleDetailShip.setSelectedItem((Listitem)self.getParent().getParent());"
-									label="Modifica">
-								</toolbarbutton>
+								<listitem
+									self="@{each='detailscheduleship_item'}"
+									value="@{detailscheduleship_item}">
 
-							</listcell>
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.shift}" />
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.operation}" />
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.firstOperativeName}" />
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.secondOperativeName}" />
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.handswork}" />
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.menwork}" />
 
-						</listitem>
+									<listcell sclass="myBottonCell">
 
-					</listbox>
+										<toolbarbutton
+											id="sw_link_deleteDetailship" style="color:blue"
+											onClick="sw_list_scheduleDetailShip.selectItem((Listitem)self.getParent().getParent());sw_list_scheduleDetailShip.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Cancella">
+										</toolbarbutton>
 
+										<toolbarbutton
+											id="sw_link_modifyDetailship" style="color:blue"
+											onClick="panel_detail_program.setVisible(true);sw_list_scheduleDetailShip.selectItem((Listitem)self.getParent().getParent());sw_list_scheduleDetailShip.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Modifica">
+										</toolbarbutton>
+
+									</listcell>
+
+								</listitem>
+
+							</listbox>
+
+
+
+						</panelchildren>
+
+					</panel>
 
 
 				</panelchildren>
 
+
 			</panel>
+
+
+
+
+
+
+
+
 
 
 
@@ -558,6 +606,24 @@
 								</combobox>
 
 							</row>
+
+
+							<row>
+								<label value="Cliente:"></label>
+
+								<hbox align="center">
+									<combobox id="ship_customer_daily"
+										readonly="true" placeholder="Seleziona Cliente"
+										mold="rounded" />
+
+									<button label="Nessuno"
+										sclass="btn-info"
+										onClick="ship_customer_daily.setValue(null)">
+									</button>
+
+								</hbox>
+							</row>
+
 							<row>
 								<label value="Operazione:"></label>
 								<combobox id="operation_Daily"
@@ -571,6 +637,8 @@
 										value="TWISTER">
 									</comboitem>
 								</combobox>
+
+
 
 							</row>
 							<row>
@@ -762,6 +830,8 @@
 				<listhead sizable="true">
 					<listheader label="Nome Nave" sort="auto(name)"
 						hflex="2" />
+					<listheader label="Cliente" sort="auto(name)"
+						hflex="2" />
 					<listheader label="Data Turno" hflex="2" />
 					<listheader label="Turno" sort="auto(shift)"
 						hflex="1" />
@@ -771,16 +841,14 @@
 						sort="auto(firstOperativeName)" />
 					<listheader label="Secondo Preposto" hflex="2"
 						sort="auto(secondOperativeName)" />
-					<listheader label="Mani di lavoro" hflex="1"
+					<listheader label="Mani" hflex="1"
 						sort="auto(handswork)" />
-					<listheader label="Numero Persone" hflex="1"
+					<listheader label="Persone" hflex="1"
 						sort="auto(menwork)" />
-					<listheader label="Note Programmazione" hflex="1" />
-					<listheader label="Note Dettaglio" hflex="1" />
 
-					<listheader label="Data inizio attività" hflex="2"
+					<listheader label="Data inizio" hflex="2"
 						sort="auto(arrivaldate)" />
-					<listheader label="Data fine attività" hflex="2"
+					<listheader label="Data fine" hflex="2"
 						sort="auto(departuredate)" />
 
 					<listheader label="" hflex="2" />
@@ -799,6 +867,9 @@
 </attribute>
 						</label>
 					</listcell>
+					
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.customer_id, converter='org.uario.seaworkengine.zkevent.converter.ConverterCustomerName'}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
@@ -817,10 +888,7 @@
 						label="@{detailscheduleship_item.handswork}" />
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.menwork}" />
-					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.note}" />
-					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.notedetail}" />
+
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.arrivaldate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell sclass="myBottonCell"

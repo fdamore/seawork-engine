@@ -222,6 +222,7 @@
 	<bean id="myCustomerDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisCustomerDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="customer_cache" ref="myCustomerCache"></property>
 
 	</bean>
 
@@ -241,6 +242,13 @@
 	<bean id="myShipCache"
 		class="org.uario.seaworkengine.platform.persistence.cache.task.ShipCacheImpl">
 	</bean>
+
+	<bean id="myCustomerCache"
+		class="org.uario.seaworkengine.platform.persistence.cache.task.CustomerCacheImpl">
+	</bean>
+
+
+
 
 
 

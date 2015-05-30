@@ -10,6 +10,8 @@ public interface BeansTag {
 
 	public static String	CONTESTATION_DAO		= "myContestationDAO";
 
+	public static String	CUSTOMER_CACHE			= "myCustomerCache";
+
 	public static String	CUSTOMER_DAO			= "myCustomerDAO";
 
 	public static String	EMPLOYMENT_DAO			= "myEmploymentDAO";

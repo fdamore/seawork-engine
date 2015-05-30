@@ -9,8 +9,6 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class ShipNameConverter implements TypeConverter {
 
-	private static String	img	= "/img/star-full-icon.png";
-
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
 

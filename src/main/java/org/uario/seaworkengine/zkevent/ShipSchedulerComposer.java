@@ -109,6 +109,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final ListModel<Customer> model_customer = new ListModelList<Customer>(list_customer);
 			ShipSchedulerComposer.this.ship_customer.setModel(model_customer);
 
+			final ListModel<Customer> model_customer_daily = new ListModelList<Customer>(list_customer);
+			ShipSchedulerComposer.this.ship_customer_daily.setModel(model_customer_daily);
+
 			ShipSchedulerComposer.this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
 
 			ShipSchedulerComposer.this.scheduler_type_selector.setSelectedItem(ShipSchedulerComposer.this.detail_item);
@@ -378,6 +381,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox					ship_customer;
+
+	@Wire
+	private Combobox					ship_customer_daily;
 
 	@Wire
 	private Datebox						ship_departure;
@@ -811,6 +817,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Integer shift = this.detailScheduleShipSelected.getShift();
 		if (shift != null) {
 			this.shift.setValue(shift.toString());
+		} else {
+			this.shift.setValue(null);
 		}
 
 		this.operation.setValue(this.detailScheduleShipSelected.getOperation());
@@ -1176,6 +1184,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_modifyscheduleship")
 	public void openModifyDetailDailyPopup() {
 
+		// TODO: define here behavior for customer
+
 		this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
 		if (this.detailScheduleShipSelected == null) {
@@ -1224,20 +1234,33 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.usersecond_Daily.setSelectedItem(null);
 		}
 
-		// select shift
-		final Integer shift = this.detailScheduleShipSelected.getShift();
-		if (shift != null) {
-			final List<Comboitem> listItem = this.shift_Daily.getItems();
+		// set customer
+		this.ship_customer_daily.setSelectedItem(null);
+
+		if (this.detailScheduleShipSelected.getCustomer_id() != null) {
+
+			final Customer customer = this.customerDAO.loadCustomer(this.detailScheduleShipSelected.getCustomer_id());
+
+			final List<Comboitem> listItem = this.ship_customer_daily.getItems();
 			for (final Comboitem item : listItem) {
-				if (item.getValue() instanceof Integer) {
-					final Integer current_shift = item.getValue();
-					if (shift.equals(current_shift)) {
-						this.shift_Daily.setSelectedItem(item);
+				if (item.getValue() instanceof Customer) {
+					final Customer current = item.getValue();
+					if (customer.equals(current)) {
+						this.ship_customer_daily.setSelectedItem(item);
 						break;
 					}
 				}
 
 			}
+
+		}
+
+		// select shift
+		final Integer shift = this.detailScheduleShipSelected.getShift();
+		if (shift != null) {
+			this.shift_Daily.setValue(shift.toString());
+		} else {
+			this.shift_Daily.setValue(null);
 		}
 
 		this.operation_Daily.setValue(this.detailScheduleShipSelected.getOperation());
@@ -1399,6 +1422,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #modify_scheduleShipsDetailDaily_command")
 	public void saveModifyShipDetailDaily() {
 
+		// TODO: manage customer and save fascia oraria
+
 		this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
 		if (this.detailScheduleShipSelected == null) {
@@ -1406,17 +1431,32 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.detailScheduleShipSelected.setShiftdate(this.shiftdate_Daily.getValue());
+
 		final Integer shift = Integer.parseInt(this.shift_Daily.getValue().toString());
 		this.detailScheduleShipSelected.setShift(shift);
 		this.detailScheduleShipSelected.setOperation(this.operation_Daily.getValue().toString());
+
 		this.detailScheduleShipSelected.setIduser(((Person) this.user_Daily.getSelectedItem().getValue()).getId());
-		this.detailScheduleShipSelected.setNotedetail(this.notedetail.getValue());
+
 		if (this.usersecond_Daily.getSelectedItem() != null) {
 			this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond_Daily.getSelectedItem().getValue()).getId());
 		}
 
 		this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
 		this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
+
+		// set customer
+		if (this.ship_customer_daily.getSelectedItem() != null) {
+
+			final Customer customer = this.ship_customer_daily.getSelectedItem().getValue();
+			this.detailScheduleShipSelected.setCustomer_id(customer.getId());
+
+		} else {
+			this.detailScheduleShipSelected.setCustomer_id(null);
+
+		}
+
+		this.detailScheduleShipSelected.setNotedetail(this.notedetail.getValue());
 
 		// update..
 		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);

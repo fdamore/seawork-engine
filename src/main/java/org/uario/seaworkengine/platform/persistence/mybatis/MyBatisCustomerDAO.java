@@ -9,11 +9,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.Customer;
+import org.uario.seaworkengine.platform.persistence.cache.ICustomerCache;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 
 public class MyBatisCustomerDAO extends SqlSessionDaoSupport implements ICustomerDAO {
 
 	private static Logger	logger	= Logger.getLogger(MyBatisCustomerDAO.class);
+
+	private ICustomerCache	customer_cache;
 
 	@Override
 	public void createCustomer(final Customer customer) {
@@ -21,6 +24,9 @@ public class MyBatisCustomerDAO extends SqlSessionDaoSupport implements ICustome
 		MyBatisCustomerDAO.logger.info("createCustomer..");
 
 		this.getSqlSession().insert("customer.createCustomer", customer);
+
+		final List<Customer> list = this.listAllCustomers();
+		this.customer_cache.buildCache(list);
 
 	}
 
@@ -30,6 +36,13 @@ public class MyBatisCustomerDAO extends SqlSessionDaoSupport implements ICustome
 
 		this.getSqlSession().delete("customer.deleteCustomer", customer_id);
 
+		final List<Customer> list = this.listAllCustomers();
+		this.customer_cache.buildCache(list);
+
+	}
+
+	public ICustomerCache getCustomer_cache() {
+		return this.customer_cache;
 	}
 
 	@Override
@@ -50,11 +63,18 @@ public class MyBatisCustomerDAO extends SqlSessionDaoSupport implements ICustome
 		return ret;
 	}
 
+	public void setCustomer_cache(final ICustomerCache customer_cache) {
+		this.customer_cache = customer_cache;
+	}
+
 	@Override
 	public void updateCustomer(final Customer customer) {
 		MyBatisCustomerDAO.logger.info("updateCustomer..");
 
 		this.getSqlSession().update("customer.updateCustomer", customer);
+
+		final List<Customer> list = this.listAllCustomers();
+		this.customer_cache.buildCache(list);
 
 	}
 }
