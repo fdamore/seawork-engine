@@ -20,10 +20,11 @@
 	<insert id="createScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip">
 		INSERT INTO
 		scheduleship (idship, volume, note, arrivaldate, departuredate,
-		rif_mct)
+		rif_mct, customer_id)
 		VALUES
-		(#{idship}, #{volume}, #{note}, #{arrivaldate},
-		#{departuredate}, #{rif_mct});
+		(#{idship}, #{volume}, #{note},
+		#{arrivaldate},
+		#{departuredate}, #{rif_mct}, #{customer_id});
 	</insert>
 
 	<delete id="deleteScheduleShip" parameterType="Integer">
@@ -36,9 +37,10 @@
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate, s.rif_mct, sh.name
+		s.departuredate, s.rif_mct, sh.name, s.customer_id
 		FROM
-		scheduleship s, ship sh
+		scheduleship s,
+		ship sh
 		where
 		s.idship =
 		sh.id and
@@ -50,11 +52,12 @@
 		SELECT s.id,
 		s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
 		sh.name,
-		s.rif_mct
+		s.rif_mct, s.customer_id
 		FROM
 		scheduleship s,
 		ship sh
-		where s.idship = sh.id
+		where s.idship =
+		sh.id
 		order by
 		s.arrivaldate
 		DESC;
@@ -63,9 +66,10 @@
 	<select id="selectAllScheduleShipFulltextSearchLike"
 		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate, s.rif_mct, sh.name
+		s.departuredate, s.rif_mct, sh.name, s.customer_id
 		FROM
-		scheduleship s, ship sh
+		scheduleship s,
+		ship sh
 
 		<if test="my_full_text_search != null">
 			WHERE (sh.name like CONCAT('%',#{my_full_text_search},
@@ -89,7 +93,8 @@
 		departuredate =
 		#{departuredate},
 		rif_mct =
-		#{rif_mct}
+		#{rif_mct},
+		customer_id = #{customer_id}
 		WHERE id =
 		#{id};
 	</update>
@@ -106,11 +111,11 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, shiftdate, notedetail, customer_id)
+		idseconduser, handswork, menwork, shiftdate, notedetail)
 		VALUES
 		(#{idscheduleship},
 		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
-		#{notedetail},#{customer_id});
+		#{notedetail});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -292,21 +297,23 @@
 	<select id="searchDetailScheduleShipPeriod" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
-		d.shift, d.id, d.notedetail, d.idscheduleship,
-		d.notedetail,d.customer_id,
+		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
+		d.notedetail,
 		s.name, d.operation,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
 		d.iduser,d.idseconduser,
 		d.handswork,
-		d.menwork, d.shiftdate,
+		d.menwork,
+		d.shiftdate,
 		s.id as
 		id_ship,
 		concat(u.lastname, '
 		', u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
-		us.firstname) AS secondOperativeName
+		us.firstname) AS
+		secondOperativeName
 		FROM
 		detailscheduleship d
 		left join
@@ -345,8 +352,8 @@
 	<select id="searchDetailScheduleShip" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
-		d.shift, d.id, d.notedetail, d.idscheduleship,
-		d.notedetail,d.customer_id,
+		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
+		d.notedetail,
 		s.name, d.operation,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
@@ -393,8 +400,9 @@
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT d.id, d.idscheduleship,
-		d.operation,d.customer_id, 
-		d.iduser, d.idseconduser,
+		d.operation,
+		d.iduser,
+		d.idseconduser,
 		d.handswork, d.menwork,
 		d.shiftdate,
 		d.notedetail,
@@ -430,7 +438,7 @@
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
 		parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT id, idship, volume, note,
-		arrivaldate, departuredate, rif_mct
+		arrivaldate, departuredate, rif_mct, customer_id
 		FROM
 		scheduleship where
 		idship =
@@ -442,10 +450,11 @@
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT id,
 		idship, volume, note, arrivaldate, departuredate,
-		rif_mct
+		rif_mct, customer_id
 		FROM
 		scheduleship where
-		date(arrivaldate) = date(#{arrivaldate});
+		date(arrivaldate) =
+		date(#{arrivaldate});
 	</select>
 
 	<select id="loadShipInDate" parameterType="map"
@@ -464,7 +473,7 @@
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		<![CDATA[
 		
-		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, ss.departuredate, ss.rif_mct, s.name
+		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, ss.departuredate, ss.rif_mct, s.name, ss.customer_id
 		FROM
 		scheduleship ss, ship s 
 		where
@@ -486,9 +495,7 @@
 		handswork = #{handswork},
 		menwork = #{menwork},
 		shiftdate = #{shiftdate},
-		notedetail = #{notedetail},
-		customer_id =
-		#{customer_id}
+		notedetail = #{notedetail}
 		WHERE id = #{id};
 	</update>
 

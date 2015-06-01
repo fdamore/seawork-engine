@@ -109,8 +109,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final ListModel<Customer> model_customer = new ListModelList<Customer>(list_customer);
 			ShipSchedulerComposer.this.ship_customer.setModel(model_customer);
 
-			final ListModel<Customer> model_customer_daily = new ListModelList<Customer>(list_customer);
-			ShipSchedulerComposer.this.ship_customer_daily.setModel(model_customer_daily);
+			final ListModel<Customer> model_customer_add = new ListModelList<Customer>(list_customer);
+			ShipSchedulerComposer.this.ship_customer_add.setModel(model_customer_add);
 
 			ShipSchedulerComposer.this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
 
@@ -319,7 +319,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Label						rif_sws_review;
 
 	@Wire
-	private Row							row_info_activity_ship_program;
+	private Row							row_info_activity_ship;
 
 	public ISchedule					scheduleDao;
 
@@ -374,6 +374,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox					ship_activity;
 
 	@Wire
+	private Combobox					ship_activity_add;
+
+	@Wire
 	private Datebox						ship_arrival;
 
 	@Wire
@@ -383,7 +386,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox					ship_customer;
 
 	@Wire
-	private Combobox					ship_customer_daily;
+	private Combobox					ship_customer_add;
 
 	@Wire
 	private Datebox						ship_departure;
@@ -599,6 +602,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			shipSchedule.setDeparturedate(this.ship_departure_schedule.getValue());
 
+			// add customer
+			if ((this.ship_customer_add.getSelectedItem() != null) && (this.ship_customer_add.getSelectedItem().getValue() != null)) {
+
+				final Customer customer = this.ship_customer_add.getSelectedItem().getValue();
+
+				shipSchedule.setCustomer_id(customer.getId());
+
+			} else {
+
+				shipSchedule.setCustomer_id(null);
+
+			}
+
 			this.shipSchedulerDao.createScheduleShip(shipSchedule);
 
 			this.searchScheduleShipByDate();
@@ -641,16 +657,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		item.setMenwork(this.menwork.getValue());
 		item.setIdscheduleship(this.scheduleShip_selected.getId());
 		item.setShiftdate(this.shiftdate.getValue());
-
-		// customer
-		if (this.ship_customer.getSelectedItem() != null) {
-
-			final Customer customer = this.ship_customer.getSelectedItem().getValue();
-			if (customer != null) {
-				item.setCustomer_id(customer.getId());
-			}
-
-		}
 
 		this.alertShiftDate.setVisible(false);
 
@@ -727,29 +733,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		// define if ship activity fields need to be disabled
-		final Integer id_ship = this.scheduleShip_selected.getIdship();
-		final Ship ship = this.shipDao.loadShip(id_ship);
-		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
-
-			// TODO manage this
-			this.ship_activity.setSelectedItem(null);
-			this.ship_from.setValue(null);
-			this.ship_to.setValue(null);
-
-			this.row_info_activity_ship_program.setVisible(true);
-			this.h_program_period.setVisible(true);
-
-		} else {
-
-			this.ship_activity.setSelectedItem(null);
-			this.ship_from.setValue(null);
-			this.ship_to.setValue(null);
-			this.row_info_activity_ship_program.setVisible(false);
-			this.h_program_period.setVisible(false);
-
-		}
-
 		this.shiftdate.setValue(this.detailScheduleShipSelected.getShiftdate());
 
 		// select first user
@@ -784,27 +767,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					final Person current_person = item.getValue();
 					if (person.equals(current_person)) {
 						this.usersecond.setSelectedItem(item);
-						break;
-					}
-				}
-
-			}
-
-		}
-
-		// set customer
-		this.ship_customer.setSelectedItem(null);
-
-		if (this.detailScheduleShipSelected.getCustomer_id() != null) {
-
-			final Customer customer = this.customerDAO.loadCustomer(this.detailScheduleShipSelected.getCustomer_id());
-
-			final List<Comboitem> listItem = this.ship_customer.getItems();
-			for (final Comboitem item : listItem) {
-				if (item.getValue() instanceof Customer) {
-					final Customer current = item.getValue();
-					if (customer.equals(current)) {
-						this.ship_customer.setSelectedItem(item);
 						break;
 					}
 				}
@@ -866,9 +828,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		final Ship ship = this.shipDao.loadShip(scheduleShip_selected.getIdship());
+		this.ship_name.setSelectedItem(null);
 
-		if (ship != null) {
+		if (scheduleShip_selected.getIdship() != null) {
+
+			final Ship ship = this.shipDao.loadShip(scheduleShip_selected.getIdship());
+
 			final List<Comboitem> listItem = this.ship_name.getItems();
 			for (final Comboitem item : listItem) {
 				if (item.getValue() instanceof Ship) {
@@ -881,9 +846,34 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			}
 
-		} else {
-			this.ship_name.setSelectedItem(null);
 		}
+
+		// set customer
+		this.ship_customer.setSelectedItem(null);
+
+		if (this.scheduleShip_selected.getCustomer_id() != null) {
+			final Customer customer = this.customerDAO.loadCustomer(this.scheduleShip_selected.getCustomer_id());
+			if (customer != null) {
+
+				final List<Comboitem> listItem = this.ship_customer.getItems();
+
+				for (final Comboitem item : listItem) {
+
+					if (item.getValue() instanceof Customer) {
+						final Customer current_customer = item.getValue();
+						if (customer.equals(current_customer)) {
+							this.ship_customer.setSelectedItem(item);
+							break;
+						}
+					}
+
+				}
+			}
+
+		}
+
+		// set activity
+		this.ship_activity.setSelectedItem(null);
 
 		this.ship_volume.setValue(scheduleShip_selected.getVolume());
 		this.note.setValue(scheduleShip_selected.getNote());
@@ -1048,6 +1038,31 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void modAct() {
+		// TODO: redefine this
+
+		// define if ship activity fields need to be disabled
+		final Integer id_ship = this.scheduleShip_selected.getIdship();
+		final Ship ship = this.shipDao.loadShip(id_ship);
+		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+
+			// TODO manage this
+
+			this.ship_from.setValue(null);
+			this.ship_to.setValue(null);
+
+			this.h_program_period.setVisible(true);
+
+		} else {
+
+			this.ship_from.setValue(null);
+			this.ship_to.setValue(null);
+
+			this.h_program_period.setVisible(false);
+
+		}
+	}
+
 	@Listen("onClick = #modify_finalDetailScheduleShip_command")
 	public void modify_finalDetailScheduleShip_command() throws ParseException {
 
@@ -1170,6 +1185,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				this.scheduleShip_selected.setRif_mct(this.shipRif_mcf.getValue());
 
+				// add customer //
+				if ((this.ship_customer.getSelectedItem() != null) && (this.ship_customer.getSelectedItem().getValue() != null)) {
+
+					final Customer customer = this.ship_customer.getSelectedItem().getValue();
+
+					this.scheduleShip_selected.setCustomer_id(customer.getId());
+
+				} else {
+
+					this.scheduleShip_selected.setCustomer_id(null);
+
+				}
+
 				// update
 				this.shipSchedulerDao.updateScheduleShip(this.scheduleShip_selected);
 
@@ -1183,8 +1211,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_modifyscheduleship")
 	public void openModifyDetailDailyPopup() {
-
-		// TODO: define here behavior for customer
 
 		this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 
@@ -1232,27 +1258,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		} else {
 			this.usersecond_Daily.setSelectedItem(null);
-		}
-
-		// set customer
-		this.ship_customer_daily.setSelectedItem(null);
-
-		if (this.detailScheduleShipSelected.getCustomer_id() != null) {
-
-			final Customer customer = this.customerDAO.loadCustomer(this.detailScheduleShipSelected.getCustomer_id());
-
-			final List<Comboitem> listItem = this.ship_customer_daily.getItems();
-			for (final Comboitem item : listItem) {
-				if (item.getValue() instanceof Customer) {
-					final Customer current = item.getValue();
-					if (customer.equals(current)) {
-						this.ship_customer_daily.setSelectedItem(item);
-						break;
-					}
-				}
-
-			}
-
 		}
 
 		// select shift
@@ -1383,8 +1388,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shiftdate_Daily.setValue(new Date());
 		this.notedetail.setValue("");
 		this.noteshipdetail.setValue("");
-		this.ship_activity.setValue(null);
-		this.ship_customer.setValue(null);
 		this.ship_from.setValue(null);
 		this.ship_to.setValue(null);
 
@@ -1407,6 +1410,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.ship_arrival_schedule.setValue(null);
 		this.ship_departure_schedule.setValue(null);
 		this.ship_rif_mcf.setValue(null);
+
+		this.ship_customer_add.setSelectedItem(null);
+		this.ship_activity_add.setSelectedItem(null);
 
 		this.listDetailScheduleShip.clear();
 		this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
@@ -1444,17 +1450,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
 		this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
-
-		// set customer
-		if (this.ship_customer_daily.getSelectedItem() != null) {
-
-			final Customer customer = this.ship_customer_daily.getSelectedItem().getValue();
-			this.detailScheduleShipSelected.setCustomer_id(customer.getId());
-
-		} else {
-			this.detailScheduleShipSelected.setCustomer_id(null);
-
-		}
 
 		this.detailScheduleShipSelected.setNotedetail(this.notedetail.getValue());
 
@@ -2190,16 +2185,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected.setHandswork(this.handswork.getValue());
 			this.detailScheduleShipSelected.setMenwork(this.menwork.getValue());
 			this.detailScheduleShipSelected.setNotedetail(this.noteshipdetail.getValue());
-
-			// customer
-			if (this.ship_customer.getSelectedItem() != null) {
-
-				final Customer customer = this.ship_customer.getSelectedItem().getValue();
-				if (customer != null) {
-					this.detailScheduleShipSelected.setCustomer_id(customer.getId());
-				}
-
-			}
 
 			this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 

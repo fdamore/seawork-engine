@@ -81,6 +81,35 @@
 
 								</vbox>
 							</row>
+
+							<row>
+								<label value="Cliente:"></label>
+								<hbox>
+									<combobox id="ship_customer_add"
+										readonly="true" placeholder="Seleziona Cliente"
+										mold="rounded" />
+
+									<button label="Nessuno"
+										sclass="btn-info"
+										onClick="ship_customer_add.setValue(null)">
+									</button>
+								</hbox>
+							</row>
+
+							<row id="row_info_activity_ship_add">
+								<label value="Nave per attività:">
+								</label>
+								<hbox>
+									<combobox id="ship_activity_add"
+										readonly="true" placeholder="Attività su nave..."
+										mold="rounded" />
+									<button label="Nessuna"
+										sclass="btn-info"
+										onClick="ship_activity_add.setSelectedItem(null); ship_from.setValue(null);ship_to.setValue(null);">
+									</button>
+								</hbox>
+							</row>
+
 							<row>
 								<label value="Volume Atteso"></label>
 								<intbox id="ship_volume_schedule"
@@ -256,39 +285,6 @@
 														label="4">
 													</comboitem>
 												</combobox>
-											</row>
-
-											<row>
-												<label
-													value="Cliente:">
-												</label>
-												<hbox>
-													<combobox
-														id="ship_customer" readonly="true"
-														placeholder="Seleziona Cliente" mold="rounded" />
-
-													<button
-														label="Nessuno" sclass="btn-info"
-														onClick="ship_customer.setValue(null)">
-													</button>
-												</hbox>
-											</row>
-
-
-											<row
-												id="row_info_activity_ship_program">
-												<label
-													value="Nave per attività:">
-												</label>
-												<hbox>
-													<combobox
-														id="ship_activity" readonly="true"
-														placeholder="Attività su nave..." mold="rounded" />
-													<button
-														label="Nessuna" sclass="btn-info"
-														onClick="ship_activity.setSelectedItem(null); ship_from.setValue(null);ship_to.setValue(null);">
-													</button>
-												</hbox>
 											</row>
 
 											<row
@@ -511,6 +507,34 @@
 										style="color:green" id="selectShipNoWorkPopup" />
 								</vbox>
 							</row>
+
+							<row>
+								<label value="Cliente:"></label>
+								<hbox>
+									<combobox id="ship_customer"
+										readonly="true" placeholder="Seleziona Cliente"
+										mold="rounded" />
+
+									<button label="Nessuno"
+										sclass="btn-info" onClick="ship_customer.setValue(null)">
+									</button>
+								</hbox>
+							</row>
+
+							<row id="row_info_activity_ship">
+								<label value="Nave per attività:">
+								</label>
+								<hbox>
+									<combobox id="ship_activity"
+										readonly="true" placeholder="Attività su nave..."
+										mold="rounded" />
+									<button label="Nessuna"
+										sclass="btn-info"
+										onClick="ship_activity.setSelectedItem(null); ship_from.setValue(null);ship_to.setValue(null);">
+									</button>
+								</hbox>
+							</row>
+
 							<row>
 								<label value="Volume Atteso"></label>
 								<intbox id="ship_volume" mold="rounded" />
@@ -608,21 +632,7 @@
 							</row>
 
 
-							<row>
-								<label value="Cliente:"></label>
 
-								<hbox align="center">
-									<combobox id="ship_customer_daily"
-										readonly="true" placeholder="Seleziona Cliente"
-										mold="rounded" />
-
-									<button label="Nessuno"
-										sclass="btn-info"
-										onClick="ship_customer_daily.setValue(null)">
-									</button>
-
-								</hbox>
-							</row>
 
 							<row>
 								<label value="Operazione:"></label>
@@ -681,6 +691,7 @@
 			<a label="Programmazione Navi" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 			<separator />
+
 			<hbox>
 				<a label="Ricerca Navi in intervallo: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
@@ -689,10 +700,13 @@
 				<datebox id="searchArrivalDateShipTo"
 					placeholder="Alla data..." />
 			</hbox>
+
 			<separator />
+
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoShipProgram" />
 			<separator />
+
 			<button label="Aggiungi Programmazione" sclass="btn-info"
 				id="sw_addScheduleShipProgram" />
 			<separator />
@@ -707,6 +721,7 @@
 					<listheader label="Data fine attività"
 						sort="auto(departuredate)" />
 					<listheader label="Nome Nave" sort="auto(name)" />
+					<listheader label="Cliente" />
 					<listheader label="Volume Atteso"
 						sort="auto(volume)" />
 					<listheader label="Rif MCT" sort="auto(rif_mct)" />
@@ -731,6 +746,12 @@
 </attribute>
 						</label>
 					</listcell>
+
+
+					<listcell sclass="myBottonCell"
+						label="@{scheduleship_item.customer_id, converter='org.uario.seaworkengine.zkevent.converter.ConverterCustomerName'}" />
+
+
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.volume}" />
 
@@ -867,7 +888,7 @@
 </attribute>
 						</label>
 					</listcell>
-					
+
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.customer_id, converter='org.uario.seaworkengine.zkevent.converter.ConverterCustomerName'}" />
 

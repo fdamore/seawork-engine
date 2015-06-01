@@ -17,6 +17,8 @@ public class ScheduleShip implements Serializable {
 
 	private Date	arrivaldate;
 
+	private Integer	customer_id;
+
 	private Date	departuredate;
 
 	private Integer	id;
@@ -37,6 +39,10 @@ public class ScheduleShip implements Serializable {
 
 	public Date getArrivaldate() {
 		return this.arrivaldate;
+	}
+
+	public Integer getCustomer_id() {
+		return this.customer_id;
 	}
 
 	public Date getDeparturedate() {
@@ -69,6 +75,10 @@ public class ScheduleShip implements Serializable {
 
 	public void setArrivaldate(final Date arrivaldate) {
 		this.arrivaldate = arrivaldate;
+	}
+
+	public void setCustomer_id(final Integer customer_id) {
+		this.customer_id = customer_id;
 	}
 
 	public void setDeparturedate(final Date departuredate) {
