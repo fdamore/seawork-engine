@@ -10,6 +10,7 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
@@ -50,6 +51,11 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	@Override
 	public UserTask getEndOperationTask() {
 		return this.webcontroller.getEndOperationTask();
+	}
+
+	@Override
+	public MonitorData getMonitorData(final Date request) {
+		return this.webcontroller.getMonitorData(request);
 	}
 
 	@Override

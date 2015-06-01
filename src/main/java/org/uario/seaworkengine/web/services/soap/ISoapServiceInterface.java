@@ -11,6 +11,7 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
@@ -49,6 +50,14 @@ public interface ISoapServiceInterface {
 	 * @return
 	 */
 	public UserTask getEndOperationTask();
+
+	/**
+	 * Get Monitor data
+	 *
+	 * @param request
+	 * @return
+	 */
+	public MonitorData getMonitorData(@WebParam(name = "request") Date request);
 
 	/**
 	 * @return

@@ -7,6 +7,7 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public interface IStatistics {
 
@@ -72,6 +73,14 @@ public interface IStatistics {
 	 * @return
 	 */
 	public Integer getHolidaysWork(Integer id_user, Date date_from, Date date_to);
+
+	/**
+	 * Get data monitor
+	 * 
+	 * @param date_request
+	 * @return
+	 */
+	public MonitorData getMonitorData(Date date_request);
 
 	/**
 	 * Get number of day with shift recorded

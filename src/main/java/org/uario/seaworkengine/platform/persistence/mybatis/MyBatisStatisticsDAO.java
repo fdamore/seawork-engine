@@ -19,11 +19,12 @@ import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
-	private static Logger logger = Logger.getLogger(MyBatisStatisticsDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays	bank_holiday;
 
 	/**
 	 * Calculate work percentage on list rateshift
@@ -230,6 +231,20 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		}
 
 		return ret;
+	}
+
+	@Override
+	public MonitorData getMonitorData(final Date date_request) {
+		MyBatisStatisticsDAO.logger.info("getMonitorData..");
+
+		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
+
+		final HashMap<String, Date> map = new HashMap<String, Date>();
+
+		final MonitorData ret = this.getSqlSession().selectOne("statistics.monitorWork", map);
+
+		return ret;
+
 	}
 
 	@Override

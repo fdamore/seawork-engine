@@ -23,8 +23,10 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
+import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
@@ -47,6 +49,8 @@ public class WebControllerImpl implements IWebServiceController {
 	private IScheduleShip		ship_dao;
 
 	private IScheduleShip		shipSchedulerDao;
+
+	private IStatistics			statistics;
 
 	private ITaskCache			taskCache;
 
@@ -200,6 +204,11 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
+	public MonitorData getMonitorData(final Date request) {
+		return this.statistics.getMonitorData(request);
+	}
+
+	@Override
 	public UserTask getOverflowTask() {
 		return this.configurationDAO.getOverflowTask();
 	}
@@ -229,6 +238,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public IScheduleShip getShipSchedulerDao() {
 		return this.shipSchedulerDao;
+	}
+
+	public IStatistics getStatistics() {
+		return this.statistics;
 	}
 
 	public ITaskCache getTaskCache() {
@@ -423,6 +436,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public void setShipSchedulerDao(final IScheduleShip shipSchedulerDao) {
 		this.shipSchedulerDao = shipSchedulerDao;
+	}
+
+	public void setStatistics(final IStatistics statistics) {
+		this.statistics = statistics;
 	}
 
 	public void setTaskCache(final ITaskCache taskCache) {
