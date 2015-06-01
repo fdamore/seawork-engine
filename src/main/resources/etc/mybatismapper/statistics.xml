@@ -213,7 +213,7 @@
 	</select>
 
 
-	<select id="timeWorkedProgram" resultType="int" parameterType="map">
+	<select id="timeWorkedProgram" resultType="double" parameterType="map">
 		select
 		sum(d_1.time)
 		from
