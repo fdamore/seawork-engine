@@ -216,7 +216,7 @@
 							<hbox align="center">
 
 								<toolbarbutton
-									id="add_scheduleShipsDetail_command" label="Aggiungi Dettaglio"
+									id="add_scheduleShipsDetail_command" label="Salva dettaglio"
 									style="color: blue" visible="true">
 								</toolbarbutton>
 
