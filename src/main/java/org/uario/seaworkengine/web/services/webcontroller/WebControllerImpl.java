@@ -378,8 +378,14 @@ public class WebControllerImpl implements IWebServiceController {
 			// set info about task
 			final List<UserTask> list_tasks = this.taskDAO.loadTasksByUserForMobile(person.getId());
 
-			// add special task
-			list_tasks.addAll(list_special);
+			// add special task - add only if not exists
+			for (final UserTask itm : list_special) {
+
+				if (!list_tasks.contains(itm)) {
+					list_tasks.add(itm);
+				}
+
+			}
 
 			person.setUserTaskForMobile(list_tasks);
 
