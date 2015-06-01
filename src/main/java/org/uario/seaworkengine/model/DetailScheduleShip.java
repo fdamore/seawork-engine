@@ -20,11 +20,16 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return DetailScheduleShip.serialVersionUID;
 	}
 
+	private Date	activity_end;
+
+	private Date	activity_start;
+
 	/**
 	 * Used only in view mode
 	 */
 	private Date	arrivaldate;
 
+	// only for view
 	private Integer	customer_id;
 
 	/**
@@ -74,6 +79,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	public int compareTo(final Person o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public Date getActivity_end() {
+		return this.activity_end;
+	}
+
+	public Date getActivity_start() {
+		return this.activity_start;
 	}
 
 	public Date getArrivaldate() {
@@ -146,6 +159,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public Date getShiftdate() {
 		return this.shiftdate;
+	}
+
+	public void setActivity_end(final Date activity_end) {
+		this.activity_end = activity_end;
+	}
+
+	public void setActivity_start(final Date activity_start) {
+		this.activity_start = activity_start;
 	}
 
 	public void setArrivaldate(final Date shiparrivaldate) {

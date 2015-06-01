@@ -25,6 +25,8 @@ public class ScheduleShip implements Serializable {
 
 	private Integer	idship;
 
+	private Integer	idship_activity;
+
 	/**
 	 * Used only in view mode
 	 */
@@ -55,6 +57,10 @@ public class ScheduleShip implements Serializable {
 
 	public Integer getIdship() {
 		return this.idship;
+	}
+
+	public Integer getIdship_activity() {
+		return this.idship_activity;
 	}
 
 	public String getName() {
@@ -91,6 +97,10 @@ public class ScheduleShip implements Serializable {
 
 	public void setIdship(final Integer idship) {
 		this.idship = idship;
+	}
+
+	public void setIdship_activity(final Integer idship_activity) {
+		this.idship_activity = idship_activity;
 	}
 
 	public void setName(final String name) {
