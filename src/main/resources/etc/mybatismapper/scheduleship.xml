@@ -399,7 +399,7 @@
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT d.id, d.idscheduleship,
+		SELECT d.id, d.idscheduleship, d.shift,
 		d.operation,
 		d.iduser,
 		d.idseconduser,
