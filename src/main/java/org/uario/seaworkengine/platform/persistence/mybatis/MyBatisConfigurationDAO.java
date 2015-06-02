@@ -16,11 +16,11 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 
 public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements ConfigurationDAO {
-	private static Logger	logger	= Logger.getLogger(MyBatisConfigurationDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisConfigurationDAO.class);
 
-	private IShiftCache		shift_cache;
+	private IShiftCache shift_cache;
 
-	private ITaskCache		task_cache;
+	private ITaskCache task_cache;
 
 	@Override
 	public void addStatus(final String status) {
@@ -47,6 +47,12 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 		// upload cache
 		this.task_cache.buildCache(this.loadTasks());
+	}
+
+	@Override
+	public UserTask getChangeshiftTask() {
+		MyBatisConfigurationDAO.logger.info("getChangeshiftTask");
+		return this.getSqlSession().selectOne("configuration.getChangeshiftTask");
 	}
 
 	@Override
@@ -174,6 +180,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	public void removeAllBreakShift() {
 		MyBatisConfigurationDAO.logger.info("removeAllBreakShift");
 		this.getSqlSession().update("configuration.removeAllBreakShift");
+	}
+
+	@Override
+	public void removeAllChangeshiftTasks() {
+		MyBatisConfigurationDAO.logger.info("removeAllChangeshiftTasks");
+		this.getSqlSession().update("configuration.removeAllChangeshiftTasks");
+
 	}
 
 	@Override
@@ -327,6 +340,16 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 	public void setTask_cache(final ITaskCache task_cache) {
 		this.task_cache = task_cache;
+	}
+
+	@Override
+	public void setTaskAsChangeshift(final Integer idTask) {
+		MyBatisConfigurationDAO.logger.info("setTaskAsChangeshift");
+
+		this.getSqlSession().update("configuration.removeAllChangeshiftTasks");
+
+		this.getSqlSession().update("configuration.setTaskAsChangeshift", idTask);
+
 	}
 
 	@Override

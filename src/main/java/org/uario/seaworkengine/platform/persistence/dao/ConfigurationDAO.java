@@ -13,6 +13,8 @@ public interface ConfigurationDAO {
 
 	public void createTask(UserTask task);
 
+	public UserTask getChangeshiftTask();
+
 	public UserTask getDelayOperationTask();
 
 	public UserTask getEndOperationTask();
@@ -44,6 +46,8 @@ public interface ConfigurationDAO {
 	public void removeAllAccidentShift();
 
 	public void removeAllBreakShift();
+
+	public void removeAllChangeshiftTasks();
 
 	public void removeAllDailyShift();
 
@@ -78,6 +82,8 @@ public interface ConfigurationDAO {
 	public void setShiftAsExpectedBreak(final Integer id_usershift);
 
 	public void setShiftAsStandardShift(final Integer id_usershift);
+
+	public void setTaskAsChangeshift(Integer idTask);
 
 	public void setTaskAsDelayOperation(Integer idTask);
 

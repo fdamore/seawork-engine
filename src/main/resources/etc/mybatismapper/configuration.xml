@@ -16,7 +16,8 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded,
-		overflow, endoperation, delayoperation
+		overflow, endoperation, 
+		delayoperation, changeshift 
 		FROM usertask
 		WHERE id=#{id};
 	</select>
@@ -42,8 +43,10 @@
 		t.description,
 		t.isabsence,
 		t.recorded,
-		t.endoperation, t.overflow,
-		t.delayoperation
+		t.endoperation, 
+		t.overflow, 
+		t.changeshift,  
+		t.delayoperation 
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
@@ -53,8 +56,8 @@
 	<select id="selectAllTasks" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT id,
 		code,
-		description, isabsence, recorded, endoperation, overflow,
-		delayoperation
+		description, isabsence, recorded, endoperation, 
+		overflow, delayoperation, changeshift  
 		FROM usertask
 		order by description;
 
@@ -65,7 +68,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation
+		overflow, delayoperation, changeshift 
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -128,10 +131,10 @@
 		INSERT INTO usertask
 		(code,
 		description, isabsence, recorded, endoperation, overflow,
-		delayoperation)
+		delayoperation, changeshift)
 		VALUES
 		(#{code},#{description}, #{isabsence},
-		#{recorded}, #{endoperation}, #{overflow}, #{delayoperation});
+		#{recorded}, #{endoperation}, #{overflow}, #{delayoperation}, #{changeshift});
 
 	</insert>
 
@@ -166,7 +169,8 @@
 		overflow =
 		#{overflow},
 		delayoperation =
-		#{delayoperation}
+		#{delayoperation}, 
+		changeshift = #{changeshift} 
 		WHERE id = #{id}
 
 	</update>
@@ -305,7 +309,19 @@
 		WHERE id =
 		#{idTask};
 	</update>
+	
+	<update id="removeAllChangeshiftTasks">
+		UPDATE usertask
+		SET changeshift = 0;
+	</update>
 
+	<update id="setTaskAsChangeshift" parameterType="Integer">
+		UPDATE usertask
+		SET changeshift = 1 
+		WHERE id =
+		#{idTask};
+	</update>
+	
 	<update id="removeAllOverflowTasks">
 		UPDATE usertask
 		SET overflow = 0;
@@ -323,6 +339,12 @@
 		SELECT *
 		FROM usertask
 		WHERE overflow=1;
+	</select>
+	
+	<select id="getChangeshiftTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT * 
+		FROM usertask 
+		WHERE changeshift=1; 
 	</select>
 
 	<select id="getEndOperationTask" resultType="org.uario.seaworkengine.model.UserTask">
@@ -343,10 +365,8 @@
 		SELECT *
 		FROM
 		usertask
-		WHERE overflow=1 or endoperation=1 or delayoperation=1;
+		WHERE overflow=1 or endoperation=1 or delayoperation=1 or changeshift=1;
 	</select>
-
-
 
 	<update id="removeAllDelayOperationTasks">
 		UPDATE usertask
