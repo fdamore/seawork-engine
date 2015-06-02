@@ -96,7 +96,8 @@
 								</hbox>
 							</row>
 
-							<row id="row_info_activity_ship_add">
+							<row id="row_info_activity_ship_add"
+								visible="false">
 								<label value="Nave per attività:">
 								</label>
 								<hbox>
@@ -105,7 +106,7 @@
 										mold="rounded" />
 									<button label="Nessuna"
 										sclass="btn-info"
-										onClick="ship_activity_add.setSelectedItem(null); ship_from.setValue(null);ship_to.setValue(null);">
+										onClick="ship_activity_add.setSelectedItem(null); ">
 									</button>
 								</hbox>
 							</row>
@@ -121,11 +122,6 @@
 									mold="rounded" />
 							</row>
 
-
-							<row>
-								<label value="Note"></label>
-								<textbox id="note_schedule" />
-							</row>
 							<row>
 								<label value="Data inizio attività">
 								</label>
@@ -138,6 +134,13 @@
 								<datebox id="ship_departure_schedule"
 									format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 							</row>
+
+							<row>
+								<label value="Note"></label>
+								<textbox id="note_schedule" rows="5" />
+							</row>
+
+
 						</rows>
 					</grid>
 				</panelchildren>
@@ -301,6 +304,7 @@
 														id="ship_to" placeholder="A..." mold="rounded" />
 
 													<checkbox
+														id="check_last_shift" visible="false"
 														label="Finisce il Giorno Dopo" checked="false">
 													</checkbox>
 
