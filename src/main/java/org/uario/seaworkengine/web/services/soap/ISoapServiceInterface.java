@@ -42,6 +42,13 @@ public interface ISoapServiceInterface {
 	public void deleteDetailFinalScheduleShipById(Integer id_detail_final);
 
 	/**
+	 * Get CT Task
+	 *
+	 * @return
+	 */
+	public UserTask getCTTask();
+
+	/**
 	 * @return
 	 */
 	public UserTask getDelayOperation();

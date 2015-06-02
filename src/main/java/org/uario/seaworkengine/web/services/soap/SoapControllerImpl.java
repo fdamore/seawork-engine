@@ -44,6 +44,13 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
+	public UserTask getCTTask() {
+
+		return this.webcontroller.getCTTask();
+
+	}
+
+	@Override
 	public UserTask getDelayOperation() {
 		return this.webcontroller.getDelayOperation();
 	}

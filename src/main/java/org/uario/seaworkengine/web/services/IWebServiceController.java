@@ -40,6 +40,13 @@ public interface IWebServiceController {
 	public void deleteDetailFinalScheduleShipById(Integer id_detail_final);
 
 	/**
+	 * Get CT Task
+	 *
+	 * @return
+	 */
+	public UserTask getCTTask();
+
+	/**
 	 * @return
 	 */
 	public UserTask getDelayOperation();
@@ -51,7 +58,7 @@ public interface IWebServiceController {
 
 	/**
 	 * Get Monitor data
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */

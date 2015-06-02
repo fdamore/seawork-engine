@@ -194,6 +194,11 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
+	public UserTask getCTTask() {
+		return this.configurationDAO.getChangeshiftTask();
+	}
+
+	@Override
 	public UserTask getDelayOperation() {
 		return this.configurationDAO.getDelayOperationTask();
 	}
@@ -201,6 +206,7 @@ public class WebControllerImpl implements IWebServiceController {
 	@Override
 	public UserTask getEndOperationTask() {
 		return this.configurationDAO.getEndOperationTask();
+
 	}
 
 	@Override
