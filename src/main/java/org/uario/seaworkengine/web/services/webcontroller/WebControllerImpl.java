@@ -210,7 +210,7 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public MonitorData getMonitorData(final Date request) {
+	public List<MonitorData> getMonitorData(final Date request) {
 		return this.statistics.getMonitorData(request);
 	}
 

@@ -5,6 +5,10 @@
 
 
 
+
+
+
+
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.ShipDetailsComposer"
 		id="page_ship_detail">
@@ -27,6 +31,8 @@
 		<tabbox>
 			<tabs>
 				<tab label="Lista Navi" selected="true" />
+
+				<tab label="Monitor navi"></tab>
 
 				<tab label="Lista Clienti" />
 
@@ -292,6 +298,57 @@
 
 				<tabpanel>
 
+					<!-- MONITOR  -->
+
+
+					<div sclass="page-header">
+						<label value="Monitor" />
+						<a label="Navi attualmente in lavorazione."
+							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+					</div>
+
+
+					<button class="btn-info" label="Aggiorna Dati"
+						id="update_monitor" />
+
+					<separator></separator>
+
+					<listbox id="list_monitor"
+						style="border: 1px solid #CCCCCC;" multiple="false">
+						<listhead sizable="true">
+							<listheader label="Nave" sort="auto(name)" />
+							<listheader label="Turno" />
+							<listheader label="A bordo" />
+							<listheader label="Sotto Bordo" />
+						</listhead>
+
+						<listitem sclass="myBottonCell"
+							self="@{each='item'}" value="@{item}">
+
+							<listcell sclass="myBottonCell"
+								label="@{item.name}" />
+							<listcell sclass="myBottonCell"
+								label="@{item.shift_no}" />
+
+							<listcell sclass="myBottonCell"
+								label="@{item.on_board}" />
+
+							<listcell sclass="myBottonCell"
+								label="@{item.out_board}" />
+
+
+
+						</listitem>
+
+					</listbox>
+
+
+
+
+				</tabpanel>
+
+				<tabpanel>
+
 					<div id="add_customer_div" visible="false">
 
 						<hbox align="center">
@@ -300,13 +357,13 @@
 								id="customer_name">
 							</textbox>
 						</hbox>
-						
+
 						<separator></separator>
-						
+
 						<button id="sw_addcustomer_ok" sclass="btn-info"
 							label="OK">
 						</button>
-						
+
 
 					</div>
 

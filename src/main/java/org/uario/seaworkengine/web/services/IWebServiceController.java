@@ -62,7 +62,7 @@ public interface IWebServiceController {
 	 * @param request
 	 * @return
 	 */
-	public MonitorData getMonitorData(Date request);
+	public List<MonitorData> getMonitorData(Date request);
 
 	/**
 	 * @return

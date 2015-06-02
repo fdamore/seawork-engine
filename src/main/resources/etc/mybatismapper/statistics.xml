@@ -13,31 +13,37 @@
 		d.id_ship,
 		d.shift as shift_no,
 		s.name,
-		count(d.board) as out_board,
-		(SELECT
-		count(d1.board) as on_board
-		FROM
-		detailfinalschedule d1
-		WHERE
-		and
-		d1.time_from = #{date_request} and d1.time_to = #{date_request} and
-		d1.board is not null
-		and d1.shift = d.shift
-		and d1.id_ship = d.id_ship
+		sum(d.board) as
+		out_board,(SELECT sum(d1.board) FROM detailfinalschedule d1 WHERE
+		#{date_request} 
+		<![CDATA[>=]]>
+		d1.time_from and #{date_request} <![CDATA[<=]]>
+		d1.time_to
+		and d1.board is not null and d1.shift = d.shift and d1.id_ship =
+		d.id_ship
 		and d1.board = 'A BORDO') as on_board
 		FROM
 		detailfinalschedule d,
 		ship s
 		WHERE
-		d.id_ship = s.id and board is not
+		d.id_ship = s.id and d.board is
+		not
 		null
 		and d.id_ship is not null
 		and d.board = 'SOTTO BORDO' and
-		d.time_from = #{date_request} and d.time_to = #{date_request}
+		#{date_request} <![CDATA[>=]]>
+		d.time_from and #{date_request} <![CDATA[<=]]>
+		d.time_to
 		group by
-		d.id_ship , d.shift
+		d.id_ship ,
+		d.shift
 
 	</select>
+
+	<!-- (SELECT sum(d1.board) FROM detailfinalschedule d1 WHERE #{date_request} 
+		<![CDATA[>=]]> d1.time_from and #{date_request} <![CDATA[<=]]> d1.time_to 
+		and d1.board is not null and d1.shift = d.shift and d1.id_ship = d.id_ship 
+		and d1.board = 'A BORDO') as on_board -->
 
 
 	<select id="getShiftRecorded" resultType="double" parameterType="map">

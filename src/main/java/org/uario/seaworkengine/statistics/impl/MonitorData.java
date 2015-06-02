@@ -19,9 +19,9 @@ public class MonitorData implements Serializable {
 
 	private String				name;
 
-	private String				on_board;
+	private Integer				on_board;
 
-	private String				out_board;
+	private Integer				out_board;
 
 	private Integer				shift_no;
 
@@ -33,11 +33,11 @@ public class MonitorData implements Serializable {
 		return this.name;
 	}
 
-	public String getOn_board() {
+	public Integer getOn_board() {
 		return this.on_board;
 	}
 
-	public String getOut_board() {
+	public Integer getOut_board() {
 		return this.out_board;
 	}
 
@@ -53,16 +53,21 @@ public class MonitorData implements Serializable {
 		this.name = name;
 	}
 
-	public void setOn_board(final String on_board) {
+	public void setOn_board(final Integer on_board) {
 		this.on_board = on_board;
 	}
 
-	public void setOut_board(final String out_board) {
+	public void setOut_board(final Integer out_board) {
 		this.out_board = out_board;
 	}
 
 	public void setShift_no(final Integer shift_no) {
 		this.shift_no = shift_no;
+	}
+
+	@Override
+	public String toString() {
+		return this.getName();
 	}
 
 }

@@ -1,5 +1,8 @@
 <?page id="mainpage" title="Sea Work Admin"?>
 
+
+
+
 <vlayout sclass="page-content" xmlns:n="native" spacing="0">
 	<style>
 		.cg-title { font-weight: normal; color: #008DB7; margin-bottom:
@@ -44,9 +47,9 @@
 						style="padding-left: 30px;padding-top: 30px;padding-bottom: 30px; margin-right: 12px ">
 						<button
 							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
-							class="z-button-users" label="GESTIONE UTENTI"
-							id="sw_user_button_main" height="200px" width="210px"
-							style="font-weight : bold;" iconSclass="z-icon-group" />
+							class="z-button-users" label="GESTIONE UTENTI" id="sss"
+							height="200px" width="210px" style="font-weight : bold;"
+							iconSclass="z-icon-group" />
 						<button class="z-button-users"
 							label="PROGRAMMAZIONE TURNI" id="sw_scheduler_button_main"
 							height="200px" width="210px" style="font-weight : bold;"
@@ -75,24 +78,7 @@
 			</groupbox>
 
 		</hbox>
+
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </vlayout>

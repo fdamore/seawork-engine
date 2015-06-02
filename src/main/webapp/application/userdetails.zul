@@ -25,7 +25,6 @@
 
 	</div>
 
-
 	<!-- USER EDITOR -->
 	<div id="grid_user_details" visible="false">
 
@@ -117,12 +116,14 @@
 										<label id="user_status"></label>
 
 									</row>
-									
+
 									<row>
 										<label
 											value="Livello Contrattuale">
 										</label>
-										<label id="user_contractual_level"></label>
+										<label
+											id="user_contractual_level">
+										</label>
 
 									</row>
 
@@ -222,7 +223,7 @@
 										<label
 											value="Provincia di Nascita:">
 										</label>
-										<combobox 
+										<combobox
 											placeholder="Seleziona Provincia" id="birth_province_user">
 										</combobox>
 									</row>
@@ -231,7 +232,7 @@
 										<label
 											value="Luogo di Nascita:">
 										</label>
-										<combobox 
+										<combobox
 											placeholder="Seleziona Comune" id="birth_place_user" />
 									</row>
 									<row>
@@ -259,7 +260,8 @@
 											value="Calcola Codice Fiscale:">
 										</label>
 
-										<button id="cfgenerator" label="Calcola Codice Fiscale" sclass="btn-danger" />
+										<button id="cfgenerator"
+											label="Calcola Codice Fiscale" sclass="btn-danger" />
 
 									</row>
 
@@ -341,7 +343,8 @@
 										<label
 											value="Dipartimento o Settore:">
 										</label>
-										<combobox readonly="true"  placeholder="Seleziona dipartimento" id="department_user" />
+										<combobox readonly="true"
+											placeholder="Seleziona dipartimento" id="department_user" />
 									</row>
 
 									<row>
@@ -561,10 +564,11 @@
 					<include mode="defer" src="./userdetailsfc.zul">
 					</include>
 				</tabpanel>
-				
+
 				<!-- TAB MEDICAL EXAMINATION -->
 				<tabpanel>
-					<include mode="defer" src="./userdetailsmedicalexamination.zul">
+					<include mode="defer"
+						src="./userdetailsmedicalexamination.zul">
 					</include>
 				</tabpanel>
 
@@ -579,10 +583,11 @@
 					<include mode="defer" src="./userdetailscons.zul">
 					</include>
 				</tabpanel>
-				
+
 				<!-- TAB COMPENSATION -->
 				<tabpanel>
-					<include mode="defer" src="./userdetailcompensation.zul">
+					<include mode="defer"
+						src="./userdetailcompensation.zul">
 					</include>
 				</tabpanel>
 
@@ -608,7 +613,7 @@
 			label="Aggiungi Utente">
 		</button>
 
-	
+
 		<combobox id="select_specific_user" readonly="true"
 			placeholder="Seleziona Utenti Default" mold="rounded">
 			<comboitem label="--" value="--" />
@@ -622,11 +627,12 @@
 			<comboitem label="Programmatore" value="programmer" />
 			<comboitem label="Visore" value="viewer" />
 		</combobox>
-		
-		<combobox readonly="true" placeholder="Rapporto di Lavoro" 
-		id="user_status_filter"/>
-		
-		<combobox id="contractual_level_filter" placeholder="Seleziona per livello" readonly="true">
+
+		<combobox readonly="true" placeholder="Rapporto di Lavoro"
+			id="user_status_filter" />
+
+		<combobox id="contractual_level_filter"
+			placeholder="Seleziona per livello" readonly="true">
 			<comboitem label="1" value="1" />
 			<comboitem label="2" value="2" />
 			<comboitem label="3" value="3" />
@@ -651,12 +657,15 @@
 		</intbox>
 
 		<textbox placeholder="Cerca..." id="full_text_search"></textbox>
-		
-		
+
+
 	</hbox>
-	
+
 
 	<separator></separator>
+
+
+
 
 	<listbox id="sw_list_user" pagingPosition="both" mold="paging"
 		onSelect="grid_user_details.setVisible(false)"
@@ -664,10 +673,13 @@
 		pageSize="10">
 		<listhead sizable="true">
 			<listheader label="Id" sort="auto(id)" hflex="1" />
-			<listheader label="Rapp. Lav." sort="auto(status)" hflex="2" />
-			<listheader label="Livello cont." sort="auto(contractual_level)" hflex="2" />
+			<listheader label="Rapp. Lav." sort="auto(status)"
+				hflex="2" />
+			<listheader label="Livello cont."
+				sort="auto(contractual_level)" hflex="2" />
 			<listheader label="Abil.to" hflex="2" />
-			<listheader label="Nome" sort="auto(individualName)" hflex="2" />
+			<listheader label="Nome" sort="auto(individualName)"
+				hflex="2" />
 			<listheader label="Città" sort="auto(city)" hflex="4" />
 			<listheader label="Telefono" sort="auto(phone)" hflex="4" />
 			<listheader label="Ruolo" hflex="3" />
@@ -680,8 +692,9 @@
 
 			<listcell sclass="myBottonCell" label="@{user_item.id}" />
 			<listcell sclass="myBottonCell" label="@{user_item.status}" />
-			
-			<listcell sclass="myBottonCell" label="@{user_item.contractual_level}" />
+
+			<listcell sclass="myBottonCell"
+				label="@{user_item.contractual_level}" />
 
 			<listcell sclass="myBottonCell"
 				label="@{user_item.enabled, converter='org.uario.seaworkengine.zkevent.converter.UserEnableConverter'}" />
@@ -693,8 +706,9 @@
 			<listcell sclass="myBottonCell" label="@{user_item.phone}" />
 			<listcell sclass="myBottonCell"
 				label="@{user_item.authority, converter='org.uario.seaworkengine.zkevent.converter.UserRoleConverter'}" />
-			
-			<listcell sclass="myBottonCell" label="@{user_item.current_position}" />
+
+			<listcell sclass="myBottonCell"
+				label="@{user_item.current_position}" />
 
 			<listcell sclass="myBottonCell">
 

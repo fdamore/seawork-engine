@@ -61,7 +61,7 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 	}
 
 	@Override
-	public MonitorData getMonitorData(final Date request) {
+	public List<MonitorData> getMonitorData(final Date request) {
 		return this.webcontroller.getMonitorData(request);
 	}
 

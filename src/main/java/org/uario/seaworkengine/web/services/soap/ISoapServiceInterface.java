@@ -64,7 +64,7 @@ public interface ISoapServiceInterface {
 	 * @param request
 	 * @return
 	 */
-	public MonitorData getMonitorData(@WebParam(name = "request") Date request);
+	public List<MonitorData> getMonitorData(@WebParam(name = "request") Date request);
 
 	/**
 	 * @return

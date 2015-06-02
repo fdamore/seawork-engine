@@ -44,23 +44,25 @@
 					<div sclass="breadcrumb">
 						<button type="button" class="btn-success"
 							tooltiptext="Home e Dashboard" id="sw_home_button"
-							iconSclass="z-icon-home" visible="true"/>
+							iconSclass="z-icon-home" visible="true" />
 
-						<button type="button" class="btn-info sw-btn-margin"
-							tooltiptext="Gestione Utenti" id="sw_user_button"
-							iconSclass="z-icon-group"  visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-						
+						<button type="button"
+							class="btn-info sw-btn-margin" tooltiptext="Gestione Utenti"
+							id="sw_user_button" iconSclass="z-icon-group"
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+
 						<button type="button" class="btn-info"
 							tooltiptext="Programmazione Turni" id="sw_scheduler_button"
-							iconSclass="z-icon-list"  visible="true" />
+							iconSclass="z-icon-list" visible="true" />
 
-						<button type="button" class="btn-warning sw-btn-margin"
-							tooltiptext="Gestione Navi" id="sw_ship_button"
-							iconSclass="z-icon-anchor"  visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}" />
+						<button type="button"
+							class="btn-warning sw-btn-margin" tooltiptext="Gestione Navi"
+							id="sw_ship_button" iconSclass="z-icon-anchor"
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}" />
 
 						<button type="button" class="btn-warning"
 							tooltiptext="Programmazione Navi" id="sw_shipScheduler_button"
-							iconSclass="z-icon-th"  visible="true"/>
+							iconSclass="z-icon-th" visible="true" />
 
 					</div>
 
@@ -90,14 +92,9 @@
 				id="include_ship_detail" visible="false" />
 
 			<include mode="defer" src="shipscheduler.zul"
-				id="include_ship_scheduler" visible="false" />
+				id="include_ship_scheduler" visible="false" />			
 
 		</vlayout>
 	</hlayout>
-
-
-
-
-
 
 </zk>

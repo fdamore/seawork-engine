@@ -80,7 +80,7 @@ public interface IStatistics {
 	 * @param date_request
 	 * @return
 	 */
-	public MonitorData getMonitorData(Date date_request);
+	public List<MonitorData> getMonitorData(Date date_request);
 
 	/**
 	 * Get number of day with shift recorded

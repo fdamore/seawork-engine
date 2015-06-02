@@ -15,63 +15,63 @@ import org.zkoss.zul.Label;
 
 public class IndexComposer extends SelectorComposer<Component> {
 
-	private static String HOME_PAGE_NAME = "Home";
+	private static String		HOME_PAGE_NAME				= "Home";
 
-	private static String MY_PROFILE_PAGE_NAME = "Profilo utente";
+	private static String		MY_PROFILE_PAGE_NAME		= "Profilo utente";
 
-	private static String PREFERENCES_PAGE_NAME = "Preferenze";
+	private static String		PREFERENCES_PAGE_NAME		= "Preferenze";
 
-	private static String PROGRAM_PAGE_NAME = "Programma Lavoro";
+	private static String		PROGRAM_PAGE_NAME			= "Programma Lavoro";
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID			= 1L;
 
-	private static String SHIP_SCHEDULER_PAGE_NAME = "Schedulatore Navi";
+	private static String		SHIP_SCHEDULER_PAGE_NAME	= "Schedulatore Navi";
 
-	private static String SHIPDETAILS_PAGE_NAME = "Dettagli Navi";
+	private static String		SHIPDETAILS_PAGE_NAME		= "Dettagli Navi";
 
-	private static String USERDETAILS_PAGE_NAME = "Dettagli Utente";
-
-	@Wire
-	private Include include_home;
+	private static String		USERDETAILS_PAGE_NAME		= "Dettagli Utente";
 
 	@Wire
-	private Include include_myprofile;
+	private Include				include_home;
 
 	@Wire
-	private Include include_preferences;
+	private Include				include_myprofile;
 
 	@Wire
-	private Include include_scheduler;
+	private Include				include_preferences;
 
 	@Wire
-	private Include include_ship_detail;
+	private Include				include_scheduler;
 
 	@Wire
-	private Include include_ship_scheduler;
+	private Include				include_ship_detail;
 
 	@Wire
-	private Include include_user_detail;
+	private Include				include_ship_scheduler;
 
 	@Wire
-	private Label sw_brec_position;
+	private Include				include_user_detail;
 
 	@Wire
-	private Button sw_home_button;
+	private Label				sw_brec_position;
 
 	@Wire
-	private Button sw_scheduler_button;
+	private Button				sw_home_button;
 
 	@Wire
-	private Button sw_ship_button;
+	private Button				sw_scheduler_button;
 
 	@Wire
-	private Button sw_shipScheduler_button;
+	private Button				sw_ship_button;
 
 	@Wire
-	private Button sw_user_button;
+	private Button				sw_shipScheduler_button;
+
+	@Wire
+	private Button				sw_user_button;
 
 	@Override
 	public void doFinally() throws Exception {

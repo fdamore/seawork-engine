@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,8 @@ import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
+import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
+import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
@@ -33,68 +36,71 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Div add_customer_div;
+	private Div					add_customer_div;
 
 	@Wire
-	private Component add_ships_command;
+	private Component			add_ships_command;
 
 	@Wire
-	private Textbox customer_name;
+	private Textbox				customer_name;
 
-	private ICustomerDAO customerDAO;
-
-	@Wire
-	private Tab detail_ship_tab;
+	private ICustomerDAO		customerDAO;
 
 	@Wire
-	private Textbox full_text_search;
+	private Tab					detail_ship_tab;
 
 	@Wire
-	private Component grid_ship_details;
-
-	private Boolean isInModify = false;
-
-	private final Logger logger = Logger.getLogger(UserDetailsComposer.class);
+	private Textbox				full_text_search;
 
 	@Wire
-	private Component modify_ships_command;
+	private Component			grid_ship_details;
+
+	private Boolean				isInModify			= false;
 
 	@Wire
-	private Checkbox ship_activity;
+	private Listbox				list_monitor;
+
+	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox ship_condition;
+	private Component			modify_ships_command;
 
 	@Wire
-	private Textbox ship_line;
+	private Checkbox			ship_activity;
 
 	@Wire
-	private Textbox ship_name;
+	private Textbox				ship_condition;
 
 	@Wire
-	private Checkbox ship_nowork;
-
-	Ship ship_selected = null;
+	private Textbox				ship_line;
 
 	@Wire
-	private Textbox ship_twtype;
+	private Textbox				ship_name;
 
 	@Wire
-	private Textbox ship_type;
+	private Checkbox			ship_nowork;
 
-	protected IShip shipDao;
-
-	@Wire
-	private Intbox shows_rows;
+	Ship						ship_selected		= null;
 
 	@Wire
-	private Listbox sw_list_customer;
+	private Textbox				ship_twtype;
 
 	@Wire
-	private Listbox sw_list_ship;
+	private Textbox				ship_type;
+
+	protected IShip				shipDao;
+
+	@Wire
+	private Intbox				shows_rows;
+
+	@Wire
+	private Listbox				sw_list_customer;
+
+	@Wire
+	private Listbox				sw_list_ship;
 
 	@Listen("onClick = #sw_addcustomer_ok")
 	public void addCustomerOK() {
@@ -323,6 +329,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
+
+				// update data monitor
+				ShipDetailsComposer.this.updateDataMonitor();
 
 				// get the DAOs
 				ShipDetailsComposer.this.shipDao = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
@@ -562,6 +571,18 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		this.resetDataInfo();
 
 		this.isInModify = false;
+	}
+
+	@Listen("onClick = #update_monitor")
+	public void updateDataMonitor() {
+
+		final Calendar instance = Calendar.getInstance();
+		instance.add(Calendar.DATE, -1);
+
+		final IStatistics statistics = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
+		final List<MonitorData> list = statistics.getMonitorData(instance.getTime());
+
+		this.list_monitor.setModel(new ListModelList<MonitorData>(list));
 	}
 
 }
