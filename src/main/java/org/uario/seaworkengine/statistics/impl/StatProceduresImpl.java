@@ -25,17 +25,17 @@ import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays		bank_holiday;
 
-	private UserCompensationDAO compensationDAO;
+	private UserCompensationDAO	compensationDAO;
 
-	private ISchedule myScheduleDAO;
+	private ISchedule			myScheduleDAO;
 
-	private TasksDAO myTaskDAO;
+	private TasksDAO			myTaskDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache			shiftCache;
 
-	private IStatistics statisticDAO;
+	private IStatistics			statisticDAO;
 
 	@Override
 	public Double calculeSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
@@ -252,48 +252,32 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
 
 		// get a shift - 12 after last shift
-		final Integer last_shift = this.myScheduleDAO.getLastShift(calendar.getTime(), user);
-		int min_shift = 1;
-		if (last_shift != null) {
-			if (last_shift == 3) {
-				min_shift = 2;
-			}
-			if (last_shift == 4) {
-				min_shift = 3;
-			}
-		}
+		final Integer min_shift = this.getMinimumShift(calendar.getTime(), user);
 
 		// get my shift
-		Integer my_shift = -1;
 		if ((averages == null) || (averages.length == 0)) {
 
-			my_shift = min_shift + (int) (Math.random() * 4);
+			final Integer my_shift = min_shift + (int) (Math.random() * 4);
+			return my_shift;
 
-		} else {
-			if ((last_shift == null) || (last_shift == 1) || (last_shift == 2)) {
-				my_shift = averages[0].getShift();
-			}
-
-			else {
-
-				// set current shift
-				my_shift = averages[0].getShift();
-
-				final int cutoff = last_shift - 2;
-
-				for (int i = 0; i < averages.length; i++) {
-
-					final RateShift current_shift = averages[i];
-					if (current_shift.getShift() > cutoff) {
-						my_shift = averages[i].getShift();
-						break;
-					}
-
-				}
-
-			}
 		}
-		return my_shift;
+
+		if (min_shift == 1) {
+			return averages[0].getShift();
+		}
+
+		for (int i = 0; i < averages.length; i++) {
+
+			final RateShift current_shift = averages[i];
+
+			if (current_shift.getShift() >= min_shift) {
+				return current_shift.getShift();
+			}
+
+		}
+
+		// exit
+		return 1;
 	}
 
 	public IStatistics getStatisticDAO() {
@@ -725,7 +709,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -746,7 +730,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -784,7 +768,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
