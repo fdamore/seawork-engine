@@ -237,10 +237,13 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<MonitorData> getMonitorData(final Date date_request) {
 		MyBatisStatisticsDAO.logger.info("getMonitorData..");
 
-		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
+		final Date date_from = DateUtils.truncate(date_request, Calendar.DATE);
+		final Calendar date_to_cal = DateUtils.toCalendar(date_from);
+		date_to_cal.add(Calendar.DATE, 1);
 
 		final HashMap<String, Date> map = new HashMap<String, Date>();
-		map.put("date_request", date_truncate);
+		map.put("date_from", date_from);
+		map.put("date_to", date_to_cal.getTime());
 
 		final List<MonitorData> ret = this.getSqlSession().selectList("statistics.monitorWork", map);
 

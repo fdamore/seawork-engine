@@ -13,30 +13,32 @@
 		d.id_ship,
 		d.shift as shift_no,
 		s.name,
-		sum(d.board) as
-		out_board,(SELECT sum(d1.board) FROM detailfinalschedule d1 WHERE
-		#{date_request} 
-		<![CDATA[>=]]>
-		d1.time_from and #{date_request} <![CDATA[<=]]>
-		d1.time_to
-		and d1.board is not null and d1.shift = d.shift and d1.id_ship =
+		count(d.board) as
+		out_board,(SELECT count(d1.board) FROM detailfinalschedule d1 WHERE
+		date(d1.time_from) <![CDATA[>=]]>
+		#{date_from} and
+		date(d1.time_to)  <![CDATA[<=]]>
+		#{date_to}
+		and d1.board is not null and d1.shift = d.shift and
+		d1.id_ship =
 		d.id_ship
 		and d1.board = 'A BORDO') as on_board
 		FROM
-		detailfinalschedule d,
+		detailfinalschedule
+		d,
 		ship s
 		WHERE
 		d.id_ship = s.id and d.board is
 		not
 		null
-		and d.id_ship is not null
+		and d.id_ship is
+		not null
 		and d.board = 'SOTTO BORDO' and
-		#{date_request} <![CDATA[>=]]>
-		d.time_from and #{date_request} <![CDATA[<=]]>
-		d.time_to
-		group by
-		d.id_ship ,
-		d.shift
+		date(d.time_from) <![CDATA[>=]]>
+		#{date_from} and
+		date(d.time_to) <![CDATA[<=]]>
+		#{date_to}
+		group by d.id_ship, d.shift
 
 	</select>
 

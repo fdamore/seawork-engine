@@ -311,6 +311,10 @@
 					<button class="btn-info" label="Aggiorna Dati"
 						id="update_monitor" />
 
+					<datebox id="monitor_date"
+						onCreate="self.value = new Date()">
+					</datebox>
+
 					<separator></separator>
 
 					<listbox id="list_monitor"

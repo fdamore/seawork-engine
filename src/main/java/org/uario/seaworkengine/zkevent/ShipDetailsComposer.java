@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.zkevent;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
@@ -67,6 +67,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component			modify_ships_command;
+
+	@Wire
+	private Datebox				monitor_date;
 
 	@Wire
 	private Checkbox			ship_activity;
@@ -175,18 +178,18 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 				Messagebox.show("Nave No Lavoro già presente, proseguire?", "CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null,
 						new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							ShipDetailsComposer.this.shipDao.removeShipNoWork();
-							ShipDetailsComposer.this.createShip(ship);
+									ShipDetailsComposer.this.shipDao.removeShipNoWork();
+									ShipDetailsComposer.this.createShip(ship);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			}
 
 		}
@@ -396,21 +399,21 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 					Messagebox.show("Nave No Lavoro già presente, proseguire?", "CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null,
 							new EventListener<ClickEvent>() {
 
-						@Override
-						public void onEvent(final ClickEvent e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
+								@Override
+								public void onEvent(final ClickEvent e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
 
-								ShipDetailsComposer.this.shipDao.removeShipNoWork();
-								ShipDetailsComposer.this.shipDao.updateShip(ShipDetailsComposer.this.ship_selected);
+										ShipDetailsComposer.this.shipDao.removeShipNoWork();
+										ShipDetailsComposer.this.shipDao.updateShip(ShipDetailsComposer.this.ship_selected);
 
-								ShipDetailsComposer.this.showOkMessageBox();
+										ShipDetailsComposer.this.showOkMessageBox();
 
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								ShipDetailsComposer.this.isInModify = true;
-								return;
-							}
-						}
-					}, params);
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										ShipDetailsComposer.this.isInModify = true;
+										return;
+									}
+								}
+							}, params);
 				}
 
 			}
@@ -439,15 +442,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipDetailsComposer.this.deleteShipCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipDetailsComposer.this.deleteShipCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -573,13 +576,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		this.isInModify = false;
 	}
 
-	@Listen("onClick = #update_monitor")
+	@Listen("onClick = #update_monitor; onChange = #monitor_date")
 	public void updateDataMonitor() {
 
-		final Calendar instance = Calendar.getInstance();
+		if (this.monitor_date.getValue() == null) {
+			return;
+		}
 
 		final IStatistics statistics = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
-		final List<MonitorData> list = statistics.getMonitorData(instance.getTime());
+		final List<MonitorData> list = statistics.getMonitorData(this.monitor_date.getValue());
 
 		this.list_monitor.setModel(new ListModelList<MonitorData>(list));
 	}
