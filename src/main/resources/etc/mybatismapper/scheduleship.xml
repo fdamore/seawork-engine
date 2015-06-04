@@ -113,11 +113,11 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, shiftdate, notedetail)
+		idseconduser, handswork, menwork, shiftdate, notedetail, activity_start, activity_end)
 		VALUES
 		(#{idscheduleship},
 		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
-		#{notedetail});
+		#{notedetail}, #{activity_start}, #{activity_end});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -301,7 +301,7 @@
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail,
-		s.name, d.operation,
+		s.name, d.operation, d.activity_start, d.activity_end, 
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
 		d.iduser,d.idseconduser,
@@ -356,7 +356,7 @@
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail,
-		s.name, d.operation,
+		s.name, d.operation, d.activity_start, d.activity_end, 
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
 		d.iduser,
@@ -410,7 +410,7 @@
 		d.idseconduser,
 		d.handswork, d.menwork,
 		d.shiftdate,
-		d.notedetail,
+		d.notedetail, d.activity_start, d.activity_end, 
 		concat(u.lastname, '
 		', u.firstname) AS
 		firstOperativeName,
@@ -500,7 +500,8 @@
 		handswork = #{handswork},
 		menwork = #{menwork},
 		shiftdate = #{shiftdate},
-		notedetail = #{notedetail}
+		notedetail = #{notedetail}, 
+		activity_start = #{activity_start}, activity_end = #{activity_end} 
 		WHERE id = #{id};
 	</update>
 

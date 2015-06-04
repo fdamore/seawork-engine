@@ -297,10 +297,10 @@
 												</label>
 
 												<hbox align="left">
-													<timebox
+													<timebox format="short" 
 														id="ship_from" placeholder="Da..." mold="rounded" />
 
-													<timebox
+													<timebox format="short" 
 														id="ship_to" placeholder="A..." mold="rounded" />
 
 													<checkbox
