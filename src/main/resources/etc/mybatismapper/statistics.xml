@@ -175,6 +175,11 @@
 		<if test="task_id != null">
 			and (dfs.task = #{task_id})
 		</if>
+		
+		<if test="reviewshift != null">
+			and (dfs.reviewshift = #{reviewshift}) 
+		</if>
+		
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
 

@@ -22,9 +22,9 @@ import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
-	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisStatisticsDAO.class);
 
-	private IBankHolidays	bank_holiday;
+	private IBankHolidays bank_holiday;
 
 	/**
 	 * Calculate work percentage on list rateshift
@@ -333,7 +333,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	@Override
 	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Integer task_id, final Date date_from, final Date date_to) {
+			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -341,6 +341,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("shift_number", shift_number);
 		map.put("shift_type", shift_type);
 		map.put("task_id", task_id);
+		map.put("reviewshift", reviewshift);
 
 		if ((date_from != null) && (date_to != null)) {
 			map.put("date_from", DateUtils.truncate(date_from, Calendar.DATE));

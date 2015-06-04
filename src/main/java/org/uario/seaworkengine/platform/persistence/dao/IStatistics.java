@@ -76,7 +76,7 @@ public interface IStatistics {
 
 	/**
 	 * Get data monitor
-	 * 
+	 *
 	 * @param date_request
 	 * @return
 	 */
@@ -135,7 +135,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-			Date date_from, Date date_to);
+			Date date_from, Date date_to, Boolean reviewshift);
 
 	/**
 	 * List detail initial schedule

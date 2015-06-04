@@ -2667,6 +2667,17 @@
 							</vbox>
 
 							<space></space>
+							
+							<vbox align="start" id="reviewShiftBox">
+								<a label="Filtra su fascia oraria: "></a>
+								<combobox id="hoursInterval"
+									readonly="false" placeholder="Seleziona Fascia Oraria...">
+									<comboitem label="SI" value="true"/>
+									<comboitem label="NO" value="false"/>
+									<comboitem label="TUTTI" value="null"/>	
+								</combobox>
+								
+							</vbox>
 
 						</hbox>
 
