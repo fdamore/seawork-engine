@@ -17,7 +17,7 @@
 		code,
 		description, isabsence, recorded,
 		overflow, endoperation,
-		delayoperation, changeshift
+		delayoperation, changeshift, hiddentask 
 		FROM usertask
 		WHERE id=#{id};
 	</select>
@@ -46,7 +46,8 @@
 		t.endoperation,
 		t.overflow,
 		t.changeshift,
-		t.delayoperation
+		t.delayoperation, 
+		t.hiddentask 
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
@@ -57,7 +58,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift
+		overflow, delayoperation, changeshift, hiddentask 
 		FROM usertask
 		order by description;
 
@@ -68,7 +69,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift
+		overflow, delayoperation, changeshift, hiddentask 
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -131,12 +132,12 @@
 		INSERT INTO usertask
 		(code,
 		description, isabsence, recorded, endoperation, overflow,
-		delayoperation, changeshift)
+		delayoperation, changeshift, hiddentask)
 		VALUES
 		(#{code},#{description},
 		#{isabsence},
 		#{recorded}, #{endoperation}, #{overflow},
-		#{delayoperation}, #{changeshift});
+		#{delayoperation}, #{changeshift}, #{hiddentask});
 
 	</insert>
 
@@ -161,18 +162,15 @@
 		SET
 		id =
 		#{id},
-		code = #{code},
-		description = #{description} ,
-		isabsence =
-		#{isabsence},
+		code = #{code}, 
+		description = #{description}, 
+		isabsence = #{isabsence},
 		recorded = #{recorded},
-		endoperation =
-		#{endoperation},
-		overflow =
-		#{overflow},
-		delayoperation =
-		#{delayoperation},
-		changeshift = #{changeshift}
+		endoperation = #{endoperation},
+		overflow = #{overflow},
+		delayoperation = #{delayoperation},
+		changeshift = #{changeshift}, 
+		hiddentask = #{hiddentask} 
 		WHERE id = #{id}
 
 	</update>
@@ -192,11 +190,9 @@
 		disease_shift = #{disease_shift},
 		accident_shift = #{accident_shift},
 		waitbreak_shift = #{waitbreak_shift},
-		standard_shift =
-		#{standard_shift},
-		daily_shift =
-		#{daily_shift},
-		recorded = #{recorded}
+		standard_shift = #{standard_shift},
+		daily_shift = #{daily_shift},
+		recorded = #{recorded} 
 		WHERE id = #{id};
 
 
