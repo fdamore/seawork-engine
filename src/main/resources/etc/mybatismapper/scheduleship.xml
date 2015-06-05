@@ -347,7 +347,14 @@
 		<if test="idCustomer != null">
 			#{idCustomer}=ss.customer_id and
 		</if>
-
+				
+		<if test="nowork != null">
+			#{nowork}=s.nowork and
+		</if>
+		
+		<if test="activityh != null">
+			#{activityh}=s.activityh and
+		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
 		order by
@@ -402,6 +409,14 @@
 		
 		<if test="idCustomer != null">
 			#{idCustomer}=ss.customer_id and
+		</if>
+		
+		<if test="nowork != null">
+			#{nowork}=s.nowork and
+		</if>
+		
+		<if test="activityh != null">
+			#{activityh}=s.activityh and
 		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id

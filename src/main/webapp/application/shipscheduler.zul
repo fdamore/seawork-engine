@@ -854,6 +854,15 @@
 			
 			<a label="Filtra per cliente: " />
 			<combobox placeholder="Scegli cliente..." readonly="true" id="select_customer"/>
+			
+			<a label="Filtra per tipo nave " />
+			<combobox placeholder="Scegli tipo nave..." readonly="true" id="select_typeShip">
+				<comboitem value="activityh" label="Attività H"/>
+				<comboitem value="nowork" label="Non Lavoro"/>
+				<comboitem value="all" label="Tutti"/>
+			</combobox>
+			
+			<separator />
 							
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
