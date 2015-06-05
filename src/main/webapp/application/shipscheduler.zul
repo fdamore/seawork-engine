@@ -826,8 +826,11 @@
 					placeholder="Dalla data..." />
 				<datebox id="searchArrivalDateShipTo_detail"
 					placeholder="Alla data..." />
+				<a label="Scarica dati in CSV" id="detailShipProgram_download" style="color:green"/>
 			</hbox>
-
+			
+			
+			
 			<separator />
 
 			<a label="Ricerca per data turno: "
@@ -851,8 +854,7 @@
 			
 			<a label="Filtra per cliente: " />
 			<combobox placeholder="Scegli cliente..." readonly="true" id="select_customer"/>
-				
-			
+							
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<intbox id="shows_rows" constraint="no negative, no zero"

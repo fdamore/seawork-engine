@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
@@ -16,18 +18,100 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
+import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
+	private static final NumberFormat number_format = NumberFormat.getInstance(Locale.ITALIAN);
+
+	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
+			final ICustomerDAO customerDAO) {
+		if (modelListDetailScheduleShip == null) {
+			return null;
+		}
+
+		final StringBuilder builder = new StringBuilder();
+
+		final String header = "Nome Nave;Cliente;Data Turno;Turno;Operazione;Primo Preposto;Secondo Preposto;Mani;Persone;Data Inizio;Data Fine;\n";
+		builder.append(header);
+
+		for (final DetailScheduleShip item : modelListDetailScheduleShip) {
+
+			String shipName = "";
+			String customerName = "";
+			String shiftDate = "";
+			String shiftNumber = "";
+			String operation = "";
+			String firstUser = "";
+			String secondUser = "";
+			String hands = "";
+			String persons = "";
+			String startDate = "";
+			String endDate = "";
+
+			if (item.getName() != null) {
+				shipName = item.getName();
+			}
+
+			if (item.getCustomer_id() != null) {
+				final Customer customer = customerDAO.loadCustomer(item.getCustomer_id());
+				if (customer != null) {
+					customerName = customer.getName();
+				}
+			}
+
+			if (item.getShiftdate() != null) {
+				shiftDate = Utility.getDataAsString_it(item.getShiftdate());
+			}
+
+			if (item.getShift() != null) {
+				shiftNumber = item.getShift().toString();
+			}
+
+			if (item.getOperation() != null) {
+				operation = item.getOperation();
+			}
+
+			if (item.getFirstOperativeName() != null) {
+				firstUser = item.getFirstOperativeName();
+			}
+
+			if (item.getSecondOperativeName() != null) {
+				secondUser = item.getSecondOperativeName();
+			}
+
+			if (item.getHandswork() != null) {
+				hands = item.getHandswork().toString();
+			}
+
+			if (item.getMenwork() != null) {
+				persons = item.getMenwork().toString();
+			}
+
+			if (item.getArrivaldate() != null) {
+				startDate = Utility.getDataAsString_it(item.getArrivaldate());
+			}
+
+			if (item.getDeparturedate() != null) {
+				endDate = Utility.getDataAsString_it(item.getDeparturedate());
+			}
+
+			final String line = "" + shipName + ";" + customerName + ";" + shiftDate + ";" + shiftNumber + ";" + operation + ";" + firstUser + ";"
+					+ secondUser + ";" + hands + ";" + persons + ";" + startDate + ";" + endDate + ";\n";
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
 
 	public static StringBuilder downloadCSV_ReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
