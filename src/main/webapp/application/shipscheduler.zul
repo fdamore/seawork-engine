@@ -669,10 +669,8 @@
 										value="TWISTER">
 									</comboitem>
 								</combobox>
-
-
-
 							</row>
+							
 							<row>
 								<label value="Nome Primo Preposto:"></label>
 								<combobox id="user_Daily"
@@ -850,7 +848,11 @@
 				<comboitem value="3" label="3"></comboitem>
 				<comboitem value="4" label="4"></comboitem>
 			</combobox>
-
+			
+			<a label="Filtra per cliente: " />
+			<combobox placeholder="Scegli cliente..." readonly="true" id="select_customer"/>
+				
+			
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<intbox id="shows_rows" constraint="no negative, no zero"

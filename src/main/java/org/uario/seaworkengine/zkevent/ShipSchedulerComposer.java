@@ -113,6 +113,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final ListModel<Customer> model_customer_add = new ListModelList<Customer>(list_customer);
 			ShipSchedulerComposer.this.ship_customer_add.setModel(model_customer_add);
 
+			final List<Customer> list = new ArrayList<Customer>(list_customer);
+			final Comboitem comboItem = new Comboitem();
+
+			final Customer allCustomer = new Customer();
+			allCustomer.setName("TUTTI");
+			allCustomer.setId(0);
+			list.add(allCustomer);
+			ShipSchedulerComposer.this.select_customer.setModel(new ListModelList<Customer>(list));
+
 			ShipSchedulerComposer.this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
 
 			ShipSchedulerComposer.this.scheduler_type_selector.setSelectedItem(ShipSchedulerComposer.this.detail_item);
@@ -363,6 +372,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private A selecetedShipName;
 
 	@Wire
+	private Combobox select_customer;
+
+	@Wire
 	public Combobox select_shift;
 
 	@Wire
@@ -452,9 +464,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox shows_rows_ship;
-
-	// @Wire
-	// private Listbox sw_list_scheduleDetailShipProgram;
 
 	@Wire
 	private Toolbarbutton sw_link_reviewscheduleship;
@@ -1542,7 +1551,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Set ship list box with initial events
 	 */
-	@Listen("onOK = #shows_rows, #full_text_search;onChange = #select_shift")
+	@Listen("onOK = #shows_rows, #full_text_search;onChange = #select_shift, #select_customer")
 	public void refreshScheduleShipListBox() {
 
 		if (this.searchDateShift.getValue() != null) {
@@ -1727,7 +1736,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Integer no_shift = this.getSelectedShift();
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift);
+		Integer idCustomer = null;
+		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+			idCustomer = customerSelected.getId();
+		}
+
+		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer);
 
 		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(list));
 
@@ -1757,7 +1772,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Integer selectedShift = this.getSelectedShift();
 
-		list_DetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift);
+		Integer idCustomer = null;
+		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+			idCustomer = customerSelected.getId();
+		}
+
+		list_DetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer);
 		this.setInfoDetailShipProgram(date, _text, list_DetailScheduleShip);
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
@@ -2291,6 +2312,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchWorkShip.setValue(cal.getTime());
 
 		this.searchDateShift.setValue(DateUtils.truncate(cal.getTime(), Calendar.DATE));
+
+		this.select_customer.setSelectedItem(null);
 
 		// set ship listbox
 		this.refreshScheduleShipListBox();

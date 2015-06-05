@@ -343,6 +343,10 @@
 		<if test="dateto != null">
 			#{dateto}>=ss.arrivaldate and
 		</if>
+		
+		<if test="idCustomer != null">
+			#{idCustomer}=ss.customer_id and
+		</if>
 
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
@@ -394,6 +398,10 @@
 
 		<if test="shiftdate != null">
 			d.shiftdate=#{shiftdate} and
+		</if>
+		
+		<if test="idCustomer != null">
+			#{idCustomer}=ss.customer_id and
 		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id

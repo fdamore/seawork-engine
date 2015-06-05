@@ -16,7 +16,7 @@ import org.uario.seaworkengine.statistics.ShipTotal;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
 
-	private static Logger	logger	= Logger.getLogger(MyBatisScheduleShipDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisScheduleShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisScheduleShipDAO.logger;
@@ -236,7 +236,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final String full_text_search,
-			final Integer shift) {
+			final Integer shift, final Integer idCustomer) {
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -244,19 +244,22 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("dateto", dateto);
 		map.put("full_text_search", full_text_search);
 		map.put("shift", shift);
+		map.put("idCustomer", idCustomer);
 
 		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipPeriod", map);
 
 	}
 
 	@Override
-	public List<DetailScheduleShip> searchDetailScheduleShip(final Date shiftdate, final String full_text_search, final Integer shift) {
+	public List<DetailScheduleShip> searchDetailScheduleShip(final Date shiftdate, final String full_text_search, final Integer shift,
+			final Integer idCustomer) {
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("shiftdate", shiftdate);
 		map.put("full_text_search", full_text_search);
 		map.put("shift", shift);
+		map.put("idCustomer", idCustomer);
 
 		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShip", map);
 	}
