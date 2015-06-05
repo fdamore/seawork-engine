@@ -25,17 +25,17 @@ import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private IBankHolidays		bank_holiday;
+	private IBankHolidays bank_holiday;
 
-	private UserCompensationDAO	compensationDAO;
+	private UserCompensationDAO compensationDAO;
 
-	private ISchedule			myScheduleDAO;
+	private ISchedule myScheduleDAO;
 
-	private TasksDAO			myTaskDAO;
+	private TasksDAO myTaskDAO;
 
-	private IShiftCache			shiftCache;
+	private IShiftCache shiftCache;
 
-	private IStatistics			statisticDAO;
+	private IStatistics statisticDAO;
 
 	@Override
 	public Double calculeSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
@@ -246,13 +246,8 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
 
-		// get info from last shift
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(current_date_scheduled);
-		calendar.add(Calendar.DAY_OF_YEAR, -1);
-
 		// get a shift - 12 after last shift
-		final Integer min_shift = this.getMinimumShift(calendar.getTime(), user);
+		final Integer min_shift = this.getMinimumShift(current_date_scheduled, user);
 
 		// get my shift
 		if ((averages == null) || (averages.length == 0)) {
