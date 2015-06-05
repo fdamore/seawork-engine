@@ -634,6 +634,24 @@
 								</combobox>
 
 							</row>
+							
+							<row id="h_detail_period">
+								<label value="Fascia Oraria:"></label>
+
+								<hbox align="left">
+									<timebox format="short"
+										id="ship_from_detail" placeholder="Da..." mold="rounded" />
+
+									<timebox format="short" id="ship_to_detail"
+										placeholder="A..." mold="rounded" />
+
+									<checkbox id="check_last_shift_detail"
+										visible="false" label="Finisce il Giorno Dopo"
+										checked="false">
+									</checkbox>
+
+								</hbox>
+							</row>
 
 
 

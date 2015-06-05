@@ -161,6 +161,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Checkbox check_last_shift;
 
 	@Wire
+	private Checkbox check_last_shift_detail;
+
+	@Wire
 	private org.zkoss.zul.Checkbox crane_gtw_review;
 
 	@Wire
@@ -206,6 +209,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component grid_scheduleShip_details;
+
+	@Wire
+	private Row h_detail_period;
 
 	@Wire
 	private Row h_program_period;
@@ -405,6 +411,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Timebox ship_from;
 
 	@Wire
+	private Timebox ship_from_detail;
+
+	@Wire
 	private Combobox ship_name;
 
 	@Wire
@@ -418,6 +427,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Timebox ship_to;
+
+	@Wire
+	private Timebox ship_to_detail;
 
 	@Wire
 	private Intbox ship_volume;
@@ -1116,14 +1128,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	private void modAct() {
-		// TODO: redefine this
-
 		// define if ship activity fields need to be disabled
 		final Integer id_ship = this.scheduleShip_selected.getIdship();
 		final Ship ship = this.shipDao.loadShip(id_ship);
 		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
-
-			// TODO manage this
 
 			this.ship_from.setValue(null);
 			this.ship_to.setValue(null);
@@ -1507,6 +1515,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.handswork_Daily.setValue(this.detailScheduleShipSelected.getHandswork());
 		this.menwork_Daily.setValue(this.detailScheduleShipSelected.getMenwork());
 
+		this.setActivityStartEndDetailPopup();
+
 	}
 
 	@Listen("onClick = #refresh_command")
@@ -1619,10 +1629,59 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.detailScheduleShipSelected.setShiftdate(this.shiftdate_Daily.getValue());
 
 		final Integer shift = Integer.parseInt(this.shift_Daily.getValue().toString());
+
+		final Date shiftDate = this.shiftdate_Daily.getValue();
+
+		if (shiftDate == null) {
+			return;
+		}
+
+		Date f = this.ship_from_detail.getValue();
+		Date t = this.ship_to_detail.getValue();
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(shiftDate);
+
+		final Calendar calTime = Calendar.getInstance();
+
+		calTime.setTime(f);
+		cal.set(Calendar.HOUR_OF_DAY, calTime.get(Calendar.HOUR_OF_DAY));
+		cal.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
+
+		f = cal.getTime();
+
+		calTime.setTime(t);
+		cal.set(Calendar.HOUR_OF_DAY, calTime.get(Calendar.HOUR_OF_DAY));
+		cal.set(Calendar.MINUTE, calTime.get(Calendar.MINUTE));
+
+		t = cal.getTime();
+
+		this.detailScheduleShipSelected.setActivity_end(t);
+		this.detailScheduleShipSelected.setActivity_start(f);
+
+		if (shift.equals(4) && this.check_last_shift_detail.isChecked()) {
+
+			cal.setTime(t);
+
+			cal.add(Calendar.DATE, 1);
+
+			this.detailScheduleShipSelected.setActivity_end(cal.getTime());
+		}
+
+		// define if ship activity fields need to be disabled
+		final Integer id_ship = this.detailScheduleShipSelected.getId_ship();
+		final Ship ship = this.shipDao.loadShip(id_ship);
+
+		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+
+		}
+
 		this.detailScheduleShipSelected.setShift(shift);
 		this.detailScheduleShipSelected.setOperation(this.operation_Daily.getValue().toString());
 
-		this.detailScheduleShipSelected.setIduser(((Person) this.user_Daily.getSelectedItem().getValue()).getId());
+		if (this.user_Daily.getSelectedItem() != null) {
+			this.detailScheduleShipSelected.setIduser(((Person) this.user_Daily.getSelectedItem().getValue()).getId());
+		}
 
 		if (this.usersecond_Daily.getSelectedItem() != null) {
 			this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond_Daily.getSelectedItem().getValue()).getId());
@@ -2055,6 +2114,55 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void setActivityStartEndDetailPopup() {
+
+		if (this.detailScheduleShipSelected == null) {
+			return;
+		}
+
+		// define if ship activity fields need to be disabled
+		final Integer id_ship = this.detailScheduleShipSelected.getId_ship();
+		final Ship ship = this.shipDao.loadShip(id_ship);
+
+		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+
+			this.check_last_shift_detail.setVisible(true);
+			this.check_last_shift_detail.setChecked(false);
+			final Date from = this.detailScheduleShipSelected.getActivity_start();
+			final Date to = this.detailScheduleShipSelected.getActivity_end();
+
+			this.ship_from_detail.setValue(from);
+			this.ship_to_detail.setValue(to);
+
+			final Calendar cal = Calendar.getInstance();
+
+			cal.setTime(from);
+
+			final int f = cal.get(Calendar.DATE);
+
+			cal.setTime(to);
+			final int t = cal.get(Calendar.DATE);
+
+			if (f != t) {
+				this.check_last_shift_detail.setChecked(true);
+				cal.add(Calendar.DATE, -1);
+				this.ship_to_detail.setValue(cal.getTime());
+			}
+
+			this.h_detail_period.setVisible(true);
+
+		} else {
+
+			this.ship_from_detail.setValue(null);
+			this.ship_to_detail.setValue(null);
+
+			this.h_detail_period.setVisible(false);
+			this.check_last_shift_detail.setChecked(false);
+			this.check_last_shift_detail.setVisible(false);
+
+		}
+	}
+
 	private void setDateInSearch() {
 		if ((this.date_from_overview.getValue() == null) && (this.date_to_overview.getValue() == null) && (this.searchWorkShip.getValue() == null)
 				&& (this.select_year.getSelectedItem() == null)) {
@@ -2220,6 +2328,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.TotalVolumeOnBoard.setValue(sumVolumeOnBoard.toString());
 		this.TotalVolumeOnBoard_sws.setValue(sumVolumeOnBoard_sws.toString());
 		this.TotalVolumeTWMTC.setValue(sumVolumeMTC.toString());
+	}
+
+	@Listen("onChange = #shift_Daily")
+	public void setVisibilityEndeAfterADay() {
+		final Integer shift = Integer.parseInt(this.shift_Daily.getSelectedItem().getValue().toString());
+		if (shift == 4) {
+			this.check_last_shift_detail.setVisible(true);
+		} else {
+			this.check_last_shift_detail.setVisible(false);
+		}
+
 	}
 
 	@Listen("onClick = #sw_addScheduleShipProgram")
