@@ -15,14 +15,17 @@ import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
+
 	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
 
 	private IBankHolidays	bank_holiday;
@@ -385,6 +388,67 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		}
 
 		return this.getSqlSession().selectList("statistics.listSchedule", map);
+	}
+
+	@Override
+	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
+			final Integer rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer working_cycle) {
+
+		MyBatisStatisticsDAO.logger.info("loadReviewShipWork by date");
+
+		Date dt_arg_from = null;
+		if (date_from != null) {
+			dt_arg_from = DateUtils.truncate(date_from, Calendar.DATE);
+		}
+
+		Date dt_arg_to = null;
+		if (date_to != null) {
+			dt_arg_to = DateUtils.truncate(date_to, Calendar.DATE);
+		}
+
+		if ((searchText != null) && (searchText.trim() == "")) {
+			searchText = null;
+		}
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("dt_arg_from", dt_arg_from);
+		map.put("dt_arg_to", dt_arg_to);
+		map.put("searchText", searchText);
+		map.put("rifSWS", rifSWS);
+		map.put("rifMCT", rifMCT);
+		map.put("shift", shift);
+		map.put("invoicing_cycle_search", invoicing_cycle);
+		map.put("working_cycle_search", working_cycle);
+
+		return this.getSqlSession().selectList("statistics.reviewShipWork", map);
+
+	}
+
+	@Override
+	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(final Date date_from, final Date date_to, String searchText) {
+
+		MyBatisStatisticsDAO.logger.info("loadReviewShipWorkAggregate by date");
+
+		Date dt_arg_from = null;
+		if (date_from != null) {
+			dt_arg_from = DateUtils.truncate(date_from, Calendar.DATE);
+		}
+
+		Date dt_arg_to = null;
+		if (date_to != null) {
+			dt_arg_to = DateUtils.truncate(date_to, Calendar.DATE);
+		}
+
+		if ((searchText != null) && (searchText.trim() == "")) {
+			searchText = null;
+		}
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("dt_arg_from", dt_arg_from);
+		map.put("dt_arg_to", dt_arg_to);
+		map.put("searchText", searchText);
+
+		return this.getSqlSession().selectList("statistics.reviewShipWorkAggregate", map);
 	}
 
 	@Override

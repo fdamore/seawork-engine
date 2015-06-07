@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
@@ -168,8 +170,35 @@ public interface IStatistics {
 	public List<Schedule> listSchedule(String full_text_search, Integer shift, Date date_from, Date date_to);
 
 	/**
+	 * @param date_from
+	 * @param date_to
+	 * @param searchText
+	 * @param rifSWS
+	 * @param rifMCT
+	 * @param shift
+	 * @param invoicing_cycle
+	 * @param working_cycle
+	 * @return
+	 */
+	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, Integer rifMCT, Integer shift,
+			Integer invoicing_cycle, Integer working_cycle);
+
+	/**
+	 * @param date_from
+	 * @param date_to
+	 * @param searchText
+	 * @param rifSWS
+	 * @param rifMCT
+	 * @param shift
+	 * @param invoicing_cycle
+	 * @param working_cycle
+	 * @return
+	 */
+	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(Date date_from, Date date_to, String searchText);
+
+	/**
 	 * Get overview abount ship
-	 * 
+	 *
 	 * @param text_search
 	 * @param date_from
 	 * @param date_to

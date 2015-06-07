@@ -297,11 +297,13 @@
 												</label>
 
 												<hbox align="left">
-													<timebox format="short" 
-														id="ship_from" placeholder="Da..." mold="rounded" />
+													<timebox
+														format="short" id="ship_from" placeholder="Da..."
+														mold="rounded" />
 
-													<timebox format="short" 
-														id="ship_to" placeholder="A..." mold="rounded" />
+													<timebox
+														format="short" id="ship_to" placeholder="A..."
+														mold="rounded" />
 
 													<checkbox
 														id="check_last_shift" visible="false"
@@ -634,7 +636,7 @@
 								</combobox>
 
 							</row>
-							
+
 							<row id="h_detail_period">
 								<label value="Fascia Oraria:"></label>
 
@@ -642,12 +644,12 @@
 									<timebox format="short"
 										id="ship_from_detail" placeholder="Da..." mold="rounded" />
 
-									<timebox format="short" id="ship_to_detail"
-										placeholder="A..." mold="rounded" />
+									<timebox format="short"
+										id="ship_to_detail" placeholder="A..." mold="rounded" />
 
-									<checkbox id="check_last_shift_detail"
-										visible="false" label="Finisce il Giorno Dopo"
-										checked="false">
+									<checkbox
+										id="check_last_shift_detail" visible="false"
+										label="Finisce il Giorno Dopo" checked="false">
 									</checkbox>
 
 								</hbox>
@@ -670,7 +672,7 @@
 									</comboitem>
 								</combobox>
 							</row>
-							
+
 							<row>
 								<label value="Nome Primo Preposto:"></label>
 								<combobox id="user_Daily"
@@ -826,11 +828,12 @@
 					placeholder="Dalla data..." />
 				<datebox id="searchArrivalDateShipTo_detail"
 					placeholder="Alla data..." />
-				<a label="Scarica dati in CSV" id="detailShipProgram_download" style="color:green"/>
+				<a label="Scarica dati in CSV"
+					id="detailShipProgram_download" style="color:green" />
 			</hbox>
-			
-			
-			
+
+
+
 			<separator />
 
 			<a label="Ricerca per data turno: "
@@ -851,19 +854,21 @@
 				<comboitem value="3" label="3"></comboitem>
 				<comboitem value="4" label="4"></comboitem>
 			</combobox>
-			
+
 			<a label="Filtra per cliente: " />
-			<combobox placeholder="Scegli cliente..." readonly="true" id="select_customer"/>
-			
+			<combobox placeholder="Scegli cliente..." readonly="true"
+				id="select_customer" />
+
 			<a label="Filtra per tipo nave " />
-			<combobox placeholder="Scegli tipo nave..." readonly="true" id="select_typeShip">
-				<comboitem value="activityh" label="Attività H"/>
-				<comboitem value="nowork" label="Non Lavoro"/>
-				<comboitem value="all" label="Tutti"/>
+			<combobox placeholder="Scegli tipo nave..." readonly="true"
+				id="select_typeShip">
+				<comboitem value="activityh" label="Attività H" />
+				<comboitem value="nowork" label="Non Lavoro" />
+				<comboitem value="all" label="Tutti" />
 			</combobox>
-			
+
 			<separator />
-							
+
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<intbox id="shows_rows" constraint="no negative, no zero"
@@ -1235,175 +1240,308 @@
 				iconSclass="z-icon-list" sclass="green lighter rcaption" />
 			<separator></separator>
 
-			<a label="Ricerca per data turno: "
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+			<vbox>
 
-			<datebox id="searchWorkShip" placeholder="Data Turno..." />
+				<hbox align="center">
 
-			<a label="Filtra su periodo: "></a>
-			<datebox id="date_from_overview"
-				placeholder="Selezione data iniziale" width="200px" />
+					<button id="refresh_command" label="Ricarica"
+						sclass="btn-info" />
 
-			<datebox id="date_to_overview"
-				placeholder="Selezione data finale" width="200px" />
+					<a label="Righe da visualizzare: "
+						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+					<intbox id="shows_rows_ship"
+						constraint="no negative, no zero" value="10" />
 
-			<a label="Filtra su anno: " />
-			<combobox placeholder="Seleziona anno..." readonly="true"
-				id="select_year" />
+				</hbox>
 
-			<separator />
+				<hbox align="center">
 
-			<a label="Righe da visualizzare: "
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<intbox id="shows_rows_ship"
-				constraint="no negative, no zero" value="10" />
+					<textbox placeholder="Cerca Nome Nave..."
+						id="full_text_search_ship" />
 
-			<textbox placeholder="Cerca Nome Nave..."
-				id="full_text_search_ship" />
+					<a label="Scarica dati in CSV"
+						id="overview_download" style="color:green">
+					</a>
 
-			<intbox placeholder="Cerca Rif SWS..."
-				id="full_text_search_rifSWS" />
-			<intbox placeholder="Cerca Rif MCT..."
-				id="full_text_search_rifMCT" />
+				</hbox>
 
-			<intbox width="150px" placeholder="Periodo Fatturazione..."
-				id="invoicing_cycle_search" />
-			<intbox width="150px" placeholder="Periodo Lavorazione..."
-				id="working_cycle_search" />
+				<separator />
+
+				<hbox align="center">
 
 
-			<a label="Filtra su numero turno: " />
-			<combobox placeholder="Scegli turno..." readonly="true"
-				id="select_shiftBap">
-				<comboitem value="TUTTI" label="TUTTI" />
-				<comboitem value="1" label="1"></comboitem>
-				<comboitem value="2" label="2"></comboitem>
-				<comboitem value="3" label="3"></comboitem>
-				<comboitem value="4" label="4"></comboitem>
-			</combobox>
+					<a label="Filtra su periodo: "></a>
+					<datebox id="date_from_overview"
+						placeholder="Selezione data iniziale" width="200px" />
 
-			<button id="refresh_command" label="Ricarica"
-				sclass="btn-info" />
+					<datebox id="date_to_overview"
+						placeholder="Selezione data finale" width="200px" />
 
-			<a label="Scarica dati in CSV" id="overview_download"
-				style="color:green">
-			</a>
+					<a label="Filtra su anno: " />
+					<combobox placeholder="Seleziona anno..."
+						readonly="true" id="select_year" />
 
-			<separator />
+				</hbox>
 
-			<label style="color:blue; font-size:10pt;"
-				value="Totale Volumi: " />
+				<separator />
 
-			<label style="color:blue; font-size:10pt;" id="TotalVolume"
-				value="0" />
+				<div id="filter_user" visible="true">
 
-			<label style="color:blue; font-size:10pt;"
-				value=" - Totale Volumi Rizz. da Bordo (x Cliente): " />
+					<hbox align="center">
 
-			<label style="color:blue; font-size:10pt;"
-				id="TotalVolumeOnBoard" value="0" />
+						<intbox placeholder="Cerca Rif SWS..."
+							id="full_text_search_rifSWS" />
+						<intbox placeholder="Cerca Rif MCT..."
+							id="full_text_search_rifMCT" />
+
+						<intbox width="150px"
+							placeholder="Periodo Fatturazione..."
+							id="invoicing_cycle_search" />
+						<intbox width="150px"
+							placeholder="Periodo Lavorazione..." id="working_cycle_search" />
 
 
-			<label style="color:blue; font-size:10pt;"
-				value=" - Totale Volumi Rizz. da Bordo (x SWS): " />
+						<a label="Filtra su numero turno: " />
+						<combobox placeholder="Scegli turno..."
+							readonly="true" id="select_shiftBap">
+							<comboitem value="TUTTI" label="TUTTI" />
+							<comboitem value="1" label="1"></comboitem>
+							<comboitem value="2" label="2"></comboitem>
+							<comboitem value="3" label="3"></comboitem>
+							<comboitem value="4" label="4"></comboitem>
+						</combobox>
 
-			<label style="color:blue; font-size:10pt;"
-				id="TotalVolumeOnBoard_sws" value="0" />
+					</hbox>
 
-			<label style="color:blue; font-size:10pt;"
-				value=" - Totale Volumi TW MTC: " />
+					<separator />
 
-			<label style="color:blue; font-size:10pt;"
-				id="TotalVolumeTWMTC" value="0" />
+					<hbox align="center">
 
-			<separator />
+						<a label="Ricerca per data turno: "
+							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
-			<listbox id="sw_list_reviewWork" pagingPosition="both"
-				style="border: 1px solid #CCCCCC;" checkmark="false"
-				multiple="false" mold="paging" pageSize="10">
-				<listhead sizable="true">
+						<datebox id="searchWorkShip"
+							placeholder="Data Turno..." />
+					</hbox>
 
-					<listheader label="Nome Nave" hflex="2" />
-					<listheader label="Data" hflex="2" />
-					<listheader label="Turno" hflex="1" />
-					<listheader label="Periodo di Fatturazione"
-						hflex="1" />
-					<listheader label="Settimana" hflex="1" />
-					<listheader label="Giorno" hflex="1" />
-					<listheader label="Rif SWS" hflex="1" />
-					<listheader label="Rif MCT" hflex="1" />
-					<listheader label="Gru" hflex="1" />
-					<listheader label="Tempo Lavorato" hflex="1" />
-					<listheader label="Volumi" hflex="1" />
-					<listheader
-						label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
-					<listheader label="Volumi Rizz. da Bordo (x SWS):"
-						hflex="1" />
-					<listheader label="Volumi TW MTC" hflex="1" />
-					<listheader label="Note" hflex="2" />
+					<separator />
 
-				</listhead>
+					<hbox align="center">
 
-				<listitem self="@{each='item_review_work'}"
-					value="@{item_review_work}">
+						<label style="color:blue; font-size:10pt;"
+							value="Totale Volumi: " />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.shipname}">
-					</listcell>
+						<label style="color:blue; font-size:10pt;"
+							id="TotalVolume" value="0" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
-					</listcell>
+						<label style="color:blue; font-size:10pt;"
+							value=" - Totale Volumi Rizz. da Bordo (x Cliente): " />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.shift}" />
+						<label style="color:blue; font-size:10pt;"
+							id="TotalVolumeOnBoard" value="0" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.invoicing_cycle}">
-					</listcell>
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}">
-					</listcell>
+						<label style="color:blue; font-size:10pt;"
+							value=" - Totale Volumi Rizz. da Bordo (x SWS): " />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
-					</listcell>
+						<label style="color:blue; font-size:10pt;"
+							id="TotalVolumeOnBoard_sws" value="0" />
+
+						<label style="color:blue; font-size:10pt;"
+							value=" - Totale Volumi TW MTC: " />
+
+						<label style="color:blue; font-size:10pt;"
+							id="TotalVolumeTWMTC" value="0" />
+
+					</hbox>
 
 
 
 
+				</div>
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.rif_sws}" />
+				<separator />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.rif_mct}" />
+				<tabbox id="bap_overview_tab">
+					<tabs>
+						<tab label="VERIFICA LAVORO UTENTE"
+							id="overviewBap" selected="true"
+							onClick="filter_user.setVisible(true)">
+						</tab>
+						<tab label="VERIFICA LAVORO NAVE"
+							id="overviewBapAggregate" selected="false"
+							onClick="filter_user.setVisible(false)">
+						</tab>
+
+					</tabs>
+
+					<tabpanels>
+						<tabpanel>
+							<listbox id="sw_list_reviewWork"
+								pagingPosition="both" style="border: 1px solid #CCCCCC;"
+								checkmark="false" multiple="false" mold="paging"
+								pageSize="10">
+								<listhead sizable="true">
+
+									<listheader label="Nome Nave"
+										hflex="2" />
+									<listheader label="Data" hflex="2" />
+									<listheader label="Turno" hflex="1" />
+									<listheader
+										label="Periodo di Fatturazione" hflex="1" />
+									<listheader label="Settimana"
+										hflex="1" />
+									<listheader label="Giorno"
+										hflex="1" />
+									<listheader label="Rif SWS"
+										hflex="1" />
+									<listheader label="Rif MCT"
+										hflex="1" />
+									<listheader label="Gru" hflex="1" />
+									<listheader label="Tempo Lavorato"
+										hflex="1" />
+									<listheader label="Volumi"
+										hflex="1" />
+									<listheader
+										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
+									<listheader
+										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
+									<listheader label="Volumi TW MTC"
+										hflex="1" />
+									<listheader label="Note" hflex="2" />
+
+								</listhead>
+
+								<listitem
+									self="@{each='item_review_work'}"
+									value="@{item_review_work}">
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.shipname}">
+									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
+									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.shift}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.invoicing_cycle}">
+									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToNumberOfWeek'}">
+									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
+									</listcell>
 
 
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.time_work, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.volume}" />
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.rif_sws}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.volumeunderboard}" />
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.volumeunderboard_sws}" />
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.rif_mct}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.volume_tw_mct}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item_review_work.notedetail}" />
 
-				</listitem>
-			</listbox>
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.time_work, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.volume}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.volumeunderboard}" />
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.volumeunderboard_sws}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.volume_tw_mct}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.notedetail}" />
+
+								</listitem>
+							</listbox>
+						</tabpanel>
+
+						<tabpanel>
+
+							<listbox id="sw_list_reviewWorkAggregate"
+								pagingPosition="both" style="border: 1px solid #CCCCCC;"
+								checkmark="false" multiple="false" mold="paging"
+								pageSize="10">
+								<listhead sizable="true">
+
+									<listheader label="Nome Nave"
+										hflex="1" />
+
+									<listheader label="Tempo Lavorato"
+										hflex="1" />
+									<listheader label="Volumi"
+										hflex="1" />
+									<listheader
+										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
+									<listheader
+										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
+
+									<listheader label="Volumi TW MTC"
+										hflex="1" />
+
+
+
+								</listhead>
+
+								<listitem
+									self="@{each='item_review_ship'}"
+									value="@{item_review_ship}">
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.shipname}">
+									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.time_work}" />
+
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.volume}" />
+
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.volumeunderboard}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.volumeunderboard_sws}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.volume_tw_mct}" />
+
+								</listitem>
+							</listbox>
+
+
+						</tabpanel>
+
+					</tabpanels>
+
+
+
+				</tabbox>
+
+
+
+			</vbox>
 		</div>
 
 

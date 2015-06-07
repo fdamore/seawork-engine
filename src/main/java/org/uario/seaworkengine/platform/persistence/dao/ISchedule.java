@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
-import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.web.services.handler.Badge;
 
@@ -36,9 +35,6 @@ public interface ISchedule {
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(Integer id_schedule, Integer no_shift);
-
-	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, Integer rifMCT, Integer shift,
-			Integer invoicing_cycle, Integer working_cycle);
 
 	public List<Schedule> loadSchedule(Date date_scheduled);
 

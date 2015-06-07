@@ -6,74 +6,7 @@
 	<cache />
 
 
-	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BOP) -->
-	<select id="reviewShipWork" parameterType="map"
-		resultType="org.uario.seaworkengine.model.ReviewShipWork">
 
-		select ss.id as rif_sws, ss.rif_mct,
-		s.name as shipname,
-		s.id as
-		id_ship,
-		dss.shift,
-		d.timework as time_work,
-		d.crane, d.crane_gtw,
-		dss.shiftdate as date_request,
-		d.volume,
-		d.volumeunderboard,
-		d.volumeunderboard_sws,
-		d.volume_tw_mct,
-		d.notedetail, d.invoicing_cycle
-		from
-		ship s,
-		scheduleship ss,
-		detailscheduleship dss
-		left join
-		detailfinalscheduleship d ON (dss.id = d.iddetailscheduleship)
-		where
-		dss.idscheduleship = ss.id
-		and s.id = ss.idship
-
-		<if test="dt_arg_to != null">
-			<if test="dt_arg_from != null">
-				and dss.shiftdate <![CDATA[>=]]>
-				#{dt_arg_from} and
-				dss.shiftdate <![CDATA[<=]]>
-				#{dt_arg_to}
-			</if>
-		</if>
-
-		<if test="dt_arg_to == null">
-			<if test="dt_arg_from != null">
-				and dss.shiftdate = #{dt_arg_from}
-			</if>
-		</if>
-
-		<if test="searchText != null">
-			and s.name like CONCAT('%', #{searchText},'%')
-		</if>
-
-		<if test="rifSWS != null">
-			and ss.id = #{rifSWS}
-		</if>
-
-		<if test="rifMCT != null">
-			and ss.rif_mct = #{rifMCT}
-		</if>
-
-		<if test="shift != null">
-			and dss.shift = #{shift}
-		</if>
-
-		<if test="invoicing_cycle_search != null">
-			and d.invoicing_cycle = #{invoicing_cycle_search}
-		</if>
-
-		<if test="working_cycle_search != null">
-			and MONTH(dss.shiftdate) = #{working_cycle_search}
-		</if>
-
-		order by s.name , date_request, dss.shift
-	</select>
 
 
 	<select id="loadScheduleByDate" parameterType="map"
