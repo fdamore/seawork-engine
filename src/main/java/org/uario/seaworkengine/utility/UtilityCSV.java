@@ -19,18 +19,19 @@ import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
+import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final NumberFormat number_format = NumberFormat.getInstance(Locale.ITALIAN);
+	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
 			final ICustomerDAO customerDAO) {
@@ -410,6 +411,31 @@ public class UtilityCSV {
 					+ ";" + crane + ";" + time_from + ";" + time_to + ";" + reviewshift + ";\n";
 			builder.append(line);
 		}
+		return builder;
+	}
+
+	public static StringBuilder downloadCSVShipStatistics(final List<ShipOverview> userStatisticsList) {
+		final StringBuilder builder = new StringBuilder();
+
+		final String header = "Nave;TempoLavorato;Saturazione;\n";
+		builder.append(header);
+
+		for (final ShipOverview item : userStatisticsList) {
+
+			String name = "";
+			String time = "";
+			String saturation = "";
+
+			name = item.getName();
+			time = "" + Utility.roundTwo(item.getTime());
+			saturation = "" + Utility.roundTwo(item.getTime_vacation());
+
+			final String line = "" + name + ";" + time + ";" + saturation + ";\n";
+
+			builder.append(line);
+
+		}
+
 		return builder;
 	}
 

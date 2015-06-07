@@ -19,12 +19,13 @@ import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
-	private static Logger logger = Logger.getLogger(MyBatisStatisticsDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays	bank_holiday;
 
 	/**
 	 * Calculate work percentage on list rateshift
@@ -384,6 +385,21 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		}
 
 		return this.getSqlSession().selectList("statistics.listSchedule", map);
+	}
+
+	@Override
+	public List<ShipOverview> overviewFinalScheduleByShip(final String text_search, final Date date_from, final Date date_to) {
+		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("shipname", text_search);
+
+		if ((date_from != null) && (date_to != null)) {
+			map.put("date_from", DateUtils.truncate(date_from, Calendar.DATE));
+			map.put("date_to", DateUtils.truncate(date_to, Calendar.DATE));
+		}
+
+		return this.getSqlSession().selectList("statistics.overviewFinalScheduleByShip", map);
 	}
 
 	public void setBank_holiday(final IBankHolidays bank_holiday) {

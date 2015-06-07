@@ -121,6 +121,38 @@
 	</select>
 
 
+	<select id="overviewFinalScheduleByShip" resultType="org.uario.seaworkengine.statistics.ShipOverview"
+		parameterType="map">
+		select
+		dfs.id_ship,
+		s.name,
+		sum(dfs.time) as time,
+		sum(dfs.time_vacation)
+		as time_vacation
+		FROM
+		ship s,
+		detailfinalschedule dfs,
+		schedule sc
+		WHERE
+		sc.id = dfs.id_schedule and
+		dfs.id_ship is not null and s.id =
+		dfs.id_ship
+
+		<if test="shipname != null">
+			and (s.name like '%'#{shipname}'%')
+		</if>
+
+		<if test="date_from != null and date_to != null">
+			and (sc.date_schedule <![CDATA[>=]]>
+			#{date_from} and sc.date_schedule
+			<![CDATA[<=]]>
+			#{date_to})
+		</if>
+
+		group by dfs.id_ship order by s.name
+
+	</select>
+
 
 
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
@@ -175,11 +207,11 @@
 		<if test="task_id != null">
 			and (dfs.task = #{task_id})
 		</if>
-		
+
 		<if test="reviewshift != null">
-			and (dfs.reviewshift = #{reviewshift}) 
+			and (dfs.reviewshift = #{reviewshift})
 		</if>
-		
+
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
 

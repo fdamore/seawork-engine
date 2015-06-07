@@ -7,6 +7,7 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.statistics.RateShift;
+import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public interface IStatistics {
@@ -165,5 +166,15 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<Schedule> listSchedule(String full_text_search, Integer shift, Date date_from, Date date_to);
+
+	/**
+	 * Get overview abount ship
+	 * 
+	 * @param text_search
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public List<ShipOverview> overviewFinalScheduleByShip(String text_search, Date date_from, Date date_to);
 
 }

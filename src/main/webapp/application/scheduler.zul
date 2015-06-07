@@ -2616,7 +2616,7 @@
 						<hbox align="start">
 
 							<vbox align="start">
-								<a label="Filtra su numero turno: "></a>
+								<a label="Filtra su Turno: "></a>
 								<combobox placeholder="Scegli turno..."
 									readonly="true" id="select_shift_overview">
 									<comboitem value="TUTTI"
@@ -2667,16 +2667,17 @@
 							</vbox>
 
 							<space></space>
-							
+
 							<vbox align="start" id="reviewShiftBox">
 								<a label="Filtra su fascia oraria: "></a>
 								<combobox id="hoursInterval"
 									readonly="false" placeholder="Seleziona Fascia Oraria...">
-									<comboitem label="SI" value="true"/>
-									<comboitem label="NO" value="false"/>
-									<comboitem label="TUTTI" value="null"/>	
+									<comboitem label="SI" value="true" />
+									<comboitem label="NO" value="false" />
+									<comboitem label="TUTTI"
+										value="null" />
 								</combobox>
-								
+
 							</vbox>
 
 						</hbox>
@@ -2719,7 +2720,10 @@
 					<tab label="PREVENTIVATO" id="previewTab"
 						onClick="reviewSearchBox.setVisible(true);">
 					</tab>
-					<tab label="STATISTICA" id="statisticsTab"
+					<tab label="STATISTICHE UTENTE" id="statisticsTab"
+						onClick="reviewSearchBox.setVisible(false);">
+					</tab>
+					<tab label="STATISTICHE NAVE" id="statisticsShipTab"
 						onClick="reviewSearchBox.setVisible(false);">
 					</tab>
 				</tabs>
@@ -2762,7 +2766,7 @@
 											align="center" hflex="1" />
 
 
-										<listheader label="Numero Turno"
+										<listheader label="Turno"
 											hflex="1" align="center" />
 										<listheader label="Mansione"
 											hflex="1" align="center" />
@@ -3256,6 +3260,54 @@
 
 					</tabpanel>
 
+
+					<tabpanel id="overview_statistics_ship">
+
+
+						<panel border="normal" collapsible="false"
+							sclass="transparent">
+							<panelchildren>
+								<listbox sclass="domain" mold="paging"
+									pageSize="10" pagingPosition="both"
+									id="list_ship_statistics">
+
+									<listhead sizable="true">
+
+										<listheader label="Nome"
+											sort="auto(name)" hflex="1" />
+
+										<listheader
+											label="Ore Lavorate" />
+
+										<listheader label="Ore Chiusura"
+											align="center" />
+									</listhead>
+
+									<listitem self="@{each='itm_ship'}"
+										value="@{itm_ship}">
+
+
+										<listcell sclass="myBottonCell"
+											label="@{itm_ship.name}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itm_ship.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itm_ship.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+
+
+
+									</listitem>
+
+								</listbox>
+
+							</panelchildren>
+						</panel>
+
+
+
+					</tabpanel>
 
 
 				</tabpanels>
