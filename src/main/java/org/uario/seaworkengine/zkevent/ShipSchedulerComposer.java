@@ -838,7 +838,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -861,7 +861,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -1103,10 +1103,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #overview_download")
 	public void downloadCSV_ReviewShipWork() {
 
-		if (this.list_review_work.size() != 0) {
-			final StringBuilder builder = UtilityCSV.downloadCSV_ReviewShipWork(this.list_review_work);
+		if (this.overviewBap.isSelected() && (this.list_review_work.size() != 0)) {
 
+			final StringBuilder builder = UtilityCSV.downloadCSVReviewShipWork(this.list_review_work);
 			Filedownload.save(builder.toString(), "application/text", "bap.csv");
+
+		} else if (this.overviewBapAggregate.isSelected() && (this.list_review_work_aggregate.size() != 0)) {
+
+			final StringBuilder builder = UtilityCSV.downloadCSVReviewShipWorkAggregate(this.list_review_work_aggregate);
+			Filedownload.save(builder.toString(), "application/text", "bapaggregate.csv");
+
 		}
 
 	}
@@ -1611,15 +1617,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipSchedulerComposer.this.deleteDetailship();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipSchedulerComposer.this.deleteDetailship();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1638,18 +1644,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-				@Override
-				public void onEvent(final ClickEvent e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-								.getId());
+						@Override
+						public void onEvent(final ClickEvent e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+										.getId());
 
-						ShipSchedulerComposer.this.searchScheduleShipByDate();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								ShipSchedulerComposer.this.searchScheduleShipByDate();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-					}
-				}
-			}, params);
+							}
+						}
+					}, params);
 
 		}
 	}

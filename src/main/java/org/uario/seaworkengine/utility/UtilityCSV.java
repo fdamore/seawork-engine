@@ -19,6 +19,7 @@ import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
+import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
@@ -107,101 +108,6 @@ public class UtilityCSV {
 
 			final String line = "" + shipName + ";" + customerName + ";" + shiftDate + ";" + shiftNumber + ";" + operation + ";" + firstUser + ";"
 					+ secondUser + ";" + hands + ";" + persons + ";" + startDate + ";" + endDate + ";\n";
-			builder.append(line);
-
-		}
-
-		return builder;
-	}
-
-	public static StringBuilder downloadCSV_ReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
-		final StringBuilder builder = new StringBuilder();
-
-		final String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Lavorato;Volumi Attesi;Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;Periodo di Lavorazione;\n";
-		builder.append(header);
-
-		final CraneTypeConverter craneConverter = new CraneTypeConverter();
-
-		for (final ReviewShipWork item : reviewShipWorkList) {
-
-			String week = "";
-			String day = "";
-			String date = "";
-			String shipName = "";
-			String rif_sws = "";
-			String rif_mct = "";
-			String shift = "";
-			String crane = "";
-			String workedTime = "";
-			String volume = "";
-			String volumeOnBoard = "";
-			String volumeOnBoard_sws = "";
-			String volumeTW = "";
-			String inovoice_cycle = "";
-
-			if (item.getDate_request() != null) {
-				week = Utility.getWeekNumber(item.getDate_request()).toString();
-			}
-
-			if (item.getDate_request() != null) {
-				day = Utility.getDay(item.getDate_request()).toString();
-			}
-
-			if (item.getDate_request() != null) {
-				date = Utility.getDataAsString_it(item.getDate_request());
-			}
-
-			if (item.getShipname() != null) {
-				shipName = item.getShipname();
-			}
-
-			if (item.getRif_sws() != null) {
-				rif_sws = item.getRif_sws().toString();
-			}
-
-			if (item.getRif_mct() != null) {
-				rif_mct = item.getRif_mct().toString();
-			}
-
-			if (item.getShift() != null) {
-				shift = item.getShift().toString();
-			}
-
-			if ((item.getCrane() != null) && (item.getCrane_gtw() != null)) {
-				final Boolean crane_gtw = item.getCrane_gtw();
-				final String craneId = item.getCrane();
-
-				crane = (String) craneConverter.defineCraneString(crane_gtw, craneId);
-			}
-
-			if (item.getTime_work() != null) {
-
-				workedTime = Utility.decimatToTime(item.getTime_work());
-
-			}
-
-			if (item.getVolume() != null) {
-				volume = item.getVolume().toString();
-			}
-
-			if (item.getVolumeunderboard() != null) {
-				volumeOnBoard = item.getVolumeunderboard().toString();
-			}
-
-			if (item.getVolumeunderboard_sws() != null) {
-				volumeOnBoard_sws = item.getVolumeunderboard_sws().toString();
-			}
-
-			if (item.getVolume_tw_mct() != null) {
-				volumeTW = item.getVolume_tw_mct().toString();
-			}
-
-			if (item.getInvoicing_cycle() != null) {
-				inovoice_cycle = "" + item.getInvoicing_cycle();
-			}
-
-			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + rif_sws + ";" + rif_mct + ";" + shift + ";" + crane + ";"
-					+ workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";\n";
 			builder.append(line);
 
 		}
@@ -411,6 +317,151 @@ public class UtilityCSV {
 					+ ";" + crane + ";" + time_from + ";" + time_to + ";" + reviewshift + ";\n";
 			builder.append(line);
 		}
+		return builder;
+	}
+
+	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
+		final StringBuilder builder = new StringBuilder();
+
+		final String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Lavorato;Volumi Attesi;Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;Periodo di Lavorazione;\n";
+		builder.append(header);
+
+		final CraneTypeConverter craneConverter = new CraneTypeConverter();
+
+		for (final ReviewShipWork item : reviewShipWorkList) {
+
+			String week = "";
+			String day = "";
+			String date = "";
+			String shipName = "";
+			String rif_sws = "";
+			String rif_mct = "";
+			String shift = "";
+			String crane = "";
+			String workedTime = "";
+			String volume = "";
+			String volumeOnBoard = "";
+			String volumeOnBoard_sws = "";
+			String volumeTW = "";
+			String inovoice_cycle = "";
+
+			if (item.getDate_request() != null) {
+				week = Utility.getWeekNumber(item.getDate_request()).toString();
+			}
+
+			if (item.getDate_request() != null) {
+				day = Utility.getDay(item.getDate_request()).toString();
+			}
+
+			if (item.getDate_request() != null) {
+				date = Utility.getDataAsString_it(item.getDate_request());
+			}
+
+			if (item.getShipname() != null) {
+				shipName = item.getShipname();
+			}
+
+			if (item.getRif_sws() != null) {
+				rif_sws = item.getRif_sws().toString();
+			}
+
+			if (item.getRif_mct() != null) {
+				rif_mct = item.getRif_mct().toString();
+			}
+
+			if (item.getShift() != null) {
+				shift = item.getShift().toString();
+			}
+
+			if ((item.getCrane() != null) && (item.getCrane_gtw() != null)) {
+				final Boolean crane_gtw = item.getCrane_gtw();
+				final String craneId = item.getCrane();
+
+				crane = (String) craneConverter.defineCraneString(crane_gtw, craneId);
+			}
+
+			if (item.getTime_work() != null) {
+
+				workedTime = Utility.decimatToTime(item.getTime_work());
+
+			}
+
+			if (item.getVolume() != null) {
+				volume = item.getVolume().toString();
+			}
+
+			if (item.getVolumeunderboard() != null) {
+				volumeOnBoard = item.getVolumeunderboard().toString();
+			}
+
+			if (item.getVolumeunderboard_sws() != null) {
+				volumeOnBoard_sws = item.getVolumeunderboard_sws().toString();
+			}
+
+			if (item.getVolume_tw_mct() != null) {
+				volumeTW = item.getVolume_tw_mct().toString();
+			}
+
+			if (item.getInvoicing_cycle() != null) {
+				inovoice_cycle = "" + item.getInvoicing_cycle();
+			}
+
+			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + rif_sws + ";" + rif_mct + ";" + shift + ";" + crane + ";"
+					+ workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";\n";
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	public static StringBuilder downloadCSVReviewShipWorkAggregate(final List<ReviewShipWorkAggregate> reviewShipWorkList) {
+		final StringBuilder builder = new StringBuilder();
+
+		final String header = "Nome Nave;Tempo Lavorato;Volumi Attesi;Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;\n";
+		builder.append(header);
+
+		for (final ReviewShipWorkAggregate item : reviewShipWorkList) {
+
+			String shipName = "";
+			String workedTime = "";
+			String volume = "";
+			String volumeOnBoard = "";
+			String volumeOnBoard_sws = "";
+			String volumeTW = "";
+
+			if (item.getShipname() != null) {
+				shipName = item.getShipname();
+			}
+
+			if (item.getTime_work() != null) {
+
+				workedTime = Utility.decimatToTime(item.getTime_work());
+
+			}
+
+			if (item.getVolume() != null) {
+				volume = item.getVolume().toString();
+			}
+
+			if (item.getVolumeunderboard() != null) {
+				volumeOnBoard = item.getVolumeunderboard().toString();
+			}
+
+			if (item.getVolumeunderboard_sws() != null) {
+				volumeOnBoard_sws = item.getVolumeunderboard_sws().toString();
+			}
+
+			if (item.getVolume_tw_mct() != null) {
+				volumeTW = item.getVolume_tw_mct().toString();
+			}
+
+			final String line = shipName + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";\n";
+
+			builder.append(line);
+
+		}
+
 		return builder;
 	}
 
