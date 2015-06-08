@@ -47,7 +47,7 @@
 						style="padding-left: 30px;padding-top: 30px;padding-bottom: 30px; margin-right: 12px ">
 						<button
 							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
-							class="z-button-users" label="GESTIONE UTENTI" id="sss"
+							class="z-button-users" label="GESTIONE UTENTI" id="sw_user_button_main"
 							height="200px" width="210px" style="font-weight : bold;"
 							iconSclass="z-icon-group" />
 						<button class="z-button-users"
