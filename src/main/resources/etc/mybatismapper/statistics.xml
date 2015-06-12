@@ -81,9 +81,12 @@
 
 		select s.name as shipname,
 		ss.idship as id_ship,
+		ss.id as rif_sws,
+		ss.rif_mct as rif_mct,
 		sum(d.timework) as
 		time_work,
-		sum(d.volume) as volume,
+		sum(d.volume) as
+		volume,
 		sum(d.volumeunderboard) as
 		volumeunderboard,
 		sum(d.volumeunderboard_sws) as volumeunderboard_sws,
@@ -99,7 +102,7 @@
 		null and ss.idship is not null and
 		dss.idscheduleship = ss.id
 		and s.id =
-		ss.idship and d.iddetailscheduleship = dss.id 
+		ss.idship and d.iddetailscheduleship = dss.id
 
 		<if test="dt_arg_to != null">
 			<if test="dt_arg_from != null">
@@ -120,7 +123,7 @@
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
 
-		group by ss.idship order by s.name
+		group by rif_sws order by s.name
 	</select>
 
 

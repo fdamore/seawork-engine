@@ -7,24 +7,36 @@ public class ReviewShipWorkAggregate implements Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Integer				id_ship;
+	private Integer id_ship;
 
-	private String				shipname;
+	private Integer rif_mct;
 
-	private Double				time_work;
+	private Integer rif_sws;
 
-	private Integer				volume;
+	private String shipname;
 
-	private Integer				volume_tw_mct;
+	private Double time_work;
 
-	private Integer				volumeunderboard;
+	private Integer volume;
 
-	private Integer				volumeunderboard_sws;
+	private Integer volume_tw_mct;
+
+	private Integer volumeunderboard;
+
+	private Integer volumeunderboard_sws;
 
 	public Integer getId_ship() {
 		return this.id_ship;
+	}
+
+	public Integer getRif_mct() {
+		return this.rif_mct;
+	}
+
+	public Integer getRif_sws() {
+		return this.rif_sws;
 	}
 
 	public String getShipname() {
@@ -53,6 +65,14 @@ public class ReviewShipWorkAggregate implements Serializable {
 
 	public void setId_ship(final Integer id_ship) {
 		this.id_ship = id_ship;
+	}
+
+	public void setRif_mct(final Integer rif_mct) {
+		this.rif_mct = rif_mct;
+	}
+
+	public void setRif_sws(final Integer rif_sws) {
+		this.rif_sws = rif_sws;
 	}
 
 	public void setShipname(final String shipname) {
