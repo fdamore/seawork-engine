@@ -1486,6 +1486,12 @@
 									<listheader label="Nome Nave"
 										hflex="1" />
 
+									<listheader label="Rif SWS"
+										hflex="1" />
+
+									<listheader label="Rif MCT"
+										hflex="1" />
+
 									<listheader label="Tempo Lavorato"
 										hflex="1" />
 									<listheader label="Volumi"
@@ -1508,6 +1514,14 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_ship.shipname}">
+									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.rif_sws}">
+									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship.rif_mct}">
 									</listcell>
 
 									<listcell sclass="myBottonCell"
