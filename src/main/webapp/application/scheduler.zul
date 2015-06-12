@@ -2370,9 +2370,9 @@
 						<auxhead>
 							<auxheader label="Totale ore giorno"
 								colspan="1" sclass="mySeparatorBorder" />
+
 							<auxheader colspan="4" align="center"
 								id="total_review_day_1" label="1" sclass="mySeparatorBorder" />
-
 
 							<auxheader colspan="4" align="center"
 								id="total_review_day_2" label="2" sclass="mySeparatorBorder" />
