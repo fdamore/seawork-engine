@@ -1348,7 +1348,7 @@
 							id="TotalVolumeOnBoard_sws" value="0" />
 
 						<label style="color:blue; font-size:10pt;"
-							value=" - Totale Volumi TW MTC: " />
+							value=" - Totale Volumi TW MCT: " />
 
 						<label style="color:blue; font-size:10pt;"
 							id="TotalVolumeTWMTC" value="0" />
@@ -1406,7 +1406,7 @@
 										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
 										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
-									<listheader label="Volumi TW MTC"
+									<listheader label="Volumi TW MCT"
 										hflex="1" />
 									<listheader label="Note" hflex="2" />
 
@@ -1501,7 +1501,7 @@
 									<listheader
 										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
 
-									<listheader label="Volumi TW MTC"
+									<listheader label="Volumi TW MCT"
 										hflex="1" />
 
 
