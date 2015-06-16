@@ -130,6 +130,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	private static final String				CAPTION_DETAIL_PROGRAM_SHIP	= "Dettagli di Programmazione Nave";
+
+	private static final String				CAPTION_POPUP_SCHEDULE_SHIP	= "Programmazione Nave";
+
+	private static final String				CAPTION_SHIP_PROGRAM_LABEL	= "Dettaglio di Programmazione Nave";
+
 	/**
 	 *
 	 */
@@ -153,17 +159,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Caption							captionDetailProgramShip;
 
-	private String							captionDetailProgramShipLabel;
-
 	@Wire
 	private Caption							captionPopupScheduleShip;
 
-	private String							captionPopupScheduleShipLabel;
-
 	@Wire
 	private Caption							captionShipProgram;
-
-	private String							captionShipProgramLabel;
 
 	@Wire
 	private Checkbox						check_last_shift;
@@ -958,12 +958,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.select_year.setModel(new ListModelList<String>(years));
 
-		this.captionShipProgramLabel = this.captionShipProgram.getLabel();
-
-		this.captionPopupScheduleShipLabel = this.captionPopupScheduleShip.getLabel();
-
-		this.captionDetailProgramShipLabel = this.captionDetailProgramShip.getLabel();
-
 	}
 
 	@Listen("onClick = #detailShipProgram_download")
@@ -1222,6 +1216,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		// get ship activity
+		Ship ship_activity = null;
+		if (this.scheduleShip_selected.getIdship_activity() != null) {
+			ship_activity = this.shipDao.loadShip(this.scheduleShip_selected.getIdship_activity());
+		}
+
 		this.ship_rif_sws.setValue(this.scheduleShip_selected.getId().toString());
 
 		// set ship name
@@ -1270,15 +1270,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// set activity ship
 		this.ship_activity.setSelectedItem(null);
 		this.row_info_activity_ship.setVisible(false);
-		if (this.scheduleShip_selected.getIdship_activity() != null) {
 
-			final Ship ship = this.shipDao.loadShip(this.scheduleShip_selected.getIdship_activity());
+		if (ship_activity != null) {
 
 			final List<Comboitem> listItem = this.ship_activity.getItems();
 			for (final Comboitem item : listItem) {
 				if (item.getValue() instanceof Ship) {
 					final Ship current_ship = item.getValue();
-					if (ship.equals(current_ship)) {
+					if (ship_activity.equals(current_ship)) {
 						this.ship_activity.setSelectedItem(item);
 						this.row_info_activity_ship.setVisible(true);
 						break;
@@ -1314,7 +1313,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		this.captionPopupScheduleShip.setLabel(this.captionPopupScheduleShipLabel + " - " + this.scheduleShip_selected.getName());
+		String msg = ShipSchedulerComposer.CAPTION_POPUP_SCHEDULE_SHIP + " - " + this.scheduleShip_selected.getName();
+		if (ship_activity != null) {
+			msg = msg + ":" + ship_activity.getName();
+		}
+		this.captionPopupScheduleShip.setLabel(msg);
 
 	}
 
@@ -1442,9 +1445,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		this.shiftdate_Daily.setValue(this.detailScheduleShipSelected.getShiftdate());
+		if (this.scheduleShip_selected == null) {
+			return;
+		}
 
-		this.captionShipProgram.setLabel(this.captionShipProgramLabel + " - " + this.detailScheduleShipSelected.getName());
+		this.shiftdate_Daily.setValue(this.detailScheduleShipSelected.getShiftdate());
 
 		// select first user
 		Person person = this.personDao.loadPerson(this.detailScheduleShipSelected.getIduser());
@@ -1537,6 +1542,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.h_detail_period.setVisible(true);
 
 		}
+
+		// set label
+		String msg = ShipSchedulerComposer.CAPTION_SHIP_PROGRAM_LABEL + " - " + this.detailScheduleShipSelected.getName();
+
+		final ScheduleShip scheduler_ship = this.shipSchedulerDao.loadScheduleShip(this.detailScheduleShipSelected.getIdscheduleship());
+		final Integer ship_activity_id = scheduler_ship.getIdship_activity();
+
+		if (ship_activity_id != null) {
+			final Ship ship_activity = this.shipDao.loadShip(ship_activity_id);
+			if (ship_activity != null) {
+				msg = msg + ":" + ship_activity.getName();
+			}
+
+		}
+
+		this.captionShipProgram.setLabel(msg);
 
 	}
 
@@ -2369,8 +2390,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.popup_shipDetail.setModel(new ListModelList<Ship>(detailShip));
 
-		// popup_ship.open(ref);
-
 	}
 
 	@Listen("onClick = #sw_link_addDetailScheduleShipProgram")
@@ -2389,7 +2408,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>(this.listDetailScheduleShip));
 		}
 
-		this.captionDetailProgramShip.setLabel(this.captionDetailProgramShipLabel + " - " + this.scheduleShip_selected.getName());
+		String msg = ShipSchedulerComposer.CAPTION_DETAIL_PROGRAM_SHIP + " - " + this.scheduleShip_selected.getName();
+
+		if (this.scheduleShip_selected.getIdship_activity() != null) {
+			final Ship ship = this.shipDao.loadShip(this.scheduleShip_selected.getIdship_activity());
+			msg = msg + ":" + ship.getName();
+		}
+
+		this.captionDetailProgramShip.setLabel(msg);
 
 		// set panel editor close
 		this.panel_detail_program.setVisible(false);
