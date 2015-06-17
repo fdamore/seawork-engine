@@ -49,7 +49,9 @@
 		#{id_scheduleShip};
 	</select>
 
-	<select id="loadAllScheduleShip" resultType="org.uario.seaworkengine.model.ScheduleShip">
+	
+	
+	<select id="searchScheduleShip" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id,
 		s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
 		sh.name,
@@ -57,12 +59,28 @@
 		FROM
 		scheduleship s,
 		ship sh
-		where s.idship =
-		sh.id
+		where 
+		s.idship = sh.id 
+		
+		<if test="datefrom!=null">
+			<if test="dateto!=null">
+				and date(s.arrivaldate) >= date(#{datefrom}) and date(#{dateto}) >= date(s.arrivaldate) 
+			</if>
+		</if>
+		
+		<if test="sws!=null">
+			and #{sws} = s.id 
+		</if>
+		
+		<if test="mct!=null">
+			and #{mct} = s.rif_mct 
+		</if>
+		 
 		order by
 		s.arrivaldate
 		DESC;
 	</select>
+	
 
 	<select id="selectAllScheduleShipFulltextSearchLike"
 		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
@@ -494,20 +512,6 @@
 		sh.id=s.idship and date(#{shipDate}) >=
 		date(s.arrivalDate) and
 		date(s.departureDate)>=date(#{shipDate});
-	</select>
-
-
-	<select id="loadScheduleShipInDate" parameterType="map"
-		resultType="org.uario.seaworkengine.model.ScheduleShip">
-		<![CDATA[
-		
-		SELECT ss.id, ss.idship, ss.volume, ss.note, ss.arrivaldate, ss.departuredate, ss.rif_mct, s.name, ss.customer_id,ss.idship_activity
-		FROM
-		scheduleship ss, ship s 
-		where
-		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) and s.id = ss.idship;
-		
-		]]>
 	</select>
 
 	<update id="updateDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">

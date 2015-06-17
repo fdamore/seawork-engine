@@ -721,6 +721,14 @@
 					placeholder="Dalla data..." />
 				<datebox id="searchArrivalDateShipTo"
 					placeholder="Alla data..." />
+				<intbox placeholder="Cerca Rif SWS..."
+					id="search_rifSWS" />
+				<intbox placeholder="Cerca Rif MCT..."
+					id="search_rifMCT" />
+				<button id="refreshScheduleView" label="Ricarica"
+				sclass="btn-info" />
+				<a label="Scarica dati in CSV"
+					id="shipProgram_download" style="color:green" />
 			</hbox>
 
 			<separator />

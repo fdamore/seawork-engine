@@ -12,6 +12,7 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -26,13 +27,13 @@ import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
+	private static final NumberFormat number_format = NumberFormat.getInstance(Locale.ITALIAN);
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
 			final ICustomerDAO customerDAO) {
@@ -113,6 +114,70 @@ public class UtilityCSV {
 		}
 
 		return builder;
+	}
+
+	public static StringBuilder downloadCSV_ScheduleProgramShip(final List<ScheduleShip> modelListScheduleShip, final ICustomerDAO customerDAO) {
+		if (modelListScheduleShip == null) {
+			return null;
+		}
+		final StringBuilder builder = new StringBuilder();
+
+		final String header = "Data Inizio Attività;Data Fine Attività;Nome Nave;Cliente;Volume Atteso;Rif MCT;Rif SWS;Note Programmazione;\n";
+		builder.append(header);
+
+		for (final ScheduleShip item : modelListScheduleShip) {
+			String startDate = "";
+			String endDate = "";
+			String shipName = "";
+			String customerName = "";
+			String volume = "";
+			String mct = "";
+			String sws = "";
+			String note = "";
+
+			if (item.getArrivaldate() != null) {
+				startDate = Utility.getDataAsString_it(item.getArrivaldate());
+			}
+
+			if (item.getDeparturedate() != null) {
+				endDate = Utility.getDataAsString_it(item.getDeparturedate());
+			}
+
+			if (item.getName() != null) {
+				shipName = item.getName();
+			}
+
+			if (item.getCustomer_id() != null) {
+				final Customer customer = customerDAO.loadCustomer(item.getCustomer_id());
+				if (customer != null) {
+					customerName = customer.getName();
+				}
+			}
+
+			if (item.getVolume() != null) {
+				volume = item.getVolume().toString();
+			}
+
+			if (item.getRif_mct() != null) {
+				mct = item.getRif_mct().toString();
+			}
+
+			if (item.getId() != null) {
+				sws = item.getId().toString();
+			}
+
+			if (item.getNote() != null) {
+				note = item.getNote();
+			}
+
+			final String line = "" + startDate + ";" + endDate + ";" + shipName + ";" + customerName + ";" + volume + ";" + mct + ";" + sws + ";"
+					+ note + ";\n";
+			builder.append(line);
+
+		}
+
+		return builder;
+
 	}
 
 	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {

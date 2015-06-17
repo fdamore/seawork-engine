@@ -38,8 +38,6 @@ public interface IScheduleShip {
 
 	public void deteleDetailSchedueleShipByIdSchedule(Integer id_scheduleShip);
 
-	public List<ScheduleShip> loadAllScheduleShip();
-
 	public DetailFinalScheduleShip loadDetailFinalScheduleShipById(Integer id);
 
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
@@ -52,8 +50,6 @@ public interface IScheduleShip {
 
 	public List<ScheduleShip> loadScheduleShipByIdShipAndArrivalDate(Integer idship, Date arrivaldate);
 
-	public List<ScheduleShip> loadScheduleShipInDate(Timestamp dateFrom, Timestamp dateTo);
-
 	public List<Ship> loadShipInDate(Timestamp arrivalDate);
 
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, String full_text_search, Integer shift, Integer idCustomer,
@@ -61,6 +57,8 @@ public interface IScheduleShip {
 
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
 			Boolean nowork, Boolean activityh);
+
+	public List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, Integer mct);
 
 	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);
 
