@@ -21,6 +21,7 @@ import org.uario.seaworkengine.utility.DepartmentTag;
 import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.UserTag;
 import org.uario.seaworkengine.utility.Utility;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -54,242 +55,244 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Component			add_users_command;
+	private Component add_users_command;
 
 	@Wire
-	private Textbox				address_user;
+	private Textbox address_user;
 
 	@Wire
-	private Checkbox			admin_user;
+	private Checkbox admin_user;
 
 	@Wire
-	private Checkbox			backoffice_user;
+	private Checkbox backoffice_user;
 
 	@Wire
-	private Datebox				birth_date_user;
+	private Datebox birth_date_user;
 
 	@Wire
-	private Combobox			birth_place_user;
+	private Combobox birth_place_user;
 
 	@Wire
-	private Combobox			birth_province_user;
+	private Combobox birth_province_user;
 
 	@Wire
-	private Button				cfgenerator;
+	private Button cfgenerator;
 
 	@Wire
-	private Textbox				city_user;
+	private Textbox city_user;
 
 	@Wire
-	private Component			compensation_user_tab;
+	private Component compensation_user_tab;
 
-	public Comboitem			comuneSelected;
-
-	@Wire
-	private Component			contestations_user_tab;
+	public Comboitem comuneSelected;
 
 	@Wire
-	private Combobox			contractual_level_filter;
+	private Component contestations_user_tab;
 
 	@Wire
-	private Textbox				country_user;
+	private Combobox contractual_level_filter;
 
 	@Wire
-	private Textbox				current_position_user;
+	private Textbox country_user;
 
 	@Wire
-	private Checkbox			dailyemployee;
+	private Textbox current_position_user;
 
 	@Wire
-	private Intbox				daywork_w_user;
+	private Checkbox dailyemployee;
 
 	@Wire
-	private Combobox			department_user;
-
-	List<String>				departmentItems		= new ArrayList<String>();
+	private Intbox daywork_w_user;
 
 	@Wire
-	private Tab					detail_user_tab;
+	private Combobox department_user;
+
+	List<String> departmentItems = new ArrayList<String>();
 
 	@Wire
-	private Textbox				driving_license_charge_user;
+	private Tab detail_user_tab;
 
 	@Wire
-	private Datebox				driving_license_emission_user;
+	private Textbox driving_license_charge_user;
 
 	@Wire
-	private Textbox				driving_license_user;
+	private Datebox driving_license_emission_user;
 
 	@Wire
-	private Textbox				education_user;
+	private Textbox driving_license_user;
 
 	@Wire
-	private Textbox				email_editor_user;
+	private Textbox education_user;
 
 	@Wire
-	private Textbox				email_editor_user_retype;
+	private Textbox email_editor_user;
 
 	@Wire
-	private Textbox				email_user;
+	private Textbox email_editor_user_retype;
 
 	@Wire
-	private Textbox				email_user_retype;
+	private Textbox email_user;
 
 	@Wire
-	private Textbox				employee_identification_user;
+	private Textbox email_user_retype;
 
 	@Wire
-	private Textbox				family_charge_user;
+	private Textbox employee_identification_user;
 
 	@Wire
-	private Textbox				firstname_user;
+	private Textbox family_charge_user;
 
 	@Wire
-	private Component			fiscalcheck_user_tab;
+	private Textbox firstname_user;
 
 	@Wire
-	private Textbox				fiscalcode_user;
+	private Component fiscalcheck_user_tab;
 
 	@Wire
-	private Textbox				full_text_search;
+	private Textbox fiscalcode_user;
 
 	@Wire
-	private Component			grid_user_details;
+	private Textbox full_text_search;
 
 	@Wire
-	private Intbox				hourswork_w_user;
+	private Component grid_user_details;
 
 	@Wire
-	private Component			jobcost_user_tab;
+	private Intbox hourswork_w_user;
 
 	@Wire
-	private Textbox				lastname_user;
-
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
+	private Component jobcost_user_tab;
 
 	@Wire
-	private Component			mail_user_tab;
+	private Textbox lastname_user;
+
+	private final Logger logger = Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox				mailpassword_user;
+	private Component mail_user_tab;
 
 	@Wire
-	private Textbox				marital_status_user;
+	private Textbox mailpassword_user;
 
 	@Wire
-	private Component			medicalexamination_user_tab;
+	private Textbox marital_status_user;
 
 	@Wire
-	private Component			modify_users_command;
+	private Component medicalexamination_user_tab;
 
 	@Wire
-	private Textbox				nbudje_user;
+	private Component modify_users_command;
 
 	@Wire
-	private Textbox				ncfl_user;
+	private Textbox nbudje_user;
 
 	@Wire
-	private Textbox				npass_user;
+	private Textbox ncfl_user;
 
 	@Wire
-	private Checkbox			operative_user;
+	private Textbox npass_user;
 
 	@Wire
-	private Checkbox			out_schedule_user;
+	private Checkbox operative_user;
 
 	@Wire
-	private Checkbox			partTime;
+	private Checkbox out_schedule_user;
 
 	@Wire
-	private Textbox				password_editor_user;
+	private Checkbox partTime;
 
 	@Wire
-	private Textbox				password_editor_user_retype;
+	private Textbox password_editor_user;
 
 	@Wire
-	private Textbox				password_user;
+	private Textbox password_editor_user_retype;
 
 	@Wire
-	private Textbox				password_user_retype;
+	private Textbox password_user;
 
 	@Wire
-	private Component			password_user_tab;
-
-	Person						person_selected		= null;
+	private Textbox password_user_retype;
 
 	@Wire
-	private Textbox				personal_code_user;
+	private Component password_user_tab;
+
+	Person person_selected = null;
+
+	@Wire
+	private Textbox personal_code_user;
 
 	// the dao used for db interaction
-	private PersonDAO			personDao;
+	private PersonDAO personDao;
+
+	private List<Person> personList = new ArrayList<Person>();
 
 	@Wire
-	private Textbox				phone_user;
+	private Textbox phone_user;
 
 	@Wire
-	private Textbox				postalCode_user;
+	private Textbox postalCode_user;
 
 	@Wire
-	private Textbox				provincia_user;
+	private Textbox provincia_user;
 
 	@Wire
-	private Component			qrcode_gen;
+	private Component qrcode_gen;
 
 	@Wire
-	private Row					row_email_user_retype;
+	private Row row_email_user_retype;
 
 	@Wire
-	private Row					row_password_user;
+	private Row row_password_user;
 
 	@Wire
-	private Row					row_password_user_retype;
+	private Row row_password_user_retype;
 
 	@Wire
-	private Combobox			select_specific_user;
+	private Combobox select_specific_user;
 
 	@Wire
-	private Combobox			sex_user;
+	private Combobox sex_user;
 
 	@Wire
-	private Intbox				shows_rows;
+	private Intbox shows_rows;
 
 	@Wire
-	private Component			status_user_tab;
+	private Component status_user_tab;
 
 	@Wire
-	private Listbox				sw_list_user;
+	private Listbox sw_list_user;
 
 	@Wire
-	private Component			task_user_tab;
+	private Component task_user_tab;
 
 	@Wire
-	private Component			tfr_user_tab;
+	private Component tfr_user_tab;
 
 	@Wire
-	private Component			tradeunion_user_tab;
+	private Component tradeunion_user_tab;
 
 	@Wire
-	private Label				user_contractual_level;
+	private Label user_contractual_level;
 
 	@Wire
-	private Checkbox			user_enabled;
+	private Checkbox user_enabled;
 
 	@Wire
-	private Label				user_status;
+	private Label user_status;
 
 	@Wire
-	private Combobox			user_status_filter;
+	private Combobox user_status_filter;
 
 	@Wire
-	private A					userName;
+	private A userName;
 
-	List<String>				userStatusItems		= new ArrayList<String>();
+	List<String> userStatusItems = new ArrayList<String>();
 
 	@Wire
-	private Checkbox			viewer_user;
+	private Checkbox viewer_user;
 
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
@@ -926,6 +929,17 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #personList_download")
+	public void downloadCSV_PersonList() {
+
+		if (this.personList.size() != 0) {
+			final StringBuilder builder = UtilityCSV.downloadCSV_PersonList(this.personList);
+
+			Filedownload.save(builder.toString(), "application/text", "lista_utenti.csv");
+		}
+
+	}
+
 	@Listen("onClick = #qrcode_gen")
 	public void generateQrCode() {
 
@@ -1101,15 +1115,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposer.this.deleteUserCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposer.this.deleteUserCommand();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -1349,12 +1363,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.user_status_filter.setSelectedItem(null);
 		this.contractual_level_filter.setSelectedItem(null);
 
-		List<Person> list_person = null;
+		this.personList = null;
 
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
-			list_person = this.personDao.listAllPersons(this.full_text_search.getValue());
+			this.personList = this.personDao.listAllPersons(this.full_text_search.getValue());
 		} else {
-			list_person = this.personDao.listAllPersons();
+			this.personList = this.personDao.listAllPersons();
 		}
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
@@ -1363,7 +1377,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.sw_list_user.setPageSize(10);
 		}
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<Person>(this.personList));
 
 	}
 

@@ -24,6 +24,8 @@ import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
+import org.uario.seaworkengine.zkevent.converter.UserEnableConverter;
+import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
 
 public class UtilityCSV {
 
@@ -109,6 +111,73 @@ public class UtilityCSV {
 
 			final String line = "" + shipName + ";" + customerName + ";" + shiftDate + ";" + shiftNumber + ";" + operation + ";" + firstUser + ";"
 					+ secondUser + ";" + hands + ";" + persons + ";" + startDate + ";" + endDate + ";\n";
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	public static StringBuilder downloadCSV_PersonList(final List<Person> personList) {
+		if (personList == null) {
+			return null;
+		}
+
+		final StringBuilder builder = new StringBuilder();
+
+		final String header = "Id utente;Rapporto Lavorativo;Livello Contrattuale;Abilitato;Nome;Città;Telefono;Ruolo;Qualifica;\n";
+		builder.append(header);
+
+		for (final Person item : personList) {
+
+			String idUser = "";
+			String status = "";
+			String contractualLevel = "";
+			String enabled = "";
+			String name = "";
+			String city = "";
+			String tel = "";
+			String role = "";
+			String currentPosition = "";
+
+			if (item.getId() != null) {
+				idUser = item.getId().toString();
+			}
+
+			if (item.getStatus() != null) {
+				status = item.getStatus();
+			}
+
+			if (item.getContractual_level() != null) {
+				contractualLevel = item.getContractual_level().toString();
+			}
+
+			if (item.getCurrent_position() != null) {
+				enabled = UserEnableConverter.converterValue(item.isEnabled());
+			}
+
+			if ((item.getFirstname() != null) && (item.getLastname() != null)) {
+				name = item.getLastname() + " " + item.getFirstname();
+			}
+
+			if (item.getCity() != null) {
+				city = item.getCity();
+			}
+
+			if (item.getPhone() != null) {
+				tel = item.getPhone();
+			}
+
+			if (item.getAuthorities() != null) {
+				role = UserRoleConverter.convertRole(item.getAuthorities().toString());
+			}
+
+			if (item.getCurrent_position() != null) {
+				currentPosition = item.getCurrent_position();
+			}
+
+			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";"
+					+ role + ";" + currentPosition + ";\n";
 			builder.append(line);
 
 		}

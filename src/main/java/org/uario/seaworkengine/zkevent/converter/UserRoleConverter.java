@@ -6,6 +6,19 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class UserRoleConverter implements TypeConverter {
 
+	public static String convertRole(String roles) {
+		roles = roles.replace(UserTag.ROLE_BACKOFFICE, "UFFICIO");
+		roles = roles.replace(UserTag.ROLE_OPERATIVE, "PREPOSTO");
+		roles = roles.replace(UserTag.ROLE_USER, "UTENTE");
+		roles = roles.replace(UserTag.ROLE_VIEWER, "VISUALIZZATORE");
+		roles = roles.replace(UserTag.ROLE_SUPERVISOR, "AMMINISTRATORE");
+
+		roles = roles.replace("[", "");
+		roles = roles.replace("]", "");
+
+		return roles;
+	}
+
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
 

@@ -644,6 +644,9 @@
 		<button id="sw_refresh_list" sclass="btn-info"
 			label="Ricarica">
 		</button>
+		
+		<a label="Scarica dati in CSV"
+					id="personList_download" style="color:green" />
 
 		<separator></separator>
 	</div>

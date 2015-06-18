@@ -5,8 +5,16 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class UserEnableConverter implements TypeConverter {
 
-	private static final String	ATTIVO		= "ATTIVO";
-	private static final String	NON_ATTIVO	= "NON ATTIVO";
+	private static final String ATTIVO = "ATTIVO";
+	private static final String NON_ATTIVO = "NON ATTIVO";
+
+	public static String converterValue(final Boolean enabled) {
+		if (enabled.booleanValue()) {
+			return UserEnableConverter.ATTIVO;
+		} else {
+			return UserEnableConverter.NON_ATTIVO;
+		}
+	}
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -25,8 +33,7 @@ public class UserEnableConverter implements TypeConverter {
 
 		if (ret.booleanValue()) {
 			return UserEnableConverter.ATTIVO;
-		}
-		else {
+		} else {
 			return UserEnableConverter.NON_ATTIVO;
 		}
 	}

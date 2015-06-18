@@ -1086,6 +1086,25 @@
 										<intbox
 											id="invoicing_cycle_review" constraint="no negative" />
 									</row>
+									
+									<row id="reviewedTime">
+										<label value="Fascia Oraria:">
+										</label>
+
+										<hbox align="left">
+											<timebox format="short"
+												id="reviewTimeFrom" placeholder="Da..." mold="rounded" />
+
+											<timebox format="short"
+												id="reviewTimeTo" placeholder="A..." mold="rounded" />
+
+											<checkbox
+												id="check_last_shiftReview" visible="false"
+												label="Finisce il Giorno Dopo" checked="false">
+											</checkbox>
+
+										</hbox>
+									</row>
 
 									<row>
 										<label value="Tipo Gru GTW:"></label>

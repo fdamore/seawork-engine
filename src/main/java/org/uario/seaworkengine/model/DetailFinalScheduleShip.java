@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,40 +13,52 @@ import javax.xml.bind.annotation.XmlTransient;
 public class DetailFinalScheduleShip implements Serializable {
 
 	@XmlTransient
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Integer				crane;
+	private Date activity_end;
 
-	private Boolean				crane_gtw;
+	private Date activity_start;
+
+	private Integer crane;
+
+	private Boolean crane_gtw;
 
 	// rif sws
-	private Integer				id;
+	private Integer id;
 
-	private Integer				iddetailscheduleship;
+	private Integer iddetailscheduleship;
 
 	@XmlTransient
-	private Integer				invoicing_cycle;
+	private Integer invoicing_cycle;
 
-	private String				notedetail;
+	private String notedetail;
 
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
-	private Integer				rif_mct;
+	private Integer rif_mct;
 
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
-	private Integer				rif_sws;
+	private Integer rif_sws;
 
-	private Double				timework;
+	private Double timework;
 
-	private Integer				volume;
+	private Integer volume;
 
-	private Integer				volume_tw_mct;
+	private Integer volume_tw_mct;
 
-	private Integer				volumeunderboard;
+	private Integer volumeunderboard;
 
 	@XmlTransient
-	private Integer				volumeunderboard_sws;
+	private Integer volumeunderboard_sws;
+
+	public Date getActivity_end() {
+		return this.activity_end;
+	}
+
+	public Date getActivity_start() {
+		return this.activity_start;
+	}
 
 	public Integer getCrane() {
 		return this.crane;
@@ -97,6 +110,14 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public Integer getVolumeunderboard_sws() {
 		return this.volumeunderboard_sws;
+	}
+
+	public void setActivity_end(final Date activity_end) {
+		this.activity_end = activity_end;
+	}
+
+	public void setActivity_start(final Date activity_start) {
+		this.activity_start = activity_start;
 	}
 
 	public void setCrane(final Integer crane) {
