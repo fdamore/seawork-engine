@@ -341,6 +341,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Comboitem program_item;
 
 	@Wire
+	private Component reviewedTime;
+
+	@Wire
 	private Timebox reviewTimeFrom;
 
 	@Wire
@@ -571,6 +574,35 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final DetailScheduleShip itm = this.sw_list_scheduleShip.getSelectedItem().getValue();
 		detailFinalScheduleShip.setIddetailscheduleship(itm.getId());
+
+		final Integer id_ship = itm.getId_ship();
+		final Ship ship = this.shipDao.loadShip(id_ship);
+		final Integer shift_no = itm.getShift();
+
+		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+
+			final Date date_from = this.reviewTimeFrom.getValue();
+			Date date_to = this.reviewTimeTo.getValue();
+
+			if (shift_no.equals(4) && this.check_last_shiftReview.isChecked()) {
+
+				final Calendar cal_from = DateUtils.toCalendar(date_from);
+				final Calendar cal_to = DateUtils.toCalendar(date_to);
+				cal_to.set(Calendar.DAY_OF_YEAR, cal_from.get(Calendar.DAY_OF_YEAR));
+				cal_to.add(Calendar.DAY_OF_YEAR, 1);
+				date_to = cal_to.getTime();
+
+			} else if (shift_no.equals(4) && !this.check_last_shiftReview.isChecked()) {
+				final Calendar cal_from = DateUtils.toCalendar(date_from);
+				final Calendar cal_to = DateUtils.toCalendar(date_to);
+				cal_to.set(Calendar.DAY_OF_YEAR, cal_from.get(Calendar.DAY_OF_YEAR));
+				date_to = cal_to.getTime();
+			}
+
+			detailFinalScheduleShip.setActivity_end(date_to);
+			detailFinalScheduleShip.setActivity_start(date_from);
+
+		}
 
 		// set crane
 		int crn_val = 1;
@@ -1089,6 +1121,40 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		detailFinal.setNotedetail(this.note_review.getValue());
 		detailFinal.setInvoicing_cycle(this.invoicing_cycle_review.getValue());
 
+		// set info about activity
+		final DetailScheduleShip detailScheduleship = this.sw_list_scheduleShip.getSelectedItem().getValue();
+		detailFinal.setActivity_end(null);
+		detailFinal.setActivity_start(null);
+
+		final Integer id_ship = detailScheduleship.getId_ship();
+		final Integer shift_no = detailScheduleship.getShift();
+		final Ship ship = this.shipDao.loadShip(id_ship);
+
+		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+
+			final Date date_from = this.reviewTimeFrom.getValue();
+			Date date_to = this.reviewTimeTo.getValue();
+
+			if (shift_no.equals(4) && this.check_last_shiftReview.isChecked()) {
+
+				final Calendar cal_from = DateUtils.toCalendar(date_from);
+				final Calendar cal_to = DateUtils.toCalendar(date_to);
+				cal_to.set(Calendar.DAY_OF_YEAR, cal_from.get(Calendar.DAY_OF_YEAR));
+				cal_to.add(Calendar.DAY_OF_YEAR, 1);
+				date_to = cal_to.getTime();
+
+			} else if (shift_no.equals(4) && !this.check_last_shiftReview.isChecked()) {
+				final Calendar cal_from = DateUtils.toCalendar(date_from);
+				final Calendar cal_to = DateUtils.toCalendar(date_to);
+				cal_to.set(Calendar.DAY_OF_YEAR, cal_from.get(Calendar.DAY_OF_YEAR));
+				date_to = cal_to.getTime();
+			}
+
+			detailFinal.setActivity_end(date_to);
+			detailFinal.setActivity_start(date_from);
+
+		}
+
 		this.shipSchedulerDao.updateDetailFinalScheduleShip(detailFinal);
 
 		this.showReviewShipPopup();
@@ -1124,6 +1190,50 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.add_finalDetailScheduleShip_command.setVisible(false);
 			this.modify_finalDetailScheduleShip_command.setVisible(true);
+
+			// SET ACTIVIY
+
+			this.reviewTimeFrom.setValue(null);
+			this.reviewTimeTo.setValue(null);
+
+			this.reviewedTime.setVisible(false);
+			this.check_last_shiftReview.setChecked(false);
+			this.check_last_shiftReview.setVisible(false);
+
+			// define if ship activity fields need to be disabled
+			final Integer id_ship = detailScheduleShip.getId_ship();
+			final Ship ship = this.shipDao.loadShip(id_ship);
+
+			if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+
+				this.check_last_shiftReview.setVisible(false);
+				this.check_last_shiftReview.setChecked(false);
+
+				final Date from = detailFinal.getActivity_start();
+				final Date to = detailFinal.getActivity_end();
+
+				this.reviewTimeFrom.setValue(from);
+				this.reviewTimeTo.setValue(to);
+
+				if (detailScheduleShip.getShift().equals(4)) {
+					this.check_last_shiftReview.setVisible(true);
+					if ((from != null) && (to != null)) {
+						final Calendar cal_from = DateUtils.toCalendar(from);
+						final Calendar cal_to = DateUtils.toCalendar(to);
+						final int day_from = cal_from.get(Calendar.DAY_OF_YEAR);
+						final int day_to = cal_to.get(Calendar.DAY_OF_YEAR);
+
+						final int gap_day = day_to - day_from;
+						if (gap_day == 1) {
+							this.check_last_shiftReview.setChecked(true);
+						}
+
+					}
+				}
+
+				this.reviewedTime.setVisible(true);
+
+			}
 
 		}
 	}
@@ -1542,7 +1652,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
 
-			this.check_last_shift_detail.setVisible(true);
+			this.check_last_shift_detail.setVisible(false);
 			this.check_last_shift_detail.setChecked(false);
 
 			final Date from = this.detailScheduleShipSelected.getActivity_start();
@@ -1551,17 +1661,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.ship_from_detail.setValue(from);
 			this.ship_to_detail.setValue(to);
 
-			if ((from != null) && (to != null)) {
-				final Calendar cal_from = DateUtils.toCalendar(from);
-				final Calendar cal_to = DateUtils.toCalendar(to);
-				final int day_from = cal_from.get(Calendar.DAY_OF_YEAR);
-				final int day_to = cal_to.get(Calendar.DAY_OF_YEAR);
+			final Integer shiftNumber = this.detailScheduleShipSelected.getShift();
 
-				final int gap_day = day_to - day_from;
-				if (gap_day == 1) {
-					this.check_last_shift_detail.setChecked(true);
+			if (shiftNumber.equals(4)) {
+				this.check_last_shift_detail.setVisible(true);
+				if ((from != null) && (to != null)) {
+					final Calendar cal_from = DateUtils.toCalendar(from);
+					final Calendar cal_to = DateUtils.toCalendar(to);
+					final int day_from = cal_from.get(Calendar.DAY_OF_YEAR);
+					final int day_to = cal_to.get(Calendar.DAY_OF_YEAR);
+
+					final int gap_day = day_to - day_from;
+					if (gap_day == 1) {
+						this.check_last_shift_detail.setChecked(true);
+					}
+
 				}
-
 			}
 
 			this.h_detail_period.setVisible(true);
@@ -2536,8 +2651,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// get ship activity name
 		String shipActivity = "";
 
+		this.reviewedTime.setVisible(false);
+
 		this.reviewTimeFrom.setValue(null);
 		this.reviewTimeTo.setValue(null);
+		this.check_last_shiftReview.setVisible(false);
 		this.check_last_shiftReview.setChecked(false);
 
 		final Integer shiftNumber = detailSelected.getShift();
@@ -2575,6 +2693,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 
 			}
+
+			this.reviewedTime.setVisible(true);
 		}
 
 		// set ship name and alert
