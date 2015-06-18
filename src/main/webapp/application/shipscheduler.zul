@@ -1523,6 +1523,8 @@
 										hflex="1" />
 									<listheader label="Volumi"
 										hflex="1" />
+									<listheader label="Produttività"
+										hflex="1" />
 									<listheader
 										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
@@ -1557,6 +1559,9 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_ship.volume}" />
+										
+									<listcell sclass="myBottonCell"
+										label="@{item_review_ship, converter='org.uario.seaworkengine.zkevent.converter.ProductivityConverter'}" />
 
 
 									<listcell sclass="myBottonCell"
