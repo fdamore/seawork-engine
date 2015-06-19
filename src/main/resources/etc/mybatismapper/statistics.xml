@@ -179,10 +179,10 @@
 		WHERE
 		dfs.id_schedule = s.id and ut.isabsence = 0
 		and dfs.task = ut.id
-		and s.user = #{id_user} and s.date_schedule <![CDATA[>=]]>
-		#{date_from} and
-		s.date_schedule <![CDATA[<=]]>
-		#{date_to}
+		and s.user = #{id_user} and date(s.date_schedule) <![CDATA[>=]]>
+		date(#{date_from}) and
+		date(s.date_schedule) <![CDATA[<=]]>
+		date(#{date_to})
 
 	</select>
 
@@ -201,10 +201,10 @@
 		AND (ut.isabsence = 1 and ut.recorded = 1)
 		AND dfs.task = ut.id
 		AND s.user = #{id_user}
-		AND s.date_schedule <![CDATA[>=]]>
-		#{date_from}
-		AND s.date_schedule <![CDATA[<=]]>
-		#{date_to}
+		AND date(s.date_schedule) <![CDATA[>=]]>
+		date(#{date_from})
+		AND date(s.date_schedule) <![CDATA[<=]]>
+		date(#{date_to})
 
 	</select>
 
