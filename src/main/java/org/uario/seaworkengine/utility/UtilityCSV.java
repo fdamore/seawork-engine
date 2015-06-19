@@ -24,6 +24,7 @@ import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
+import org.uario.seaworkengine.zkevent.converter.ProductivityConverter;
 import org.uario.seaworkengine.zkevent.converter.UserEnableConverter;
 import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
 
@@ -552,7 +553,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWorkAggregate(final List<ReviewShipWorkAggregate> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome Nave;Tempo Lavorato;Volumi Attesi;Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;\n";
+		final String header = "Nome Nave;Tempo Lavorato;Volumi Attesi;Produttività;Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;\n";
 		builder.append(header);
 
 		for (final ReviewShipWorkAggregate item : reviewShipWorkList) {
@@ -560,6 +561,7 @@ public class UtilityCSV {
 			String shipName = "";
 			String workedTime = "";
 			String volume = "";
+			String productivity = "";
 			String volumeOnBoard = "";
 			String volumeOnBoard_sws = "";
 			String volumeTW = "";
@@ -569,13 +571,15 @@ public class UtilityCSV {
 			}
 
 			if (item.getTime_work() != null) {
-
 				workedTime = Utility.decimatToTime(item.getTime_work());
-
 			}
 
 			if (item.getVolume() != null) {
 				volume = item.getVolume().toString();
+			}
+
+			if ((item.getTime_work() != null) && (item.getVolume() != null)) {
+				productivity = ProductivityConverter.getProductivity(item);
 			}
 
 			if (item.getVolumeunderboard() != null) {
@@ -590,7 +594,8 @@ public class UtilityCSV {
 				volumeTW = item.getVolume_tw_mct().toString();
 			}
 
-			final String line = shipName + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";\n";
+			final String line = shipName + ";" + workedTime + ";" + volume + ";" + productivity + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";"
+					+ volumeTW + ";\n";
 
 			builder.append(line);
 

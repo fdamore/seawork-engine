@@ -8,6 +8,15 @@ import org.zkoss.zkplus.databind.TypeConverter;
 
 public class ProductivityConverter implements TypeConverter {
 
+	public static String getProductivity(final ReviewShipWorkAggregate reviewShipWork) {
+
+		final Double productivity = reviewShipWork.getVolume() / reviewShipWork.getTime_work();
+
+		final DecimalFormat format = new DecimalFormat("#.##");
+
+		return format.format(productivity);
+	}
+
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
 
@@ -30,4 +39,5 @@ public class ProductivityConverter implements TypeConverter {
 		return format.format(productivity);
 
 	}
+
 }
