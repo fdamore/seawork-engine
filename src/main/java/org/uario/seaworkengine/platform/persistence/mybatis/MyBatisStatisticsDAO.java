@@ -256,27 +256,6 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Double getShiftRecorded(final Integer id_user, final Date date_from, final Date date_to) {
-		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
-
-		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
-		final Date date_to_truncate = DateUtils.truncate(date_to, Calendar.DATE);
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_user", id_user);
-		map.put("date_from", date_from_truncate);
-		map.put("date_to", date_to_truncate);
-
-		final Double ret = this.getSqlSession().selectOne("statistics.getShiftRecorded", map);
-
-		if (ret == 0) {
-			return 0.0;
-		}
-
-		return ret;
-	}
-
-	@Override
 	public Integer getSundayWork(final Integer id_user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
 
@@ -296,6 +275,23 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		return ret;
 
+	}
+
+	@Override
+	public Double getTimeWorkCountByUser(final Integer user, final Date date_from, final Date date_to) {
+		MyBatisStatisticsDAO.logger.info("getWorkCountByUser..");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id_user", user);
+		map.put("date_from", date_from);
+		map.put("date_to", date_to);
+
+		final Double ret = this.getSqlSession().selectOne("statistics.getWorkTimeCountByUser", map);
+		if ((ret == null) || (ret == 0.0)) {
+			return 0.0;
+		}
+
+		return ret;
 	}
 
 	@Override
@@ -319,15 +315,16 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Double getWorkCountByUser(final Integer user, final Date date_from, final Date date_to) {
-		MyBatisStatisticsDAO.logger.info("getWorkCountByUser..");
+	public Double getWorkTimeCompensationCountByUser(final Integer id_user, final Date date_from, final Date date_to) {
+		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_user", user);
+		map.put("id_user", id_user);
 		map.put("date_from", date_from);
 		map.put("date_to", date_to);
 
-		final Double ret = this.getSqlSession().selectOne("statistics.getWorkCountByUser", map);
+		final Double ret = this.getSqlSession().selectOne("statistics.getWorkTimeCompensationCountByUser", map);
+
 		if ((ret == null) || (ret == 0.0)) {
 			return 0.0;
 		}

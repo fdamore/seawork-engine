@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -254,6 +255,30 @@ public class Utility {
 		return Utility.formatDay.format(date);
 	}
 
+	/**
+	 * Hours work
+	 *
+	 * @param date_from
+	 * @param date_to
+	 * @param hours_per_week
+	 * @param day_per_week
+	 * @return
+	 */
+	public static Double getHoursWorkAmount(final Date date_from, final Date date_to, final Integer day_per_week, final Integer hour_per_week) {
+
+		final long diff = date_to.getTime() - date_from.getTime();
+
+		final long day_global = TimeUnit.MILLISECONDS.toDays(diff);
+
+		final long weekCount = day_global / 7;
+
+		final Long dayCount = day_per_week * weekCount;
+
+		final Long hour_per_day = (long) hour_per_week / (long) day_per_week;
+
+		return dayCount.doubleValue() * hour_per_day.doubleValue();
+	}
+
 	public static Integer getMonthNumber(final Date date) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -275,39 +300,11 @@ public class Utility {
 		return cal.get(Calendar.WEEK_OF_YEAR);
 	}
 
-	public static Integer getWorkAmount(final Date date_from, final Date date_to, final Integer hours_per_week, final Integer hours_per_day) {
-
-		final long diff = date_to.getTime() - date_from.getTime();
-
-		final Integer numberOfMillsecInWeek = 7 * 24 * 60 * 60 * 1000;
-
-		final Integer weekCount = (int) (diff / numberOfMillsecInWeek);
-
-		final Integer numberOfMillsecInDay = 24 * 60 * 60 * 1000;
-
-		final Integer dayCount = (int) ((diff - (weekCount * numberOfMillsecInWeek)) / (numberOfMillsecInDay));
-
-		return ((weekCount * hours_per_week) + (dayCount * hours_per_day));
-	}
-
 	public static Integer getYear(final Date date) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return cal.get(Calendar.YEAR);
 	}
-
-	// public static void main(final String args[]) {
-	// final Calendar cal = Calendar.getInstance();
-	//
-	// final Date date_from = cal.getTime();
-	//
-	// cal.add(Calendar.DAY_OF_YEAR, 25);
-	//
-	// final Date date_to = cal.getTime();
-	//
-	// final Integer tot = Utility.getWorkAmount(date_from, date_to, 11, 2);
-	//
-	// }
 
 	/**
 	 * Generate output stream

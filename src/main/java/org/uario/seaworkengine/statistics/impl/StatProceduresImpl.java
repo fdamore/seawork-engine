@@ -25,20 +25,20 @@ import org.uario.seaworkengine.utility.Utility;
 
 public class StatProceduresImpl implements IStatProcedure {
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays		bank_holiday;
 
-	private UserCompensationDAO compensationDAO;
+	private UserCompensationDAO	compensationDAO;
 
-	private ISchedule myScheduleDAO;
+	private ISchedule			myScheduleDAO;
 
-	private TasksDAO myTaskDAO;
+	private TasksDAO			myTaskDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache			shiftCache;
 
-	private IStatistics statisticDAO;
+	private IStatistics			statisticDAO;
 
 	@Override
-	public Double calculeSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
+	public Double calculeDaySaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
 
 		if ((date_from_arg == null) || (user == null) || (date_to_arg == null)) {
 			return null;
@@ -49,37 +49,36 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		final Date date_to = DateUtils.truncate(date_to_arg, Calendar.DATE);
-
 		final Date date_from = DateUtils.truncate(date_from_arg, Calendar.DATE);
 
 		// current day work
-		final Double current_work_count = this.statisticDAO.getWorkCountByUser(user.getId(), date_from, date_to) / 24;
+		final Double hour_current_work_count = this.statisticDAO.getTimeWorkCountByUser(user.getId(), date_from, date_to);
 
-		// work day amount
-		final Integer work_ammount = Utility.getWorkAmount(date_from, date_to, user.getHourswork_w(), user.getDaywork_w()) / 24;
 		// validate date
-		if ((current_work_count == null) || (work_ammount == null)) {
+		if ((hour_current_work_count == null)) {
 			return 0.0;
 		}
 
-		// get compensation
-		Double comp = this.compensationDAO.getTotalHoursInDateYear(user.getId(), date_from);
-		if (comp == null) {
-			comp = 0.0;
+		// get shift recorded
+		Double hours_work_shift_recorded = this.statisticDAO.getWorkTimeCompensationCountByUser(user.getId(), date_from, date_to);
+		if (hours_work_shift_recorded == null) {
+			hours_work_shift_recorded = 0.0;
 		}
 
-		// get shift recorded
-		final Double day_work_shift_recorded = this.statisticDAO.getShiftRecorded(user.getId(), date_from, date_to);
-		Double hours_work_shift_recorded = 0.0;
-		if (day_work_shift_recorded == null) {
-			hours_work_shift_recorded = 0.0;
-		} else {
-			final Double h_work_per_day = (double) user.getHourswork_w() / (double) user.getDaywork_w();
-			hours_work_shift_recorded = day_work_shift_recorded * h_work_per_day;
+		// work day amount
+		final Double hours_work_ammount = Utility.getHoursWorkAmount(date_from, date_to, user.getDaywork_w(), user.getHourswork_w());
+
+		// get compensation
+		Double hours_compensate = this.compensationDAO.getTotalHoursInDateYear(user.getId(), date_from);
+		if (hours_compensate == null) {
+			hours_compensate = 0.0;
 		}
 
 		// sat = current work - shift_rec - compensation - work_ammount
-		return current_work_count - hours_work_shift_recorded - comp - work_ammount;
+		final Double hours_saturation = hour_current_work_count - hours_work_shift_recorded - hours_compensate - hours_work_ammount;
+		final Double day_saturation = hours_saturation / 24;
+
+		return day_saturation;
 
 	}
 
@@ -408,7 +407,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		// set saturation label
-		final Double sat = this.calculeSaturation(person, date_from, date_to);
+		final Double sat = this.calculeDaySaturation(person, date_from, date_to);
 		userStatistics.setSaturation(sat);
 
 		if (ext_info) {
@@ -466,11 +465,12 @@ public class StatProceduresImpl implements IStatProcedure {
 			final Calendar cal_saturation_month = DateUtils.toCalendar(date_to);
 			cal_saturation_month.add(Calendar.MONTH, -1);
 			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+
 			final Date date_to_on_month = cal_saturation_month.getTime();
 			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getMinimum(Calendar.DAY_OF_MONTH));
 			final Date date_from_on_month = cal_saturation_month.getTime();
 
-			Double sat_month = this.calculeSaturation(person, date_from_on_month, date_to_on_month);
+			Double sat_month = this.calculeDaySaturation(person, date_from_on_month, date_to_on_month);
 
 			// get month count
 			final int month_count = cal_saturation_month.get(Calendar.MONTH);

@@ -386,7 +386,7 @@
 
 									<row>
 										<label
-											value="Saturazione (Media Mensile): " />
+											value="Saturazione (Mese Precedente): " />
 										<label id="saturation_month" />
 									</row>
 

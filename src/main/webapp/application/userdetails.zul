@@ -405,7 +405,7 @@
 
 									<row>
 										<label
-											value="ore da lavorare per settimana:">
+											value="Ore da lavorare per settimana:">
 										</label>
 										<intbox id="hourswork_w_user"
 											constraint="no negative" />

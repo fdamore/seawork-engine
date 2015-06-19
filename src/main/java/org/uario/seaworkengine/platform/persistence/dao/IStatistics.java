@@ -86,16 +86,6 @@ public interface IStatistics {
 	public List<MonitorData> getMonitorData(Date date_request);
 
 	/**
-	 * Get number of day with shift recorded
-	 *
-	 * @param id_user
-	 * @param date_from
-	 * @param date_to
-	 * @return
-	 */
-	public Double getShiftRecorded(Integer id_user, Date date_from, Date date_to);
-
-	/**
 	 * Get percentage working sunday
 	 *
 	 * @param id_user
@@ -104,6 +94,16 @@ public interface IStatistics {
 	 * @return
 	 */
 	public Integer getSundayWork(Integer id_user, Date date_from, Date date_to);
+
+	/**
+	 * Get How many hours user work in period
+	 *
+	 * @param user
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public Double getTimeWorkCountByUser(Integer user, Date date_from, Date date_to);
 
 	/**
 	 * Get Time Worked
@@ -116,14 +116,14 @@ public interface IStatistics {
 	public Double getTimeWorked(Integer id_user, Date date_from, Date date_to);
 
 	/**
-	 * Get How many hours user work in period
-	 *
-	 * @param user
+	 * Get hours time work
+	 * 
+	 * @param id_user
 	 * @param date_from
 	 * @param date_to
 	 * @return
 	 */
-	public Double getWorkCountByUser(Integer user, Date date_from, Date date_to);
+	public Double getWorkTimeCompensationCountByUser(Integer id_user, Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule

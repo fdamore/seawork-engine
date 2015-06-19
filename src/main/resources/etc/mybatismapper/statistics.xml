@@ -164,27 +164,46 @@
 
 	</select>
 
-	<!-- (SELECT sum(d1.board) FROM detailfinalschedule d1 WHERE #{date_request} 
-		<![CDATA[>=]]> d1.time_from and #{date_request} <![CDATA[<=]]> d1.time_to 
-		and d1.board is not null and d1.shift = d.shift and d1.id_ship = d.id_ship 
-		and d1.board = 'A BORDO') as on_board -->
 
 
-	<select id="getShiftRecorded" resultType="double" parameterType="map">
+
+	<select id="getWorkTimeCountByUser" resultType="double"
+		parameterType="map">
 
 		SELECT
-		count(distinct s.date_schedule)
+		sum(time)
 		FROM
+		detailfinalschedule dfs,
 		schedule s,
-		usershift us
-		where
-		s.shift = us.id and us.recorded = 1
-		and us.presence = 0
-		and s.user =
-		#{id_user}
-		and s.date_schedule <![CDATA[>=]]>
+		usertask ut
+		WHERE
+		dfs.id_schedule = s.id and ut.isabsence = 0
+		and dfs.task = ut.id
+		and s.user = #{id_user} and s.date_schedule <![CDATA[>=]]>
+		#{date_from} and
+		s.date_schedule <![CDATA[<=]]>
+		#{date_to}
+
+	</select>
+
+
+	<select id="getWorkTimeCompensationCountByUser" resultType="double"
+		parameterType="map">
+
+		SELECT
+		SUM(time_vacation)
+		FROM
+		detailfinalschedule dfs,
+		schedule s,
+		usertask ut
+		WHERE
+		dfs.id_schedule = s.id
+		AND (ut.isabsence = 1 and ut.recorded = 1)
+		AND dfs.task = ut.id
+		AND s.user = #{id_user}
+		AND s.date_schedule <![CDATA[>=]]>
 		#{date_from}
-		and s.date_schedule <![CDATA[<=]]>
+		AND s.date_schedule <![CDATA[<=]]>
 		#{date_to}
 
 	</select>
@@ -654,23 +673,6 @@
 	</select>
 
 
-	<select id="getWorkCountByUser" resultType="double"
-		parameterType="map">
 
-		SELECT
-		sum(time)
-		FROM
-		detailfinalschedule dfs,
-		schedule s,
-		usertask ut
-		WHERE
-		dfs.id_schedule = s.id and (ut.isabsence = 0 or ut.recorded = 1)
-		and dfs.task = ut.id
-		and s.user = #{id_user} and s.date_schedule <![CDATA[>=]]>
-		#{date_from} and
-		s.date_schedule <![CDATA[<=]]>
-		#{date_to}
-
-	</select>
 
 </mapper>
