@@ -26,6 +26,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
+import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.ShipTotal;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -57,6 +58,7 @@ import org.zkoss.zul.Panel;
 import org.zkoss.zul.Popup;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Tab;
+import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timebox;
 import org.zkoss.zul.Toolbarbutton;
@@ -255,7 +257,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Listbox list_reviewDetailScheduleShip;
 
+	@Wire
+	private Listbox list_ship_statistics;
+
 	private List<DetailScheduleShip> listDetailScheduleShip = new ArrayList<DetailScheduleShip>();
+
+	// statistics - USED DOWNLOAD
+	private List<ShipOverview> listShipStatistics = null;
 
 	@Wire
 	private Intbox menwork;
@@ -305,6 +313,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Combobox operation_Daily;
+
+	@Wire
+	private Tabpanel overview_statistics_ship;
 
 	@Wire
 	private Tab overviewBap;
@@ -494,6 +505,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Intbox shows_rows_ship;
 
 	private IStatistics statistic_dao;
+
+	private IStatistics statisticDAO;
+
+	@Wire
+	private Tab statisticsShipTab;
 
 	@Wire
 	private Toolbarbutton sw_link_reviewscheduleship;
@@ -1008,6 +1024,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.select_year.setModel(new ListModelList<String>(years));
 
+		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
+
 	}
 
 	@Listen("onClick = #detailShipProgram_download")
@@ -1044,6 +1062,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			final StringBuilder builder = UtilityCSV.downloadCSVReviewShipWorkAggregate(this.list_review_work_aggregate);
 			Filedownload.save(builder.toString(), "application/text", "bap_aggregato.csv");
+
+		} else if (this.statisticsShipTab.isSelected()) {
+			// TODO
+			// creare un metodo in UtilityCSV e passargli
+			// this.list_ship_statistics
+			// final StringBuilder builder =
+			// UtilityCSV.downloadCSVStatisticShip(this.list_ship_statistics);
+			// Filedownload.save(builder.toString(), "application/text",
+			// "bap_aggregato.csv");
 
 		}
 
@@ -1759,6 +1786,34 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchScheduleShip();
 	}
 
+	private void refreshShipStatistics(final String text) {
+
+		String text_select = null;
+		if ((text != null) && !text.equals("")) {
+			text_select = text;
+		}
+
+		// select date period
+		Date date_from = this.date_from_overview.getValue();
+		Date date_to = this.date_to_overview.getValue();
+
+		if ((date_from != null) && (date_to != null) && !date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
+
+			// truncate
+			date_from = DateUtils.truncate(date_from, Calendar.DATE);
+			date_to = DateUtils.truncate(date_to, Calendar.DATE);
+		}
+
+		this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_select, date_from, date_to);
+
+		this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.list_ship_statistics.setPageSize(this.shows_rows.getValue());
+		}
+
+	}
+
 	@Listen("onClick = #sw_link_deleteship")
 	public void removeItem() {
 
@@ -2084,6 +2139,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.sw_list_reviewWorkAggregate.setModel(new ListModelList<ReviewShipWorkAggregate>(this.list_review_work_aggregate));
 
+		} else if (this.statisticsShipTab.isSelected()) {
+
+			this.refreshShipStatistics(this.full_text_search_ship.getValue());
+
 		}
 
 	}
@@ -2148,6 +2207,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.sw_list_reviewWorkAggregate.setModel(new ListModelList<ReviewShipWorkAggregate>(this.list_review_work_aggregate));
+		} else if (this.statisticsShipTab.isSelected()) {
+
+			this.refreshShipStatistics(this.full_text_search_ship.getValue());
 		}
 
 	}

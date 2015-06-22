@@ -289,7 +289,7 @@
 			<![CDATA[<=]]>
 			#{date_to})
 		</if>
-
+		
 		group by dfs.id_ship order by s.name
 
 	</select>

@@ -2722,10 +2722,7 @@
 					</tab>
 					<tab label="STATISTICHE UTENTE" id="statisticsTab"
 						onClick="reviewSearchBox.setVisible(false);">
-					</tab>
-					<tab label="STATISTICHE NAVE" id="statisticsShipTab"
-						onClick="reviewSearchBox.setVisible(false);">
-					</tab>
+					</tab>					
 				</tabs>
 				<tabpanels>
 					<tabpanel id="overview_review">
@@ -2888,6 +2885,7 @@
 							</panelchildren>
 						</panel>
 					</tabpanel>
+
 					<tabpanel id="overview_program">
 
 						<panel border="normal" collapsible="false"
@@ -3136,7 +3134,6 @@
 
 					</tabpanel>
 
-
 					<tabpanel id="overview_statistics">
 
 						<combobox id="combo_user_dip" readonly="true"
@@ -3260,56 +3257,7 @@
 
 					</tabpanel>
 
-
-					<tabpanel id="overview_statistics_ship">
-
-
-						<panel border="normal" collapsible="false"
-							sclass="transparent">
-							<panelchildren>
-								<listbox sclass="domain" mold="paging"
-									pageSize="10" pagingPosition="both"
-									id="list_ship_statistics">
-
-									<listhead sizable="true">
-
-										<listheader label="Nome"
-											sort="auto(name)" hflex="1" />
-
-										<listheader
-											label="Ore Lavorate" />
-
-										<listheader label="Ore Chiusura"
-											align="center" />
-									</listhead>
-
-									<listitem self="@{each='itm_ship'}"
-										value="@{itm_ship}">
-
-
-										<listcell sclass="myBottonCell"
-											label="@{itm_ship.name}" />
-
-										<listcell sclass="myBottonCell"
-											label="@{itm_ship.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
-
-										<listcell sclass="myBottonCell"
-											label="@{itm_ship.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
-
-
-
-									</listitem>
-
-								</listbox>
-
-							</panelchildren>
-						</panel>
-
-
-
-					</tabpanel>
-
-
+					
 				</tabpanels>
 
 			</tabbox>

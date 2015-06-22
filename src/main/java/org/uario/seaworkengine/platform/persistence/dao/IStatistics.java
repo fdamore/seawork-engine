@@ -117,7 +117,7 @@ public interface IStatistics {
 
 	/**
 	 * Get hours time work
-	 * 
+	 *
 	 * @param id_user
 	 * @param date_from
 	 * @param date_to

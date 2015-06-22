@@ -1314,7 +1314,7 @@
 
 				<div id="filter_user" visible="true">
 
-					<hbox align="center">
+					<hbox align="center" >
 
 						<intbox placeholder="Cerca Rif SWS..."
 							id="full_text_search_rifSWS" />
@@ -1393,11 +1393,15 @@
 					<tabs>
 						<tab label="VERIFICA LAVORO UTENTE"
 							id="overviewBap" selected="true"
-							onClick="filter_user.setVisible(true)">
+							onClick="filter_user.setVisible(true);">
 						</tab>
 						<tab label="VERIFICA LAVORO NAVE"
 							id="overviewBapAggregate" selected="false"
-							onClick="filter_user.setVisible(false)">
+							onClick="filter_user.setVisible(false);">
+						</tab>
+						
+						<tab label="STATISTICHE NAVE (LAVORO UTENTE)" id="statisticsShipTab"
+							onClick="filter_user.setVisible(false);">
 						</tab>
 
 					</tabs>
@@ -1578,6 +1582,57 @@
 
 
 						</tabpanel>
+
+						<tabpanel id="overview_statistics_ship">
+
+							<panel border="normal" collapsible="false"
+								sclass="transparent">
+								<panelchildren>
+									<listbox sclass="domain"
+										mold="paging" pageSize="10" pagingPosition="both"
+										id="list_ship_statistics">
+
+										<listhead sizable="true">
+
+											<listheader label="Nome"
+												sort="auto(name)" hflex="1" />
+
+											<listheader
+												label="Ore Lavorate" />
+
+											<listheader
+												label="Ore Chiusura" align="center" />
+										</listhead>
+
+										<listitem
+											self="@{each='itm_ship'}" value="@{itm_ship}">
+
+
+											<listcell
+												sclass="myBottonCell" label="@{itm_ship.name}" />
+
+											<listcell
+												sclass="myBottonCell"
+												label="@{itm_ship.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+
+											<listcell
+												sclass="myBottonCell"
+												label="@{itm_ship.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+
+
+
+										</listitem>
+
+									</listbox>
+
+								</panelchildren>
+							</panel>
+
+
+
+						</tabpanel>
+
+
 
 					</tabpanels>
 

@@ -26,9 +26,9 @@ import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
 
-	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisStatisticsDAO.class);
 
-	private IBankHolidays	bank_holiday;
+	private IBankHolidays bank_holiday;
 
 	/**
 	 * Calculate work percentage on list rateshift
