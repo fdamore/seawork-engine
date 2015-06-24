@@ -533,6 +533,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Doublebox						time_review;
 
 	@Wire
+	private Label							TotalTimeWork;
+
+	@Wire
 	private Label							TotalVolume;
 
 	@Wire
@@ -2411,7 +2414,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Define info
+	 *
+	 * @param date
+	 * @param full_text_search
+	 * @param list_DetailScheduleShip
+	 */
 	private void setInfoDetailShipProgram(final Date date, final String full_text_search, final List<DetailScheduleShip> list_DetailScheduleShip) {
+
 		this.infoDetailShipProgram.setValue("");
 
 		Integer volume = this.shipSchedulerDao.calculateVolumeByArrivalDateAndShipName(date, full_text_search, this.getSelectedShift());
@@ -2442,8 +2453,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		this.infoDetailShipProgram.setValue("Numero di Navi: " + numberOfShip + " - Totale volumi preventivati: " + volume + " - Totale Mani: "
-				+ totalHandsWork + " - Totale Persone: " + totalMenWork);
+		this.infoDetailShipProgram.setValue("Numero di Navi: " + numberOfShip + ". Totale volumi preventivati: " + volume + ". Totale Mani: "
+				+ totalHandsWork + ". Totale Persone: " + totalMenWork);
 
 	}
 
@@ -2495,8 +2506,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		infoLabel.setValue("Numero di Navi: " + numberOfShip + " - Totale volumi preventivati: " + volume + " - Totale Mani: " + totalHands
-				+ " - Totale Persone: " + totalMen);
+		infoLabel.setValue("Numero di Navi: " + numberOfShip + ". Totale volumi preventivati: " + volume + ". Totale Mani: " + totalHands
+				+ ". Totale Persone: " + totalMen);
 
 	}
 
@@ -2540,30 +2551,40 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Double sumVolumeOnBoard = 0.0;
 		Double sumVolumeOnBoard_sws = 0.0;
 		Double sumVolumeMTC = 0.0;
+		Double time_worked = 0.0;
 
-		for (final ReviewShipWork reviewShipWork : this.list_review_work) {
-			if (reviewShipWork.getVolume() != null) {
-				sumVolume += reviewShipWork.getVolume();
+		for (final ReviewShipWork itm_review : this.list_review_work) {
+
+			if (itm_review.getVolume() != null) {
+				sumVolume += itm_review.getVolume();
 			}
 
-			if (reviewShipWork.getVolumeunderboard() != null) {
-				sumVolumeOnBoard += reviewShipWork.getVolumeunderboard();
+			if (itm_review.getVolumeunderboard() != null) {
+				sumVolumeOnBoard += itm_review.getVolumeunderboard();
 			}
 
-			if (reviewShipWork.getVolumeunderboard_sws() != null) {
-				sumVolumeOnBoard_sws += reviewShipWork.getVolumeunderboard_sws();
+			if (itm_review.getVolumeunderboard_sws() != null) {
+				sumVolumeOnBoard_sws += itm_review.getVolumeunderboard_sws();
 			}
 
-			if (reviewShipWork.getVolume_tw_mct() != null) {
-				sumVolumeMTC += reviewShipWork.getVolume_tw_mct();
+			if (itm_review.getVolume_tw_mct() != null) {
+				sumVolumeMTC += itm_review.getVolume_tw_mct();
+			}
+
+			if (itm_review.getTime_work() != null) {
+				time_worked += itm_review.getTime_work();
 			}
 
 		}
+
+		// time work
+		final String label_h = Utility.decimatToTime(time_worked);
 
 		this.TotalVolume.setValue(sumVolume.toString());
 		this.TotalVolumeOnBoard.setValue(sumVolumeOnBoard.toString());
 		this.TotalVolumeOnBoard_sws.setValue(sumVolumeOnBoard_sws.toString());
 		this.TotalVolumeTWMTC.setValue(sumVolumeMTC.toString());
+		this.TotalTimeWork.setValue(label_h);
 	}
 
 	@Listen("onChange = #shift_Daily")
