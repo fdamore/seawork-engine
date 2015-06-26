@@ -717,14 +717,16 @@
 			<hbox>
 				<a label="Ricerca Navi in intervallo: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
 				<datebox id="searchArrivalDateShipFrom"
 					placeholder="Dalla data..." />
+
 				<datebox id="searchArrivalDateShipTo"
 					placeholder="Alla data..." />
-				<intbox placeholder="Cerca Rif SWS..."
-					id="search_rifSWS" />
-				<intbox placeholder="Cerca Rif MCT..."
-					id="search_rifMCT" />
+
+				<button id="currentMonthProgramShip"
+					label="Mese Corrente" sclass="btn-info" />
+
 				<button id="refreshScheduleView" label="Ricarica"
 					sclass="btn-info" />
 				<a label="Scarica dati in CSV" id="shipProgram_download"
@@ -733,8 +735,76 @@
 
 			<separator />
 
-			<label value="" style="color:blue; font-size:10pt;"
-				id="infoShipProgram" />
+			<hbox align="center">
+				<intbox placeholder="Cerca Rif SWS..."
+					id="search_rifSWS" />
+				<intbox placeholder="Cerca Rif MCT..."
+					id="search_rifMCT" />
+			</hbox>
+
+			<separator />
+
+
+			<hbox align="center">
+
+				<!-- SHIP NAMBER -->
+				<hbox align="center">
+
+					<label style="color:blue; font-size:10pt;"
+						value="Numero Navi: " />
+
+					<label value="" style="color:blue; font-size:10pt;"
+						id="shipNumberProgramShip" />
+				</hbox>
+				
+				<separator />
+
+				<hbox align="center">
+
+					<label style="color:blue; font-size:10pt;"
+						value="Totale Volumi Attesi: " />
+
+					<label value="" style="color:blue; font-size:10pt;"
+						id="sumVolumeShipProgram" />
+				</hbox>
+				
+				<separator></separator>
+
+				<!-- THE AVG IS CALUCLATE ONVER PERIOD SELECTED -->
+				<hbox align="center">
+
+					<label style="color:blue; font-size:10pt;"
+						value="Media giornaliera volumi attesi: " />
+
+					<label value="" style="color:blue; font-size:10pt;"
+						id="avgVolmueShipProgram" />
+				</hbox>
+
+				<!-- MONTH PREVISION -->
+				<hbox align="center">
+
+					<label style="color:blue; font-size:10pt;"
+						value="Volumi Attesi Mese Corrente: " />
+
+					<label value="" style="color:blue; font-size:10pt;"
+						id="sumVolumeCurrentMonthShipProgram" />
+				</hbox>
+
+				<!-- THE AVG IS CALUCLATE OVER CURRENT MONTH -->
+				<hbox align="center">
+
+					<label style="color:blue; font-size:10pt;"
+						value="Media mese corrente: " />
+
+					<label value="" style="color:blue; font-size:10pt;"
+						id="avgVolmueCurrentMonth" />
+				</hbox>
+
+
+
+			</hbox>
+
+
 			<separator />
 
 			<button label="Aggiungi Programmazione" sclass="btn-info"
@@ -1148,6 +1218,7 @@
 										<label
 											value="Tempo lavorato:">
 										</label>
+
 										<doublebox
 											constraint="no negative" id="time_review">
 										</doublebox>
@@ -1372,7 +1443,8 @@
 							<label style="color:blue; font-size:10pt;"
 								value="Tempo lavorato: " />
 
-							<label id="TotalTimeWork" />
+							<label id="TotalTimeWork"
+								style="color:blue; font-size:10pt;" />
 
 						</hbox>
 
@@ -1423,12 +1495,14 @@
 							id="overviewBap" selected="true"
 							onClick="filter_user.setVisible(true);">
 						</tab>
-						<tab label="VERIFICA LAVORO NAVE"
+						<tab
+							label="STATISTICHE NAVE (CONSUNTIVATO NAVE)"
 							id="overviewBapAggregate" selected="false"
 							onClick="filter_user.setVisible(false);">
 						</tab>
 
-						<tab label="STATISTICHE NAVE (LAVORO UTENTE)"
+						<tab
+							label="STATISTICHE NAVE (CONSUNTIVATO UTENTE)"
 							id="statisticsShipTab"
 							onClick="filter_user.setVisible(false);">
 						</tab>
