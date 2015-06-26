@@ -368,7 +368,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Component						reviewWorkShip;
 
 	@Wire
-	private Intbox							rif_mct_review;
+	private Textbox							rif_mct_review;
 
 	@Wire
 	private Label							rif_sws_review;
@@ -475,7 +475,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Combobox							ship_name_schedule;
 
 	@Wire
-	private Intbox							ship_rif_mcf;
+	private Textbox							ship_rif_mcf;
 
 	@Wire
 	private Label							ship_rif_sws;
@@ -501,7 +501,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Component						shipProgram;
 
 	@Wire
-	private Intbox							shipRif_mcf;
+	private Textbox							shipRif_mcf;
 
 	private IScheduleShip					shipSchedulerDao;
 

@@ -35,7 +35,7 @@ public class ScheduleShip implements Serializable {
 
 	private String	note;
 
-	private Integer	rif_mct;
+	private String	rif_mct;
 
 	private Integer	volume;
 
@@ -71,7 +71,7 @@ public class ScheduleShip implements Serializable {
 		return this.note;
 	}
 
-	public Integer getRif_mct() {
+	public String getRif_mct() {
 		return this.rif_mct;
 	}
 
@@ -111,7 +111,7 @@ public class ScheduleShip implements Serializable {
 		this.note = note;
 	}
 
-	public void setRif_mct(final Integer rif_mct) {
+	public void setRif_mct(final String rif_mct) {
 		this.rif_mct = rif_mct;
 	}
 

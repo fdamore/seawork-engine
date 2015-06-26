@@ -68,7 +68,7 @@ public interface IScheduleShip {
 
 	public void updateDetailScheduleShipForMobile(DetailScheduleShip sch);
 
-	public void updateRifMCT(Integer id, Integer rif_mct);
+	public void updateRifMCT(Integer id, String rif_mct);
 
 	public void updateScheduleShip(ScheduleShip scheduleShip);
 }

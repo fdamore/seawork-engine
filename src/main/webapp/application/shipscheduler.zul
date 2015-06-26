@@ -117,8 +117,8 @@
 									mold="rounded" />
 							</row>
 							<row>
-								<label value="Rif MCT"></label>
-								<intbox id="ship_rif_mcf"
+								<label value="Rif Cliente"></label>
+								<textbox id="ship_rif_mcf"
 									mold="rounded" />
 							</row>
 
@@ -546,8 +546,8 @@
 								<intbox id="ship_volume" mold="rounded" />
 							</row>
 							<row>
-								<label value="Rif MCT"></label>
-								<intbox id="shipRif_mcf" mold="rounded" />
+								<label value="Rif Cliente"></label>
+								<textbox id="shipRif_mcf" mold="rounded" />
 							</row>
 							<row>
 								<label value="Rif SWS"></label>
@@ -738,7 +738,7 @@
 			<hbox align="center">
 				<intbox placeholder="Cerca Rif SWS..."
 					id="search_rifSWS" />
-				<intbox placeholder="Cerca Rif MCT..."
+				<intbox placeholder="Cerca Rif Cliente..."
 					id="search_rifMCT" />
 			</hbox>
 
@@ -756,7 +756,7 @@
 					<label value="" style="color:blue; font-size:10pt;"
 						id="shipNumberProgramShip" />
 				</hbox>
-				
+
 				<separator />
 
 				<hbox align="center">
@@ -767,7 +767,7 @@
 					<label value="" style="color:blue; font-size:10pt;"
 						id="sumVolumeShipProgram" />
 				</hbox>
-				
+
 				<separator></separator>
 
 				<!-- THE AVG IS CALUCLATE ONVER PERIOD SELECTED -->
@@ -824,7 +824,8 @@
 					<listheader label="Cliente" />
 					<listheader label="Volume Atteso"
 						sort="auto(volume)" />
-					<listheader label="Rif MCT" sort="auto(rif_mct)" />
+					<listheader label="Rif Cliente"
+						sort="auto(rif_mct)" />
 					<listheader label="Rif SWS" sort="auto(id)" />
 					<listheader label="Note Programmazione" />
 					<listheader label="" />
@@ -1091,16 +1092,18 @@
 										value="" style="font-weight: bold; font-size: 18px; " />
 								</row>
 								<row>
-									<label value="Rif MCT:" />
+									<label value="Rif Cliente:" />
 									<hbox align="center">
-										<intbox id="rif_mct_review" />
+									
+										<textbox id="rif_mct_review" />
 
 										<button id="updateRifMCT"
-											label="Aggiorna Rif MCT" sclass="btn-info" visible="true">
+											label="Aggiorna Rif Cliente" sclass="btn-info"
+											visible="true">
 										</button>
 
 										<label id="messageUpdateRifMCT"
-											value="Aggiornato Rif MCT" visible="false" />
+											value="Aggiornato Rif Cliente" visible="false" />
 
 									</hbox>
 								</row>
@@ -1244,7 +1247,7 @@
 
 							<listheader label="Rif SWS"
 								sort="auto(rif_sws)" />
-							<listheader label="Rif MCT"
+							<listheader label="Rif Cliente"
 								sort="auto(rif_mct)" />
 							<listheader label="Periodo di Fatturazione"
 								sort="auto(invoicing_cycle)" />
@@ -1389,7 +1392,7 @@
 
 						<intbox placeholder="Cerca Rif SWS..."
 							id="full_text_search_rifSWS" />
-						<intbox placeholder="Cerca Rif MCT..."
+						<intbox placeholder="Cerca Rif Cliente..."
 							id="full_text_search_rifMCT" />
 
 						<intbox width="150px"
@@ -1529,7 +1532,7 @@
 										hflex="1" />
 									<listheader label="Rif SWS"
 										hflex="1" />
-									<listheader label="Rif MCT"
+									<listheader label="Rif Cliente"
 										hflex="1" />
 									<listheader label="Gru" hflex="1" />
 									<listheader label="Tempo Lavorato"
@@ -1540,6 +1543,7 @@
 										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
 										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
+									
 									<listheader label="Volumi TW MCT"
 										hflex="1" />
 									<listheader label="Note" hflex="2" />
@@ -1623,7 +1627,7 @@
 									<listheader label="Rif SWS"
 										hflex="1" />
 
-									<listheader label="Rif MCT"
+									<listheader label="Rif Cliente"
 										hflex="1" />
 
 									<listheader label="Tempo Lavorato"

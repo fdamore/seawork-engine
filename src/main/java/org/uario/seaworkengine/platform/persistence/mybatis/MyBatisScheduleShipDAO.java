@@ -16,7 +16,7 @@ import org.uario.seaworkengine.statistics.ShipTotal;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
 
-	private static Logger logger = Logger.getLogger(MyBatisScheduleShipDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisScheduleShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisScheduleShipDAO.logger;
@@ -298,10 +298,10 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public void updateRifMCT(final Integer id, final Integer rif_mct) {
+	public void updateRifMCT(final Integer id, final String rif_mct) {
 		MyBatisScheduleShipDAO.logger.info("updateRifMCT");
 
-		final HashMap<String, Integer> map = new HashMap<String, Integer>();
+		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("rif_mct", rif_mct);
 
