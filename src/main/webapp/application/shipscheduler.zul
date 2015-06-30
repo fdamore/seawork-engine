@@ -547,7 +547,8 @@
 							</row>
 							<row>
 								<label value="Rif Cliente"></label>
-								<textbox id="shipRif_mcf" mold="rounded" />
+								<textbox id="shipRif_mcf"
+									mold="rounded" />
 							</row>
 							<row>
 								<label value="Rif SWS"></label>
@@ -1094,7 +1095,7 @@
 								<row>
 									<label value="Rif Cliente:" />
 									<hbox align="center">
-									
+
 										<textbox id="rif_mct_review" />
 
 										<button id="updateRifMCT"
@@ -1226,6 +1227,110 @@
 											constraint="no negative" id="time_review">
 										</doublebox>
 									</row>
+
+
+									<row>
+										<label value="Vento:"></label>
+
+										<hbox align="center">
+											<combobox id="wind_review"
+												readonly="true">
+												<comboitem
+													value="LEGGERO" label="LEGGERO">
+												</comboitem>
+												<comboitem value="MEDIO"
+													label="MEDIO">
+												</comboitem>
+												<comboitem value="FORTE"
+													label="FORTE">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="wind_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
+									</row>
+
+									<row>
+										<label value="Pioggia:"></label>
+
+										<hbox align="center">
+											<combobox id="rain_review"
+												readonly="true">
+												<comboitem
+													value="LEGGERA" label="LEGGERA">
+												</comboitem>
+												<comboitem value="MEDIA"
+													label="MEDIA">
+												</comboitem>
+												<comboitem value="FORTE"
+													label="FORTE">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="rain_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
+									</row>
+
+									<row>
+										<label value="Cielo:"></label>
+
+										<hbox align="center">
+											<combobox id="sky_review"
+												readonly="true">
+												<comboitem
+													value="SERENO" label="SERENO">
+												</comboitem>
+												<comboitem
+													value="COPERTO" label="COPERTO">
+												</comboitem>
+												<comboitem
+													value="NUVOLOSO" label="NUVOLOSO">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="sky_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
+									</row>
+
+
+									<row>
+										<label
+											value="Primo Contenitore a Terra:">
+										</label>
+
+										<datebox id="first_down_review"
+											cols="12" format="long+medium"
+											onCreate="self.value = null" width="230px" />
+
+									</row>
+
+
+									<row>
+										<label
+											value="Ultimo Contenitore a Terra:">
+										</label>
+
+										<datebox id="last_down_review"
+											cols="12" format="long+medium"
+											onCreate="self.value = null" width="230px" />
+
+
+									</row>
+
+
+
 									<row>
 										<label value="Note:"></label>
 										<textbox id="note_review"
@@ -1543,7 +1648,7 @@
 										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
 										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
-									
+
 									<listheader label="Volumi TW MCT"
 										hflex="1" />
 									<listheader label="Note" hflex="2" />

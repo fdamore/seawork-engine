@@ -208,6 +208,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	private DetailScheduleShip				detailScheduleShipSelected;
 
+	@Wire
+	private Datebox							first_down_review;
+
 	private final SimpleDateFormat			format_it_date				= new SimpleDateFormat("dd/MM/yyyy");
 
 	private final SimpleDateFormat			format_month				= new SimpleDateFormat("MM");
@@ -253,6 +256,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox							invoicing_cycle_search;
+
+	@Wire
+	private Datebox							last_down_review;
 
 	private List<ReviewShipWork>			list_review_work			= new ArrayList<ReviewShipWork>();
 
@@ -354,6 +360,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Comboitem						program_item;
+
+	@Wire
+	private Combobox						rain_review;
 
 	@Wire
 	private Component						reviewedTime;
@@ -511,6 +520,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Intbox							shows_rows_ship;
 
+	@Wire
+	private Combobox						sky_review;
+
 	private IStatistics						statistic_dao;
 
 	private IStatistics						statisticDAO;
@@ -590,6 +602,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Intbox							volumeunderboard_sws_review;
 
 	@Wire
+	private Combobox						wind_review;
+
+	@Wire
 	private Label							working_cycle_review;
 
 	@Wire
@@ -658,6 +673,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// set type crane
 		final Boolean isgtw = this.crane_gtw_review.isChecked();
 		detailFinalScheduleShip.setCrane_gtw(isgtw);
+
+		// set general day info
+		detailFinalScheduleShip.setWind(this.wind_review.getValue());
+		detailFinalScheduleShip.setRain(this.rain_review.getValue());
+		detailFinalScheduleShip.setSky(this.sky_review.getValue());
+		detailFinalScheduleShip.setFirst_down(this.first_down_review.getValue());
+		detailFinalScheduleShip.setLast_down(this.last_down_review.getValue());
 
 		this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
 
@@ -1259,6 +1281,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.add_finalDetailScheduleShip_command.setVisible(true);
 		this.modify_finalDetailScheduleShip_command.setVisible(false);
 
+		// set initial value
+		this.wind_review.setSelectedItem(null);
+		this.rain_review.setSelectedItem(null);
+		this.sky_review.setSelectedItem(null);
+		this.first_down_review.setValue(null);
+		this.last_down_review.setValue(null);
+
 	}
 
 	@Listen("onClick = #modify_finalDetailScheduleShip_command")
@@ -1323,6 +1352,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
+		// set general value
+		detailFinal.setFirst_down(this.first_down_review.getValue());
+		detailFinal.setLast_down(this.last_down_review.getValue());
+		if (this.rain_review.getSelectedItem() != null) {
+			detailFinal.setRain(this.rain_review.getSelectedItem().getValue().toString());
+		} else {
+			detailFinal.setRain(null);
+		}
+		if (this.wind_review.getSelectedItem() != null) {
+			detailFinal.setWind(this.wind_review.getSelectedItem().getValue().toString());
+		} else {
+			detailFinal.setWind(null);
+		}
+		if (this.sky_review.getSelectedItem() != null) {
+			detailFinal.setSky(this.sky_review.getSelectedItem().getValue().toString());
+		} else {
+			detailFinal.setSky(null);
+		}
+
 		this.shipSchedulerDao.updateDetailFinalScheduleShip(detailFinal);
 
 		this.showReviewShipPopup();
@@ -1331,79 +1379,107 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #modifyDetailFinalScheduleShip")
 	public void modifyDetailFinalScheduleShip() {
-		if ((this.sw_list_scheduleShip.getSelectedItem() != null) && (this.list_reviewDetailScheduleShip.getSelectedItem() != null)) {
+		if ((this.sw_list_scheduleShip.getSelectedItem() == null) || (this.list_reviewDetailScheduleShip.getSelectedItem() == null)) {
 
-			final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
-
-			this.rif_mct_review.setValue(null);
-
-			final DetailScheduleShip detailScheduleShip = this.sw_list_scheduleShip.getSelectedItem().getValue();
-
-			if (detailScheduleShip != null) {
-				final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailScheduleShip.getIdscheduleship());
-				if ((scheduleShip != null) && (scheduleShip.getRif_mct() != null)) {
-					this.rif_mct_review.setValue(scheduleShip.getRif_mct());
-				}
-			}
-
-			this.crane_review.setValue(detailFinal.getCrane());
-			this.crane_gtw_review.setChecked(detailFinal.getCrane_gtw());
-			this.volume_review.setValue(detailFinal.getVolume());
-			this.volumeunderboard_review.setValue(detailFinal.getVolumeunderboard());
-			this.volumeunderboard_sws_review.setValue(detailFinal.getVolumeunderboard_sws());
-			this.volumeunde_tw_mct_review.setValue(detailFinal.getVolume_tw_mct());
-			this.time_review.setValue(detailFinal.getTimework());
-			this.note_review.setValue(detailFinal.getNotedetail());
-			this.invoicing_cycle_review.setValue(detailFinal.getInvoicing_cycle());
-
-			this.add_finalDetailScheduleShip_command.setVisible(false);
-			this.modify_finalDetailScheduleShip_command.setVisible(true);
-
-			// SET ACTIVIY
-
-			this.reviewTimeFrom.setValue(null);
-			this.reviewTimeTo.setValue(null);
-
-			this.reviewedTime.setVisible(false);
-			this.check_last_shiftReview.setChecked(false);
-			this.check_last_shiftReview.setVisible(false);
-
-			// define if ship activity fields need to be disabled
-			final Integer id_ship = detailScheduleShip.getId_ship();
-			final Ship ship = this.shipDao.loadShip(id_ship);
-
-			if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
-
-				this.check_last_shiftReview.setVisible(false);
-				this.check_last_shiftReview.setChecked(false);
-
-				final Date from = detailFinal.getActivity_start();
-				final Date to = detailFinal.getActivity_end();
-
-				this.reviewTimeFrom.setValue(from);
-				this.reviewTimeTo.setValue(to);
-
-				if (detailScheduleShip.getShift().equals(4)) {
-					this.check_last_shiftReview.setVisible(true);
-					if ((from != null) && (to != null)) {
-						final Calendar cal_from = DateUtils.toCalendar(from);
-						final Calendar cal_to = DateUtils.toCalendar(to);
-						final int day_from = cal_from.get(Calendar.DAY_OF_YEAR);
-						final int day_to = cal_to.get(Calendar.DAY_OF_YEAR);
-
-						final int gap_day = day_to - day_from;
-						if (gap_day == 1) {
-							this.check_last_shiftReview.setChecked(true);
-						}
-
-					}
-				}
-
-				this.reviewedTime.setVisible(true);
-
-			}
+			return;
 
 		}
+
+		final DetailFinalScheduleShip detailFinal = (DetailFinalScheduleShip) this.list_reviewDetailScheduleShip.getSelectedItem().getValue();
+
+		this.rif_mct_review.setValue(null);
+
+		final DetailScheduleShip detailScheduleShip = this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		if (detailScheduleShip != null) {
+			final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailScheduleShip.getIdscheduleship());
+			if ((scheduleShip != null) && (scheduleShip.getRif_mct() != null)) {
+				this.rif_mct_review.setValue(scheduleShip.getRif_mct());
+			}
+		}
+
+		this.crane_review.setValue(detailFinal.getCrane());
+		this.crane_gtw_review.setChecked(detailFinal.getCrane_gtw());
+		this.volume_review.setValue(detailFinal.getVolume());
+		this.volumeunderboard_review.setValue(detailFinal.getVolumeunderboard());
+		this.volumeunderboard_sws_review.setValue(detailFinal.getVolumeunderboard_sws());
+		this.volumeunde_tw_mct_review.setValue(detailFinal.getVolume_tw_mct());
+		this.time_review.setValue(detailFinal.getTimework());
+		this.note_review.setValue(detailFinal.getNotedetail());
+		this.invoicing_cycle_review.setValue(detailFinal.getInvoicing_cycle());
+
+		this.add_finalDetailScheduleShip_command.setVisible(false);
+		this.modify_finalDetailScheduleShip_command.setVisible(true);
+
+		// SET ACTIVIY
+
+		this.reviewTimeFrom.setValue(null);
+		this.reviewTimeTo.setValue(null);
+
+		this.reviewedTime.setVisible(false);
+		this.check_last_shiftReview.setChecked(false);
+		this.check_last_shiftReview.setVisible(false);
+
+		// define if ship activity fields need to be disabled
+		final Integer id_ship = detailScheduleShip.getId_ship();
+		final Ship ship = this.shipDao.loadShip(id_ship);
+
+		if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+
+			this.check_last_shiftReview.setVisible(false);
+			this.check_last_shiftReview.setChecked(false);
+
+			final Date from = detailFinal.getActivity_start();
+			final Date to = detailFinal.getActivity_end();
+
+			this.reviewTimeFrom.setValue(from);
+			this.reviewTimeTo.setValue(to);
+
+			if (detailScheduleShip.getShift().equals(4)) {
+				this.check_last_shiftReview.setVisible(true);
+				if ((from != null) && (to != null)) {
+					final Calendar cal_from = DateUtils.toCalendar(from);
+					final Calendar cal_to = DateUtils.toCalendar(to);
+					final int day_from = cal_from.get(Calendar.DAY_OF_YEAR);
+					final int day_to = cal_to.get(Calendar.DAY_OF_YEAR);
+
+					final int gap_day = day_to - day_from;
+					if (gap_day == 1) {
+						this.check_last_shiftReview.setChecked(true);
+					}
+
+				}
+			}
+
+			this.reviewedTime.setVisible(true);
+
+		}
+
+		// define general value
+		this.first_down_review.setValue(detailFinal.getFirst_down());
+		this.last_down_review.setValue(detailFinal.getLast_down());
+
+		for (final Comboitem itm : this.rain_review.getItems()) {
+			if (itm.getValue().equals(detailFinal.getRain())) {
+				this.rain_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		for (final Comboitem itm : this.sky_review.getItems()) {
+			if (itm.getValue().equals(detailFinal.getSky())) {
+				this.sky_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		for (final Comboitem itm : this.wind_review.getItems()) {
+			if (itm.getValue().equals(detailFinal.getWind())) {
+				this.wind_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
 	}
 
 	@Listen("onClick = #sw_link_modifyDetailship")
