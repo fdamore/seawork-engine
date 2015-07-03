@@ -26,9 +26,9 @@ import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
 
-	private static Logger logger = Logger.getLogger(MyBatisStatisticsDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays	bank_holiday;
 
 	/**
 	 * Calculate work percentage on list rateshift
@@ -389,7 +389,16 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	@Override
 	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
-			final Integer rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer working_cycle) {
+			final String rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer working_cycle) {
+
+		Integer rif_sws_arg = rifSWS;
+		String rif_mct_arg = rifMCT;
+		if ((rifMCT != null) && rifMCT.equals("")) {
+			rif_mct_arg = null;
+		}
+		if ((rifSWS != null) && rifSWS.equals("")) {
+			rif_sws_arg = null;
+		}
 
 		MyBatisStatisticsDAO.logger.info("loadReviewShipWork by date");
 
@@ -411,8 +420,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("dt_arg_from", dt_arg_from);
 		map.put("dt_arg_to", dt_arg_to);
 		map.put("searchText", searchText);
-		map.put("rifSWS", rifSWS);
-		map.put("rifMCT", rifMCT);
+		map.put("rifSWS", rif_sws_arg);
+		map.put("rifMCT", rif_mct_arg);
 		map.put("shift", shift);
 		map.put("invoicing_cycle_search", invoicing_cycle);
 		map.put("working_cycle_search", working_cycle);

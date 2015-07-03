@@ -22,7 +22,10 @@
 		d.volumeunderboard,
 		d.volumeunderboard_sws,
 		d.volume_tw_mct,
-		d.notedetail, d.invoicing_cycle
+		d.notedetail,
+		d.invoicing_cycle,
+		d.sky, d.rain, d.wind, d.temperature, d.first_down,
+		d.last_down
 		from
 		ship s,
 		scheduleship ss,
@@ -198,10 +201,12 @@
 		usertask ut
 		WHERE
 		dfs.id_schedule = s.id
-		AND (ut.isabsence = 1 and ut.recorded = 1)
+		AND (ut.isabsence = 1 and
+		ut.recorded = 1)
 		AND dfs.task = ut.id
 		AND s.user = #{id_user}
-		AND date(s.date_schedule) <![CDATA[>=]]>
+		AND
+		date(s.date_schedule) <![CDATA[>=]]>
 		date(#{date_from})
 		AND date(s.date_schedule) <![CDATA[<=]]>
 		date(#{date_to})
@@ -289,7 +294,7 @@
 			<![CDATA[<=]]>
 			#{date_to})
 		</if>
-		
+
 		group by dfs.id_ship order by s.name
 
 	</select>

@@ -58,7 +58,7 @@ public interface IScheduleShip {
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
 			Boolean nowork, Boolean activityh);
 
-	public List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, Integer mct);
+	public List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, String mct);
 
 	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);
 

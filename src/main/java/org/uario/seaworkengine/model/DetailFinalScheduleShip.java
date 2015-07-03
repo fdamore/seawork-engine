@@ -47,7 +47,7 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
-	private Integer				rif_mct;
+	private String				rif_mct;
 
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
@@ -121,7 +121,7 @@ public class DetailFinalScheduleShip implements Serializable {
 		return this.rain;
 	}
 
-	public Integer getRif_mct() {
+	public String getRif_mct() {
 		return this.rif_mct;
 	}
 
@@ -209,7 +209,7 @@ public class DetailFinalScheduleShip implements Serializable {
 		this.rain = rain;
 	}
 
-	public void setRif_mct(final Integer rif_mct) {
+	public void setRif_mct(final String rif_mct) {
 		this.rif_mct = rif_mct;
 	}
 

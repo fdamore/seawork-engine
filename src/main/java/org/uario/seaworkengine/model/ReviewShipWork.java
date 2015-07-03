@@ -16,19 +16,29 @@ public class ReviewShipWork implements Serializable {
 
 	private Date				date_request;
 
+	private Date				first_down;
+
 	private Integer				id_ship;
 
 	private Integer				invoicing_cycle;
 
+	private Date				last_down;
+
 	private String				notedetail;
 
-	private Integer				rif_mct;
+	private String				rain;
+
+	private String				rif_mct;
 
 	private Integer				rif_sws;
 
 	private Integer				shift;
 
 	private String				shipname;
+
+	private String				sky;
+
+	private String				temperature;
 
 	private Double				time_work;
 
@@ -39,6 +49,8 @@ public class ReviewShipWork implements Serializable {
 	private Integer				volumeunderboard;
 
 	private Integer				volumeunderboard_sws;
+
+	private String				wind;
 
 	public String getCrane() {
 		return this.crane;
@@ -52,6 +64,10 @@ public class ReviewShipWork implements Serializable {
 		return this.date_request;
 	}
 
+	public Date getFirst_down() {
+		return this.first_down;
+	}
+
 	public Integer getId_ship() {
 		return this.id_ship;
 	}
@@ -60,11 +76,19 @@ public class ReviewShipWork implements Serializable {
 		return this.invoicing_cycle;
 	}
 
+	public Date getLast_down() {
+		return this.last_down;
+	}
+
 	public String getNotedetail() {
 		return this.notedetail;
 	}
 
-	public Integer getRif_mct() {
+	public String getRain() {
+		return this.rain;
+	}
+
+	public String getRif_mct() {
 		return this.rif_mct;
 	}
 
@@ -78,6 +102,14 @@ public class ReviewShipWork implements Serializable {
 
 	public String getShipname() {
 		return this.shipname;
+	}
+
+	public String getSky() {
+		return this.sky;
+	}
+
+	public String getTemperature() {
+		return this.temperature;
 	}
 
 	public Double getTime_work() {
@@ -100,6 +132,10 @@ public class ReviewShipWork implements Serializable {
 		return this.volumeunderboard_sws;
 	}
 
+	public String getWind() {
+		return this.wind;
+	}
+
 	public void setCrane(final String crane) {
 		this.crane = crane;
 	}
@@ -112,6 +148,10 @@ public class ReviewShipWork implements Serializable {
 		this.date_request = date_request;
 	}
 
+	public void setFirst_down(final Date first_down) {
+		this.first_down = first_down;
+	}
+
 	public void setId_ship(final Integer id_ship) {
 		this.id_ship = id_ship;
 	}
@@ -120,11 +160,19 @@ public class ReviewShipWork implements Serializable {
 		this.invoicing_cycle = invoicing_cycle;
 	}
 
+	public void setLast_down(final Date last_down) {
+		this.last_down = last_down;
+	}
+
 	public void setNotedetail(final String notedetail) {
 		this.notedetail = notedetail;
 	}
 
-	public void setRif_mct(final Integer rif_mct) {
+	public void setRain(final String rain) {
+		this.rain = rain;
+	}
+
+	public void setRif_mct(final String rif_mct) {
 		this.rif_mct = rif_mct;
 	}
 
@@ -138,6 +186,14 @@ public class ReviewShipWork implements Serializable {
 
 	public void setShipname(final String shipname) {
 		this.shipname = shipname;
+	}
+
+	public void setSky(final String sky) {
+		this.sky = sky;
+	}
+
+	public void setTemperature(final String temperature) {
+		this.temperature = temperature;
 	}
 
 	public void setTime_work(final Double time_work) {
@@ -158,6 +214,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setVolumeunderboard_sws(final Integer volumeunderboard_sws) {
 		this.volumeunderboard_sws = volumeunderboard_sws;
+	}
+
+	public void setWind(final String wind) {
+		this.wind = wind;
 	}
 
 }

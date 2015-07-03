@@ -739,7 +739,7 @@
 			<hbox align="center">
 				<intbox placeholder="Cerca Rif SWS..."
 					id="search_rifSWS" />
-				<intbox placeholder="Cerca Rif Cliente..."
+				<textbox placeholder="Cerca Rif Cliente..."
 					id="search_rifMCT" />
 			</hbox>
 
@@ -1078,72 +1078,87 @@
 					iconSclass="z-icon-star orange"
 					label="Consuntiva Dettagli Programmazione Nave">
 
-					<vbox>
-
-						<grid style="border: 1px solid #CFCFCF"
-							sclass="domain">
-							<columns>
-								<column label="Type" hflex="1" />
-								<column label="Informazioni" hflex="2" />
-							</columns>
-							<rows>
-								<row>
-									<label value="Nome Nave e Turno: " />
-									<label id="infoShipNameAndShift"
-										value="" style="font-weight: bold; font-size: 18px; " />
-								</row>
-								<row>
-									<label value="Rif Cliente:" />
-									<hbox align="center">
-
-										<textbox id="rif_mct_review" />
-
-										<button id="updateRifMCT"
-											label="Aggiorna Rif Cliente" sclass="btn-info"
-											visible="true">
-										</button>
-
-										<label id="messageUpdateRifMCT"
-											value="Aggiornato Rif Cliente" visible="false" />
-
-									</hbox>
-								</row>
-								<row>
-									<label value="Rif SWS:"></label>
-									<label id="rif_sws_review" />
-								</row>
-								<row>
-									<label
-										value="Periodo di Lavorazione:">
-									</label>
-									<label id="working_cycle_review" />
-								</row>
-
-							</rows>
-						</grid>
-
-					</vbox>
-
-
-					<hbox>
-						<toolbarbutton
-							id="add_finalDetailScheduleShip_command"
-							label="Aggiungi Dettaglio" style="color: blue" visible="true">
-						</toolbarbutton>
-						<toolbarbutton
-							id="modify_finalDetailScheduleShip_command"
-							label="Modifica Dettaglio" style="color: blue" visible="false">
-						</toolbarbutton>
-					</hbox>
-
 				</caption>
 
 				<panelchildren>
 
+					<grid style="border: 1px solid #CFCFCF"
+						sclass="domain">
+						<columns>
+							<column label="Type" hflex="1" />
+							<column label="Informazioni" hflex="2" />
+						</columns>
+						<rows>
+							<row>
+								<label value="Nome Nave e Turno: " />
+								<label id="infoShipNameAndShift"
+									value="" style="font-weight: bold; font-size: 18px; " />
+							</row>
+							<row>
+								<label value="Rif Cliente:" />
+								<hbox align="center">
+
+									<textbox id="rif_mct_review" />
+
+									<button id="updateRifMCT"
+										label="Aggiorna Rif Cliente" sclass="btn-info"
+										visible="true">
+									</button>
+
+									<label id="messageUpdateRifMCT"
+										value="Aggiornato Rif Cliente" visible="false" />
+
+								</hbox>
+							</row>
+							<row>
+								<label value="Rif SWS:"></label>
+								<label id="rif_sws_review" />
+							</row>
+							<row>
+								<label
+									value="Periodo di Lavorazione:">
+								</label>
+								<label id="working_cycle_review" />
+							</row>
+
+						</rows>
+					</grid>
+
+					<separator></separator>
+
+
+					<button sclass="btn-info" label="Aggiungi Dettaglio" id="add_details_panels_review"
+						onClick="panel_editor_review_details.setVisible(true)" visible="true">
+					</button>
+
+					<separator></separator>
+
+
 					<panel border="normal" collapsible="false"
-						sclass="transparent">
+						style="margin: 2px 2px 2px 2px" visible="false"
+						id="panel_editor_review_details" sclass="transparent">
 
 						<panelchildren>
+
+							<separator></separator>
+
+							<hbox>
+								<button sclass="btn-info"
+									id="add_finalDetailScheduleShip_command"
+									label="Salva Dettaglio" visible="true">
+								</button>
+
+								<button
+									id="modify_finalDetailScheduleShip_command"
+									label="Modifica Dettaglio" sclass="btn-info" visible="false">
+								</button>
+
+								<button label="Chiudi" sclass="btn-info"
+									onClick="panel_editor_review_details.setVisible(false)">
+								</button>
+							</hbox>
+
+							<separator></separator>
 
 							<grid sclass="domain">
 								<columns>
@@ -1226,6 +1241,31 @@
 										<doublebox
 											constraint="no negative" id="time_review">
 										</doublebox>
+									</row>
+
+									<row>
+										<label value="Temperatura:"></label>
+
+										<hbox align="center">
+											<combobox
+												id="temperature_review" readonly="true">
+												<comboitem value="BASSA"
+													label="BASSA">
+												</comboitem>
+												<comboitem value="MEDIA"
+													label="MEDIA">
+												</comboitem>
+												<comboitem value="ALTA"
+													label="ALTA">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="wind_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
 									</row>
 
 
@@ -1311,8 +1351,8 @@
 										</label>
 
 										<datebox id="first_down_review"
-											cols="12" format="long+medium"
-											onCreate="self.value = null" width="230px" />
+											cols="12" format="long+medium" onCreate="self.value = null"
+											width="230px" />
 
 									</row>
 
@@ -1323,8 +1363,8 @@
 										</label>
 
 										<datebox id="last_down_review"
-											cols="12" format="long+medium"
-											onCreate="self.value = null" width="230px" />
+											cols="12" format="long+medium" onCreate="self.value = null"
+											width="230px" />
 
 
 									</row>
@@ -1497,7 +1537,8 @@
 
 						<intbox placeholder="Cerca Rif SWS..."
 							id="full_text_search_rifSWS" />
-						<intbox placeholder="Cerca Rif Cliente..."
+						
+						<textbox placeholder="Cerca Rif Cliente..."
 							id="full_text_search_rifMCT" />
 
 						<intbox width="150px"

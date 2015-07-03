@@ -180,7 +180,7 @@ public interface IStatistics {
 	 * @param working_cycle
 	 * @return
 	 */
-	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, Integer rifMCT, Integer shift,
+	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, String rifMCT, Integer shift,
 			Integer invoicing_cycle, Integer working_cycle);
 
 	/**

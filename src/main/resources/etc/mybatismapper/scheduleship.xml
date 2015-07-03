@@ -49,38 +49,40 @@
 		#{id_scheduleShip};
 	</select>
 
-	
-	
+
+
 	<select id="searchScheduleShip" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id,
-		s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
+		s.idship, s.volume, s.note, s.arrivaldate,
+		s.departuredate,
 		sh.name,
 		s.rif_mct, s.customer_id, s.idship_activity
 		FROM
 		scheduleship s,
 		ship sh
-		where 
-		s.idship = sh.id 
-		
+		where
+		s.idship = sh.id
+
 		<if test="datefrom!=null">
 			<if test="dateto!=null">
-				and date(s.arrivaldate) >= date(#{datefrom}) and date(#{dateto}) >= date(s.arrivaldate) 
+				and date(s.arrivaldate) >= date(#{datefrom}) and
+				date(#{dateto}) >= date(s.arrivaldate)
 			</if>
 		</if>
-		
+
 		<if test="sws!=null">
-			and #{sws} = s.id 
+			and #{sws} = s.id
 		</if>
-		
+
 		<if test="mct!=null">
-			and #{mct} = s.rif_mct 
+			and #{mct} = s.rif_mct
 		</if>
-		 
+
 		order by
 		s.arrivaldate
 		DESC;
 	</select>
-	
+
 
 	<select id="selectAllScheduleShipFulltextSearchLike"
 		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
@@ -114,7 +116,8 @@
 		rif_mct =
 		#{rif_mct},
 		customer_id = #{customer_id},
-		idship_activity = #{idship_activity}
+		idship_activity =
+		#{idship_activity}
 		WHERE id =
 		#{id};
 	</update>
@@ -131,7 +134,8 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, shiftdate, notedetail, activity_start, activity_end)
+		idseconduser, handswork, menwork, shiftdate, notedetail,
+		activity_start, activity_end)
 		VALUES
 		(#{idscheduleship},
 		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
@@ -319,7 +323,7 @@
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail,
-		s.name, d.operation, d.activity_start, d.activity_end, 
+		s.name, d.operation, d.activity_start, d.activity_end,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
 		d.iduser,d.idseconduser,
@@ -361,15 +365,15 @@
 		<if test="dateto != null">
 			#{dateto}>=ss.arrivaldate and
 		</if>
-		
+
 		<if test="idCustomer != null">
 			#{idCustomer}=ss.customer_id and
 		</if>
-				
+
 		<if test="nowork != null">
 			#{nowork}=s.nowork and
 		</if>
-		
+
 		<if test="activityh != null">
 			#{activityh}=s.activityh and
 		</if>
@@ -385,7 +389,7 @@
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail,
-		s.name, d.operation, d.activity_start, d.activity_end, 
+		s.name, d.operation, d.activity_start, d.activity_end,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
 		d.iduser,
@@ -395,7 +399,8 @@
 		d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname,
-		' ', u.firstname) AS
+		'
+		', u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS
@@ -424,15 +429,15 @@
 		<if test="shiftdate != null">
 			d.shiftdate=#{shiftdate} and
 		</if>
-		
+
 		<if test="idCustomer != null">
 			#{idCustomer}=ss.customer_id and
 		</if>
-		
+
 		<if test="nowork != null">
 			#{nowork}=s.nowork and
 		</if>
-		
+
 		<if test="activityh != null">
 			#{activityh}=s.activityh and
 		</if>
@@ -451,9 +456,10 @@
 		d.idseconduser,
 		d.handswork, d.menwork,
 		d.shiftdate,
-		d.notedetail, d.activity_start, d.activity_end, 
+		d.notedetail, d.activity_start, d.activity_end,
 		concat(u.lastname, '
-		', u.firstname) AS
+		',
+		u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS
@@ -527,8 +533,9 @@
 		handswork = #{handswork},
 		menwork = #{menwork},
 		shiftdate = #{shiftdate},
-		notedetail = #{notedetail}, 
-		activity_start = #{activity_start}, activity_end = #{activity_end} 
+		notedetail = #{notedetail},
+		activity_start =
+		#{activity_start}, activity_end = #{activity_end}
 		WHERE id = #{id};
 	</update>
 
@@ -548,11 +555,17 @@
 		detailfinalscheduleship (crane,crane_gtw,
 		volume, timework, iddetailscheduleship, notedetail,
 		volumeunderboard,volumeunderboard_sws,
-		volume_tw_mct,invoicing_cycle, activity_start, activity_end)
+		volume_tw_mct,invoicing_cycle,
+		activity_start, activity_end, rain, wind, sky,temperature, first_down,
+		last_down)
 		VALUES
-		(#{crane},#{crane_gtw}, #{volume}, #{timework},
-		#{iddetailscheduleship}, #{notedetail}, #{volumeunderboard},
-		#{volumeunderboard_sws},#{volume_tw_mct},#{invoicing_cycle}, #{activity_start}, #{activity_end});
+		(#{crane},#{crane_gtw},
+		#{volume}, #{timework},
+		#{iddetailscheduleship}, #{notedetail},
+		#{volumeunderboard},
+		#{volumeunderboard_sws},#{volume_tw_mct},#{invoicing_cycle},
+		#{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky},
+		#{temperature}, #{first_down}, #{last_down});
 	</insert>
 
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -568,12 +581,15 @@
 		df.iddetailscheduleship, df.notedetail, df.volumeunderboard,
 		df.volumeunderboard_sws,
 		df.volume_tw_mct, s.rif_mct, s.id as rif_sws,
-		df.invoicing_cycle, activity_start, activity_end 
+		df.invoicing_cycle, activity_start, activity_end, rain, wind,
+		sky,temperature, first_down, last_down
 		FROM
-		detailfinalscheduleship df, detailscheduleship
+		detailfinalscheduleship df,
+		detailscheduleship
 		d, scheduleship s
 		where
-		id = #{id} and df.iddetailscheduleship = d.id
+		id = #{id} and
+		df.iddetailscheduleship = d.id
 		and
 		d.idscheduleship =
 		s.id;
@@ -598,9 +614,16 @@
 		volumeunderboard_sws = #{volumeunderboard_sws},
 		volume_tw_mct =
 		#{volume_tw_mct},
-		invoicing_cycle = #{invoicing_cycle}, 
-		activity_start = #{activity_start}, 
-		activity_end = #{activity_end} 
+		invoicing_cycle = #{invoicing_cycle},
+		activity_start =
+		#{activity_start},
+		activity_end = #{activity_end},
+		rain = #{rain},
+		wind = #{wind},
+		sky = #{sky},
+		temperature = #{temperature},
+		first_down = #{first_down},
+		last_down = #{last_down}		
 		WHERE id = #{id};
 	</update>
 
@@ -612,12 +635,17 @@
 		df.timework, df.iddetailscheduleship, df.notedetail,
 		df.volumeunderboard,df.volumeunderboard_sws,
 		df.volume_tw_mct,
-		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, df.activity_start, df.activity_end 
+		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, df.activity_start,
+		df.activity_end, df.rain, df.wind,
+		df.sky, df.temperature, df.first_down,
+		df.last_down
 		FROM
 		detailfinalscheduleship df,
-		detailscheduleship d, scheduleship s where
+		detailscheduleship d,
+		scheduleship s where
 		df.iddetailscheduleship =
-		#{idDetailScheduleShip} and
+		#{idDetailScheduleShip}
+		and
 		df.iddetailscheduleship = d.id and
 		d.idscheduleship = s.id;
 	</select>
