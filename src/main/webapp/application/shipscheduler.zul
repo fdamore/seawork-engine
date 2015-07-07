@@ -845,16 +845,16 @@
 				pageSize="10">
 				<listhead sizable="true">
 					<listheader label="Data inizio attività"
-						sort="auto(arrivaldate)" />
+						sort="auto(arrivaldate)" id="arrivalDateColumn"/>
 					<listheader label="Data fine attività"
-						sort="auto(departuredate)" />
-					<listheader label="Nome Nave" sort="auto(name)" />
-					<listheader label="Cliente" />
-					<listheader label="Volume Atteso"
+						sort="auto(departuredate)" id="departureDateColumn"/>
+					<listheader label="Nome Nave" sort="auto(name)" id="shipNameColumun"/>
+					<listheader label="Cliente" id="customerColumn"/>
+					<listheader label="Volume Atteso" id="volumeColumnScheduleShip"
 						sort="auto(volume)" />
 					<listheader label="Rif Cliente"
-						sort="auto(rif_mct)" />
-					<listheader label="Rif SWS" sort="auto(id)" />
+						sort="auto(rif_mct)" id="mctColumn"/>
+					<listheader label="Rif SWS" sort="auto(id)" id="rifSWSColumn"/>
 					<listheader label="Note Programmazione" />
 					<listheader id="modifyColumnSchedule" label="" />
 				</listhead>
@@ -888,7 +888,7 @@
 						label="@{scheduleship_item.rif_mct}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{scheduleship_item.id}" />
+						label="@{scheduleship_item.id}"/>
 
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.note}" />
@@ -1001,15 +1001,15 @@
 					<listheader label="Nome Nave" sort="auto(name)" hflex="2"/>
 					<listheader label="Cliente" hflex="1"/>
 					<listheader label="Data Turno" hflex="1"/>
-					<listheader label="Turno" sort="auto(shift)" hflex="1"/>
+					<listheader label="Turno" sort="auto(shift)" id="shiftNumberColumn" />
 					<listheader label="Operazione"
 						sort="auto(operation)" hflex="1"/>
 					<listheader label="Primo Preposto"
-						sort="auto(firstOperativeName)" hflex="2"/>
+						sort="auto(firstOperativeName)" />
 					<listheader label="Secondo Preposto"
-						sort="auto(secondOperativeName)" hflex="2"/>
-					<listheader label="Mani" sort="auto(handswork)" hflex="1"/>
-					<listheader label="Persone" sort="auto(menwork)" hflex="1"/>
+						sort="auto(secondOperativeName)" />
+					<listheader label="Mani" id="handsColumn"  sort="auto(handswork)"/>
+					<listheader label="Persone" id="personsColumn" sort="auto(menwork)"/>
 
 					<listheader label="Data inizio"
 						sort="auto(arrivaldate)" hflex="1"/>
@@ -1431,7 +1431,7 @@
 							<listheader label="Gru" sort="auto(crane)" />
 
 							<listheader label="Volumi"
-								sort="auto(volume)" />
+								sort="auto(volume)" id="volumeColum" />
 
 							<listheader
 								label="Volumi Rizz. da Bordo (x Cliente)"
@@ -1810,7 +1810,7 @@
 									<listheader label="Tempo Lavorato"
 										hflex="1" />
 									<listheader label="Volumi"
-										hflex="1" />
+										hflex="1" id="volumeStatisticColumn"/>
 									<listheader label="Produttività"
 										hflex="1" />
 									<listheader

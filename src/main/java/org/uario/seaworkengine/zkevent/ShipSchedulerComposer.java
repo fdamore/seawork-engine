@@ -115,6 +115,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Row alertShiftDate_detail;
 
 	@Wire
+	private Listheader arrivalDateColumn;
+
+	@Wire
 	private Label avgVolmueCurrentMonth;
 
 	@Wire
@@ -162,6 +165,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Datebox date_to_overview;
 
 	@Wire
+	private Listheader departureDateColumn;
+
+	@Wire
 	private Comboitem detail_item;
 
 	@Wire
@@ -204,6 +210,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Row h_program_period;
 
 	@Wire
+	private Listheader handsColumn;
+
+	@Wire
 	private Intbox handswork;
 
 	@Wire
@@ -238,6 +247,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	// statistics - USED DOWNLOAD
 	private List<ShipOverview> listShipStatistics = new ArrayList<ShipOverview>();
+
+	@Wire
+	private Listheader mctColumn;
 
 	@Wire
 	private Intbox menwork;
@@ -320,6 +332,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private PersonDAO personDao;
 
 	@Wire
+	private Listheader personsColumn;
+
+	@Wire
 	private Popup popu_detail;
 
 	@Wire
@@ -366,6 +381,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label rif_sws_review;
+
+	@Wire
+	private Listheader rifSWSColumn;
 
 	@Wire
 	private Row row_info_activity_ship;
@@ -433,6 +451,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Datebox shiftdate_Daily;
 
 	@Wire
+	private Listheader shiftNumberColumn;
+
+	@Wire
 	private Combobox ship_activity;
 
 	@Wire
@@ -489,6 +510,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	protected IShip shipDao;
 
 	@Wire
+	private Listheader shipNameColumun;
+
+	@Wire
 	private Label shipNumberProgramShip;
 
 	@Wire
@@ -523,6 +547,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label sumVolumeShipProgram;
+
+	@Wire
+	private Button sw_addScheduleShipProgram;
 
 	@Wire
 	private Toolbarbutton sw_link_reviewscheduleship;
@@ -582,6 +609,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox volume_review;
+
+	@Wire
+	private Listheader volumeColumn;
+
+	@Wire
+	private Listheader volumeColumnScheduleShip;
+
+	@Wire
+	private Listheader volumeStatisticColumn;
 
 	@Wire
 	private Intbox volumeunde_tw_mct_review;
@@ -1034,7 +1070,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -1057,7 +1093,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -1147,6 +1183,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.sw_list_reviewWork.setWidth("950px");
 		this.list_ship_statistics.setWidth("950px");
 		this.bap_overview_tab.setWidth("950px");
+
+		// ship program view
+		this.shiftNumberColumn.setWidth("50px");
+		this.handsColumn.setWidth("50px");
+		this.personsColumn.setWidth("70px");
+		this.rifSWSColumn.setWidth("55px");
+		this.mctColumn.setWidth("65px");
+		this.customerColumn.setWidth("80px");
+		this.arrivalDateColumn.setWidth("100px");
+		this.departureDateColumn.setWidth("100px");
+		this.shipNameColumun.setWidth("125px");
+		this.volumeColumnScheduleShip.setWidth("90px");
+
+		// tab statistiche nave
+		this.volumeStatisticColumn.setWidth("45px");
+
+		this.sw_addScheduleShipProgram.setVisible(false);
 
 		// set visibility of modify columns in listbox
 		this.modifyColumnSchedule.setVisible(false);
@@ -2190,15 +2243,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteDetailship();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteDetailship();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -2217,18 +2270,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-						@Override
-						public void onEvent(final ClickEvent e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-										.getId());
+				@Override
+				public void onEvent(final ClickEvent e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+								.getId());
 
-								ShipSchedulerComposer.this.searchScheduleShip();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						ShipSchedulerComposer.this.searchScheduleShip();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-							}
-						}
-					}, params);
+					}
+				}
+			}, params);
 
 		}
 	}
