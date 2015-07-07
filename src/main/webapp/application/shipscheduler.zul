@@ -3,6 +3,23 @@
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
 <?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 
+<!-- Favicon -->
+<?link rel="icon" href="/img/favicon.ico" type="image/x-icon"?>
+
+<!-- Load Bootstrap  -->
+<?link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+
+<!-- Google Open Sans font -->
+<!-- Load fonts from local -->
+<?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
+
+<!-- Unmark if we want to use fonts from google server
+	<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+-->
+
+<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+
 <zk>
 
 
@@ -43,6 +60,16 @@
 					value="VERIFICA LAVORO NAVI" id="verify_review_ship_item">
 				</comboitem>
 			</combobox>
+			
+			<button label="Versione Stampabile" sclass="btn-danger"
+				id="print_program_videos"
+				xmlns:w="http://www.zkoss.org/2005/zk/client"
+				w:onClick="window.open('shipscheduler.zul?printProgram=1');" />
+				
+			<button label="Stampa" sclass="btn-danger" visible="false"
+			id="print_ShipScheduler" xmlns:w="http://www.zkoss.org/2005/zk/client"
+			w:onClick="window.print()" />
+			
 		</hbox>
 
 		<space />
@@ -710,7 +737,7 @@
 		</popup>
 
 		<!-- PROGRAMMAZIONE NAVI -->
-		<div id="shipProgram">
+		<div id="shipProgram" visible="true">
 			<a label="Programmazione Navi" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 			<separator />
@@ -829,7 +856,7 @@
 						sort="auto(rif_mct)" />
 					<listheader label="Rif SWS" sort="auto(id)" />
 					<listheader label="Note Programmazione" />
-					<listheader label="" />
+					<listheader id="modifyColumnSchedule" label="" />
 				</listhead>
 
 				<listitem self="@{each='scheduleship_item'}"
@@ -892,10 +919,12 @@
 				</listitem>
 
 			</listbox>
+					
+		
 		</div>
 
 		<!-- DETTAGLIO GIORNALIERO -->
-		<div id="dailyDetailShip">
+		<div id="dailyDetailShip" visible="true">
 
 			<a label="Dettaglio Giornaliero" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
@@ -964,37 +993,33 @@
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />
 			<separator />
-
+			
 			<listbox id="sw_list_scheduleShip" pagingPosition="both"
 				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
 				checkmark="true" multiple="false" pageSize="10">
 				<listhead sizable="true">
-					<listheader label="Nome Nave" sort="auto(name)"
-						hflex="2" />
-					<listheader label="Cliente" sort="auto(name)"
-						hflex="2" />
-					<listheader label="Data Turno" hflex="2" />
-					<listheader label="Turno" sort="auto(shift)"
-						hflex="1" />
-					<listheader label="Operazione" hflex="1"
-						sort="auto(operation)" />
-					<listheader label="Primo Preposto" hflex="2"
-						sort="auto(firstOperativeName)" />
-					<listheader label="Secondo Preposto" hflex="2"
-						sort="auto(secondOperativeName)" />
-					<listheader label="Mani" hflex="1"
-						sort="auto(handswork)" />
-					<listheader label="Persone" hflex="1"
-						sort="auto(menwork)" />
+					<listheader label="Nome Nave" sort="auto(name)" hflex="2"/>
+					<listheader label="Cliente" hflex="1"/>
+					<listheader label="Data Turno" hflex="1"/>
+					<listheader label="Turno" sort="auto(shift)" hflex="1"/>
+					<listheader label="Operazione"
+						sort="auto(operation)" hflex="1"/>
+					<listheader label="Primo Preposto"
+						sort="auto(firstOperativeName)" hflex="2"/>
+					<listheader label="Secondo Preposto"
+						sort="auto(secondOperativeName)" hflex="2"/>
+					<listheader label="Mani" sort="auto(handswork)" hflex="1"/>
+					<listheader label="Persone" sort="auto(menwork)" hflex="1"/>
 
-					<listheader label="Data inizio" hflex="2"
-						sort="auto(arrivaldate)" />
-					<listheader label="Data fine" hflex="2"
-						sort="auto(departuredate)" />
+					<listheader label="Data inizio"
+						sort="auto(arrivaldate)" hflex="1"/>
+					<listheader label="Data fine"
+						sort="auto(departuredate)" hflex="1"/>
 
-					<listheader label="" hflex="2" />
+					<listheader id="modifyColumnScheduleShip" label=""/>
 				</listhead>
 
+				
 				<listitem self="@{each='detailscheduleship_item'}"
 					value="@{detailscheduleship_item}">
 
@@ -1003,9 +1028,9 @@
 							style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
 							id="shipNameDetail" value="@{detailscheduleship_item.name}">
 							<attribute name="onClick">
-	sw_list_scheduleShip.setSelectedItem((Listitem) self.getParent().getParent());
-	popup_ship.open(self, "after_pointer");
-</attribute>
+								sw_list_scheduleShip.setSelectedItem((Listitem) self.getParent().getParent());
+								popup_ship.open(self, "after_pointer");
+							</attribute>
 						</label>
 					</listcell>
 
@@ -1059,7 +1084,13 @@
 
 					</listcell>
 				</listitem>
+				
 			</listbox>
+
+			
+
+
+
 		</div>
 
 		<!-- Popup Review -->
@@ -1417,7 +1448,7 @@
 								sort="auto(timework)" />
 
 							<listheader label="Note" />
-							<listheader label="" />
+							<listheader id="modifyColumnDetail" label="" />
 						</listhead>
 
 						<listitem

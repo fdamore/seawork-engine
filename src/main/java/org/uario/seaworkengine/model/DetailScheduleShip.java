@@ -14,66 +14,66 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public static long getSerialversionuid() {
 		return DetailScheduleShip.serialVersionUID;
 	}
 
-	private Date	activity_end;
+	private Date activity_end;
 
-	private Date	activity_start;
+	private Date activity_start;
 
 	/**
 	 * Used only in view mode
 	 */
-	private Date	arrivaldate;
+	private Date arrivaldate;
 
 	// only for view
-	private Integer	customer_id;
+	private Integer customer_id;
 
 	/**
 	 * Used only in view mode
 	 */
-	private Date	departuredate;
+	private Date departuredate;
 
 	/**
 	 * Used only for visualization purpose *
 	 */
-	private String	firstOperativeName;
+	private String firstOperativeName;
 
-	private Integer	handswork;
+	private Integer handswork;
 
-	private Integer	id;
+	private Integer id;
 
 	// ship id
-	private Integer	id_ship;
+	private Integer id_ship;
 
-	private Integer	idscheduleship;
+	private Integer idscheduleship;
 
-	private Integer	idseconduser;
+	private Integer idseconduser;
 
-	private Integer	iduser;
+	private Integer iduser;
 
-	private Integer	menwork;
+	private Integer menwork;
 
 	// ship name
-	private String	name;
+	private String name;
 
-	private String	note;
+	private String note;
 
-	private String	notedetail;
+	private String notedetail;
 
-	private String	operation;
+	private String operation;
 
 	/**
 	 * Used only for visualization purpose *
 	 */
-	private String	secondOperativeName;
+	private String secondOperativeName;
 
-	private Integer	shift;
+	private Integer shift;
 
-	private Date	shiftdate;
+	private Date shiftdate;
 
 	@Override
 	public int compareTo(final Person o) {

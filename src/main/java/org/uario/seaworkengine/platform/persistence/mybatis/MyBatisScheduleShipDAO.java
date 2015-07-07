@@ -16,7 +16,7 @@ import org.uario.seaworkengine.statistics.ShipTotal;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
 
-	private static Logger	logger	= Logger.getLogger(MyBatisScheduleShipDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisScheduleShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisScheduleShipDAO.logger;
@@ -247,7 +247,9 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("nowork", nowork);
 		map.put("activityh", activityh);
 
-		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShip", map);
+		final List<DetailScheduleShip> list = this.getSqlSession().selectList("scheduleship.searchDetailScheduleShip", map);
+
+		return list;
 	}
 
 	@Override
