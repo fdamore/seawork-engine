@@ -478,6 +478,12 @@ public class WebControllerImpl implements IWebServiceController {
 		sch.setId(detail_schedule_ship_id);
 		sch.setOperation(operation);
 		sch.setHandswork(handswork);
+		sch.setTemperature(temperature);
+		sch.setSky(sky);
+		sch.setRain(rain);
+		sch.setWind(wind);
+		sch.setFirst_down(first_down);
+		sch.setLast_down(last_down);
 
 		this.shipSchedulerDao.updateDetailScheduleShipForMobile(sch);
 
