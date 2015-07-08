@@ -179,6 +179,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Component detailShipProgram_download;
 
 	@Wire
+	private Datebox first_down_detail;
+
+	@Wire
 	private Datebox first_down_review;
 
 	private final SimpleDateFormat format_it_date = new SimpleDateFormat("dd/MM/yyyy");
@@ -229,6 +232,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox invoicing_cycle_search;
+
+	@Wire
+	private Datebox last_down_detail;
 
 	@Wire
 	private Datebox last_down_review;
@@ -360,6 +366,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Comboitem program_item;
+
+	@Wire
+	private Combobox rain_detail;
 
 	@Wire
 	private Combobox rain_review;
@@ -533,6 +542,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Intbox shows_rows_ship;
 
 	@Wire
+	private Combobox sky_detail;
+
+	@Wire
 	private Combobox sky_review;
 
 	private IStatistics statistic_dao;
@@ -568,6 +580,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox sw_list_scheduleShipProgram;
+
+	@Wire
+	private Combobox temperature_detail;
 
 	@Wire
 	private Combobox temperature_review;
@@ -627,6 +642,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox volumeunderboard_sws_review;
+
+	@Wire
+	private Combobox wind_detail;
 
 	@Wire
 	private Combobox wind_review;
@@ -700,14 +718,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// set type crane
 		final Boolean isgtw = this.crane_gtw_review.isChecked();
 		detailFinalScheduleShip.setCrane_gtw(isgtw);
-
-		// set general day info
-		detailFinalScheduleShip.setWind(this.wind_review.getValue());
-		detailFinalScheduleShip.setRain(this.rain_review.getValue());
-		detailFinalScheduleShip.setSky(this.sky_review.getValue());
-		detailFinalScheduleShip.setFirst_down(this.first_down_review.getValue());
-		detailFinalScheduleShip.setLast_down(this.last_down_review.getValue());
-		detailFinalScheduleShip.setTemperature(this.temperature_review.getValue());
 
 		this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
 
@@ -825,6 +835,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// have some mean only if activity ship
 		item.setActivity_start(null);
 		item.setActivity_end(null);
+
+		// set general day info
+		item.setWind(this.wind_detail.getValue());
+		item.setRain(this.rain_detail.getValue());
+		item.setSky(this.sky_detail.getValue());
+		item.setFirst_down(this.first_down_detail.getValue());
+		item.setLast_down(this.last_down_detail.getValue());
+		item.setTemperature(this.temperature_detail.getValue());
 
 		// save info if ship is an activity
 		if (this.scheduleShip_selected.getIdship_activity() != null) {
@@ -1520,33 +1538,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		// set general value
-		detailFinal.setFirst_down(this.first_down_review.getValue());
-		detailFinal.setLast_down(this.last_down_review.getValue());
-		if (this.rain_review.getSelectedItem() != null) {
-			detailFinal.setRain(this.rain_review.getSelectedItem().getValue().toString());
-		} else {
-			detailFinal.setRain(null);
-		}
-
-		if (this.wind_review.getSelectedItem() != null) {
-			detailFinal.setWind(this.wind_review.getSelectedItem().getValue().toString());
-		} else {
-			detailFinal.setWind(null);
-		}
-
-		if (this.sky_review.getSelectedItem() != null) {
-			detailFinal.setSky(this.sky_review.getSelectedItem().getValue().toString());
-		} else {
-			detailFinal.setSky(null);
-		}
-
-		if (this.temperature_review.getSelectedItem() != null) {
-			detailFinal.setTemperature(this.temperature_review.getSelectedItem().getValue().toString());
-		} else {
-			detailFinal.setTemperature(null);
-		}
-
 		this.shipSchedulerDao.updateDetailFinalScheduleShip(detailFinal);
 
 		// close editor
@@ -1637,38 +1628,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		// define general value
-		this.first_down_review.setValue(detailFinal.getFirst_down());
-		this.last_down_review.setValue(detailFinal.getLast_down());
-
-		for (final Comboitem itm : this.rain_review.getItems()) {
-			if (itm.getValue().equals(detailFinal.getRain())) {
-				this.rain_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
-		for (final Comboitem itm : this.sky_review.getItems()) {
-			if (itm.getValue().equals(detailFinal.getSky())) {
-				this.sky_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
-		for (final Comboitem itm : this.wind_review.getItems()) {
-			if (itm.getValue().equals(detailFinal.getWind())) {
-				this.wind_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
-		for (final Comboitem itm : this.temperature_review.getItems()) {
-			if (itm.getValue().equals(detailFinal.getTemperature())) {
-				this.temperature_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
 	}
 
 	@Listen("onClick = #sw_link_modifyDetailship")
@@ -1682,6 +1641,42 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.scheduleShip_selected == null) {
 			return;
+		}
+
+		// define general value
+		this.first_down_detail.setValue(this.detailScheduleShipSelected.getFirst_down());
+		this.last_down_detail.setValue(this.detailScheduleShipSelected.getLast_down());
+
+		this.rain_detail.setSelectedItem(null);
+		for (final Comboitem itm : this.rain_detail.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getRain())) {
+				this.rain_detail.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.sky_detail.setSelectedItem(null);
+		for (final Comboitem itm : this.sky_detail.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getSky())) {
+				this.sky_detail.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.wind_detail.setSelectedItem(null);
+		for (final Comboitem itm : this.wind_detail.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getWind())) {
+				this.wind_detail.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.temperature_detail.setSelectedItem(null);
+		for (final Comboitem itm : this.temperature_detail.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getTemperature())) {
+				this.temperature_detail.setSelectedItem(itm);
+				break;
+			}
 		}
 
 		this.shiftdate.setValue(this.detailScheduleShipSelected.getShiftdate());
@@ -2015,6 +2010,42 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.detailScheduleShipSelected == null) {
 			return;
+		}
+
+		// define general value
+		this.first_down_review.setValue(this.detailScheduleShipSelected.getFirst_down());
+		this.last_down_review.setValue(this.detailScheduleShipSelected.getLast_down());
+
+		this.rain_review.setSelectedItem(null);
+		for (final Comboitem itm : this.rain_review.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getRain())) {
+				this.rain_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.sky_review.setSelectedItem(null);
+		for (final Comboitem itm : this.sky_review.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getSky())) {
+				this.sky_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.wind_review.setSelectedItem(null);
+		for (final Comboitem itm : this.wind_review.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getWind())) {
+				this.wind_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.temperature_review.setSelectedItem(null);
+		for (final Comboitem itm : this.temperature_review.getItems()) {
+			if (itm.getValue().equals(this.detailScheduleShipSelected.getTemperature())) {
+				this.temperature_review.setSelectedItem(itm);
+				break;
+			}
 		}
 
 		this.shiftdate_Daily.setValue(this.detailScheduleShipSelected.getShiftdate());
@@ -2357,6 +2388,34 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected.setActivity_end(date_to);
 			this.detailScheduleShipSelected.setActivity_start(date_from);
 
+		}
+
+		// set general value
+		this.detailScheduleShipSelected.setFirst_down(this.first_down_review.getValue());
+		this.detailScheduleShipSelected.setLast_down(this.last_down_review.getValue());
+
+		if (this.rain_review.getSelectedItem() != null) {
+			this.detailScheduleShipSelected.setRain(this.rain_review.getSelectedItem().getValue().toString());
+		} else {
+			this.detailScheduleShipSelected.setRain(null);
+		}
+
+		if (this.wind_review.getSelectedItem() != null) {
+			this.detailScheduleShipSelected.setWind(this.wind_review.getSelectedItem().getValue().toString());
+		} else {
+			this.detailScheduleShipSelected.setWind(null);
+		}
+
+		if (this.sky_review.getSelectedItem() != null) {
+			this.detailScheduleShipSelected.setSky(this.sky_review.getSelectedItem().getValue().toString());
+		} else {
+			this.detailScheduleShipSelected.setSky(null);
+		}
+
+		if (this.temperature_review.getSelectedItem() != null) {
+			this.detailScheduleShipSelected.setTemperature(this.temperature_review.getSelectedItem().getValue().toString());
+		} else {
+			this.detailScheduleShipSelected.setTemperature(null);
 		}
 
 		// update..
@@ -3219,6 +3278,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.detailScheduleShipSelected.setShiftdate(this.shiftdate.getValue());
+
+		// set general day info
+		this.detailScheduleShipSelected.setWind(this.wind_detail.getValue());
+		this.detailScheduleShipSelected.setRain(this.rain_detail.getValue());
+		this.detailScheduleShipSelected.setSky(this.sky_detail.getValue());
+		this.detailScheduleShipSelected.setFirst_down(this.first_down_detail.getValue());
+		this.detailScheduleShipSelected.setLast_down(this.last_down_detail.getValue());
+		this.detailScheduleShipSelected.setTemperature(this.temperature_detail.getValue());
 
 		final Integer shift = Integer.parseInt(this.shift.getValue().toString());
 		this.detailScheduleShipSelected.setShift(shift);

@@ -37,6 +37,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	 */
 	private Date departuredate;
 
+	private Date first_down;
+
 	/**
 	 * Used only for visualization purpose *
 	 */
@@ -55,6 +57,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private Integer iduser;
 
+	private Date last_down;
+
 	private Integer menwork;
 
 	// ship name
@@ -66,6 +70,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private String operation;
 
+	private String rain;
+
 	/**
 	 * Used only for visualization purpose *
 	 */
@@ -74,6 +80,12 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private Integer shift;
 
 	private Date shiftdate;
+
+	private String sky;
+
+	private String temperature;
+
+	private String wind;
 
 	@Override
 	public int compareTo(final Person o) {
@@ -99,6 +111,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public Date getDeparturedate() {
 		return this.departuredate;
+	}
+
+	public Date getFirst_down() {
+		return this.first_down;
 	}
 
 	public String getFirstOperativeName() {
@@ -129,6 +145,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.iduser;
 	}
 
+	public Date getLast_down() {
+		return this.last_down;
+	}
+
 	public Integer getMenwork() {
 		return this.menwork;
 	}
@@ -149,6 +169,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.operation;
 	}
 
+	public String getRain() {
+		return this.rain;
+	}
+
 	public String getSecondOperativeName() {
 		return this.secondOperativeName;
 	}
@@ -159,6 +183,18 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public Date getShiftdate() {
 		return this.shiftdate;
+	}
+
+	public String getSky() {
+		return this.sky;
+	}
+
+	public String getTemperature() {
+		return this.temperature;
+	}
+
+	public String getWind() {
+		return this.wind;
 	}
 
 	public void setActivity_end(final Date activity_end) {
@@ -179,6 +215,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setDeparturedate(final Date shipdeparturedate) {
 		this.departuredate = shipdeparturedate;
+	}
+
+	public void setFirst_down(final Date first_down) {
+		this.first_down = first_down;
 	}
 
 	public void setFirstOperativeName(final String firstOperativeName) {
@@ -209,6 +249,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.iduser = iduser;
 	}
 
+	public void setLast_down(final Date last_down) {
+		this.last_down = last_down;
+	}
+
 	public void setMenwork(final Integer menwork) {
 		this.menwork = menwork;
 	}
@@ -229,6 +273,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.operation = operation;
 	}
 
+	public void setRain(final String rain) {
+		this.rain = rain;
+	}
+
 	public void setSecondOperativeName(final String secondOperativeName) {
 		this.secondOperativeName = secondOperativeName;
 	}
@@ -239,6 +287,18 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setShiftdate(final Date shiftdate) {
 		this.shiftdate = shiftdate;
+	}
+
+	public void setSky(final String sky) {
+		this.sky = sky;
+	}
+
+	public void setTemperature(final String temperature) {
+		this.temperature = temperature;
+	}
+
+	public void setWind(final String wind) {
+		this.wind = wind;
 	}
 
 }

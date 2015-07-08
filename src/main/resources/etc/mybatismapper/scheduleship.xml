@@ -135,11 +135,11 @@
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
 		idseconduser, handswork, menwork, shiftdate, notedetail,
-		activity_start, activity_end)
+		activity_start, activity_end, rain, wind, sky, temperature, first_down, last_down)
 		VALUES
 		(#{idscheduleship},
 		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
-		#{notedetail}, #{activity_start}, #{activity_end});
+		#{notedetail}, #{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky}, #{temperature}, #{first_down}, #{last_down});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -322,7 +322,7 @@
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail,
+		d.notedetail,  d.rain, d.wind, d.sky, d.temperature, d.first_down, d.last_down, 
 		s.name, d.operation, d.activity_start, d.activity_end,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
@@ -388,7 +388,7 @@
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail,
+		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.last_down, 
 		s.name, d.operation, d.activity_start, d.activity_end,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
@@ -456,7 +456,7 @@
 		d.idseconduser,
 		d.handswork, d.menwork,
 		d.shiftdate,
-		d.notedetail, d.activity_start, d.activity_end,
+		d.notedetail, d.activity_start, d.activity_end, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.last_down, 
 		concat(u.lastname, '
 		',
 		u.firstname) AS
@@ -534,17 +534,28 @@
 		menwork = #{menwork},
 		shiftdate = #{shiftdate},
 		notedetail = #{notedetail},
-		activity_start =
-		#{activity_start}, activity_end = #{activity_end}
+		activity_start = #{activity_start}, 
+		activity_end = #{activity_end}, 
+		rain = #{rain}, 
+		wind = #{wind}, 
+		sky = #{sky}, 
+		temperature = #{temperature}, 
+		first_down = #{first_down}, 
+		last_down = #{last_down} 
 		WHERE id = #{id};
 	</update>
 
 	<update id="updateDetailScheduleShipForMobile" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		UPDATE
 		detailscheduleship SET
-		operation = #{operation},
-		handswork =
-		#{handswork}
+		operation = #{operation}, 
+		handswork =	#{handswork}, 
+		rain = #{rain}, 
+		wind = #{wind}, 
+		sky = #{sky}, 
+		temperature = #{temperature}, 
+		first_down = #{first_down}, 
+		last_down = #{last_down} 
 		WHERE id = #{id};
 	</update>
 
@@ -556,16 +567,14 @@
 		volume, timework, iddetailscheduleship, notedetail,
 		volumeunderboard,volumeunderboard_sws,
 		volume_tw_mct,invoicing_cycle,
-		activity_start, activity_end, rain, wind, sky,temperature, first_down,
-		last_down)
+		activity_start, activity_end)
 		VALUES
 		(#{crane},#{crane_gtw},
 		#{volume}, #{timework},
 		#{iddetailscheduleship}, #{notedetail},
 		#{volumeunderboard},
 		#{volumeunderboard_sws},#{volume_tw_mct},#{invoicing_cycle},
-		#{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky},
-		#{temperature}, #{first_down}, #{last_down});
+		#{activity_start}, #{activity_end});
 	</insert>
 
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -581,8 +590,7 @@
 		df.iddetailscheduleship, df.notedetail, df.volumeunderboard,
 		df.volumeunderboard_sws,
 		df.volume_tw_mct, s.rif_mct, s.id as rif_sws,
-		df.invoicing_cycle, activity_start, activity_end, rain, wind,
-		sky,temperature, first_down, last_down
+		df.invoicing_cycle, activity_start, activity_end 
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship
@@ -617,13 +625,7 @@
 		invoicing_cycle = #{invoicing_cycle},
 		activity_start =
 		#{activity_start},
-		activity_end = #{activity_end},
-		rain = #{rain},
-		wind = #{wind},
-		sky = #{sky},
-		temperature = #{temperature},
-		first_down = #{first_down},
-		last_down = #{last_down}		
+		activity_end = #{activity_end} 		
 		WHERE id = #{id};
 	</update>
 
@@ -636,9 +638,7 @@
 		df.volumeunderboard,df.volumeunderboard_sws,
 		df.volume_tw_mct,
 		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, df.activity_start,
-		df.activity_end, df.rain, df.wind,
-		df.sky, df.temperature, df.first_down,
-		df.last_down
+		df.activity_end 
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship d,
