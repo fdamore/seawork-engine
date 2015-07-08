@@ -471,7 +471,8 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public void updateDetailScheduleShipForMobile(final Integer detail_schedule_ship_id, final String operation, final Integer handswork) {
+	public void updateDetailScheduleShipForMobile(final Integer detail_schedule_ship_id, final String operation, final Integer handswork,
+			final String temperature, final String sky, final String rain, final String wind, final Date first_down, final Date last_down) {
 
 		final DetailScheduleShip sch = new DetailScheduleShip();
 		sch.setId(detail_schedule_ship_id);

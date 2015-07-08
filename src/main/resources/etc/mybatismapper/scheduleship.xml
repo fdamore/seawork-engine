@@ -336,7 +336,7 @@
 		', u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
-		us.firstname) AS
+		us.firstname) AS 
 		secondOperativeName
 		FROM
 		detailscheduleship d
@@ -399,8 +399,7 @@
 		d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname,
-		'
-		', u.firstname) AS
+		' ', u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS

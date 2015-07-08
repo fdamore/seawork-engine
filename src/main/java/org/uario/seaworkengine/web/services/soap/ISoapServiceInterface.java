@@ -146,7 +146,9 @@ public interface ISoapServiceInterface {
 	 * @param menwork
 	 */
 	public void updateDetailScheduleShipForMobile(@WebParam(name = "detail_schedule_ship_id") Integer detail_schedule_ship_id,
-			@WebParam(name = "operation") String operation, @WebParam(name = "handswork") Integer handswork);
+			@WebParam(name = "operation") String operation, @WebParam(name = "handswork") Integer handswork,
+			@WebParam(name = "temperature") String temperature, @WebParam(name = "sky") String sky, @WebParam(name = "rain") String rain,
+			@WebParam(name = "wind") String wind, @WebParam(name = "first_down") Date first_down, @WebParam(name = "last_down") Date last_down);
 
 	/**
 	 * Public string get note

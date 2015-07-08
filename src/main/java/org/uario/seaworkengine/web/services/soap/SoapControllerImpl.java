@@ -18,7 +18,7 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class SoapControllerImpl implements ISoapServiceInterface {
 
-	private IWebServiceController	webcontroller;
+	private IWebServiceController webcontroller;
 
 	@Override
 	public void createBadge(final Badge badge) {
@@ -123,9 +123,13 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 
 	@Override
 	public void updateDetailScheduleShipForMobile(@WebParam(name = "detail_schedule_ship_id") final Integer detail_schedule_ship_id,
-			@WebParam(name = "operation") final String operation, @WebParam(name = "handswork") final Integer handswork) {
+			@WebParam(name = "operation") final String operation, @WebParam(name = "handswork") final Integer handswork,
+			@WebParam(name = "temperature") final String temperature, @WebParam(name = "sky") final String sky,
+			@WebParam(name = "rain") final String rain, @WebParam(name = "wind") final String wind,
+			@WebParam(name = "first_down") final Date first_down, @WebParam(name = "last_down") final Date last_down) {
 
-		this.webcontroller.updateDetailScheduleShipForMobile(detail_schedule_ship_id, operation, handswork);
+		this.webcontroller.updateDetailScheduleShipForMobile(detail_schedule_ship_id, operation, handswork, temperature, sky, rain, wind, first_down,
+				last_down);
 
 	}
 

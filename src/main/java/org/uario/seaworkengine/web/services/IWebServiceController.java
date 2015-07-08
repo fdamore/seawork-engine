@@ -141,7 +141,8 @@ public interface IWebServiceController {
 	 * @param operation
 	 * @param menwork
 	 */
-	public void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer handswork);
+	public void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer handswork, String temperature,
+			String sky, String rain, String wind, Date first_down, Date last_down);
 
 	/**
 	 * Public string get note
