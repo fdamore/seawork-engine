@@ -545,6 +545,7 @@
 		WHERE id = #{id};
 	</update>
 
+
 	<update id="updateDetailScheduleShipForMobile" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		UPDATE
 		detailscheduleship SET
