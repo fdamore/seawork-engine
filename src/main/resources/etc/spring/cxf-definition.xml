@@ -18,11 +18,19 @@
 	<jaxws:endpoint address="/soapservice" implementor="#soapservice">
 
 
-		<!-- <jaxws:inInterceptors> <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor"> 
-			<constructor-arg> <map> <entry key="action" value="UsernameToken" /> <entry 
-			key="passwordType" value="PasswordText" /> <entry key="passwordCallbackRef"> 
-			<ref bean="passwordCallback" /> </entry> </map> </constructor-arg> </bean> 
-			</jaxws:inInterceptors> -->
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+				<constructor-arg>
+					<map>
+						<entry key="action" value="UsernameToken" />
+						<entry key="passwordType" value="PasswordText" />
+						<entry key="passwordCallbackRef">
+							<ref bean="passwordCallback" />
+						</entry>
+					</map>
+				</constructor-arg>
+			</bean>
+		</jaxws:inInterceptors>
 
 
 	</jaxws:endpoint>
