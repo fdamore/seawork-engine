@@ -20,6 +20,15 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 public interface ISoapServiceInterface {
 
 	/**
+	 * Check for user abilitation
+	 * 
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public Boolean checkUser(String username, String password);
+
+	/**
 	 * @param badge
 	 */
 	public void createBadge(@WebParam(name = "badge") Badge badge);

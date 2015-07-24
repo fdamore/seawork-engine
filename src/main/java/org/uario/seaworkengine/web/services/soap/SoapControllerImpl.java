@@ -18,7 +18,12 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class SoapControllerImpl implements ISoapServiceInterface {
 
-	private IWebServiceController webcontroller;
+	private IWebServiceController	webcontroller;
+
+	@Override
+	public Boolean checkUser(final String username, final String password) {
+		return this.webcontroller.checkUser(username, password);
+	}
 
 	@Override
 	public void createBadge(final Badge badge) {

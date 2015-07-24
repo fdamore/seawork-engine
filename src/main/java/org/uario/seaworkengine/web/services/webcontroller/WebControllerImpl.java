@@ -36,25 +36,40 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private ConfigurationDAO configurationDAO;
+	private ConfigurationDAO	configurationDAO;
 
-	private final Logger logger = Logger.getLogger(WebControllerImpl.class);
+	private final Logger		logger	= Logger.getLogger(WebControllerImpl.class);
 
-	private PersonDAO personDAO;
+	private PersonDAO			personDAO;
 
-	private ISchedule scheduleDAO;
+	private ISchedule			scheduleDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache			shiftCache;
 
-	private IScheduleShip ship_dao;
+	private IScheduleShip		ship_dao;
 
-	private IScheduleShip shipSchedulerDao;
+	private IScheduleShip		shipSchedulerDao;
 
-	private IStatistics statistics;
+	private IStatistics			statistics;
 
-	private ITaskCache taskCache;
+	private ITaskCache			taskCache;
 
-	private TasksDAO taskDAO;
+	private TasksDAO			taskDAO;
+
+	@Override
+	public Boolean checkUser(final String username, final String password) {
+		final Person person = this.personDAO.loadPerson(username, password);
+
+		if (person == null) {
+			return Boolean.FALSE;
+		}
+
+		if (person.isEnabled() && person.isOperative()) {
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
+		}
+	}
 
 	@Override
 	public void createBadge(final Badge badge) {
