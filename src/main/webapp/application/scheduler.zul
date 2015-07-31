@@ -1268,9 +1268,6 @@
 						</div>
 
 					</div>
-
-
-
 					<div id="define_program_body">
 
 
@@ -1284,9 +1281,8 @@
 										sclass="header" iconSclass="z-icon-check" />
 									<a id="editor_label" />
 									<a id="controller_label" />
-
-									<separator></separator>
-
+									<label id="totalHours_Program"
+										value="Totale Ore Programmate: " />
 								</vbox>
 
 								<hbox align="center"
@@ -1299,87 +1295,73 @@
 									</checkbox>
 								</hbox>
 
+								<separator></separator>
+
+								<hbox align="center">
+
+									<div
+										visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+										<button label="Aggiungi"
+											id="add_program_item" sclass="btn-info">
+										</button>
+
+										<button label="Cancella"
+											id="remove_program_item" sclass="btn-info">
+										</button>
+
+										<button label="Salva"
+											visible="false" id="save_program_item" sclass="btn-info">
+										</button>
+
+										<button label="Annulla"
+											visible="false" id="cancel_modify_program"
+											sclass="btn-info">
+										</button>
+
+									</div>
+
+
+
+								</hbox>
+
+								<separator></separator>
+
+								<hbox
+									visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+
+									<label
+										value="Definizione della mansione: ">
+									</label>
+
+									<combobox readonly="true"
+										placeholder="Mansioni" id="program_task">
+									</combobox>
+
+								</hbox>
+
+								<separator></separator>
+
+								<hbox
+									visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+									<label value="Orario di lavoro: ">
+									</label>
+
+									<timebox cols="10" format="short"
+										placeholder="Ora inizio" id="time_from_program">
+									</timebox>
+
+									<timebox format="short"
+										placeholder="Ora fine" cols="10" id="time_to_program">
+									</timebox>
+
+								</hbox>
+
+								<separator></separator>
+
+
 								<listbox id="listbox_program"
 									sclass="domain" checkmark="true" multiple="true">
-									<auxhead>
-										<auxheader colspan="5">
 
-											<hbox
-												visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-
-												<label
-													value="Definizione della mansione: ">
-												</label>
-
-												<combobox
-													readonly="true" placeholder="Mansioni" id="program_task">
-												</combobox>
-
-											</hbox>
-
-										</auxheader>
-									</auxhead>
-									<auxhead>
-										<auxheader colspan="5">
-
-											<hbox
-												visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-												<label
-													value="Orario di lavoro: ">
-												</label>
-
-												<timebox cols="10"
-													format="short" placeholder="Ora inizio"
-													id="time_from_program">
-												</timebox>
-
-												<timebox format="short"
-													placeholder="Ora fine" cols="10" id="time_to_program">
-												</timebox>
-
-											</hbox>
-
-
-										</auxheader>
-									</auxhead>
-									<auxhead>
-										<auxheader colspan="5">
-
-											<hbox align="center">
-
-												<div
-													visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-													<button
-														label="Aggiungi" id="add_program_item"
-														sclass="btn-info">
-													</button>
-
-													<button
-														label="Cancella" id="remove_program_item"
-														sclass="btn-info">
-													</button>
-
-													<button
-														label="Salva" visible="false" id="save_program_item"
-														sclass="btn-info">
-													</button>
-
-													<button
-														label="Annulla" visible="false" id="cancel_modify_program"
-														sclass="btn-info">
-													</button>
-
-												</div>
-
-												<label
-													id="totalHours_Program" value="Totale Ore Programmate: " />
-
-											</hbox>
-
-
-
-										</auxheader>
-									</auxhead>
 
 									<listhead>
 										<listheader label="Mansioni" />
@@ -2094,120 +2076,112 @@
 
 							<separator></separator>
 
+							<vbox align="start">
+
+								<label id="totalHours_Review"
+									value="Totale Ore Consuntivate: " />
+
+								<label id="infoBadge" value="" />
+
+							</vbox>
+
+
+							<separator></separator>
+
+							<hbox align="center"
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+								<button label="Aggiungi"
+									id="add_review_item" sclass="btn-info">
+								</button>
+								<button label="Cancella"
+									id="remove_review_item" sclass="btn-info">
+								</button>
+								<button label="Salva" visible="false"
+									id="save_review_item" sclass="btn-info">
+								</button>
+								<button label="Annulla" visible="false"
+									id="cancel_modify" sclass="btn-info">
+								</button>
+
+
+
+							</hbox>
+
+							<separator></separator>
+
+							<hbox align="center"
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+
+								<label
+									value="Definizione della mansione">
+								</label>
+
+								<combobox readonly="true"
+									placeholder="Mansioni" id="review_task">
+								</combobox>
+
+								<timebox cols="10" format="short"
+									placeholder="Ora inizio" id="time_from">
+								</timebox>
+
+								<timebox placeholder="Ora fine"
+									format="short" cols="10" id="time_to">
+								</timebox>
+
+								<label
+									value="Consuntiva Fascia Oraria">
+								</label>
+								<checkbox checked="false"
+									id="reviewShift" />
+
+							</hbox>
+
+							<separator></separator>
+
+							<hbox align="center"
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
+
+								<vbox>
+									<hbox>
+										<combobox id="ship"
+											autodrop="true"
+											placeholder="Seleziona da tutte le navi...">
+
+											<comboitem
+												self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
+										</combobox>
+
+									</hbox>
+
+									<hbox>
+										<a label="Non Lavoro"
+											style="color:green; font-size:9pt" id="selectShipNoWork" />
+										<space />
+
+									</hbox>
+
+								</vbox>
+
+								<combobox id="shipInDay" width="200px"
+									autodrop="true"
+									placeholder="Seleziona da navi in giornata...">
+									<comboitem self="@{each='ship'}"
+										label="@{ship.name}" value="@{ship}" />
+								</combobox>
+
+
+								<textbox id="crane"
+									placeholder="Inserisci crane..." />
+								<combobox id="board" width="150px"
+									readonly="true" placeholder="A Bordo - Sotto Bordo" />
+
+							</hbox>
+
+							<separator></separator>
+
+
 							<listbox id="listbox_review" sclass="domain"
 								checkmark="true" multiple="true">
-								<auxhead>
-									<auxheader colspan="9">
-
-										<hbox align="center"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-
-											<label
-												value="Definizione della mansione">
-											</label>
-
-											<combobox readonly="true"
-												placeholder="Mansioni" id="review_task">
-											</combobox>
-
-											<timebox cols="10"
-												format="short" placeholder="Ora inizio" id="time_from">
-											</timebox>
-
-											<timebox
-												placeholder="Ora fine" format="short" cols="10"
-												id="time_to">
-											</timebox>
-
-											<label
-												value="Consuntiva Fascia Oraria">
-											</label>
-											<checkbox checked="false"
-												id="reviewShift" />
-
-										</hbox>
-
-									</auxheader>
-								</auxhead>
-
-
-								<auxhead>
-									<auxheader colspan="9">
-
-										<hbox align="center"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-											<button label="Aggiungi"
-												id="add_review_item" sclass="btn-info">
-											</button>
-											<button label="Cancella"
-												id="remove_review_item" sclass="btn-info">
-											</button>
-											<button label="Salva"
-												visible="false" id="save_review_item" sclass="btn-info">
-											</button>
-											<button label="Annulla"
-												visible="false" id="cancel_modify" sclass="btn-info">
-											</button>
-
-
-											<label
-												id="totalHours_Review" value="Totale Ore Consuntivate: " />
-
-											<label id="infoBadge"
-												value="" />
-
-										</hbox>
-
-									</auxheader>
-								</auxhead>
-								<auxhead>
-									<auxheader colspan="9">
-
-										<hbox align="center"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
-
-											<vbox>
-												<hbox>
-													<combobox id="ship"
-														autodrop="true"
-														placeholder="Seleziona da tutte le navi...">
-
-														<comboitem
-															self="@{each='ship'}" label="@{ship.name}"
-															value="@{ship}" />
-													</combobox>
-
-												</hbox>
-
-												<hbox>
-													<a
-														label="Non Lavoro" style="color:green; font-size:9pt"
-														id="selectShipNoWork" />
-													<space />
-
-												</hbox>
-
-											</vbox>
-
-											<combobox id="shipInDay"
-												width="200px" autodrop="true"
-												placeholder="Seleziona da navi in giornata...">
-												<comboitem
-													self="@{each='ship'}" label="@{ship.name}" value="@{ship}" />
-											</combobox>
-
-
-											<textbox id="crane"
-												placeholder="Inserisci crane..." />
-											<combobox id="board"
-												width="150px" readonly="true"
-												placeholder="A Bordo - Sotto Bordo" />
-
-										</hbox>
-
-
-									</auxheader>
-								</auxhead>
 
 								<listhead>
 									<listheader label="Mansioni" />
