@@ -350,6 +350,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Popup popup_detail_Daily;
 
 	@Wire
+	public Popup popup_review_detail;
+
+	@Wire
 	private Popup popup_scheduleShip;
 
 	@Wire
@@ -2012,42 +2015,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		// define general value
-		this.first_down_review.setValue(this.detailScheduleShipSelected.getFirst_down());
-		this.last_down_review.setValue(this.detailScheduleShipSelected.getLast_down());
-
-		this.rain_review.setSelectedItem(null);
-		for (final Comboitem itm : this.rain_review.getItems()) {
-			if (itm.getValue().equals(this.detailScheduleShipSelected.getRain())) {
-				this.rain_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
-		this.sky_review.setSelectedItem(null);
-		for (final Comboitem itm : this.sky_review.getItems()) {
-			if (itm.getValue().equals(this.detailScheduleShipSelected.getSky())) {
-				this.sky_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
-		this.wind_review.setSelectedItem(null);
-		for (final Comboitem itm : this.wind_review.getItems()) {
-			if (itm.getValue().equals(this.detailScheduleShipSelected.getWind())) {
-				this.wind_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
-		this.temperature_review.setSelectedItem(null);
-		for (final Comboitem itm : this.temperature_review.getItems()) {
-			if (itm.getValue().equals(this.detailScheduleShipSelected.getTemperature())) {
-				this.temperature_review.setSelectedItem(itm);
-				break;
-			}
-		}
-
 		this.shiftdate_Daily.setValue(this.detailScheduleShipSelected.getShiftdate());
 
 		// select first user
@@ -2098,8 +2065,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.operation_Daily.setValue(this.detailScheduleShipSelected.getOperation());
 		this.notedetail.setValue(this.detailScheduleShipSelected.getNotedetail());
-		this.handswork_Daily.setValue(this.detailScheduleShipSelected.getHandswork());
-		this.menwork_Daily.setValue(this.detailScheduleShipSelected.getMenwork());
 
 		// SET ACTIVIY
 
@@ -2353,9 +2318,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected.setIdseconduser(((Person) this.usersecond_Daily.getSelectedItem().getValue()).getId());
 		}
 
-		this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
-		this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
-
 		this.detailScheduleShipSelected.setNotedetail(this.notedetail.getValue());
 
 		// set info about activity
@@ -2390,7 +2352,30 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		// set general value
+		// update..
+		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
+
+		// reset view
+		this.refreshScheduleShipListBox();
+		this.alertShiftDate_detail.setVisible(false);
+		this.popup_detail_Daily.close();
+
+	}
+
+	@Listen("onClick = #save_review")
+	public void saveReview() {
+		this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		if (this.detailScheduleShipSelected == null) {
+			return;
+		}
+
+		this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
+		this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
+
+		final Integer id_ship = this.detailScheduleShipSelected.getId_ship();
+		final Ship ship = this.shipDao.loadShip(id_ship);
+
 		this.detailScheduleShipSelected.setFirst_down(this.first_down_review.getValue());
 		this.detailScheduleShipSelected.setLast_down(this.last_down_review.getValue());
 
@@ -2423,8 +2408,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// reset view
 		this.refreshScheduleShipListBox();
-		this.alertShiftDate_detail.setVisible(false);
-		this.popup_detail_Daily.close();
+
+		this.popup_review_detail.close();
 
 	}
 
@@ -3163,6 +3148,45 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
 
+		this.handswork_Daily.setValue(detailSelected.getHandswork());
+		this.menwork_Daily.setValue(detailSelected.getMenwork());
+
+		// define general value
+		this.first_down_review.setValue(detailSelected.getFirst_down());
+		this.last_down_review.setValue(detailSelected.getLast_down());
+
+		this.rain_review.setSelectedItem(null);
+		for (final Comboitem itm : this.rain_review.getItems()) {
+			if (itm.getValue().equals(detailSelected.getRain())) {
+				this.rain_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.sky_review.setSelectedItem(null);
+		for (final Comboitem itm : this.sky_review.getItems()) {
+			if (itm.getValue().equals(detailSelected.getSky())) {
+				this.sky_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.wind_review.setSelectedItem(null);
+		for (final Comboitem itm : this.wind_review.getItems()) {
+			if (itm.getValue().equals(detailSelected.getWind())) {
+				this.wind_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
+		this.temperature_review.setSelectedItem(null);
+		for (final Comboitem itm : this.temperature_review.getItems()) {
+			if (itm.getValue().equals(detailSelected.getTemperature())) {
+				this.temperature_review.setSelectedItem(itm);
+				break;
+			}
+		}
+
 		// get ship activity name
 		String shipActivity = "";
 
@@ -3251,9 +3275,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final int id_itm = detailSelected.getId();
 		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao.loadDetailFinalScheduleShipByIdDetailScheduleShip(id_itm);
 		this.list_reviewDetailScheduleShip.setModel(new ListModelList<DetailFinalScheduleShip>(final_details));
-
-		// set grid popup values
-		this.initPopupReviewDetail();
 
 		// set button
 		this.panel_editor_review_details.setVisible(false);

@@ -833,139 +833,7 @@
 									value="Seleziona Secondo Preposto" readonly="true"
 									placeholder="Seleziona Secondo Preposto" />
 							</row>
-							<row>
-								<label value="Mani di lavoro:"></label>
-								<intbox id="handswork_Daily" value="0"
-									constraint="no negative" />
-							</row>
-							<row>
-								<label value="Numero uomini:"></label>
-								<intbox id="menwork_Daily" value="0"
-									constraint="no negative" />
-							</row>
 							
-							<row>
-										<label value="Temperatura:"></label>
-
-										<hbox align="center">
-											<combobox
-												id="temperature_review" readonly="true">
-												<comboitem value="BASSA"
-													label="BASSA">
-												</comboitem>
-												<comboitem value="MEDIA"
-													label="MEDIA">
-												</comboitem>
-												<comboitem value="ALTA"
-													label="ALTA">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="temperature_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-
-
-									<row>
-										<label value="Vento:"></label>
-
-										<hbox align="center">
-											<combobox id="wind_review"
-												readonly="true">
-												<comboitem
-													value="LEGGERO" label="LEGGERO">
-												</comboitem>
-												<comboitem value="MEDIO"
-													label="MEDIO">
-												</comboitem>
-												<comboitem value="FORTE"
-													label="FORTE">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="wind_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-
-									<row>
-										<label value="Pioggia:"></label>
-
-										<hbox align="center">
-											<combobox id="rain_review"
-												readonly="true">
-												<comboitem
-													value="LEGGERA" label="LEGGERA">
-												</comboitem>
-												<comboitem value="MEDIA"
-													label="MEDIA">
-												</comboitem>
-												<comboitem value="FORTE"
-													label="FORTE">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="rain_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-
-									<row>
-										<label value="Cielo:"></label>
-
-										<hbox align="center">
-											<combobox id="sky_review"
-												readonly="true">
-												<comboitem
-													value="SERENO" label="SERENO">
-												</comboitem>
-												<comboitem
-													value="COPERTO" label="COPERTO">
-												</comboitem>
-												<comboitem
-													value="NUVOLOSO" label="NUVOLOSO">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="sky_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-
-									<row>
-										<label
-											value="Primo Contenitore a Terra:">
-										</label>
-
-										<datebox id="first_down_review"
-											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
-											width="230px" />
-
-									</row>
-
-									<row>
-										<label
-											value="Ultimo Contenitore a Terra:">
-										</label>
-
-										<datebox id="last_down_review"
-											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
-											width="230px" />
-
-									</row>
 							
 							<row>
 								<label value="Note Dettaglio"></label>
@@ -1395,13 +1263,148 @@
 								</label>
 								<label id="working_cycle_review" />
 							</row>
+							
+							<row>
+								<label value="Mani di lavoro:"></label>
+								<intbox id="handswork_Daily" value="0"
+									constraint="no negative" />
+							</row>
+							<row>
+								<label value="Numero uomini:"></label>
+								<intbox id="menwork_Daily" value="0"
+									constraint="no negative" />
+							</row>
+							
+							<row>
+										<label value="Temperatura:"></label>
+
+										<hbox align="center">
+											<combobox
+												id="temperature_review" readonly="true">
+												<comboitem value="BASSA"
+													label="BASSA">
+												</comboitem>
+												<comboitem value="MEDIA"
+													label="MEDIA">
+												</comboitem>
+												<comboitem value="ALTA"
+													label="ALTA">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="temperature_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
+									</row>
+
+
+									<row>
+										<label value="Vento:"></label>
+
+										<hbox align="center">
+											<combobox id="wind_review"
+												readonly="true">
+												<comboitem
+													value="LEGGERO" label="LEGGERO">
+												</comboitem>
+												<comboitem value="MEDIO"
+													label="MEDIO">
+												</comboitem>
+												<comboitem value="FORTE"
+													label="FORTE">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="wind_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
+									</row>
+
+									<row>
+										<label value="Pioggia:"></label>
+
+										<hbox align="center">
+											<combobox id="rain_review"
+												readonly="true">
+												<comboitem
+													value="LEGGERA" label="LEGGERA">
+												</comboitem>
+												<comboitem value="MEDIA"
+													label="MEDIA">
+												</comboitem>
+												<comboitem value="FORTE"
+													label="FORTE">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="rain_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
+									</row>
+
+									<row>
+										<label value="Cielo:"></label>
+
+										<hbox align="center">
+											<combobox id="sky_review"
+												readonly="true">
+												<comboitem
+													value="SERENO" label="SERENO">
+												</comboitem>
+												<comboitem
+													value="COPERTO" label="COPERTO">
+												</comboitem>
+												<comboitem
+													value="NUVOLOSO" label="NUVOLOSO">
+												</comboitem>
+											</combobox>
+
+											<button sclass="btn-info"
+												label="ANNULLA"
+												onClick="sky_review.setSelectedItem(null)">
+											</button>
+
+										</hbox>
+									</row>
+
+									<row>
+										<label
+											value="Primo Contenitore a Terra:">
+										</label>
+
+										<datebox id="first_down_review"
+											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
+											width="230px" />
+
+									</row>
+
+									<row>
+										<label
+											value="Ultimo Contenitore a Terra:">
+										</label>
+
+										<datebox id="last_down_review"
+											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
+											width="230px" />
+
+									</row>
 
 						</rows>
 					</grid>
 
 					<separator></separator>
 
-
+					<button sclass="btn-info" label="Salva Consuntivo" id="save_review" visible="true"/>
+					
 					<button sclass="btn-info" label="Aggiungi Dettaglio" id="add_details_panels_review"
 						onClick="panel_editor_review_details.setVisible(true)" visible="true">
 					</button>
