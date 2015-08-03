@@ -470,7 +470,8 @@
 		detailinitialschedule
 		WHERE id_schedule =
 		#{id_schedule} and shift =
-		#{shift};
+		#{shift}
+		order by time_from asc;
 	</select>
 
 	<select id="loadDetailFinalScheduleByIdScheduleAndShift"

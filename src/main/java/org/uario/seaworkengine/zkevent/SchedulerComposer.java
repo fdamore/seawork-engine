@@ -427,6 +427,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Label errorMessageAddItem;
 
+	@Wire
+	private Label errorMessageAddProgramItem;
+
 	/**
 	 * First date in grid
 	 */
@@ -479,9 +482,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component last_programmer_tag;
-
 	@Wire
 	private Label lastProgrammer;
+
 	// initial program and revision - USED IN POPUP
 	private List<DetailInitialSchedule> list_details_program;
 
@@ -579,15 +582,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabpanel overview_statistics;
-
 	@Wire
 	private Tabbox overview_tab;
+
 	@Wire
 	private Panel panel_shift_period;
-
 	private final String partTimeMessage = "Part Time";
 	private Person person_logged = null;
 	private PersonDAO personDAO;
+
 	private Person personLock;
 
 	@Wire
@@ -601,16 +604,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component print_program_videos;
-
 	@Wire
 	private Component print_scheduler;
 	@Wire
 	private Div program_div;
 	@Wire
 	private Component program_head_1_1;
+
 	@Wire
 	private Component program_head_1_2;
-
 	@Wire
 	private Component program_head_1_3;
 	@Wire
@@ -619,6 +621,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component program_head_4_1;
 	@Wire
 	private Component program_head_4_2;
+
 	@Wire
 	private Component program_head_4_3;
 
@@ -660,13 +663,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader program_tot_1_4;
-
 	@Wire
 	private Auxheader program_tot_2_1;
 	@Wire
 	private Auxheader program_tot_2_2;
 	@Wire
 	private Auxheader program_tot_2_3;
+
 	@Wire
 	private Auxheader program_tot_2_4;
 
@@ -678,16 +681,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader program_tot_3_3;
-
 	@Wire
 	private Auxheader program_tot_3_4;
 	@Wire
 	private Auxheader program_tot_4_1;
 	@Wire
 	private Auxheader program_tot_4_2;
+
 	@Wire
 	private Auxheader program_tot_4_3;
-
 	@Wire
 	private Auxheader program_tot_4_4;
 	@Wire
@@ -710,6 +712,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader programUser_tot_2_1;
 	@Wire
 	private Auxheader programUser_tot_2_2;
+
 	@Wire
 	private Auxheader programUser_tot_2_3;
 
@@ -835,17 +838,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader reviewUser_tot_2_4;
-
 	@Wire
 	private Label saturation;
+
 	@Wire
 	private Label saturation_month;
-
 	@Wire
 	private Button save_program_item;
 	@Wire
 	private Button save_review_item;
 	private ISchedule scheduleDAO;
+
 	@Wire
 	private A scheduler_label;
 
@@ -1231,12 +1234,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					countHours = countHours + timeWorked + timeVacation;
 
 					if (countHours > 6) {
+						this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
 						return false;
 					}
 
 					if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
 							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
 							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+						this.errorMessageAddProgramItem.setValue("Attenzione, orario in sovrapposizione.");
 						return false;
 					}
 
@@ -1244,6 +1249,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			if (countHours > 6) {
+				this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
 				return false;
 			}
 
@@ -1251,6 +1257,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.list_details_program.add(new_item);
 			final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
 			model.setMultiple(true);
+			this.orderListDetailInitialScheduleByTimeFrom(model);
 			this.listbox_program.setModel(model);
 
 			this.setLabelTotalHoursProgram(model);
@@ -1260,6 +1267,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.minHoursAlert = false;
 			this.alertMinHours.setVisible(false);
 		}
+
+		this.errorMessageAddProgramItem.setValue("");
 
 		return true;
 
@@ -1295,6 +1304,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Double time = this.getRevisionTime();
 
 		if (time == null) {
+			this.errorMessageAddItem.setValue("Attenzione, verificare intervallo orario.");
+			this.alertMinHoursReview.setVisible(false);
 			return false;
 		}
 
@@ -1387,7 +1398,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				countHours = countHours + item.getTime() + item.getTime_vacation();
 				if (countHours > 6) {
-					this.errorMessageAddItem.setValue("Attenzione, Totale ore maggiore di 6.");
+					this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
 				}
@@ -1403,7 +1414,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (countHours > 6) {
-			this.errorMessageAddItem.setValue("Attenzione, Totale ore maggiore di 6.");
+			this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 			this.alertMinHoursReview.setVisible(false);
 			return false;
 		}
@@ -1431,6 +1442,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.errorMessageAddItem.setValue("");
 		this.alertMinHoursReview.setVisible(false);
+
+		this.ship.setSelectedItem(null);
+		this.shipInDay.setSelectedItem(null);
+		this.crane.setValue("");
+		this.board.setSelectedItem(null);
 
 		return true;
 
@@ -1637,10 +1653,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.cancel_modify.setVisible(false);
 		this.add_review_item.setVisible(true);
 		this.remove_review_item.setVisible(true);
+
+		this.ship.setSelectedItem(null);
+		this.shipInDay.setSelectedItem(null);
+		this.crane.setValue("");
+		this.board.setSelectedItem(null);
+
+		this.errorMessageAddItem.setValue("");
+
 	}
 
 	@Listen("onClick = #cancel_modify_program")
 	public void cancelModifyProgram() {
+		this.errorMessageAddProgramItem.setValue("");
 		this.save_program_item.setVisible(false);
 		this.cancel_modify_program.setVisible(false);
 		this.add_program_item.setVisible(true);
@@ -2856,7 +2881,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-	}
+	};
 
 	@Listen("onClick= #download_program_report")
 	public void downloadProgramReport() {
@@ -2928,7 +2953,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-	};
+	}
 
 	@Listen("onChange = #force_shift_combo;")
 	public void forceProgramShift() {
@@ -3865,6 +3890,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		});
 	}
 
+	private void orderListDetailInitialScheduleByTimeFrom(final List<DetailInitialSchedule> list) {
+		list.sort(new Comparator<DetailInitialSchedule>() {
+
+			@Override
+			public int compare(final DetailInitialSchedule o1, final DetailInitialSchedule o2) {
+				if ((o1 == null) || (o2 == null)) {
+					return -1;
+				}
+
+				if ((o1.getTime_from() != null) && (o2.getTime_from() != null)) {
+					return o1.getTime_from().compareTo(o2.getTime_from());
+				}
+
+				return -1;
+			}
+		});
+	}
+
 	@Listen("onClick = #refresh_command")
 	public void refreshCommand() {
 
@@ -4107,6 +4150,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		this.errorMessageAddProgramItem.setValue(null);
+
 		if ((this.selectedDay == null) || (this.selectedShift == null) || (this.selectedUser == null)) {
 			return;
 		}
@@ -4129,6 +4174,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #remove_program_item")
 	public void removeProgramItem() {
+
+		this.errorMessageAddProgramItem.setValue("");
 
 		if (!this.checkConnection()) {
 			return;
@@ -4499,6 +4546,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		this.errorMessageAddProgramItem.setValue("");
+
 		// check if time programmed if <= 6 hours
 		final Double timeProgrammed = this.getHoursInProgramList();
 
@@ -4641,6 +4690,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #save_program_item")
 	public void saveProgramItem() {
+
+		this.errorMessageAddProgramItem.setValue("");
+
+		final Integer selectedIndex = this.listbox_program.getSelectedIndex();
+
 		this.save_program_item.setVisible(false);
 		this.cancel_modify_program.setVisible(false);
 		this.add_program_item.setVisible(true);
@@ -4652,7 +4706,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (!this.addProgramItem()) {
 			this.list_details_program.add(itm);
-			this.listbox_program.setModel(new ListModelList<DetailInitialSchedule>(this.list_details_program));
+			final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+			this.orderListDetailInitialScheduleByTimeFrom(model);
+			this.listbox_program.setModel(model);
+
+			this.listbox_program.setSelectedIndex(selectedIndex);
+
+			this.save_program_item.setVisible(true);
+			this.cancel_modify_program.setVisible(true);
+			this.add_program_item.setVisible(false);
+			this.remove_program_item.setVisible(false);
+
 		}
 
 	}
@@ -4750,6 +4814,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #save_review_item")
 	public void saveReviewItem() {
+
+		final Integer selectedIndex = this.listbox_review.getSelectedIndex();
+
 		this.save_review_item.setVisible(false);
 		this.cancel_modify.setVisible(false);
 		this.add_review_item.setVisible(true);
@@ -4757,10 +4824,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.removeReviewItem();
 		if (!this.addReviewItem()) {
+
 			this.list_details_review.add(this.selectedItemReview);
 			final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
 			this.orderListDetailFinalScheduleByTimeFrom(model);
 			this.listbox_review.setModel(model);
+			this.listbox_review.setSelectedIndex(selectedIndex);
+			this.save_review_item.setVisible(true);
+			this.cancel_modify.setVisible(true);
+			this.add_review_item.setVisible(false);
+			this.remove_review_item.setVisible(false);
+		} else {
+			this.ship.setSelectedItem(null);
+			this.shipInDay.setSelectedItem(null);
+			this.crane.setValue("");
+			this.board.setSelectedItem(null);
 		}
 
 	}

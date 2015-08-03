@@ -1217,7 +1217,7 @@
 			<popup id="shift_definition_popup" width="650px">
 				<div align="right">
 					<toolbarbutton label="X" style="font-weight: bold;"
-						onClick="shift_definition_popup.close();" />
+						onClick="shift_definition_popup.close();errorMessageAddProgramItem.setValue(null);" />
 				</div>
 				<vlayout style="margin: 5px 5px 5px 5px">
 					<vbox>
@@ -1317,6 +1317,8 @@
 											visible="false" id="cancel_modify_program"
 											sclass="btn-info">
 										</button>
+										
+										<label id="errorMessageAddProgramItem" style="color:red" value=""/>
 
 									</div>
 
@@ -1400,7 +1402,7 @@
 										<listcell>
 											<toolbarbutton
 												id="sw_link_edit_program" style="color:blue"
-												onClick="listbox_program.setSelectedItem((Listitem)self.getParent().getParent());"
+												onClick="listbox_program.setSelectedItem((Listitem)self.getParent().getParent());errorMessageAddProgramItem.setValue(null);"
 												label="Modifica">
 											</toolbarbutton>
 										</listcell>
