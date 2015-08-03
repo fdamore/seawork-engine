@@ -2020,7 +2020,7 @@
 					<div align="right">
 						<toolbarbutton label="X"
 							style="font-weight: bold;"
-							onClick="shift_definition_popup_review.close();" />
+							onClick="shift_definition_popup_review.close();errorMessageAddItem.setValue(null);"/>
 					</div>
 
 					<vbox>
@@ -2102,6 +2102,8 @@
 								<button label="Annulla" visible="false"
 									id="cancel_modify" sclass="btn-info">
 								</button>
+								<label id="errorMessageAddItem" style="color:red" value=""/>
+								
 
 
 
@@ -2181,12 +2183,12 @@
 
 
 							<listbox id="listbox_review" sclass="domain"
-								checkmark="true" multiple="true">
+								checkmark="true" multiple="true" >
 
 								<listhead>
 									<listheader label="Mansioni" />
 									<listheader label="Tempo Lavorato" />
-									<listheader label="Inizio Attività" />
+									<listheader label="Inizio Attività" sort="auto(time_from)"/>
 									<listheader label="Fine Attività" />
 									<listheader label="Nave" />
 									<listheader label="Crane" />

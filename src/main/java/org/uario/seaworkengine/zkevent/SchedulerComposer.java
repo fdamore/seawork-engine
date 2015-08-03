@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -423,6 +424,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private A editor_label_review;
 
+	@Wire
+	private Label errorMessageAddItem;
+
 	/**
 	 * First date in grid
 	 */
@@ -478,9 +482,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label lastProgrammer;
-
 	// initial program and revision - USED IN POPUP
 	private List<DetailInitialSchedule> list_details_program;
+
 	private List<DetailFinalSchedule> list_details_review;
 
 	@Wire
@@ -1264,6 +1268,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick= #add_review_item")
 	public Boolean addReviewItem() {
 
+		this.errorMessageAddItem.setValue("");
+		this.alertMinHoursReview.setVisible(false);
+
 		if (!this.checkConnection()) {
 			return false;
 		}
@@ -1380,25 +1387,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				countHours = countHours + item.getTime() + item.getTime_vacation();
 				if (countHours > 6) {
+					this.errorMessageAddItem.setValue("Attenzione, Totale ore maggiore di 6.");
+					this.alertMinHoursReview.setVisible(false);
 					return false;
 				}
 
 				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0)) || ((new_item
 						.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
 						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+					this.errorMessageAddItem.setValue("Attenzione, orario in sovrapposizione.");
+					this.alertMinHoursReview.setVisible(false);
 					return false;
 				}
 			}
 		}
 
 		if (countHours > 6) {
+			this.errorMessageAddItem.setValue("Attenzione, Totale ore maggiore di 6.");
+			this.alertMinHoursReview.setVisible(false);
 			return false;
 		}
 
 		// update program list
 		this.list_details_review.add(new_item);
+
 		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
 		model.setMultiple(true);
+		this.orderListDetailFinalScheduleByTimeFrom(model);
 		this.listbox_review.setModel(model);
 
 		this.setLabelTotalHoursReview(model);
@@ -1413,6 +1428,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.minHoursAlert = false;
 			this.alertMinHoursReview.setVisible(false);
 		}
+
+		this.errorMessageAddItem.setValue("");
+		this.alertMinHoursReview.setVisible(false);
 
 		return true;
 
@@ -1902,17 +1920,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2838,7 +2856,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-	};
+	}
 
 	@Listen("onClick= #download_program_report")
 	public void downloadProgramReport() {
@@ -2910,7 +2928,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-	}
+	};
 
 	@Listen("onChange = #force_shift_combo;")
 	public void forceProgramShift() {
@@ -3829,6 +3847,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void orderListDetailFinalScheduleByTimeFrom(final List<DetailFinalSchedule> list) {
+		list.sort(new Comparator<DetailFinalSchedule>() {
+
+			@Override
+			public int compare(final DetailFinalSchedule o1, final DetailFinalSchedule o2) {
+				if ((o1 == null) || (o2 == null)) {
+					return -1;
+				}
+
+				if ((o1.getTime_from() != null) && (o2.getTime_from() != null)) {
+					return o1.getTime_from().compareTo(o2.getTime_from());
+				}
+
+				return -1;
+			}
+		});
+	}
+
 	@Listen("onClick = #refresh_command")
 	public void refreshCommand() {
 
@@ -3989,8 +4025,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4124,6 +4160,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #cancel_review")
 	public void removeReview() {
 
+		this.errorMessageAddItem.setValue("");
+		this.alertMinHoursReview.setVisible(false);
+
 		if (!this.checkConnection()) {
 			return;
 		}
@@ -4153,6 +4192,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #remove_review_item")
 	public void removeReviewItem() {
+
+		this.errorMessageAddItem.setValue("");
+		this.alertMinHoursReview.setVisible(false);
 
 		if (!this.checkConnection()) {
 			return;
@@ -4315,17 +4357,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4555,7 +4597,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+										.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -4620,6 +4662,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	@Listen("onClick = #ok_review")
 	public void saveReview() {
+
+		this.errorMessageAddItem.setValue("");
+		this.alertMinHoursReview.setVisible(false);
 
 		if (!this.checkConnection()) {
 			return;
@@ -4713,7 +4758,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.removeReviewItem();
 		if (!this.addReviewItem()) {
 			this.list_details_review.add(this.selectedItemReview);
-			this.listbox_review.setModel(new ListModelList<DetailFinalSchedule>(this.list_details_review));
+			final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+			this.orderListDetailFinalScheduleByTimeFrom(model);
+			this.listbox_review.setModel(model);
 		}
 
 	}
@@ -5144,6 +5191,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_edit_review")
 	public void setEditValueInPopupReview() {
+
+		this.errorMessageAddItem.setValue("");
+
+		this.alertMinHoursReview.setVisible(false);
 
 		this.save_review_item.setVisible(true);
 		this.cancel_modify.setVisible(true);

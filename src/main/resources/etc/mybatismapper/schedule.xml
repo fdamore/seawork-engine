@@ -486,7 +486,8 @@
 		WHERE
 		df.id_schedule =
 		#{id_schedule} and
-		df.shift = #{shift};
+		df.shift = #{shift}
+		order by df.time_from asc;
 	</select>
 
 	<select id="loadDetailInitialScheduleByIdSchedule"
