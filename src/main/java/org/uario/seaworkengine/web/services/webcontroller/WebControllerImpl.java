@@ -36,25 +36,25 @@ import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private ConfigurationDAO	configurationDAO;
+	private ConfigurationDAO configurationDAO;
 
-	private final Logger		logger	= Logger.getLogger(WebControllerImpl.class);
+	private final Logger logger = Logger.getLogger(WebControllerImpl.class);
 
-	private PersonDAO			personDAO;
+	private PersonDAO personDAO;
 
-	private ISchedule			scheduleDAO;
+	private ISchedule scheduleDAO;
 
-	private IShiftCache			shiftCache;
+	private IShiftCache shiftCache;
 
-	private IScheduleShip		ship_dao;
+	private IScheduleShip ship_dao;
 
-	private IScheduleShip		shipSchedulerDao;
+	private IScheduleShip shipSchedulerDao;
 
-	private IStatistics			statistics;
+	private IStatistics statistics;
 
-	private ITaskCache			taskCache;
+	private ITaskCache taskCache;
 
-	private TasksDAO			taskDAO;
+	private TasksDAO taskDAO;
 
 	@Override
 	public Boolean checkUser(final String username, final String password) {
@@ -313,7 +313,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShip(date_request_truncate, null, null, null, null, null);
+		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShip(date_request_truncate, null, null, null, null, null,
+				null);
 		return list;
 	}
 

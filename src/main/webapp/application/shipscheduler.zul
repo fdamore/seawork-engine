@@ -1087,6 +1087,14 @@
 				<comboitem value="nowork" label="Non Lavoro" />
 				<comboitem value="all" label="Tutti" />
 			</combobox>
+			
+			<a label="Filtra per lavorate " />
+			<combobox placeholder="Scegli se lavorate..." readonly="true"
+				id="select_workedShip">
+				<comboitem value="yes" label="Si" />
+				<comboitem value="no" label="No" />
+				<comboitem value="all" label="Tutte" />
+			</combobox>
 
 			<separator />
 
@@ -1395,6 +1403,19 @@
 										<datebox id="last_down_review"
 											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
 											width="230px" />
+
+									</row>
+									
+									<row>
+										<label
+											value="Lavorata:">
+										</label>
+
+										<radiogroup id="workedGroup">
+										<radio id="workedYes" label="Si" radiogroup="workedGroup" />
+										<space/>
+                						<radio id="workedNo" label="No" radiogroup="workedGroup" selected="true"/>
+                						</radiogroup>
 
 									</row>
 

@@ -47,6 +47,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private Integer handswork;
 
 	private Integer id;
+	
+	private Boolean worked;
 
 	// ship id
 	private Integer id_ship;
@@ -299,6 +301,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setWind(final String wind) {
 		this.wind = wind;
+	}
+
+	public Boolean getWorked() {
+		return worked;
+	}
+
+	public void setWorked(Boolean worked) {
+		this.worked = worked;
 	}
 
 }

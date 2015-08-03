@@ -135,11 +135,11 @@
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
 		idseconduser, handswork, menwork, shiftdate, notedetail,
-		activity_start, activity_end, rain, wind, sky, temperature, first_down, last_down)
+		activity_start, activity_end, rain, wind, sky, temperature, first_down, last_down, worked)
 		VALUES
 		(#{idscheduleship},
 		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
-		#{notedetail}, #{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky}, #{temperature}, #{first_down}, #{last_down});
+		#{notedetail}, #{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky}, #{temperature}, #{first_down}, #{last_down},#{worked});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -181,6 +181,7 @@
 		<if test="shift != null">
 			d.shift = #{shift} and
 		</if>
+		d.worked = 1 and 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >=
 		date(ss.arrivaldate)
@@ -205,8 +206,9 @@
 			'%') ) and
 		</if>
 		<if test="shift != null">
-			d.shift = #{shift} and
+			d.shift = #{shift} and 
 		</if>
+		d.worked = 1 and 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		date(ss.arrivaldate) = date(#{arrivaldate})
 		) as detail;
@@ -231,8 +233,9 @@
 			'%') ) and
 		</if>
 		<if test="shift != null">
-			d.shift = #{shift} and
+			d.shift = #{shift} and 
 		</if>
+		d.worked = 1 and 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >=
 		date(ss.arrivaldate) order by d.shift asc
@@ -257,8 +260,9 @@
 			(s.name like CONCAT('%',#{full_text_search},'%') ) and
 		</if>
 		<if test="shift != null">
-			d.shift = #{shift} and
+			d.shift = #{shift} and 
 		</if>
+		d.worked = 1 and 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >=
 		date(ss.arrivaldate) order by d.shift asc
@@ -283,8 +287,9 @@
 			'%') ) and
 		</if>
 		<if test="shift != null">
-			d.shift = #{shift} and
+			d.shift = #{shift} and 
 		</if>
+		d.worked = 1 and 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		ss.arrivaldate=date(#{arrivaldate})
 		) as detail;
@@ -310,9 +315,9 @@
 		</if>
 
 		<if test="shift != null">
-			d.shift = #{shift} and
+			d.shift = #{shift} and 
 		</if>
-
+		d.worked = 1 and 
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
 		ss.arrivaldate=date(#{arrivaldate})
 		) as detail;
@@ -322,7 +327,7 @@
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail,  d.rain, d.wind, d.sky, d.temperature, d.first_down, d.last_down, 
+		d.notedetail,  d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
 		s.name, d.operation, d.activity_start, d.activity_end,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
@@ -377,6 +382,10 @@
 		<if test="activityh != null">
 			#{activityh}=s.activityh and
 		</if>
+		
+		<if test="worked != null">
+			#{worked}=d.worked and 
+		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
 		order by
@@ -388,7 +397,7 @@
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.last_down, 
+		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
 		s.name, d.operation, d.activity_start, d.activity_end,
 		ss.note,ss.arrivaldate,
 		ss.departuredate,
@@ -440,6 +449,10 @@
 		<if test="activityh != null">
 			#{activityh}=s.activityh and
 		</if>
+		
+		<if test="worked != null">
+			#{worked}=d.worked and 
+		</if>
 
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
 		order by
@@ -455,7 +468,7 @@
 		d.idseconduser,
 		d.handswork, d.menwork,
 		d.shiftdate,
-		d.notedetail, d.activity_start, d.activity_end, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.last_down, 
+		d.notedetail, d.activity_start, d.activity_end, d.rain, d.wind, d.sky, d.temperature, d.worked, d.first_down, d.last_down, 
 		concat(u.lastname, '
 		',
 		u.firstname) AS
@@ -540,7 +553,8 @@
 		sky = #{sky}, 
 		temperature = #{temperature}, 
 		first_down = #{first_down}, 
-		last_down = #{last_down} 
+		last_down = #{last_down}, 
+		worked = #{worked}  
 		WHERE id = #{id};
 	</update>
 
@@ -555,7 +569,7 @@
 		sky = #{sky}, 
 		temperature = #{temperature}, 
 		first_down = #{first_down}, 
-		last_down = #{last_down} 
+		last_down = #{last_down},
 		WHERE id = #{id};
 	</update>
 

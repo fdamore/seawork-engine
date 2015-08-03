@@ -61,6 +61,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Popup;
+import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabbox;
@@ -448,6 +449,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox select_typeShip;
 
 	@Wire
+	private Combobox select_workedShip;
+
+	@Wire
 	private Combobox select_year;
 
 	@Wire
@@ -651,6 +655,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox wind_review;
+
+	@Wire
+	private Radiogroup workedGroup;
 
 	@Wire
 	private Label working_cycle_review;
@@ -2167,7 +2174,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Set ship list box with initial events
 	 */
-	@Listen("onOK = #shows_rows, #full_text_search;onChange = #select_shift, #select_customer, #select_typeShip")
+	@Listen("onOK = #shows_rows, #full_text_search;onChange = #select_shift, #select_customer, #select_typeShip, #select_workedShip")
 	public void refreshScheduleShipListBox() {
 
 		if (this.searchDateShift.getValue() != null) {
@@ -2370,6 +2377,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		if (this.workedGroup.getSelectedIndex() == 0) {
+			this.detailScheduleShipSelected.setWorked(true);
+		} else {
+			this.detailScheduleShipSelected.setWorked(false);
+		}
+
 		this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
 		this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
 
@@ -2460,8 +2473,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		// set worked filter
+		Boolean worked = false;
+		if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
+			worked = true;
+		}
+
 		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer,
-				nowork, activityh);
+				nowork, activityh, worked);
 
 		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.modelListDetailScheduleShip));
 
@@ -2509,8 +2528,20 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		// set worked filter
+		Boolean worked = false;
+		if (this.select_workedShip.getSelectedItem() == null) {
+			worked = null;
+		} else if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
+			worked = true;
+		} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
+			worked = false;
+		} else if (this.select_workedShip.getSelectedItem().getValue().equals("all")) {
+			worked = null;
+		}
+
 		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
-				activityh);
+				activityh, worked);
 
 		this.setInfoDetailShipProgram(date, _text);
 
@@ -3003,6 +3034,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.select_typeShip.setSelectedItem(null);
 
+		this.select_workedShip.setSelectedItem(null);
+
 		// set ship listbox
 		this.refreshScheduleShipListBox();
 
@@ -3147,6 +3180,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
+
+		// select if worked or not
+		if (detailSelected.getWorked()) {
+			this.workedGroup.setSelectedIndex(0);
+		} else {
+			this.workedGroup.setSelectedIndex(1);
+		}
 
 		this.handswork_Daily.setValue(detailSelected.getHandswork());
 		this.menwork_Daily.setValue(detailSelected.getMenwork());

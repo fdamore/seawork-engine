@@ -53,10 +53,10 @@ public interface IScheduleShip {
 	public List<Ship> loadShipInDate(Timestamp arrivalDate);
 
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, String full_text_search, Integer shift, Integer idCustomer,
-			Boolean nowork, Boolean activityh);
+			Boolean nowork, Boolean activityh, Boolean worked);
 
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
-			Boolean nowork, Boolean activityh);
+			Boolean nowork, Boolean activityh, Boolean worked);
 
 	public List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, String mct);
 

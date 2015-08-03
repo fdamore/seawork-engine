@@ -2928,7 +2928,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final Date tomorrowDate = DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
 			final List<DetailScheduleShip> list_DetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(tomorrowDate, null, null, null,
-					null, null);
+					null, null, null);
 
 			ProgramReportBuilder.createReport(final_list, list_DetailScheduleShip, tomorrowDate).toPdf(stream);
 
@@ -5293,7 +5293,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			Date dateTo = detail.getTime_to();
-			final Date dateFrom = detail.getTime_from();
+			Date dateFrom = detail.getTime_from();
+
+			// for to fix old incorrect insert in db
+			if (dateTo.before(dateFrom)) {
+
+				final Date dateA = (Date) dateTo.clone();
+
+				dateTo = (Date) dateFrom.clone();
+
+				dateFrom = dateA;
+
+			}
 
 			final Calendar cal = Calendar.getInstance();
 			cal.setTime(dateTo);
