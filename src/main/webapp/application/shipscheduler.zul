@@ -1230,8 +1230,14 @@
 					label="Consuntiva Dettagli Programmazione Nave">
 
 				</caption>
+				
+				
 
 				<panelchildren>
+				
+				<separator></separator>
+				<button sclass="btn-info" label="Salva Consuntivo" id="save_review" visible="true"/>
+				<separator></separator>
 
 					<grid style="border: 1px solid #CFCFCF"
 						sclass="domain">
@@ -1433,8 +1439,6 @@
 
 					<separator></separator>
 
-					<button sclass="btn-info" label="Salva Consuntivo" id="save_review" visible="true"/>
-					
 					<button sclass="btn-info" label="Aggiungi Dettaglio" id="add_details_panels_review"
 						onClick="panel_editor_review_details.setVisible(true)" visible="true">
 					</button>
