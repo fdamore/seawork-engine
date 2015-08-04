@@ -2172,7 +2172,7 @@
 
 
 								<textbox id="crane"
-									placeholder="Inserisci crane..." />
+									placeholder="Inserisci gru..." />
 								<combobox id="board" width="150px"
 									readonly="true" placeholder="A Bordo - Sotto Bordo" />
 
@@ -2190,7 +2190,7 @@
 									<listheader label="Inizio Attività" sort="auto(time_from)"/>
 									<listheader label="Fine Attività" />
 									<listheader label="Nave" />
-									<listheader label="Crane" />
+									<listheader label="Gru" />
 									<listheader label="Postazione" />
 									<listheader
 										label="Consuntiva Fascia" />
@@ -2651,7 +2651,7 @@
 							<space></space>
 
 							<vbox align="start" id="reviewShiftBox">
-								<a label="Filtra su fascia oraria: "></a>
+								<a label="Filtra su fascia oraria: "/>
 								<combobox id="hoursInterval"
 									readonly="false" placeholder="Seleziona Fascia Oraria...">
 									<comboitem label="SI" value="true" />
@@ -2659,8 +2659,20 @@
 									<comboitem label="TUTTI"
 										value="null" />
 								</combobox>
-
 							</vbox>
+							
+							<space></space>
+							
+							<vbox>
+								<a label="Filtra su nave: "/>
+								<combobox id="shipSelector" autodrop="true"
+									placeholder="Seleziona nave...">
+
+									<comboitem self="@{each='ship'}"
+										label="@{ship.name}" value="@{ship}" />
+								</combobox>
+							</vbox>
+
 
 						</hbox>
 
@@ -2756,7 +2768,7 @@
 											hflex="1" align="center" />
 										<listheader label="Nave"
 											hflex="1" align="center" />
-										<listheader label="Crane"
+										<listheader label="Gru"
 											hflex="1" align="center" />
 										<listheader label="Ingresso"
 											hflex="2" align="center" />
