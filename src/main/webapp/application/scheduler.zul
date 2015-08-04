@@ -2650,29 +2650,46 @@
 
 							<space></space>
 
-							<vbox align="start" id="reviewShiftBox">
-								<a label="Filtra su fascia oraria: "/>
-								<combobox id="hoursInterval"
-									readonly="false" placeholder="Seleziona Fascia Oraria...">
-									<comboitem label="SI" value="true" />
-									<comboitem label="NO" value="false" />
-									<comboitem label="TUTTI"
-										value="null" />
-								</combobox>
-							</vbox>
+							
+							<hbox align="start" id="reviewShiftBox">
+								<vbox>
+									<a label="Filtra su fascia oraria: " />
+									<combobox id="hoursInterval"
+										readonly="false" placeholder="Seleziona Fascia Oraria...">
+										<comboitem label="SI"
+											value="true" />
+										<comboitem label="NO"
+											value="false" />
+										<comboitem label="TUTTI"
+											value="null" />
+									</combobox>
+								</vbox>
+								
+								<space></space>
+								
+								<vbox>
+									<a label="Filtra su nave: " />
+									<combobox id="shipSelector"
+										autodrop="true" placeholder="Seleziona nave...">
+
+										<comboitem self="@{each='ship'}"
+											label="@{ship.name}" value="@{ship}" />
+									</combobox>
+								</vbox>
+
+								<space></space>
+
+								<vbox>
+									<a label="Filtra su gru: "/>
+									<textbox id="craneSelector"
+										constraint="no negative, no zero" />
+
+								</vbox>
+							</hbox>
+							
 							
 							<space></space>
-							
-							<vbox>
-								<a label="Filtra su nave: "/>
-								<combobox id="shipSelector" autodrop="true"
-									placeholder="Seleziona nave...">
-
-									<comboitem self="@{each='ship'}"
-										label="@{ship.name}" value="@{ship}" />
-								</combobox>
-							</vbox>
-
+													
 
 						</hbox>
 
@@ -2688,6 +2705,9 @@
 							</hbox>
 						</vbox>
 					</div>
+					
+					
+
 				</vbox>
 
 				<a label="Scarica dati in CSV" id="overview_download"

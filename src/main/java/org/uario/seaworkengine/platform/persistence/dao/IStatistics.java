@@ -138,7 +138,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-			Date date_from, Date date_to, Boolean reviewshift);
+			Date date_from, Date date_to, Boolean reviewshift, Integer idShip, String crane);
 
 	/**
 	 * List detail initial schedule

@@ -368,6 +368,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Textbox crane;
 
+	@Wire
+	private Textbox craneSelector;
+
 	private Schedule currentSchedule;
 
 	@Wire
@@ -1948,17 +1951,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -2027,7 +2030,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * define the view in function of the type of the view required
 	 */
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #hoursInterval; onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search; onSelect = #overview_tab")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #hoursInterval, #shipSelector; onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search, #craneSelector; onSelect = #overview_tab")
 	public void defineSchedulerView() {
 
 		this.setLastProgrammerLabel();
@@ -3916,7 +3919,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void refreshCommand() {
 
 		this.select_shift_overview.setSelectedItem(this.item_all_shift_overview);
-
+		this.resetFilter();
 		// refresh for overview
 		this.full_text_search.setValue(null);
 		this.date_from_overview.setValue(null);
@@ -3955,58 +3958,62 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// select date period
 		Date date_from = this.date_from_overview.getValue();
 		Date date_to = this.date_to_overview.getValue();
-		boolean use_date = false;
-		if ((date_from != null) && (date_to != null) && !date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
-			use_date = true;
 
-			// truncate
-			date_from = DateUtils.truncate(date_from, Calendar.DATE);
-			date_to = DateUtils.truncate(date_to, Calendar.DATE);
-		}
+		if ((date_from != null) && (date_to != null)) {
+			boolean use_date = false;
+			if (!date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
+				use_date = true;
 
-		// mod date_to for user statistics
-		Date date_to_stat = new Date(date_to.getTime());
-		Calendar date_to_stat_cal = Calendar.getInstance();
-		date_to_stat_cal = DateUtils.truncate(date_to_stat_cal, Calendar.DATE);
-		date_to_stat_cal.add(Calendar.DAY_OF_YEAR, 1);
-		if (date_to.after(date_to_stat_cal.getTime())) {
-			date_to_stat = date_to_stat_cal.getTime();
-		}
-
-		for (final Person person : users_schedule) {
-
-			UserStatistics user = null;
-
-			if (use_date) {
-				user = this.statProcedure.getUserStatistics(person, date_from, date_to_stat, false);
-			} else {
-				user = this.statProcedure.getUserStatistics(person, false);
+				// truncate
+				date_from = DateUtils.truncate(date_from, Calendar.DATE);
+				date_to = DateUtils.truncate(date_to, Calendar.DATE);
 			}
 
-			user.setPerson(person);
-			this.listUserStatistics.add(user);
+			// mod date_to for user statistics
+			Date date_to_stat = new Date(date_to.getTime());
+			Calendar date_to_stat_cal = Calendar.getInstance();
+			date_to_stat_cal = DateUtils.truncate(date_to_stat_cal, Calendar.DATE);
+			date_to_stat_cal.add(Calendar.DAY_OF_YEAR, 1);
+			if (date_to.after(date_to_stat_cal.getTime())) {
+				date_to_stat = date_to_stat_cal.getTime();
+			}
+
+			for (final Person person : users_schedule) {
+
+				UserStatistics user = null;
+
+				if (use_date) {
+					user = this.statProcedure.getUserStatistics(person, date_from, date_to_stat, false);
+				} else {
+					user = this.statProcedure.getUserStatistics(person, false);
+				}
+
+				user.setPerson(person);
+				this.listUserStatistics.add(user);
+			}
+
+			Collections.sort(this.listUserStatistics);
+
+			this.list_statistics.setModel(new ListModelList<UserStatistics>(this.listUserStatistics));
+
+			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+				this.list_statistics.setPageSize(this.shows_rows.getValue());
+			}
+
+			final Calendar cal = Calendar.getInstance();
+
+			final String tstamp = Utility.convertToDateAndTime(cal.getTime());
+			if (!use_date) {
+				this.updateStatisticTime.setValue("Statistica aggiornata a: " + tstamp);
+			} else {
+
+				final String msg = "Statistica aggiornata a: " + tstamp + " riferito al periodo " + Utility.getDataAsString_it(date_from) + " - "
+						+ Utility.getDataAsString_it(date_to);
+
+				this.updateStatisticTime.setValue(msg);
+			}
 		}
 
-		Collections.sort(this.listUserStatistics);
-
-		this.list_statistics.setModel(new ListModelList<UserStatistics>(this.listUserStatistics));
-
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.list_statistics.setPageSize(this.shows_rows.getValue());
-		}
-
-		final Calendar cal = Calendar.getInstance();
-
-		final String tstamp = Utility.convertToDateAndTime(cal.getTime());
-		if (!use_date) {
-			this.updateStatisticTime.setValue("Statistica aggiornata a: " + tstamp);
-		} else {
-
-			final String msg = "Statistica aggiornata a: " + tstamp + " riferito al periodo " + Utility.getDataAsString_it(date_from) + " - "
-					+ Utility.getDataAsString_it(date_to);
-
-			this.updateStatisticTime.setValue(msg);
-		}
 	}
 
 	@Listen("onClick = #cancel_day_definition")
@@ -4072,8 +4079,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4326,6 +4333,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void resetFilter() {
+
+		this.select_shift_overview.setSelectedItem(null);
+		this.select_shifttype_overview.setSelectedItem(null);
+		this.taskComboBox.setSelectedItem(null);
+		this.hoursInterval.setSelectedItem(null);
+		this.shipSelector.setSelectedItem(null);
+		this.craneSelector.setValue(null);
+
+	}
+
 	/**
 	 * Save Current scheduler updating values from grid
 	 */
@@ -4408,17 +4426,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4650,7 +4668,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+										.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -5737,8 +5755,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
+			Integer idShip = null;
+
+			if (this.shipSelector.getSelectedItem() != null) {
+				final Ship ship = this.shipSelector.getSelectedItem().getValue();
+				idShip = ship.getId();
+				if (idShip == -1) {
+					idShip = null;
+				}
+			}
+
+			final String idCrane = this.craneSelector.getValue();
+
 			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
-					date_from, date_to, reviewshift);
+					date_from, date_to, reviewshift, idShip, idCrane);
 
 			double count_h = 0;
 			double count_h_c = 0;

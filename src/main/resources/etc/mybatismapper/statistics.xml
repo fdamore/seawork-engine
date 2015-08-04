@@ -355,9 +355,16 @@
 		</if>
 
 		<if test="reviewshift != null">
-			and (dfs.reviewshift = #{reviewshift})
+			and (dfs.reviewshift = #{reviewshift}) 
 		</if>
-
+		
+		<if test="craneId != null">
+			and (dfs.crane like CONCAT('%', #{craneId}, '%') ) 
+		</if>
+		
+		<if test="idShip != null">
+			and (dfs.id_ship = #{idShip}) 
+		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
 
