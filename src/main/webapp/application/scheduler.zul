@@ -1305,10 +1305,6 @@
 											id="add_program_item" sclass="btn-info">
 										</button>
 
-										<button label="Cancella"
-											id="remove_program_item" sclass="btn-info">
-										</button>
-
 										<button label="Salva"
 											visible="false" id="save_program_item" sclass="btn-info">
 										</button>
@@ -1405,6 +1401,9 @@
 												onClick="listbox_program.setSelectedItem((Listitem)self.getParent().getParent());errorMessageAddProgramItem.setValue(null);"
 												label="Modifica">
 											</toolbarbutton>
+											<toolbarbutton id="remove_program_item" style="color:blue"
+												onClick="listbox_program.setSelectedItem((Listitem)self.getParent().getParent());errorMessageAddProgramItem.setValue(null);"
+												label="Cancella"/>
 										</listcell>
 
 
@@ -2095,9 +2094,7 @@
 								<button label="Aggiungi"
 									id="add_review_item" sclass="btn-info">
 								</button>
-								<button label="Cancella"
-									id="remove_review_item" sclass="btn-info">
-								</button>
+								
 								<button label="Salva" visible="false"
 									id="save_review_item" sclass="btn-info">
 								</button>
@@ -2250,6 +2247,9 @@
 											onClick="listbox_review.setSelectedItem((Listitem)self.getParent().getParent());"
 											label="Modifica">
 										</toolbarbutton>
+										<toolbarbutton id="remove_review_item" style="color:blue"
+											onClick="listbox_review.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Cancella"/>
 									</listcell>
 
 
