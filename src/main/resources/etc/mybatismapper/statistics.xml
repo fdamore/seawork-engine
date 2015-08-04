@@ -24,8 +24,8 @@
 		d.volume_tw_mct,
 		d.notedetail,
 		d.invoicing_cycle,
-		d.sky, d.rain, d.wind, d.temperature, d.first_down,
-		d.last_down
+		dss.sky, dss.rain, dss.wind, dss.temperature, dss.first_down,
+		dss.last_down
 		from
 		ship s,
 		scheduleship ss,

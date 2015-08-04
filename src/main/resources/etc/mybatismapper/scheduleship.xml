@@ -134,11 +134,11 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, shiftdate, notedetail,
+		idseconduser, handswork, menwork, handswork_program, menwork_program, shiftdate, notedetail,
 		activity_start, activity_end, rain, wind, sky, temperature, first_down, last_down, worked)
 		VALUES
 		(#{idscheduleship},
-		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},#{shiftdate},
+		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork}, #{handswork_program}, #{menwork_program}, #{shiftdate},
 		#{notedetail}, #{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky}, #{temperature}, #{first_down}, #{last_down},#{worked});
 	</insert>
 
@@ -333,7 +333,7 @@
 		ss.departuredate,
 		d.iduser,d.idseconduser,
 		d.handswork,
-		d.menwork,
+		d.menwork, d.handswork_program, d.menwork_program, 
 		d.shiftdate,
 		s.id as
 		id_ship,
@@ -404,7 +404,7 @@
 		d.iduser,
 		d.idseconduser,
 		d.handswork,
-		d.menwork,
+		d.menwork, d.handswork_program, d.menwork_program, 
 		d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname,
@@ -466,7 +466,7 @@
 		d.operation,
 		d.iduser,
 		d.idseconduser,
-		d.handswork, d.menwork,
+		d.handswork, d.menwork, d.handswork_program, d.menwork_program, 
 		d.shiftdate,
 		d.notedetail, d.activity_start, d.activity_end, d.rain, d.wind, d.sky, d.temperature, d.worked, d.first_down, d.last_down, 
 		concat(u.lastname, '
@@ -543,7 +543,9 @@
 		idseconduser =
 		#{idseconduser},
 		handswork = #{handswork},
-		menwork = #{menwork},
+		menwork = #{menwork}, 
+		handswork_program = #{handswork_program},
+		menwork_program = #{menwork_program}, 
 		shiftdate = #{shiftdate},
 		notedetail = #{notedetail},
 		activity_start = #{activity_start}, 

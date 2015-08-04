@@ -376,15 +376,15 @@
 											</row>
 											<row>
 												<label
-													value="Mani di lavoro:">
+													value="Mani programmate">
 												</label>
-												<intbox id="handswork" />
+												<intbox id="handswork_program" />
 											</row>
 											<row>
 												<label
-													value="Numero uomini:">
+													value="Persone programmate">
 												</label>
-												<intbox id="menwork" />
+												<intbox id="menwork_program" />
 											</row>
 											
 											<row>
@@ -555,10 +555,10 @@
 										sort="auto(firstOperativeName)" />
 									<listheader label="Secondo preposto"
 										sort="auto(secondOperativeName)" />
-									<listheader label="Mani"
-										sort="auto(handswork)" />
-									<listheader label="Uomini"
-										sort="auto(menwork)" />
+									<listheader label="Mani programmate"
+										sort="auto(handswork_program)" />
+									<listheader label="Persone programmate"
+										sort="auto(menwork_program)" />
 
 									<listheader label="" />
 								</listhead>
@@ -578,9 +578,9 @@
 									<listcell sclass="myBottonCell"
 										label="@{detailscheduleship_item.secondOperativeName}" />
 									<listcell sclass="myBottonCell"
-										label="@{detailscheduleship_item.handswork}" />
+										label="@{detailscheduleship_item.handswork_program}" />
 									<listcell sclass="myBottonCell"
-										label="@{detailscheduleship_item.menwork}" />
+										label="@{detailscheduleship_item.menwork_program}" />
 
 									<listcell sclass="myBottonCell">
 
@@ -1128,8 +1128,8 @@
 						sort="auto(firstOperativeName)" />
 					<listheader label="Secondo Preposto"
 						sort="auto(secondOperativeName)" />
-					<listheader label="Mani" id="handsColumn"  sort="auto(handswork)"/>
-					<listheader label="Persone" id="personsColumn" sort="auto(menwork)"/>
+					<listheader label="Mani consuntivate" id="handsColumn"  sort="auto(handswork)"/>
+					<listheader label="Persone consuntivate" id="personsColumn" sort="auto(menwork)"/>
 
 					<listheader label="Data inizio"
 						sort="auto(arrivaldate)" hflex="1"/>
@@ -1273,12 +1273,21 @@
 							</row>
 							
 							<row>
-								<label value="Mani di lavoro:"></label>
+								<label value="Mani programmate:"></label>
+								<label id="handswork_program_Daily"/>
+							</row>
+							<row>
+								<label value="Persone programmate:"></label>
+								<label id="menwork_program_Daily"/>
+							</row>
+							
+							<row>
+								<label value="Mani consuntivate:"></label>
 								<intbox id="handswork_Daily" value="0"
 									constraint="no negative" />
 							</row>
 							<row>
-								<label value="Numero uomini:"></label>
+								<label value="Persone consuntivate:"></label>
 								<intbox id="menwork_Daily" value="0"
 									constraint="no negative" />
 							</row>

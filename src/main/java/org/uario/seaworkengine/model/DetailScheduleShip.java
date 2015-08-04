@@ -46,9 +46,9 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private Integer handswork;
 
+	private Integer handswork_program;
+
 	private Integer id;
-	
-	private Boolean worked;
 
 	// ship id
 	private Integer id_ship;
@@ -62,6 +62,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private Date last_down;
 
 	private Integer menwork;
+
+	private Integer menwork_program;
 
 	// ship name
 	private String name;
@@ -88,6 +90,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private String temperature;
 
 	private String wind;
+
+	private Boolean worked;
 
 	@Override
 	public int compareTo(final Person o) {
@@ -127,6 +131,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.handswork;
 	}
 
+	public Integer getHandswork_program() {
+		return this.handswork_program;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
@@ -153,6 +161,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public Integer getMenwork() {
 		return this.menwork;
+	}
+
+	public Integer getMenwork_program() {
+		return this.menwork_program;
 	}
 
 	public String getName() {
@@ -199,6 +211,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.wind;
 	}
 
+	public Boolean getWorked() {
+		return this.worked;
+	}
+
 	public void setActivity_end(final Date activity_end) {
 		this.activity_end = activity_end;
 	}
@@ -231,6 +247,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.handswork = handswork;
 	}
 
+	public void setHandswork_program(final Integer handswork_program) {
+		this.handswork_program = handswork_program;
+	}
+
 	public void setId(final Integer id) {
 		this.id = id;
 	}
@@ -257,6 +277,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setMenwork(final Integer menwork) {
 		this.menwork = menwork;
+	}
+
+	public void setMenwork_program(final Integer menwork_program) {
+		this.menwork_program = menwork_program;
 	}
 
 	public void setName(final String shipname) {
@@ -303,11 +327,7 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		this.wind = wind;
 	}
 
-	public Boolean getWorked() {
-		return worked;
-	}
-
-	public void setWorked(Boolean worked) {
+	public void setWorked(final Boolean worked) {
 		this.worked = worked;
 	}
 
