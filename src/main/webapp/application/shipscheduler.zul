@@ -376,13 +376,13 @@
 											</row>
 											<row>
 												<label
-													value="Mani programmate">
+													value="Mani P">
 												</label>
 												<intbox id="handswork_program" />
 											</row>
 											<row>
 												<label
-													value="Persone programmate">
+													value="Persone P">
 												</label>
 												<intbox id="menwork_program" />
 											</row>
@@ -555,9 +555,9 @@
 										sort="auto(firstOperativeName)" />
 									<listheader label="Secondo preposto"
 										sort="auto(secondOperativeName)" />
-									<listheader label="Mani programmate"
+									<listheader label="Mani P"
 										sort="auto(handswork_program)" />
-									<listheader label="Persone programmate"
+									<listheader label="Persone P"
 										sort="auto(menwork_program)" />
 
 									<listheader label="" />
@@ -1128,8 +1128,12 @@
 						sort="auto(firstOperativeName)" />
 					<listheader label="Secondo Preposto"
 						sort="auto(secondOperativeName)" />
-					<listheader label="Mani consuntivate" id="handsColumn"  sort="auto(handswork)"/>
-					<listheader label="Persone consuntivate" id="personsColumn" sort="auto(menwork)"/>
+					<listheader label="Lavorata"
+						sort="auto(worked)" />
+					<listheader label="Mani P"   sort="auto(handswork_program)"/>
+					<listheader label="Mani C" id="handsColumn"  sort="auto(handswork)"/>
+					<listheader label="Persone P"  sort="auto(menwork_program)"/>
+					<listheader label="Persone C" id="personsColumn" sort="auto(menwork)"/>
 
 					<listheader label="Data inizio"
 						sort="auto(arrivaldate)" hflex="1"/>
@@ -1171,7 +1175,13 @@
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.secondOperativeName, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}" />
 					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.worked, converter='org.uario.seaworkengine.zkevent.converter.BooleanConverter'}" />
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.handswork_program}" />
+					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.handswork}" />
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.menwork_program}" />					
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.menwork}" />
 
@@ -1279,21 +1289,33 @@
 							</row>
 							
 							<row>
-								<label value="Mani programmate:"></label>
+								<label value="Lavorata:"></label>
+
+								<radiogroup id="workedGroup">
+									<radio id="workedYes" label="Si"
+										radiogroup="workedGroup" />
+									<space />
+									<radio id="workedNo" label="No"
+										radiogroup="workedGroup" selected="true" />
+								</radiogroup>
+
+							</row>
+
+							<row>
+								<label value="Mani P:"></label>
 								<label id="handswork_program_Daily"/>
 							</row>
 							<row>
-								<label value="Persone programmate:"></label>
-								<label id="menwork_program_Daily"/>
-							</row>
-							
-							<row>
-								<label value="Mani consuntivate:"></label>
+								<label value="Mani C:"></label>
 								<intbox id="handswork_Daily" value="0"
 									constraint="no negative" />
 							</row>
 							<row>
-								<label value="Persone consuntivate:"></label>
+								<label value="Persone P:"></label>
+								<label id="menwork_program_Daily"/>
+							</row>
+							<row>
+								<label value="Persone C:"></label>
 								<intbox id="menwork_Daily" value="0"
 									constraint="no negative" />
 							</row>
@@ -1421,18 +1443,7 @@
 
 									</row>
 									
-									<row>
-										<label
-											value="Lavorata:">
-										</label>
-
-										<radiogroup id="workedGroup">
-										<radio id="workedYes" label="Si" radiogroup="workedGroup" />
-										<space/>
-                						<radio id="workedNo" label="No" radiogroup="workedGroup" selected="true"/>
-                						</radiogroup>
-
-									</row>
+									
 
 						</rows>
 					</grid>
