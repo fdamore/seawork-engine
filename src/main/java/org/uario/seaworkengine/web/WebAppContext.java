@@ -32,7 +32,7 @@ import org.uario.seaworkengine.utility.BeansTag;
  */
 public class WebAppContext implements ServletContextListener {
 
-	private final Logger	logger	= Logger.getLogger(WebAppContext.class);
+	private final Logger logger = Logger.getLogger(WebAppContext.class);
 
 	/**
 	 * @see ServletContextListener#contextDestroyed(ServletContextEvent)
