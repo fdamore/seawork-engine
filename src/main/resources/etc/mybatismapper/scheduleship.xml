@@ -158,93 +158,79 @@
 		#{id_scheduleShip};
 	</delete>
 
-
-
-
-	<select id="calculateHandsWorkInDateAndShipName" parameterType="map"
-		resultType="org.uario.seaworkengine.statistics.ShipTotal">
-		SELECT SUM(handswork) as totalhands, SUM(menwork) as totalmen FROM
-		(
-		SELECT d.handswork, d.menwork
+	<select id="calculateHandsAndMen" parameterType="map" resultType="org.uario.seaworkengine.statistics.ShipTotal">
+		SELECT SUM(handswork_program) as totalProgramHands, SUM(menwork_program) as totalProgramMen, SUM(handswork) as totalReviewHands, SUM(menwork) as totalReviewMen 
 		FROM
-		detailscheduleship d
-		left join
-		user us
-		ON (d.idseconduser = us.id),
-		user u, ship
-		s, scheduleship ss
-		where
-		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
-		</if>
-		<if test="shift != null">
-			d.shift = #{shift} and
-		</if>
-		d.worked = 1 and 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >=
-		date(ss.arrivaldate)
-		) as detail;
-	</select>
-
-	<select id="calculateHandsWorkAndMensByArrivalDateAndShipName"
-		parameterType="map" resultType="org.uario.seaworkengine.statistics.ShipTotal">
-		SELECT SUM(handswork) as totalhands, SUM(menwork) as totalmen FROM
 		(
-		SELECT d.handswork, d.menwork
+		SELECT d.handswork_program, d.menwork_program, d.handswork, d.menwork 
 		FROM
-		detailscheduleship d
-		left join
-		user us
-		ON (d.idseconduser = us.id),
-		user u, ship
-		s, scheduleship ss
-		where
+		detailscheduleship d, ship s, scheduleship ss 
+		where 
+		
+		<if test="dateFrom!=null and dateTo!=null and shiftDate==null">
+				<![CDATA[ ss.arrivaldate>=#{dateFrom} and #{dateTo}>=ss.arrivaldate and ]]>
+		</if>
+		<if test="dateFrom==null and dateTo==null and shiftDate!=null">
+				d.shiftdate = #{shiftDate} and 
+		</if>
+		<if test="shift!=null">
+			d.shift = #{shift} and  
+		</if>
+		<if test="idCustomer!=null">
+			ss.customer_id = #{idCustomer} and 
+		</if>
+		<if test="shipTypeNoWork != null">
+			s.nowork = #{shipTypeNoWork} and
+		</if>
+		<if test="shipTypeH != null">
+			s.activityh = #{shipTypeH} and
+		</if>
+		<if test="worked != null">
+			d.worked = #{worked} and  
+		</if>
 		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
+			(s.name like CONCAT('%',#{full_text_search},'%')) and 
 		</if>
-		<if test="shift != null">
-			d.shift = #{shift} and 
-		</if>
-		d.worked = 1 and 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		date(ss.arrivaldate) = date(#{arrivaldate})
-		) as detail;
+		d.idscheduleship = ss.id and ss.idship = s.id) 
+		 as detail;		
 	</select>
+	
 
-
-	<select id="calculateNumberOfShipInDateAndShipName"
-		parameterType="map" resultType="Integer">
-		SELECT COUNT(idship) FROM
-		(
+	<select id="calculateNumberOfShip" parameterType="map" resultType="Integer">
 		SELECT distinct ss.idship
 		FROM
-		detailscheduleship d
-		left join
-		user us ON (d.idseconduser = us.id),
-		user
-		u, ship
-		s, scheduleship ss
+		detailscheduleship d, ship s, scheduleship ss
 		where
+		<if test="dateFrom!=null and dateTo!=null and shiftDate==null">			
+				date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) and 
+		</if>	
+		<if test="dateFrom==null and dateTo==null and shiftDate!=null">
+				d.shiftdate = #{shiftDate} and 
+		</if>
+				
+		<if test="shift!=null">
+			d.shift = #{shift} and  
+		</if>
+		<if test="idCustomer!=null">
+			ss.customer_id = #{idCustomer} and 
+		</if>
+		<if test="shipTypeNoWork != null">
+			s.nowork = #{shipTypeNoWork} and
+		</if>
+		<if test="worked != null">
+			d.worked = #{worked} and  
+		</if>
+		<if test="shipTypeH != null">
+			s.activityh = #{shipTypeH} and
+		</if>
 		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
-		</if>
-		<if test="shift != null">
-			d.shift = #{shift} and 
-		</if>
-		d.worked = 1 and 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >=
-		date(ss.arrivaldate) order by d.shift asc
-		) as detail;
+			(s.name like CONCAT('%',#{full_text_search},'%')) and 
+		</if>		
+		d.idscheduleship = ss.id and ss.idship = s.id;
 	</select>
 
 
-	<select id="calculateVolumeInDateAndShipName" parameterType="map"
-		resultType="Integer">
+	<select id="calculateVolume" parameterType="map" resultType="Integer">
 		SELECT SUM(volume) FROM
 		(
 		SELECT distinct
@@ -256,70 +242,32 @@
 		user u, ship
 		s, scheduleship ss
 		where
+		<if test="dateFrom!=null and dateTo!=null and shiftDate==null">			
+				date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) and 
+		</if>	
+		<if test="dateFrom==null and dateTo==null and shiftDate!=null">
+				d.shiftdate = #{shiftDate} and 
+		</if>
+				
+		<if test="shift!=null">
+			d.shift = #{shift} and  
+		</if>
+		<if test="idCustomer!=null">
+			ss.customer_id = #{idCustomer} and 
+		</if>
+		<if test="shipTypeNoWork != null">
+			s.nowork = #{shipTypeNoWork} and
+		</if>
+		<if test="worked != null">
+			d.worked = #{worked} and  
+		</if>
+		<if test="shipTypeH != null">
+			s.activityh = #{shipTypeH} and
+		</if>
 		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},'%') ) and
+			(s.name like CONCAT('%',#{full_text_search},'%')) and 
 		</if>
-		<if test="shift != null">
-			d.shift = #{shift} and 
-		</if>
-		d.worked = 1 and 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >=
-		date(ss.arrivaldate) order by d.shift asc
-		) as detail;
-	</select>
-
-	<select id="calculateVolumeByArrivalDateAndShipName"
-		parameterType="map" resultType="Integer">
-		SELECT SUM(volume) FROM
-		(
-		SELECT distinct
-		d.idscheduleship, ss.volume
-		FROM
-		detailscheduleship d
-		left join
-		user us ON (d.idseconduser = us.id),
-		user u, ship
-		s, scheduleship ss
-		where
-		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
-		</if>
-		<if test="shift != null">
-			d.shift = #{shift} and 
-		</if>
-		d.worked = 1 and 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		ss.arrivaldate=date(#{arrivaldate})
-		) as detail;
-	</select>
-
-	<select id="calculateNumberOfShipByArrivalDateAndShipName"
-		parameterType="map" resultType="Integer">
-		SELECT COUNT(idship) FROM
-		(
-		SELECT distinct ss.idship
-		FROM
-		detailscheduleship d
-		left join
-		user us ON (d.idseconduser = us.id),
-		user
-		u, ship
-		s, scheduleship ss
-		where
-
-		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
-		</if>
-
-		<if test="shift != null">
-			d.shift = #{shift} and 
-		</if>
-		d.worked = 1 and 
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id and
-		ss.arrivaldate=date(#{arrivaldate})
+		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id order by d.shift asc
 		) as detail;
 	</select>
 
@@ -362,15 +310,11 @@
 		<if test="shift != null">
 			d.shift = #{shift} and
 		</if>
-
-		<if test="datefrom != null">
-			ss.arrivaldate>=#{datefrom} and
+		
+		<if test="datefrom!=null and dateto!=null">
+				<![CDATA[ ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate and ]]>
 		</if>
-
-		<if test="dateto != null">
-			#{dateto}>=ss.arrivaldate and
-		</if>
-
+	
 		<if test="idCustomer != null">
 			#{idCustomer}=ss.customer_id and
 		</if>
@@ -387,7 +331,7 @@
 			#{worked}=d.worked and 
 		</if>
 
-		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
+		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id 
 		order by
 		d.shiftdate, d.shift, s.name asc;
 

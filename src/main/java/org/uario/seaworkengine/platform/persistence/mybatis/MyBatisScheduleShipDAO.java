@@ -27,75 +27,61 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public ShipTotal calculateHandsWorkAndMensByArrivalDateAndShipName(final Date arrivaldate, final String full_text_search, final Integer shift) {
-		MyBatisScheduleShipDAO.logger.info("calculateHandsWorkAndMensByArrivalDateAndShipName");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("arrivaldate", arrivaldate);
-		map.put("full_text_search", full_text_search);
-		map.put("shift", shift);
-
-		return this.getSqlSession().selectOne("scheduleship.calculateHandsWorkAndMensByArrivalDateAndShipName", map);
-	}
-
-	@Override
-	public ShipTotal calculateHandsWorkInDate(final Timestamp dateFrom, final Timestamp dateTo, final Integer shift) {
-		MyBatisScheduleShipDAO.logger.info("calculateHandsWorkInDate");
+	public ShipTotal calculateHandsAndMen(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift,
+			final Integer idCustomer, final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search) {
+		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShip");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dateFrom", dateFrom);
 		map.put("dateTo", dateTo);
+		map.put("shiftDate", shiftDate);
 		map.put("shift", shift);
-
-		return this.getSqlSession().selectOne("scheduleship.calculateHandsWorkInDateAndShipName", map);
-	}
-
-	@Override
-	public Integer calculateNumberOfShipByArrivalDateAndShipName(final Date arrivaldate, final String full_text_search, final Integer shift) {
-		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShipByArrivalDateAndShipName" + arrivaldate + " " + full_text_search);
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("arrivaldate", arrivaldate);
+		map.put("idCustomer", idCustomer);
+		map.put("shipTypeNoWork", shipTypeNoWork);
+		map.put("shipTypeH", shipTypeH);
+		map.put("worked", worked);
 		map.put("full_text_search", full_text_search);
-		map.put("shift", shift);
 
-		return this.getSqlSession().selectOne("scheduleship.calculateNumberOfShipByArrivalDateAndShipName", map);
+		return this.getSqlSession().selectOne("scheduleship.calculateHandsAndMen", map);
+
 	}
 
 	@Override
-	public Integer calculateNumberOfShipInDate(final Timestamp dateFrom, final Timestamp dateTo, final Integer shift) {
-		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShipInDate");
+	public List<Integer> calculateNumberOfShip(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift,
+			final Integer idCustomer, final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search) {
+		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShip");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dateFrom", dateFrom);
 		map.put("dateTo", dateTo);
+		map.put("shiftDate", shiftDate);
 		map.put("shift", shift);
-
-		return this.getSqlSession().selectOne("scheduleship.calculateNumberOfShipInDateAndShipName", map);
-	}
-
-	@Override
-	public Integer calculateVolumeByArrivalDateAndShipName(final Date arrivaldate, final String full_text_search, final Integer shift) {
-		MyBatisScheduleShipDAO.logger.info("calculateVolumeByArrivalDateAndShipName" + arrivaldate + " " + full_text_search);
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("arrivaldate", arrivaldate);
+		map.put("idCustomer", idCustomer);
+		map.put("shipTypeNoWork", shipTypeNoWork);
+		map.put("shipTypeH", shipTypeH);
+		map.put("worked", worked);
 		map.put("full_text_search", full_text_search);
-		map.put("shift", shift);
 
-		return this.getSqlSession().selectOne("scheduleship.calculateVolumeByArrivalDateAndShipName", map);
+		return this.getSqlSession().selectList("scheduleship.calculateNumberOfShip", map);
 	}
 
 	@Override
-	public Integer calculateVolumeInDate(final Timestamp dateFrom, final Timestamp dateTo, final Integer shift) {
+	public Integer calculateVolume(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift, final Integer idCustomer,
+			final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search) {
 		MyBatisScheduleShipDAO.logger.info("calculateVolumeInDateAndShipName");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dateFrom", dateFrom);
 		map.put("dateTo", dateTo);
+		map.put("shiftDate", shiftDate);
 		map.put("shift", shift);
+		map.put("idCustomer", idCustomer);
+		map.put("shipTypeNoWork", shipTypeNoWork);
+		map.put("shipTypeH", shipTypeH);
+		map.put("worked", worked);
+		map.put("full_text_search", full_text_search);
 
-		return this.getSqlSession().selectOne("scheduleship.calculateVolumeInDateAndShipName", map);
+		return this.getSqlSession().selectOne("scheduleship.calculateVolume", map);
 	}
 
 	@Override

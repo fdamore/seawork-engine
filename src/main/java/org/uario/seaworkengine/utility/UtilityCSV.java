@@ -30,13 +30,13 @@ import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
+	private static final NumberFormat number_format = NumberFormat.getInstance(Locale.ITALIAN);
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
 			final ICustomerDAO customerDAO) {
@@ -46,7 +46,7 @@ public class UtilityCSV {
 
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome Nave;Cliente;Data Turno;Turno;Operazione;Primo Preposto;Secondo Preposto;Mani;Persone;Data Inizio;Data Fine;\n";
+		final String header = "Nome Nave;Cliente;Data Turno;Turno;Operazione;Primo Preposto;Secondo Preposto;Lavorata;Mani P;Mani C;Persone P;Persone C;Data Inizio;Data Fine;\n";
 		builder.append(header);
 
 		for (final DetailScheduleShip item : modelListDetailScheduleShip) {
@@ -58,8 +58,11 @@ public class UtilityCSV {
 			String operation = "";
 			String firstUser = "";
 			String secondUser = "";
-			String hands = "";
-			String persons = "";
+			String worked = "NO";
+			String hands_program = "";
+			String hands_review = "";
+			String persons_program = "";
+			String persons_review = "";
 			String startDate = "";
 			String endDate = "";
 
@@ -94,12 +97,24 @@ public class UtilityCSV {
 				secondUser = item.getSecondOperativeName();
 			}
 
+			if ((item.getWorked() != null) && item.getWorked()) {
+				worked = "SI";
+			}
+
+			if (item.getHandswork_program() != null) {
+				hands_program = item.getHandswork_program().toString();
+			}
+
 			if (item.getHandswork() != null) {
-				hands = item.getHandswork().toString();
+				hands_review = item.getHandswork().toString();
 			}
 
 			if (item.getMenwork() != null) {
-				persons = item.getMenwork().toString();
+				persons_review = item.getMenwork().toString();
+			}
+
+			if (item.getMenwork_program() != null) {
+				persons_program = item.getMenwork_program().toString();
 			}
 
 			if (item.getArrivaldate() != null) {
@@ -111,7 +126,8 @@ public class UtilityCSV {
 			}
 
 			final String line = "" + shipName + ";" + customerName + ";" + shiftDate + ";" + shiftNumber + ";" + operation + ";" + firstUser + ";"
-					+ secondUser + ";" + hands + ";" + persons + ";" + startDate + ";" + endDate + ";\n";
+					+ secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program + ";" + persons_review + ";"
+					+ startDate + ";" + endDate + ";\n";
 			builder.append(line);
 
 		}

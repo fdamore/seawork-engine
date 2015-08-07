@@ -2,27 +2,49 @@ package org.uario.seaworkengine.statistics;
 
 import java.io.Serializable;
 
-public class ShipTotal  implements Serializable {
+public class ShipTotal implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
-	
-	private Integer				totalhands;
-	private Integer totalmen;
-	public Integer getTotalhands() {
-		return totalhands;
+	private static final long serialVersionUID = 1L;
+
+	private Integer totalProgramHands;
+	private Integer totalProgramMen;
+
+	private Integer totalReviewHands;
+	private Integer totalReviewMen;
+
+	public Integer getTotalProgramHands() {
+		return this.totalProgramHands;
 	}
-	public void setTotalhands(Integer totalhands) {
-		this.totalhands = totalhands;
+
+	public Integer getTotalProgramMen() {
+		return this.totalProgramMen;
 	}
-	public Integer getTotalmen() {
-		return totalmen;
+
+	public Integer getTotalReviewHands() {
+		return this.totalReviewHands;
 	}
-	public void setTotalmen(Integer totalmen) {
-		this.totalmen = totalmen;
+
+	public Integer getTotalReviewMen() {
+		return this.totalReviewMen;
 	}
-	
+
+	public void setTotalProgramHands(final Integer totalProgramHands) {
+		this.totalProgramHands = totalProgramHands;
+	}
+
+	public void setTotalProgramMen(final Integer totalProgramMen) {
+		this.totalProgramMen = totalProgramMen;
+	}
+
+	public void setTotalReviewHands(final Integer totalReviewHands) {
+		this.totalReviewHands = totalReviewHands;
+	}
+
+	public void setTotalReviewMen(final Integer totalReviewMen) {
+		this.totalReviewMen = totalReviewMen;
+	}
 
 }

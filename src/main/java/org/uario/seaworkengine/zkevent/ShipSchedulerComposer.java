@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.zkevent;
 
-import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1385,6 +1384,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private Integer getNumberOfNotWorkedShip(final List<Integer> idOfWorkedShip, final List<Integer> idOfNotWorkedShip) {
+
+		Integer count = 0;
+
+		for (final Integer itemNotWorked : idOfNotWorkedShip) {
+			Boolean check = true;
+			for (final Integer itemWorked : idOfWorkedShip) {
+				if (itemNotWorked.equals(itemWorked)) {
+					check = false;
+				}
+			}
+			if (check) {
+				count++;
+			}
+		}
+
+		return count;
+
+	}
+
 	private Integer getSelectedShift() {
 		Integer shiftSelected = null;
 		if ((this.select_shift.getSelectedItem() != null) && (this.select_shift.getSelectedIndex() != 0)) {
@@ -2480,9 +2499,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set worked filter
-		Boolean worked = false;
-		if ((this.select_workedShip.getSelectedItem() != null) && this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
-			worked = true;
+		Boolean worked = null;
+		if ((this.select_workedShip.getSelectedItem() != null)) {
+			if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
+				worked = true;
+			} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
+				worked = false;
+			}
 		}
 
 		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer,
@@ -2922,36 +2945,101 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.infoDetailShipProgram.setValue("");
 
-		Integer volume = this.shipSchedulerDao.calculateVolumeByArrivalDateAndShipName(date, full_text_search, this.getSelectedShift());
+		Integer idCustomer = null;
+		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+			idCustomer = customerSelected.getId();
+		}
+
+		Boolean shipTypeNoWork = null;
+		Boolean shipTypeH = null;
+		if (this.select_typeShip.getSelectedItem() != null) {
+			final String selected = this.select_typeShip.getSelectedItem().getValue();
+			if (selected.equals("activityh")) {
+				shipTypeH = true;
+			} else if (selected.equals("nowork")) {
+				shipTypeNoWork = true;
+			}
+		}
+
+		String text_search = this.full_text_search.getValue();
+		if ((text_search != null) && text_search.equals("")) {
+			text_search = null;
+		}
+
+		List<Integer> idOfWorkedShip = new ArrayList<Integer>();
+		List<Integer> idOfNotWorkedShip = new ArrayList<Integer>();
+		Integer numberOfWorkedShip = 0;
+		Integer numberOfNotWorkedShip = 0;
+
+		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork,
+				shipTypeH, true, text_search);
+		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork,
+				shipTypeH, false, text_search);
+
+		if (idOfWorkedShip != null) {
+			numberOfWorkedShip = idOfWorkedShip.size();
+		}
+
+		if (idOfNotWorkedShip != null) {
+			numberOfNotWorkedShip = this.getNumberOfNotWorkedShip(idOfWorkedShip, idOfNotWorkedShip);
+		}
+
+		Boolean worked = null;
+		if ((this.select_workedShip.getSelectedItem() != null)) {
+			if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
+				worked = true;
+				numberOfNotWorkedShip = 0;
+			} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
+				worked = false;
+				numberOfWorkedShip = 0;
+			} else {
+				worked = null;
+			}
+		} else {
+			worked = null;
+		}
+
+		Integer totalProgramMenWork = 0;
+		Integer totalProgramHandsWork = 0;
+		Integer totalReviewHandsWork = 0;
+		Integer totalReviewMenWork = 0;
+
+		final ShipTotal shipTotal = this.shipSchedulerDao.calculateHandsAndMen(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork,
+				shipTypeH, worked, text_search);
+
+		if (shipTotal != null) {
+			if (shipTotal.getTotalProgramHands() != null) {
+				totalProgramHandsWork = shipTotal.getTotalProgramHands();
+			}
+
+			if (shipTotal.getTotalProgramMen() != null) {
+				totalProgramMenWork = shipTotal.getTotalProgramMen();
+			}
+
+			if (shipTotal.getTotalReviewHands() != null) {
+				totalReviewHandsWork = shipTotal.getTotalReviewHands();
+			}
+
+			if (shipTotal.getTotalReviewMen() != null) {
+				totalReviewMenWork = shipTotal.getTotalReviewMen();
+			}
+		}
+
+		final Integer deltaHands = totalProgramHandsWork - totalReviewHandsWork;
+		final Integer deltaPersons = totalProgramMenWork - totalReviewMenWork;
+
+		Integer volume = this.shipSchedulerDao.calculateVolume(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork, shipTypeH,
+				worked, text_search);
 
 		if (volume == null) {
 			volume = 0;
 		}
 
-		Integer numberOfShip = this.shipSchedulerDao.calculateNumberOfShipByArrivalDateAndShipName(date, full_text_search, this.getSelectedShift());
-
-		if (numberOfShip == null) {
-			numberOfShip = 0;
-		}
-
-		Integer totalMenWork = 0;
-		Integer totalHandsWork = 0;
-
-		final ShipTotal shipTotal = this.shipSchedulerDao.calculateHandsWorkAndMensByArrivalDateAndShipName(date, full_text_search,
-				this.getSelectedShift());
-
-		if (shipTotal != null) {
-			if (shipTotal.getTotalhands() != null) {
-				totalHandsWork = shipTotal.getTotalhands();
-			}
-
-			if (shipTotal.getTotalmen() != null) {
-				totalMenWork = shipTotal.getTotalmen();
-			}
-		}
-
-		this.infoDetailShipProgram.setValue("Numero di Navi: " + numberOfShip + ". Totale volumi preventivati: " + volume + ". Totale Mani: "
-				+ totalHandsWork + ". Totale Persone: " + totalMenWork);
+		this.infoDetailShipProgram.setValue("Tot. Navi lav: " + numberOfWorkedShip + " - Tot. Navi non lav: " + numberOfNotWorkedShip
+				+ " - Totale volumi preventivati: " + volume + " - Tot. Mani P: " + totalProgramHandsWork + " - Tot. Mani C: " + totalReviewHandsWork
+				+ " - Mani P-C: " + deltaHands + " - Tot. Persone P: " + totalProgramMenWork + " - Tot. Persone C: " + totalReviewMenWork
+				+ " - Persone P-C: " + deltaPersons);
 
 	}
 
@@ -2970,41 +3058,101 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		final Timestamp dateFrom = new Timestamp(date_from.getTime());
-		final Timestamp dateTo = new Timestamp(date_to.getTime());
+		Integer idCustomer = null;
+		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+			idCustomer = customerSelected.getId();
+		}
 
-		Integer volume = this.shipSchedulerDao.calculateVolumeInDate(dateFrom, dateTo, this.getSelectedShift());
+		Boolean shipTypeNoWork = null;
+		Boolean shipTypeH = null;
+		if (this.select_typeShip.getSelectedItem() != null) {
+			final String selected = this.select_typeShip.getSelectedItem().getValue();
+			if (selected.equals("activityh")) {
+				shipTypeH = true;
+			} else if (selected.equals("nowork")) {
+				shipTypeNoWork = true;
+			}
+		}
+
+		String text_search = this.full_text_search.getValue();
+		if ((text_search != null) && text_search.equals("")) {
+			text_search = null;
+		}
+
+		List<Integer> idOfWorkedShip = new ArrayList<Integer>();
+		List<Integer> idOfNotWorkedShip = new ArrayList<Integer>();
+		Integer numberOfWorkedShip = 0;
+		Integer numberOfNotWorkedShip = 0;
+
+		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer, shipTypeNoWork,
+				shipTypeH, true, text_search);
+		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer,
+				shipTypeNoWork, shipTypeH, false, text_search);
+
+		if (idOfWorkedShip != null) {
+			numberOfWorkedShip = idOfWorkedShip.size();
+		}
+
+		if (idOfNotWorkedShip != null) {
+			numberOfNotWorkedShip = this.getNumberOfNotWorkedShip(idOfWorkedShip, idOfNotWorkedShip);
+		}
+
+		Boolean worked = null;
+		if ((this.select_workedShip.getSelectedItem() != null)) {
+			if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
+				worked = true;
+				numberOfNotWorkedShip = 0;
+			} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
+				worked = false;
+				numberOfWorkedShip = 0;
+			} else {
+				worked = null;
+			}
+		} else {
+			worked = null;
+		}
+
+		Integer totalProgramMenWork = 0;
+		Integer totalProgramHandsWork = 0;
+		Integer totalReviewHandsWork = 0;
+		Integer totalReviewMenWork = 0;
+
+		final ShipTotal shipTotal = this.shipSchedulerDao.calculateHandsAndMen(date_from, date_to, null, this.getSelectedShift(), idCustomer,
+				shipTypeNoWork, shipTypeH, worked, text_search);
+
+		if (shipTotal != null) {
+			if (shipTotal.getTotalProgramHands() != null) {
+				totalProgramHandsWork = shipTotal.getTotalProgramHands();
+			}
+
+			if (shipTotal.getTotalProgramMen() != null) {
+				totalProgramMenWork = shipTotal.getTotalProgramMen();
+			}
+
+			if (shipTotal.getTotalReviewHands() != null) {
+				totalReviewHandsWork = shipTotal.getTotalReviewHands();
+			}
+
+			if (shipTotal.getTotalReviewMen() != null) {
+				totalReviewMenWork = shipTotal.getTotalReviewMen();
+			}
+		}
+
+		final Integer deltaHands = totalProgramHandsWork - totalReviewHandsWork;
+		final Integer deltaPersons = totalProgramMenWork - totalReviewMenWork;
+
+		Integer volume = this.shipSchedulerDao.calculateVolume(date_from, date_to, null, this.getSelectedShift(), idCustomer, shipTypeNoWork,
+				shipTypeH, worked, text_search);
 
 		if (volume == null) {
 			volume = 0;
 		}
 
-		Integer numberOfShip = this.shipSchedulerDao.calculateNumberOfShipInDate(dateFrom, dateTo, this.getSelectedShift());
-
-		if (numberOfShip == null) {
-			numberOfShip = 0;
-		}
-
-		final ShipTotal handMenWorkTotal = this.shipSchedulerDao.calculateHandsWorkInDate(dateFrom, dateTo, this.getSelectedShift());
-
-		Integer totalHands = 0;
-		Integer totalMen = 0;
-
-		if (handMenWorkTotal != null) {
-			if (handMenWorkTotal.getTotalmen() != null) {
-				totalMen = handMenWorkTotal.getTotalmen();
-			} else {
-				totalMen = 0;
-			}
-			if (handMenWorkTotal.getTotalhands() != null) {
-				totalHands = handMenWorkTotal.getTotalhands();
-			} else {
-				totalHands = 0;
-			}
-		}
-
-		infoLabel.setValue("Numero di Navi: " + numberOfShip + ". Totale volumi preventivati: " + volume + ". Totale Mani: " + totalHands
-				+ ". Totale Persone: " + totalMen);
+		this.infoDetailShipProgram.setValue("Tot. Navi lav: " + numberOfWorkedShip + " - Tot. Navi non lav: " + numberOfNotWorkedShip
+				+ " - Totale volumi preventivati: " + volume + " - Tot. Mani P: " + totalProgramHandsWork + " - Tot. Mani C: " + totalReviewHandsWork
+				+ " - Mani P-C: " + deltaHands + " - Tot. Persone P: " + totalProgramMenWork + " - Tot. Persone C: " + totalReviewMenWork
+				+ " - Persone P-C: " + deltaPersons);
 
 	}
 
