@@ -72,21 +72,36 @@
 
 
 
-			<a label="Lista Formazione" iconSclass="z-icon-list"
+			<a label="Lista Certificati" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 
 			<div>
 				<separator></separator>
 				
 				<button id="sw_add" sclass="btn-info"
-					label="Aggiungi Formazione"
+					label="Aggiungi Certificato"
 					onClick="grid_details.setVisible(true);">
+				</button>
+				
+				<textbox placeholder="Cerca..." id="full_text_search"/>
+				
+								
+				<button id="show_expirated"
+					onClick="grid_details.setVisible(false)" sclass="btn-danger"
+					label="Certificati Scaduti">
+				</button>
+				
+				<button id="show_valid"
+					onClick="grid_details.setVisible(false)" sclass="btn-success"
+					label="Certificati Validi">
 				</button>
 
 				<button id="sw_refresh_list"
 					onClick="grid_details.setVisible(false)" sclass="btn-info"
-					label="Aggiorna Lista Formazione">
+					label="Ricarica Lista">
 				</button>
+				
+				
 
 				<separator></separator>
 			</div>

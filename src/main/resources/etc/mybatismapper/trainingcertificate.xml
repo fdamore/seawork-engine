@@ -31,12 +31,8 @@
 			and t.user_id = #{user_id} 
 		</if>
 		
-		<if test="title != null">
-			and t.title like CONCAT('%',#{title},'%') 
-		</if>
-		
-		<if test="description != null">
-			and t.description like CONCAT('%',#{description},'%') 
+		<if test="full_text_search != null">
+			and (t.title like CONCAT('%',#{full_text_search},'%') or t.description like CONCAT('%',#{full_text_search},'%'))
 		</if>
 		
 		<!-- select all valid certificates at current date -->

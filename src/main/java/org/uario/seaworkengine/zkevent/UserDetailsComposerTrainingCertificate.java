@@ -40,6 +40,9 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 	private Datebox expiration_date;
 
 	@Wire
+	private Textbox full_text_search;
+
+	@Wire
 	private Component grid_details;
 
 	private final Logger logger = Logger.getLogger(UserDetailsComposerTrainingCertificate.class);
@@ -131,6 +134,11 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 			return;
 		}
 
+		if ((this.certificate_date.getValue() != null) && (this.expiration_date.getValue() != null)
+				&& this.certificate_date.getValue().after(this.expiration_date.getValue())) {
+			return;
+		}
+
 		this.certificate_date.setValue(item.getCertificate_date());
 		this.expiration_date.setValue(item.getExpiration_date());
 		this.description.setValue(item.getDescription());
@@ -142,6 +150,11 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 	public void okCommand() {
 
 		if (this.person_selected == null) {
+			return;
+		}
+
+		if ((this.certificate_date.getValue() != null) && (this.expiration_date.getValue() != null)
+				&& this.certificate_date.getValue().after(this.expiration_date.getValue())) {
 			return;
 		}
 
@@ -185,26 +198,41 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerTrainingCertificate.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final Event e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					UserDetailsComposerTrainingCertificate.this.deleteItemToUser();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
+	}
+
+	@Listen("onOK = #full_text_search")
+	public void searchText() {
+		if (this.person_selected == null) {
+			return;
+		}
+
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), null,
+				this.person_selected.getId());
+		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
+
+		this.grid_details.setVisible(false);
 	}
 
 	@Listen("onClick = #sw_refresh_list")
 	public void setInitialView() {
 
+		this.full_text_search.setValue(null);
+
 		if (this.person_selected == null) {
 			return;
 		}
 
-		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, null, null, null,
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), null,
 				this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
 
@@ -212,12 +240,41 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 	}
 
 	private void setupItemWithValues(final TrainingCertificate item) {
+
 		item.setCertificate_date(this.certificate_date.getValue());
 		item.setExpiration_date(this.expiration_date.getValue());
 		item.setDescription(this.description.getValue());
 		item.setTitle(this.title.getValue());
 		item.setUser_id(this.person_selected.getId());
 
+	}
+
+	@Listen("onClick = #show_expirated")
+	public void showExpiratedCertificates() {
+
+		if (this.person_selected == null) {
+			return;
+		}
+
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), false,
+				this.person_selected.getId());
+		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
+
+		this.grid_details.setVisible(false);
+	}
+
+	@Listen("onClick = #show_valid")
+	public void showValidCertificates() {
+
+		if (this.person_selected == null) {
+			return;
+		}
+
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), true,
+				this.person_selected.getId());
+		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
+
+		this.grid_details.setVisible(false);
 	}
 
 }

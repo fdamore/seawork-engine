@@ -24,14 +24,13 @@ public class MyBatisTrainingCertificateDAO extends SqlSessionDaoSupport implemen
 	}
 
 	@Override
-	public List<TrainingCertificate> loadTrainingCertificate(final Integer id, final String title, final String description, final Boolean expired,
+	public List<TrainingCertificate> loadTrainingCertificate(final Integer id, final String full_text_search, final Boolean expired,
 			final Integer user_id) {
 		MyBatisTrainingCertificateDAO.logger.info("loadTrainingCertificate");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
-		map.put("title", title);
-		map.put("description", description);
+		map.put("full_text_search", full_text_search);
 		map.put("expired", expired);
 		map.put("user_id", user_id);
 

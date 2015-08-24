@@ -8,7 +8,7 @@ public interface TrainingCertificateDAO {
 
 	public void createTrainingCertificate(TrainingCertificate trainingCertificate);
 
-	public List<TrainingCertificate> loadTrainingCertificate(Integer id, String title, String description, Boolean expired, Integer user_id);
+	public List<TrainingCertificate> loadTrainingCertificate(Integer id, String full_text_search, Boolean expired, Integer user_id);
 
 	public void removeTrainingCertificate(Integer id);
 
