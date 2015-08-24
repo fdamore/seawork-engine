@@ -1,0 +1,140 @@
+<?page id="usertrainingcertificate" title="Sea Work Admin"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?link href="css/style.css" rel="stylesheet" type="text/css"?>
+<zk>
+
+	<panel id="panel" border="none" collapsible="false"
+		apply="org.uario.seaworkengine.zkevent.UserDetailsComposerTrainingCertificate"
+		sclass="transparent">
+
+		<caption iconSclass="z-icon-star orange"
+			label="Dettagli Formazione">
+
+		</caption>
+
+
+		<panelchildren>
+
+			<div id="grid_details" visible="false">
+
+				<space></space>
+
+				<button id="ok_command" label="OK"
+					sclass="btn-info">
+				</button>
+				<button label="Chiudi"
+					onClick="grid_details.setVisible(false);" sclass="btn-info"
+					visible="true">
+				</button>
+				<space></space>
+
+
+				<grid sclass="domain">
+					<columns>
+						<column label="Tipo" />
+						<column label="Informazioni" />
+					</columns>
+					<rows>
+					
+						<row>
+							<label value="Titolo:"></label>
+							<textbox id="title" width="200px" rows="1"/>
+						</row>
+
+						<row>
+							<label value="Descrizione:"></label>
+							<textbox id="description" width="200px" rows="3"/>
+						</row>
+
+						<row>
+							<label
+								value="Data conseguimento Certificato:">
+							</label>
+							<datebox id="certificate_date"
+								placeholder="Seleziona data" width="200px" />
+						</row>
+						
+						<row>
+							<label
+								value="Data scadenza Certificato:">
+							</label>
+							<datebox id="expiration_date"
+								placeholder="Seleziona data" width="200px" />
+						</row>
+
+					</rows>
+				</grid>
+
+
+				<space></space>
+
+			</div>
+
+
+
+			<a label="Lista Formazione" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+
+			<div>
+				<separator></separator>
+				
+				<button id="sw_add" sclass="btn-info"
+					label="Aggiungi Formazione"
+					onClick="grid_details.setVisible(true);">
+				</button>
+
+				<button id="sw_refresh_list"
+					onClick="grid_details.setVisible(false)" sclass="btn-info"
+					label="Aggiorna Lista Formazione">
+				</button>
+
+				<separator></separator>
+			</div>
+
+
+			
+			<listbox id="sw_list" pagingPosition="both" mold="paging"
+				onSelect="grid_details.setVisible(false)"
+				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+				pageSize="20">
+				<listhead sizable="true">
+					<listheader label="Titolo" />
+					<listheader label="Descrizione" />
+					<listheader label="Data Conseguimento Certificato" sort="auto(certificate_date)"/>
+					<listheader label="Data Scadenza Certificato" sort="auto(expiration_date)"/>
+					<listheader label="" />
+				</listhead>
+
+				<listitem self="@{each='item'}" value="@{item}">
+
+					<listcell label="@{item.title}" />
+					<listcell label="@{item.description}" />
+					<listcell label="@{item.certificate_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell label="@{item.expiration_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					
+					<listcell>
+
+						<toolbarbutton id="sw_link_delete"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
+							label="Cancella">
+						</toolbarbutton>
+
+						<toolbarbutton id="sw_link_edit"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());grid_details.setVisible(true);"
+							label="Edita">
+						</toolbarbutton>
+
+					</listcell>
+
+				</listitem>
+
+			</listbox>
+
+
+		</panelchildren>
+
+	</panel>
+
+</zk>

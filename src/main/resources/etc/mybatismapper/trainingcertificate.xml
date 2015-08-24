@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="trainingcertificate">
+
+	<cache />
+	
+	<insert id="createTrainingCertificate" parameterType="org.uario.seaworkengine.model.TrainingCertificate">
+	
+		INSERT INTO
+		training_certificate
+		(id,title,certificate_date,expiration_date,description,user_id)
+		VALUES
+		(#{id},#{title},#{certificate_date},#{expiration_date},	#{description},#{user_id});
+		
+	</insert>
+	
+	<select id="loadTrainingCertificate" parameterType="map" resultType="org.uario.seaworkengine.model.TrainingCertificate" >
+	
+		SELECT t.id,t.title,t.certificate_date,t.expiration_date,t.description,t.user_id
+		FROM training_certificate t, user u
+		WHERE 
+		
+		t.user_id = u.id 
+		
+		<if test="id != null">
+			and t.id = #{id}  
+		</if>
+		
+		<if test="user_id != null">
+			and t.user_id = #{user_id} 
+		</if>
+		
+		<if test="title != null">
+			and t.title like CONCAT('%',#{title},'%') 
+		</if>
+		
+		<if test="description != null">
+			and t.description like CONCAT('%',#{description},'%') 
+		</if>
+		
+		<!-- select all valid certificates at current date -->
+		<if test="expired != null and expired == true">
+			and CURDATE() <![CDATA[<=]]> t.expiration_date 
+		</if>
+		
+		<!-- select all not valid certificates at current date -->
+		<if test="expired != null and expired == false">
+			and CURDATE() >= t.expiration_date 
+		</if>
+				
+		;
+		
+	</select>
+
+	<delete id="removeTrainingCertificate" parameterType="Integer">
+	
+		delete from
+		training_certificate
+		where
+		id = #{id}
+		
+	</delete>
+
+	<update id="updateTrainingCertificate" parameterType="org.uario.seaworkengine.model.TrainingCertificate">
+
+		UPDATE training_certificate set 
+		id = #{id},
+		title = #{title},
+		certificate_date = #{certificate_date},
+		expiration_date = #{expiration_date},
+		description = #{description},
+		user_id = #{user_id}
+		WHERE id= #{id};
+
+	</update>
+
+</mapper>

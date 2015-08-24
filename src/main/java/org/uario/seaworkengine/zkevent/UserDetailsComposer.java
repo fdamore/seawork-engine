@@ -275,6 +275,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Component tradeunion_user_tab;
 
 	@Wire
+	private Component training_user_tab;
+
+	@Wire
 	private Label user_contractual_level;
 
 	@Wire
@@ -1331,6 +1334,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final Component comp_uc = Path.getComponent("//usercompensation/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_uc, person_selected);
 
+		// send event to show user fc
+		final Component comp_training = Path.getComponent("//usertrainingcertificate/panel");
+		Events.sendEvent(ZkEventsTag.onShowUsers, comp_training, person_selected);
+
 	}
 
 	/**
@@ -1402,6 +1409,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.compensation_user_tab.setVisible(false);
 		this.userName.setVisible(false);
 		this.jobcost_user_tab.setVisible(false);
+		this.training_user_tab.setVisible(false);
 
 		// generate qr code only in modify view
 		this.qrcode_gen.setVisible(false);
@@ -1440,6 +1448,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.compensation_user_tab.setVisible(true);
 		this.jobcost_user_tab.setVisible(true);
 		this.medicalexamination_user_tab.setVisible(true);
+		this.training_user_tab.setVisible(true);
 
 		// generate qr code only in modify view
 		this.qrcode_gen.setVisible(true);

@@ -16,7 +16,7 @@ public class MyBatisMedicalExaminationDAO extends SqlSessionDaoSupport implement
 
 	@Override
 	public void createMedicalExamination(final MedicalExamination medicalExamination) {
-		MyBatisMedicalExaminationDAO.logger.info("createMedicalExamination " + medicalExamination.getId());
+		MyBatisMedicalExaminationDAO.logger.info("createMedicalExamination ");
 
 		this.getSqlSession().insert("medicalexamination.createMedicalExamination", medicalExamination);
 

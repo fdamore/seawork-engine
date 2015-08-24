@@ -67,6 +67,8 @@
 					id="contestations_user_tab" />
 				<tab label="Compensazione Ore" visible="false"
 					id="compensation_user_tab" />
+				<tab label="Formazione" visible="false"
+					id="training_user_tab" />
 			</tabs>
 			<tabpanels>
 				<!-- Tab Comments Content -->
@@ -588,6 +590,13 @@
 				<tabpanel>
 					<include mode="defer"
 						src="./userdetailcompensation.zul">
+					</include>
+				</tabpanel>
+				
+				<!-- TAB TRAINING CERTIFICATES -->
+				<tabpanel>
+					<include mode="defer"
+						src="./usertrainingcertificate.zul">
 					</include>
 				</tabpanel>
 
