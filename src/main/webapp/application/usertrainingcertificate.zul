@@ -85,6 +85,10 @@
 				
 				<textbox placeholder="Cerca..." id="full_text_search"/>
 				
+				<button id="sw_refresh_list"
+					onClick="grid_details.setVisible(false)" sclass="btn-info"
+					label="Ricarica Lista">
+				</button>
 								
 				<button id="show_expirated"
 					onClick="grid_details.setVisible(false)" sclass="btn-danger"
@@ -96,10 +100,7 @@
 					label="Certificati Validi">
 				</button>
 
-				<button id="sw_refresh_list"
-					onClick="grid_details.setVisible(false)" sclass="btn-info"
-					label="Ricarica Lista">
-				</button>
+				
 				
 				
 
