@@ -9,15 +9,15 @@
 	
 		INSERT INTO
 		training_certificate
-		(id,title,certificate_date,expiration_date,description,user_id)
+		(id,title,certificate_date,expiration_date,description,user_id, trainer_type, trainer, training_task, training_level, note)
 		VALUES
-		(#{id},#{title},#{certificate_date},#{expiration_date},	#{description},#{user_id});
+		(#{id},#{title},#{certificate_date},#{expiration_date},	#{description},#{user_id}, #{trainer_type}, #{trainer}, #{training_task}, #{training_level}, #{note});
 		
 	</insert>
 	
 	<select id="loadTrainingCertificate" parameterType="map" resultType="org.uario.seaworkengine.model.TrainingCertificate" >
 	
-		SELECT t.id,t.title,t.certificate_date,t.expiration_date,t.description,t.user_id
+		SELECT t.id,t.title,t.certificate_date,t.expiration_date,t.description,t.user_id,t.trainer_type, t.trainer, t.training_task, t.training_level, t.note 
 		FROM training_certificate t, user u
 		WHERE 
 		
@@ -32,7 +32,8 @@
 		</if>
 		
 		<if test="full_text_search != null">
-			and (t.title like CONCAT('%',#{full_text_search},'%') or t.description like CONCAT('%',#{full_text_search},'%'))
+			and (t.title like CONCAT('%',#{full_text_search},'%') or t.description like CONCAT('%',#{full_text_search},'%') or 
+			t.trainer_type  like CONCAT('%',#{full_text_search},'%') or t.trainer like CONCAT('%',#{full_text_search},'%') or t.training_task like CONCAT('%',#{full_text_search},'%') or t.training_level like CONCAT('%',#{full_text_search},'%') or t.note like CONCAT('%',#{full_text_search},'%'))
 		</if>
 		
 		<!-- select all valid certificates at current date -->
@@ -66,9 +67,13 @@
 		certificate_date = #{certificate_date},
 		expiration_date = #{expiration_date},
 		description = #{description},
-		user_id = #{user_id}
+		user_id = #{user_id},
+		trainer_type = #{trainer_type}, 
+		trainer = #{trainer}, 
+		training_task = #{training_task}, 
+		training_level = #{training_level}, 
+		note  = #{note} 
 		WHERE id= #{id};
-
 	</update>
 
 </mapper>

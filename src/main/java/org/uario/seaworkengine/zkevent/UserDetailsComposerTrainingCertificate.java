@@ -47,6 +47,9 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 	private final Logger logger = Logger.getLogger(UserDetailsComposerTrainingCertificate.class);
 
+	@Wire
+	private Textbox note;
+
 	private Person person_selected;
 
 	// status ADD or MODIFY
@@ -57,6 +60,18 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 	@Wire
 	private Textbox title;
+
+	@Wire
+	private Textbox trainer;
+
+	@Wire
+	private Textbox trainer_type;
+
+	@Wire
+	private Textbox training_level;
+
+	@Wire
+	private Textbox training_task;
 
 	// dao interface
 	private TrainingCertificateDAO trainingCertificateDAO;
@@ -70,6 +85,11 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 		this.expiration_date.setValue(null);
 		this.title.setValue("");
 		this.description.setValue(null);
+		this.trainer_type.setValue(null);
+		this.trainer.setValue(null);
+		this.training_task.setValue(null);
+		this.training_level.setValue(null);
+		this.note.setValue(null);
 
 	}
 
@@ -144,6 +164,18 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 		this.description.setValue(item.getDescription());
 		this.title.setValue(item.getTitle());
 
+		String trainerType = item.getTrainer_type();
+
+		if ((trainerType != null) && trainerType.equals("--")) {
+			trainerType = null;
+		}
+
+		this.trainer_type.setValue(trainerType);
+		this.trainer.setValue(item.getTrainer());
+		this.training_task.setValue(item.getTraining_task());
+		this.training_level.setValue(item.getTraining_level());
+		this.note.setValue(item.getNote());
+
 	}
 
 	@Listen("onClick = #ok_command")
@@ -198,15 +230,15 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerTrainingCertificate.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerTrainingCertificate.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -246,6 +278,18 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 		item.setDescription(this.description.getValue());
 		item.setTitle(this.title.getValue());
 		item.setUser_id(this.person_selected.getId());
+
+		String trainerType = this.trainer_type.getValue();
+
+		if ((trainerType != null) && trainerType.equals("--")) {
+			trainerType = null;
+		}
+
+		item.setTrainer_type(trainerType);
+		item.setTrainer(this.trainer.getValue());
+		item.setTraining_task(this.training_task.getValue());
+		item.setTraining_level(this.training_level.getValue());
+		item.setNote(this.note.getValue());
 
 	}
 

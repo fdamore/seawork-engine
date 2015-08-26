@@ -18,7 +18,17 @@ public class TrainingCertificate implements Serializable {
 
 	private Integer id;
 
+	private String note;
+
 	private String title;
+
+	private String trainer;
+
+	private String trainer_type;
+
+	private String training_level;
+
+	private String training_task;
 
 	private Integer user_id;
 
@@ -38,8 +48,28 @@ public class TrainingCertificate implements Serializable {
 		return this.id;
 	}
 
+	public String getNote() {
+		return this.note;
+	}
+
 	public String getTitle() {
 		return this.title;
+	}
+
+	public String getTrainer() {
+		return this.trainer;
+	}
+
+	public String getTrainer_type() {
+		return this.trainer_type;
+	}
+
+	public String getTraining_level() {
+		return this.training_level;
+	}
+
+	public String getTraining_task() {
+		return this.training_task;
 	}
 
 	public Integer getUser_id() {
@@ -62,8 +92,28 @@ public class TrainingCertificate implements Serializable {
 		this.id = id;
 	}
 
+	public void setNote(final String note) {
+		this.note = note;
+	}
+
 	public void setTitle(final String title) {
 		this.title = title;
+	}
+
+	public void setTrainer(final String trainer) {
+		this.trainer = trainer;
+	}
+
+	public void setTrainer_type(final String trainer_type) {
+		this.trainer_type = trainer_type;
+	}
+
+	public void setTraining_level(final String training_level) {
+		this.training_level = training_level;
+	}
+
+	public void setTraining_task(final String training_task) {
+		this.training_task = training_task;
 	}
 
 	public void setUser_id(final Integer user_id) {
