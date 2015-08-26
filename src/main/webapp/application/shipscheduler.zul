@@ -1201,7 +1201,7 @@
 
 						<toolbarbutton id="sw_link_reviewscheduleship"
 							style="color:blue"
-							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_review_detail.open(self,"after_pointer");'
+							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_review_detail.open(self,"after_pointer");saveReview.setVisible(true);panel_editor_review_details.setVisible(false);'
 							label="Consuntiva">
 						</toolbarbutton>
 
@@ -1246,12 +1246,7 @@
 				<panelchildren>
 				
 				<separator></separator>
-				
-				
-				<div align="right">
-					<toolbarbutton id="showReview" label="Riduci Editor" style="font-weight: bold;" onClick="saveReview.setVisible(false);showReview.setVisible(false);notShowReview.setVisible(true);" />
-					<toolbarbutton visible="false" id="notShowReview" label="Espandi Editor" style="font-weight: bold;" onClick="saveReview.setVisible(true);notShowReview.setVisible(false);showReview.setVisible(true);" />
-				</div>
+										
 				
 				<div id="saveReview">
 				
@@ -1458,12 +1453,13 @@
 
 						</rows>
 					</grid>
-				</div>
 					<separator></separator>
 
 					<button sclass="btn-danger" label="Aggiungi Dettaglio" id="add_details_panels_review"
-						onClick="panel_editor_review_details.setVisible(true)" visible="true">
+						onClick="panel_editor_review_details.setVisible(true);saveReview.setVisible(false);" visible="true">
 					</button>
+				</div>
+					
 
 					<separator></separator>
 
@@ -1479,16 +1475,16 @@
 							<hbox>
 								<button sclass="btn-info"
 									id="add_finalDetailScheduleShip_command"
-									label="Salva Dettaglio" visible="true">
+									label="Salva Dettaglio" visible="true" onClick="saveReview.setVisible(true);panel_editor_review_details.setVisible(false); ">
 								</button>
 
 								<button
 									id="modify_finalDetailScheduleShip_command"
-									label="Modifica Dettaglio" sclass="btn-info" visible="false">
+									label="Modifica Dettaglio" sclass="btn-info" visible="false" onClick="saveReview.setVisible(true);panel_editor_review_details.setVisible(false);">
 								</button>
 
 								<button label="Chiudi" sclass="btn-info"
-									onClick="panel_editor_review_details.setVisible(false)">
+									onClick="panel_editor_review_details.setVisible(false);saveReview.setVisible(true)">
 								</button>
 							</hbox>
 
@@ -1670,7 +1666,7 @@
 
 								<toolbarbutton
 									id="modifyDetailFinalScheduleShip" style="color:blue"
-									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());"
+									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());saveReview.setVisible(false)"
 									label="Modifica">
 								</toolbarbutton>
 
