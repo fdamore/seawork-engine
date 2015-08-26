@@ -1246,7 +1246,18 @@
 				<panelchildren>
 				
 				<separator></separator>
+				
+				
+				<div align="right">
+					<toolbarbutton id="showReview" label="Riduci Editor" style="font-weight: bold;" onClick="saveReview.setVisible(false);showReview.setVisible(false);notShowReview.setVisible(true);" />
+					<toolbarbutton visible="false" id="notShowReview" label="Espandi Editor" style="font-weight: bold;" onClick="saveReview.setVisible(true);notShowReview.setVisible(false);showReview.setVisible(true);" />
+				</div>
+				
+				<div id="saveReview">
+				
 				<button sclass="btn-info" label="Salva Consuntivo" id="save_review" visible="true"/>
+										
+				
 				<separator></separator>
 
 					<grid style="border: 1px solid #CFCFCF"
@@ -1447,10 +1458,10 @@
 
 						</rows>
 					</grid>
-
+				</div>
 					<separator></separator>
 
-					<button sclass="btn-info" label="Aggiungi Dettaglio" id="add_details_panels_review"
+					<button sclass="btn-danger" label="Aggiungi Dettaglio" id="add_details_panels_review"
 						onClick="panel_editor_review_details.setVisible(true)" visible="true">
 					</button>
 
