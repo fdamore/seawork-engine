@@ -36,6 +36,21 @@
 		FROM usershift
 		WHERE id=#{id};
 	</select>
+	
+	<select id="listAllHiddenTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT t.id,
+		t.code,
+		t.description,
+		t.isabsence,
+		t.recorded,
+		t.endoperation,
+		t.overflow,
+		t.changeshift,
+		t.delayoperation, 
+		t.hiddentask 
+		FROM usertask t
+		WHERE t.hiddentask = 1;
+	</select>
 
 	<select id="listAllAbsenceTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
