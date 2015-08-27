@@ -1046,9 +1046,9 @@
 				<a label="Ricerca Navi in intervallo: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 				<datebox id="searchArrivalDateShipFrom_detail"
-					placeholder="Dalla data..." />
+					placeholder="Dalla data..." onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
 				<datebox id="searchArrivalDateShipTo_detail"
-					placeholder="Alla data..." />
+					placeholder="Alla data..." onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
 				<a label="Scarica dati in CSV"
 					id="detailShipProgram_download" style="color:green" />
 			</hbox>
@@ -1059,14 +1059,14 @@
 
 			<a label="Ricerca per data turno: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<datebox id="searchDateShift" placeholder="Data Turno" />
+			<datebox id="searchDateShift" placeholder="Data Turno" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
 
 
 			<separator />
 
 			<a label="Filtra su numero turno: " />
 			<combobox placeholder="Scegli turno..." readonly="true"
-				id="select_shift">
+				id="select_shift" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
 				<comboitem value="TUTTI" label="TUTTI"
 					id="item_all_shift_overview">
 				</comboitem>
@@ -1078,11 +1078,11 @@
 
 			<a label="Filtra per cliente: " />
 			<combobox placeholder="Scegli cliente..." readonly="true"
-				id="select_customer" />
+				id="select_customer" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
 
 			<a label="Filtra per tipo nave " />
 			<combobox placeholder="Scegli tipo nave..." readonly="true"
-				id="select_typeShip">
+				id="select_typeShip" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
 				<comboitem value="activityh" label="Attività H" />
 				<comboitem value="nowork" label="Non Lavoro" />
 				<comboitem value="all" label="Tutti" />
@@ -1090,20 +1090,26 @@
 			
 			<a label="Filtra per lavorate " />
 			<combobox placeholder="Scegli se lavorate..." readonly="true"
-				id="select_workedShip">
+				id="select_workedShip" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
 				<comboitem value="yes" label="Si" />
 				<comboitem value="no" label="No" />
 				<comboitem value="all" label="Tutte" />
 			</combobox>
-
+			
 			<separator />
+
+			<intbox placeholder="Cerca Rif SWS..."
+				id="text_search_rifSWS" onChange="text_search_rifMCT.setValue(null)"/>
+
+			<textbox placeholder="Cerca Rif Cliente..."
+				id="text_search_rifMCT" onChange="text_search_rifSWS.setValue(null)"/>
 
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 			<intbox id="shows_rows" constraint="no negative, no zero"
 				value="10" />
 
-			<textbox placeholder="Cerca..." id="full_text_search" />
+			<textbox placeholder="Cerca..." id="full_text_search" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
 
 			<button id="refreshDetailView" label="Ricarica"
 				sclass="btn-info" />
@@ -1120,6 +1126,8 @@
 				<listhead sizable="true">
 					<listheader label="Nome Nave" sort="auto(name)" hflex="2"/>
 					<listheader label="Cliente" hflex="1"/>
+					<listheader label="Rif Cliente" hflex="1"/>
+					<listheader label="Rif SWS" hflex="1"/>
 					<listheader label="Data Turno" hflex="1"/>
 					<listheader label="Turno" sort="auto(shift)" id="shiftNumberColumn" />
 					<listheader label="Operazione"
@@ -1160,6 +1168,12 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.customer_id, converter='org.uario.seaworkengine.zkevent.converter.ConverterCustomerName'}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.rif_mct}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.idscheduleship}"/>
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />

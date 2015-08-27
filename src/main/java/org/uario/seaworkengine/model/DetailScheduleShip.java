@@ -76,6 +76,8 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private String rain;
 
+	private String rif_mct;
+
 	/**
 	 * Used only for visualization purpose *
 	 */
@@ -185,6 +187,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public String getRain() {
 		return this.rain;
+	}
+
+	public String getRif_mct() {
+		return this.rif_mct;
 	}
 
 	public String getSecondOperativeName() {
@@ -301,6 +307,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setRain(final String rain) {
 		this.rain = rain;
+	}
+
+	public void setRif_mct(final String rif_mct) {
+		this.rif_mct = rif_mct;
 	}
 
 	public void setSecondOperativeName(final String secondOperativeName) {

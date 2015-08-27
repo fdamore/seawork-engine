@@ -277,7 +277,7 @@
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail,  d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
 		s.name, d.operation, d.activity_start, d.activity_end,
-		ss.note,ss.arrivaldate,
+		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct, 
 		ss.departuredate,
 		d.iduser,d.idseconduser,
 		d.handswork,
@@ -330,11 +330,57 @@
 		<if test="worked != null">
 			#{worked}=d.worked and 
 		</if>
-
+		
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id 
 		order by
 		d.shiftdate, d.shift, s.name asc;
 
+	</select>
+	
+	<select id="searchDetailScheduleShipRif_MCT_SWS" parameterType="map"
+		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+		SELECT
+		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
+		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
+		s.name, d.operation, d.activity_start, d.activity_end,
+		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct, 
+		ss.departuredate,
+		d.iduser,
+		d.idseconduser,
+		d.handswork,
+		d.menwork, d.handswork_program, d.menwork_program, 
+		d.shiftdate, s.id as
+		id_ship,
+		concat(u.lastname,
+		' ', u.firstname) AS
+		firstOperativeName,
+		concat(us.lastname, ' ',
+		us.firstname) AS
+		secondOperativeName
+		FROM
+		detailscheduleship d
+		left join
+		user u ON
+		(d.iduser = u.id),
+		detailscheduleship d1
+		left join
+		user us ON
+		(d1.idseconduser = us.id),
+		ship s, scheduleship ss
+		where
+
+		<if test="rif_mct != null">
+			ss.rif_mct = #{rif_mct} and
+		</if>
+
+		<if test="rif_sws != null">
+			d.idscheduleship=#{rif_sws} and
+		</if>
+				
+		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
+		order by
+		d.shiftdate, d.shift, s.name asc;
+		
 	</select>
 
 	<select id="searchDetailScheduleShip" parameterType="map"
@@ -343,7 +389,7 @@
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
 		s.name, d.operation, d.activity_start, d.activity_end,
-		ss.note,ss.arrivaldate,
+		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct, 
 		ss.departuredate,
 		d.iduser,
 		d.idseconduser,
@@ -397,7 +443,7 @@
 		<if test="worked != null">
 			#{worked}=d.worked and 
 		</if>
-
+		
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
 		order by
 		d.shiftdate, d.shift, s.name asc;

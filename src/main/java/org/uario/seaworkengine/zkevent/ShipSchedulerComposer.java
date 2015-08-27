@@ -173,6 +173,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Tab detail_scheduleShip_tab;
 
+	private DetailScheduleShip detailScheduleShipSelect;
+
 	private DetailScheduleShip detailScheduleShipSelected;
 
 	@Wire
@@ -598,6 +600,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox temperature_review;
+
+	@Wire
+	private Textbox text_search_rifMCT;
+
+	@Wire
+	private Intbox text_search_rifSWS;
 
 	@Wire
 	private Doublebox time_review;
@@ -2397,7 +2405,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #save_review")
 	public void saveReview() {
-		this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		if (this.sw_list_scheduleShip.getSelectedItem() != null) {
+			this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+		} else {
+			this.detailScheduleShipSelected = this.detailScheduleShipSelect;
+		}
 
 		if (this.detailScheduleShipSelected == null) {
 			return;
@@ -2509,6 +2522,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		// set rif_mct filter and rif_sws filter
+		String rifMCT = this.text_search_rifMCT.getValue();
+		if (rifMCT.equals("")) {
+			rifMCT = null;
+		}
+
+		final Integer rifSWS = this.text_search_rifSWS.getValue();
+
 		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer,
 				nowork, activityh, worked);
 
@@ -2569,6 +2590,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		} else if (this.select_workedShip.getSelectedItem().getValue().equals("all")) {
 			worked = null;
 		}
+
+		// set rif_mct filter and rif_sws filter
+		String rifMCT = this.text_search_rifMCT.getValue();
+
+		if (rifMCT.equals("")) {
+			rifMCT = null;
+		}
+
+		final Integer rifSWS = this.text_search_rifSWS.getValue();
 
 		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
 				activityh, worked);
@@ -2748,6 +2778,33 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.search_rifMCT.setValue(null);
 
 		this.searchScheduleShip();
+	}
+
+	@Listen("onOK = #text_search_rifSWS, #text_search_rifMCT")
+	public void searchRifSWS_MCT() {
+
+		String rifMCT = this.text_search_rifMCT.getValue();
+		if ((rifMCT != null) && rifMCT.equals("")) {
+			rifMCT = null;
+		}
+
+		if ((rifMCT != null) || (this.text_search_rifSWS.getValue() != null)) {
+			this.full_text_search.setValue(null);
+			this.select_shift.setSelectedItem(null);
+			this.select_workedShip.setSelectedItem(null);
+			this.select_typeShip.setSelectedItem(null);
+			this.select_customer.setSelectedItem(null);
+			this.searchDateShift.setValue(null);
+			this.searchArrivalDateShipFrom_detail.setValue(null);
+			this.searchArrivalDateShipTo_detail.setValue(null);
+
+			this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShipRif_MCT_SWS(this.text_search_rifSWS.getValue(), rifMCT);
+
+			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.modelListDetailScheduleShip));
+		} else {
+			this.resfreshDetailView();
+		}
+
 	}
 
 	/**
@@ -3167,6 +3224,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.dailyDetailShip.setVisible(true);
 		this.reviewWorkShip.setVisible(false);
 
+		this.text_search_rifMCT.setValue(null);
+		this.text_search_rifSWS.setValue(null);
 		this.full_text_search.setValue(null);
 
 		this.select_shift.setSelectedIndex(0);
@@ -3564,18 +3623,28 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void updateRifMCT() {
 
 		if (this.sw_list_scheduleShip.getSelectedItem() != null) {
-			final DetailScheduleShip detailSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
-			if ((detailSelected != null) && (detailSelected.getIdscheduleship() != null)) {
+			this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
+		} else {
+			this.detailScheduleShipSelected = this.detailScheduleShipSelect;
+		}
 
-				final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
+		if (this.detailScheduleShipSelected == null) {
+			return;
+		}
 
-				if (scheduleShip != null) {
-					this.shipSchedulerDao.updateRifMCT(scheduleShip.getId(), this.rif_mct_review.getValue());
+		this.detailScheduleShipSelect = this.detailScheduleShipSelected;
+		if ((this.detailScheduleShipSelected != null) && (this.detailScheduleShipSelected.getIdscheduleship() != null)) {
 
-					this.messageUpdateRifMCT.setVisible(true);
-				}
+			final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(this.detailScheduleShipSelected.getIdscheduleship());
+
+			if (scheduleShip != null) {
+				this.shipSchedulerDao.updateRifMCT(scheduleShip.getId(), this.rif_mct_review.getValue());
+
+				this.messageUpdateRifMCT.setVisible(true);
 			}
 		}
+
+		this.refreshScheduleShipListBox();
 
 	}
 }
