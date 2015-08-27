@@ -270,7 +270,7 @@
 	<select id="overviewFinalScheduleByShip" resultType="org.uario.seaworkengine.statistics.ShipOverview"
 		parameterType="map">
 		select
-		dfs.id_ship,
+		dfs.id_ship, dfs.board, 
 		s.name,
 		sum(dfs.time) as time,
 		sum(dfs.time_vacation)

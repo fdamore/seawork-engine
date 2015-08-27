@@ -7,15 +7,21 @@ public class ShipOverview implements Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Integer				id_ship;
+	private String board;
 
-	private String				name;
+	private Integer id_ship;
 
-	private Double				time;
+	private String name;
 
-	private Double				time_vacation;
+	private Double time;
+
+	private Double time_vacation;
+
+	public String getBoard() {
+		return this.board;
+	}
 
 	public Integer getId_ship() {
 		return this.id_ship;
@@ -31,6 +37,10 @@ public class ShipOverview implements Serializable {
 
 	public Double getTime_vacation() {
 		return this.time_vacation;
+	}
+
+	public void setBoard(final String board) {
+		this.board = board;
 	}
 
 	public void setId_ship(final Integer id_ship) {

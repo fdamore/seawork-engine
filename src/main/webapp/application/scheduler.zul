@@ -2798,6 +2798,8 @@
 											hflex="1" align="center" />
 										<listheader label="Gru"
 											hflex="1" align="center" />
+										<listheader label="Postazione"
+											hflex="1" align="center" />
 										<listheader label="Ingresso"
 											hflex="2" align="center" />
 										<listheader label="Uscita"
@@ -2888,6 +2890,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.crane}" />
+											
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.board}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time_from}" />

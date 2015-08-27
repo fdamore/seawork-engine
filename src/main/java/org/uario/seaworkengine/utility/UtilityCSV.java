@@ -389,7 +389,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final ITaskCache task_cache,
 			final IShiftCache shift_cache, final IShipCache ship_cache) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore;ore_chiusura;nome nave;crane;ingresso;uscita;consuntiva fascia oraria\n";
+		final String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore;ore_chiusura;nome nave;crane;postazione;ingresso;uscita;consuntiva fascia oraria\n";
 		builder.append(header);
 
 		for (final DetailFinalSchedule item : listDetailRevision) {
@@ -445,6 +445,11 @@ public class UtilityCSV {
 				crane = item.getCrane();
 			}
 
+			String board = "";
+			if (item.getBoard() != null) {
+				board = item.getBoard();
+			}
+
 			Double time = item.getTime();
 			if (time == null) {
 				time = new Double(0.0);
@@ -475,7 +480,7 @@ public class UtilityCSV {
 
 			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";"
 					+ date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + nameShip
-					+ ";" + crane + ";" + time_from + ";" + time_to + ";" + reviewshift + ";\n";
+					+ ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";\n";
 			builder.append(line);
 		}
 		return builder;
