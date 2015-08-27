@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -865,10 +866,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private IScheduleShip scheduleShipDAO;
 
 	@Wire
+	public Combobox select_month;
+
+	@Wire
 	private Combobox select_shift_overview;
 
 	@Wire
 	private Combobox select_shifttype_overview;
+
+	@Wire
+	public Combobox select_week;
 
 	@Wire
 	public Combobox select_year;
@@ -2472,6 +2479,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.select_year.setModel(new ListModelList<String>(years));
 
+		// set months in combox
+		final ArrayList<String> months = new ArrayList<String>();
+		months.add(SchedulerComposer.ALL_ITEM);
+		for (Integer i = 1; i <= 12; i++) {
+			months.add(i.toString());
+		}
+
+		this.select_month.setModel(new ListModelList<String>(months));
+
+		// set months in combox
+		final ArrayList<String> weeks = new ArrayList<String>();
+		weeks.add(SchedulerComposer.ALL_ITEM);
+		for (Integer i = 1; i <= 53; i++) {
+			weeks.add(i.toString());
+		}
+
+		this.select_week.setModel(new ListModelList<String>(weeks));
+
 		this.getSelf().addEventListener(ZkEventsTag.onNameCompensationClick, new EventListener<Event>() {
 
 			@Override
@@ -3004,6 +3029,43 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		return countWorkingDay;
 	}
 
+	private ArrayList<Date> getDateByMonth(final Integer month, final Integer year) {
+
+		final ArrayList<Date> date = new ArrayList<Date>();
+
+		final Calendar cal = Calendar.getInstance();
+
+		cal.set(year, month - 1, 1);
+
+		date.add(cal.getTime());
+
+		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		date.add(cal.getTime());
+
+		return date;
+	}
+
+	private ArrayList<Date> getDateByWeek(final Integer week, final Integer year) {
+		final ArrayList<Date> date = new ArrayList<Date>();
+
+		final Calendar cal = Calendar.getInstance(Locale.ITALIAN);
+
+		cal.set(Calendar.YEAR, year);
+
+		cal.set(Calendar.WEEK_OF_YEAR, week);
+
+		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+
+		date.add(cal.getTime());
+
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+		date.add(cal.getTime());
+
+		return date;
+	}
+
 	/**
 	 * Get date scheduled
 	 *
@@ -3481,6 +3543,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void onSelectMonthOverview() {
 
 		this.select_year.setSelectedItem(null);
+		this.select_month.setSelectedItem(null);
+		this.select_week.setSelectedItem(null);
 
 		this.defineViewCurrentWorkInOverview();
 
@@ -5107,6 +5171,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onChange =#select_year")
 	public void selectedYear() {
+
 		if (this.select_year.getSelectedItem() != null) {
 
 			final String yearSelected = this.select_year.getSelectedItem().getValue();
@@ -5143,6 +5208,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				this.setOverviewLists(null, null);
 			}
 		}
+	}
+
+	@Listen("onChange =#select_month,#select_week")
+	public void selectMonthWeek() {
+		if ((this.select_year.getSelectedItem() == null) || this.select_year.getSelectedItem().equals(SchedulerComposer.ALL_ITEM)) {
+			final Calendar cal = Calendar.getInstance();
+			this.select_year.setValue(cal.get(Calendar.YEAR) + "");
+		}
+		this.selectedYear();
 	}
 
 	@Listen("onClick = #selectShipNoWork")
@@ -5737,6 +5811,41 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		// set datefrom and dateto if month filter or week filter is used
+		if ((this.select_year.getSelectedItem() != null) && !this.select_year.getSelectedItem().getValue().equals(SchedulerComposer.ALL_ITEM)) {
+			final String year = this.select_year.getSelectedItem().getValue();
+
+			final Integer y = Integer.parseInt(year);
+
+			ArrayList<Date> dates = null;
+
+			if ((this.select_month.getSelectedItem() != null) && !this.select_month.getSelectedItem().getValue().equals(SchedulerComposer.ALL_ITEM)) {
+				final String month = this.select_month.getSelectedItem().getValue();
+				final Integer m = Integer.parseInt(month);
+
+				dates = this.getDateByMonth(m, y);
+
+			}
+
+			if ((this.select_week.getSelectedItem() != null) && !this.select_week.getSelectedItem().getValue().equals(SchedulerComposer.ALL_ITEM)) {
+				final String week = this.select_week.getSelectedItem().getValue();
+
+				final Integer w = Integer.parseInt(week);
+
+				dates = this.getDateByWeek(w, y);
+			}
+
+			if (dates != null) {
+				date_from = dates.get(0);
+
+				this.date_from_overview.setValue(date_from);
+
+				date_to = dates.get(1);
+
+				this.date_to_overview.setValue(date_to);
+			}
+		}
+
 		Integer shift_type = null;
 
 		if ((this.select_shifttype_overview.getSelectedItem() != null)
@@ -5806,6 +5915,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_review.setPageSize(this.shows_rows.getValue());
 			}
+
 		} else if (this.overview_program.isSelected()) {
 
 			Integer idSelectedTask = null;

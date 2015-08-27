@@ -2588,6 +2588,14 @@
 						<a label="Filtra su anno: " />
 						<combobox placeholder="Seleziona anno..."
 							readonly="true" id="select_year" />
+							
+						<a label="Filtra su mese: " />
+						<combobox placeholder="Seleziona mese..."
+							readonly="true" id="select_month" onChange="select_week.setSelectedItem(null);"/>
+							
+						<a label="Filtra su settimana: " />
+						<combobox placeholder="Seleziona settimana..."
+							readonly="true" id="select_week" onChange="select_month.setSelectedItem(null);"/>
 
 					</hbox>
 
