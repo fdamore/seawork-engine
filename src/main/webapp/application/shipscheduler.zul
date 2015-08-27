@@ -1456,7 +1456,7 @@
 					<separator></separator>
 
 					<button sclass="btn-danger" label="Aggiungi Dettaglio" id="add_details_panels_review"
-						onClick="panel_editor_review_details.setVisible(true);saveReview.setVisible(false);" visible="true">
+						onClick="panel_editor_review_details.setVisible(true);saveReview.setVisible(true);" visible="true">
 					</button>
 				</div>
 					
@@ -1666,7 +1666,7 @@
 
 								<toolbarbutton
 									id="modifyDetailFinalScheduleShip" style="color:blue"
-									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());saveReview.setVisible(false)"
+									onClick="list_reviewDetailScheduleShip.selectItem((Listitem)self.getParent().getParent());saveReview.setVisible(true)"
 									label="Modifica">
 								</toolbarbutton>
 
