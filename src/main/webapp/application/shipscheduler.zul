@@ -1121,7 +1121,6 @@
 			<button id="refreshDetailView" label="Ricarica"
 				sclass="btn-info" />
 
-
 			<separator />
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />
