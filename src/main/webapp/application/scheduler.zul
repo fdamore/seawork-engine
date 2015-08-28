@@ -2870,8 +2870,8 @@
 
 										<listcell
 											sclass="myBottonCell">
-											<a
-												label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
+											<a label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}"
+												style="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewStyleConverter'}">
 												<attribute name="onClick">
 	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onOverviewReviewTaskClick", page_panel, null);
