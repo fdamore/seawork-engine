@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1248,7 +1247,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					countHours = countHours + timeWorked + timeVacation;
 
-					if (this.roundTotalHours(countHours) > 6) {
+					if (countHours > 6) {
 						this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
 						return false;
 					}
@@ -1263,7 +1262,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
-			if (this.roundTotalHours(countHours) > 6) {
+			if (countHours > 6) {
 				this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
 				return false;
 			}
@@ -1278,7 +1277,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.setLabelTotalHoursProgram(model);
 		}
 
-		if ((countHours >= 6)) {
+		if ((countHours >= 120)) {
 			this.minHoursAlert = false;
 			this.alertMinHours.setVisible(false);
 		}
@@ -1413,7 +1412,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				countHours = countHours + item.getTime() + item.getTime_vacation();
 
-				if (this.roundTotalHours(countHours) > 6) {
+				if (countHours > 6) {
 					this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
@@ -1429,7 +1428,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		if (this.roundTotalHours(countHours) > 6) {
+		if (countHours > 6) {
 			this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 			this.alertMinHoursReview.setVisible(false);
 			return false;
@@ -1451,7 +1450,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// check if time programmed if <= 6 hours
 
-		if ((countHours >= 6)) {
+		if ((countHours >= 120)) {
 			this.minHoursAlert = false;
 			this.alertMinHoursReview.setVisible(false);
 		}
@@ -1961,17 +1960,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -3326,9 +3325,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Double millis = long_time.doubleValue();
 
-		final Double ret = millis / (1000 * 60 * 60);
+		final Double ret = millis / (1000.0 * 60.0 * 60.0);
 
-		return ret;
+		return Utility.roundSix(ret);
 	}
 
 	/**
@@ -4146,8 +4145,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4411,12 +4410,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	private double roundTotalHours(double hours) {
-		final DecimalFormat df = new DecimalFormat("#.####");
-		hours = Double.valueOf(df.format(hours));
-		return hours;
-	}
-
 	/**
 	 * Save Current scheduler updating values from grid
 	 */
@@ -4499,17 +4492,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4741,7 +4734,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}

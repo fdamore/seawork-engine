@@ -34,15 +34,15 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class Utility {
 
-	private static SimpleDateFormat			dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	private static SimpleDateFormat			dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
+	private static SimpleDateFormat dateFormat_it = new SimpleDateFormat("dd-MM-yyyy");
 
-	private static SimpleDateFormat			dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	private static SimpleDateFormat dateTimeformat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat formatDay = new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
+	private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
 	public static String convertToDateAndTime(final Date date) {
 		return Utility.dateTimeformat.format(date);
@@ -341,6 +341,20 @@ public class Utility {
 	public static double roundOne(final double x) {
 		final double temp = Math.pow(10, 1);
 		return Math.round(x * temp) / temp;
+	}
+
+	/**
+	 * Round to second decimal digit
+	 *
+	 * @param x
+	 * @return
+	 */
+	public static double roundSix(final Double x) {
+		if (x == null) {
+			return 0.0;
+		}
+		final double temp = Math.pow(10, 6);
+		return Math.round(x.doubleValue() * temp) / temp;
 	}
 
 	/**
