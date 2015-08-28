@@ -15,8 +15,8 @@ public interface IScheduleShip {
 	public ShipTotal calculateHandsAndMen(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean shipTypeNoWork,
 			Boolean shipTypeH, Boolean worked, String full_text_search);
 
-	public List<Integer> calculateNumberOfShip(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean shipTypeNoWork,
-			Boolean shipTypeH, Boolean worked, String full_text_search);
+	public List<Integer> calculateNumberOfShip(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean worked,
+			String full_text_search);
 
 	public Integer calculateVolume(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean shipTypeNoWork,
 			Boolean shipTypeH, Boolean worked, String full_text_search);

@@ -29,7 +29,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	@Override
 	public ShipTotal calculateHandsAndMen(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift,
 			final Integer idCustomer, final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search) {
-		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShip");
+		MyBatisScheduleShipDAO.logger.info("calculateHandsAndMen");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("dateFrom", dateFrom);
@@ -48,7 +48,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<Integer> calculateNumberOfShip(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift,
-			final Integer idCustomer, final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search) {
+			final Integer idCustomer, final Boolean worked, final String full_text_search) {
 		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShip");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -57,8 +57,6 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("shiftDate", shiftDate);
 		map.put("shift", shift);
 		map.put("idCustomer", idCustomer);
-		map.put("shipTypeNoWork", shipTypeNoWork);
-		map.put("shipTypeH", shipTypeH);
 		map.put("worked", worked);
 		map.put("full_text_search", full_text_search);
 

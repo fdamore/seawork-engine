@@ -536,7 +536,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Listheader shipNameColumun;
 
 	@Wire
-	private Label shipNumberProgramShip;
+	private Label shipNumberProgramShip_noWorked;
+
+	@Wire
+	private Label shipNumberProgramShip_worked;
 
 	@Wire
 	public Component shipProgram;
@@ -875,6 +878,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		item.setFirst_down(this.first_down_detail.getValue());
 		item.setLast_down(this.last_down_detail.getValue());
 		item.setTemperature(this.temperature_detail.getValue());
+		item.setWorked(false);
 
 		// save info if ship is an activity
 		if (this.scheduleShip_selected.getIdship_activity() != null) {
@@ -963,7 +967,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private void calculateTotaleVolumeShipProgram() {
 
 		// set info
-		this.shipNumberProgramShip.setValue("");
+		this.shipNumberProgramShip_worked.setValue("");
+		this.shipNumberProgramShip_noWorked.setValue("");
 		this.sumVolumeShipProgram.setValue("");
 		this.avgVolmueShipProgram.setValue("");
 		this.sumVolumeCurrentMonthShipProgram.setValue("");
@@ -997,13 +1002,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						sumVolumeMonth += itm_review.getVolume();
 					}
 				}
-
 			}
 
-			if ((itm_review.getIdship_activity() == null) && (itm_review.getIdship() != null) && !ship_collection.contains(itm_review.getIdship())) {
-				ship_collection.add(itm_review.getIdship());
+			if (!(itm_review.getIdship() == null)) {
+				final Ship ship = this.shipDao.loadShip(itm_review.getIdship());
+				if (!ship.getNowork()) {
+					ship_collection.add(itm_review.getId());
+				}
 			}
-
 		}
 
 		// calculate number of day
@@ -1024,8 +1030,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Double avg_month = (double) sumVolumeMonth / (double) month_days;
 		avg_month = Utility.roundTwo(avg_month);
 
+		List<Integer> idOfWorkedShip = new ArrayList<Integer>();
+		List<Integer> idOfNotWorkedShip = new ArrayList<Integer>();
+		Integer numberOfWorkedShip = 0;
+		Integer numberOfNotWorkedShip = 0;
+
+		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, null, null, true, null);
+		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, this.getSelectedShift(), null, false, null);
+
+		if (idOfWorkedShip != null) {
+			numberOfWorkedShip = idOfWorkedShip.size();
+		}
+
+		if (idOfNotWorkedShip != null) {
+			numberOfNotWorkedShip = this.getNumberOfNotWorkedShip(idOfWorkedShip, idOfNotWorkedShip);
+		}
+
 		// ship number
-		this.shipNumberProgramShip.setValue("" + ship_collection.size());
+		this.shipNumberProgramShip_worked.setValue("" + numberOfWorkedShip);
+		this.shipNumberProgramShip_noWorked.setValue("" + numberOfNotWorkedShip);
 
 		this.sumVolumeShipProgram.setValue(sumVolume.toString());
 		this.avgVolmueShipProgram.setValue(avg.toString());
@@ -3030,10 +3053,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer numberOfWorkedShip = 0;
 		Integer numberOfNotWorkedShip = 0;
 
-		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork,
-				shipTypeH, true, text_search);
-		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork,
-				shipTypeH, false, text_search);
+		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, true, text_search);
+		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, false, text_search);
 
 		if (idOfWorkedShip != null) {
 			numberOfWorkedShip = idOfWorkedShip.size();
@@ -3141,12 +3162,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		List<Integer> idOfWorkedShip = new ArrayList<Integer>();
 		List<Integer> idOfNotWorkedShip = new ArrayList<Integer>();
 		Integer numberOfWorkedShip = 0;
+
 		Integer numberOfNotWorkedShip = 0;
 
-		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer, shipTypeNoWork,
-				shipTypeH, true, text_search);
-		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer,
-				shipTypeNoWork, shipTypeH, false, text_search);
+		idOfWorkedShip = this.shipSchedulerDao
+				.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer, true, text_search);
+		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer, false,
+				text_search);
 
 		if (idOfWorkedShip != null) {
 			numberOfWorkedShip = idOfWorkedShip.size();

@@ -891,10 +891,18 @@
 				<hbox align="center">
 
 					<label style="color:blue; font-size:10pt;"
-						value="Numero Navi: " />
+						value="Tot. Navi lav: " />
 
 					<label value="" style="color:blue; font-size:10pt;"
-						id="shipNumberProgramShip" />
+						id="shipNumberProgramShip_worked" />
+						
+					<label style="color:blue; font-size:10pt;"
+						value="Tot. Navi non lav: " />
+
+					<label value="" style="color:blue; font-size:10pt;"
+						id="shipNumberProgramShip_noWorked" />
+						
+					
 				</hbox>
 
 				<separator />
@@ -951,10 +959,9 @@
 				id="sw_addScheduleShipProgram" />
 			<separator />
 
-			<listbox id="sw_list_scheduleShipProgram"
-				pagingPosition="both" mold="paging" onSelect=""
-				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
-				pageSize="10">
+			<listbox id="sw_list_scheduleShipProgram" pagingPosition="both"
+				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
+				checkmark="true" multiple="false" pageSize="10">
 				<listhead sizable="true">
 					<listheader label="Data inizio attività"
 						sort="auto(arrivaldate)" id="arrivalDateColumn"/>
