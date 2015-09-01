@@ -351,8 +351,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 1
 			if (!schedule.getSync_mobile_1()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 1);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						1);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -365,8 +365,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 2
 			if (!schedule.getSync_mobile_2()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 2);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						2);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -379,8 +379,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 3
 			if (!schedule.getSync_mobile_3()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 3);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						3);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -393,8 +393,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 4
 			if (!schedule.getSync_mobile_4()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 4);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						4);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -487,11 +487,11 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public void updateDetailScheduleShipForMobile(final Integer detail_schedule_ship_id, final String operation, final Integer handswork,
-			final String temperature, final String sky, final String rain, final String wind, final Date first_down, final Date last_down) {
+	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork, final String temperature,
+			final String sky, final String rain, final String wind, final Date first_down, final Date last_down) {
 
 		final DetailScheduleShip sch = new DetailScheduleShip();
-		sch.setId(detail_schedule_ship_id);
+		sch.setId(id);
 		sch.setOperation(operation);
 		sch.setHandswork(handswork);
 		sch.setTemperature(temperature);
