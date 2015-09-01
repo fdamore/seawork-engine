@@ -1288,6 +1288,12 @@
 								<hbox align="center"
 									id="day_shift_over_program">
 									<a
+										label="Inizia il Giorno seguente: ">
+									</a>
+									<checkbox checked="false"
+										id="day_shift_over_control_program_init">
+									</checkbox>									
+									<a
 										label="Finisce il Giorno seguente: ">
 									</a>
 									<checkbox checked="true"
@@ -2059,6 +2065,12 @@
 							</vbox>
 
 							<hbox align="center" id="day_shift_over">
+								<a
+									label="Inizia il Giorno seguente: ">
+								</a>
+								<checkbox checked="false"
+									id="day_shift_over_control_init">
+								</checkbox>
 								<a
 									label="Finisce il Giorno seguente: ">
 								</a>

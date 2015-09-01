@@ -559,7 +559,7 @@
 		sky = #{sky}, 
 		temperature = #{temperature}, 
 		first_down = #{first_down}, 
-		last_down = #{last_down},
+		last_down = #{last_down} 
 		WHERE id = #{id};
 	</update>
 
