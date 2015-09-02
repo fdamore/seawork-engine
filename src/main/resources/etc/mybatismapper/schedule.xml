@@ -631,7 +631,7 @@
 		WHERE
 		id_schedule =
 		#{id_schedule} and d.shift = #{no_shift}
-		and d.task = ut.id and ut.hiddentask=false and (ut.isabsence=false or (ut.endoperation=true or ut.overflow or ut.changeshift) );
+		and d.task = ut.id and ut.hiddentask=false and (ut.isabsence=false or (ut.endoperation=true or ut.overflow=true or ut.changeshift=true) );
 	</select>
 
 	<!-- LOAD THE FINAL INFO IN INITIAL STRUCTURE -->
@@ -654,7 +654,7 @@
 		detailfinalschedule d LEFT JOIN ship
 		s ON d.id_ship = s.id
 		WHERE
-		id_schedule = #{id_schedule} and d.shift = #{no_shift} and d.task = ut.id and ut.hiddentask=false and (ut.isabsence=false or (ut.endoperation=true or ut.overflow or ut.changeshift) );
+		id_schedule = #{id_schedule} and d.shift = #{no_shift} and d.task = ut.id and ut.hiddentask=false and (ut.isabsence=false or (ut.endoperation=true or ut.overflow=true or ut.changeshift=true) );
 	</select>
 
 	<insert id="createBadge">
