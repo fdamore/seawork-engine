@@ -512,7 +512,7 @@
 	<select id="loadShipInDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Ship">
 		SELECT sh.id, sh.name, sh.line, sh.shiptype,
-		sh.shipcondition, sh.twtype
+		sh.shipcondition, sh.twtype, s.id as rifSWS, sh.nowork, sh.activityh  
 		FROM scheduleship s, ship sh
 		WHERE
 		sh.id=s.idship and date(#{shipDate}) >=

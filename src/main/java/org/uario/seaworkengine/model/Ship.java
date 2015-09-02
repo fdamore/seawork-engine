@@ -12,28 +12,30 @@ public class Ship implements Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public static long getSerialversionuid() {
 		return Ship.serialVersionUID;
 	}
 
-	private Integer	id;
-
-	private String	line;
-
-	private String	name;
-
-	private String	shipcondition;
-
-	private String	shiptype;
-
-	private String	twtype;
-	
-	private Boolean nowork;
-	
 	private Boolean activityh;
-	
+
+	private Integer id;
+
+	private String line;
+
+	private String name;
+
+	private Boolean nowork;
+
+	// using for mobile app
+	private Integer rifSWS;
+
+	private String shipcondition;
+
+	private String shiptype;
+
+	private String twtype;
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -55,6 +57,10 @@ public class Ship implements Serializable {
 
 	}
 
+	public Boolean getActivityh() {
+		return this.activityh;
+	}
+
 	public int getId() {
 		return this.id;
 	}
@@ -64,9 +70,17 @@ public class Ship implements Serializable {
 	}
 
 	public String getName() {
-		
-		return name; 
-			
+
+		return this.name;
+
+	}
+
+	public Boolean getNowork() {
+		return this.nowork;
+	}
+
+	public Integer getRifSWS() {
+		return this.rifSWS;
 	}
 
 	public String getShipcondition() {
@@ -81,6 +95,10 @@ public class Ship implements Serializable {
 		return this.twtype;
 	}
 
+	public void setActivityh(final Boolean activityh) {
+		this.activityh = activityh;
+	}
+
 	public void setId(final int id) {
 		this.id = id;
 	}
@@ -91,6 +109,14 @@ public class Ship implements Serializable {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public void setNowork(final Boolean nowork) {
+		this.nowork = nowork;
+	}
+
+	public void setRifSWS(final Integer rifSWS) {
+		this.rifSWS = rifSWS;
 	}
 
 	public void setShipcondition(final String shipcondition) {
@@ -107,34 +133,14 @@ public class Ship implements Serializable {
 
 	@Override
 	public String toString() {
-		if (activityh!=null && nowork!=null){
-			if (activityh || nowork){
-				return this.name+"*";
-			}else{
-				return name; 
-			}			
+		if ((this.activityh != null) && (this.nowork != null)) {
+			if (this.activityh || this.nowork) {
+				return this.name + "*";
+			} else {
+				return this.name;
+			}
 		}
-		return name; 
+		return this.name;
 	}
-
-	public Boolean getNowork() {
-		return nowork;
-	}
-
-	public void setNowork(Boolean nowork) {
-		this.nowork = nowork;
-	}
-
-	public Boolean getActivityh() {
-		return activityh;
-	}
-
-	public void setActivityh(Boolean activityh) {
-		this.activityh = activityh;
-	}
-	
-	
-		
-	
 
 }
