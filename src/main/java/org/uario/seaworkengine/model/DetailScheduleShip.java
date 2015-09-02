@@ -44,6 +44,7 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	 */
 	private String firstOperativeName;
 
+	// by app
 	private Integer handswork;
 
 	private Integer handswork_program;
@@ -61,6 +62,7 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	private Date last_down;
 
+	// by app
 	private Integer menwork;
 
 	private Integer menwork_program;

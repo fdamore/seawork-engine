@@ -487,13 +487,14 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork, final String temperature,
-			final String sky, final String rain, final String wind, final Date first_down, final Date last_down) {
+	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork, final Integer menwork,
+			final String temperature, final String sky, final String rain, final String wind, final Date first_down, final Date last_down) {
 
 		final DetailScheduleShip sch = new DetailScheduleShip();
 		sch.setId(id);
 		sch.setOperation(operation);
 		sch.setHandswork(handswork);
+		sch.setMenwork(menwork);
 		sch.setTemperature(temperature);
 		sch.setSky(sky);
 		sch.setRain(rain);

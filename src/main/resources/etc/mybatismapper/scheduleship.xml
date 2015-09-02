@@ -553,7 +553,8 @@
 		UPDATE
 		detailscheduleship SET
 		operation = #{operation}, 
-		handswork =	#{handswork}, 
+		handswork =	#{handswork},
+		menwork = #{menwork},  
 		rain = #{rain}, 
 		wind = #{wind}, 
 		sky = #{sky}, 
