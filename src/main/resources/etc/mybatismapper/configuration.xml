@@ -378,8 +378,8 @@
 		SELECT *
 		FROM
 		usertask
-		WHERE overflow=1 or endoperation=1 or delayoperation=1 or
-		changeshift=1 or changeshift=1;
+		WHERE (overflow=1 or endoperation=1 or delayoperation=1 or
+		changeshift=1 or changeshift=1) and hiddentask=false;
 	</select>
 
 	<update id="removeAllDelayOperationTasks">
