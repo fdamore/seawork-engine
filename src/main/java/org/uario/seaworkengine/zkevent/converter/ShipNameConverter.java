@@ -1,7 +1,7 @@
 package org.uario.seaworkengine.zkevent.converter;
 
 import org.uario.seaworkengine.model.Ship;
-import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
+import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -24,8 +24,8 @@ public class ShipNameConverter implements TypeConverter {
 
 		final Integer id = (Integer) arg0;
 
-		final IShipCache ship_cache = (IShipCache) SpringUtil.getBean(BeansTag.SHIP_CACHE);
-		final Ship ship = ship_cache.getShip(id);
+		final IShip shipDao = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
+		final Ship ship = shipDao.loadShip(id);
 		if (ship == null) {
 			return "" + arg0;
 		} else {

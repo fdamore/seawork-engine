@@ -2457,7 +2457,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final List<UserTask> taskList = this.configurationDAO.loadTasks();
 		final ListModelList<UserTask> taskModelList = new ListModelList<UserTask>(taskList);
 
-		this.taskComboBox.setModel(taskModelList);
+		if (taskModelList != null) {
+
+			// add ship for "ship null" filter
+			final UserTask taskNull = new UserTask();
+			taskNull.setId(-1);
+			taskNull.setCode(" ");
+			taskNull.setDescription("Mansione non inserita");
+			taskModelList.add(0, taskNull);
+
+			// add ship for "all selected" filter
+			final UserTask task = new UserTask();
+			task.setId(-2);
+			task.setCode(" ");
+			task.setDescription("Tutte le mansioni");
+			taskModelList.add(1, task);
+
+			this.taskComboBox.setModel(taskModelList);
+
+		}
 
 		// set value in board combo box
 		final List<String> boardList = new ArrayList<String>();
@@ -2476,12 +2494,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (shipList != null) {
-			// add empty ship
+
+			// add ship for popup
+			final Ship shipNullPopup = new Ship();
+			shipNullPopup.setId(-1);
+			shipNullPopup.setName("--");
+			final ListModelList<Ship> shipListPopup = new ListModelList<>(shipList);
+			shipListPopup.add(0, shipNullPopup);
+			this.ship.setModel(shipListPopup);
+
+			// add ship for "ship null" filter
+			final Ship shipNull = new Ship();
+			shipNull.setId(-1);
+			shipNull.setName("Navi non inserite");
+			shipList.add(0, shipNull);
+
+			// add ship for "all selected" filter
 			final Ship ship = new Ship();
-			ship.setId(-1);
-			ship.setName("--");
-			shipList.add(0, ship);
-			this.ship.setModel(shipList);
+			ship.setId(-2);
+			ship.setName("Tutte le navi");
+			shipList.add(1, ship);
+
 			this.shipSelector.setModel(shipList);
 
 		}
@@ -5841,7 +5874,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (NumberUtils.isNumber(this.select_shift_overview.getValue())) {
 					shift_number = Integer.parseInt(this.select_shift_overview.getValue());
 				}
-
 			}
 		}
 
@@ -5920,6 +5952,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			Integer idSelectedTask = null;
 			if (taskSelected != null) {
 				idSelectedTask = taskSelected.getId();
+
+				if (idSelectedTask == -2) {
+					// filter selected is "all ships"
+					idSelectedTask = null;
+				}
 			}
 
 			Boolean reviewshift = null;
@@ -5927,7 +5964,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (this.hoursInterval.getSelectedItem().getValue().equals("true")) {
 					reviewshift = true;
 				} else if (this.hoursInterval.getSelectedItem().getValue().equals("false")) {
-					reviewshift = false;
 				}
 			}
 
@@ -5936,9 +5972,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (this.shipSelector.getSelectedItem() != null) {
 				final Ship ship = this.shipSelector.getSelectedItem().getValue();
 				idShip = ship.getId();
-				if (idShip == -1) {
+				if (idShip == -2) {
+					// filter selected is "all ships"
 					idShip = null;
 				}
+
 			}
 
 			// get idCrane. If idCrane is empty, set to null for mapping filter
