@@ -14,6 +14,8 @@ public interface TasksDAO {
 
 	public boolean isTaskAssigned(Integer id_user, Integer id_task);
 
+	public UserTask loadTask(Integer idTask);
+
 	public List<UserTask> loadTasksByUser(Integer id_user);
 
 	public List<UserTask> loadTasksByUserForMobile(Integer id_user);

@@ -2,7 +2,7 @@ package org.uario.seaworkengine.zkevent.converter;
 
 import java.util.List;
 
-import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
@@ -11,7 +11,7 @@ import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
-public class TaskOverviewConverter implements TypeConverter {
+public class TaskReviewConverter implements TypeConverter {
 
 	@Override
 	public Object coerceToBean(final Object arg0, final Component arg1) {
@@ -22,23 +22,23 @@ public class TaskOverviewConverter implements TypeConverter {
 	@Override
 	public Object coerceToUi(final Object arg0, final Component arg1) {
 
-		if (!(arg0 instanceof DetailFinalSchedule) || (arg0 == null)) {
+		if (!(arg0 instanceof DetailInitialSchedule) || (arg0 == null)) {
 			return arg0;
 		}
 
-		final DetailFinalSchedule detailFinalSchedule = (DetailFinalSchedule) arg0;
+		final DetailInitialSchedule detailInitialSchedule = (DetailInitialSchedule) arg0;
 
-		if (detailFinalSchedule.getTask() == null) {
+		if (detailInitialSchedule.getTask() == null) {
 			return arg0;
 		}
 
 		final ISchedule scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
-		final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(detailFinalSchedule.getId_schedule());
+		final List<DetailInitialSchedule> listDetail = scheduleDAO.loadDetailInitialScheduleByIdSchedule(detailInitialSchedule.getId_schedule());
 
 		final TasksDAO taskCache = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 
-		final Integer id_task = detailFinalSchedule.getTask();
+		final Integer id_task = detailInitialSchedule.getTask();
 
 		final UserTask task = taskCache.loadTask(id_task);
 
@@ -49,13 +49,13 @@ public class TaskOverviewConverter implements TypeConverter {
 			Integer minTimeIndex = null;
 
 			for (int i = 0; i < listDetail.size(); i++) {
-				if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId())) {
+				if (!detailInitialSchedule.getId().equals(listDetail.get(i).getId())) {
 
-					final Long t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+					final Long t = detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 
 					if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
 						minTimeIndex = i;
-						time = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+						time = detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 					}
 
 				}

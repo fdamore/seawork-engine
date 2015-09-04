@@ -5,7 +5,12 @@
 
 	<cache-ref namespace="configuration" />
 
-
+	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask"
+		parameterType="Integer">
+		SELECT *
+		FROM usertask
+		WHERE id = #{idTask};		
+	</select>
 
 
 	<select id="selectAllTasksByUser" resultType="org.uario.seaworkengine.model.UserTask"

@@ -425,8 +425,12 @@
 			and (s.shift = #{shift_type})
 		</if>
 
-		<if test="task_id != null">
+		<if test="task_id != null and task_id != -1">
 			and (dfs.task = #{task_id})
+		</if>
+		
+		<if test="task_id != null and task_id == -1">
+			and (dfs.task is null) 
 		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc

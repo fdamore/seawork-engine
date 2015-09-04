@@ -2882,7 +2882,7 @@
 
 										<listcell
 											sclass="myBottonCell">
-											<a label="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}"
+											<a label="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}"
 												style="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewStyleConverter'}">
 												<attribute name="onClick">
 	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -3043,7 +3043,8 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}">
+												label="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.TaskReviewConverter'}" 
+												style="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewStyleConverter'}">
 												<attribute name="onClick">
 	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onOverviewProgramTaskClick", page_panel, null);

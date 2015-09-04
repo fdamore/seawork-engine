@@ -13,7 +13,7 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 
 public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
-	private static Logger	logger	= Logger.getLogger(MyBatisTasksDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisTasksDAO.class);
 
 	@Override
 	public void assignTaskToUser(final Integer id_user, final Integer id_task) {
@@ -63,6 +63,12 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;
+
+	}
+
+	@Override
+	public UserTask loadTask(final Integer idTask) {
+		return this.getSqlSession().selectOne("tasks.loadTask", idTask);
 
 	}
 

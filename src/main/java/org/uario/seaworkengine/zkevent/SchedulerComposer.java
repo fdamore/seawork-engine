@@ -6020,6 +6020,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			Integer idSelectedTask = null;
 			if (taskSelected != null) {
 				idSelectedTask = taskSelected.getId();
+
+				if (idSelectedTask == -2) {
+					// filter selected is "all ships"
+					idSelectedTask = null;
+				}
+
 			}
 
 			this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
