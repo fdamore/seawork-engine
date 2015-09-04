@@ -307,11 +307,11 @@
 								</button>
 
 								<button id="sw_refresh_tasklist"
-									sclass="btn-info" label="Ricarica Lista Mansioni">
+									sclass="btn-info" label="Ricarica Lista Mansioni e Giustificativi">
 								</button>
 
 								<button id="sw_return_defaulttask"
-									sclass="btn-info" label="Mansioni di Assenza">
+									sclass="btn-info" label="Giustificativi Assenza">
 								</button>
 								
 								
