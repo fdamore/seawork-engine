@@ -2802,9 +2802,9 @@
 											hflex="1" align="center" />
 										<listheader label="Mansione"
 											hflex="1" align="center" />
-										<listheader label="Ore lavorate"
+										<listheader label="Ore lavorate (Ore:Minuti)"
 											hflex="1" align="center" />
-										<listheader label="Ore chiusura"
+										<listheader label="Ore chiusura (Ore:Minuti)"
 											hflex="1" align="center" />
 										<listheader label="Nave"
 											hflex="1" align="center" />
@@ -2892,10 +2892,10 @@
 										</listcell>
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+											label="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.HoursAndMinutesConverter'}" />
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+											label="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.VacationHoursAndMinutesConverter'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.id_ship, converter='org.uario.seaworkengine.zkevent.converter.ShipNameConverter'}" />
@@ -2967,9 +2967,9 @@
 											hflex="1" align="center" />
 										<listheader label="Mansione"
 											hflex="1" align="center" />
-										<listheader label="Ore lavorate"
+										<listheader label="Ore lavorate (Ore:Minuti)"
 											hflex="1" align="center" />
-										<listheader label="Ore chiusura"
+										<listheader label="Ore chiusura (Ore:Minuti)"
 											hflex="1" align="center" />
 
 										<listheader label="Ingresso"
@@ -3054,9 +3054,9 @@
 
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.time, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+											label="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.HoursAndMinutesConverter'}" />
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
+											label="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.VacationHoursAndMinutesConverter'}" />
 
 
 										<listcell sclass="myBottonCell"

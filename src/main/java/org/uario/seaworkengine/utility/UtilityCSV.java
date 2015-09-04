@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
@@ -355,17 +356,22 @@ public class UtilityCSV {
 				code_shift = shift_type.getCode();
 			}
 
-			Double time = item.getTime();
-			if (time == null) {
-				time = new Double(0.0);
-			}
-			final String time_info = UtilityCSV.number_format.format(time);
+			String time_info = "00:00";
+			String time_vacation_info = "00:00";
+			if ((item.getDateTo() != null) && (item.getDateFrom() != null)) {
 
-			Double time_vacation = item.getTime_vacation();
-			if (time_vacation == null) {
-				time_vacation = new Double(0.0);
+				final Long milliseconds = item.getDateTo().getTime() - item.getDateFrom().getTime();
+
+				if (!task.getIsabsence()) {
+
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+				} else {
+
+					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+				}
 			}
-			final String time_vacation_info = UtilityCSV.number_format.format(time_vacation);
 
 			final Integer shift_no = item.getShift();
 			String shift_no_info = "";
@@ -450,17 +456,22 @@ public class UtilityCSV {
 				board = item.getBoard();
 			}
 
-			Double time = item.getTime();
-			if (time == null) {
-				time = new Double(0.0);
-			}
-			final String time_info = UtilityCSV.number_format.format(time);
+			String time_info = "00:00";
+			String time_vacation_info = "00:00";
+			if ((item.getDateTo() != null) && (item.getDateFrom() != null)) {
 
-			Double time_vacation = item.getTime_vacation();
-			if (time_vacation == null) {
-				time_vacation = new Double(0.0);
+				final Long milliseconds = item.getDateTo().getTime() - item.getDateFrom().getTime();
+
+				if (!task.getIsabsence()) {
+
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+				} else {
+
+					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+				}
 			}
-			final String time_vacation_info = UtilityCSV.number_format.format(time_vacation);
 
 			final Integer shift_no = item.getShift();
 			String shift_no_info = "";
