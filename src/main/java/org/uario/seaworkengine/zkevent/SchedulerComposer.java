@@ -1258,7 +1258,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					countHours = countHours + timeWorked + timeVacation;
 
-					if (Utility.roundOne(countHours) > 6) {
+					if ((Utility.roundTwo(countHours) > 6.00)) {
 						this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
 						return false;
 					}
@@ -1275,7 +1275,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
-			if (Utility.roundOne(countHours) > 6) {
+			if ((Utility.roundTwo(countHours) > 6.00)) {
 				this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
 				return false;
 			}
@@ -1290,7 +1290,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.setLabelTotalHoursProgram(model);
 		}
 
-		if ((countHours >= 120)) {
+		if ((countHours >= 6)) {
 			this.minHoursAlert = false;
 			this.alertMinHours.setVisible(false);
 		}
@@ -1430,7 +1430,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				countHours = countHours + item.getTime() + item.getTime_vacation();
 
-				if (Utility.roundOne(countHours) > 6) {
+				if ((Utility.roundTwo(countHours) > 6.00)) {
 					this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
@@ -1447,7 +1447,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		if (Utility.roundOne(countHours) > 6) {
+		if ((Utility.roundTwo(countHours) > 6.00)) {
 			this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 			this.alertMinHoursReview.setVisible(false);
 			return false;
@@ -1469,7 +1469,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// check if time programmed if <= 6 hours
 
-		if ((countHours >= 120)) {
+		if ((countHours >= 6)) {
 			this.minHoursAlert = false;
 			this.alertMinHoursReview.setVisible(false);
 		}
@@ -3397,7 +3397,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Double ret = millis / (1000.0 * 60.0 * 60.0);
 
-		return Utility.roundTwo(ret);
+		return Utility.roundSix(ret);
 	}
 
 	/**
@@ -3796,6 +3796,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// open popup
 		this.minHoursAlert = false;
 		this.alertMinHours.setVisible(false);
+		this.errorMessageAddProgramItem.setValue("");
+
 		this.shift_definition_popup.open(this.program_div, "after_pointer");
 
 	}
@@ -3837,6 +3839,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.minHoursAlert = false;
 		this.alertMinHoursReview.setVisible(false);
+		this.errorMessageAddItem.setValue("");
 		this.shift_definition_popup_review.open(this.review_div, "after_pointer");
 		this.reviewShift.setChecked(false);
 
@@ -7330,4 +7333,5 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 	}
+
 }
