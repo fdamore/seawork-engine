@@ -14,8 +14,8 @@ public class PasswordCallback implements CallbackHandler {
 	public void handle(final Callback[] callbacks) throws IOException, UnsupportedCallbackException {
 		final WSPasswordCallback pc = (WSPasswordCallback) callbacks[0];
 
-		if ("joe".equals(pc.getIdentifier())) {
-			pc.setPassword("joespassword");
+		if ("seaservice".equals(pc.getIdentifier())) {
+			pc.setPassword("kjhds777ssss");
 		}
 	}
 }
