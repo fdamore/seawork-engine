@@ -17,7 +17,7 @@
 	<!-- SOAP SERVICE -->
 	<jaxws:endpoint address="/soapservice" implementor="#soapservice">
 
-<!-- 
+
 		<jaxws:inInterceptors>
 
 			<bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
@@ -34,8 +34,8 @@
 				</constructor-arg>
 			</bean>
 		</jaxws:inInterceptors>
-		
-		-->
+
+
 
 
 	</jaxws:endpoint>
