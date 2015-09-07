@@ -67,7 +67,7 @@ public class TaskReviewConverter implements TypeConverter {
 				if (taskIDPrec != null) {
 					final UserTask taskPrec = taskCache.loadTask(taskIDPrec);
 					if (taskPrec != null) {
-						taskCode = taskPrec.getCode() + "_" + taskCode;
+						taskCode = taskPrec.getCode() + "-" + taskCode;
 					}
 				}
 

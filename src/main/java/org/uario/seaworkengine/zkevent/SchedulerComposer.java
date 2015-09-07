@@ -2944,12 +2944,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// select list
 		if (this.overview_review.isSelected() && (this.listDetailRevision != null)) {
 
-			final StringBuilder builder = UtilityCSV.downloadCSVReview(this.listDetailRevision, this.task_cache, this.shift_cache, this.ship_cache);
+			final StringBuilder builder = UtilityCSV.downloadCSVReview(this.listDetailRevision, this.taskDAO, this.shift_cache, this.ship_cache,
+					this.scheduleDAO);
 
 			Filedownload.save(builder.toString(), "application/text", "revision.csv");
 		} else if (this.overview_program.isSelected() && (this.listDetailProgram != null)) {
 
-			final StringBuilder builder = UtilityCSV.downloadCSVProgram(this.listDetailProgram, this.task_cache, this.shift_cache);
+			final StringBuilder builder = UtilityCSV.downloadCSVProgram(this.listDetailProgram, this.taskDAO, this.shift_cache, this.scheduleDAO);
 
 			Filedownload.save(builder.toString(), "application/text", "program.csv");
 
