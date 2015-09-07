@@ -142,7 +142,7 @@
 	<tabbox>
 
 		<tabs>
-			<tab label="Mansioni" id="task" selected="true" />
+			<tab label="Mansioni e Giustificativi" id="task" selected="true" />
 			<tab label="Turni" id="shift" />
 			<tab label="Centri di Costo" id="billcenter" />
 			<tab label="Tipo Rapporto di Lavoro" id="status" />
@@ -154,7 +154,7 @@
 				<panel id="panel_task" border="normal"
 					collapsible="false" sclass="transparent">
 					<caption iconSclass="z-icon-star orange"
-						label="Gestione Mansioni">
+						label="Gestione Mansioni e Giustificativi">
 					</caption>
 
 					<panelchildren>
@@ -162,7 +162,7 @@
 						<!-- TASK -->
 						<div>
 
-							<a label="Mansioni" iconSclass="z-icon-list"
+							<a label="Mansioni e Giustificativi" iconSclass="z-icon-list"
 								sclass="green lighter rcaption" />
 
 							<!-- TASK EDITOR -->
@@ -172,7 +172,7 @@
 								<panel border="normal"
 									collapsible="false" sclass="transparent">
 									<caption
-										iconSclass="z-icon-star orange" label="Dettagli Mansione">
+										iconSclass="z-icon-star orange" label="Dettagli Mansione o Giustificativo">
 
 										<toolbarbutton label="Chiudi"
 											style="color: blue"
@@ -302,7 +302,7 @@
 								<separator></separator>
 
 								<button id="sw_addtask"
-									sclass="btn-info" label="Aggiungi Mansione"
+									sclass="btn-info" label="Aggiungi Mansione o Giustificativo"
 									onClick="modify_tasks_command.setVisible(false);add_tasks_command.setVisible(true);grid_task_details.setVisible(true)">
 								</button>
 
@@ -317,12 +317,12 @@
 								
 								
 								<button id="sw_return_mobiletask"
-									sclass="btn-info" label="Mansioni usate in Applicazione Mobile">
+									sclass="btn-info" label="Mansioni e Giustificativi usati in Applicazione Mobile">
 								</button>
 								
 								
 								<button id="sw_return_hiddentask"
-									sclass="btn-info" label="Mansioni nascoste al preposto">
+									sclass="btn-info" label="Mansioni e Giustificativi nascosti al preposto">
 								</button>
 															
 
@@ -743,7 +743,7 @@
 								<panel border="normal"
 									collapsible="false" sclass="transparent">
 									<caption
-										iconSclass="z-icon-star orange" label="Dettagli Mansione">
+										iconSclass="z-icon-star orange" label="Dettagli Mansione o Giustificativo">
 
 										<toolbarbutton label="Chiudi" id="closeBillCenterDetail"
 											style="color: blue"
