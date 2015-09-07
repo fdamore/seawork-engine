@@ -8,6 +8,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.DetailScheduleShip;
+import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
+import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.Utility;
+import org.uario.seaworkengine.zkevent.bean.RowSchedule;
+import org.zkoss.spring.SpringUtil;
+
 import net.sf.dynamicreports.jasper.builder.JasperConcatenatedReportBuilder;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
@@ -27,18 +39,6 @@ import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.JRDataSource;
 
-import org.apache.log4j.Logger;
-import org.uario.seaworkengine.model.DetailInitialSchedule;
-import org.uario.seaworkengine.model.DetailScheduleShip;
-import org.uario.seaworkengine.model.Schedule;
-import org.uario.seaworkengine.model.UserTask;
-import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
-import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
-import org.uario.seaworkengine.utility.BeansTag;
-import org.uario.seaworkengine.utility.Utility;
-import org.uario.seaworkengine.zkevent.bean.RowSchedule;
-import org.zkoss.spring.SpringUtil;
-
 public class ProgramReportBuilder {
 
 	private static ConfigurationDAO configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
@@ -49,9 +49,9 @@ public class ProgramReportBuilder {
 
 	private static boolean isInCounting = false;
 
-	private static Logger logger = Logger.getLogger(ProgramReportBuilder.class);
-	private static ISchedule scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
-	private static Integer secondShiftNumberOfPerson = 0;
+	private static Logger		logger						= Logger.getLogger(ProgramReportBuilder.class);
+	private static ISchedule	scheduleDAO					= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+	private static Integer		secondShiftNumberOfPerson	= 0;
 
 	private static Integer thirdShiftNumberOfPerson = 0;
 
@@ -110,18 +110,16 @@ public class ProgramReportBuilder {
 		final TextColumnBuilder<String> priority2 = DynamicReports.col.column("Priorità Esubero", "priority2", DynamicReports.type.stringType());
 
 		// create group of column
-		final ColumnTitleGroupBuilder presenceInShift = DynamicReports.grid.titleGroup("Presenze in Turno", name, add).setTitleStretchWithOverflow(
-				true);
+		final ColumnTitleGroupBuilder presenceInShift = DynamicReports.grid.titleGroup("Presenze in Turno", name, add)
+				.setTitleStretchWithOverflow(true);
 		final ColumnTitleGroupBuilder hours = DynamicReports.grid.titleGroup("Orario di", start, end);
 
 		final ColumnTitleGroupBuilder pnr = DynamicReports.grid.titleGroup("PNR", pnrStart, pnrEnd);
 
-		report.setHighlightDetailEvenRows(true)
-		.setColumnTitleStyle(columnStyle)
-		.setColumnStyle(textStyle)
-				.columnGrid(
-				DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry, nonAutorizedEntry, priority1,
-						priority2)).columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
+		report.setHighlightDetailEvenRows(true).setColumnTitleStyle(columnStyle)
+				.setColumnStyle(textStyle).columnGrid(DynamicReports.grid.horizontalColumnGridList(presenceInShift, hours, pnr, autorizedEntry,
+						nonAutorizedEntry, priority1, priority2))
+				.columns(name, add, start, end, pnrStart, pnrEnd, autorizedEntry, nonAutorizedEntry, priority1, priority2);
 
 	}
 
@@ -370,6 +368,8 @@ public class ProgramReportBuilder {
 
 		int shipId = -1;
 
+		int shipNumberAdded = 0;
+
 		for (final DetailScheduleShip item : shipList) {
 
 			if (item.getShift().equals(shiftNumber) && (shipId != item.getId_ship())) {
@@ -378,11 +378,15 @@ public class ProgramReportBuilder {
 
 				dataSource.add(ship_name, "", "", "", "", "", "", "", "");
 
+				shipNumberAdded++;
+
 			}
 
 		}
 
-		for (int i = 0; i < 39; i++) {
+		final int rowNum = 39 - shipNumberAdded;
+
+		for (int i = 0; i < rowNum; i++) {
 			dataSource.add("", "", "", "", "", "", "", "", "");
 		}
 
@@ -437,32 +441,32 @@ public class ProgramReportBuilder {
 		final StyleBuilder summaryStyle = DynamicReports.stl.style().setPadding(10);
 
 		// TURNO 1
-		final JasperReportBuilder report1Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
-				.getDate_schedule(), 1);
+		final JasperReportBuilder report1Shift = ProgramReportBuilder.createShiftReport(list_row,
+				list_row.get(0).getItem_3().getSchedule().getDate_schedule(), 1);
 		report1Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 		final JasperReportBuilder report1Ship = ProgramReportBuilder.createShipReport(shipList, date, 1);
 
 		final JasperReportBuilder noteReportShip1 = ProgramReportBuilder.createNoteShipReport(date, 1);
 
 		// TURNO 2
-		final JasperReportBuilder report2Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
-				.getDate_schedule(), 2);
+		final JasperReportBuilder report2Shift = ProgramReportBuilder.createShiftReport(list_row,
+				list_row.get(0).getItem_3().getSchedule().getDate_schedule(), 2);
 		final JasperReportBuilder report2Ship = ProgramReportBuilder.createShipReport(shipList, date, 2);
 		report2Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
 		final JasperReportBuilder noteReportShip2 = ProgramReportBuilder.createNoteShipReport(date, 2);
 
 		// TURNO 3
-		final JasperReportBuilder report3Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
-				.getDate_schedule(), 3);
+		final JasperReportBuilder report3Shift = ProgramReportBuilder.createShiftReport(list_row,
+				list_row.get(0).getItem_3().getSchedule().getDate_schedule(), 3);
 		final JasperReportBuilder report3Ship = ProgramReportBuilder.createShipReport(shipList, date, 3);
 		report3Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
 		final JasperReportBuilder noteReportShip3 = ProgramReportBuilder.createNoteShipReport(date, 3);
 
 		// TURNO 4
-		final JasperReportBuilder report4Shift = ProgramReportBuilder.createShiftReport(list_row, list_row.get(0).getItem_3().getSchedule()
-				.getDate_schedule(), 4);
+		final JasperReportBuilder report4Shift = ProgramReportBuilder.createShiftReport(list_row,
+				list_row.get(0).getItem_3().getSchedule().getDate_schedule(), 4);
 		final JasperReportBuilder report4Ship = ProgramReportBuilder.createShipReport(shipList, date, 4);
 		report4Shift.summary(ProgramReportBuilder.createShiftFooterComponent()).setSummaryStyle(summaryStyle);
 
@@ -499,9 +503,9 @@ public class ProgramReportBuilder {
 
 		builder_gb
 				.append("Firma compilatore foglio rilevazione presenza montante  ____________________________________ Dalle: ____________________________ Alle: ____________________________"
-				+ "\n" + "\n");
-		builder_gb
-				.append("Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
+						+ "\n" + "\n");
+		builder_gb.append(
+				"Firma compilatore foglio rilevazione presenza smontante ____________________________________ Dalle: ____________________________ Alle: ____________________________");
 
 		final String ingo_gb = builder_gb.toString();
 
@@ -693,7 +697,7 @@ public class ProgramReportBuilder {
 
 	/**
 	 * Update data source of shift sheet
-	 * */
+	 */
 	private static void updateDataSource_Shift(final DRDataSource dataSource, final Integer shiftNumber, final String name_user,
 			final RowSchedule item) {
 
@@ -701,8 +705,8 @@ public class ProgramReportBuilder {
 
 		final Schedule schedule = item.getItem_3().getSchedule();
 
-		final List<DetailInitialSchedule> list_detail_schedule = ProgramReportBuilder.scheduleDAO.loadDetailInitialScheduleByIdSchedule(schedule
-				.getId());
+		final List<DetailInitialSchedule> list_detail_schedule = ProgramReportBuilder.scheduleDAO
+				.loadDetailInitialScheduleByIdSchedule(schedule.getId());
 
 		if (list_detail_schedule != null) {
 
