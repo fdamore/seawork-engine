@@ -226,7 +226,16 @@
 														value="Assenza:">
 													</label>
 													<checkbox
-														id="isabsence_task" />
+														id="isabsence_task" onClick="justificatory_task.setChecked(false);"/>
+												</row>
+												
+												<row
+													id="row_justificatory_task">
+													<label
+														value="Giustificativo:">
+													</label>
+													<checkbox
+														id="justificatory_task" onClick="isabsence_task.setChecked(false);"/>
 												</row>
 
 												<row
@@ -311,10 +320,12 @@
 								</button>
 
 								<button id="sw_return_defaulttask"
-									sclass="btn-info" label="Giustificativi Assenza">
+									sclass="btn-info" label="Mansioni di Assenza">
 								</button>
 								
-								
+								<button id="sw_return_justificatorytask"
+									sclass="btn-info" label="Giustificativi">
+								</button>
 								
 								<button id="sw_return_mobiletask"
 									sclass="btn-info" label="Mansioni e Giustificativi usati in Applicazione Mobile">
@@ -350,6 +361,7 @@
 									<listheader label="Descrizione"
 										sort="auto(description)" />
 									<listheader label="Assenza" sort="auto(isabsence)" />
+									<listheader label="Giustificativo" sort="auto(justificatory)" />
 									<listheader label="Contabilizzato" sort="auto(recorded)" />
 									
 									<listheader label="Cambio Turno (App Mobile)" sort="auto(changeshift)" />
@@ -375,6 +387,11 @@
 									<listcell style="text-align: center" sclass="myBottonCell">
 										<image
 											src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+										<image
+											src="@{task_item.justificatory, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 
 									<listcell style="text-align: center" sclass="myBottonCell">

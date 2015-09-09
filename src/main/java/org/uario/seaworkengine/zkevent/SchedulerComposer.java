@@ -49,6 +49,7 @@ import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.BoardTag;
 import org.uario.seaworkengine.utility.ShiftTag;
 import org.uario.seaworkengine.utility.TableTag;
+import org.uario.seaworkengine.utility.TaskColor;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
@@ -977,7 +978,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private String status_comp_editor = SchedulerComposer.STATUS_COMP_EDITOR_ADD;
 
-	private final String styleComboItemPopup = "color: #F5290A;";
+	private final String styleComboItemAbsencePopup = "color: " + TaskColor.ANBSENCE_COLOR;
+
+	private final String styleComboItemJustificatoryPopup = "color: " + TaskColor.JUSTIFICATORY_COLOR;
 
 	@Wire
 	private Listbox sw_compensation_list;
@@ -1193,8 +1196,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			new_item.setTask(task.getId());
 
+			final UserTask t = this.configurationDAO.loadTask(task.getId());
+
 			// check if is absence task
-			if (this.configurationDAO.loadTask(task.getId()).getIsabsence()) {
+			if ((t != null) && (t.getIsabsence() || t.getJustificatory())) {
 				new_item.setTime(0.0);
 				new_item.setTime_vacation(time);
 			} else {
@@ -1356,8 +1361,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		final UserTask t = this.configurationDAO.loadTask(task.getId());
+
 		// check if is absence task
-		if (this.configurationDAO.loadTask(task.getId()).getIsabsence()) {
+		if ((t != null) && (t.getIsabsence() || t.getJustificatory())) {
 			new_item.setTime(0.0);
 			new_item.setTime_vacation(time);
 		} else {
@@ -2455,25 +2462,39 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final ListModelList<Ship> shipList = new ListModelList<Ship>(this.shipDAO.loadAllShip());
 
 		final List<UserTask> taskList = this.configurationDAO.loadTasks();
-		final ListModelList<UserTask> taskModelList = new ListModelList<UserTask>(taskList);
 
-		if (taskModelList != null) {
+		if (taskList != null) {
 
 			// add ship for "ship null" filter
 			final UserTask taskNull = new UserTask();
 			taskNull.setId(-1);
 			taskNull.setCode(" ");
 			taskNull.setDescription("Mansione non inserita");
-			taskModelList.add(0, taskNull);
+			taskNull.setIsabsence(false);
+			taskNull.setJustificatory(false);
+			taskList.add(0, taskNull);
 
 			// add ship for "all selected" filter
 			final UserTask task = new UserTask();
 			task.setId(-2);
 			task.setCode(" ");
 			task.setDescription("Tutte le mansioni");
-			taskModelList.add(1, task);
+			task.setIsabsence(false);
+			task.setJustificatory(false);
+			taskList.add(1, task);
 
-			this.taskComboBox.setModel(taskModelList);
+			for (final UserTask task_item : taskList) {
+				final Comboitem combo_item = new Comboitem();
+				combo_item.setValue(task_item);
+				combo_item.setLabel(task_item.toString());
+				if (task_item.getIsabsence()) {
+					combo_item.setStyle(this.styleComboItemAbsencePopup);
+				} else if (task_item.getJustificatory()) {
+					combo_item.setStyle(this.styleComboItemJustificatoryPopup);
+				}
+				this.taskComboBox.appendChild(combo_item);
+
+			}
 
 		}
 
@@ -3281,10 +3302,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private final List<UserTask> getListTaskForComboPopup(final Integer user) {
 		final List<UserTask> list_task_user = this.taskDAO.loadTasksByUser(user);
 		final List<UserTask> list_task_absence = this.configurationDAO.listAllAbsenceTask();
+		final List<UserTask> list_task_justificatory = this.configurationDAO.listAllJustificatoryTask();
 
 		final List<UserTask> list = new ArrayList<UserTask>();
 		list.addAll(list_task_user);
 		list.addAll(list_task_absence);
+		list.addAll(list_task_justificatory);
 		Collections.sort(list);
 		return list;
 	}
@@ -3775,7 +3798,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			combo_item.setValue(task_item);
 			combo_item.setLabel(task_item.toString());
 			if (task_item.getIsabsence()) {
-				combo_item.setStyle(this.styleComboItemPopup);
+				combo_item.setStyle(this.styleComboItemAbsencePopup);
+			} else if (task_item.getJustificatory()) {
+				combo_item.setStyle(this.styleComboItemJustificatoryPopup);
 			}
 			this.program_task.appendChild(combo_item);
 
@@ -3963,7 +3988,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			combo_item.setValue(task_item);
 			combo_item.setLabel(task_item.toString());
 			if (task_item.getIsabsence()) {
-				combo_item.setStyle(this.styleComboItemPopup);
+				combo_item.setStyle(this.styleComboItemAbsencePopup);
+			} else if (task_item.getJustificatory()) {
+				combo_item.setStyle(this.styleComboItemJustificatoryPopup);
 			}
 			this.review_task.appendChild(combo_item);
 

@@ -28,6 +28,8 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	private Boolean isabsence;
 
+	private Boolean justificatory;
+
 	private Boolean overflow;
 
 	private Boolean recorded;
@@ -110,6 +112,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.isabsence;
 	}
 
+	public Boolean getJustificatory() {
+		return this.justificatory;
+	}
+
 	public Boolean getOverflow() {
 		return this.overflow;
 	}
@@ -155,6 +161,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setIsabsence(final Boolean isabsence) {
 		this.isabsence = isabsence;
+	}
+
+	public void setJustificatory(final Boolean justificatory) {
+		this.justificatory = justificatory;
 	}
 
 	public void setOverflow(final Boolean overflow) {

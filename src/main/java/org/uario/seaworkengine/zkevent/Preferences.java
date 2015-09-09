@@ -117,6 +117,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private IJobCost jobCostDao;
 
 	@Wire
+	private Checkbox justificatory_task;
+
+	@Wire
 	private Label label_allocated_meomry;
 
 	@Wire
@@ -425,6 +428,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setCode(this.code_task.getValue());
 		task.setDescription(this.description_task.getValue());
 		task.setIsabsence(this.isabsence_task.isChecked());
+		task.setJustificatory(this.justificatory_task.isChecked());
 		task.setOverflow(this.overflow_task.isChecked());
 		task.setDelayoperation(this.delayoperation_task.isChecked());
 		task.setEndoperation(this.endoperation_task.isChecked());
@@ -701,8 +705,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 			// if shift is a default shift, user cannot modify shift as a non
 			// default shift
-			if (((isDefault && (this.typeofbreak.getSelectedItem() != null) && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito"))))
-					|| (!isDefault)) {
+			if (((isDefault && (this.typeofbreak.getSelectedItem() != null)
+					&& !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito")))) || (!isDefault)) {
 				shift.setBreak_shift(false);
 				shift.setDisease_shift(false);
 				shift.setAccident_shift(false);
@@ -770,6 +774,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_task.setValue(task.getCode());
 		this.description_task.setValue(task.getDescription());
 		this.isabsence_task.setChecked(task.getIsabsence());
+		this.justificatory_task.setChecked(task.getJustificatory());
 		this.overflow_task.setChecked(task.getOverflow());
 		this.delayoperation_task.setChecked(task.getDelayoperation());
 		this.endoperation_task.setChecked(task.getEndoperation());
@@ -1042,6 +1047,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.code_task.setValue("");
 		this.description_task.setValue("");
 		this.isabsence_task.setChecked(false);
+		this.justificatory_task.setChecked(false);
 		this.overflow_task.setChecked(false);
 		this.delayoperation_task.setChecked(false);
 		this.endoperation_task.setChecked(false);
@@ -1198,6 +1204,15 @@ public class Preferences extends SelectorComposer<Component> {
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_MobileUsertask));
 	}
 
+	@Listen("onClick = #sw_return_justificatorytask")
+	public void showJustificatoryTask() {
+		List<UserTask> list_usertask = null;
+
+		list_usertask = this.configurationDao.listAllJustificatoryTask();
+
+		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
+	}
+
 	/**
 	 * Calculate memory
 	 */
@@ -1241,6 +1256,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setCode(this.code_task.getValue());
 		task.setDescription(this.description_task.getValue());
 		task.setIsabsence(this.isabsence_task.isChecked());
+		task.setJustificatory(this.justificatory_task.isChecked());
 		task.setEndoperation(this.endoperation_task.isChecked());
 		task.setChangeshift(this.changeshift_task.isChecked());
 		task.setOverflow(this.overflow_task.isChecked());

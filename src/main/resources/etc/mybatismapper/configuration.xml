@@ -17,7 +17,7 @@
 		code,
 		description, isabsence, recorded,
 		overflow, endoperation,
-		delayoperation, changeshift, hiddentask 
+		delayoperation, changeshift, hiddentask, justificatory 
 		FROM usertask
 		WHERE id=#{id};
 	</select>
@@ -47,9 +47,26 @@
 		t.overflow,
 		t.changeshift,
 		t.delayoperation, 
-		t.hiddentask 
+		t.hiddentask, 
+		t.justificatory  
 		FROM usertask t
 		WHERE t.hiddentask = 1;
+	</select>
+	
+	<select id="listAllJustificatoryTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT t.id,
+		t.code,
+		t.description,
+		t.isabsence,
+		t.recorded,
+		t.endoperation,
+		t.overflow,
+		t.changeshift,
+		t.delayoperation, 
+		t.hiddentask, 
+		t.justificatory  
+		FROM usertask t
+		WHERE t.justificatory = 1;
 	</select>
 
 	<select id="listAllAbsenceTask" resultType="org.uario.seaworkengine.model.UserTask">
@@ -62,7 +79,8 @@
 		t.overflow,
 		t.changeshift,
 		t.delayoperation, 
-		t.hiddentask 
+		t.hiddentask, 
+		t.justificatory  
 		FROM usertask t
 		WHERE t.isabsence = 1;
 
@@ -73,7 +91,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask 
+		overflow, delayoperation, changeshift, hiddentask , justificatory 
 		FROM usertask
 		order by description;
 
@@ -84,7 +102,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask 
+		overflow, delayoperation, changeshift, hiddentask, justificatory 
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -147,12 +165,12 @@
 		INSERT INTO usertask
 		(code,
 		description, isabsence, recorded, endoperation, overflow,
-		delayoperation, changeshift, hiddentask)
+		delayoperation, changeshift, hiddentask, justificatory)
 		VALUES
 		(#{code},#{description},
 		#{isabsence},
 		#{recorded}, #{endoperation}, #{overflow},
-		#{delayoperation}, #{changeshift}, #{hiddentask});
+		#{delayoperation}, #{changeshift}, #{hiddentask}, #{justificatory});
 
 	</insert>
 
@@ -185,7 +203,8 @@
 		overflow = #{overflow},
 		delayoperation = #{delayoperation},
 		changeshift = #{changeshift}, 
-		hiddentask = #{hiddentask} 
+		hiddentask = #{hiddentask}, 
+		justificatory = #{justificatory} 
 		WHERE id = #{id}
 
 	</update>

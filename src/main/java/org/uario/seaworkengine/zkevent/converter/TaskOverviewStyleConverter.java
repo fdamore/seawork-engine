@@ -3,6 +3,7 @@ package org.uario.seaworkengine.zkevent.converter;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.TaskColor;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
@@ -29,7 +30,9 @@ public class TaskOverviewStyleConverter implements TypeConverter {
 		final UserTask task = taskCache.getUserTask(id_task);
 
 		if (task.getIsabsence()) {
-			return "color:red";
+			return "color:" + TaskColor.ANBSENCE_COLOR;
+		} else if (task.getJustificatory()) {
+			return "color:" + TaskColor.JUSTIFICATORY_COLOR;
 		}
 		return " ";
 

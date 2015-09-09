@@ -105,6 +105,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserTask> listAllJustificatoryTask() {
+		MyBatisConfigurationDAO.logger.info("List All Justificatory Task..");
+
+		return this.getSqlSession().selectList("configuration.listAllJustificatoryTask");
+	}
+
+	@Override
 	public List<UserShift> listAllShifts(final String full_text_search) {
 		MyBatisConfigurationDAO.logger.info("listAllShifts like full_text_search");
 

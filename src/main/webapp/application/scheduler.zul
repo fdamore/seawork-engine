@@ -2198,7 +2198,7 @@
 
 								<listhead>
 									<listheader label="Mansioni" />
-									<listheader label="Tempo Lavorato" />
+									<listheader label="Tempo Consuntivato" />
 									<listheader label="Inizio Attività" sort="auto(time_from)"/>
 									<listheader label="Fine Attività" />
 									<listheader label="Nave" />

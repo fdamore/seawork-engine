@@ -44,7 +44,7 @@ public class TaskOverviewConverter implements TypeConverter {
 
 		String taskCode = task.getCode();
 
-		if (task.getIsabsence()) {
+		if (task.getIsabsence() || task.getJustificatory()) {
 			Long time = null;
 			Integer minTimeIndex = null;
 
