@@ -4908,6 +4908,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.add_program_item.setVisible(true);
 		this.remove_program_item.setVisible(true);
 
+		if (this.listbox_program.getSelectedItem() == null) {
+			return;
+		}
+
 		final DetailInitialSchedule itm = this.listbox_program.getSelectedItem().getValue();
 
 		this.removeProgramItem();

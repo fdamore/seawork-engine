@@ -716,7 +716,7 @@ public class ProgramReportBuilder {
 
 				if ((idTask != null) && detailInitialSchedule.getShift().equals(shiftNumber)) {
 					final UserTask task = ProgramReportBuilder.configurationDAO.loadTask(idTask);
-					if ((task != null) && !task.getHiddentask()) {
+					if ((task != null) && !task.getHiddentask() && !task.getIsabsence() && !task.getJustificatory()) {
 
 						final String add = task.getCode();
 

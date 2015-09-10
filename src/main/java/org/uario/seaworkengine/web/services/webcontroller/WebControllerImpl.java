@@ -183,7 +183,7 @@ public class WebControllerImpl implements IWebServiceController {
 				final double h = (double) millis / (1000 * 60 * 60);
 				final UserTask currentTask = this.taskCache.getUserTask(task_item.getID());
 
-				if (currentTask.getIsabsence().booleanValue() || currentTask.getJustificatory().booleanValue()) {
+				if (currentTask.getIsabsence().booleanValue()) {
 					final_detail.setTime(0.0);
 					final_detail.setTime_vacation(h);
 				} else {

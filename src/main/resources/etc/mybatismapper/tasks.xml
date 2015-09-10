@@ -40,7 +40,7 @@
 		usertask t,
 		user_usertask ut 
 		WHERE ut.id_user = #{id_user} and 
-		ut.id_usertask = t.id and hiddentask = false;
+		ut.id_usertask = t.id and hiddentask = false and t.isabsence = false and t.justificatory = false;
 
 	</select>
 

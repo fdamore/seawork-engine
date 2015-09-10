@@ -416,7 +416,7 @@
 		FROM
 		usertask
 		WHERE (overflow=1 or endoperation=1 or delayoperation=1 or
-		changeshift=1 or changeshift=1) and hiddentask=false;
+		changeshift=1 or changeshift=1);
 	</select>
 
 	<update id="removeAllDelayOperationTasks">

@@ -286,7 +286,7 @@
 												<row
 													id="row_hidden_task">
 													<label
-														value="Nascosto al preposto: ">
+														value="Nascosto al preposto (non visibile in App e Stampa Preposto): ">
 													</label>
 													<checkbox
 														id="hidden_task" />
