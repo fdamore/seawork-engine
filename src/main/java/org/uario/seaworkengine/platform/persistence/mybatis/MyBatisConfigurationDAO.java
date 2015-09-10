@@ -124,6 +124,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserTask> listAllStandardTask() {
+		MyBatisConfigurationDAO.logger.info("List All Standard Task..");
+
+		return this.getSqlSession().selectList("configuration.listAllStandardTask");
+	}
+
+	@Override
 	public List<UserTask> listAllTasks(final String full_text_search) {
 		MyBatisConfigurationDAO.logger.info("listAllTasks like full_text_search");
 

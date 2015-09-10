@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.TaskColor;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -19,6 +21,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -29,28 +32,28 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private ConfigurationDAO	configurationDAO;
-
-	@Wire
-	private Component			grid_task_details;
-
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposerTask.class);
-
-	private Person				person_selected;
+	private ConfigurationDAO configurationDAO;
 
 	@Wire
-	private Listbox				sw_list_task;
+	private Component grid_task_details;
+
+	private final Logger logger = Logger.getLogger(UserDetailsComposerTask.class);
+
+	private Person person_selected;
+
+	@Wire
+	private Listbox sw_list_task;
 
 	// task interface
-	private TasksDAO			taskDAO;
+	private TasksDAO taskDAO;
 
 	@Wire
-	private Combobox			user_task_code;
+	private Combobox user_task_code;
 
 	@Wire
-	private Label				user_task_description;
+	private Label user_task_description;
 
 	@Listen("onClick = #add_tasks_command")
 	public void addTaskUser() {
@@ -180,15 +183,15 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerTask.this.deleteTaskUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerTask.this.deleteTaskUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -222,8 +225,27 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 		}
 
 		// select combo task
-		final List<UserTask> list = this.configurationDAO.loadTasks();
-		this.user_task_code.setModel(new ListModelList<UserTask>(list));
+		final List<UserTask> list_task_user = this.configurationDAO.listAllStandardTask();
+		final List<UserTask> list_task_absence = this.configurationDAO.listAllAbsenceTask();
+		final List<UserTask> list_task_justificatory = this.configurationDAO.listAllJustificatoryTask();
+
+		final List<UserTask> list = new ArrayList<UserTask>();
+		list.addAll(list_task_user);
+		list.addAll(list_task_justificatory);
+		list.addAll(list_task_absence);
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+			if (task_item.getIsabsence()) {
+				combo_item.setStyle("color: " + TaskColor.ANBSENCE_COLOR);
+			} else if (task_item.getJustificatory()) {
+				combo_item.setStyle("color: " + TaskColor.JUSTIFICATORY_COLOR);
+			}
+			this.user_task_code.appendChild(combo_item);
+
+		}
 
 		final List<UserTask> list_mytask = this.taskDAO.loadTasksByUser(this.person_selected.getId());
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_mytask));

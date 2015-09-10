@@ -24,7 +24,8 @@
 		usertask t,
 		user_usertask ut where ut.id_user = #{id_user} and
 		ut.id_usertask =
-		t.id;
+		t.id 
+		order by t.code asc;
 
 	</select>
 

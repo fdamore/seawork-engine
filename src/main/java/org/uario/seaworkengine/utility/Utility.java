@@ -61,6 +61,9 @@ public class Utility {
 	 * @return
 	 */
 	public static String decimatToTime(final Double source) {
+		if (source == null) {
+			return "";
+		}
 		final int hours = (int) source.doubleValue();
 		final double decimal = source - hours;
 		final int minuts = (int) Utility.roundOne(decimal * 60);

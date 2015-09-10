@@ -19,7 +19,7 @@
 		overflow, endoperation,
 		delayoperation, changeshift, hiddentask, justificatory 
 		FROM usertask
-		WHERE id=#{id};
+		WHERE id=#{id} order by code asc;
 	</select>
 
 	<select id="loadAllShiftCode" resultType="String">
@@ -50,7 +50,23 @@
 		t.hiddentask, 
 		t.justificatory  
 		FROM usertask t
-		WHERE t.hiddentask = 1;
+		WHERE t.hiddentask = 1 order by t.code asc;
+	</select>
+	
+	<select id="listAllStandardTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT t.id,
+		t.code,
+		t.description,
+		t.isabsence,
+		t.recorded,
+		t.endoperation,
+		t.overflow,
+		t.changeshift,
+		t.delayoperation, 
+		t.hiddentask, 
+		t.justificatory  
+		FROM usertask t
+		WHERE t.isabsence = 0 and t.justificatory = 0 order by t.code asc;
 	</select>
 	
 	<select id="listAllJustificatoryTask" resultType="org.uario.seaworkengine.model.UserTask">
@@ -66,7 +82,8 @@
 		t.hiddentask, 
 		t.justificatory  
 		FROM usertask t
-		WHERE t.justificatory = 1;
+		WHERE t.justificatory = 1 
+		order by t.code asc;
 	</select>
 
 	<select id="listAllAbsenceTask" resultType="org.uario.seaworkengine.model.UserTask">
@@ -82,7 +99,8 @@
 		t.hiddentask, 
 		t.justificatory  
 		FROM usertask t
-		WHERE t.isabsence = 1;
+		WHERE t.isabsence = 1 
+		order by t.code asc;
 
 	</select>
 
