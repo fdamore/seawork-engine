@@ -1195,7 +1195,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final UserTask t = this.configurationDAO.loadTask(task.getId());
 
 			// check if is absence task
-			if ((t != null) && (t.getIsabsence() || t.getJustificatory())) {
+			if ((t != null) && t.getIsabsence()) {
 				new_item.setTime(0.0);
 				new_item.setTime_vacation(time);
 			} else {
@@ -1360,7 +1360,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final UserTask t = this.configurationDAO.loadTask(task.getId());
 
 		// check if is absence task
-		if ((t != null) && (t.getIsabsence() || t.getJustificatory())) {
+		if ((t != null) && t.getIsabsence()) {
 			new_item.setTime(0.0);
 			new_item.setTime_vacation(time);
 		} else {

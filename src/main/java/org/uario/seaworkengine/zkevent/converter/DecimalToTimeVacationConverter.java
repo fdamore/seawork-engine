@@ -54,7 +54,9 @@ public class DecimalToTimeVacationConverter implements TypeConverter {
 					for (final Listcell cell : listCell) {
 						cell.setStyle("color:" + TaskColor.JUSTIFICATORY_COLOR);
 					}
-					return Utility.decimatToTime(ds.getTime_vacation());
+
+					return Utility.decimatToTime(ds.getTime());
+
 				}
 				return Utility.decimatToTime(ds.getTime());
 			}
@@ -79,7 +81,9 @@ public class DecimalToTimeVacationConverter implements TypeConverter {
 					for (final Listcell cell : listCell) {
 						cell.setStyle("color:" + TaskColor.JUSTIFICATORY_COLOR);
 					}
-					return Utility.decimatToTime(ds.getTime_vacation());
+
+					return Utility.decimatToTime(ds.getTime());
+
 				}
 				return Utility.decimatToTime(ds.getTime());
 			}
