@@ -328,12 +328,12 @@
 								</button>
 								
 								<button id="sw_return_mobiletask"
-									sclass="btn-info" label="Mansioni e Giustificativi usati in Applicazione Mobile">
+									sclass="btn-info" label="Mansioni usate in Applicazione Mobile">
 								</button>
 								
 								
 								<button id="sw_return_hiddentask"
-									sclass="btn-info" label="Mansioni e Giustificativi nascosti al preposto">
+									sclass="btn-info" label="Mansioni nascoste al preposto">
 								</button>
 															
 
