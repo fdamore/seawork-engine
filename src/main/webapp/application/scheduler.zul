@@ -262,7 +262,7 @@
 					id="review_item">
 				</comboitem>
 
-				<comboitem label="RIEPILOGO" value="RIEPILOGO" 				
+				<comboitem label="RIEPILOGO" value="RIEPILOGO"
 					id="overview_item">
 				</comboitem>
 
@@ -2719,8 +2719,8 @@
 								<label id="overview_count_h"></label>
 							</hbox>
 							<hbox>
-								<a label="Ore a chiusura turno:"></a>
-								<label id="overview_count_h_c"></label>
+								<a label="Ore a chiusura turno:" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
+								<label id="overview_count_h_c" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
 							</hbox>
 						</vbox>
 					</div>
