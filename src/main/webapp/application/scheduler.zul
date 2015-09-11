@@ -2791,6 +2791,8 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
+											
+										<listheader label="Festivo" align ="center" hflex="1" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
 
 
 										<listheader label="Tipo Turno"
@@ -2837,8 +2839,7 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}" />
-
-
+											
 										<listcell
 											sclass="myBottonCell">
 
@@ -2865,7 +2866,10 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
-
+										<listcell sclass="myBottonCell" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}">
+											<checkbox
+												checked="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToIsHoliday'}" disabled="true" />
+										</listcell>
 
 										<listcell
 											sclass="myBottonCell">
@@ -2952,7 +2956,7 @@
 
 										<listheader label="Giorno"
 											align="center" hflex="1" />
-
+											
 										<listheader label="Nome"
 											sort="auto(user, date_schedule, shift)" hflex="1" />
 
@@ -2961,6 +2965,9 @@
 
 										<listheader label="Data"
 											align="center" hflex="1" />
+											
+										<listheader label="Festivo"
+											align="center" hflex="1"  visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
 
 
 										<listheader label="Tipo Turno"
@@ -3002,8 +3009,6 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}" />
 
-
-
 										<listcell
 											sclass="myBottonCell">
 											<a
@@ -3030,6 +3035,12 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+											
+										
+										<listcell sclass="myBottonCell" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}">
+											<checkbox
+												checked="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToIsHoliday'}" disabled="true" />
+										</listcell>
 
 
 										<listcell
