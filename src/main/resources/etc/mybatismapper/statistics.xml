@@ -319,15 +319,15 @@
 		dfs.time_to,
 		dfs.board, dfs.reviewshift,
 		s.date_schedule, s.note, 
-		u.id as id_user
+		u.id as id_user, concat(u1.lastname, ' ', u1.firstname) as editor, concat(u2.lastname, ' ', u2.firstname) as controller  
 		from
-		user u,
+		user u, user u1, user u2, 
 		schedule s left
 		outer join
 		detailfinalschedule dfs on
 		(dfs.id_schedule = s.id)
 		where
-		s.user = u.id
+		s.user = u.id and s.editor=u1.id and s.controller = u2.id  
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or
@@ -393,15 +393,14 @@
 		dfs.time_vacation,
 		dfs.time_from,
 		dfs.time_to,
-		s.date_schedule, s.note  
+		s.date_schedule, s.note, concat(u1.lastname, ' ', u1.firstname) as editor, concat(u2.lastname, ' ', u2.firstname) as controller    
 		from
-		user u,
+		user u, user u1, user u2, 
 		schedule s left outer join
 		detailinitialschedule dfs on
 		(dfs.id_schedule = s.id)
 		where
-		s.user =
-		u.id
+		s.user = u.id and s.editor=u1.id and s.controller = u2.id  
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},

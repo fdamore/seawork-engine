@@ -20,9 +20,15 @@ public class DetailInitialSchedule implements Serializable {
 	@XmlTransient
 	private static final long serialVersionUID = 1L;
 
+	// to show in review
+	private String controller;
+
 	// to show in overview
 	@XmlTransient
 	private Date date_schedule;
+
+	// to show in review
+	private String editor;
 
 	// to show in overview
 	@XmlTransient
@@ -77,6 +83,10 @@ public class DetailInitialSchedule implements Serializable {
 	@XmlTransient
 	private String user;
 
+	public String getController() {
+		return this.controller;
+	}
+
 	public Date getDate_schedule() {
 		return this.date_schedule;
 	}
@@ -98,6 +108,10 @@ public class DetailInitialSchedule implements Serializable {
 		}
 
 		return new Date(this.time_to.getTime());
+	}
+
+	public String getEditor() {
+		return this.editor;
 	}
 
 	public String getEmployee_identification() {
@@ -172,8 +186,16 @@ public class DetailInitialSchedule implements Serializable {
 		return this.user;
 	}
 
+	public void setController(final String controller) {
+		this.controller = controller;
+	}
+
 	public void setDate_schedule(final Date date_schedule) {
 		this.date_schedule = date_schedule;
+	}
+
+	public void setEditor(final String editor) {
+		this.editor = editor;
 	}
 
 	public void setEmployee_identification(final String employee_identification) {

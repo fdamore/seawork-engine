@@ -19,11 +19,17 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	private String board;
 
+	// to show in review
+	private String controller;
+
 	private String crane;
 
 	// to show in overview
 	@XmlTransient
 	private Date date_schedule;
+
+	// to show in review
+	private String editor;
 
 	// to show in overview
 	@XmlTransient
@@ -91,6 +97,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.board;
 	}
 
+	public String getController() {
+		return this.controller;
+	}
+
 	public String getCrane() {
 		return this.crane;
 	}
@@ -116,6 +126,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		}
 
 		return new Date(this.time_to.getTime());
+	}
+
+	public String getEditor() {
+		return this.editor;
 	}
 
 	public String getEmployee_identification() {
@@ -182,12 +196,20 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		this.board = board;
 	}
 
+	public void setController(final String controller) {
+		this.controller = controller;
+	}
+
 	public void setCrane(final String crane) {
 		this.crane = crane;
 	}
 
 	public void setDate_schedule(final Date date_schedule) {
 		this.date_schedule = date_schedule;
+	}
+
+	public void setEditor(final String editor) {
+		this.editor = editor;
 	}
 
 	public void setEmployee_identification(final String employee_identification) {
