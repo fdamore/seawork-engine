@@ -2817,6 +2817,8 @@
 											hflex="2" align="center" />
 										<listheader
 											label="Fascia Oraria" hflex="2" align="center" />
+										<listheader
+											label="Nota" hflex="2" align="center" />
 
 									</listhead>
 
@@ -2916,6 +2918,9 @@
 											<checkbox
 												checked="@{itemoverviewreview.reviewshift}" disabled="true" />
 										</listcell>
+										
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.note}" />
 
 									</listitem>
 
@@ -2975,6 +2980,9 @@
 											hflex="2" align="center" />
 										<listheader label="Uscita"
 											hflex="2" align="center" />
+										
+										<listheader
+											label="Nota" hflex="2" align="center" />
 
 									</listhead>
 
@@ -3063,6 +3071,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.time_to}" />
+											
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.note}" />
 
 
 									</listitem>

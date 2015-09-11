@@ -38,6 +38,9 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	// to show in overview on break shift
 	private Integer id_user;
 
+	// to show in overview listbox
+	private String note;
+
 	private Boolean reviewshift;
 
 	@XmlElement(name = "no_shift")
@@ -135,6 +138,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.id_user;
 	}
 
+	public String getNote() {
+		return this.note;
+	}
+
 	public Boolean getReviewshift() {
 		return this.reviewshift;
 	}
@@ -201,6 +208,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setId_user(final Integer id_user) {
 		this.id_user = id_user;
+	}
+
+	public void setNote(final String note) {
+		this.note = note;
 	}
 
 	public void setReviewshift(final Boolean reviewshift) {
