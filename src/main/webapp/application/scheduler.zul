@@ -262,8 +262,7 @@
 					id="review_item">
 				</comboitem>
 
-				<comboitem label="RIEPILOGO" value="RIEPILOGO"
-					visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
+				<comboitem label="RIEPILOGO" value="RIEPILOGO" 				
 					id="overview_item">
 				</comboitem>
 
