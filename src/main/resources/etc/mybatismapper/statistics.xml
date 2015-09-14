@@ -298,6 +298,113 @@
 		group by dfs.id_ship order by s.name
 
 	</select>
+	
+	<select id="countWorkerInOverviewInitalSchedule" resultType="Integer"
+		parameterType="map">
+		select count(distinct u.id) 
+		from
+		user u, user u1, user u2, usertask ut, 
+		schedule s left outer join
+		detailinitialschedule dfs on
+		(dfs.id_schedule = s.id)
+		where ut.id=dfs.task and ut.isabsence=0 and 
+		s.user = u.id and s.editor=u1.id and s.controller = u2.id  
+
+		<if test="my_full_text_search != null">
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
+			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
+			u.employee_identification = #{my_full_text_search})
+		</if>
+
+		<if test="date_from != null and date_to != null">
+			and (s.date_schedule <![CDATA[>=]]>
+			#{date_from} and s.date_schedule
+			<![CDATA[<=]]>
+			#{date_to})
+		</if>
+
+		<if test="shift_number != null">
+			and (dfs.shift = #{shift_number})
+		</if>
+
+		<if test="shift_type != null">
+			and (s.shift = #{shift_type})
+		</if>
+
+		<if test="task_id != null and task_id != -1">
+			and (dfs.task = #{task_id})
+		</if>
+		
+		<if test="task_id != null and task_id == -1">
+			and (dfs.task is null) 
+		</if>
+
+		order by u.lastname, s.date_schedule, dfs.shift asc
+
+	</select>
+	
+	<select id="countWorkerInOverviewFinalSchedule" resultType="Integer"
+		parameterType="map">
+		select count(distinct u.id) 
+		from
+		user u, user u1, user u2, usertask ut, 
+		schedule s left
+		outer join
+		detailfinalschedule dfs on
+		(dfs.id_schedule = s.id)
+		where 
+		ut.id=dfs.task and ut.isabsence=0 and 
+		s.user = u.id and s.editor=u1.id and s.controller = u2.id  
+		<if test="my_full_text_search != null">
+			and (u.firstname like CONCAT('%', #{my_full_text_search},
+			'%') or
+			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
+			u.employee_identification = #{my_full_text_search})
+		</if>
+
+		<if test="shift_number != null">
+			and (dfs.shift = #{shift_number})
+		</if>
+
+		<if test="date_from != null and date_to != null">
+			and (s.date_schedule <![CDATA[>=]]>
+			#{date_from} and s.date_schedule
+			<![CDATA[<=]]>
+			#{date_to})
+		</if>
+
+		<if test="shift_type != null">
+			and (s.shift = #{shift_type})
+		</if>
+
+		<if test="task_id != null and task_id != -1">
+			and (dfs.task = #{task_id})
+		</if>
+		
+		<if test="task_id != null and task_id == -1">
+			and (dfs.task is null) 
+		</if>
+
+		<if test="reviewshift != null">
+			and (dfs.reviewshift = #{reviewshift}) 
+		</if>
+		
+		<if test="craneId != null">
+			and (dfs.crane like CONCAT('%', #{craneId}, '%') ) 
+		</if>
+		
+		<if test="idShip != null and idShip != -1">
+			and (dfs.id_ship = #{idShip}) 
+		</if>
+		
+		<if test="idShip != null and idShip == -1">
+			and (dfs.id_ship is null) 
+		</if>
+
+		order by u.lastname, s.date_schedule, dfs.shift asc
+
+	</select>
 
 
 

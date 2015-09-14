@@ -2722,6 +2722,10 @@
 								<a label="Ore a chiusura turno:" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
 								<label id="overview_count_h_c" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
 							</hbox>
+							<hbox>
+								<a label="Totale dipendenti:" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
+								<label id="overview_count_worker" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
+							</hbox>
 						</vbox>
 					</div>
 					
