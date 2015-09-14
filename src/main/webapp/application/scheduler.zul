@@ -2341,6 +2341,19 @@
 					<listbox sclass="domain" mold="paging" pageSize="10"
 						checkmark="true" multiple="true" pagingPosition="both"
 						id="grid_scheduler_review">
+						
+						<auxhead>
+							<auxheader label="" colspan="1"
+								sclass="mySeparatorBorder" />
+
+							<auxheader colspan="4" align="center"
+								 style="font-weight: bold; font-size: 14px;" label="PROGRAMMA"/>
+							<auxheader colspan="4" align="center"
+								 style="font-weight: bold; font-size: 14px;" label="CONSUNTIVO"/>
+
+
+						</auxhead>
+						
 						<auxhead>
 							<auxheader label="" colspan="1"
 								sclass="mySeparatorBorder" />
