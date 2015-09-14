@@ -1,7 +1,10 @@
 package org.uario.seaworkengine.utility;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +25,7 @@ import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.UserStatistics;
@@ -29,6 +33,7 @@ import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 import org.uario.seaworkengine.zkevent.converter.ProductivityConverter;
 import org.uario.seaworkengine.zkevent.converter.UserEnableConverter;
 import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
+import org.zkoss.spring.SpringUtil;
 
 public class UtilityCSV {
 
@@ -138,8 +143,8 @@ public class UtilityCSV {
 			}
 
 			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate + ";" + shiftNumber + ";"
-					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program
-					+ ";" + persons_review + ";" + startDate + ";" + endDate + ";\n";
+					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";"
+					+ persons_program + ";" + persons_review + ";" + startDate + ";" + endDate + ";\n";
 			builder.append(line);
 
 		}
@@ -205,8 +210,8 @@ public class UtilityCSV {
 				currentPosition = item.getCurrent_position();
 			}
 
-			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";" + role
-					+ ";" + currentPosition + ";\n";
+			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";"
+					+ role + ";" + currentPosition + ";\n";
 			builder.append(line);
 
 		}
@@ -308,17 +313,26 @@ public class UtilityCSV {
 				employee_identification = item.getEmployee_identification();
 			}
 
-			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
-					+ date + ";" + code_shift + ";\n";
+			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification
+					+ ";" + date + ";" + code_shift + ";\n";
 			builder.append(line);
 		}
 		return builder;
 	}
 
 	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram, final TasksDAO taskDao,
-			final IShiftCache shift_cache, final ISchedule scheduleDAO) {
+			final IShiftCache shift_cache, final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita\n";
+		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota\n";
+
+		String holiday = "";
+		String programmer = "";
+		String controller = "";
+
+		if (administrator) {
+			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota;programmatore;controllore\n";
+		}
+
 		builder.append(header);
 
 		for (final DetailInitialSchedule item : listDetailProgram) {
@@ -333,6 +347,26 @@ public class UtilityCSV {
 				day = UtilityCSV.dayFormat.format(item.getDate_schedule());
 				mouth = Utility.getMonthNumber(item.getDate_schedule()).toString();
 				year = Utility.getYear(item.getDate_schedule()).toString();
+			}
+
+			String nota = "";
+			if (item.getNote() != null) {
+				nota = item.getNote();
+			}
+
+			if (administrator) {
+				holiday = "NO";
+				if (UtilityCSV.isHoliday(item.getDate_schedule())) {
+					holiday = "SI";
+				}
+
+				if (item.getEditor() != null) {
+					programmer = item.getEditor();
+				}
+
+				if (item.getController() != null) {
+					controller = item.getController();
+				}
 			}
 
 			String time_from = "";
@@ -399,8 +433,8 @@ public class UtilityCSV {
 
 				if (!task.getIsabsence()) {
 
-					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
@@ -419,18 +453,34 @@ public class UtilityCSV {
 				employee_identification = item.getEmployee_identification();
 			}
 
-			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";"
-					+ date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from
-					+ ";" + time_to + ";\n";
+			String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date
+					+ ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";"
+					+ time_to + ";" + nota + ";\n";
+
+			if (administrator) {
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
+						+ holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";"
+						+ time_from + ";" + time_to + ";" + nota + ";" + programmer + ";" + controller + ";\n";
+			}
+
 			builder.append(line);
 		}
 		return builder;
 	}
 
 	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final TasksDAO taskDao,
-			final IShiftCache shift_cache, final IShipCache ship_cache, final ISchedule scheduleDAO) {
+			final IShiftCache shift_cache, final IShipCache ship_cache, final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;crane;postazione;ingresso;uscita;consuntiva fascia oraria\n";
+
+		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;crane;postazione;ingresso;uscita;consuntiva fascia oraria;nota\n";
+
+		String holiday = "";
+		String programmer = "";
+		String controller = "";
+
+		if (administrator) {
+			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;crane;postazione;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
+		}
 		builder.append(header);
 
 		for (final DetailFinalSchedule item : listDetailRevision) {
@@ -439,6 +489,7 @@ public class UtilityCSV {
 			String mouth = "";
 			String weekDate = "";
 			String day = "";
+
 			if (item.getDate_schedule() != null) {
 				weekDate = (Utility.getWeekNumber(item.getDate_schedule())).toString();
 				date = UtilityCSV.formatDateOverview.format(item.getDate_schedule());
@@ -455,6 +506,26 @@ public class UtilityCSV {
 			String time_to = "";
 			if (item.getTime_to() != null) {
 				time_to = UtilityCSV.formatTimeOverview.format(item.getTime_to());
+			}
+
+			String nota = "";
+			if (item.getNote() != null) {
+				nota = item.getNote();
+			}
+
+			if (administrator) {
+				holiday = "NO";
+				if (UtilityCSV.isHoliday(item.getDate_schedule())) {
+					holiday = "SI";
+				}
+
+				if (item.getEditor() != null) {
+					programmer = item.getEditor();
+				}
+
+				if (item.getController() != null) {
+					controller = item.getController();
+				}
 			}
 
 			String code_task = "";
@@ -533,8 +604,8 @@ public class UtilityCSV {
 
 				if (!task.getIsabsence()) {
 
-					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
@@ -558,9 +629,17 @@ public class UtilityCSV {
 				reviewshift = "Si";
 			}
 
-			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";"
-					+ date + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + nameShip
-					+ ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";\n";
+			String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date
+					+ ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";"
+					+ crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";\n";
+
+			if (administrator) {
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
+						+ holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";"
+						+ nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";" + programmer
+						+ ";" + controller + ";\n";
+			}
+
 			builder.append(line);
 		}
 		return builder;
@@ -842,6 +921,43 @@ public class UtilityCSV {
 		}
 
 		return builder;
+	}
+
+	public static Boolean isHoliday(final Date date) {
+
+		final IBankHolidays bank_holiday = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
+
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+
+		final Calendar cal1 = Calendar.getInstance();
+
+		final SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+
+		// count calendar
+		for (final String item : bank_holiday.getDays()) {
+
+			try {
+
+				final Date date_item = format.parse(item);
+
+				cal1.setTime(date_item);
+
+				if ((cal.get(Calendar.DAY_OF_MONTH) == cal1.get(Calendar.DAY_OF_MONTH)) && (cal.get(Calendar.MONTH) == cal1.get(Calendar.MONTH))) {
+					return true;
+				}
+
+			} catch (final ParseException e) {
+				continue;
+			}
+
+		}
+
+		if (cal.get(Calendar.DAY_OF_WEEK) == 1) {
+			return true;
+		}
+
+		return false;
 	}
 
 }
