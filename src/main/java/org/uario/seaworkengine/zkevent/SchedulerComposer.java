@@ -7015,11 +7015,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.review_tot_1_3.setLabel(Utility.decimatToTime(count_colum_3));
 		this.review_tot_1_4.setLabel(Utility.decimatToTime(count_colum_4));
 
+		this.total_review_day_1.setLabel(Utility.decimatToTime(count_colum_1 + count_colum_2 + count_colum_3 + count_colum_4));
+
 		// set number of person in shift
 		this.reviewUser_tot_1_1.setLabel(countUsers_colum_1.toString());
 		this.reviewUser_tot_1_2.setLabel(countUsers_colum_2.toString());
 		this.reviewUser_tot_1_3.setLabel(countUsers_colum_3.toString());
 		this.reviewUser_tot_1_4.setLabel(countUsers_colum_4.toString());
+
+		this.totalUser_review_day_1.setLabel(countUsersTot.toString());
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person, null);
