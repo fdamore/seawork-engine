@@ -252,7 +252,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public List<ScheduleShip> searchScheduleShip(final Date datefrom, final Date dateto, final Integer sws, final String mct) {
+	public List<ScheduleShip> searchScheduleShip(final Date datefrom, final Date dateto, final Integer sws, final String mct,
+			final Integer idCustomer) {
 		MyBatisScheduleShipDAO.logger.info("load ScheduleShip");
 
 		Integer sws_arg = sws;
@@ -270,6 +271,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("dateto", dateto);
 		map.put("sws", sws_arg);
 		map.put("mct", mct_arg);
+		map.put("idCustomer", idCustomer);
 
 		return this.getSqlSession().selectList("scheduleship.searchScheduleShip", map);
 	}

@@ -877,11 +877,16 @@
 
 			<hbox align="center">
 				<intbox placeholder="Cerca Rif SWS..."
-					id="search_rifSWS" />
+					id="search_rifSWS" onChange="selectCustomer.setSelectedItem(null)"/>
 				<textbox placeholder="Cerca Rif Cliente..."
-					id="search_rifMCT" />
+					id="search_rifMCT" onChange="selectCustomer.setSelectedItem(null)"/>
+				<a label="Filtra per cliente: " />
+				<combobox placeholder="Scegli cliente..." readonly="true"
+					id="selectCustomer" onChange="search_rifSWS.setValue(null);search_rifMCT.setValue(null)" />
 			</hbox>
-
+			
+			
+			
 			<separator />
 
 
