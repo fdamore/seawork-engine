@@ -2844,7 +2844,7 @@
 										<listheader
 											label="Fascia Oraria" hflex="2" align="center" />
 										<listheader
-											label="Nota" hflex="2" align="center" />
+											label="Nota" hflex="2" align="center" sort="auto(note)" />
 											
 										<listheader
 											label="Programmatore" hflex="2" align="center" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
@@ -3024,7 +3024,7 @@
 											hflex="2" align="center" />
 										
 										<listheader
-											label="Nota" hflex="2" align="center" />
+											label="Nota" hflex="2" align="center" sort="auto(note)"/>
 											
 										<listheader
 											label="Programmatore" hflex="2" align="center" visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
@@ -3124,7 +3124,7 @@
 											label="@{itemoverviewprogram.time_to}" />
 											
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.note}" />
+											label="@{itemoverviewprogram.note}"/>
 											
 										<listcell
 											sclass="myBottonCell" label="@{itemoverviewprogram.editor, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"  visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"/>
