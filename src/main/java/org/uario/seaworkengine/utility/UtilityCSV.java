@@ -143,8 +143,8 @@ public class UtilityCSV {
 			}
 
 			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate + ";" + shiftNumber + ";"
-					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";"
-					+ persons_program + ";" + persons_review + ";" + startDate + ";" + endDate + ";\n";
+					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program
+					+ ";" + persons_review + ";" + startDate + ";" + endDate + ";\n";
 			builder.append(line);
 
 		}
@@ -210,8 +210,8 @@ public class UtilityCSV {
 				currentPosition = item.getCurrent_position();
 			}
 
-			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";"
-					+ role + ";" + currentPosition + ";\n";
+			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";" + role
+					+ ";" + currentPosition + ";\n";
 			builder.append(line);
 
 		}
@@ -313,8 +313,8 @@ public class UtilityCSV {
 				employee_identification = item.getEmployee_identification();
 			}
 
-			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification
-					+ ";" + date + ";" + code_shift + ";\n";
+			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
+					+ date + ";" + code_shift + ";\n";
 			builder.append(line);
 		}
 		return builder;
@@ -433,8 +433,8 @@ public class UtilityCSV {
 
 				if (!task.getIsabsence()) {
 
-					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
@@ -600,12 +600,17 @@ public class UtilityCSV {
 			String time_vacation_info = "00:00";
 			if ((item.getDateTo() != null) && (item.getDateFrom() != null)) {
 
-				final Long milliseconds = item.getDateTo().getTime() - item.getDateFrom().getTime();
+				Long milliseconds;
+				if (item.getDateTo().getTime() > item.getDateFrom().getTime()) {
+					milliseconds = item.getDateTo().getTime() - item.getDateFrom().getTime();
+				} else {
+					milliseconds = item.getDateFrom().getTime() - item.getDateTo().getTime();
+				}
 
 				if (!task.getIsabsence()) {
 
-					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),

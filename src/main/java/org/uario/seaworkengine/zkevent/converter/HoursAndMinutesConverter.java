@@ -43,10 +43,16 @@ public class HoursAndMinutesConverter implements TypeConverter {
 				return ("00:00");
 			}
 
-			final Long milliseconds = source.getDateTo().getTime() - source.getDateFrom().getTime();
+			final Long milliseconds;
 
-			return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-					- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+			if (source.getDateTo().getTime() > source.getDateFrom().getTime()) {
+				milliseconds = source.getDateTo().getTime() - source.getDateFrom().getTime();
+			} else {
+				milliseconds = source.getDateFrom().getTime() - source.getDateTo().getTime();
+			}
+
+			return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
+					TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 
 		} else {
 			final DetailInitialSchedule source = (DetailInitialSchedule) arg0;
@@ -67,8 +73,8 @@ public class HoursAndMinutesConverter implements TypeConverter {
 
 			final Long milliseconds = source.getDateTo().getTime() - source.getDateFrom().getTime();
 
-			return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-					- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+			return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
+					TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 
 		}
 
