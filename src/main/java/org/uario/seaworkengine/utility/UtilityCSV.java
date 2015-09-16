@@ -271,6 +271,7 @@ public class UtilityCSV {
 
 			if (item.getNote() != null) {
 				note = item.getNote();
+				note = note.replace("\n", " ");
 			}
 
 			final String line = "" + startDate + ";" + endDate + ";" + shipName + ";" + customerName + ";" + volume + ";" + mct + ";" + sws + ";"
@@ -352,6 +353,7 @@ public class UtilityCSV {
 			String nota = "";
 			if (item.getNote() != null) {
 				nota = item.getNote();
+				nota = nota.replace("\n", " ");
 			}
 
 			if (administrator) {
@@ -511,6 +513,7 @@ public class UtilityCSV {
 			String nota = "";
 			if (item.getNote() != null) {
 				nota = item.getNote();
+				nota = nota.replace("\n", " ");
 			}
 
 			if (administrator) {
@@ -543,7 +546,15 @@ public class UtilityCSV {
 					for (int i = 0; i < listDetail.size(); i++) {
 						if (!item.getId().equals(listDetail.get(i).getId())) {
 
-							final Long t = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+							Long t;
+
+							if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+
+							{
+								t = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+							} else {
+								t = item.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
+							}
 
 							if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
 								minTimeIndex = i;

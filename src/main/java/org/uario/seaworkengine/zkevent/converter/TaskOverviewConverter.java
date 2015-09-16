@@ -51,7 +51,15 @@ public class TaskOverviewConverter implements TypeConverter {
 			for (int i = 0; i < listDetail.size(); i++) {
 				if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId())) {
 
-					final Long t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+					Long t;
+
+					if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+
+					{
+						t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+					} else {
+						t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
+					}
 
 					if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
 						minTimeIndex = i;
