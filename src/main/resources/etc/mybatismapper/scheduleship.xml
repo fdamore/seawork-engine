@@ -58,10 +58,10 @@
 		sh.name,
 		s.rif_mct, s.customer_id, s.idship_activity
 		FROM
-		scheduleship s, ship sh, customer c 
+		scheduleship s left join customer c ON (s.customer_id = c.id), ship sh 				 
 		where
-		s.idship = sh.id and c.id=s.customer_id 
-
+		s.idship = sh.id 
+		
 		<if test="datefrom!=null">
 			<if test="dateto!=null">
 				and date(s.arrivaldate) >= date(#{datefrom}) and
