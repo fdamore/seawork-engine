@@ -235,6 +235,10 @@
 				id="print_program_videos"
 				xmlns:w="http://www.zkoss.org/2005/zk/client"
 				w:onClick="window.open('scheduler.zul?printProgram=1');" />
+				
+			<a label="Scarica dati in CSV" id="overview_download"
+					style="color:green"/>
+				
 
 		</hbox>
 
@@ -2753,9 +2757,7 @@
 
 				</vbox>
 
-				<a label="Scarica dati in CSV" id="overview_download"
-					style="color:green">
-				</a>
+				
 
 			</hbox>
 
