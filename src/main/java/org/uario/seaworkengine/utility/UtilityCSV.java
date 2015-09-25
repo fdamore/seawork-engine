@@ -474,14 +474,14 @@ public class UtilityCSV {
 			final IShiftCache shift_cache, final IShipCache ship_cache, final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;crane;postazione;ingresso;uscita;consuntiva fascia oraria;nota\n";
+		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;ingresso;uscita;consuntiva fascia oraria;nota\n";
 
 		String holiday = "";
 		String programmer = "";
 		String controller = "";
 
 		if (administrator) {
-			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;crane;postazione;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
+			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
 		}
 		builder.append(header);
 
