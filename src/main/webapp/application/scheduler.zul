@@ -285,13 +285,17 @@
 
 		</hbox>
 
-		<space></space>
+		<div id="stat_update_command">
 
-		<button sclass="btn-danger" id="calculate_sat"
-			label="Aggiorna Statistiche Saturazione a Video">
-		</button>
+			<separator></separator>
 
-		<space></space>
+			<button sclass="btn-danger" id="calculate_sat"
+				label="Aggiorna Statistiche Saturazione a Video">
+			</button>
+
+			<separator></separator>
+
+		</div>
 
 		<!--  Shift Info Popup -->
 		<popup id="shift_popup">
