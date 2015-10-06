@@ -17,6 +17,12 @@
 	</style>
 
 
+	<zscript>
+	Comparator asc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(true);
+	Comparator dsc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(false);
+</zscript>
+
+
 
 	<div sclass="page-header">
 		<label value="Dettagli Utente" />
@@ -592,7 +598,7 @@
 						src="./userdetailcompensation.zul">
 					</include>
 				</tabpanel>
-				
+
 				<!-- TAB TRAINING CERTIFICATES -->
 				<tabpanel>
 					<include mode="defer"
@@ -653,9 +659,9 @@
 		<button id="sw_refresh_list" sclass="btn-info"
 			label="Ricarica">
 		</button>
-		
-		<a label="Scarica dati in CSV"
-					id="personList_download" style="color:green" />
+
+		<a label="Scarica dati in CSV" id="personList_download"
+			style="color:green" />
 
 		<separator></separator>
 	</div>
@@ -684,7 +690,8 @@
 		style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 		pageSize="10">
 		<listhead sizable="true">
-			<listheader label="Id" sort="auto(id)" hflex="1" />
+			<listheader label="Matricola" sortAscending="${asc_id}"
+				sortDescending="${dsc_id}" hflex="1" />
 			<listheader label="Rapp. Lav." sort="auto(status)"
 				hflex="2" />
 			<listheader label="Livello cont."
@@ -702,7 +709,8 @@
 		<listitem sclass="myBottonCell" self="@{each='user_item'}"
 			value="@{user_item}">
 
-			<listcell sclass="myBottonCell" label="@{user_item.id}" />
+			<listcell sclass="myBottonCell"
+				label="@{user_item.employee_identification}" />
 			<listcell sclass="myBottonCell" label="@{user_item.status}" />
 
 			<listcell sclass="myBottonCell"
