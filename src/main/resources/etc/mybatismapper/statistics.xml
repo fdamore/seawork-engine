@@ -414,7 +414,7 @@
 		concat(u.lastname, ' ', u.firstname) as user,
 		u.employee_identification as employee_identification,
 		dfs.id,
-		dfs.id_schedule,
+		s.id as  id_schedule,
 		dfs.shift,
 		dfs.id_ship, dfs.crane as crane,
 		s.shift as
@@ -426,15 +426,27 @@
 		dfs.time_to,
 		dfs.board, dfs.reviewshift,
 		s.date_schedule, s.note, 
-		u.id as id_user, concat(u1.lastname, ' ', u1.firstname) as editor, concat(u2.lastname, ' ', u2.firstname) as controller  
+		u.id as id_user, 
+		(select 
+            concat(temp_1.lastname, ' ', temp_1.firstname)
+        from
+            user temp_1
+        where
+            temp_1.id = s.editor) as editor, 
+		(select 
+            concat(temp_1.lastname, ' ', temp_1.firstname)
+        from
+            user temp_1
+        where
+            temp_1.id = s.controller) as controller  
 		from
-		user u, user u1, user u2, 
+		user u,
 		schedule s left
 		outer join
 		detailfinalschedule dfs on
 		(dfs.id_schedule = s.id)
 		where
-		s.user = u.id and s.editor=u1.id and s.controller = u2.id  
+		s.user = u.id  
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or

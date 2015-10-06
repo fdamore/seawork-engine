@@ -23,9 +23,13 @@
 <zk>
 
 	<zscript>
-	Comparator	asc	= new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(true);
-	Comparator	dsc	= new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
+	Comparator asc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(true);
+	Comparator dsc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
+	Comparator asc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(true);
+	Comparator dsc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
 </zscript>
+
+
 
 
 
@@ -2688,14 +2692,18 @@
 									<a label="Riposo Programmato"
 										style="color:green" id="overview_selector_select_rp">
 									</a>
+
+								</hbox>
+
+								<hbox align="center">
 									<a label="Giornaliero"
 										style="color:green" id="overview_selector_select_dl">
 									</a>
 									<a label="Tutti" style="color:green"
 										id="overview_selector_select_all">
 									</a>
-
 								</hbox>
+
 							</vbox>
 
 							<space></space>
@@ -3029,7 +3037,10 @@
 											sort="auto(user, date_schedule, shift)" hflex="1" />
 
 										<listheader label="Matricola"
-											align="center" hflex="1" />
+											sortAscending="${asc_init}" align="center" hflex="1"
+											sortDescending="${dsc_init}" />
+
+
 
 										<listheader label="Data"
 											align="center" hflex="1" />
