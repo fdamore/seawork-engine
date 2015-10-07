@@ -599,7 +599,7 @@ public class UtilityCSV {
 
 			String crane = "";
 			if (item.getCrane() != null) {
-				crane = item.getCrane();
+				crane = "=\"" + item.getCrane() + "\"";
 			}
 
 			String board = "";
