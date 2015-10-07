@@ -3311,6 +3311,16 @@
 
 						</combobox>
 
+
+						<a label="Ore lavorate: "></a>
+						<label id="overview_count_h_stat"></label>
+						
+						<a label=" - Totale dipendenti: "
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+						<label id="overview_count_worker_stat"
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+
+
 						<separator />
 						<label id="updateStatisticTime"
 							style="font-weight:bold" />
@@ -3341,10 +3351,6 @@
 
 										<listheader label="Festivi"
 											align="center" />
-
-
-
-
 
 										<listheader label="Turno 1"
 											align="center" />
