@@ -384,19 +384,30 @@ public class UtilityCSV {
 			String code_task = "";
 			final UserTask task = taskDao.loadTask(item.getTask());
 
-			final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(item.getId_schedule());
+			final List<DetailInitialSchedule> listDetail = scheduleDAO.loadDetailInitialScheduleByIdSchedule(item.getId_schedule());
 
 			if (task != null) {
 				code_task = task.getCode();
 
-				if (task.getIsabsence()) {
+				// search previous task
+				if (task.getIsabsence() || task.getJustificatory()) {
 					Long time = null;
 					Integer minTimeIndex = null;
 
 					for (int i = 0; i < listDetail.size(); i++) {
-						if (!item.getId().equals(listDetail.get(i).getId())) {
+						final Integer idItemTask = listDetail.get(i).getTask();
+						final UserTask itemtask = taskDao.loadTask(idItemTask);
+						if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
-							final Long t = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+							Long t;
+
+							if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+
+							{
+								t = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+							} else {
+								t = item.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
+							}
 
 							if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
 								minTimeIndex = i;
@@ -404,18 +415,49 @@ public class UtilityCSV {
 							}
 
 						}
-						i = i + 1;
 					}
 
 					if (minTimeIndex != null) {
-						final Integer taskIDPrec = listDetail.get(minTimeIndex).getTask();
-						if (taskIDPrec != null) {
-							final UserTask taskPrec = taskDao.loadTask(taskIDPrec);
-							if (taskPrec != null) {
-								code_task = taskPrec.getCode() + "-" + code_task;
+						final Integer taskIDPrev = listDetail.get(minTimeIndex).getTask();
+						if (taskIDPrev != null) {
+							final UserTask taskPrev = taskDao.loadTask(taskIDPrev);
+							if (taskPrev != null) {
+								code_task = taskPrev.getCode() + "-" + code_task;
 							}
 						}
+					} else {
+						// search following task
+						for (int i = 0; i < listDetail.size(); i++) {
+							final Integer idItemTask = listDetail.get(i).getTask();
+							final UserTask itemtask = taskDao.loadTask(idItemTask);
+							if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
+								Long t;
+
+								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+
+								{
+									t = listDetail.get(i).getTime_from().getTime() - item.getTime_to().getTime();
+								} else {
+									t = listDetail.get(i).getTime_to().getTime() - item.getTime_to().getTime();
+								}
+
+								if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
+									minTimeIndex = i;
+									time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+								}
+
+							}
+						}
+						if (minTimeIndex != null) {
+							final Integer taskIDNext = listDetail.get(minTimeIndex).getTask();
+							if (taskIDNext != null) {
+								final UserTask taskNext = taskDao.loadTask(taskIDNext);
+								if (taskIDNext != null) {
+									code_task = taskNext.getCode() + "-" + code_task;
+								}
+							}
+						}
 					}
 				}
 
@@ -539,12 +581,15 @@ public class UtilityCSV {
 			if (task != null) {
 				code_task = task.getCode();
 
-				if (task.getIsabsence()) {
+				// search previous task
+				if (task.getIsabsence() || task.getJustificatory()) {
 					Long time = null;
 					Integer minTimeIndex = null;
 
 					for (int i = 0; i < listDetail.size(); i++) {
-						if (!item.getId().equals(listDetail.get(i).getId())) {
+						final Integer idItemTask = listDetail.get(i).getTask();
+						final UserTask itemtask = taskDao.loadTask(idItemTask);
+						if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 							Long t;
 
@@ -562,18 +607,49 @@ public class UtilityCSV {
 							}
 
 						}
-						i = i + 1;
 					}
 
 					if (minTimeIndex != null) {
-						final Integer taskIDPrec = listDetail.get(minTimeIndex).getTask();
-						if (taskIDPrec != null) {
-							final UserTask taskPrec = taskDao.loadTask(taskIDPrec);
-							if (taskPrec != null) {
-								code_task = taskPrec.getCode() + "-" + code_task;
+						final Integer taskIDPrev = listDetail.get(minTimeIndex).getTask();
+						if (taskIDPrev != null) {
+							final UserTask taskPrev = taskDao.loadTask(taskIDPrev);
+							if (taskPrev != null) {
+								code_task = taskPrev.getCode() + "-" + code_task;
 							}
 						}
+					} else {
+						// search following task
+						for (int i = 0; i < listDetail.size(); i++) {
+							final Integer idItemTask = listDetail.get(i).getTask();
+							final UserTask itemtask = taskDao.loadTask(idItemTask);
+							if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
+								Long t;
+
+								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+
+								{
+									t = listDetail.get(i).getTime_from().getTime() - item.getTime_to().getTime();
+								} else {
+									t = listDetail.get(i).getTime_to().getTime() - item.getTime_to().getTime();
+								}
+
+								if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
+									minTimeIndex = i;
+									time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+								}
+
+							}
+						}
+						if (minTimeIndex != null) {
+							final Integer taskIDNext = listDetail.get(minTimeIndex).getTask();
+							if (taskIDNext != null) {
+								final UserTask taskNext = taskDao.loadTask(taskIDNext);
+								if (taskIDNext != null) {
+									code_task = taskNext.getCode() + "-" + code_task;
+								}
+							}
+						}
 					}
 				}
 

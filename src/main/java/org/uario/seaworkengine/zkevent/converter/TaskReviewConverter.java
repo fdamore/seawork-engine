@@ -50,7 +50,9 @@ public class TaskReviewConverter implements TypeConverter {
 			Integer minTimeIndex = null;
 
 			for (int i = 0; i < listDetail.size(); i++) {
-				if (!detailInitialSchedule.getId().equals(listDetail.get(i).getId())) {
+				final Integer idItemTask = listDetail.get(i).getTask();
+				final UserTask itemtask = taskCache.loadTask(idItemTask);
+				if (!detailInitialSchedule.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 					final Long t = detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 
@@ -74,7 +76,10 @@ public class TaskReviewConverter implements TypeConverter {
 			} else {
 				// search following task
 				for (int i = 0; i < listDetail.size(); i++) {
-					if (!detailInitialSchedule.getId().equals(listDetail.get(i).getId())) {
+					final Integer idItemTask = listDetail.get(i).getTask();
+					final UserTask itemtask = taskCache.loadTask(idItemTask);
+					if (!detailInitialSchedule.getId().equals(listDetail.get(i).getId())
+							&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 						Long t;
 
@@ -98,7 +103,7 @@ public class TaskReviewConverter implements TypeConverter {
 					if (taskIDNext != null) {
 						final UserTask taskNext = taskCache.loadTask(taskIDNext);
 						if (taskIDNext != null) {
-							taskCode = taskCode + "-" + taskNext.getCode();
+							taskCode = taskNext.getCode() + "-" + taskCode;
 						}
 					}
 				}

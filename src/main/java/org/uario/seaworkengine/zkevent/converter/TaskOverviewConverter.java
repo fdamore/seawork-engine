@@ -22,75 +22,47 @@ public class TaskOverviewConverter implements TypeConverter {
 	@Override
 	public Object coerceToUi(final Object arg0, final Component arg1) {
 
-		if (!(arg0 instanceof DetailFinalSchedule) || (arg0 == null)) {
-			return arg0;
-		}
-
-		final DetailFinalSchedule detailFinalSchedule = (DetailFinalSchedule) arg0;
-
-		if (detailFinalSchedule.getTask() == null) {
-			return arg0;
-		}
-
-		final ISchedule scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
-
-		final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(detailFinalSchedule.getId_schedule());
-
-		final TasksDAO taskCache = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
-
-		final Integer id_task = detailFinalSchedule.getTask();
-
-		final UserTask task = taskCache.loadTask(id_task);
-
-		String taskCode = task.getCode();
-
-		// search previous task
-		if (task.getIsabsence() || task.getJustificatory()) {
-			Long time = null;
-			Integer minTimeIndex = null;
-
-			for (int i = 0; i < listDetail.size(); i++) {
-				if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId())) {
-
-					Long t;
-
-					if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
-
-					{
-						t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
-					} else {
-						t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
-					}
-
-					if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
-						minTimeIndex = i;
-						time = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
-					}
-
-				}
+		try {
+			if (!(arg0 instanceof DetailFinalSchedule) || (arg0 == null)) {
+				return arg0;
 			}
 
-			if (minTimeIndex != null) {
-				final Integer taskIDPrev = listDetail.get(minTimeIndex).getTask();
-				if (taskIDPrev != null) {
-					final UserTask taskPrev = taskCache.loadTask(taskIDPrev);
-					if (taskPrev != null) {
-						taskCode = taskPrev.getCode() + "-" + taskCode;
-					}
-				}
-			} else {
-				// search following task
+			final DetailFinalSchedule detailFinalSchedule = (DetailFinalSchedule) arg0;
+
+			if (detailFinalSchedule.getTask() == null) {
+				return arg0;
+			}
+
+			final ISchedule scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+
+			final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(detailFinalSchedule.getId_schedule());
+
+			final TasksDAO taskCache = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+
+			final Integer id_task = detailFinalSchedule.getTask();
+
+			final UserTask task = taskCache.loadTask(id_task);
+
+			String taskCode = task.getCode();
+
+			// search previous task
+			if (task.getIsabsence() || task.getJustificatory()) {
+				Long time = null;
+				Integer minTimeIndex = null;
+
 				for (int i = 0; i < listDetail.size(); i++) {
-					if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId())) {
+					final Integer idItemTask = listDetail.get(i).getTask();
+					final UserTask itemtask = taskCache.loadTask(idItemTask);
+					if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 						Long t;
 
 						if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
 
 						{
-							t = listDetail.get(i).getTime_from().getTime() - detailFinalSchedule.getTime_to().getTime();
+							t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 						} else {
-							t = listDetail.get(i).getTime_to().getTime() - detailFinalSchedule.getTime_to().getTime();
+							t = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
 						}
 
 						if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
@@ -100,19 +72,56 @@ public class TaskOverviewConverter implements TypeConverter {
 
 					}
 				}
+
 				if (minTimeIndex != null) {
-					final Integer taskIDNext = listDetail.get(minTimeIndex).getTask();
-					if (taskIDNext != null) {
-						final UserTask taskNext = taskCache.loadTask(taskIDNext);
+					final Integer taskIDPrev = listDetail.get(minTimeIndex).getTask();
+					if (taskIDPrev != null) {
+						final UserTask taskPrev = taskCache.loadTask(taskIDPrev);
+						if (taskPrev != null) {
+							taskCode = taskPrev.getCode() + "-" + taskCode;
+						}
+					}
+				} else {
+					// search following task
+					for (int i = 0; i < listDetail.size(); i++) {
+						final Integer idItemTask = listDetail.get(i).getTask();
+						final UserTask itemtask = taskCache.loadTask(idItemTask);
+						if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId())
+								&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+
+							Long t;
+
+							if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+
+							{
+								t = listDetail.get(i).getTime_from().getTime() - detailFinalSchedule.getTime_to().getTime();
+							} else {
+								t = listDetail.get(i).getTime_to().getTime() - detailFinalSchedule.getTime_to().getTime();
+							}
+
+							if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
+								minTimeIndex = i;
+								time = detailFinalSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+							}
+
+						}
+					}
+					if (minTimeIndex != null) {
+						final Integer taskIDNext = listDetail.get(minTimeIndex).getTask();
 						if (taskIDNext != null) {
-							taskCode = taskCode + "-" + taskNext.getCode();
+							final UserTask taskNext = taskCache.loadTask(taskIDNext);
+							if (taskIDNext != null) {
+								taskCode = taskNext.getCode() + "-" + taskCode;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		return taskCode;
+			return taskCode;
+		} catch (final Exception e) {
+			return "";
+		}
 
 	}
 }
