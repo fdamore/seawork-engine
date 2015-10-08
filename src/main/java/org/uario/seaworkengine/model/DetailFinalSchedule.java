@@ -90,6 +90,18 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 			return 1;
 		}
 
+		if ((item.getDate_schedule().getTime() - this.getDate_schedule().getTime()) == 0) {
+			if (this.getTime_from() == null) {
+				return -1;
+			}
+
+			if (item.getTime_from() == null) {
+				return 1;
+			}
+
+			return this.getTime_from().compareTo(item.getTime_from());
+		}
+
 		return this.getDate_schedule().compareTo(item.getDate_schedule());
 	}
 

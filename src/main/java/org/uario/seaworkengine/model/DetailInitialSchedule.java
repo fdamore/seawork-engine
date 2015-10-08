@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(namespace = "org.uario.seaworkengine.model")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DetailInitialSchedule implements Serializable {
+public class DetailInitialSchedule implements Serializable, Comparable<DetailInitialSchedule> {
 
 	/**
 	 *
@@ -82,6 +82,37 @@ public class DetailInitialSchedule implements Serializable {
 	// to show in overview
 	@XmlTransient
 	private String user;
+
+	@Override
+	public int compareTo(final DetailInitialSchedule o) {
+		if (o == null) {
+			return -1;
+		}
+		if (!(o instanceof DetailInitialSchedule)) {
+			return -1;
+		}
+		if (this.getDate_schedule() == null) {
+			return -1;
+		}
+		final DetailInitialSchedule item = o;
+		if (item.getDate_schedule() == null) {
+			return 1;
+		}
+
+		if ((item.getDate_schedule().getTime() - this.getDate_schedule().getTime()) == 0) {
+			if (this.getTime_from() == null) {
+				return -1;
+			}
+
+			if (item.getTime_from() == null) {
+				return 1;
+			}
+
+			return this.getTime_from().compareTo(item.getTime_from());
+		}
+
+		return this.getDate_schedule().compareTo(item.getDate_schedule());
+	}
 
 	public String getController() {
 		return this.controller;

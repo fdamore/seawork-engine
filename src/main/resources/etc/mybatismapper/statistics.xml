@@ -493,7 +493,7 @@
 			and (dfs.id_ship is null) 
 		</if>
 
-		order by u.lastname, s.date_schedule, dfs.shift asc
+		order by u.lastname, s.date_schedule, dfs.shift, dfs.time_from asc
 
 	</select>
 
@@ -563,7 +563,7 @@
 			and (dfs.task is null) 
 		</if>
 
-		order by u.lastname, s.date_schedule, dfs.shift asc
+		order by u.lastname, s.date_schedule, dfs.shift, dfs.time_from asc
 
 	</select>
 
