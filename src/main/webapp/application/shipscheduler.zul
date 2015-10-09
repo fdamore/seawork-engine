@@ -1863,24 +1863,36 @@
 
 				</div>
 
+				<div id="filter_ship" visible="true">
+					<hbox align="center">
+
+							<label style="color:blue; font-size:10pt;"
+								value="Produttività media: " />
+
+							<label style="color:blue; font-size:10pt;"
+								id="ProductivityAVG" value="0" />
+
+						</hbox>
+				</div>
+
 				<separator />
 
 				<tabbox id="bap_overview_tab">
 					<tabs>
 						<tab label="VERIFICA LAVORO UTENTE"
 							id="overviewBap" selected="true"
-							onClick="filter_user.setVisible(true);">
+							onClick="filter_user.setVisible(true);filter_ship.setVisible(false);">
 						</tab>
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO NAVE)"
 							id="overviewBapAggregate" selected="false"
-							onClick="filter_user.setVisible(false);">
+							onClick="filter_user.setVisible(false);filter_ship.setVisible(true);">
 						</tab>
 
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO UTENTE)"
 							id="statisticsShipTab"
-							onClick="filter_user.setVisible(false);">
+							onClick="filter_user.setVisible(false);filter_ship.setVisible(false);">
 						</tab>
 
 					</tabs>
@@ -2009,6 +2021,7 @@
 										hflex="1" id="volumeStatisticColumn"/>
 									<listheader label="Produttività"
 										hflex="1" />
+									
 									<listheader
 										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
@@ -2046,8 +2059,7 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_ship, converter='org.uario.seaworkengine.zkevent.converter.ProductivityConverter'}" />
-
-
+									
 									<listcell sclass="myBottonCell"
 										label="@{item_review_ship.volumeunderboard}" />
 

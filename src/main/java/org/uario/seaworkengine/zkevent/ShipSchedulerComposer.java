@@ -181,6 +181,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Component detailShipProgram_download;
 
 	@Wire
+	private Component filter_ship;
+
+	@Wire
 	private Datebox first_down_detail;
 
 	@Wire
@@ -374,6 +377,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Button print_ShipScheduler;
+
+	@Wire
+	private Label ProductivityAVG;
 
 	@Wire
 	private Comboitem program_item;
@@ -915,6 +921,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private Double calculateProductivityAVG(final List<ReviewShipWorkAggregate> list_review_work_aggregate) {
+		this.ProductivityAVG.setValue("");
+
+		if (list_review_work_aggregate.size() == 0) {
+			return 0.0;
+		}
+
+		Double productivityAVG = 0.0;
+
+		for (final ReviewShipWorkAggregate item : list_review_work_aggregate) {
+			productivityAVG += (item.getVolume() / item.getTime_work());
+		}
+
+		productivityAVG = productivityAVG / list_review_work_aggregate.size();
+
+		return Utility.roundTwo(productivityAVG);
+
+	}
+
 	/**
 	 * Set the label total volume value. (SHIPPRogram)
 	 */
@@ -1218,6 +1243,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.shipProgram.setVisible(true);
 			this.dailyDetailShip.setVisible(false);
 			this.reviewWorkShip.setVisible(false);
+			this.filter_ship.setVisible(false);
 			this.searchScheduleShip();
 
 		} else if (selected.equals(this.detail_item)) {
@@ -1226,6 +1252,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.shipProgram.setVisible(false);
 			this.dailyDetailShip.setVisible(true);
 			this.reviewWorkShip.setVisible(false);
+			this.filter_ship.setVisible(false);
 			this.refreshScheduleShipListBox();
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
@@ -1234,6 +1261,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.shipProgram.setVisible(false);
 			this.dailyDetailShip.setVisible(false);
 			this.reviewWorkShip.setVisible(true);
+			this.filter_ship.setVisible(false);
 
 			this.refreshOverviewBAP();
 		}
@@ -2725,6 +2753,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.sw_list_reviewWorkAggregate.setModel(new ListModelList<ReviewShipWorkAggregate>(this.list_review_work_aggregate));
 
+			final Double avgProd = this.calculateProductivityAVG(this.list_review_work_aggregate);
+
+			this.ProductivityAVG.setValue(avgProd.toString());
+
 		} else if (this.statisticsShipTab.isSelected()) {
 
 			this.refreshShipStatistics(this.full_text_search_ship.getValue());
@@ -2793,6 +2825,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.sw_list_reviewWorkAggregate.setModel(new ListModelList<ReviewShipWorkAggregate>(this.list_review_work_aggregate));
+
+			final Double avgProd = this.calculateProductivityAVG(this.list_review_work_aggregate);
+
+			this.ProductivityAVG.setValue(avgProd.toString());
+
 		} else if (this.statisticsShipTab.isSelected()) {
 
 			this.refreshShipStatistics(this.full_text_search_ship.getValue());
