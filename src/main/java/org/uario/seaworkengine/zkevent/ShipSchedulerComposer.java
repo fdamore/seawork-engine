@@ -453,6 +453,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox select_customer;
 
 	@Wire
+	private Combobox select_month;
+
+	@Wire
 	public Combobox select_shift;
 
 	@Wire
@@ -1383,6 +1386,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.select_year.setModel(new ListModelList<String>(years));
+		final ArrayList<String> months = new ArrayList<String>();
+
+		months.add("ANNULLA FILTRO");
+
+		for (Integer i = 1; i <= 12; i++) {
+			months.add(i.toString());
+		}
+
+		this.select_month.setModel(new ListModelList<String>(months));
 
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 
@@ -2235,6 +2247,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.searchWorkShip.setValue(Calendar.getInstance().getTime());
 		this.select_year.setSelectedItem(null);
+		this.select_month.setSelectedItem(null);
 		this.date_from_overview.setValue(null);
 		this.date_to_overview.setValue(null);
 
@@ -2687,6 +2700,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.date_from_overview.setValue(null);
 		this.date_to_overview.setValue(null);
 		this.select_year.setSelectedItem(null);
+		this.select_month.setSelectedItem(null);
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifSWS.setValue(null);
 
@@ -2701,6 +2715,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void searchReviewShipData() {
 
 		this.select_year.setSelectedItem(null);
+		this.select_month.setSelectedItem(null);
 		this.date_from_overview.setValue(null);
 		this.date_to_overview.setValue(null);
 
@@ -2779,7 +2794,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.searchWorkShip.setValue(null);
-		this.select_year.setSelectedItem(null);
 
 		final String text_search = this.full_text_search_ship.getValue();
 
@@ -2927,6 +2941,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.date_from_overview.setValue(null);
 		this.date_to_overview.setValue(null);
 		this.select_year.setSelectedItem(null);
+		this.select_month.setSelectedItem(null);
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifMCT.setValue(null);
 
@@ -2998,6 +3013,49 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.calculateTotaleVolumeBAP();
 	}
 
+	@Listen("onChange =#select_month")
+	public void selectedMonth() {
+
+		if ((this.select_year.getSelectedItem() == null) || (this.select_year.getSelectedItem().getValue() == null)
+				|| (this.select_year.getSelectedItem().getValue().equals("TUTTI"))) {
+			return;
+		}
+
+		this.searchWorkShip.setValue(null);
+
+		final String monthSelected = this.select_month.getSelectedItem().getValue();
+		final String yearSelected = this.select_year.getSelectedItem().getValue();
+
+		if (monthSelected.equals("ANNULLA FILTRO")) {
+
+			this.select_month.setSelectedItem(null);
+
+			this.selectedYear();
+
+		} else {
+
+			final Integer year = Integer.parseInt(yearSelected);
+			final Integer month = Integer.parseInt(monthSelected);
+			final Calendar calendar_from = Calendar.getInstance();
+			final Calendar calendar_to = Calendar.getInstance();
+
+			calendar_from.set(Calendar.YEAR, year);
+			calendar_from.set(Calendar.MONTH, month - 1);
+			calendar_from.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+			calendar_to.set(Calendar.YEAR, year);
+			calendar_to.set(Calendar.MONTH, month - 1);
+			calendar_to.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			this.date_from_overview.setValue(calendar_from.getTime());
+			this.date_to_overview.setValue(calendar_to.getTime());
+
+		}
+
+		this.refreshOverviewBAP();
+
+	}
+
 	@Listen("onChange =#select_year")
 	public void selectedYear() {
 
@@ -3014,26 +3072,32 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.date_from_overview.setValue(null);
 			this.date_to_overview.setValue(null);
 
+			this.refreshOverviewBAP();
+
 		} else {
 
-			final Integer year = Integer.parseInt(yearSelected);
-			final Calendar calendar_from = Calendar.getInstance();
-			final Calendar calendar_to = Calendar.getInstance();
+			if (this.select_month.getSelectedItem() != null) {
+				this.selectedMonth();
+			} else {
+				final Integer year = Integer.parseInt(yearSelected);
+				final Calendar calendar_from = Calendar.getInstance();
+				final Calendar calendar_to = Calendar.getInstance();
 
-			calendar_from.set(Calendar.YEAR, year);
-			calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
-			calendar_from.set(Calendar.MONTH, calendar_from.getActualMinimum(Calendar.MONTH));
+				calendar_from.set(Calendar.YEAR, year);
+				calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+				calendar_from.set(Calendar.MONTH, calendar_from.getActualMinimum(Calendar.MONTH));
 
-			calendar_to.set(Calendar.YEAR, year);
-			calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
-			calendar_to.set(Calendar.MONTH, calendar_from.getActualMaximum(Calendar.MONTH));
+				calendar_to.set(Calendar.YEAR, year);
+				calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+				calendar_to.set(Calendar.MONTH, calendar_from.getActualMaximum(Calendar.MONTH));
 
-			this.date_from_overview.setValue(calendar_from.getTime());
-			this.date_to_overview.setValue(calendar_to.getTime());
+				this.date_from_overview.setValue(calendar_from.getTime());
+				this.date_to_overview.setValue(calendar_to.getTime());
+
+				this.refreshOverviewBAP();
+			}
 
 		}
-
-		this.refreshOverviewBAP();
 
 	}
 

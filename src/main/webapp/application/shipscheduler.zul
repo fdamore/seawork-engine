@@ -1753,6 +1753,10 @@
 					<a label="Filtra su anno: " />
 					<combobox placeholder="Seleziona anno..."
 						readonly="true" id="select_year" />
+						
+					<a label="Filtra su mese: " />
+					<combobox placeholder="Seleziona mese..."
+						readonly="true" id="select_month" />
 
 				</hbox>
 
