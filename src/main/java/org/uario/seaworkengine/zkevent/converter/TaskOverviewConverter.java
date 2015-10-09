@@ -53,6 +53,10 @@ public class TaskOverviewConverter implements TypeConverter {
 
 			final UserTask task = taskDAO.loadTask(id_task);
 
+			if (task == null) {
+				return "";
+			}
+
 			String taskCode = task.getCode();
 
 			// search previous task

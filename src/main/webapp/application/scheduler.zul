@@ -2956,7 +2956,7 @@
 											sclass="myBottonCell">
 											<a
 												label="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewConverter'}"
-												style="@{itemoverviewreview.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewStyleConverter'}">
+												style="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewStyleConverter'}">
 												<attribute name="onClick">
 	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onOverviewReviewTaskClick", page_panel, null);
@@ -3151,7 +3151,7 @@
 											sclass="myBottonCell">
 											<a
 												label="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.TaskReviewConverter'}"
-												style="@{itemoverviewprogram.task, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewStyleConverter'}">
+												style="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.TaskOverviewStyleConverter'}">
 												<attribute name="onClick">
 	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
 	Events.sendEvent("onOverviewProgramTaskClick", page_panel, null);

@@ -51,6 +51,10 @@ public class TaskReviewConverter implements TypeConverter {
 
 		final UserTask task = taskCache.loadTask(id_task);
 
+		if (task == null) {
+			return "";
+		}
+
 		String taskCode = task.getCode();
 
 		// search previous task
