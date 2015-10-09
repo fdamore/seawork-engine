@@ -2814,6 +2814,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					SchedulerComposer.this.task_popup.open(SchedulerComposer.this.review_div, "after_pointer");
 					SchedulerComposer.this.task_id.setValue(task.getCode());
 					SchedulerComposer.this.task_description.setValue(task.getDescription());
+				} else {
+
+					final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+					final UserShift shift = shiftCache.getUserShift(detailFinalSchedule.getShift_type());
+
+					// Absence Shift
+					if (!shift.getPresence()) {
+						final PersonDAO personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+
+						final Person user = personDAO.loadPerson(detailFinalSchedule.getId_user());
+						final UserTask defaultTask = SchedulerComposer.this.taskDAO.getDefault(user.getId());
+
+						SchedulerComposer.this.task_popup.open(SchedulerComposer.this.review_div, "after_pointer");
+						SchedulerComposer.this.task_id.setValue(defaultTask.getCode());
+						SchedulerComposer.this.task_description.setValue(defaultTask.getDescription());
+
+					}
 				}
 			}
 		});
@@ -2856,6 +2873,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					SchedulerComposer.this.task_popup.open(SchedulerComposer.this.review_div, "after_pointer");
 					SchedulerComposer.this.task_id.setValue(task.getCode());
 					SchedulerComposer.this.task_description.setValue(task.getDescription());
+				} else {
+
+					final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+					final UserShift shift = shiftCache.getUserShift(detailInitialSchedule.getShift_type());
+
+					// Absence Shift
+					if (!shift.getPresence()) {
+						final PersonDAO personDAO = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+
+						final Person user = personDAO.loadPerson(detailInitialSchedule.getId_user());
+						final UserTask defaultTask = SchedulerComposer.this.taskDAO.getDefault(user.getId());
+
+						SchedulerComposer.this.task_popup.open(SchedulerComposer.this.review_div, "after_pointer");
+						SchedulerComposer.this.task_id.setValue(defaultTask.getCode());
+						SchedulerComposer.this.task_description.setValue(defaultTask.getDescription());
+
+					}
 				}
 			}
 		});
