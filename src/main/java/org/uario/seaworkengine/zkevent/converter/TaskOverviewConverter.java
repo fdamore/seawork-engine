@@ -3,7 +3,9 @@ package org.uario.seaworkengine.zkevent.converter;
 import java.util.List;
 
 import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -29,19 +31,27 @@ public class TaskOverviewConverter implements TypeConverter {
 
 			final DetailFinalSchedule detailFinalSchedule = (DetailFinalSchedule) arg0;
 
+			final TasksDAO taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+
 			if (detailFinalSchedule.getTask() == null) {
-				return arg0;
+
+				final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+
+				final UserShift shift = shiftCache.getUserShift(detailFinalSchedule.getShift_type());
+
+				// Absence Shift
+				if (!shift.getPresence()) {
+					return detailFinalSchedule.getDefaultTask() + "-" + shift.getCode();
+				}
 			}
 
 			final ISchedule scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
 			final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(detailFinalSchedule.getId_schedule());
 
-			final TasksDAO taskCache = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
-
 			final Integer id_task = detailFinalSchedule.getTask();
 
-			final UserTask task = taskCache.loadTask(id_task);
+			final UserTask task = taskDAO.loadTask(id_task);
 
 			String taskCode = task.getCode();
 
@@ -52,7 +62,7 @@ public class TaskOverviewConverter implements TypeConverter {
 
 				for (int i = 0; i < listDetail.size(); i++) {
 					final Integer idItemTask = listDetail.get(i).getTask();
-					final UserTask itemtask = taskCache.loadTask(idItemTask);
+					final UserTask itemtask = taskDAO.loadTask(idItemTask);
 					if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 						Long t;
@@ -76,7 +86,7 @@ public class TaskOverviewConverter implements TypeConverter {
 				if (minTimeIndex != null) {
 					final Integer taskIDPrev = listDetail.get(minTimeIndex).getTask();
 					if (taskIDPrev != null) {
-						final UserTask taskPrev = taskCache.loadTask(taskIDPrev);
+						final UserTask taskPrev = taskDAO.loadTask(taskIDPrev);
 						if (taskPrev != null) {
 							taskCode = taskPrev.getCode() + "-" + taskCode;
 						}
@@ -85,7 +95,7 @@ public class TaskOverviewConverter implements TypeConverter {
 					// search following task
 					for (int i = 0; i < listDetail.size(); i++) {
 						final Integer idItemTask = listDetail.get(i).getTask();
-						final UserTask itemtask = taskCache.loadTask(idItemTask);
+						final UserTask itemtask = taskDAO.loadTask(idItemTask);
 						if (!detailFinalSchedule.getId().equals(listDetail.get(i).getId())
 								&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
@@ -109,7 +119,7 @@ public class TaskOverviewConverter implements TypeConverter {
 					if (minTimeIndex != null) {
 						final Integer taskIDNext = listDetail.get(minTimeIndex).getTask();
 						if (taskIDNext != null) {
-							final UserTask taskNext = taskCache.loadTask(taskIDNext);
+							final UserTask taskNext = taskDAO.loadTask(taskIDNext);
 							if (taskIDNext != null) {
 								taskCode = taskNext.getCode() + "-" + taskCode;
 							}

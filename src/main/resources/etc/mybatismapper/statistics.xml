@@ -438,7 +438,11 @@
         from
             user temp_1
         where
-            temp_1.id = s.controller) as controller  
+            temp_1.id = s.controller) as controller,  
+        (select t.code 
+        from user_usertask uut, usertask t 
+        where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1 
+        )  as defaultTask         
 		from
 		user u,
 		schedule s left
@@ -524,7 +528,11 @@
         from
             user temp_1
         where
-            temp_1.id = s.controller) as controller    
+            temp_1.id = s.controller) as controller,  
+        (select t.code 
+        from user_usertask uut, usertask t 
+        where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1 
+        )  as defaultTask             
 		from
 		user u,  
 		schedule s left outer join

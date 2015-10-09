@@ -28,6 +28,9 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	@XmlTransient
 	private Date date_schedule;
 
+	// to show in overview
+	private String defaultTask;
+
 	// to show in review
 	private String editor;
 
@@ -140,6 +143,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return new Date(this.time_to.getTime());
 	}
 
+	public String getDefaultTask() {
+		return this.defaultTask;
+	}
+
 	public String getEditor() {
 		return this.editor;
 	}
@@ -218,6 +225,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setDate_schedule(final Date date_schedule) {
 		this.date_schedule = date_schedule;
+	}
+
+	public void setDefaultTask(final String defaultTask) {
+		this.defaultTask = defaultTask;
 	}
 
 	public void setEditor(final String editor) {

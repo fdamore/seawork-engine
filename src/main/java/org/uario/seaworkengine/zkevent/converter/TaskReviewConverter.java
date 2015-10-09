@@ -3,7 +3,9 @@ package org.uario.seaworkengine.zkevent.converter;
 import java.util.List;
 
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -29,7 +31,14 @@ public class TaskReviewConverter implements TypeConverter {
 		final DetailInitialSchedule detailInitialSchedule = (DetailInitialSchedule) arg0;
 
 		if (detailInitialSchedule.getTask() == null) {
-			return arg0;
+			final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+
+			final UserShift shift = shiftCache.getUserShift(detailInitialSchedule.getShift_type());
+
+			// Absence Shift
+			if (!shift.getPresence()) {
+				return detailInitialSchedule.getDefaultTask() + "-" + shift.getCode();
+			}
 		}
 
 		final ISchedule scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);

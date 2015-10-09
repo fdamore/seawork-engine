@@ -461,6 +461,15 @@ public class UtilityCSV {
 					}
 				}
 
+			} else {
+				final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+
+				final UserShift shift = shiftCache.getUserShift(item.getShift_type());
+
+				// Absence Shift
+				if (!shift.getPresence()) {
+					code_task = item.getDefaultTask() + "-" + shift.getCode();
+				}
 			}
 
 			String code_shift = "";
@@ -651,6 +660,16 @@ public class UtilityCSV {
 							}
 						}
 					}
+				}
+
+			} else {
+				final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+
+				final UserShift shift = shiftCache.getUserShift(item.getShift_type());
+
+				// Absence Shift
+				if (!shift.getPresence()) {
+					code_task = item.getDefaultTask() + "-" + shift.getCode();
 				}
 
 			}
