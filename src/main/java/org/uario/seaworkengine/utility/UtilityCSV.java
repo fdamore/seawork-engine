@@ -225,7 +225,7 @@ public class UtilityCSV {
 		}
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Data Inizio Attività;Data Fine Attività;Nome Nave;Cliente;Volume Atteso;Rif MCT;Rif SWS;Note Programmazione;\n";
+		final String header = "Data Inizio Attività;Data Fine Attività;Nome Nave;Cliente;Volume Atteso;Rif MCT;Rif SWS;Tipo Servizio;Note Programmazione;\n";
 		builder.append(header);
 
 		for (final ScheduleShip item : modelListScheduleShip) {
@@ -236,6 +236,7 @@ public class UtilityCSV {
 			String volume = "";
 			String mct = "";
 			String sws = "";
+			String serviceType = "";
 			String note = "";
 
 			if (item.getArrivaldate() != null) {
@@ -269,13 +270,17 @@ public class UtilityCSV {
 				sws = item.getId().toString();
 			}
 
+			if (item.getServiceName() != null) {
+				serviceType = item.getServiceName();
+			}
+
 			if (item.getNote() != null) {
 				note = item.getNote();
 				note = note.replace("\n", " ");
 			}
 
 			final String line = "" + startDate + ";" + endDate + ";" + shipName + ";" + customerName + ";" + volume + ";" + mct + ";" + sws + ";"
-					+ note + ";\n";
+					+ serviceType + ";" + note + ";\n";
 			builder.append(line);
 
 		}
