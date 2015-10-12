@@ -19,7 +19,9 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.ScheduleShip;
+import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
@@ -143,6 +145,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Checkbox check_last_shiftReview;
+
+	private ConfigurationDAO configurationDao;
 
 	@Wire
 	private org.zkoss.zul.Checkbox crane_gtw_review;
@@ -480,6 +484,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox selectCustomer;
 
 	@Wire
+	private Combobox servicetype;
+
+	@Wire
+	private Combobox servicetype_schedule;
+
+	@Wire
 	private Combobox shift;
 
 	@Wire
@@ -810,6 +820,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		ship_to_add.setNote(this.note_schedule.getValue());
+
+		Integer idService = null;
+		if (this.servicetype_schedule.getSelectedItem() != null) {
+			final Service serviceSelected = this.servicetype_schedule.getSelectedItem().getValue();
+			idService = serviceSelected.getId();
+		}
+
+		ship_to_add.setId_service(idService);
 
 		ship_to_add.setArrivaldate(this.ship_arrival_schedule.getValue());
 
@@ -1390,6 +1408,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		for (Integer i = 2014; i <= (todayYear + 2); i++) {
 			years.add(i.toString());
 		}
+
+		ShipSchedulerComposer.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		final List<Service> serviceList = this.configurationDao.selectService(null, null, null);
+		this.servicetype.setModel(new ListModelList<Service>(serviceList));
+
+		this.servicetype_schedule.setModel(new ListModelList<Service>(serviceList));
 
 		this.select_year.setModel(new ListModelList<String>(years));
 		final ArrayList<String> months = new ArrayList<String>();
@@ -1981,6 +2005,24 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.ship_volume.setValue(this.scheduleShip_selected.getVolume());
 		this.note.setValue(this.scheduleShip_selected.getNote());
 
+		this.servicetype.setSelectedItem(null);
+		final Integer idServiceSelected = this.scheduleShip_selected.getId_service();
+
+		if (idServiceSelected != null) {
+			final List<Service> service = this.configurationDao.selectService(idServiceSelected, null, null);
+			if (service.size() != 0) {
+				for (final Comboitem item : this.servicetype.getItems()) {
+					if ((item.getValue() != null) && (item.getValue() instanceof Service)) {
+						final Service current = item.getValue();
+						if (service.get(0).getId().equals(current.getId())) {
+							this.servicetype.setSelectedItem(item);
+							break;
+						}
+					}
+				}
+			}
+		}
+
 		this.shipRif_mcf.setValue(this.scheduleShip_selected.getRif_mct());
 
 		// set arrival date and time
@@ -2035,6 +2077,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.scheduleShip_selected.setIdship(ship.getId());
 		this.scheduleShip_selected.setVolume(this.ship_volume.getValue());
 		this.scheduleShip_selected.setNote(this.note.getValue());
+
+		Integer idService = null;
+		if (this.servicetype.getSelectedItem() != null) {
+			final Service serviceSelected = this.servicetype.getSelectedItem().getValue();
+			idService = serviceSelected.getId();
+		}
+
+		this.scheduleShip_selected.setId_service(idService);
 
 		this.scheduleShip_selected.setArrivaldate(this.ship_arrival.getValue());
 
@@ -3476,6 +3526,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.ship_arrival_schedule.setValue(null);
 		this.ship_departure_schedule.setValue(null);
 		this.note_schedule.setValue(null);
+
+		this.servicetype_schedule.setSelectedItem(null);
 
 		this.grid_scheduleShip.setVisible(true);
 	}

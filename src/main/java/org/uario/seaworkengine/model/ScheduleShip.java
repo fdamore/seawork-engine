@@ -9,35 +9,40 @@ public class ScheduleShip implements Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public static long getSerialversionuid() {
 		return ScheduleShip.serialVersionUID;
 	}
 
-	private Date	arrivaldate;
+	private Date arrivaldate;
 
-	private Integer	customer_id;
+	private Integer customer_id;
 
-	private Date	departuredate;
+	private Date departuredate;
 
-	private Integer	id;
+	private Integer id;
 
-	private Integer	idship;
+	private Integer id_service;
 
-	private Integer	idship_activity;
+	private Integer idship;
+
+	private Integer idship_activity;
 
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String	name;
+	private String name;
 
-	private String	note;
+	private String note;
 
-	private String	rif_mct;
+	private String rif_mct;
 
-	private Integer	volume;
+	// used only in program ship view
+	private String serviceName;
+
+	private Integer volume;
 
 	public Date getArrivaldate() {
 		return this.arrivaldate;
@@ -53,6 +58,10 @@ public class ScheduleShip implements Serializable {
 
 	public Integer getId() {
 		return this.id;
+	}
+
+	public Integer getId_service() {
+		return this.id_service;
 	}
 
 	public Integer getIdship() {
@@ -75,6 +84,10 @@ public class ScheduleShip implements Serializable {
 		return this.rif_mct;
 	}
 
+	public String getServiceName() {
+		return this.serviceName;
+	}
+
 	public Integer getVolume() {
 		return this.volume;
 	}
@@ -95,6 +108,10 @@ public class ScheduleShip implements Serializable {
 		this.id = id;
 	}
 
+	public void setId_service(final Integer id_service) {
+		this.id_service = id_service;
+	}
+
 	public void setIdship(final Integer idship) {
 		this.idship = idship;
 	}
@@ -113,6 +130,10 @@ public class ScheduleShip implements Serializable {
 
 	public void setRif_mct(final String rif_mct) {
 		this.rif_mct = rif_mct;
+	}
+
+	public void setServiceName(final String serviceName) {
+		this.serviceName = serviceName;
 	}
 
 	public void setVolume(final Integer volume) {

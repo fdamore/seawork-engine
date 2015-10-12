@@ -21,11 +21,11 @@
 		INSERT INTO
 		scheduleship (idship,idship_activity, volume, note, arrivaldate,
 		departuredate,
-		rif_mct, customer_id)
+		rif_mct, customer_id, id_service)
 		VALUES
 		(#{idship},#{idship_activity}, #{volume}, #{note},
 		#{arrivaldate},
-		#{departuredate}, #{rif_mct}, #{customer_id});
+		#{departuredate}, #{rif_mct}, #{customer_id}, #{id_service});
 	</insert>
 
 	<delete id="deleteScheduleShip" parameterType="Integer">
@@ -38,9 +38,10 @@
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity
+		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity, s.id_service, 
+		(SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName  
 		FROM
-		scheduleship s,
+		scheduleship s, service sr, 
 		ship sh
 		where
 		s.idship =
@@ -56,7 +57,7 @@
 		s.idship, s.volume, s.note, s.arrivaldate,
 		s.departuredate,
 		sh.name,
-		s.rif_mct, s.customer_id, s.idship_activity
+		s.rif_mct, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName 
 		FROM
 		scheduleship s left join customer c ON (s.customer_id = c.id), ship sh 				 
 		where
@@ -90,7 +91,7 @@
 	<select id="selectAllScheduleShipFulltextSearchLike"
 		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity
+		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName 
 		FROM
 		scheduleship s,
 		ship sh
@@ -119,10 +120,9 @@
 		rif_mct =
 		#{rif_mct},
 		customer_id = #{customer_id},
-		idship_activity =
-		#{idship_activity}
-		WHERE id =
-		#{id};
+		idship_activity = #{idship_activity}, 
+		id_service = #{id_service} 
+		WHERE id = #{id};
 	</update>
 
 	<update id="updateRifMCT" parameterType="map">
@@ -492,30 +492,29 @@
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
 		parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT id, idship, volume, note,
-		arrivaldate, departuredate, rif_mct, customer_id, idship_activity
+		SELECT s.id, s.idship, s.volume, s.note,
+		s.arrivaldate, s.departuredate, s.rif_mct, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id)  as serviceName 
 		FROM
-		scheduleship where
-		idship =
-		#{idship} and
-		arrivaldate = #{arrivaldate};
+		scheduleship s where
+		s.idship = 	#{idship} and
+		s.arrivaldate = #{arrivaldate};
 	</select>
 
 	<select id="loadScheduleShipByArrivalDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT id,
-		idship, volume, note, arrivaldate, departuredate,
-		rif_mct, customer_id, idship_activity
+		SELECT s.id,
+		s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
+		s.rif_mct, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id)  as serviceName 
 		FROM
-		scheduleship where
-		date(arrivaldate) =
+		scheduleship s where
+		date(s.arrivaldate) =
 		date(#{arrivaldate});
 	</select>
 
 	<select id="loadShipInDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Ship">
 		SELECT sh.id, sh.name, sh.line, sh.shiptype,
-		sh.shipcondition, sh.twtype, s.id as rifSWS, sh.nowork, sh.activityh  
+		sh.shipcondition, sh.twtype, s.id as rifSWS, sh.nowork, sh.activityh, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName     
 		FROM scheduleship s, ship sh
 		WHERE
 		sh.id=s.idship and date(#{shipDate}) >=

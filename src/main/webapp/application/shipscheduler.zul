@@ -161,6 +161,15 @@
 								<datebox id="ship_departure_schedule"
 									format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 							</row>
+							
+							<row>
+								<label value="Tipo Servizio"/>
+								<hbox>
+								<combobox id="servicetype_schedule" placeholder="Seleziona tipo servizio..." readonly="false">
+									<comboitem self="@{each='service'}" label="@{service.name}" value="@{service}" />
+								</combobox>
+								<toolbarbutton label="Annulla selezione" style="color: blue" visible="true" onClick="servicetype.setSelectedItem(null);" />	</hbox>				
+							</row>
 
 							<row>
 								<label value="Note"></label>
@@ -721,6 +730,15 @@
 								<datebox id="ship_departure"
 									format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 							</row>
+							
+							<row>
+								<label value="Tipo Servizio"/>
+								<hbox>
+								<combobox id="servicetype" placeholder="Seleziona tipo servizio..." readonly="false">
+									<comboitem self="@{each='service'}" label="@{service.name}" value="@{service}" />
+								</combobox>
+								<toolbarbutton label="Annulla selezione" style="color: blue" visible="true" onClick="servicetype.setSelectedItem(null);" />	</hbox>				
+							</row>
 
 						</rows>
 					</grid>
@@ -979,6 +997,7 @@
 					<listheader label="Rif Cliente"
 						sort="auto(rif_mct)" id="mctColumn"/>
 					<listheader label="Rif SWS" sort="auto(id)" id="rifSWSColumn"/>
+					<listheader label="Tipo Servizio" />
 					<listheader label="Note Programmazione" />
 					<listheader id="modifyColumnSchedule" label="" />
 				</listhead>
@@ -1013,6 +1032,9 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.id}"/>
+						
+					<listcell sclass="myBottonCell"
+						label="@{scheduleship_item.serviceName}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.note}" />
