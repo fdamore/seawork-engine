@@ -158,7 +158,8 @@ public interface ISoapServiceInterface {
 			@WebParam(name = "operation") String operation, @WebParam(name = "handswork") Integer handswork,
 			@WebParam(name = "menwork") final Integer menwork, @WebParam(name = "temperature") String temperature, @WebParam(name = "sky") String sky,
 			@WebParam(name = "rain") String rain, @WebParam(name = "wind") String wind, @WebParam(name = "first_down") Date first_down,
-			@WebParam(name = "last_down") Date last_down);
+			@WebParam(name = "last_down") Date last_down, @WebParam(name = "person_down") Date person_down,
+			@WebParam(name = "person_onboard") Date person_onboard);
 
 	/**
 	 * Public string get note

@@ -344,7 +344,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Component panel_editor_review_details;
 
+	@Wire
+	private Datebox person_down_review;
+
 	private Person person_logged;
+
+	@Wire
+	private Datebox person_onboard_review;
 
 	private PersonDAO personDao;
 
@@ -2507,6 +2513,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.detailScheduleShipSelected.setFirst_down(this.first_down_review.getValue());
 		this.detailScheduleShipSelected.setLast_down(this.last_down_review.getValue());
 
+		this.detailScheduleShipSelected.setPerson_down(this.person_down_review.getValue());
+		this.detailScheduleShipSelected.setPerson_onboard(this.person_onboard_review.getValue());
+
 		if (this.rain_review.getSelectedItem() != null) {
 			this.detailScheduleShipSelected.setRain(this.rain_review.getSelectedItem().getValue().toString());
 		} else {
@@ -3600,6 +3609,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// define general value
 		this.first_down_review.setValue(detailSelected.getFirst_down());
 		this.last_down_review.setValue(detailSelected.getLast_down());
+
+		this.person_down_review.setValue(detailSelected.getPerson_down());
+		this.person_onboard_review.setValue(detailSelected.getPerson_onboard());
 
 		this.rain_review.setSelectedItem(null);
 		for (final Comboitem itm : this.rain_review.getItems()) {

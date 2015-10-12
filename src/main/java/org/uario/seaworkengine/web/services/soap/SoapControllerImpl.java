@@ -131,10 +131,11 @@ public class SoapControllerImpl implements ISoapServiceInterface {
 			@WebParam(name = "operation") final String operation, @WebParam(name = "handswork") final Integer handswork,
 			@WebParam(name = "menwork") final Integer menwork, @WebParam(name = "temperature") final String temperature,
 			@WebParam(name = "sky") final String sky, @WebParam(name = "rain") final String rain, @WebParam(name = "wind") final String wind,
-			@WebParam(name = "first_down") final Date first_down, @WebParam(name = "last_down") final Date last_down) {
+			@WebParam(name = "first_down") final Date first_down, @WebParam(name = "last_down") final Date last_down,
+			@WebParam(name = "person_down") final Date person_down, @WebParam(name = "person_onboard") final Date person_onboard) {
 
 		this.webcontroller.updateDetailScheduleShipForMobile(detail_schedule_ship_id, operation, handswork, menwork, temperature, sky, rain, wind,
-				first_down, last_down);
+				first_down, last_down, person_down, person_onboard);
 
 	}
 

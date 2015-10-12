@@ -488,7 +488,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork, final Integer menwork,
-			final String temperature, final String sky, final String rain, final String wind, final Date first_down, final Date last_down) {
+			final String temperature, final String sky, final String rain, final String wind, final Date first_down, final Date last_down,
+			final Date person_down, final Date person_onboard) {
 
 		final DetailScheduleShip sch = new DetailScheduleShip();
 		sch.setId(id);
@@ -501,6 +502,8 @@ public class WebControllerImpl implements IWebServiceController {
 		sch.setWind(wind);
 		sch.setFirst_down(first_down);
 		sch.setLast_down(last_down);
+		sch.setPerson_down(person_down);
+		sch.setPerson_onboard(person_onboard);
 
 		this.shipSchedulerDao.updateDetailScheduleShipForMobile(sch);
 
