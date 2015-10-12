@@ -146,6 +146,7 @@
 			<tab label="Turni" id="shift" />
 			<tab label="Centri di Costo" id="billcenter" />
 			<tab label="Tipo Rapporto di Lavoro" id="status" />
+			<tab label="Tipo Servizio" id="serviceType" />
 		</tabs>
 
 		<tabpanels>
@@ -1013,6 +1014,141 @@
 				</panel>
 			</tabpanel>
 
+			<tabpanel>
+				<panel id="panel_service" border="normal"
+					collapsible="false" sclass="transparent">
+					<caption iconSclass="z-icon-star orange"
+						label="Gestione Tipo di Servizio">
+					</caption>
+
+					<panelchildren>
+						<!-- SERVICE -->
+						<div>
+							<a label="Tipo di Servizio"
+								iconSclass="z-icon-list" sclass="green lighter rcaption" />
+
+							<!-- SERVICE EDITOR -->
+							<div id="grid_service_details"
+								visible="false">
+
+								<panel border="normal"
+									collapsible="false" sclass="transparent">
+									<caption
+										iconSclass="z-icon-star orange" label="Dettagli">
+										<toolbarbutton label="Chiudi"
+											style="color: blue"
+											onClick="grid_service_details.setVisible(false);">
+										</toolbarbutton>
+										<toolbarbutton
+											id="add_service_command" label="Aggiungi" style="color: blue"
+											visible="false">
+										</toolbarbutton>
+									</caption>
+									<panelchildren>
+										<grid sclass="domain">
+											<columns>
+												<column label="Tipo" />
+												<column
+													label="Informazioni" />
+											</columns>
+											<rows>
+												<row
+													id="row_name_service">
+													<label
+														value="Nome:">
+													</label>
+													<textbox
+														id="name_service" mold="rounded" />
+												</row>
+												<row
+													id="row_description_service">
+													<label
+														value="Descrizione:">
+													</label>
+													<textbox
+														id="description_service" mold="rounded" />
+												</row>
+											</rows>
+										</grid>
+									</panelchildren>
+								</panel>
+							</div>
+
+							<div>
+								<separator></separator>
+
+								<button id="sw_addservice"
+									sclass="btn-info" label="Aggiungi Tipo di Servizio"
+									onClick="add_service_command.setVisible(true);grid_service_details.setVisible(true)">
+								</button>
+
+								<button id="sw_refresh_service_list"
+									sclass="btn-info" label="Ricarica Lista">
+								</button>
+
+								<separator></separator>
+
+								<a label="Righe da visualizzare: "
+									iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+								<intbox id="shows_rows_service"
+									constraint="no negative, no zero" value="10">
+								</intbox>
+
+								<textbox placeholder="Cerca..."
+									id="full_text_search_Service">
+								</textbox>
+
+								<separator></separator>
+
+								<separator></separator>
+							</div>
+
+
+							<listbox id="sw_list_service"
+								pagingPosition="both" mold="paging"
+								style="border: 1px solid #CCCCCC;" checkmark="true"
+								multiple="false" pageSize="20">
+								<listhead sizable="true">
+
+									<listheader label="Nome"
+										sort="auto" />
+
+									<listheader label="Descrizione"
+										sort="auto" />
+
+									<listheader label="" />
+								</listhead>
+
+								<listitem self="@{each='service_item'}"
+									value="@{service_item}">
+
+									<listcell sclass="myBottonCell"
+										label="@{service_item.name}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{service_item.description}" />
+
+									<listcell sclass="myBottonCell">
+
+										<toolbarbutton
+											id="sw_link_deleteservice" style="color:blue"
+											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Cancella">
+										</toolbarbutton>
+
+									</listcell>
+
+								</listitem>
+
+							</listbox>
+						</div>
+
+					</panelchildren>
+
+
+				</panel>
+			</tabpanel>
+			
 
 		</tabpanels>
 	</tabbox>

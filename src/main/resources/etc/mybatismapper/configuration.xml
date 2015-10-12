@@ -255,16 +255,49 @@
 		(description)
 		VALUES (#{description});
 	</insert>
+	
+	<insert id="addService" parameterType="org.uario.seaworkengine.model.Service">
+		INSERT INTO service
+		(name,description)
+		VALUES (#{name},#{description});
+	</insert>
 
 	<delete id="removeStatus">
 		DELETE FROM status
 		WHERE description=#{description};
+	</delete>
+	
+	<delete id="removeService" parameterType="Integer">
+		DELETE FROM service
+		WHERE id=#{id};
 	</delete>
 
 	<select id="selectAllStatus" resultType="String">
 		SELECT description
 		FROM
 		status;
+	</select>
+	
+	<select id="selectService" parameterType="map" resultType="org.uario.seaworkengine.model.Service">
+		SELECT id, name, description
+		FROM service
+		WHERE id is not null  
+		<if test="id != null">
+			and id=#{id} 
+		</if>
+		<if test="name != null">
+			and name like CONCAT('%',#{name}, '%') 
+		</if>
+		<if test="description != null">
+			and description like CONCAT('%',#{description}, '%') 
+		</if> 
+		order by name asc;
+	</select>
+	
+	<select id="checkServiceExist" parameterType="String" resultType="org.uario.seaworkengine.model.Service">
+		SELECT id, name, description
+		FROM service 
+		WHERE name=#{name};
 	</select>
 
 	<update id="updateStatus" parameterType="String">
@@ -273,6 +306,12 @@
 		description = #{description}
 		WHERE d
 	</update>
+	
+	<update id="updateService" parameterType="org.uario.seaworkengine.model.Service">
+		UPDATE service 
+		SET name = #{name}, description = #{description}
+		WHERE id = #{id};
+	</update>	
 
 	<update id="removeAllBreakShift">
 		UPDATE usershift

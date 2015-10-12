@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.uario.seaworkengine.model.BillCenter;
+import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
@@ -70,6 +71,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Textbox description_billcenter;
 
 	@Wire
+	private Textbox description_service;
+
+	@Wire
 	private Textbox description_shift;
 
 	@Wire
@@ -91,6 +95,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Textbox full_text_search_BillCenter;
 
 	@Wire
+	private Textbox full_text_search_Service;
+
+	@Wire
 	private Textbox full_text_searchShift;
 
 	@Wire
@@ -98,6 +105,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Component grid_billcenter_details;
+
+	@Wire
+	private Div grid_service_details;
 
 	@Wire
 	private Div grid_shift_details;
@@ -134,6 +144,9 @@ public class Preferences extends SelectorComposer<Component> {
 	@Wire
 	private Component modify_billcenter_command;
 
+	@Wire
+	private Textbox name_service;
+
 	private final NumberFormat numberFormat = NumberFormat.getInstance();
 
 	@Wire
@@ -164,6 +177,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Listbox sw_list_billcenter;
 
 	@Wire
+	private Listbox sw_list_service;
+
+	@Wire
 	private Listbox sw_list_shift;
 
 	@Wire
@@ -186,6 +202,36 @@ public class Preferences extends SelectorComposer<Component> {
 			this.jobCostDao.createBillCenter(billCenter);
 			this.refreshBillCenterList();
 		}
+	}
+
+	@Listen("onClick = #add_service_command")
+	public void addService() {
+
+		final List<Service> serviceList = this.configurationDao.checkServiceExist(this.name_service.getValue());
+
+		if (serviceList.size() == 0) {
+			final Service service = new Service();
+			service.setName(this.name_service.getValue());
+			service.setDescription(this.description_service.getValue());
+			this.configurationDao.addService(service);
+
+			this.refreshServiceList();
+
+			this.resetServiceInfo();
+		} else {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Nome tipo di servizio già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+		}
+
+	}
+
+	@Listen("onClick = #sw_addservice")
+	public void addServiceDefine() {
+		this.resetServiceInfo();
 	}
 
 	@Listen("onClick = #add_shifts_command")
@@ -455,6 +501,16 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_link_deleteservice")
+	public void deleteService() {
+		if (this.sw_list_service.getSelectedItem() != null) {
+			final Service serviceSelected = this.sw_list_service.getSelectedItem().getValue();
+			this.configurationDao.removeService(serviceSelected.getId());
+			this.refreshServiceList();
+		}
+
+	}
+
 	private void deleteShift() {
 
 		if (this.sw_list_shift.getSelectedItem() == null) {
@@ -534,6 +590,10 @@ public class Preferences extends SelectorComposer<Component> {
 				// refresh status list
 				Preferences.this.refreshStatusList();
 				Preferences.this.resetStatusInfo();
+
+				// refresh service list
+				Preferences.this.refreshServiceList();
+				Preferences.this.resetServiceInfo();
 
 				// show bank holiday
 				Preferences.this.showBankHolidays();
@@ -888,6 +948,16 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_refresh_service_list")
+	public void refreshServiceList() {
+
+		this.full_text_search_Service.setValue(null);
+
+		final List<Service> list = this.configurationDao.selectService(null, null, null);
+		Preferences.this.sw_list_service.setModel(new ListModelList<Service>(list));
+
+	}
+
 	@Listen("onClick = #sw_refresh_shiftlist")
 	public void refreshShiftCommand() {
 		this.refreshShiftList();
@@ -1031,6 +1101,11 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	private void resetServiceInfo() {
+		this.description_service.setValue(null);
+		this.name_service.setValue(null);
+	}
+
 	private void resetShiftInfo() {
 		this.code_shift.setValue("");
 		this.description_shift.setValue("");
@@ -1064,6 +1139,17 @@ public class Preferences extends SelectorComposer<Component> {
 
 			if (listBillCenter != null) {
 				this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));
+			}
+		}
+	}
+
+	@Listen("onChange = #full_text_search_Service; onOK = #full_text_search_Service")
+	public void searchService() {
+		if (this.full_text_search_Service.getValue() != null) {
+			final List<Service> list = this.configurationDao.selectService(null, this.full_text_search_Service.getValue(), null);
+
+			if (list != null) {
+				this.sw_list_service.setModel(new ListModelList<Service>(list));
 			}
 		}
 	}

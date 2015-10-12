@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
@@ -23,11 +24,26 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	private ITaskCache task_cache;
 
 	@Override
+	public void addService(final Service service) {
+		MyBatisConfigurationDAO.logger.info("Add Service");
+
+		this.getSqlSession().insert("configuration.addService", service);
+
+	}
+
+	@Override
 	public void addStatus(final String status) {
 		MyBatisConfigurationDAO.logger.info("Add Status");
 
 		this.getSqlSession().insert("configuration.addStatus", status);
 
+	}
+
+	@Override
+	public List<Service> checkServiceExist(final String name) {
+		MyBatisConfigurationDAO.logger.info("Check if Service exist");
+
+		return this.getSqlSession().selectList("configuration.checkServiceExist", name);
 	}
 
 	@Override
@@ -258,6 +274,14 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void removeService(final Integer id) {
+		MyBatisConfigurationDAO.logger.info("Remove Service");
+
+		this.getSqlSession().delete("configuration.removeService", id);
+
+	}
+
+	@Override
 	public void removeShift(final Integer id) {
 		MyBatisConfigurationDAO.logger.info("Remove shift with id " + id);
 		this.getSqlSession().delete("configuration.deleteShift", id);
@@ -287,6 +311,22 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 		MyBatisConfigurationDAO.logger.info("Selected all status");
 
 		return this.getSqlSession().selectList("configuration.selectAllStatus");
+	}
+
+	@Override
+	public List<Service> selectService(final Integer id, final String name, final String description) {
+		MyBatisConfigurationDAO.logger.info("Select service");
+
+		final HashMap<String, String> map = new HashMap<String, String>();
+		if (id != null) {
+			map.put("id", id.toString());
+		} else {
+			map.put("id", null);
+		}
+		map.put("name", name);
+		map.put("description", description);
+
+		return this.getSqlSession().selectList("configuration.selectService", map);
 	}
 
 	public void setShift_cache(final IShiftCache shift_cache) {
@@ -400,6 +440,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 		this.getSqlSession().update("configuration.removeAllOverflowTasks");
 
 		this.getSqlSession().update("configuration.setTaskAsOverflow", idTask);
+
+	}
+
+	@Override
+	public void updateService(final Service service) {
+		MyBatisConfigurationDAO.logger.info("Update service ");
+		this.getSqlSession().update("configuration.updateService", service);
 
 	}
 
