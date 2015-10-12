@@ -125,6 +125,22 @@
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
+		
+		<if test="rifSWS != null">
+			and ss.id = #{rifSWS}
+		</if>
+		
+		<if test="rifMCT != null">
+			and ss.rif_mct = #{rifMCT}
+		</if>
+		
+		<if test="working_cycle != null">
+			and MONTH(dss.shiftdate) = #{working_cycle}
+		</if>
+		
+		<if test="invoicing_cycle != null">
+			and d.invoicing_cycle = #{invoicing_cycle}
+		</if>		
 
 		group by rif_sws order by s.name
 	</select>

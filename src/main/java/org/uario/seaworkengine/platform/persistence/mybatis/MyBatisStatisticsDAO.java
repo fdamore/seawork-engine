@@ -474,7 +474,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(final Date date_from, final Date date_to, String searchText) {
+	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(final Date date_from, final Date date_to, final Integer rifSWS,
+			final String rifMCT, final Integer invoicing_cycle, final Integer working_cycle, String searchText) {
 
 		MyBatisStatisticsDAO.logger.info("loadReviewShipWorkAggregate by date");
 
@@ -496,6 +497,10 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("dt_arg_from", dt_arg_from);
 		map.put("dt_arg_to", dt_arg_to);
 		map.put("searchText", searchText);
+		map.put("rifSWS", rifSWS);
+		map.put("rifMCT", rifMCT);
+		map.put("invoicing_cycle", invoicing_cycle);
+		map.put("working_cycle", working_cycle);
 
 		return this.getSqlSession().selectList("statistics.reviewShipWorkAggregate", map);
 	}

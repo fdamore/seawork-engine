@@ -1761,24 +1761,26 @@
 				</hbox>
 
 				<separator />
+				
+				<hbox id="filter_work" visible="true">
+					<intbox placeholder="Cerca Rif SWS..."
+						id="full_text_search_rifSWS" />
 
+					<textbox placeholder="Cerca Rif Cliente..."
+						id="full_text_search_rifMCT" />
+
+					<intbox width="150px"
+						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
+					<intbox width="150px"
+						placeholder="Periodo Lavorazione..." id="working_cycle_search" />
+				</hbox>
+				
+				<separator />
+				
 				<div id="filter_user" visible="true">
 
 					<hbox align="center">
-
-						<intbox placeholder="Cerca Rif SWS..."
-							id="full_text_search_rifSWS" />
 						
-						<textbox placeholder="Cerca Rif Cliente..."
-							id="full_text_search_rifMCT" />
-
-						<intbox width="150px"
-							placeholder="Periodo Fatturazione..."
-							id="invoicing_cycle_search" />
-						<intbox width="150px"
-							placeholder="Periodo Lavorazione..." id="working_cycle_search" />
-
-
 						<a label="Filtra su numero turno: " />
 						<combobox placeholder="Scegli turno..."
 							readonly="true" id="select_shiftBap">
@@ -1787,13 +1789,7 @@
 							<comboitem value="2" label="2"></comboitem>
 							<comboitem value="3" label="3"></comboitem>
 							<comboitem value="4" label="4"></comboitem>
-						</combobox>
-
-					</hbox>
-
-					<separator />
-
-					<hbox align="center">
+						</combobox>		
 
 						<a label="Ricerca per data turno: "
 							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
@@ -1885,18 +1881,18 @@
 					<tabs>
 						<tab label="VERIFICA LAVORO UTENTE"
 							id="overviewBap" selected="true"
-							onClick="filter_user.setVisible(true);filter_ship.setVisible(false);">
+							onClick="filter_user.setVisible(true);filter_ship.setVisible(false);filter_work.setVisible(true);">
 						</tab>
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO NAVE)"
 							id="overviewBapAggregate" selected="false"
-							onClick="filter_user.setVisible(false);filter_ship.setVisible(true);">
+							onClick="filter_user.setVisible(false);filter_ship.setVisible(true);filter_work.setVisible(true);">
 						</tab>
 
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO UTENTE)"
 							id="statisticsShipTab"
-							onClick="filter_user.setVisible(false);filter_ship.setVisible(false);">
+							onClick="filter_user.setVisible(false);filter_ship.setVisible(false);filter_work.setVisible(false);">
 						</tab>
 
 					</tabs>

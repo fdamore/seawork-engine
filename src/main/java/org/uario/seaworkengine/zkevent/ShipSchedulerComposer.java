@@ -2254,6 +2254,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifSWS.setValue(null);
 		this.full_text_search_rifMCT.setValue(null);
+		this.invoicing_cycle_search.setValue(null);
+		this.working_cycle_search.setValue(null);
 		this.shows_rows_ship.setValue(10);
 
 		this.select_shiftBap.setSelectedIndex(0);
@@ -2704,7 +2706,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifSWS.setValue(null);
 
-		this.refreshOverviewBAP();
+		if ((this.full_text_search_rifMCT.getValue() != null) && (this.full_text_search_rifMCT.getValue().toString().trim() != "")) {
+			this.refreshOverviewBAP();
+		}
 
 	}
 
@@ -2737,7 +2741,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
-			final String rif_mct = this.full_text_search_rifMCT.getValue();
+			String rif_mct = this.full_text_search_rifMCT.getValue();
+			if (rif_mct.trim().equals("")) {
+				rif_mct = null;
+			}
 			final Integer invoicing = this.invoicing_cycle_search.getValue();
 			final Integer working = this.working_cycle_search.getValue();
 
@@ -2756,9 +2763,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		} else if (this.overviewBapAggregate.isSelected()) {
 
+			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
+			String rif_mct = this.full_text_search_rifMCT.getValue();
+			if (rif_mct.trim().equals("")) {
+				rif_mct = null;
+			}
+			final Integer invoicing = this.invoicing_cycle_search.getValue();
+			final Integer working = this.working_cycle_search.getValue();
+
 			// aggregate
 
-			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, null, searchText);
+			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, null, rif_sws, rif_mct, invoicing, working,
+					searchText);
 
 			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
 				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows_ship.getValue());
@@ -2809,7 +2825,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
-			final String rif_mct = this.full_text_search_rifMCT.getValue();
+			String rif_mct = this.full_text_search_rifMCT.getValue();
+			if (rif_mct.trim().equals("")) {
+				rif_mct = null;
+			}
 			final Integer invoicing = this.invoicing_cycle_search.getValue();
 			final Integer working = this.working_cycle_search.getValue();
 
@@ -2828,9 +2847,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		} else if (this.overviewBapAggregate.isSelected()) {
 
+			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
+			String rif_mct = this.full_text_search_rifMCT.getValue();
+			if (rif_mct.trim().equals("")) {
+				rif_mct = null;
+			}
+			final Integer invoicing = this.invoicing_cycle_search.getValue();
+			final Integer working = this.working_cycle_search.getValue();
+
 			// aggregate
 
-			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, date_to, text_search);
+			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, date_to, rif_sws, rif_mct, invoicing, working,
+					text_search);
 
 			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
 				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows_ship.getValue());
@@ -2944,8 +2972,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_month.setSelectedItem(null);
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifMCT.setValue(null);
+		this.invoicing_cycle_search.setValue(null);
+		this.working_cycle_search.setValue(null);
 
-		this.refreshOverviewBAP();
+		if ((this.full_text_search_rifSWS.getValue() != null) && (this.full_text_search_rifSWS.getValue().toString().trim() != "")) {
+			this.refreshOverviewBAP();
+		}
 
 	}
 
@@ -2957,28 +2989,33 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.sw_list_reviewWork.setPageSize(10);
 		}
 
-		Integer shiftNumber = null;
+		if (this.overviewBap.isSelected()) {
+			Integer shiftNumber = null;
 
-		if (this.select_shiftBap.getSelectedItem() != null) {
-			shiftNumber = this.select_shiftBap.getSelectedIndex();
-			if (shiftNumber == 0) {
-				shiftNumber = null;
+			if (this.select_shiftBap.getSelectedItem() != null) {
+				shiftNumber = this.select_shiftBap.getSelectedIndex();
+				if (shiftNumber == 0) {
+					shiftNumber = null;
+				}
 			}
+
+			if (this.searchWorkShip.getValue() == null) {
+				this.list_review_work = this.statistic_dao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
+						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
+						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
+			} else {
+				this.list_review_work = this.statistic_dao.loadReviewShipWork(this.searchWorkShip.getValue(), null,
+						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
+						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
+			}
+
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
+
+			this.calculateTotaleVolumeBAP();
+		} else if (this.overviewBapAggregate.isSelected()) {
+			this.refreshOverviewBAP();
 		}
 
-		if (this.searchWorkShip.getValue() == null) {
-			this.list_review_work = this.statistic_dao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
-					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-					shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
-		} else {
-			this.list_review_work = this.statistic_dao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
-					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber,
-					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
-		}
-
-		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
-
-		this.calculateTotaleVolumeBAP();
 	}
 
 	@Listen("onChange = #select_shiftBap")

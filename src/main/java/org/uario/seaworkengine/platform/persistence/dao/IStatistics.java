@@ -223,7 +223,8 @@ public interface IStatistics {
 	 * @param working_cycle
 	 * @return
 	 */
-	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(Date date_from, Date date_to, String searchText);
+	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(Date date_from, Date date_to, Integer rifSWS, String rifMCT,
+			Integer invoicing_cycle, Integer working_cycle, String searchText);
 
 	/**
 	 * Get overview abount ship

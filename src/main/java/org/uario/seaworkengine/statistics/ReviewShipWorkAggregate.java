@@ -7,28 +7,36 @@ public class ReviewShipWorkAggregate implements Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private Integer				id_ship;
+	private Integer id_ship;
 
-	private String				rif_mct;
+	private Integer invoicing_cycle;
 
-	private Integer				rif_sws;
+	private String rif_mct;
 
-	private String				shipname;
+	private Integer rif_sws;
 
-	private Double				time_work;
+	private String shipname;
 
-	private Integer				volume;
+	private Double time_work;
 
-	private Integer				volume_tw_mct;
+	private Integer volume;
 
-	private Integer				volumeunderboard;
+	private Integer volume_tw_mct;
 
-	private Integer				volumeunderboard_sws;
+	private Integer volumeunderboard;
+
+	private Integer volumeunderboard_sws;
+
+	private Integer working_cycle;
 
 	public Integer getId_ship() {
 		return this.id_ship;
+	}
+
+	public Integer getInvoicing_cycle() {
+		return this.invoicing_cycle;
 	}
 
 	public String getRif_mct() {
@@ -63,8 +71,16 @@ public class ReviewShipWorkAggregate implements Serializable {
 		return this.volumeunderboard_sws;
 	}
 
+	public Integer getWorking_cycle() {
+		return this.working_cycle;
+	}
+
 	public void setId_ship(final Integer id_ship) {
 		this.id_ship = id_ship;
+	}
+
+	public void setInvoicing_cycle(final Integer invoicing_cycle) {
+		this.invoicing_cycle = invoicing_cycle;
 	}
 
 	public void setRif_mct(final String rif_mct) {
@@ -97,6 +113,10 @@ public class ReviewShipWorkAggregate implements Serializable {
 
 	public void setVolumeunderboard_sws(final Integer volumeunderboard_sws) {
 		this.volumeunderboard_sws = volumeunderboard_sws;
+	}
+
+	public void setWorking_cycle(final Integer working_cycle) {
+		this.working_cycle = working_cycle;
 	}
 
 }
