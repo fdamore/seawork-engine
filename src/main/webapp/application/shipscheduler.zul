@@ -1850,7 +1850,7 @@
 					<intbox width="150px"
 						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
 					<intbox width="150px"
-						placeholder="Periodo Lavorazione..." id="working_cycle_search" />
+						placeholder="Periodo Lavorazione..." id="working_cycle_search" visible="false"/>
 				</hbox>
 				
 				<separator />
