@@ -1080,23 +1080,34 @@
 				<a label="Ricerca Navi in intervallo: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 				<datebox id="searchArrivalDateShipFrom_detail"
-					placeholder="Dalla data..." onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
+					placeholder="Dalla data..."
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
 				<datebox id="searchArrivalDateShipTo_detail"
-					placeholder="Alla data..." onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
+					placeholder="Alla data..."
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+				<button id="currentMonthDetailProgramShip"
+					label="Mese Corrente" sclass="btn-info" />
+				
 				<a label="Scarica dati in CSV"
 					id="detailShipProgram_download" style="color:green" />
 			</hbox>
 
-
-
-			<separator />
-
-			<a label="Ricerca per data turno: "
+			<separator/>
+			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<datebox id="searchDateShift" placeholder="Data Turno" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
+			<intbox id="shows_rows" constraint="no negative, no zero"
+				value="10" />
 
+			<textbox placeholder="Cerca..." id="full_text_search" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
+
+			<button id="refreshDetailView" label="Ricarica"
+				sclass="btn-info" />
 
 			<separator />
+			<a label="Ricerca per data turno: "
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+				<datebox id="searchDateShift" placeholder="Data Turno"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
 
 			<a label="Filtra su numero turno: " />
 			<combobox placeholder="Scegli turno..." readonly="true"
@@ -1109,6 +1120,8 @@
 				<comboitem value="3" label="3"></comboitem>
 				<comboitem value="4" label="4"></comboitem>
 			</combobox>
+			
+			<separator/>
 
 			<a label="Filtra per cliente: " />
 			<combobox placeholder="Scegli cliente..." readonly="true"
@@ -1138,16 +1151,7 @@
 			<textbox placeholder="Cerca Rif Cliente..."
 				id="text_search_rifMCT" onChange="text_search_rifSWS.setValue(null)"/>
 
-			<a label="Righe da visualizzare: "
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<intbox id="shows_rows" constraint="no negative, no zero"
-				value="10" />
-
-			<textbox placeholder="Cerca..." id="full_text_search" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
-
-			<button id="refreshDetailView" label="Ricarica"
-				sclass="btn-info" />
-
+			
 			<separator />
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />

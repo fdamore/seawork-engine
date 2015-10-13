@@ -1245,6 +1245,20 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.grid_scheduleShip.setVisible(false);
 	}
 
+	@Listen("onClick = #currentMonthDetailProgramShip")
+	public void currentMonthDetailProgramShip() {
+
+		final Calendar current_cal = Calendar.getInstance();
+		current_cal.set(Calendar.DAY_OF_MONTH, 1);
+		this.searchArrivalDateShipFrom_detail.setValue(current_cal.getTime());
+
+		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		this.searchArrivalDateShipTo_detail.setValue(current_cal.getTime());
+
+		this.searchDetailScheduleShipByDatePeriod();
+
+	}
+
 	@Listen("onClick = #currentMonthProgramShip")
 	public void currentMonthProgramShip() {
 
