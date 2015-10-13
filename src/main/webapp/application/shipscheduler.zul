@@ -895,16 +895,28 @@
 
 			<hbox align="center">
 				<intbox placeholder="Cerca Rif SWS..."
-					id="search_rifSWS" onChange="selectCustomer.setSelectedItem(null)"/>
+					id="search_rifSWS" onChange="selectCustomer.setSelectedItem(null)" />
 				<textbox placeholder="Cerca Rif Cliente..."
-					id="search_rifMCT" onChange="selectCustomer.setSelectedItem(null)"/>
+					id="search_rifMCT" onChange="selectCustomer.setSelectedItem(null)" />
 				<a label="Filtra per cliente: " />
-				<combobox placeholder="Scegli cliente..." readonly="true"
-					id="selectCustomer" onChange="search_rifSWS.setValue(null);search_rifMCT.setValue(null)" />
+				<combobox placeholder="Scegli cliente..."
+					readonly="true" id="selectCustomer"
+					onChange="search_rifSWS.setValue(null);search_rifMCT.setValue(null)" />
+				<a label="Filtra per servizio: " />
+				<vbox>
+					<combobox id="selectService"
+						placeholder="Seleziona servizio..." readonly="false">
+						<comboitem self="@{each='service'}"
+							label="@{service.name}" value="@{service}" />
+					</combobox>
+					<a label="Annulla filtro servizio"
+						id="removeServiceFilter" style="color:green"
+						onClick="selectService.setSelectedItem(null);" />
+				</vbox>
 			</hbox>
-			
-			
-			
+
+
+
 			<separator />
 
 
@@ -1104,6 +1116,9 @@
 				sclass="btn-info" />
 
 			<separator />
+					
+
+			<hbox align="center">
 			<a label="Ricerca per data turno: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 				<datebox id="searchDateShift" placeholder="Data Turno"
@@ -1120,12 +1135,22 @@
 				<comboitem value="3" label="3"></comboitem>
 				<comboitem value="4" label="4"></comboitem>
 			</combobox>
-			
-			<separator/>
-
 			<a label="Filtra per cliente: " />
 			<combobox placeholder="Scegli cliente..." readonly="true"
-				id="select_customer" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+				id="select_customer"
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+				<a label="Filtra per servizio: " />
+				<vbox>
+					<combobox id="selectServiceDetail"
+						placeholder="Seleziona servizio..." readonly="false">
+						<comboitem self="@{each='service'}"
+							label="@{service.name}" value="@{service}" />
+					</combobox>
+					<a label="Annulla filtro servizio"
+						id="removeServiceFilterDetail" style="color:green"
+						onClick="selectServiceDetail.setSelectedItem(null);" />
+				</vbox>
+			</hbox>
 
 			<a label="Filtra per tipo nave " />
 			<combobox placeholder="Scegli tipo nave..." readonly="true"
@@ -1179,6 +1204,8 @@
 					<listheader label="Mani C" id="handsColumn"  sort="auto(handswork)"/>
 					<listheader label="Persone P"  sort="auto(menwork_program)"/>
 					<listheader label="Persone C" id="personsColumn" sort="auto(menwork)"/>
+					
+					<listheader label="Tipo servizio" hflex="1"/>
 
 					<listheader label="Data inizio"
 						sort="auto(arrivaldate)" hflex="1"/>
@@ -1235,6 +1262,9 @@
 						label="@{detailscheduleship_item.menwork_program}" />					
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.menwork}" />
+						
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.serviceType}" />	
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.arrivaldate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />

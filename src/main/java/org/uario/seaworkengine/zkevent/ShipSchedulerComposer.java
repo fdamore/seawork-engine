@@ -484,6 +484,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox selectCustomer;
 
 	@Wire
+	private Combobox selectService;
+
+	@Wire
+	private Combobox selectServiceDetail;
+
+	@Wire
 	private Combobox servicetype;
 
 	@Wire
@@ -1090,8 +1096,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer numberOfWorkedShip = 0;
 		Integer numberOfNotWorkedShip = 0;
 
-		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, null, null, true, null);
-		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, this.getSelectedShift(), null, false, null);
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceDetail.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
+		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, null, null, true, null, idServiceSelected);
+		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, this.getSelectedShift(), null, false, null,
+				idServiceSelected);
 
 		if (idOfWorkedShip != null) {
 			numberOfWorkedShip = idOfWorkedShip.size();
@@ -1429,7 +1444,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.servicetype_schedule.setModel(new ListModelList<Service>(serviceList));
 
+		this.selectService.setModel(new ListModelList<Service>(serviceList));
+
+		this.selectServiceDetail.setModel(new ListModelList<Service>(serviceList));
+
 		this.select_year.setModel(new ListModelList<String>(years));
+
 		final ArrayList<String> months = new ArrayList<String>();
 
 		months.add("ANNULLA FILTRO");
@@ -2684,8 +2704,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Integer rifSWS = this.text_search_rifSWS.getValue();
 
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceDetail.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
 		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer, nowork,
-				activityh, worked);
+				activityh, worked, idServiceSelected);
 
 		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.modelListDetailScheduleShip));
 
@@ -2754,8 +2782,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Integer rifSWS = this.text_search_rifSWS.getValue();
 
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceDetail.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
 		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
-				activityh, worked);
+				activityh, worked, idServiceSelected);
 
 		this.setInfoDetailShipProgram(date, _text);
 
@@ -3019,8 +3055,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
+			Integer idServiceSelected = null;
+
+			if (this.selectService.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectService.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
+
 			this.modelListScheduleShip = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
-					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer);
+					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
+					idServiceSelected);
 
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rows.getValue());
@@ -3211,6 +3256,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onChange = #selectService; onClick = #removeServiceFilter")
+	public void selectService() {
+		this.searchScheduleShip();
+	}
+
+	@Listen("onChange = #selectServiceDetail; onClick = #removeServiceFilterDetail")
+	public void selectServiceDetail() {
+		this.refreshScheduleShipListBox();
+	}
+
 	@Listen("onClick = #selectShipNoWork")
 	public void selectShipNoWorkInCombobox() {
 		final Ship shipNoWork = this.shipDao.getNoWorkShip();
@@ -3292,8 +3347,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer numberOfWorkedShip = 0;
 		Integer numberOfNotWorkedShip = 0;
 
-		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, true, text_search);
-		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, false, text_search);
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceDetail.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
+		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, true, text_search,
+				idServiceSelected);
+		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, false, text_search,
+				idServiceSelected);
 
 		if (idOfWorkedShip != null) {
 			numberOfWorkedShip = idOfWorkedShip.size();
@@ -3324,7 +3389,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer totalReviewMenWork = 0;
 
 		final ShipTotal shipTotal = this.shipSchedulerDao.calculateHandsAndMen(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork,
-				shipTypeH, worked, text_search);
+				shipTypeH, worked, text_search, idServiceSelected);
 
 		if (shipTotal != null) {
 			if (shipTotal.getTotalProgramHands() != null) {
@@ -3348,7 +3413,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Integer deltaPersons = totalProgramMenWork - totalReviewMenWork;
 
 		Integer volume = this.shipSchedulerDao.calculateVolume(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork, shipTypeH,
-				worked, text_search);
+				worked, text_search, idServiceSelected);
 
 		if (volume == null) {
 			volume = 0;
@@ -3404,10 +3469,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Integer numberOfNotWorkedShip = 0;
 
-		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer, true,
-				text_search);
+		Integer idServiceSelected = null;
+
+		if (this.selectService.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectService.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
+		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer, true, text_search,
+				idServiceSelected);
 		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(date_from, date_to, null, this.getSelectedShift(), idCustomer, false,
-				text_search);
+				text_search, idServiceSelected);
 
 		if (idOfWorkedShip != null) {
 			numberOfWorkedShip = idOfWorkedShip.size();
@@ -3438,7 +3511,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer totalReviewMenWork = 0;
 
 		final ShipTotal shipTotal = this.shipSchedulerDao.calculateHandsAndMen(date_from, date_to, null, this.getSelectedShift(), idCustomer,
-				shipTypeNoWork, shipTypeH, worked, text_search);
+				shipTypeNoWork, shipTypeH, worked, text_search, idServiceSelected);
 
 		if (shipTotal != null) {
 			if (shipTotal.getTotalProgramHands() != null) {
@@ -3462,7 +3535,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Integer deltaPersons = totalProgramMenWork - totalReviewMenWork;
 
 		Integer volume = this.shipSchedulerDao.calculateVolume(date_from, date_to, null, this.getSelectedShift(), idCustomer, shipTypeNoWork,
-				shipTypeH, worked, text_search);
+				shipTypeH, worked, text_search, idServiceSelected);
 
 		if (volume == null) {
 			volume = 0;

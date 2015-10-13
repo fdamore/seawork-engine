@@ -13,13 +13,13 @@ import org.uario.seaworkengine.statistics.ShipTotal;
 public interface IScheduleShip {
 
 	public ShipTotal calculateHandsAndMen(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean shipTypeNoWork,
-			Boolean shipTypeH, Boolean worked, String full_text_search);
+			Boolean shipTypeH, Boolean worked, String full_text_search, Integer idService);
 
 	public List<Integer> calculateNumberOfShip(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean worked,
-			String full_text_search);
+			String full_text_search, Integer idService);
 
 	public Integer calculateVolume(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean shipTypeNoWork,
-			Boolean shipTypeH, Boolean worked, String full_text_search);
+			Boolean shipTypeH, Boolean worked, String full_text_search, Integer idService);
 
 	public void createDetailFinalScheduleShip(DetailFinalScheduleShip detailFinalScheduleShip);
 
@@ -50,14 +50,14 @@ public interface IScheduleShip {
 	public List<Ship> loadShipInDate(Timestamp arrivalDate);
 
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, String full_text_search, Integer shift, Integer idCustomer,
-			Boolean nowork, Boolean activityh, Boolean worked);
+			Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
 
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
-			Boolean nowork, Boolean activityh, Boolean worked);
+			Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
 
 	public List<DetailScheduleShip> searchDetailScheduleShipRif_MCT_SWS(Integer rif_sws, String rif_mct);
 
-	public List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, String mct, Integer idCustomer);
+	public List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, String mct, Integer idCustomer, Integer idService);
 
 	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);
 

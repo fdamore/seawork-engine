@@ -28,7 +28,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public ShipTotal calculateHandsAndMen(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift, final Integer idCustomer,
-			final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search) {
+			final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search, final Integer idService) {
 		MyBatisScheduleShipDAO.logger.info("calculateHandsAndMen");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -41,6 +41,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("shipTypeH", shipTypeH);
 		map.put("worked", worked);
 		map.put("full_text_search", full_text_search);
+		map.put("idService", idService);
 
 		return this.getSqlSession().selectOne("scheduleship.calculateHandsAndMen", map);
 
@@ -48,7 +49,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<Integer> calculateNumberOfShip(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift,
-			final Integer idCustomer, final Boolean worked, final String full_text_search) {
+			final Integer idCustomer, final Boolean worked, final String full_text_search, final Integer idService) {
 		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShip");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -59,13 +60,14 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("idCustomer", idCustomer);
 		map.put("worked", worked);
 		map.put("full_text_search", full_text_search);
+		map.put("idService", idService);
 
 		return this.getSqlSession().selectList("scheduleship.calculateNumberOfShip", map);
 	}
 
 	@Override
 	public Integer calculateVolume(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift, final Integer idCustomer,
-			final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search) {
+			final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search, final Integer idService) {
 		MyBatisScheduleShipDAO.logger.info("calculateVolumeInDateAndShipName");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -78,6 +80,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("shipTypeH", shipTypeH);
 		map.put("worked", worked);
 		map.put("full_text_search", full_text_search);
+		map.put("idService", idService);
 
 		return this.getSqlSession().selectOne("scheduleship.calculateVolume", map);
 	}
@@ -202,7 +205,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final String full_text_search,
-			final Integer shift, final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked) {
+			final Integer shift, final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked,
+			final Integer serviceId) {
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -214,6 +218,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("nowork", nowork);
 		map.put("activityh", activityh);
 		map.put("worked", worked);
+		map.put("serviceId", serviceId);
 
 		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipPeriod", map);
 
@@ -221,7 +226,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date shiftdate, final String full_text_search, final Integer shift,
-			final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked) {
+			final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId) {
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -232,6 +237,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("nowork", nowork);
 		map.put("activityh", activityh);
 		map.put("worked", worked);
+		map.put("serviceId", serviceId);
 
 		final List<DetailScheduleShip> list = this.getSqlSession().selectList("scheduleship.searchDetailScheduleShip", map);
 
@@ -253,7 +259,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<ScheduleShip> searchScheduleShip(final Date datefrom, final Date dateto, final Integer sws, final String mct,
-			final Integer idCustomer) {
+			final Integer idCustomer, final Integer idService) {
 		MyBatisScheduleShipDAO.logger.info("load ScheduleShip");
 
 		Integer sws_arg = sws;
@@ -272,6 +278,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("sws", sws_arg);
 		map.put("mct", mct_arg);
 		map.put("idCustomer", idCustomer);
+		map.put("idService", idService);
 
 		return this.getSqlSession().selectList("scheduleship.searchScheduleShip", map);
 	}

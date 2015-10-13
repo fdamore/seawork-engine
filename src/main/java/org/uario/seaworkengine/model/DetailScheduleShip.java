@@ -89,6 +89,12 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	 */
 	private String secondOperativeName;
 
+	// only for view
+	private Integer serviceId;
+
+	// only for view
+	private String serviceType;
+
 	private Integer shift;
 
 	private Date shiftdate;
@@ -209,6 +215,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public String getSecondOperativeName() {
 		return this.secondOperativeName;
+	}
+
+	public Integer getServiceId() {
+		return this.serviceId;
+	}
+
+	public String getServiceType() {
+		return this.serviceType;
 	}
 
 	public Integer getShift() {
@@ -337,6 +351,14 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setSecondOperativeName(final String secondOperativeName) {
 		this.secondOperativeName = secondOperativeName;
+	}
+
+	public void setServiceId(final Integer serviceId) {
+		this.serviceId = serviceId;
+	}
+
+	public void setServiceType(final String serviceType) {
+		this.serviceType = serviceType;
 	}
 
 	public void setShift(final Integer shift) {

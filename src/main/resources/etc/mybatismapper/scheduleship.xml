@@ -41,7 +41,7 @@
 		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity, s.id_service, 
 		(SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName  
 		FROM
-		scheduleship s, service sr, 
+		scheduleship s,  
 		ship sh
 		where
 		s.idship =
@@ -57,7 +57,11 @@
 		s.idship, s.volume, s.note, s.arrivaldate,
 		s.departuredate,
 		sh.name,
-		s.rif_mct, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName 
+		s.rif_mct, s.customer_id, s.idship_activity, s.id_service, 
+			(SELECT sr.name 
+			 FROM service sr 
+			 WHERE s.id_service=sr.id 			 
+			 ) as serviceName			  
 		FROM
 		scheduleship s left join customer c ON (s.customer_id = c.id), ship sh 				 
 		where
@@ -81,7 +85,11 @@
 		<if test="idCustomer!=null">
 			and #{idCustomer} = c.id 
 		</if>
-
+		
+		<if test="idService!=null">
+			and s.id_service = #{idService} 
+		</if>
+				
 		order by
 		s.arrivaldate
 		DESC;
@@ -194,6 +202,9 @@
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},'%')) and 
 		</if>
+		<if test="idService!=null">
+			ss.id_service = #{idService} and 
+		</if>
 		d.idscheduleship = ss.id and ss.idship = s.id) 
 		 as detail;		
 	</select>
@@ -226,7 +237,10 @@
 		
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},'%')) and 
-		</if>		
+		</if>	
+		
+		<if test="idService!=null"> ss.id_service = #{idService} and </if>
+			
 		d.idscheduleship = ss.id and ss.idship = s.id and s.nowork = false and s.activityh=false;
 	</select>
 
@@ -268,6 +282,7 @@
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},'%')) and 
 		</if>
+		<if test="idService!=null"> ss.id_service = #{idService} and </if>
 		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id order by d.shift asc
 		) as detail;
 	</select>
@@ -291,7 +306,7 @@
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS 
-		secondOperativeName
+		secondOperativeName, (SELECT sr.name FROM service sr where ss.id_service=sr.id) as serviceType 
 		FROM
 		detailscheduleship d
 		left join
@@ -306,6 +321,10 @@
 
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search}, '%') ) and
+		</if>
+		
+		<if test="serviceId!=null">
+			ss.id_service = #{serviceId} and 
 		</if>
 
 		<if test="shift != null">
@@ -403,7 +422,7 @@
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS
-		secondOperativeName
+		secondOperativeName, (SELECT sr.name FROM service sr where ss.id_service=sr.id) as serviceType
 		FROM
 		detailscheduleship d
 		left join
@@ -419,6 +438,10 @@
 		<if test="full_text_search != null">
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and
+		</if>
+		
+		<if test="serviceId!=null">
+			ss.id_service = #{serviceId} and 
 		</if>
 
 		<if test="shift != null">
