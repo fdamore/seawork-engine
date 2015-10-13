@@ -510,7 +510,7 @@
 
 									<row>
 										<label
-											value="Ultimo Contenitore a Terra:">
+											value="Ultimo Contenitore a Bordo:">
 										</label>
 
 										<datebox id="last_down_detail"
@@ -1532,7 +1532,7 @@
 
 									<row>
 										<label
-											value="Ultimo Contenitore a Terra:">
+											value="Ultimo Contenitore a Bordo:">
 										</label>
 
 										<datebox id="last_down_review"
