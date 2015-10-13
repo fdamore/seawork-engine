@@ -2097,7 +2097,7 @@
 										hflex="1" />
 									<listheader label="Volumi"
 										hflex="1" id="volumeStatisticColumn"/>
-									<listheader label="Produttività"
+									<listheader label="Produttività Gru"
 										hflex="1" />
 									
 									<listheader
