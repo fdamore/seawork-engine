@@ -873,7 +873,7 @@
 			<separator />
 
 			<hbox>
-				<a label="Ricerca Navi in intervallo: "
+				<a label="Ricerca Navi in intervallo di Lavorazione: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 				<datebox id="searchArrivalDateShipFrom"
@@ -1089,7 +1089,7 @@
 			<separator></separator>
 
 			<hbox>
-				<a label="Ricerca Navi in intervallo: "
+				<a label="Ricerca Navi in intervallo di Lavorazione: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 				<datebox id="searchArrivalDateShipFrom_detail"
 					placeholder="Dalla data..."
@@ -1119,7 +1119,7 @@
 					
 
 			<hbox align="center">
-			<a label="Ricerca per data turno: "
+			<a label="Ricerca Navi per Data Turno: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 				<datebox id="searchDateShift" placeholder="Data Turno"
 					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
@@ -1869,7 +1869,7 @@
 							<comboitem value="4" label="4"></comboitem>
 						</combobox>		
 
-						<a label="Ricerca per data turno: "
+						<a label="Ricerca Navi per Data Turno: "
 							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 						<datebox id="searchWorkShip"
