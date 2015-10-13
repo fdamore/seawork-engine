@@ -74,6 +74,10 @@
 		<if test="working_cycle_search != null">
 			and MONTH(dss.shiftdate) = #{working_cycle_search}
 		</if>
+		
+		<if test="idService != null">
+			and ss.id_service = #{idService}
+		</if>
 
 		order by s.name , date_request, dss.shift
 	</select>
@@ -140,6 +144,10 @@
 		
 		<if test="invoicing_cycle != null">
 			and d.invoicing_cycle = #{invoicing_cycle}
+		</if>
+		
+		<if test="serviceId != null">
+			and ss.id_service = #{serviceId}
 		</if>		
 
 		group by rif_sws order by s.name

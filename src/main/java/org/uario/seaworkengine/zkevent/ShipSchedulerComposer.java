@@ -490,6 +490,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox selectService;
 
 	@Wire
+	private Combobox selectServiceBap;
+
+	@Wire
 	private Combobox selectServiceDetail;
 
 	@Wire
@@ -1454,6 +1457,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.selectServiceDetail.setModel(new ListModelList<Service>(serviceList));
 
+		this.selectServiceBap.setModel(new ListModelList<Service>(serviceList));
+
 		this.select_year.setModel(new ListModelList<String>(years));
 
 		final ArrayList<String> months = new ArrayList<String>();
@@ -2402,6 +2407,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.search_rifSWS.setValue(null);
 		this.search_rifMCT.setValue(null);
 
+		this.selectService.setSelectedItem(null);
+
 		this.selectCustomer.setSelectedItem(null);
 
 		this.searchScheduleShip();
@@ -2863,8 +2870,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final Integer invoicing = this.invoicing_cycle_search.getValue();
 			final Integer working = this.working_cycle_search.getValue();
 
+			Integer idServiceSelected = null;
+
+			if (this.selectServiceBap.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
+
 			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, null, searchText, rif_sws, rif_mct, shiftNumber, invoicing,
-					working);
+					working, idServiceSelected);
 
 			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
 				this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
@@ -2888,8 +2903,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			// aggregate
 
+			Integer idServiceSelected = null;
+
+			if (this.selectServiceBap.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
+
 			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, null, rif_sws, rif_mct, invoicing, working,
-					searchText);
+					searchText, idServiceSelected);
 
 			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
 				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows_ship.getValue());
@@ -2947,8 +2970,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final Integer invoicing = this.invoicing_cycle_search.getValue();
 			final Integer working = this.working_cycle_search.getValue();
 
+			Integer idServiceSelected = null;
+
+			if (this.selectServiceBap.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
+
 			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, date_to, text_search, rif_sws, rif_mct, shiftNumber, invoicing,
-					working);
+					working, idServiceSelected);
 
 			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
 				this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
@@ -2971,9 +3002,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final Integer working = this.working_cycle_search.getValue();
 
 			// aggregate
+			Integer idServiceSelected = null;
+
+			if (this.selectServiceBap.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
 
 			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, date_to, rif_sws, rif_mct, invoicing, working,
-					text_search);
+					text_search, idServiceSelected);
 
 			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
 				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows_ship.getValue());
@@ -3123,14 +3161,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
+			Integer idServiceSelected = null;
+
+			if (this.selectServiceBap.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
+
 			if (this.searchWorkShip.getValue() == null) {
 				this.list_review_work = this.statistic_dao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
 						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
+						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
 			} else {
 				this.list_review_work = this.statistic_dao.loadReviewShipWork(this.searchWorkShip.getValue(), null,
 						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
+						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
 			}
 
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
@@ -3159,14 +3205,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceBap.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
 		if (this.searchWorkShip.getValue() == null) {
 			this.list_review_work = this.statistic_dao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
 					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-					shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
+					shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
 		} else {
 			this.list_review_work = this.statistic_dao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
 					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber,
-					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue());
+					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
 		}
 
 		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
@@ -3217,7 +3271,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange =#select_year")
+	@Listen("onChange =#select_year; onChange = #selectServiceBap; onClick = #removeServiceFilterBap")
 	public void selectedYear() {
 
 		if ((this.select_year.getSelectedItem() == null) || (this.select_year.getSelectedItem().getValue() == null)) {
@@ -3270,6 +3324,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #selectServiceDetail; onClick = #removeServiceFilterDetail")
 	public void selectServiceDetail() {
 		this.refreshScheduleShipListBox();
+	}
+
+	@Listen("onChange = #selectServiceBap; onClick = #removeServiceFilterBap")
+	public void selectServiceInBap() {
+		if (this.searchWorkShip.getValue() != null) {
+			this.searchReviewShipData();
+		} else {
+			this.selectedYear();
+		}
 	}
 
 	@Listen("onClick = #selectShipNoWork")
@@ -3567,6 +3630,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.text_search_rifMCT.setValue(null);
 		this.text_search_rifSWS.setValue(null);
 		this.full_text_search.setValue(null);
+
+		this.selectServiceDetail.setSelectedItem(null);
 
 		this.select_shift.setSelectedIndex(0);
 

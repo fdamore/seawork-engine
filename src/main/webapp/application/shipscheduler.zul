@@ -1812,8 +1812,6 @@
 
 				<hbox align="center">
 
-					
-
 				</hbox>
 
 				<separator />
@@ -1856,11 +1854,24 @@
 					<intbox width="150px"
 						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
 					<intbox width="150px"
-						placeholder="Periodo Lavorazione..." id="working_cycle_search" visible="false"/>
+						placeholder="Periodo Lavorazione..." id="working_cycle_search"
+						visible="false" />
+
+					<a label="Filtra per servizio: " />
+					<vbox>
+						<combobox id="selectServiceBap"
+							placeholder="Seleziona servizio..." readonly="false">
+							<comboitem self="@{each='service'}"
+								label="@{service.name}" value="@{service}" />
+						</combobox>
+						<a label="Annulla filtro servizio"
+							id="removeServiceFilterBap" style="color:green"
+							onClick="selectServiceBap.setSelectedItem(null);" />
+					</vbox>
 				</hbox>
-				
+
 				<separator />
-				
+
 				<div id="filter_user" visible="true">
 
 					<hbox align="center">

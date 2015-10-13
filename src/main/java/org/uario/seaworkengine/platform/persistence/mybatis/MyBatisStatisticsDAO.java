@@ -432,7 +432,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	@Override
 	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
-			final String rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer working_cycle) {
+			final String rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer working_cycle, final Integer idService) {
 
 		Integer rif_sws_arg = rifSWS;
 		String rif_mct_arg = rifMCT;
@@ -468,6 +468,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("shift", shift);
 		map.put("invoicing_cycle_search", invoicing_cycle);
 		map.put("working_cycle_search", working_cycle);
+		map.put("idService", idService);
 
 		return this.getSqlSession().selectList("statistics.reviewShipWork", map);
 
@@ -475,7 +476,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	@Override
 	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(final Date date_from, final Date date_to, final Integer rifSWS,
-			final String rifMCT, final Integer invoicing_cycle, final Integer working_cycle, String searchText) {
+			final String rifMCT, final Integer invoicing_cycle, final Integer working_cycle, String searchText, final Integer serviceId) {
 
 		MyBatisStatisticsDAO.logger.info("loadReviewShipWorkAggregate by date");
 
@@ -501,6 +502,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("rifMCT", rifMCT);
 		map.put("invoicing_cycle", invoicing_cycle);
 		map.put("working_cycle", working_cycle);
+		map.put("serviceId", serviceId);
 
 		return this.getSqlSession().selectList("statistics.reviewShipWorkAggregate", map);
 	}
