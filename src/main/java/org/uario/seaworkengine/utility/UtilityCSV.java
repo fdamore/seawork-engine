@@ -53,7 +53,7 @@ public class UtilityCSV {
 
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome Nave;Cliente;Rif Cliente;Rif SWS;Data Turno;Turno;Operazione;Primo Preposto;Secondo Preposto;Lavorata;Mani P;Mani C;Persone P;Persone C;Data Inizio;Data Fine;\n";
+		final String header = "Nome Nave;Cliente;Rif Cliente;Rif SWS;Data Turno;Turno;Operazione;Primo Preposto;Secondo Preposto;Lavorata;Mani P;Mani C;Persone P;Persone C;Tipo servizio;Data Inizio;Data Fine;\n";
 		builder.append(header);
 
 		for (final DetailScheduleShip item : modelListDetailScheduleShip) {
@@ -72,6 +72,7 @@ public class UtilityCSV {
 			String hands_review = "";
 			String persons_program = "";
 			String persons_review = "";
+			String serviceType = "";
 			String startDate = "";
 			String endDate = "";
 
@@ -134,6 +135,10 @@ public class UtilityCSV {
 				persons_program = item.getMenwork_program().toString();
 			}
 
+			if (item.getServiceType() != null) {
+				serviceType = item.getServiceType();
+			}
+
 			if (item.getArrivaldate() != null) {
 				startDate = Utility.getDataAsString_it(item.getArrivaldate());
 			}
@@ -144,7 +149,7 @@ public class UtilityCSV {
 
 			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate + ";" + shiftNumber + ";"
 					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program
-					+ ";" + persons_review + ";" + startDate + ";" + endDate + ";\n";
+					+ ";" + persons_review + ";" + serviceType + ";" + startDate + ";" + endDate + ";\n";
 			builder.append(line);
 
 		}
