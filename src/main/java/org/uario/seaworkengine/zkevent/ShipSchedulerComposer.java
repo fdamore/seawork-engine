@@ -210,6 +210,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Textbox full_text_search_ship;
 
 	@Wire
+	private Textbox full_text_search_shipProgram;
+
+	@Wire
 	private Component grid_scheduleShip;
 
 	@Wire
@@ -591,6 +594,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox shows_rows_ship;
+
+	@Wire
+	private Intbox shows_rowsProgram;
 
 	@Wire
 	private Combobox sky_detail;
@@ -3065,10 +3071,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.modelListScheduleShip = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
 					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
-					idServiceSelected);
+					idServiceSelected, this.full_text_search_shipProgram.getValue());
 
-			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rows.getValue());
+			if ((this.shows_rowsProgram.getValue() != null) && (this.shows_rowsProgram.getValue() != 0)) {
+				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rowsProgram.getValue());
 			} else {
 				this.sw_list_scheduleShipProgram.setPageSize(10);
 			}
@@ -3256,7 +3262,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #selectService; onClick = #removeServiceFilter")
+	@Listen("onChange = #selectService; onClick = #removeServiceFilter; onOK = #full_text_search_shipProgram, #shows_rowsProgram")
 	public void selectService() {
 		this.searchScheduleShip();
 	}

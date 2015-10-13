@@ -75,7 +75,11 @@
 		</if>
 
 		<if test="sws!=null">
-			and #{sws} = s.id
+			and #{sws} = s.id 
+		</if>
+		
+		<if test="textSearch!=null">
+			and sh.name like CONCAT('%',#{textSearch},'%') 
 		</if>
 
 		<if test="mct!=null">

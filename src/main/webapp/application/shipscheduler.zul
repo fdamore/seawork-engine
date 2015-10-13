@@ -915,8 +915,12 @@
 				</vbox>
 			</hbox>
 
-
-
+			<a label="Righe da visualizzare: "
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+			<intbox id="shows_rowsProgram" constraint="no negative, no zero"
+				value="10" />
+			<textbox placeholder="Cerca Nome Nave..."
+						id="full_text_search_shipProgram" />
 			<separator />
 
 
@@ -1099,31 +1103,45 @@
 					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
 				<button id="currentMonthDetailProgramShip"
 					label="Mese Corrente" sclass="btn-info" />
+				<button id="refreshDetailView" label="Ricarica"
+				sclass="btn-info" />
 				
 				<a label="Scarica dati in CSV"
 					id="detailShipProgram_download" style="color:green" />
 			</hbox>
 
+			<separator/><separator/>
+			
+			<hbox>
+			<intbox placeholder="Cerca Rif SWS..."
+				id="text_search_rifSWS"
+				onChange="text_search_rifMCT.setValue(null)" />
+
+			<textbox placeholder="Cerca Rif Cliente..."
+				id="text_search_rifMCT"
+				onChange="text_search_rifSWS.setValue(null)" />
+
+			<a label="Filtra per cliente: " />
+			<combobox placeholder="Scegli cliente..." readonly="true"
+				id="select_customer"
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+			<a label="Filtra per servizio: " />
+			<vbox>
+				<combobox id="selectServiceDetail"
+					placeholder="Seleziona servizio..." readonly="false">
+					<comboitem self="@{each='service'}"
+						label="@{service.name}" value="@{service}" />
+				</combobox>
+				<a label="Annulla filtro servizio"
+					id="removeServiceFilterDetail" style="color:green"
+					onClick="selectServiceDetail.setSelectedItem(null);" />
+			</vbox>
+			</hbox>
 			<separator/>
-			<a label="Righe da visualizzare: "
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<intbox id="shows_rows" constraint="no negative, no zero"
-				value="10" />
-
-			<textbox placeholder="Cerca..." id="full_text_search" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>
-
-			<button id="refreshDetailView" label="Ricarica"
-				sclass="btn-info" />
-
-			<separator />
 					
 
 			<hbox align="center">
-			<a label="Ricerca Navi per Data Turno: "
-					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-				<datebox id="searchDateShift" placeholder="Data Turno"
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-
+			
 			<a label="Filtra su numero turno: " />
 			<combobox placeholder="Scegli turno..." readonly="true"
 				id="select_shift" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
@@ -1135,22 +1153,15 @@
 				<comboitem value="3" label="3"></comboitem>
 				<comboitem value="4" label="4"></comboitem>
 			</combobox>
-			<a label="Filtra per cliente: " />
-			<combobox placeholder="Scegli cliente..." readonly="true"
-				id="select_customer"
-				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-				<a label="Filtra per servizio: " />
-				<vbox>
-					<combobox id="selectServiceDetail"
-						placeholder="Seleziona servizio..." readonly="false">
-						<comboitem self="@{each='service'}"
-							label="@{service.name}" value="@{service}" />
-					</combobox>
-					<a label="Annulla filtro servizio"
-						id="removeServiceFilterDetail" style="color:green"
-						onClick="selectServiceDetail.setSelectedItem(null);" />
-				</vbox>
-			</hbox>
+			
+			<a label="Ricerca Navi per Data Turno: "
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+				<datebox id="searchDateShift" placeholder="Data Turno"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+
+			
+			
+			
 
 			<a label="Filtra per tipo nave " />
 			<combobox placeholder="Scegli tipo nave..." readonly="true"
@@ -1168,13 +1179,19 @@
 				<comboitem value="all" label="Tutte" />
 			</combobox>
 			
+			</hbox>
+			
+			<separator />			
+
 			<separator />
+			<a label="Righe da visualizzare: "
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+			<intbox id="shows_rows" constraint="no negative, no zero"
+				value="10" />
 
-			<intbox placeholder="Cerca Rif SWS..."
-				id="text_search_rifSWS" onChange="text_search_rifMCT.setValue(null)"/>
+			<textbox placeholder="Cerca Nome Nave..." id="full_text_search" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>	
 
-			<textbox placeholder="Cerca Rif Cliente..."
-				id="text_search_rifMCT" onChange="text_search_rifSWS.setValue(null)"/>
+			<separator />
 
 			
 			<separator />
@@ -1795,24 +1812,7 @@
 
 				<hbox align="center">
 
-					<button id="refresh_command" label="Ricarica"
-						sclass="btn-info" />
-
-					<a label="Righe da visualizzare: "
-						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-					<intbox id="shows_rows_ship"
-						constraint="no negative, no zero" value="10" />
-
-				</hbox>
-
-				<hbox align="center">
-
-					<textbox placeholder="Cerca Nome Nave..."
-						id="full_text_search_ship" />
-
-					<a label="Scarica dati in CSV"
-						id="overview_download" style="color:green">
-					</a>
+					
 
 				</hbox>
 
@@ -1835,6 +1835,12 @@
 					<a label="Filtra su mese: " />
 					<combobox placeholder="Seleziona mese..."
 						readonly="true" id="select_month" />
+						
+					<button id="refresh_command" label="Ricarica"
+							sclass="btn-info" />
+						<a label="Scarica dati in CSV"
+							id="overview_download" style="color:green">
+						</a>
 
 				</hbox>
 
@@ -1877,6 +1883,18 @@
 					</hbox>
 
 					<separator></separator>
+					
+					<hbox align="center">
+
+					<a label="Righe da visualizzare: "
+						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+					<intbox id="shows_rows_ship"
+						constraint="no negative, no zero" value="10" />
+						<textbox placeholder="Cerca Nome Nave..."
+						id="full_text_search_ship" />
+					</hbox>
+					
+					<separator /><separator />
 
 					<hbox align="center">
 
