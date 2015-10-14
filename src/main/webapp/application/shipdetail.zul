@@ -32,7 +32,7 @@
 			<tabs>
 				<tab label="Lista Navi" selected="true" />
 
-				<tab label="Monitor navi"></tab>
+				<tab label="Monitor Navi"></tab>
 
 				<tab label="Lista Clienti" />
 
