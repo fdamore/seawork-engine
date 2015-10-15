@@ -853,11 +853,17 @@
 		uss.presence = 1
 		and (date_format(ss.date_schedule, '%m-%d') in
 		(${days_hol}))
-
-
-
 	</select>
+	
+	
 
+	<!-- REPORT SHIP WORK -->
+
+	<select id="getTotalInvoiceContainer" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="int">
+	select sum(dfs.volume) as containerInvoice,  month(s.arrivaldate) as monthInvoice 
+	from detailfinalscheduleship dfs, detailscheduleship dis, scheduleship s 
+	where dfs.iddetailscheduleship = dis.id and dis.idscheduleship = s.id and year(s.arrivaldate)=#{year} group by month(s.arrivaldate);
+	</select>
 
 
 

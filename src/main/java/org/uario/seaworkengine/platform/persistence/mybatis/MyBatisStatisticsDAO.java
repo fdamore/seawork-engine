@@ -22,6 +22,7 @@ import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
+import org.uario.seaworkengine.statistics.ShipTotal;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
@@ -352,6 +353,14 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 			return this.getSqlSession().selectOne("statistics.timeWorkedProgram", map);
 		}
+
+	}
+
+	@Override
+	public List<ShipTotal> getTotalInvoiceContainer(final Integer year) {
+		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
+
+		return this.getSqlSession().selectList("statistics.getTotalInvoiceContainer", year);
 
 	}
 

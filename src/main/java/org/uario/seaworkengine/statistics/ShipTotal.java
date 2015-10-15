@@ -9,11 +9,22 @@ public class ShipTotal implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer totalProgramHands;
-	private Integer totalProgramMen;
+	private Integer	containerInvoice;
+	private Integer	monthInvoice;
 
-	private Integer totalReviewHands;
-	private Integer totalReviewMen;
+	private Integer	totalProgramHands;
+	private Integer	totalProgramMen;
+
+	private Integer	totalReviewHands;
+	private Integer	totalReviewMen;
+
+	public Integer getContainerInvoice() {
+		return this.containerInvoice;
+	}
+
+	public Integer getMonthInvoice() {
+		return this.monthInvoice;
+	}
 
 	public Integer getTotalProgramHands() {
 		return this.totalProgramHands;
@@ -29,6 +40,14 @@ public class ShipTotal implements Serializable {
 
 	public Integer getTotalReviewMen() {
 		return this.totalReviewMen;
+	}
+
+	public void setContainerInvoice(final Integer containerInvoice) {
+		this.containerInvoice = containerInvoice;
+	}
+
+	public void setMonthInvoice(final Integer monthInvoice) {
+		this.monthInvoice = monthInvoice;
 	}
 
 	public void setTotalProgramHands(final Integer totalProgramHands) {

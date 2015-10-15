@@ -17,6 +17,7 @@ import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
+import org.uario.seaworkengine.model.ReportItem;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Service;
@@ -402,6 +403,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox rain_review;
+
+	@Wire
+	private Comboitem report_review_ship_item;
+
+	@Wire
+	private Listbox reportListboxContainer;
+
+	@Wire
+	private Component reportWorkShip;
 
 	@Wire
 	private Component reviewedTime;
@@ -973,7 +983,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Double productivityAVG = 0.0;
 
 		for (final ReviewShipWorkAggregate item : list_review_work_aggregate) {
-			productivityAVG += (item.getVolume() / item.getTime_work());
+			if ((item.getVolume() != null) && (item.getTime_work() != null) && (item.getTime_work() != 0)) {
+				productivityAVG += (item.getVolume() / item.getTime_work());
+			}
+
 		}
 
 		productivityAVG = productivityAVG / list_review_work_aggregate.size();
@@ -1309,6 +1322,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.dailyDetailShip.setVisible(false);
 			this.reviewWorkShip.setVisible(false);
 			this.filter_ship.setVisible(false);
+			this.reportWorkShip.setVisible(false);
 			this.searchScheduleShip();
 
 		} else if (selected.equals(this.detail_item)) {
@@ -1318,6 +1332,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.dailyDetailShip.setVisible(true);
 			this.reviewWorkShip.setVisible(false);
 			this.filter_ship.setVisible(false);
+			this.reportWorkShip.setVisible(false);
 			this.refreshScheduleShipListBox();
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
@@ -1327,8 +1342,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.dailyDetailShip.setVisible(false);
 			this.reviewWorkShip.setVisible(true);
 			this.filter_ship.setVisible(false);
+			this.reportWorkShip.setVisible(false);
 
 			this.refreshOverviewBAP();
+		} else if (selected.equals(this.report_review_ship_item)) {
+			this.grid_scheduleShip.setVisible(false);
+			this.shipProgram.setVisible(false);
+			this.dailyDetailShip.setVisible(false);
+			this.reviewWorkShip.setVisible(false);
+			this.filter_ship.setVisible(false);
+			this.reportWorkShip.setVisible(true);
+			this.refreshReportView();
 		}
 	}
 
@@ -2378,6 +2402,50 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.searchReviewShipIntervalDate();
 
 		}
+	}
+
+	private void refreshReportView() {
+		final Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2015);
+
+		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(2015);
+
+		final ArrayList<ReportItem> list = new ArrayList<ReportItem>();
+
+		final ReportItem item = new ReportItem();
+
+		for (final ShipTotal shipTotal : containerList) {
+			if (shipTotal.getMonthInvoice() == 1) {
+				item.setGen(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 2) {
+				item.setFeb(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 3) {
+				item.setMar(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 4) {
+				item.setApr(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 5) {
+				item.setMay(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 6) {
+				item.setJun(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 7) {
+				item.setJul(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 8) {
+				item.setAug(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 9) {
+				item.setSep(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 10) {
+				item.setOct(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 11) {
+				item.setNov(shipTotal.getContainerInvoice());
+			} else if (shipTotal.getMonthInvoice() == 12) {
+				item.setDec(shipTotal.getContainerInvoice());
+			}
+		}
+
+		list.add(item);
+
+		this.reportListboxContainer.setModel(new ListModelList<>(list));
+
 	}
 
 	/**
@@ -3626,6 +3694,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shipProgram.setVisible(false);
 		this.dailyDetailShip.setVisible(true);
 		this.reviewWorkShip.setVisible(false);
+		this.reportWorkShip.setVisible(false);
 
 		this.text_search_rifMCT.setValue(null);
 		this.text_search_rifSWS.setValue(null);

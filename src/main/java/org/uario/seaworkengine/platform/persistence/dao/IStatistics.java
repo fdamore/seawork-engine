@@ -10,6 +10,7 @@ import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
+import org.uario.seaworkengine.statistics.ShipTotal;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public interface IStatistics {
@@ -143,6 +144,8 @@ public interface IStatistics {
 	 * @return
 	 */
 	public Double getTimeWorked(Integer id_user, Date date_from, Date date_to);
+
+	public List<ShipTotal> getTotalInvoiceContainer(Integer year);
 
 	/**
 	 * Get hours time work

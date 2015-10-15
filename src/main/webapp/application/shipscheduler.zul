@@ -59,6 +59,10 @@
 				<comboitem label="VERIFICA LAVORO (BAP)"
 					value="VERIFICA LAVORO NAVI" id="verify_review_ship_item">
 				</comboitem>
+				
+				<comboitem label="REPORT LAVORAZIONI"
+					value="REPORT LAVORAZIONI" id="report_review_ship_item">
+				</comboitem>
 			</combobox>
 			
 			<button label="Versione Stampabile" sclass="btn-danger"
@@ -2206,7 +2210,6 @@
 										<listitem
 											self="@{each='itm_ship'}" value="@{itm_ship}">
 
-
 											<listcell
 												sclass="myBottonCell" label="@{itm_ship.name}" />
 
@@ -2217,13 +2220,10 @@
 											<listcell
 												sclass="myBottonCell"
 												label="@{itm_ship.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
-
-
-
 										</listitem>
-
 									</listbox>
-
+									
+									
 								</panelchildren>
 							</panel>
 
@@ -2243,6 +2243,67 @@
 
 			</vbox>
 		</div>
+
+		<!--  REPORT WORK SHIP  -->
+		<div id="reportWorkShip">
+			<a label="Report Lavorazione Navi" iconSclass="z-icon-list"
+				sclass="green lighter rcaption" />
+			<separator></separator>
+
+
+			<vbox>
+				<hbox align="center">
+					<a label="Filtra su anno: " />
+					<combobox placeholder="Seleziona anno..."
+						readonly="true" id="select_year_report" />
+				</hbox>
+			</vbox>
+			
+			<separator></separator>
+
+
+			<listbox sclass="domain" mold="paging" pageSize="10"
+				pagingPosition="both" id="reportListboxContainer">
+				
+				<listhead sizable="true">
+					<listheader label="Gennaio" hflex="1" />
+					<listheader label="Febbraio" hflex="1" />
+					<listheader label="Marzo" hflex="1" />
+					<listheader label="Aprile" hflex="1" />
+					<listheader label="Maggio" hflex="1" />
+					<listheader label="Giugno" hflex="1" />
+					<listheader label="Luglio" hflex="1" />
+					<listheader label="Agosto" hflex="1" />
+					<listheader label="Settembre" hflex="1" />
+					<listheader label="Ottobre" hflex="1" />
+					<listheader label="Novembre" hflex="1" />
+					<listheader label="Dicembre" hflex="1" />
+				</listhead>
+					<listitem self="@{each='reportItem'}" value="@{reportItem}">
+						<listcell sclass="myBottonCell" label="@{reportItem.gen}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.feb}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.mar}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.apr}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.may}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.jun}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.jul}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.aug}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.sep}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.oct}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.nov}" />
+						<listcell sclass="myBottonCell" label="@{reportItem.dec}" />
+					</listitem>
+					
+
+
+			</listbox>
+
+
+
+
+		</div>
+
+
 
 
 
