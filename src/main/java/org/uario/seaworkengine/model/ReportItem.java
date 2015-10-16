@@ -9,21 +9,22 @@ public class ReportItem implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer	apr;
+	private Double	apr;
 	private String	argument;
-	private Integer	aug;
-	private Integer	dec;
-	private Integer	feb;
-	private Integer	gen;
-	private Integer	jul;
-	private Integer	jun;
-	private Integer	mar;
-	private Integer	may;
-	private Integer	nov;
-	private Integer	oct;
-	private Integer	sep;
+	private Double	aug;
+	private Double	dec;
+	private Double	feb;
+	private Double	gen;
+	private Double	jul;
+	private Double	jun;
+	private Double	mar;
+	private Double	may;
+	private Double	nov;
+	private Double	oct;
+	private Double	sep;
+	private Double	tot;
 
-	public Integer getApr() {
+	public Double getApr() {
 		return this.apr;
 	}
 
@@ -31,51 +32,55 @@ public class ReportItem implements Serializable {
 		return this.argument;
 	}
 
-	public Integer getAug() {
+	public Double getAug() {
 		return this.aug;
 	}
 
-	public Integer getDec() {
+	public Double getDec() {
 		return this.dec;
 	}
 
-	public Integer getFeb() {
+	public Double getFeb() {
 		return this.feb;
 	}
 
-	public Integer getGen() {
+	public Double getGen() {
 		return this.gen;
 	}
 
-	public Integer getJul() {
+	public Double getJul() {
 		return this.jul;
 	}
 
-	public Integer getJun() {
+	public Double getJun() {
 		return this.jun;
 	}
 
-	public Integer getMar() {
+	public Double getMar() {
 		return this.mar;
 	}
 
-	public Integer getMay() {
+	public Double getMay() {
 		return this.may;
 	}
 
-	public Integer getNov() {
+	public Double getNov() {
 		return this.nov;
 	}
 
-	public Integer getOct() {
+	public Double getOct() {
 		return this.oct;
 	}
 
-	public Integer getSep() {
+	public Double getSep() {
 		return this.sep;
 	}
 
-	public void setApr(final Integer apr) {
+	public Double getTot() {
+		return this.tot;
+	}
+
+	public void setApr(final Double apr) {
 		this.apr = apr;
 	}
 
@@ -83,48 +88,52 @@ public class ReportItem implements Serializable {
 		this.argument = argument;
 	}
 
-	public void setAug(final Integer aug) {
+	public void setAug(final Double aug) {
 		this.aug = aug;
 	}
 
-	public void setDec(final Integer dec) {
+	public void setDec(final Double dec) {
 		this.dec = dec;
 	}
 
-	public void setFeb(final Integer feb) {
+	public void setFeb(final Double feb) {
 		this.feb = feb;
 	}
 
-	public void setGen(final Integer gen) {
+	public void setGen(final Double gen) {
 		this.gen = gen;
 	}
 
-	public void setJul(final Integer jul) {
+	public void setJul(final Double jul) {
 		this.jul = jul;
 	}
 
-	public void setJun(final Integer jun) {
+	public void setJun(final Double jun) {
 		this.jun = jun;
 	}
 
-	public void setMar(final Integer mar) {
+	public void setMar(final Double mar) {
 		this.mar = mar;
 	}
 
-	public void setMay(final Integer may) {
+	public void setMay(final Double may) {
 		this.may = may;
 	}
 
-	public void setNov(final Integer nov) {
+	public void setNov(final Double nov) {
 		this.nov = nov;
 	}
 
-	public void setOct(final Integer oct) {
+	public void setOct(final Double oct) {
 		this.oct = oct;
 	}
 
-	public void setSep(final Integer sep) {
+	public void setSep(final Double sep) {
 		this.sep = sep;
+	}
+
+	public void setTot(final Double tot) {
+		this.tot = tot;
 	}
 
 }

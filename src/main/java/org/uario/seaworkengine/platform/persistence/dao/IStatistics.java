@@ -145,6 +145,8 @@ public interface IStatistics {
 	 */
 	public Double getTimeWorked(Integer id_user, Date date_from, Date date_to);
 
+	public List<ShipTotal> getTotalHandsMen(Integer year);
+
 	public List<ShipTotal> getTotalInvoiceContainer(Integer year);
 
 	/**

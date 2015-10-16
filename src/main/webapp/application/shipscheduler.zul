@@ -2266,6 +2266,7 @@
 				pagingPosition="both" id="reportListboxContainer">
 				
 				<listhead sizable="true">
+					<listheader label="" hflex="1" />
 					<listheader label="Gennaio" hflex="1" />
 					<listheader label="Febbraio" hflex="1" />
 					<listheader label="Marzo" hflex="1" />
@@ -2278,22 +2279,67 @@
 					<listheader label="Ottobre" hflex="1" />
 					<listheader label="Novembre" hflex="1" />
 					<listheader label="Dicembre" hflex="1" />
+					<listheader label="Totale" hflex="1" />
 				</listhead>
-					<listitem self="@{each='reportItem'}" value="@{reportItem}">
-						<listcell sclass="myBottonCell" label="@{reportItem.gen}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.feb}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.mar}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.apr}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.may}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.jun}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.jul}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.aug}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.sep}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.oct}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.nov}" />
-						<listcell sclass="myBottonCell" label="@{reportItem.dec}" />
-					</listitem>
-					
+				<listitem self="@{each='reportItem'}"
+					value="@{reportItem}">
+					<listcell sclass="myBottonCell" label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="argument" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="gen" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="feb" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="mar" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="apr" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="may" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="jun" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="jul" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="aug" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="sep" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="oct" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="nov" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="dec" />
+					</listcell>
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+						<custom-attributes month="tot" />
+					</listcell>
+				</listitem>
+
 
 
 			</listbox>
