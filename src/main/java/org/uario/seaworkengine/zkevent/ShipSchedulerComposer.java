@@ -495,6 +495,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox select_year;
 
 	@Wire
+	private Combobox select_year_report;
+
+	@Wire
 	private Combobox selectCustomer;
 
 	@Wire
@@ -1466,10 +1469,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// set year in combobox
 		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
 		final ArrayList<String> years = new ArrayList<String>();
+		final ArrayList<String> yearsReport = new ArrayList<String>();
 		years.add("TUTTI");
 
 		for (Integer i = 2014; i <= (todayYear + 2); i++) {
 			years.add(i.toString());
+			yearsReport.add(i.toString());
 		}
 
 		ShipSchedulerComposer.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
@@ -1485,6 +1490,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.selectServiceBap.setModel(new ListModelList<Service>(serviceList));
 
 		this.select_year.setModel(new ListModelList<String>(years));
+
+		this.select_year_report.setModel(new ListModelList<String>(yearsReport));
 
 		final ArrayList<String> months = new ArrayList<String>();
 
@@ -2405,12 +2412,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	private void refreshReportView() {
-		final Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, 2015);
+	@Listen("onClick = #refreshReportView;onChange=#select_year_report")
+	public void refreshReportView() {
 
-		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(2015);
-		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(2015);
+		if (this.select_year_report.getSelectedItem() == null) {
+			return;
+		}
+
+		this.reportListboxContainer.setModel(new ListModelList<>());
+
+		final Integer year = Integer.parseInt((String) this.select_year_report.getSelectedItem().getValue());
+
+		final Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+
+		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(year);
+		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year);
 
 		final ArrayList<ReportItem> list = new ArrayList<ReportItem>();
 
@@ -2423,6 +2440,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final ReportItem itemMen = new ReportItem();
 		final ReportItem itemMenOnHand = new ReportItem();
 		itemMenOnHand.setArgument(ReportItemTag.MenOnHands);
+		final ReportItem itemContainerOnMen = new ReportItem();
+		itemContainerOnMen.setArgument(ReportItemTag.ContainersOnMen);
 
 		cal.set(Calendar.MONTH, 1);
 		final Integer dayInFeb = cal.getActualMaximum(Calendar.DATE);
@@ -2467,7 +2486,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		itemContainer.setTot(totalContainer);
 
-		// TOTALE MANI E MANI SU GIORNO
+		// MEDIA MENSILE CONTAINER
+		final ReportItem avgMonth = new ReportItem();
+		avgMonth.setArgument(ReportItemTag.MonthAvg);
+		if ((totalContainer != null) && (numberOfContainerNotNull != 0)) {
+			avgMonth.setTot(totalContainer / numberOfContainerNotNull);
+		} else {
+			avgMonth.setTot(0.0);
+		}
+
+		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO
 		Double totalHands = 0.0;
 
 		for (final ShipTotal shipTotal : handMenList) {
@@ -2481,8 +2509,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setGen(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setGen(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getGen() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setGen(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setGen(0.0);
+						}
 					} else {
 						itemMenOnHand.setGen(0.0);
 					}
@@ -2497,8 +2530,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setFeb(shipTotal.getHandswork() / dayInFeb);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setFeb(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getFeb() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setFeb(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setFeb(0.0);
+						}
 					} else {
 						itemMenOnHand.setFeb(0.0);
 					}
@@ -2512,8 +2550,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setMar(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setMar(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getMar() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setMar(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setMar(0.0);
+						}
 					} else {
 						itemMenOnHand.setMar(0.0);
 					}
@@ -2527,8 +2570,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setApr(shipTotal.getHandswork() / 30);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setApr(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getApr() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setApr(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setApr(0.0);
+						}
 					} else {
 						itemMenOnHand.setApr(0.0);
 					}
@@ -2542,8 +2590,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setMay(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setMay(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getMay() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setMay(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setMay(0.0);
+						}
 					} else {
 						itemMenOnHand.setMay(0.0);
 					}
@@ -2557,8 +2610,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setJun(shipTotal.getHandswork() / 30);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setJun(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getJun() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setJun(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setJun(0.0);
+						}
 					} else {
 						itemMenOnHand.setJun(0.0);
 					}
@@ -2572,8 +2630,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setJul(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setJul(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getJul() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setJul(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setJul(0.0);
+						}
 					} else {
 						itemMenOnHand.setJul(0.0);
 					}
@@ -2587,8 +2650,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setAug(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setAug(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getAug() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setAug(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setAug(0.0);
+						}
 					} else {
 						itemMenOnHand.setAug(0.0);
 					}
@@ -2602,8 +2670,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setSep(shipTotal.getHandswork() / 30);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setSep(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getSep() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setSep(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setSep(0.0);
+						}
 					} else {
 						itemMenOnHand.setSep(0.0);
 					}
@@ -2617,8 +2690,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setOct(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setOct(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getOct() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setOct(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setOct(0.0);
+						}
 					} else {
 						itemMenOnHand.setOct(0.0);
 					}
@@ -2632,8 +2710,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setNov(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setNov(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getNov() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setNov(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setNov(0.0);
+						}
 					} else {
 						itemMenOnHand.setNov(0.0);
 					}
@@ -2647,8 +2730,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setDec(shipTotal.getHandswork() / 31);
-					if (shipTotal.getMenwork() != null) {
+					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setDec(shipTotal.getMenwork() / shipTotal.getHandswork());
+						if ((itemContainer.getDec() != null) && (shipTotal.getMenwork() != 0)) {
+							itemContainerOnMen.setDec(itemContainer.getGen() / shipTotal.getMenwork());
+						} else {
+							itemContainerOnMen.setDec(0.0);
+						}
 					} else {
 						itemMenOnHand.setDec(0.0);
 					}
@@ -2662,22 +2750,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		itemHands.setTot(totalHands);
 
-		// UOMINI SU MANI
-
 		list.add(itemContainer);
-
-		final ReportItem avgMonth = new ReportItem();
-		avgMonth.setArgument(ReportItemTag.MonthAvg);
-		if ((totalContainer != null) && (numberOfContainerNotNull != 0)) {
-			avgMonth.setTot(totalContainer / numberOfContainerNotNull);
-		} else {
-			avgMonth.setTot(0.0);
-		}
-
 		list.add(avgMonth);
 		list.add(itemHands);
 		list.add(itemHandsOnDays);
 		list.add(itemMenOnHand);
+		list.add(itemContainerOnMen);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(list));
 

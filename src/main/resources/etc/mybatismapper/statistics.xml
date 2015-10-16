@@ -868,7 +868,7 @@
 	<select id="getTotalHandsMen" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="int">
 	select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork, month(s.arrivaldate) as monthInvoice 
 	from detailscheduleship dis, scheduleship s 
-	WHERE dis.idscheduleship = s.id group by month(s.arrivaldate);
+	WHERE dis.idscheduleship = s.id and year(s.arrivaldate)=#{year} group by month(s.arrivaldate);
 	</select>
 
 
