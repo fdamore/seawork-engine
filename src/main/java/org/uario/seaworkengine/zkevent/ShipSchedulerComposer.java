@@ -2755,7 +2755,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		list.add(itemHands);
 		list.add(itemHandsOnDays);
 		list.add(itemMenOnHand);
-		list.add(itemContainerOnMen);
+		// list.add(itemContainerOnMen);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(list));
 
