@@ -51,6 +51,9 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 
 		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.Hands)) {
 			Integer value = 0;
+			if (month.equals("argument")) {
+				return source.getArgument();
+			}
 			if (month.equals("gen")) {
 				if (source.getGen() != null) {
 					value = source.getGen().intValue();
@@ -149,6 +152,11 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 		if (source.getArgument().equals(ReportItemTag.HandsOnDays) || source.getArgument().equals(ReportItemTag.MenOnHands)
 				|| source.getArgument().equals(ReportItemTag.ContainersOnMen)) {
 			Double value = 0.0;
+
+			if (month.equals("argument")) {
+				return source.getArgument();
+			}
+
 			if (month.equals("gen")) {
 				if (source.getGen() != null) {
 					value = Utility.roundTwo(source.getGen());
