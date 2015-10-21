@@ -173,123 +173,13 @@
 		#{id_scheduleShip};
 	</delete>
 
-	<select id="calculateHandsAndMen" parameterType="map" resultType="org.uario.seaworkengine.statistics.ShipTotal">
-		SELECT SUM(handswork_program) as totalProgramHands, SUM(menwork_program) as totalProgramMen, SUM(handswork) as totalReviewHands, SUM(menwork) as totalReviewMen 
-		FROM
-		(
-		SELECT d.handswork_program, d.menwork_program, d.handswork, d.menwork 
-		FROM
-		detailscheduleship d, ship s, scheduleship ss 
-		where 
-		
-		<if test="dateFrom!=null and dateTo!=null and shiftDate==null">
-				<![CDATA[ ss.arrivaldate>=#{dateFrom} and #{dateTo}>=ss.arrivaldate and ]]>
-		</if>
-		<if test="dateFrom==null and dateTo==null and shiftDate!=null">
-				d.shiftdate = #{shiftDate} and 
-		</if>
-		<if test="shift!=null">
-			d.shift = #{shift} and  
-		</if>
-		<if test="idCustomer!=null">
-			ss.customer_id = #{idCustomer} and 
-		</if>
-		<if test="shipTypeNoWork != null">
-			s.nowork = #{shipTypeNoWork} and
-		</if>
-		<if test="shipTypeH != null">
-			s.activityh = #{shipTypeH} and
-		</if>
-		<if test="worked != null">
-			d.worked = #{worked} and  
-		</if>
-		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},'%')) and 
-		</if>
-		<if test="idService!=null">
-			ss.id_service = #{idService} and 
-		</if>
-		d.idscheduleship = ss.id and ss.idship = s.id) 
-		 as detail;		
-	</select>
+	
 	
 
-	<select id="calculateNumberOfShip" parameterType="map" resultType="Integer">
-		SELECT distinct ss.id  
-		FROM
-		detailscheduleship d, ship s, scheduleship ss
-		where
-		<if test="dateFrom!=null and dateTo!=null and shiftDate==null">			
-				date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) and 
-				<if test="worked != null">
-					d.worked = #{worked} and date(d.shiftdate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(d.shiftdate) and 
-				</if>
-		</if>	
-		<if test="dateFrom==null and dateTo==null and shiftDate!=null">
-				d.shiftdate = #{shiftDate} and 
-				<if test="worked != null">
-					d.worked = #{worked} and
-				</if>
-		</if>
-				
-		<if test="shift!=null">
-			d.shift = #{shift} and  
-		</if>
-		<if test="idCustomer!=null">
-			ss.customer_id = #{idCustomer} and 
-		</if>
-		
-		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},'%')) and 
-		</if>	
-		
-		<if test="idService!=null"> ss.id_service = #{idService} and </if>
-			
-		d.idscheduleship = ss.id and ss.idship = s.id and s.nowork = false and s.activityh=false;
-	</select>
 
 
-	<select id="calculateVolume" parameterType="map" resultType="Integer">
-		SELECT SUM(volume) FROM
-		(
-		SELECT distinct
-		d.idscheduleship, ss.volume
-		FROM
-		detailscheduleship d
-		left join
-		user us ON (d.idseconduser = us.id),
-		user u, ship
-		s, scheduleship ss
-		where
-		<if test="dateFrom!=null and dateTo!=null and shiftDate==null">			
-				date(ss.arrivaldate) >= date(#{dateFrom}) and date(#{dateTo}) >= date(ss.arrivaldate) and 
-		</if>	
-		<if test="dateFrom==null and dateTo==null and shiftDate!=null">
-				d.shiftdate = #{shiftDate} and 
-		</if>
-				
-		<if test="shift!=null">
-			d.shift = #{shift} and  
-		</if>
-		<if test="idCustomer!=null">
-			ss.customer_id = #{idCustomer} and 
-		</if>
-		<if test="shipTypeNoWork != null">
-			s.nowork = #{shipTypeNoWork} and
-		</if>
-		<if test="worked != null">
-			d.worked = #{worked} and  
-		</if>
-		<if test="shipTypeH != null">
-			s.activityh = #{shipTypeH} and
-		</if>
-		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},'%')) and 
-		</if>
-		<if test="idService!=null"> ss.id_service = #{idService} and </if>
-		d.idscheduleship = ss.id and ss.idship = s.id and d.iduser = u.id order by d.shift asc
-		) as detail;
-	</select>
+
+
 
 	<select id="searchDetailScheduleShipPeriod" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">

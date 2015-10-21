@@ -8,18 +8,8 @@ import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
-import org.uario.seaworkengine.statistics.ShipTotal;
 
 public interface IScheduleShip {
-
-	public ShipTotal calculateHandsAndMen(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean shipTypeNoWork,
-			Boolean shipTypeH, Boolean worked, String full_text_search, Integer idService);
-
-	public List<Integer> calculateNumberOfShip(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean worked,
-			String full_text_search, Integer idService);
-
-	public Integer calculateVolume(Date dateFrom, Date dateTo, Date shiftDate, Integer shift, Integer idCustomer, Boolean shipTypeNoWork,
-			Boolean shipTypeH, Boolean worked, String full_text_search, Integer idService);
 
 	public void createDetailFinalScheduleShip(DetailFinalScheduleShip detailFinalScheduleShip);
 

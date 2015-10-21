@@ -12,7 +12,6 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
-import org.uario.seaworkengine.statistics.ShipTotal;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
 
@@ -24,65 +23,6 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	public static void setLogger(final Logger logger) {
 		MyBatisScheduleShipDAO.logger = logger;
-	}
-
-	@Override
-	public ShipTotal calculateHandsAndMen(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift, final Integer idCustomer,
-			final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search, final Integer idService) {
-		MyBatisScheduleShipDAO.logger.info("calculateHandsAndMen");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("dateFrom", dateFrom);
-		map.put("dateTo", dateTo);
-		map.put("shiftDate", shiftDate);
-		map.put("shift", shift);
-		map.put("idCustomer", idCustomer);
-		map.put("shipTypeNoWork", shipTypeNoWork);
-		map.put("shipTypeH", shipTypeH);
-		map.put("worked", worked);
-		map.put("full_text_search", full_text_search);
-		map.put("idService", idService);
-
-		return this.getSqlSession().selectOne("scheduleship.calculateHandsAndMen", map);
-
-	}
-
-	@Override
-	public List<Integer> calculateNumberOfShip(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift,
-			final Integer idCustomer, final Boolean worked, final String full_text_search, final Integer idService) {
-		MyBatisScheduleShipDAO.logger.info("calculateNumberOfShip");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("dateFrom", dateFrom);
-		map.put("dateTo", dateTo);
-		map.put("shiftDate", shiftDate);
-		map.put("shift", shift);
-		map.put("idCustomer", idCustomer);
-		map.put("worked", worked);
-		map.put("full_text_search", full_text_search);
-		map.put("idService", idService);
-
-		return this.getSqlSession().selectList("scheduleship.calculateNumberOfShip", map);
-	}
-
-	@Override
-	public Integer calculateVolume(final Date dateFrom, final Date dateTo, final Date shiftDate, final Integer shift, final Integer idCustomer,
-			final Boolean shipTypeNoWork, final Boolean shipTypeH, final Boolean worked, final String full_text_search, final Integer idService) {
-		MyBatisScheduleShipDAO.logger.info("calculateVolumeInDateAndShipName");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("dateFrom", dateFrom);
-		map.put("dateTo", dateTo);
-		map.put("shiftDate", shiftDate);
-		map.put("shift", shift);
-		map.put("idCustomer", idCustomer);
-		map.put("shipTypeNoWork", shipTypeNoWork);
-		map.put("shipTypeH", shipTypeH);
-		map.put("worked", worked);
-		map.put("full_text_search", full_text_search);
-		map.put("idService", idService);
-
-		return this.getSqlSession().selectOne("scheduleship.calculateVolume", map);
 	}
 
 	@Override
