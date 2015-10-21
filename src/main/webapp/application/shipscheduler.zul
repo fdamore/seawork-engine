@@ -985,7 +985,7 @@
 				<hbox align="center">
 
 					<label style="color:blue; font-size:10pt;"
-						value="Media mese corrente: " />
+						value="Media Volumi Attesi Mese Corrente:: " />
 
 					<label value="" style="color:blue; font-size:10pt;"
 						id="avgVolmueCurrentMonth" />

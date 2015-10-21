@@ -22,6 +22,7 @@ import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
@@ -256,6 +257,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Datebox last_down_review;
 
+	// used to collect details about programmed ship
+	private List<DetailScheduleShip> list_details_programmed_ship = new ArrayList<DetailScheduleShip>();
+
+	// used to collect programmed ship
+	private List<ScheduleShip> list_programmed_ship = new ArrayList<ScheduleShip>();
+
 	private List<ReviewShipWork> list_review_work = new ArrayList<ReviewShipWork>();
 
 	private List<ReviewShipWorkAggregate> list_review_work_aggregate = new ArrayList<ReviewShipWorkAggregate>();
@@ -285,10 +292,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label messageUpdateRifMCT;
-
-	private List<DetailScheduleShip> modelListDetailScheduleShip = new ArrayList<DetailScheduleShip>();
-
-	private List<ScheduleShip> modelListScheduleShip = new ArrayList<ScheduleShip>();
 
 	@Wire
 	private Button modify_finalDetailScheduleShip_command;
@@ -541,6 +544,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Datebox ship_arrival_schedule;
+
+	private IShipCache ship_cache;
 
 	@Wire
 	private Combobox ship_customer;
@@ -1002,7 +1007,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Set the label total volume value. (SHIPPRogram)
 	 */
-	private void calculateTotaleVolumeBAP() {
+	private void calculateSummaryBAP() {
 
 		Double sumVolume = 0.0;
 		Double sumVolumeOnBoard = 0.0;
@@ -1049,9 +1054,90 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 * Define info
+	 *
+	 * @param date
+	 * @param full_text_search
+	 */
+	private void calculateSummaryShipDetails(final Date date, final String full_text_search) {
+
+		this.infoDetailShipProgram.setValue("");
+
+		Integer count_menworking_program = 0;
+		Integer count_programmed_handswork = 0;
+		Integer count_revised_handswork = 0;
+		Integer count_menworking_review = 0;
+		Integer count_worked_shift = 0;
+		Integer count_not_worked_shift = 0;
+
+		Integer deltaHands = 0;
+		Integer deltaPersons = 0;
+
+		this.infoDetailShipProgram
+				.setValue("Tot. Navi lav: " + count_worked_shift + " - Tot. Navi non lav: " + count_not_worked_shift + " - Tot. Mani P: "
+						+ count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands + " - Tot. Persone P: "
+						+ count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: " + deltaPersons);
+
+		if ((this.list_details_programmed_ship == null) || (this.list_details_programmed_ship.size() == 0)) {
+			return;
+		}
+
+		final ArrayList<Integer> count_sws_work = new ArrayList<Integer>();
+		final ArrayList<Integer> count_sws_not_work = new ArrayList<Integer>();
+
+		for (final DetailScheduleShip itm_details : this.list_details_programmed_ship) {
+
+			// MEN WORK
+			if (itm_details.getMenwork_program() != null) {
+				count_menworking_program += itm_details.getMenwork_program();
+			}
+
+			if (itm_details.getMenwork() != null) {
+				count_menworking_review += itm_details.getMenwork();
+			}
+
+			// HANDS
+			if (itm_details.getHandswork_program() != null) {
+				count_programmed_handswork += itm_details.getHandswork_program();
+			}
+
+			if (itm_details.getHandswork() != null) {
+				count_revised_handswork += itm_details.getHandswork();
+			}
+
+			// count ship
+			if (!(itm_details.getId_ship() == null)) {
+
+				final Ship ship = this.ship_cache.getShip(itm_details.getId_ship());
+				if (!ship.getNowork()) {
+					if (!count_sws_not_work.contains(itm_details.getIdscheduleship())) {
+						count_sws_not_work.add(itm_details.getIdscheduleship());
+					}
+				} else {
+					if (!count_sws_work.contains(itm_details.getIdscheduleship())) {
+						count_sws_work.add(itm_details.getIdscheduleship());
+					}
+				}
+			}
+
+		}
+
+		count_worked_shift = count_sws_work.size();
+		count_not_worked_shift = count_sws_not_work.size();
+
+		deltaHands = count_programmed_handswork - count_revised_handswork;
+		deltaPersons = count_menworking_program - count_menworking_review;
+
+		this.infoDetailShipProgram
+				.setValue("Tot. Navi lav: " + count_worked_shift + " - Tot. Navi non lav: " + count_not_worked_shift + " - Tot. Mani P: "
+						+ count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands + " - Tot. Persone P: "
+						+ count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: " + deltaPersons);
+	}
+
+	/**
 	 * Set the label total volume value.
 	 */
-	private void calculateTotaleVolumeShipProgram() {
+	private void calculateSummaryShipProgram() {
 
 		// set info
 		this.shipNumberProgramShip_worked.setValue("");
@@ -1061,22 +1147,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.sumVolumeCurrentMonthShipProgram.setValue("");
 		this.avgVolmueCurrentMonth.setValue("");
 
-		Integer sumVolume = 0;
-		Integer sumVolumeMonth = 0;
-		final ArrayList<Integer> ship_collection = new ArrayList<Integer>();
-
-		if ((this.modelListScheduleShip == null) || (this.modelListScheduleShip.size() == 0)) {
+		if ((this.list_programmed_ship == null) || (this.list_programmed_ship.size() == 0)) {
 			return;
 		}
 
-		if ((this.searchArrivalDateShipFrom.getValue() == null) || (this.searchArrivalDateShipTo.getValue() == null)) {
-			return;
-		}
-
-		// current cal
+		// get current calendar
 		final Calendar current_cal = Calendar.getInstance();
 
-		for (final ScheduleShip itm_review : this.modelListScheduleShip) {
+		// define start and and date
+		Date first_day = this.list_programmed_ship.get(0).getArrivaldate();
+		Date last_day = this.list_programmed_ship.get(0).getDeparturedate();
+
+		// define volume sum
+		Integer sumVolume = 0;
+		Integer sumVolumeMonth = 0;
+
+		// define count
+		Integer count_work_ship = 0;
+		Integer count_not_work_ship = 0;
+
+		for (final ScheduleShip itm_review : this.list_programmed_ship) {
 
 			if (itm_review.getVolume() != null) {
 				sumVolume += itm_review.getVolume();
@@ -1091,17 +1181,30 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
+			// count ship
 			if (!(itm_review.getIdship() == null)) {
-				final Ship ship = this.shipDao.loadShip(itm_review.getIdship());
+
+				final Ship ship = this.ship_cache.getShip(itm_review.getIdship());
 				if (!ship.getNowork()) {
-					ship_collection.add(itm_review.getId());
+					count_work_ship++;
+				} else {
+					count_not_work_ship++;
 				}
 			}
+
+			// define min and max date
+			if (itm_review.getArrivaldate().before(first_day)) {
+				first_day = itm_review.getArrivaldate();
+			}
+
+			if (itm_review.getDeparturedate().after(last_day)) {
+				last_day = itm_review.getDeparturedate();
+			}
+
 		}
 
 		// calculate number of day
-		final Date first_day = DateUtils.truncate(this.searchArrivalDateShipFrom.getValue(), Calendar.DATE);
-		final Date last_day = DateUtils.truncate(this.searchArrivalDateShipTo.getValue(), Calendar.DATE);
+
 		final long gap = last_day.getTime() - first_day.getTime();
 		final long days = TimeUnit.MILLISECONDS.toDays(gap) + 1;
 
@@ -1113,38 +1216,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// Calculate avg on month
+
 		final int month_days = current_cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		Double avg_month = (double) sumVolumeMonth / (double) month_days;
 		avg_month = Utility.roundTwo(avg_month);
 
-		List<Integer> idOfWorkedShip = new ArrayList<Integer>();
-		List<Integer> idOfNotWorkedShip = new ArrayList<Integer>();
-		Integer numberOfWorkedShip = 0;
-		Integer numberOfNotWorkedShip = 0;
-
-		Integer idServiceSelected = null;
-
-		if (this.selectServiceDetail.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
-
-			idServiceSelected = serviceSelected.getId();
-		}
-
-		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, null, null, true, null, idServiceSelected);
-		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(first_day, last_day, null, this.getSelectedShift(), null, false, null,
-				idServiceSelected);
-
-		if (idOfWorkedShip != null) {
-			numberOfWorkedShip = idOfWorkedShip.size();
-		}
-
-		if (idOfNotWorkedShip != null) {
-			numberOfNotWorkedShip = this.getNumberOfNotWorkedShip(idOfWorkedShip, idOfNotWorkedShip);
-		}
-
 		// ship number
-		this.shipNumberProgramShip_worked.setValue("" + numberOfWorkedShip);
-		this.shipNumberProgramShip_noWorked.setValue("" + numberOfNotWorkedShip);
+		this.shipNumberProgramShip_worked.setValue("" + count_work_ship);
+		this.shipNumberProgramShip_noWorked.setValue("" + count_not_work_ship);
 
 		this.sumVolumeShipProgram.setValue(sumVolume.toString());
 		this.avgVolmueShipProgram.setValue(avg.toString());
@@ -1162,73 +1241,73 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		switch (shift_no.intValue()) {
 
-		case 1: {
+			case 1: {
 
-			// prepare period
-			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+				// prepare period
+				final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_1_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_1_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_1_time_from.getTime());
-			ship_to.setValue(cal_shift_1_time_to.getTime());
+				ship_from.setValue(cal_shift_1_time_from.getTime());
+				ship_to.setValue(cal_shift_1_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 2: {
+			case 2: {
 
-			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_2_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_2_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_2_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_2_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_2_time_from.getTime());
-			ship_to.setValue(cal_shift_2_time_to.getTime());
+				ship_from.setValue(cal_shift_2_time_from.getTime());
+				ship_to.setValue(cal_shift_2_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 3: {
+			case 3: {
 
-			final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_3_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_3_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_3_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_3_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_3_time_from.getTime());
-			ship_to.setValue(cal_shift_3_time_to.getTime());
+				ship_from.setValue(cal_shift_3_time_from.getTime());
+				ship_to.setValue(cal_shift_3_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 4: {
+			case 4: {
 
-			final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_4_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_4_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
+				final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
 
-			cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_4_time_to.set(Calendar.MINUTE, 0);
+				cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_4_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_4_time_from.getTime());
-			ship_to.setValue(cal_shift_4_time_to.getTime());
+				ship_from.setValue(cal_shift_4_time_from.getTime());
+				ship_to.setValue(cal_shift_4_time_to.getTime());
 
-			check_last_shift.setVisible(true);
-			check_last_shift.setChecked(true);
-			break;
-		}
+				check_last_shift.setVisible(true);
+				check_last_shift.setChecked(true);
+				break;
+			}
 
 		}
 
@@ -1519,8 +1598,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #detailShipProgram_download")
 	public void downloadCSV_DetailProgramShip() {
 
-		if (this.modelListDetailScheduleShip.size() != 0) {
-			final StringBuilder builder = UtilityCSV.downloadCSV_DetailProgramShip(this.modelListDetailScheduleShip, this.customerDAO);
+		if (this.list_details_programmed_ship.size() != 0) {
+			final StringBuilder builder = UtilityCSV.downloadCSV_DetailProgramShip(this.list_details_programmed_ship, this.customerDAO);
 
 			Filedownload.save(builder.toString(), "application/text", "dettaglio_giornaliero.csv");
 		}
@@ -1530,8 +1609,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #shipProgram_download")
 	public void downloadCSV_ProgramShip() {
 
-		if (this.modelListScheduleShip.size() != 0) {
-			final StringBuilder builder = UtilityCSV.downloadCSV_ScheduleProgramShip(this.modelListScheduleShip, this.customerDAO);
+		if (this.list_programmed_ship.size() != 0) {
+			final StringBuilder builder = UtilityCSV.downloadCSV_ScheduleProgramShip(this.list_programmed_ship, this.customerDAO);
 
 			Filedownload.save(builder.toString(), "application/text", "programmazione_navi.csv");
 		}
@@ -1637,6 +1716,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		ShipSchedulerComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 		ShipSchedulerComposer.this.customerDAO = (ICustomerDAO) SpringUtil.getBean(BeansTag.CUSTOMER_DAO);
 		ShipSchedulerComposer.this.statistic_dao = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
+
+		// get ship cache
+		this.ship_cache = (IShipCache) SpringUtil.getBean(BeansTag.SHIP_CACHE);
 
 		final List<Ship> all_ship = ShipSchedulerComposer.this.shipDao.listAllShip(null);
 
@@ -3106,10 +3188,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			idServiceSelected = serviceSelected.getId();
 		}
 
-		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer, nowork,
-				activityh, worked, idServiceSelected);
+		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer,
+				nowork, activityh, worked, idServiceSelected);
 
-		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.modelListDetailScheduleShip));
+		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 
 		this.setInfoShipProgram(dateFrom, dateTo, this.infoDetailShipProgram);
 	}
@@ -3126,7 +3208,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Date date = this.searchDateShift.getValue();
 
-		this.modelListDetailScheduleShip = null;
+		this.list_details_programmed_ship = null;
 
 		final String _text = this.full_text_search.getValue();
 		String text_search = this.full_text_search.getValue();
@@ -3184,12 +3266,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			idServiceSelected = serviceSelected.getId();
 		}
 
-		this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
+		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
 				activityh, worked, idServiceSelected);
 
-		this.setInfoDetailShipProgram(date, _text);
+		this.calculateSummaryShipDetails(date, _text);
 
-		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.modelListDetailScheduleShip));
+		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
@@ -3270,7 +3352,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-			this.calculateTotaleVolumeBAP();
+			this.calculateSummaryBAP();
 
 		} else if (this.overviewBapAggregate.isSelected()) {
 
@@ -3370,7 +3452,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-			this.calculateTotaleVolumeBAP();
+			this.calculateSummaryBAP();
 
 		} else if (this.overviewBapAggregate.isSelected()) {
 
@@ -3449,9 +3531,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.searchArrivalDateShipFrom_detail.setValue(null);
 			this.searchArrivalDateShipTo_detail.setValue(null);
 
-			this.modelListDetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShipRif_MCT_SWS(this.text_search_rifSWS.getValue(), rifMCT);
+			this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipRif_MCT_SWS(this.text_search_rifSWS.getValue(), rifMCT);
 
-			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.modelListDetailScheduleShip));
+			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 		} else {
 			this.resfreshDetailView();
 		}
@@ -3488,7 +3570,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				idServiceSelected = serviceSelected.getId();
 			}
 
-			this.modelListScheduleShip = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
+			this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
 					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
 					idServiceSelected, this.full_text_search_shipProgram.getValue());
 
@@ -3498,11 +3580,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				this.sw_list_scheduleShipProgram.setPageSize(10);
 			}
 
-			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.modelListScheduleShip));
+			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
 
 		}
 
-		this.calculateTotaleVolumeShipProgram();
+		this.calculateSummaryShipProgram();
 
 	}
 
@@ -3562,7 +3644,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-			this.calculateTotaleVolumeBAP();
+			this.calculateSummaryBAP();
 		} else if (this.overviewBapAggregate.isSelected()) {
 			this.refreshOverviewBAP();
 		}
@@ -3606,7 +3688,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
 
-		this.calculateTotaleVolumeBAP();
+		this.calculateSummaryBAP();
 	}
 
 	@Listen("onChange =#select_month")
@@ -3757,122 +3839,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 		}
-
-	}
-
-	/**
-	 * Define info
-	 *
-	 * @param date
-	 * @param full_text_search
-	 */
-	private void setInfoDetailShipProgram(final Date date, final String full_text_search) {
-
-		this.infoDetailShipProgram.setValue("");
-
-		Integer idCustomer = null;
-		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
-			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
-			idCustomer = customerSelected.getId();
-		}
-
-		Boolean shipTypeNoWork = null;
-		Boolean shipTypeH = null;
-		if (this.select_typeShip.getSelectedItem() != null) {
-			final String selected = this.select_typeShip.getSelectedItem().getValue();
-			if (selected.equals("activityh")) {
-				shipTypeH = true;
-			} else if (selected.equals("nowork")) {
-				shipTypeNoWork = true;
-			}
-		}
-
-		String text_search = this.full_text_search.getValue();
-		if ((text_search != null) && text_search.equals("")) {
-			text_search = null;
-		}
-
-		List<Integer> idOfWorkedShip = new ArrayList<Integer>();
-		List<Integer> idOfNotWorkedShip = new ArrayList<Integer>();
-		Integer numberOfWorkedShip = 0;
-		Integer numberOfNotWorkedShip = 0;
-
-		Integer idServiceSelected = null;
-
-		if (this.selectServiceDetail.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
-
-			idServiceSelected = serviceSelected.getId();
-		}
-
-		idOfWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, true, text_search,
-				idServiceSelected);
-		idOfNotWorkedShip = this.shipSchedulerDao.calculateNumberOfShip(null, null, date, this.getSelectedShift(), idCustomer, false, text_search,
-				idServiceSelected);
-
-		if (idOfWorkedShip != null) {
-			numberOfWorkedShip = idOfWorkedShip.size();
-		}
-
-		if (idOfNotWorkedShip != null) {
-			numberOfNotWorkedShip = this.getNumberOfNotWorkedShip(idOfWorkedShip, idOfNotWorkedShip);
-		}
-
-		Boolean worked = null;
-		if ((this.select_workedShip.getSelectedItem() != null)) {
-			if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
-				worked = true;
-				numberOfNotWorkedShip = 0;
-			} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
-				worked = false;
-				numberOfWorkedShip = 0;
-			} else {
-				worked = null;
-			}
-		} else {
-			worked = null;
-		}
-
-		Integer totalProgramMenWork = 0;
-		Integer totalProgramHandsWork = 0;
-		Integer totalReviewHandsWork = 0;
-		Integer totalReviewMenWork = 0;
-
-		final ShipTotal shipTotal = this.shipSchedulerDao.calculateHandsAndMen(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork,
-				shipTypeH, worked, text_search, idServiceSelected);
-
-		if (shipTotal != null) {
-			if (shipTotal.getTotalProgramHands() != null) {
-				totalProgramHandsWork = shipTotal.getTotalProgramHands();
-			}
-
-			if (shipTotal.getTotalProgramMen() != null) {
-				totalProgramMenWork = shipTotal.getTotalProgramMen();
-			}
-
-			if (shipTotal.getTotalReviewHands() != null) {
-				totalReviewHandsWork = shipTotal.getTotalReviewHands();
-			}
-
-			if (shipTotal.getTotalReviewMen() != null) {
-				totalReviewMenWork = shipTotal.getTotalReviewMen();
-			}
-		}
-
-		final Integer deltaHands = totalProgramHandsWork - totalReviewHandsWork;
-		final Integer deltaPersons = totalProgramMenWork - totalReviewMenWork;
-
-		Integer volume = this.shipSchedulerDao.calculateVolume(null, null, date, this.getSelectedShift(), idCustomer, shipTypeNoWork, shipTypeH,
-				worked, text_search, idServiceSelected);
-
-		if (volume == null) {
-			volume = 0;
-		}
-
-		this.infoDetailShipProgram.setValue("Tot. Navi lav: " + numberOfWorkedShip + " - Tot. Navi non lav: " + numberOfNotWorkedShip
-				+ " - Totale volumi preventivati: " + volume + " - Tot. Mani P: " + totalProgramHandsWork + " - Tot. Mani C: " + totalReviewHandsWork
-				+ " - Mani P-C: " + deltaHands + " - Tot. Persone P: " + totalProgramMenWork + " - Tot. Persone C: " + totalReviewMenWork
-				+ " - Persone P-C: " + deltaPersons);
 
 	}
 
