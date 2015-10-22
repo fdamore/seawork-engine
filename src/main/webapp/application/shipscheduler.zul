@@ -1161,7 +1161,7 @@
 			<a label="Ricerca Navi per Data Turno: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 				<datebox id="searchDateShift" placeholder="Data Turno"
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
 
 			
 			

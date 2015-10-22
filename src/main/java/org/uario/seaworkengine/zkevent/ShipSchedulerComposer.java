@@ -888,7 +888,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.shipSchedulerDao.createScheduleShip(ship_to_add);
 
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 
 		this.grid_scheduleShip.setVisible(false);
 
@@ -1389,7 +1389,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 		this.searchArrivalDateShipTo.setValue(current_cal.getTime());
 
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 
 	}
 
@@ -1406,7 +1406,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.reviewWorkShip.setVisible(false);
 			this.filter_ship.setVisible(false);
 			this.reportWorkShip.setVisible(false);
-			this.searchScheduleShip();
+			this.updateShipProgramView();
 
 		} else if (selected.equals(this.detail_item)) {
 
@@ -2256,7 +2256,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.popup_scheduleShip.close();
 
-		this.searchScheduleShip();
+		// update ship program view
+		this.updateShipProgramView();
 
 	}
 
@@ -2854,7 +2855,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.selectCustomer.setSelectedItem(null);
 
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 	}
 
 	private void refreshShipStatistics(final String text) {
@@ -2935,7 +2936,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 								ShipSchedulerComposer.this.shipSchedulerDao
 										.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected.getId());
 
-								ShipSchedulerComposer.this.searchScheduleShip();
+								ShipSchedulerComposer.this.updateShipProgramView();
 							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
 							}
@@ -3092,12 +3093,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.search_rifMCT.setValue(null);
 		this.search_rifSWS.setValue(null);
 
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 	}
 
 	@Listen("onChange = #selectCustomer")
 	public void searchCustomer() {
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 	}
 
 	@Listen("onChange = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail; onOK = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail")
@@ -3474,7 +3475,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchArrivalDateShipTo.setValue(null);
 		this.search_rifSWS.setValue(null);
 
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 	}
 
 	@Listen("onOK = #search_rifSWS")
@@ -3483,7 +3484,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchArrivalDateShipTo.setValue(null);
 		this.search_rifMCT.setValue(null);
 
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 	}
 
 	@Listen("onOK = #text_search_rifSWS, #text_search_rifMCT")
@@ -3514,54 +3515,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		} else {
 			this.resfreshDetailView();
 		}
-
-	}
-
-	/**
-	 * Search on Ship
-	 */
-	private void searchScheduleShip() {
-
-		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
-		final Date dateTo = this.searchArrivalDateShipTo.getValue();
-
-		if (((dateFrom != null) && (dateTo != null)) || ((dateFrom == null) && (dateTo == null))) {
-
-			Integer idCustomer = null;
-
-			if (this.selectCustomer.getSelectedItem() != null) {
-				final Customer c = this.selectCustomer.getSelectedItem().getValue();
-				if (c != null) {
-					idCustomer = c.getId();
-					if (idCustomer.equals(0)) {
-						idCustomer = null;
-					}
-				}
-			}
-
-			Integer idServiceSelected = null;
-
-			if (this.selectService.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectService.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
-					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
-					idServiceSelected, this.full_text_search_shipProgram.getValue());
-
-			if ((this.shows_rowsProgram.getValue() != null) && (this.shows_rowsProgram.getValue() != 0)) {
-				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rowsProgram.getValue());
-			} else {
-				this.sw_list_scheduleShipProgram.setPageSize(10);
-			}
-
-			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
-
-		}
-
-		this.calculateSummaryShipProgram(this.list_programmed_ship);
 
 	}
 
@@ -3758,7 +3711,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onChange = #selectService; onClick = #removeServiceFilter; onOK = #full_text_search_shipProgram, #shows_rowsProgram")
 	public void selectService() {
-		this.searchScheduleShip();
+		this.updateShipProgramView();
 	}
 
 	@Listen("onChange = #selectServiceDetail; onClick = #removeServiceFilterDetail")
@@ -4258,6 +4211,54 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.refreshScheduleShipListBox();
+
+	}
+
+	/**
+	 * Search on Ship
+	 */
+	private void updateShipProgramView() {
+
+		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
+		final Date dateTo = this.searchArrivalDateShipTo.getValue();
+
+		if (((dateFrom != null) && (dateTo != null)) || ((dateFrom == null) && (dateTo == null))) {
+
+			Integer idCustomer = null;
+
+			if (this.selectCustomer.getSelectedItem() != null) {
+				final Customer c = this.selectCustomer.getSelectedItem().getValue();
+				if (c != null) {
+					idCustomer = c.getId();
+					if (idCustomer.equals(0)) {
+						idCustomer = null;
+					}
+				}
+			}
+
+			Integer idServiceSelected = null;
+
+			if (this.selectService.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectService.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
+
+			this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
+					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
+					idServiceSelected, this.full_text_search_shipProgram.getValue());
+
+			if ((this.shows_rowsProgram.getValue() != null) && (this.shows_rowsProgram.getValue() != 0)) {
+				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rowsProgram.getValue());
+			} else {
+				this.sw_list_scheduleShipProgram.setPageSize(10);
+			}
+
+			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
+
+		}
+
+		this.calculateSummaryShipProgram(this.list_programmed_ship);
 
 	}
 }
