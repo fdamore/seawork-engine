@@ -3507,6 +3507,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipRif_MCT_SWS(this.text_search_rifSWS.getValue(), rifMCT);
 
 			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
+
+			// calculate details
+			this.calculateSummaryShipDetails(this.list_details_programmed_ship);
+
 		} else {
 			this.resfreshDetailView();
 		}
