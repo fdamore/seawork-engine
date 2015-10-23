@@ -91,657 +91,654 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	private static final String CAPTION_DETAIL_PROGRAM_SHIP = "Dettagli di Programmazione Nave";
+	private static final String				CAPTION_DETAIL_PROGRAM_SHIP		= "Dettagli di Programmazione Nave";
 
-	private static final String CAPTION_POPUP_SCHEDULE_SHIP = "Programmazione Nave";
+	private static final String				CAPTION_POPUP_SCHEDULE_SHIP		= "Programmazione Nave";
 
-	private static final String CAPTION_SHIP_PROGRAM_LABEL = "Dettaglio di Programmazione Nave";
+	private static final String				CAPTION_SHIP_PROGRAM_LABEL		= "Dettaglio di Programmazione Nave";
 
-	private static final String PRINT_PROGRAM = "printProgram";
+	private static final String				PRINT_PROGRAM					= "printProgram";
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long				serialVersionUID				= 1L;
 
 	@Wire
-	private Button add_finalDetailScheduleShip_command;
+	private Button							add_finalDetailScheduleShip_command;
 
 	@Wire
-	private Component add_scheduleShips_command;
+	private Component						add_scheduleShips_command;
 
 	@Wire
-	Toolbarbutton add_scheduleShipsDetail_command;
+	Toolbarbutton							add_scheduleShipsDetail_command;
 
 	@Wire
-	public Row alertShiftDate;
+	public Row								alertShiftDate;
 
 	@Wire
-	public Row alertShiftDate_detail;
+	public Row								alertShiftDate_detail;
 
 	@Wire
-	private Listheader arrivalDateColumn;
+	private Listheader						arrivalDateColumn;
 
 	@Wire
-	private Label avgVolmueCurrentMonth;
+	private Label							avgVolmueCurrentMonth;
 
 	@Wire
-	private Label avgVolmueShipProgram;
+	private Label							avgVolmueShipProgram;
 
 	@Wire
-	private Tabbox bap_overview_tab;
+	private Tabbox							bap_overview_tab;
 
 	@Wire
-	private Caption captionDetailProgramShip;
+	private Caption							captionDetailProgramShip;
 
 	@Wire
-	private Caption captionPopupScheduleShip;
+	private Caption							captionPopupScheduleShip;
 
 	@Wire
-	private Caption captionShipProgram;
+	private Caption							captionShipProgram;
 
 	@Wire
-	private Checkbox check_last_shift;
+	private Checkbox						check_last_shift;
 
 	@Wire
-	private Checkbox check_last_shift_detail;
+	private Checkbox						check_last_shift_detail;
 
 	@Wire
-	private Checkbox check_last_shiftReview;
+	private Checkbox						check_last_shiftReview;
 
-	private ConfigurationDAO configurationDao;
-
-	@Wire
-	private org.zkoss.zul.Checkbox crane_gtw_review;
+	private ConfigurationDAO				configurationDao;
 
 	@Wire
-	private Intbox crane_review;
+	private org.zkoss.zul.Checkbox			crane_gtw_review;
 
 	@Wire
-	private Listheader customerColumn;
-
-	private ICustomerDAO customerDAO;
+	private Intbox							crane_review;
 
 	@Wire
-	public Component dailyDetailShip;
+	private Listheader						customerColumn;
+
+	private ICustomerDAO					customerDAO;
 
 	@Wire
-	private Datebox date_from_overview;
+	public Component						dailyDetailShip;
 
 	@Wire
-	private Datebox date_to_overview;
+	private Datebox							date_from_overview;
 
 	@Wire
-	private Listheader departureDateColumn;
+	private Datebox							date_to_overview;
 
 	@Wire
-	private Comboitem detail_item;
+	private Listheader						departureDateColumn;
 
 	@Wire
-	private Tab detail_scheduleShip_tab;
-
-	private DetailScheduleShip detailScheduleShipSelect;
-
-	private DetailScheduleShip detailScheduleShipSelected;
+	private Comboitem						detail_item;
 
 	@Wire
-	private Component detailShipProgram_download;
+	private Tab								detail_scheduleShip_tab;
+
+	private DetailScheduleShip				detailScheduleShipSelect;
+
+	private DetailScheduleShip				detailScheduleShipSelected;
 
 	@Wire
-	private Component filter_ship;
+	private Component						detailShipProgram_download;
 
 	@Wire
-	private Datebox first_down_detail;
+	private Component						filter_ship;
 
 	@Wire
-	private Datebox first_down_review;
-
-	private final SimpleDateFormat format_it_date = new SimpleDateFormat("dd/MM/yyyy");
-
-	private final SimpleDateFormat format_month = new SimpleDateFormat("MM");
+	private Datebox							first_down_detail;
 
 	@Wire
-	private Textbox full_text_search;
+	private Datebox							first_down_review;
+
+	private final SimpleDateFormat			format_it_date					= new SimpleDateFormat("dd/MM/yyyy");
+
+	private final SimpleDateFormat			format_month					= new SimpleDateFormat("MM");
 
 	@Wire
-	private Textbox full_text_search_rifMCT;
+	private Textbox							full_text_search;
 
 	@Wire
-	private Intbox full_text_search_rifSWS;
+	private Textbox							full_text_search_rifMCT;
 
 	@Wire
-	private Textbox full_text_search_ship;
+	private Intbox							full_text_search_rifSWS;
 
 	@Wire
-	private Textbox full_text_search_shipProgram;
+	private Textbox							full_text_search_ship;
 
 	@Wire
-	private Component grid_scheduleShip;
+	private Textbox							full_text_search_shipProgram;
 
 	@Wire
-	private Component grid_scheduleShip_details;
+	private Component						grid_scheduleShip;
 
 	@Wire
-	private Row h_detail_period;
+	private Component						grid_scheduleShip_details;
 
 	@Wire
-	private Row h_program_period;
+	private Row								h_detail_period;
 
 	@Wire
-	private Listheader handsColumn;
+	private Row								h_program_period;
 
 	@Wire
-	public Intbox handswork_Daily;
+	private Listheader						handsColumn;
 
 	@Wire
-	private Intbox handswork_program;
+	public Intbox							handswork_Daily;
 
 	@Wire
-	public Label handswork_program_Daily;
+	private Intbox							handswork_program;
 
 	@Wire
-	private Label infoDetailShipProgram;
+	public Label							handswork_program_Daily;
 
 	@Wire
-	private Label infoShipNameAndShift;
+	private Label							infoDetailShipProgram;
 
 	@Wire
-	private Intbox invoicing_cycle_review;
+	private Label							infoShipNameAndShift;
 
 	@Wire
-	private Intbox invoicing_cycle_search;
+	private Intbox							invoicing_cycle_review;
 
 	@Wire
-	private Datebox last_down_detail;
+	private Intbox							invoicing_cycle_search;
 
 	@Wire
-	private Datebox last_down_review;
+	private Datebox							last_down_detail;
+
+	@Wire
+	private Datebox							last_down_review;
 
 	// used to collect details about programmed ship
-	private List<DetailScheduleShip> list_details_programmed_ship = new ArrayList<DetailScheduleShip>();
+	private List<DetailScheduleShip>		list_details_programmed_ship	= new ArrayList<DetailScheduleShip>();
 
 	// used to collect programmed ship
-	private List<ScheduleShip> list_programmed_ship = new ArrayList<ScheduleShip>();
+	private List<ScheduleShip>				list_programmed_ship			= new ArrayList<ScheduleShip>();
 
-	private List<ReviewShipWork> list_review_work = new ArrayList<ReviewShipWork>();
+	private List<ReviewShipWork>			list_review_work				= new ArrayList<ReviewShipWork>();
 
-	private List<ReviewShipWorkAggregate> list_review_work_aggregate = new ArrayList<ReviewShipWorkAggregate>();
-
-	@Wire
-	private Listbox list_reviewDetailScheduleShip;
+	private List<ReviewShipWorkAggregate>	list_review_work_aggregate		= new ArrayList<ReviewShipWorkAggregate>();
 
 	@Wire
-	private Listbox list_ship_statistics;
+	private Listbox							list_reviewDetailScheduleShip;
 
-	private List<DetailScheduleShip> listDetailScheduleShip = new ArrayList<DetailScheduleShip>();
+	@Wire
+	private Listbox							list_ship_statistics;
+
+	private List<DetailScheduleShip>		listDetailScheduleShip			= new ArrayList<DetailScheduleShip>();
 
 	// statistics - USED DOWNLOAD
-	private List<ShipOverview> listShipStatistics = new ArrayList<ShipOverview>();
+	private List<ShipOverview>				listShipStatistics				= new ArrayList<ShipOverview>();
 
 	@Wire
-	private Listheader mctColumn;
+	private Listheader						mctColumn;
 
 	@Wire
-	public Intbox menwork_Daily;
+	public Intbox							menwork_Daily;
 
 	@Wire
-	private Intbox menwork_program;
+	private Intbox							menwork_program;
 
 	@Wire
-	public Label menwork_program_Daily;
+	public Label							menwork_program_Daily;
 
 	@Wire
-	private Label messageUpdateRifMCT;
+	private Label							messageUpdateRifMCT;
 
 	@Wire
-	private Button modify_finalDetailScheduleShip_command;
+	private Button							modify_finalDetailScheduleShip_command;
 
 	@Wire
-	private Component modify_Scheduleships_command;
+	private Component						modify_Scheduleships_command;
 
 	@Wire
-	private Toolbarbutton modify_scheduleShipsDetail_command;
+	private Toolbarbutton					modify_scheduleShipsDetail_command;
 
 	@Wire
-	private Listheader modifyColumnDetail;
+	private Listheader						modifyColumnDetail;
 
 	@Wire
-	private Listheader modifyColumnSchedule;
+	private Listheader						modifyColumnSchedule;
 
 	@Wire
-	private Listheader modifyColumnScheduleShip;
+	private Listheader						modifyColumnScheduleShip;
 
 	@Wire
-	public Label msgAlert;
+	public Label							msgAlert;
 
 	@Wire
-	public Label msgAlert_detail;
+	public Label							msgAlert_detail;
 
 	@Wire
-	private Textbox note;
+	private Textbox							note;
 
 	@Wire
-	private Textbox note_review;
+	private Textbox							note_review;
 
 	@Wire
-	public Textbox note_schedule;
+	public Textbox							note_schedule;
 
 	@Wire
-	public Textbox notedetail;
+	public Textbox							notedetail;
 
 	@Wire
-	private Textbox noteshipdetail;
+	private Textbox							noteshipdetail;
 
 	@Wire
-	private Combobox operation;
+	private Combobox						operation;
 
 	@Wire
-	public Combobox operation_Daily;
+	public Combobox							operation_Daily;
 
 	@Wire
-	private Component overview_download;
+	private Component						overview_download;
 
 	@Wire
-	private Tabpanel overview_statistics_ship;
+	private Tabpanel						overview_statistics_ship;
 
 	@Wire
-	private Tab overviewBap;
+	private Tab								overviewBap;
 
 	@Wire
-	private Tab overviewBapAggregate;
+	private Tab								overviewBapAggregate;
 
 	@Wire
-	private Panel panel_detail_program;
+	private Panel							panel_detail_program;
 
 	@Wire
-	private Component panel_editor_review_details;
+	private Component						panel_editor_review_details;
 
 	@Wire
-	private Datebox person_down_review;
+	private Datebox							person_down_review;
 
-	private Person person_logged;
+	private Person							person_logged;
 
 	@Wire
-	private Datebox person_onboard_review;
+	private Datebox							person_onboard_review;
 
-	private PersonDAO personDao;
+	private PersonDAO						personDao;
 
 	@Wire
-	private Listheader personsColumn;
+	private Listheader						personsColumn;
 
 	@Wire
-	private Popup popu_detail;
+	private Popup							popu_detail;
 
 	@Wire
-	public Popup popup_detail;
+	public Popup							popup_detail;
 
 	@Wire
-	public Popup popup_detail_Daily;
+	public Popup							popup_detail_Daily;
 
 	@Wire
-	public Popup popup_review_detail;
+	public Popup							popup_review_detail;
 
 	@Wire
-	private Popup popup_scheduleShip;
+	private Popup							popup_scheduleShip;
 
 	@Wire
-	private Popup popup_ship;
+	private Popup							popup_ship;
 
 	@Wire
-	private Listbox popup_shipDetail;
+	private Listbox							popup_shipDetail;
 
 	@Wire
-	private Button print_program_videos;
+	private Button							print_program_videos;
 
 	@Wire
-	private Button print_ShipScheduler;
+	private Button							print_ShipScheduler;
 
 	@Wire
-	private Label ProductivityAVG;
+	private Label							ProductivityAVG;
 
 	@Wire
-	private Comboitem program_item;
+	private Comboitem						program_item;
 
 	@Wire
-	private Combobox rain_detail;
+	private Combobox						rain_detail;
 
 	@Wire
-	private Combobox rain_review;
+	private Combobox						rain_review;
 
 	@Wire
-	private Comboitem report_review_ship_item;
+	private Comboitem						report_review_ship_item;
 
 	@Wire
-	private Listbox reportListboxContainer;
+	private Listbox							reportListboxContainer;
 
 	@Wire
-	private Component reportWorkShip;
+	private Component						reportWorkShip;
 
 	@Wire
-	private Component reviewedTime;
+	private Component						reviewedTime;
 
 	@Wire
-	private Timebox reviewTimeFrom;
+	private Timebox							reviewTimeFrom;
 
 	@Wire
-	private Timebox reviewTimeTo;
+	private Timebox							reviewTimeTo;
 
 	@Wire
-	private Component reviewWorkShip;
+	private Component						reviewWorkShip;
 
 	@Wire
-	private Textbox rif_mct_review;
+	private Textbox							rif_mct_review;
 
 	@Wire
-	private Label rif_sws_review;
+	private Label							rif_sws_review;
 
 	@Wire
-	private Listheader rifSWSColumn;
+	private Listheader						rifSWSColumn;
 
 	@Wire
-	private Row row_info_activity_ship;
+	private Row								row_info_activity_ship;
 
 	@Wire
-	private Row row_info_activity_ship_add;
+	private Row								row_info_activity_ship_add;
 
 	@Wire
-	private Combobox scheduler_type_selector;
+	private Combobox						scheduler_type_selector;
 
-	private ScheduleShip scheduleShip_selected = null;
+	private ScheduleShip					scheduleShip_selected			= null;
 
 	@Wire
-	private Textbox search_rifMCT;
+	private Textbox							search_rifMCT;
 
 	@Wire
-	private Intbox search_rifSWS;
+	private Intbox							search_rifSWS;
 
 	@Wire
-	private Datebox searchArrivalDateShipFrom;
+	private Datebox							searchArrivalDateShipFrom;
 
 	@Wire
-	private Datebox searchArrivalDateShipFrom_detail;
+	private Datebox							searchArrivalDateShipFrom_detail;
 
 	@Wire
-	private Datebox searchArrivalDateShipTo;
+	private Datebox							searchArrivalDateShipTo;
 
 	@Wire
-	private Datebox searchArrivalDateShipTo_detail;
+	private Datebox							searchArrivalDateShipTo_detail;
 
 	@Wire
-	private Datebox searchDateShift;
+	private Datebox							searchDateShift;
 
 	@Wire
-	private Datebox searchWorkShip;
+	private Datebox							searchWorkShip;
 
 	@Wire
-	private A selecetedShipName;
+	private A								selecetedShipName;
 
 	@Wire
-	private Combobox select_customer;
+	private Combobox						select_customer;
 
 	@Wire
-	private Combobox select_month;
+	private Combobox						select_month;
 
 	@Wire
-	public Combobox select_shift;
+	public Combobox							select_shift;
 
 	@Wire
-	public Combobox select_shiftBap;
+	public Combobox							select_shiftBap;
 
 	@Wire
-	private Combobox select_typeShip;
+	private Combobox						select_typeShip;
 
 	@Wire
-	private Combobox select_workedShip;
+	private Combobox						select_workedShip;
 
 	@Wire
-	private Combobox select_year;
+	private Combobox						select_year;
 
 	@Wire
-	private Combobox select_year_report;
+	private Combobox						select_year_report;
 
 	@Wire
-	private Combobox selectCustomer;
+	private Combobox						selectCustomer;
 
 	@Wire
-	private Combobox selectService;
+	private Combobox						selectService;
 
 	@Wire
-	private Combobox selectServiceBap;
+	private Combobox						selectServiceBap;
 
 	@Wire
-	private Combobox selectServiceDetail;
+	private Combobox						selectServiceDetail;
 
 	@Wire
-	private Combobox servicetype;
+	private Combobox						servicetype;
 
 	@Wire
-	private Combobox servicetype_schedule;
+	private Combobox						servicetype_schedule;
 
 	@Wire
-	private Combobox shift;
+	private Combobox						shift;
 
 	@Wire
-	public Combobox shift_Daily;
+	public Combobox							shift_Daily;
 
 	@Wire
-	private Datebox shiftdate;
+	private Datebox							shiftdate;
 
 	@Wire
-	public Datebox shiftdate_Daily;
+	public Datebox							shiftdate_Daily;
 
 	@Wire
-	private Listheader shiftNumberColumn;
+	private Listheader						shiftNumberColumn;
 
 	@Wire
-	private Combobox ship_activity;
+	private Combobox						ship_activity;
 
 	@Wire
-	private Combobox ship_activity_add;
+	private Combobox						ship_activity_add;
 
 	@Wire
-	private Datebox ship_arrival;
+	private Datebox							ship_arrival;
 
 	@Wire
-	public Datebox ship_arrival_schedule;
+	public Datebox							ship_arrival_schedule;
 
-	private IShipCache ship_cache;
+	private IShipCache						ship_cache;
 
 	@Wire
-	private Combobox ship_customer;
+	private Combobox						ship_customer;
 
 	@Wire
-	private Combobox ship_customer_add;
+	private Combobox						ship_customer_add;
 
 	@Wire
-	private Datebox ship_departure;
+	private Datebox							ship_departure;
 
 	@Wire
-	public Datebox ship_departure_schedule;
+	public Datebox							ship_departure_schedule;
 
 	@Wire
-	private Timebox ship_from;
+	private Timebox							ship_from;
 
 	@Wire
-	private Timebox ship_from_detail;
+	private Timebox							ship_from_detail;
 
 	@Wire
-	private Combobox ship_name;
+	private Combobox						ship_name;
 
 	@Wire
-	public Combobox ship_name_schedule;
+	public Combobox							ship_name_schedule;
 
 	@Wire
-	private Textbox ship_rif_mcf;
+	private Textbox							ship_rif_mcf;
 
 	@Wire
-	private Label ship_rif_sws;
+	private Label							ship_rif_sws;
 
 	@Wire
-	private Timebox ship_to;
+	private Timebox							ship_to;
 
 	@Wire
-	private Timebox ship_to_detail;
+	private Timebox							ship_to_detail;
 
 	@Wire
-	private Intbox ship_volume;
+	private Intbox							ship_volume;
 
 	@Wire
-	public Intbox ship_volume_schedule;
+	public Intbox							ship_volume_schedule;
 
-	protected IShip shipDao;
+	protected IShip							shipDao;
 
 	@Wire
-	private Listheader shipNameColumun;
+	private Listheader						shipNameColumun;
 
 	@Wire
-	private Label shipNumberProgramShip_noWorked;
+	private Label							shipNumberProgramShip_noWorked;
 
 	@Wire
-	private Label shipNumberProgramShip_worked;
+	private Label							shipNumberProgramShip_worked;
 
 	@Wire
-	public Component shipProgram;
+	public Component						shipProgram;
 
 	@Wire
-	private Component shipProgram_download;
+	private Component						shipProgram_download;
 
 	@Wire
-	private Textbox shipRif_mcf;
+	private Textbox							shipRif_mcf;
 
-	private IScheduleShip shipSchedulerDao;
+	private IScheduleShip					shipSchedulerDao;
 
 	@Wire
-	private Intbox shows_rows;
+	private Intbox							shows_rows;
 
 	@Wire
-	private Intbox shows_rows_ship;
+	private Intbox							shows_rows_ship;
 
 	@Wire
-	private Intbox shows_rowsProgram;
+	private Intbox							shows_rowsProgram;
 
 	@Wire
-	private Combobox sky_detail;
+	private Combobox						sky_detail;
 
 	@Wire
-	private Combobox sky_review;
+	private Combobox						sky_review;
 
-	private IStatistics statistic_dao;
+	private IStatistics						statistic_dao;
 
-	private IStatistics statisticDAO;
+	private IStatistics						statisticDAO;
 
 	@Wire
-	private Tab statisticsShipTab;
+	private Tab								statisticsShipTab;
 
 	@Wire
-	private Label sumVolumeCurrentMonthShipProgram;
+	private Label							sumVolumeCurrentMonthShipProgram;
 
 	@Wire
-	private Label sumVolumeShipProgram;
+	private Label							sumVolumeShipProgram;
 
 	@Wire
-	private Button sw_addScheduleShipProgram;
+	private Button							sw_addScheduleShipProgram;
 
 	@Wire
-	private Toolbarbutton sw_link_reviewscheduleship;
+	private Toolbarbutton					sw_link_reviewscheduleship;
 
 	@Wire
-	private Listbox sw_list_reviewWork;
+	private Listbox							sw_list_reviewWork;
 
 	@Wire
-	private Listbox sw_list_reviewWorkAggregate;
+	private Listbox							sw_list_reviewWorkAggregate;
 
 	@Wire
-	private Listbox sw_list_scheduleDetailShip;
+	private Listbox							sw_list_scheduleDetailShip;
 
 	@Wire
-	private Listbox sw_list_scheduleShip;
+	private Listbox							sw_list_scheduleShip;
 
 	@Wire
-	private Listbox sw_list_scheduleShipProgram;
+	private Listbox							sw_list_scheduleShipProgram;
 
 	@Wire
-	private Combobox temperature_detail;
+	private Combobox						temperature_detail;
 
 	@Wire
-	private Combobox temperature_review;
+	private Combobox						temperature_review;
 
 	@Wire
-	private Textbox text_search_rifMCT;
+	private Textbox							text_search_rifMCT;
 
 	@Wire
-	private Intbox text_search_rifSWS;
+	private Intbox							text_search_rifSWS;
 
 	@Wire
-	private Doublebox time_review;
+	private Doublebox						time_review;
 
 	@Wire
-	private Label TotalTimeWork;
+	private Label							TotalTimeWork;
 
 	@Wire
-	private Label TotalVolume;
+	private Label							TotalVolume;
 
 	@Wire
-	private Label TotalVolumeOnBoard;
+	private Label							TotalVolumeOnBoard;
 
 	@Wire
-	private Label TotalVolumeOnBoard_sws;
+	private Label							TotalVolumeOnBoard_sws;
 
 	@Wire
-	private Label TotalVolumeTWMTC;
+	private Label							TotalVolumeTWMTC;
 
 	@Wire
-	private Combobox user;
+	private Combobox						user;
 
 	@Wire
-	public Combobox user_Daily;
+	public Combobox							user_Daily;
 
-	protected PersonDAO userPrep;
+	protected PersonDAO						userPrep;
 
 	@Wire
-	private Combobox usersecond;
+	private Combobox						usersecond;
 
 	@Wire
-	private Combobox usersecond_Daily;
+	private Combobox						usersecond_Daily;
 
 	@Wire
-	private Comboitem verify_review_ship_item;
+	private Comboitem						verify_review_ship_item;
 
 	@Wire
-	private Intbox volume_review;
+	private Intbox							volume_review;
 
 	@Wire
-	private Listheader volumeColumn;
+	private Listheader						volumeColumn;
 
 	@Wire
-	private Listheader volumeColumnScheduleShip;
+	private Listheader						volumeColumnScheduleShip;
 
 	@Wire
-	private Listheader volumeStatisticColumn;
+	private Listheader						volumeStatisticColumn;
 
 	@Wire
-	private Intbox volumeunde_tw_mct_review;
+	private Intbox							volumeunde_tw_mct_review;
 
 	@Wire
-	private Intbox volumeunderboard_review;
+	private Intbox							volumeunderboard_review;
 
 	@Wire
-	private Intbox volumeunderboard_sws_review;
+	private Intbox							volumeunderboard_sws_review;
 
 	@Wire
-	private Combobox wind_detail;
+	private Combobox						wind_detail;
 
 	@Wire
-	private Combobox wind_review;
+	private Combobox						wind_review;
 
 	@Wire
-	private Radiogroup workedGroup;
+	private Radiogroup						workedGroup;
 
 	@Wire
-	private Label working_cycle_review;
-
-	@Wire
-	private Intbox working_cycle_search;
+	private Label							working_cycle_review;
 
 	@Listen("onClick = #add_finalDetailScheduleShip_command")
 	public void addDetailFinalScheduleShip() throws ParseException {
@@ -819,8 +816,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set list review
-		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao
-				.loadDetailFinalScheduleShipByIdDetailScheduleShip(detailSelected.getId());
+		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao.loadDetailFinalScheduleShipByIdDetailScheduleShip(detailSelected
+				.getId());
 		this.list_reviewDetailScheduleShip.setModel(new ListModelList<DetailFinalScheduleShip>(final_details));
 
 	}
@@ -888,7 +885,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.shipSchedulerDao.createScheduleShip(ship_to_add);
 
-		this.updateShipProgramView();
+		this.refreshShipProgram();
 
 		this.grid_scheduleShip.setVisible(false);
 
@@ -1241,73 +1238,73 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		switch (shift_no.intValue()) {
 
-			case 1: {
+		case 1: {
 
-				// prepare period
-				final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
-				cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
-				cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+			// prepare period
+			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
+			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
 
-				final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
-				cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
-				cal_shift_1_time_to.set(Calendar.MINUTE, 0);
+			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
+			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
 
-				ship_from.setValue(cal_shift_1_time_from.getTime());
-				ship_to.setValue(cal_shift_1_time_to.getTime());
+			ship_from.setValue(cal_shift_1_time_from.getTime());
+			ship_to.setValue(cal_shift_1_time_to.getTime());
 
-				break;
-			}
+			break;
+		}
 
-			case 2: {
+		case 2: {
 
-				final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
-				cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
-				cal_shift_2_time_from.set(Calendar.MINUTE, 0);
+			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
+			cal_shift_2_time_from.set(Calendar.MINUTE, 0);
 
-				final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
-				cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
-				cal_shift_2_time_to.set(Calendar.MINUTE, 0);
+			final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
+			cal_shift_2_time_to.set(Calendar.MINUTE, 0);
 
-				ship_from.setValue(cal_shift_2_time_from.getTime());
-				ship_to.setValue(cal_shift_2_time_to.getTime());
+			ship_from.setValue(cal_shift_2_time_from.getTime());
+			ship_to.setValue(cal_shift_2_time_to.getTime());
 
-				break;
-			}
+			break;
+		}
 
-			case 3: {
+		case 3: {
 
-				final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
-				cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
-				cal_shift_3_time_from.set(Calendar.MINUTE, 0);
+			final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
+			cal_shift_3_time_from.set(Calendar.MINUTE, 0);
 
-				final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
-				cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
-				cal_shift_3_time_to.set(Calendar.MINUTE, 0);
+			final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
+			cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
+			cal_shift_3_time_to.set(Calendar.MINUTE, 0);
 
-				ship_from.setValue(cal_shift_3_time_from.getTime());
-				ship_to.setValue(cal_shift_3_time_to.getTime());
+			ship_from.setValue(cal_shift_3_time_from.getTime());
+			ship_to.setValue(cal_shift_3_time_to.getTime());
 
-				break;
-			}
+			break;
+		}
 
-			case 4: {
+		case 4: {
 
-				final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
-				cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
-				cal_shift_4_time_from.set(Calendar.MINUTE, 0);
+			final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
+			cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
+			cal_shift_4_time_from.set(Calendar.MINUTE, 0);
 
-				final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
+			final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
 
-				cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
-				cal_shift_4_time_to.set(Calendar.MINUTE, 0);
+			cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
+			cal_shift_4_time_to.set(Calendar.MINUTE, 0);
 
-				ship_from.setValue(cal_shift_4_time_from.getTime());
-				ship_to.setValue(cal_shift_4_time_to.getTime());
+			ship_from.setValue(cal_shift_4_time_from.getTime());
+			ship_to.setValue(cal_shift_4_time_to.getTime());
 
-				check_last_shift.setVisible(true);
-				check_last_shift.setChecked(true);
-				break;
-			}
+			check_last_shift.setVisible(true);
+			check_last_shift.setChecked(true);
+			break;
+		}
 
 		}
 
@@ -1316,10 +1313,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #shiftdate")
 	public void checkShiftDate() {
 
-		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null)
-				&& ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0)
-						|| (ShipSchedulerComposer.this.shiftdate.getValue()
-								.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
+				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -1340,11 +1336,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 		}
 
-		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null))
-				&& ((ShipSchedulerComposer.this.shiftdate_Daily.getValue()
-						.compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0)
-						|| (ShipSchedulerComposer.this.shiftdate_Daily.getValue()
-								.compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
+						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -1375,7 +1369,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 		this.searchArrivalDateShipTo_detail.setValue(current_cal.getTime());
 
-		this.searchDetailScheduleShipByDatePeriod();
+		this.refreshShipDetailDatePeriod();
 
 	}
 
@@ -1389,7 +1383,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 		this.searchArrivalDateShipTo.setValue(current_cal.getTime());
 
-		this.updateShipProgramView();
+		this.refreshShipProgram();
 
 	}
 
@@ -1406,7 +1400,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.reviewWorkShip.setVisible(false);
 			this.filter_ship.setVisible(false);
 			this.reportWorkShip.setVisible(false);
-			this.updateShipProgramView();
+			this.refreshShipProgram();
 
 		} else if (selected.equals(this.detail_item)) {
 
@@ -1416,7 +1410,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.reviewWorkShip.setVisible(false);
 			this.filter_ship.setVisible(false);
 			this.reportWorkShip.setVisible(false);
-			this.refreshScheduleShipListBox();
+			this.refreshShipDetail();
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
 
@@ -1427,7 +1421,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.filter_ship.setVisible(false);
 			this.reportWorkShip.setVisible(false);
 
-			this.refreshOverviewBAP();
+			this.refreshBAP();
 		} else if (selected.equals(this.report_review_ship_item)) {
 			this.grid_scheduleShip.setVisible(false);
 			this.shipProgram.setVisible(false);
@@ -1435,14 +1429,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.reviewWorkShip.setVisible(false);
 			this.filter_ship.setVisible(false);
 			this.reportWorkShip.setVisible(true);
-			this.refreshReportView();
+			this.refreshReport();
 		}
 	}
 
 	@Listen("onOK = #shows_rows_ship")
 	public void defineView() {
 
-		this.refreshOverviewBAP();
+		this.refreshBAP();
 	}
 
 	private void definingPrintableVersion() {
@@ -1518,7 +1512,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.shipSchedulerDao.deleteDetailScheduleShip(this.detailScheduleShipSelected.getId());
 
-		this.refreshScheduleShipListBox();
+		this.refreshShipDetail();
 	}
 
 	@Listen("onClick = #sw_link_deleteDetailship")
@@ -1547,13 +1541,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// set year in combobox
 		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
+
+		// define year to select in combo
+		final ArrayList<String> years_report = new ArrayList<String>();
 		final ArrayList<String> years = new ArrayList<String>();
 		final ArrayList<String> yearsReport = new ArrayList<String>();
-		years.add("TUTTI");
 
 		for (Integer i = 2014; i <= (todayYear + 2); i++) {
 			years.add(i.toString());
 			yearsReport.add(i.toString());
+			years_report.add(i.toString());
 		}
 
 		ShipSchedulerComposer.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
@@ -1571,16 +1568,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_year.setModel(new ListModelList<String>(years));
 
 		this.select_year_report.setModel(new ListModelList<String>(yearsReport));
-
-		final ArrayList<String> months = new ArrayList<String>();
-
-		months.add("ANNULLA FILTRO");
-
-		for (Integer i = 1; i <= 12; i++) {
-			months.add(i.toString());
-		}
-
-		this.select_month.setModel(new ListModelList<String>(months));
 
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 
@@ -2257,7 +2244,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.popup_scheduleShip.close();
 
 		// update ship program view
-		this.updateShipProgramView();
+		this.refreshShipProgram();
 
 	}
 
@@ -2438,10 +2425,112 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * Called on initial view definition
+	 */
+	@Listen("onChange =  #full_text_search_ship, #invoicing_cycle_search,#date_from_overview, #date_to_overview, #select_shiftBap; onOK= #full_text_search_ship, #invoicing_cycle_search,#date_from_overview, #date_to_overview;onChange = #selectServiceBap, #select_shiftBap; onClick = #removeServiceFilterBap, #remove_select_shiftbap")
+	public void refreshBAP() {
+
+		// get date
+		final Date date_from = this.date_from_overview.getValue();
+		final Date date_to = this.date_to_overview.getValue();
+
+		// get text
+		final String text_search = this.full_text_search_ship.getValue();
+
+		// get shift number
+		Integer shiftNumber = null;
+		if (this.select_shiftBap.getSelectedItem() != null) {
+			shiftNumber = Integer.parseInt(this.select_shiftBap.getSelectedItem().getValue().toString());
+		}
+
+		// get rif_sws
+		final Integer rif_sws = this.full_text_search_rifSWS.getValue();
+		String rif_mct = this.full_text_search_rifMCT.getValue();
+		if (rif_mct.trim().equals("")) {
+			rif_mct = null;
+		}
+
+		// get invoice cycle
+		final Integer invoicing = this.invoicing_cycle_search.getValue();
+
+		// get id service
+		Integer idServiceSelected = null;
+		if (this.selectServiceBap.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
+			idServiceSelected = serviceSelected.getId();
+		}
+
+		if (this.overviewBap.isSelected()) {
+
+			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, date_to, text_search, rif_sws, rif_mct, shiftNumber, invoicing,
+					idServiceSelected);
+
+			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
+				this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
+			} else {
+				this.sw_list_reviewWork.setPageSize(10);
+			}
+
+			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
+
+			this.calculateSummaryBAP();
+
+		} else if (this.overviewBapAggregate.isSelected()) {
+
+			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, date_to, rif_sws, rif_mct, invoicing,
+					text_search, idServiceSelected);
+
+			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
+				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows_ship.getValue());
+			} else {
+				this.sw_list_reviewWorkAggregate.setPageSize(10);
+			}
+
+			this.sw_list_reviewWorkAggregate.setModel(new ListModelList<ReviewShipWorkAggregate>(this.list_review_work_aggregate));
+
+			final Double avgProd = this.calculateProductivityAVG(this.list_review_work_aggregate);
+
+			this.ProductivityAVG.setValue(avgProd.toString());
+
+		} else if (this.statisticsShipTab.isSelected()) {
+
+			this.refreshBAPShipStatistics(this.full_text_search_ship.getValue());
+		}
+
+	}
+
+	private void refreshBAPShipStatistics(final String text) {
+
+		String text_select = null;
+		if ((text != null) && !text.equals("")) {
+			text_select = text;
+		}
+
+		// select date period
+		Date date_from = this.date_from_overview.getValue();
+		Date date_to = this.date_to_overview.getValue();
+
+		if ((date_from != null) && (date_to != null) && !date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
+
+			// truncate
+			date_from = DateUtils.truncate(date_from, Calendar.DATE);
+			date_to = DateUtils.truncate(date_to, Calendar.DATE);
+		}
+
+		this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_select, date_from, date_to);
+
+		this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.list_ship_statistics.setPageSize(this.shows_rows.getValue());
+		}
+
+	}
+
 	@Listen("onClick = #refresh_command")
 	public void refreshBapView() {
 
-		this.searchWorkShip.setValue(Calendar.getInstance().getTime());
 		this.select_year.setSelectedItem(null);
 		this.select_month.setSelectedItem(null);
 		this.date_from_overview.setValue(null);
@@ -2451,32 +2540,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_rifSWS.setValue(null);
 		this.full_text_search_rifMCT.setValue(null);
 		this.invoicing_cycle_search.setValue(null);
-		this.working_cycle_search.setValue(null);
 		this.shows_rows_ship.setValue(10);
 
-		this.select_shiftBap.setSelectedIndex(0);
+		this.select_shiftBap.setSelectedItem(null);
 
-		this.refreshOverviewBAP();
-	}
-
-	/**
-	 * Called on initial view definition
-	 */
-	private void refreshOverviewBAP() {
-
-		if ((this.date_from_overview.getValue() == null) && (this.date_to_overview.getValue() == null)) {
-
-			this.searchReviewShipData();
-
-		} else {
-
-			this.searchReviewShipIntervalDate();
-
-		}
+		this.refreshBAP();
 	}
 
 	@Listen("onClick = #refreshReportView;onChange=#select_year_report")
-	public void refreshReportView() {
+	public void refreshReport() {
 
 		if (this.select_year_report.getSelectedItem() == null) {
 			return;
@@ -2828,18 +2900,220 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	 * Set ship list box with initial events
 	 */
 	@Listen("onOK = #shows_rows, #full_text_search;onChange = #select_shift, #select_customer, #select_typeShip, #select_workedShip")
-	public void refreshScheduleShipListBox() {
+	public void refreshShipDetail() {
 
 		if (this.searchDateShift.getValue() != null) {
-			this.searchDetailScheduleShipByDateShift();
+			this.refreshShipDetailByDateShift();
 		} else {
-			this.searchDetailScheduleShipByDatePeriod();
+			this.refreshShipDetailDatePeriod();
 		}
 
 	}
 
+	@Listen("onChange = #searchDateShift; onOK = #searchDateShift")
+	public void refreshShipDetailByDateShift() {
+
+		this.searchArrivalDateShipFrom_detail.setValue(null);
+		this.searchArrivalDateShipTo_detail.setValue(null);
+
+		if (this.searchDateShift.getValue() == null) {
+			return;
+		}
+
+		final Date date = this.searchDateShift.getValue();
+
+		this.list_details_programmed_ship = null;
+
+		String text_search = this.full_text_search.getValue();
+
+		if ((text_search != null) && text_search.equals("")) {
+			text_search = null;
+		}
+
+		final Integer selectedShift = this.getSelectedShift();
+
+		Integer idCustomer = null;
+		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+			idCustomer = customerSelected.getId();
+		}
+
+		// set ship type filter
+		Boolean nowork = null;
+		Boolean activityh = null;
+		if (this.select_typeShip.getSelectedItem() != null) {
+			final String selected = this.select_typeShip.getSelectedItem().getValue();
+			if (selected.equals("activityh")) {
+				activityh = true;
+			} else if (selected.equals("nowork")) {
+				nowork = true;
+			}
+		}
+
+		// set worked filter
+		Boolean worked = false;
+		if (this.select_workedShip.getSelectedItem() == null) {
+			worked = null;
+		} else if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
+			worked = true;
+		} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
+			worked = false;
+		} else if (this.select_workedShip.getSelectedItem().getValue().equals("all")) {
+			worked = null;
+		}
+
+		// set rif_mct filter and rif_sws filter
+		String rifMCT = this.text_search_rifMCT.getValue();
+
+		if (rifMCT.equals("")) {
+			rifMCT = null;
+		}
+
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceDetail.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
+		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
+				activityh, worked, idServiceSelected);
+
+		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
+		} else {
+			this.sw_list_scheduleShip.setPageSize(10);
+		}
+
+		// caluclate summaru info
+		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
+
+	}
+
+	@Listen("onChange = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail; onOK = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail")
+	public void refreshShipDetailDatePeriod() {
+
+		// set null date shift box
+		this.searchDateShift.setValue(null);
+
+		final Date dateFrom = this.searchArrivalDateShipFrom_detail.getValue();
+		final Date dateTo = this.searchArrivalDateShipTo_detail.getValue();
+
+		if ((dateFrom == null) || (dateTo == null)) {
+			return;
+		}
+
+		String text_search = this.full_text_search.getValue();
+
+		if ((text_search != null) && text_search.equals("")) {
+			text_search = null;
+		}
+
+		final Integer no_shift = this.getSelectedShift();
+
+		Integer idCustomer = null;
+		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+			idCustomer = customerSelected.getId();
+		}
+
+		// set ship type filter
+		Boolean nowork = null;
+		Boolean activityh = null;
+		if (this.select_typeShip.getSelectedItem() != null) {
+			final String selected = this.select_typeShip.getSelectedItem().getValue();
+			if (selected.equals("activityh")) {
+				activityh = true;
+			} else if (selected.equals("nowork")) {
+				nowork = true;
+			}
+		}
+
+		// set worked filter
+		Boolean worked = null;
+		if ((this.select_workedShip.getSelectedItem() != null)) {
+			if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
+				worked = true;
+			} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
+				worked = false;
+			}
+		}
+
+		// set rif_mct filter and rif_sws filter
+		String rifMCT = this.text_search_rifMCT.getValue();
+		if (rifMCT.equals("")) {
+			rifMCT = null;
+		}
+
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceDetail.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
+		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer,
+				nowork, activityh, worked, idServiceSelected);
+
+		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
+
+		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
+	}
+
+	/**
+	 * Search on Ship
+	 */
+	private void refreshShipProgram() {
+
+		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
+		final Date dateTo = this.searchArrivalDateShipTo.getValue();
+
+		if (((dateFrom != null) && (dateTo != null)) || ((dateFrom == null) && (dateTo == null))) {
+
+			Integer idCustomer = null;
+
+			if (this.selectCustomer.getSelectedItem() != null) {
+				final Customer c = this.selectCustomer.getSelectedItem().getValue();
+				if (c != null) {
+					idCustomer = c.getId();
+					if (idCustomer.equals(0)) {
+						idCustomer = null;
+					}
+				}
+			}
+
+			Integer idServiceSelected = null;
+
+			if (this.selectService.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectService.getSelectedItem().getValue();
+
+				idServiceSelected = serviceSelected.getId();
+			}
+
+			this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
+					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
+					idServiceSelected, this.full_text_search_shipProgram.getValue());
+
+			if ((this.shows_rowsProgram.getValue() != null) && (this.shows_rowsProgram.getValue() != 0)) {
+				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rowsProgram.getValue());
+			} else {
+				this.sw_list_scheduleShipProgram.setPageSize(10);
+			}
+
+			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
+
+		}
+
+		this.calculateSummaryShipProgram(this.list_programmed_ship);
+
+	}
+
 	@Listen("onClick = #refreshScheduleView")
-	public void refreshScheduleShipView() {
+	public void refreshShipProgramView() {
 
 		final Calendar current_cal = Calendar.getInstance();
 		current_cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -2855,35 +3129,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.selectCustomer.setSelectedItem(null);
 
-		this.updateShipProgramView();
-	}
-
-	private void refreshShipStatistics(final String text) {
-
-		String text_select = null;
-		if ((text != null) && !text.equals("")) {
-			text_select = text;
-		}
-
-		// select date period
-		Date date_from = this.date_from_overview.getValue();
-		Date date_to = this.date_to_overview.getValue();
-
-		if ((date_from != null) && (date_to != null) && !date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
-
-			// truncate
-			date_from = DateUtils.truncate(date_from, Calendar.DATE);
-			date_to = DateUtils.truncate(date_to, Calendar.DATE);
-		}
-
-		this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_select, date_from, date_to);
-
-		this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
-
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.list_ship_statistics.setPageSize(this.shows_rows.getValue());
-		}
-
+		this.refreshShipProgram();
 	}
 
 	@Listen("onClick = #sw_link_deleteship")
@@ -2933,10 +3179,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						@Override
 						public void onEvent(final ClickEvent e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao
-										.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected.getId());
+								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+								.getId());
 
-								ShipSchedulerComposer.this.updateShipProgramView();
+								ShipSchedulerComposer.this.refreshShipProgram();
 							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
 							}
@@ -3020,7 +3266,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 
 		// reset view
-		this.refreshScheduleShipListBox();
+		this.refreshShipDetail();
 		this.alertShiftDate_detail.setVisible(false);
 		this.popup_detail_Daily.close();
 
@@ -3082,177 +3328,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 
 		// reset view
-		this.refreshScheduleShipListBox();
+		this.refreshShipDetail();
 
 		this.popup_review_detail.close();
 
 	}
 
 	@Listen("onChange = #searchArrivalDateShipFrom, #searchArrivalDateShipTo")
-	public void searchByDate() {
+	public void searchByDateProgram() {
 		this.search_rifMCT.setValue(null);
 		this.search_rifSWS.setValue(null);
 
-		this.updateShipProgramView();
+		this.refreshShipProgram();
 	}
 
 	@Listen("onChange = #selectCustomer")
 	public void searchCustomer() {
-		this.updateShipProgramView();
-	}
-
-	@Listen("onChange = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail; onOK = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail")
-	public void searchDetailScheduleShipByDatePeriod() {
-
-		// set null date shift box
-		this.searchDateShift.setValue(null);
-
-		final Date dateFrom = this.searchArrivalDateShipFrom_detail.getValue();
-		final Date dateTo = this.searchArrivalDateShipTo_detail.getValue();
-
-		if ((dateFrom == null) || (dateTo == null)) {
-			return;
-		}
-
-		String text_search = this.full_text_search.getValue();
-
-		if ((text_search != null) && text_search.equals("")) {
-			text_search = null;
-		}
-
-		final Integer no_shift = this.getSelectedShift();
-
-		Integer idCustomer = null;
-		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
-			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
-			idCustomer = customerSelected.getId();
-		}
-
-		// set ship type filter
-		Boolean nowork = null;
-		Boolean activityh = null;
-		if (this.select_typeShip.getSelectedItem() != null) {
-			final String selected = this.select_typeShip.getSelectedItem().getValue();
-			if (selected.equals("activityh")) {
-				activityh = true;
-			} else if (selected.equals("nowork")) {
-				nowork = true;
-			}
-		}
-
-		// set worked filter
-		Boolean worked = null;
-		if ((this.select_workedShip.getSelectedItem() != null)) {
-			if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
-				worked = true;
-			} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
-				worked = false;
-			}
-		}
-
-		// set rif_mct filter and rif_sws filter
-		String rifMCT = this.text_search_rifMCT.getValue();
-		if (rifMCT.equals("")) {
-			rifMCT = null;
-		}
-
-		Integer idServiceSelected = null;
-
-		if (this.selectServiceDetail.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
-
-			idServiceSelected = serviceSelected.getId();
-		}
-
-		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer,
-				nowork, activityh, worked, idServiceSelected);
-
-		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
-
-		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
-	}
-
-	@Listen("onChange = #searchDateShift; onOK = #searchDateShift")
-	public void searchDetailScheduleShipByDateShift() {
-
-		this.searchArrivalDateShipFrom_detail.setValue(null);
-		this.searchArrivalDateShipTo_detail.setValue(null);
-
-		if (this.searchDateShift.getValue() == null) {
-			return;
-		}
-
-		final Date date = this.searchDateShift.getValue();
-
-		this.list_details_programmed_ship = null;
-
-		String text_search = this.full_text_search.getValue();
-
-		if ((text_search != null) && text_search.equals("")) {
-			text_search = null;
-		}
-
-		final Integer selectedShift = this.getSelectedShift();
-
-		Integer idCustomer = null;
-		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
-			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
-			idCustomer = customerSelected.getId();
-		}
-
-		// set ship type filter
-		Boolean nowork = null;
-		Boolean activityh = null;
-		if (this.select_typeShip.getSelectedItem() != null) {
-			final String selected = this.select_typeShip.getSelectedItem().getValue();
-			if (selected.equals("activityh")) {
-				activityh = true;
-			} else if (selected.equals("nowork")) {
-				nowork = true;
-			}
-		}
-
-		// set worked filter
-		Boolean worked = false;
-		if (this.select_workedShip.getSelectedItem() == null) {
-			worked = null;
-		} else if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
-			worked = true;
-		} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
-			worked = false;
-		} else if (this.select_workedShip.getSelectedItem().getValue().equals("all")) {
-			worked = null;
-		}
-
-		// set rif_mct filter and rif_sws filter
-		String rifMCT = this.text_search_rifMCT.getValue();
-
-		if (rifMCT.equals("")) {
-			rifMCT = null;
-		}
-
-		Integer idServiceSelected = null;
-
-		if (this.selectServiceDetail.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
-
-			idServiceSelected = serviceSelected.getId();
-		}
-
-		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
-				activityh, worked, idServiceSelected);
-
-		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
-
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
-		} else {
-			this.sw_list_scheduleShip.setPageSize(10);
-		}
-
-		// caluclate summaru info
-		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
-
+		this.refreshShipProgram();
 	}
 
 	@Listen("onOK = #full_text_search_rifMCT")
@@ -3266,205 +3358,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_rifSWS.setValue(null);
 
 		if ((this.full_text_search_rifMCT.getValue() != null) && (this.full_text_search_rifMCT.getValue().toString().trim() != "")) {
-			this.refreshOverviewBAP();
-		}
-
-	}
-
-	/**
-	 * Search info about data ship for review
-	 */
-	@Listen("onChange = #searchWorkShip; onOK = #searchWorkShip, #date_from_overview, #date_to_overview")
-	public void searchReviewShipData() {
-
-		this.select_year.setSelectedItem(null);
-		this.select_month.setSelectedItem(null);
-		this.date_from_overview.setValue(null);
-		this.date_to_overview.setValue(null);
-
-		final Date date_from = this.searchWorkShip.getValue();
-
-		final String searchText = this.full_text_search_ship.getValue();
-
-		if (this.overviewBap.isSelected()) {
-
-			// not aggregate
-
-			Integer shiftNumber = null;
-
-			if (this.select_shiftBap.getSelectedItem() != null) {
-				shiftNumber = this.select_shiftBap.getSelectedIndex();
-				if (shiftNumber == 0) {
-					shiftNumber = null;
-				}
-			}
-
-			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
-			String rif_mct = this.full_text_search_rifMCT.getValue();
-			if (rif_mct.trim().equals("")) {
-				rif_mct = null;
-			}
-			final Integer invoicing = this.invoicing_cycle_search.getValue();
-			final Integer working = this.working_cycle_search.getValue();
-
-			Integer idServiceSelected = null;
-
-			if (this.selectServiceBap.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, null, searchText, rif_sws, rif_mct, shiftNumber, invoicing,
-					working, idServiceSelected);
-
-			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
-				this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
-			} else {
-				this.sw_list_reviewWork.setPageSize(10);
-			}
-
-			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
-
-			this.calculateSummaryBAP();
-
-		} else if (this.overviewBapAggregate.isSelected()) {
-
-			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
-			String rif_mct = this.full_text_search_rifMCT.getValue();
-			if (rif_mct.trim().equals("")) {
-				rif_mct = null;
-			}
-			final Integer invoicing = this.invoicing_cycle_search.getValue();
-			final Integer working = this.working_cycle_search.getValue();
-
-			// aggregate
-
-			Integer idServiceSelected = null;
-
-			if (this.selectServiceBap.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, null, rif_sws, rif_mct, invoicing, working,
-					searchText, idServiceSelected);
-
-			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
-				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows_ship.getValue());
-			} else {
-				this.sw_list_reviewWorkAggregate.setPageSize(10);
-			}
-
-			this.sw_list_reviewWorkAggregate.setModel(new ListModelList<ReviewShipWorkAggregate>(this.list_review_work_aggregate));
-
-			final Double avgProd = this.calculateProductivityAVG(this.list_review_work_aggregate);
-
-			this.ProductivityAVG.setValue(avgProd.toString());
-
-		} else if (this.statisticsShipTab.isSelected()) {
-
-			this.refreshShipStatistics(this.full_text_search_ship.getValue());
-
-		}
-
-	}
-
-	/**
-	 * Search info about data ship for review in interval date
-	 */
-	@Listen("onChange =  #date_from_overview, #date_to_overview; onOK= #date_from_overview, #date_to_overview")
-	public void searchReviewShipIntervalDate() {
-
-		final Date date_from = this.date_from_overview.getValue();
-		final Date date_to = this.date_to_overview.getValue();
-
-		if ((date_from == null) || (date_to == null)) {
-			return;
-		}
-
-		this.searchWorkShip.setValue(null);
-
-		final String text_search = this.full_text_search_ship.getValue();
-
-		if (this.overviewBap.isSelected()) {
-
-			Integer shiftNumber = null;
-
-			if (this.select_shiftBap.getSelectedItem() != null) {
-				shiftNumber = this.select_shiftBap.getSelectedIndex();
-				if (shiftNumber == 0) {
-					shiftNumber = null;
-				}
-			}
-
-			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
-			String rif_mct = this.full_text_search_rifMCT.getValue();
-			if (rif_mct.trim().equals("")) {
-				rif_mct = null;
-			}
-			final Integer invoicing = this.invoicing_cycle_search.getValue();
-			final Integer working = this.working_cycle_search.getValue();
-
-			Integer idServiceSelected = null;
-
-			if (this.selectServiceBap.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, date_to, text_search, rif_sws, rif_mct, shiftNumber, invoicing,
-					working, idServiceSelected);
-
-			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
-				this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
-			} else {
-				this.sw_list_reviewWork.setPageSize(10);
-			}
-
-			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
-
-			this.calculateSummaryBAP();
-
-		} else if (this.overviewBapAggregate.isSelected()) {
-
-			final Integer rif_sws = this.full_text_search_rifSWS.getValue();
-			String rif_mct = this.full_text_search_rifMCT.getValue();
-			if (rif_mct.trim().equals("")) {
-				rif_mct = null;
-			}
-			final Integer invoicing = this.invoicing_cycle_search.getValue();
-			final Integer working = this.working_cycle_search.getValue();
-
-			// aggregate
-			Integer idServiceSelected = null;
-
-			if (this.selectServiceBap.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, date_to, rif_sws, rif_mct, invoicing, working,
-					text_search, idServiceSelected);
-
-			if ((this.shows_rows_ship.getValue() != null) && (this.shows_rows_ship.getValue() != 0)) {
-				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows_ship.getValue());
-			} else {
-				this.sw_list_reviewWorkAggregate.setPageSize(10);
-			}
-
-			this.sw_list_reviewWorkAggregate.setModel(new ListModelList<ReviewShipWorkAggregate>(this.list_review_work_aggregate));
-
-			final Double avgProd = this.calculateProductivityAVG(this.list_review_work_aggregate);
-
-			this.ProductivityAVG.setValue(avgProd.toString());
-
-		} else if (this.statisticsShipTab.isSelected()) {
-
-			this.refreshShipStatistics(this.full_text_search_ship.getValue());
+			this.refreshBAP();
 		}
 
 	}
@@ -3475,7 +3369,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchArrivalDateShipTo.setValue(null);
 		this.search_rifSWS.setValue(null);
 
-		this.updateShipProgramView();
+		this.refreshShipProgram();
 	}
 
 	@Listen("onOK = #search_rifSWS")
@@ -3484,7 +3378,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchArrivalDateShipTo.setValue(null);
 		this.search_rifMCT.setValue(null);
 
-		this.updateShipProgramView();
+		this.refreshShipProgram();
 	}
 
 	@Listen("onOK = #text_search_rifSWS, #text_search_rifMCT")
@@ -3528,104 +3422,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifMCT.setValue(null);
 		this.invoicing_cycle_search.setValue(null);
-		this.working_cycle_search.setValue(null);
 
 		if ((this.full_text_search_rifSWS.getValue() != null) && (this.full_text_search_rifSWS.getValue().toString().trim() != "")) {
-			this.refreshOverviewBAP();
+			this.refreshBAP();
 		}
 
 	}
 
-	@Listen("onOK = #full_text_search_ship, #invoicing_cycle_search, #working_cycle_search")
-	public void searchText() {
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
-		} else {
-			this.sw_list_reviewWork.setPageSize(10);
+	@Listen("onChange = #select_month;onClick = #reset_filter_month_detail")
+	public void selectedMonthBAP() {
+
+		if ((this.select_year.getSelectedItem() == null) || (this.select_year.getSelectedItem().getValue() == null)) {
+			return;
 		}
 
-		if (this.overviewBap.isSelected()) {
-			Integer shiftNumber = null;
-
-			if (this.select_shiftBap.getSelectedItem() != null) {
-				shiftNumber = this.select_shiftBap.getSelectedIndex();
-				if (shiftNumber == 0) {
-					shiftNumber = null;
-				}
-			}
-
-			Integer idServiceSelected = null;
-
-			if (this.selectServiceBap.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			if (this.searchWorkShip.getValue() == null) {
-				this.list_review_work = this.statistic_dao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
-						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
-			} else {
-				this.list_review_work = this.statistic_dao.loadReviewShipWork(this.searchWorkShip.getValue(), null,
-						this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-						shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
-			}
-
-			this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
-
-			this.calculateSummaryBAP();
-		} else if (this.overviewBapAggregate.isSelected()) {
-			this.refreshOverviewBAP();
-		}
-
-	}
-
-	@Listen("onChange = #select_shiftBap")
-	public void selectBapByShift() {
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.sw_list_reviewWork.setPageSize(this.shows_rows_ship.getValue());
-		} else {
-			this.sw_list_reviewWork.setPageSize(10);
-		}
-
-		Integer shiftNumber = null;
-
-		if (this.select_shiftBap.getSelectedItem() != null) {
-			shiftNumber = this.select_shiftBap.getSelectedIndex();
-			if (shiftNumber == 0) {
-				shiftNumber = null;
-			}
-		}
-
-		Integer idServiceSelected = null;
-
-		if (this.selectServiceBap.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceBap.getSelectedItem().getValue();
-
-			idServiceSelected = serviceSelected.getId();
-		}
-
-		if (this.searchWorkShip.getValue() == null) {
-			this.list_review_work = this.statistic_dao.loadReviewShipWork(this.date_from_overview.getValue(), this.date_to_overview.getValue(),
-					this.full_text_search_ship.getValue(), this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(),
-					shiftNumber, this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
-		} else {
-			this.list_review_work = this.statistic_dao.loadReviewShipWork(this.searchWorkShip.getValue(), null, this.full_text_search_ship.getValue(),
-					this.full_text_search_rifSWS.getValue(), this.full_text_search_rifMCT.getValue(), shiftNumber,
-					this.invoicing_cycle_search.getValue(), this.working_cycle_search.getValue(), idServiceSelected);
-		}
-
-		this.sw_list_reviewWork.setModel(new ListModelList<ReviewShipWork>(this.list_review_work));
-
-		this.calculateSummaryBAP();
-	}
-
-	@Listen("onChange =#select_month")
-	public void selectedMonth() {
-
-		if ((this.select_year.getSelectedItem() == null) || (this.select_year.getSelectedItem().getValue() == null)
-				|| (this.select_year.getSelectedItem().getValue().equals("TUTTI"))) {
+		if ((this.select_month.getSelectedItem() == null) || (this.select_month.getSelectedItem().getValue() == null)) {
+			this.selectedYearBAP();
 			return;
 		}
 
@@ -3634,40 +3446,36 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final String monthSelected = this.select_month.getSelectedItem().getValue();
 		final String yearSelected = this.select_year.getSelectedItem().getValue();
 
-		if (monthSelected.equals("ANNULLA FILTRO")) {
+		final Integer year = Integer.parseInt(yearSelected);
+		final Integer month = Integer.parseInt(monthSelected);
+		final Calendar calendar_from = Calendar.getInstance();
+		final Calendar calendar_to = Calendar.getInstance();
 
-			this.select_month.setSelectedItem(null);
+		calendar_from.set(Calendar.YEAR, year);
+		calendar_from.set(Calendar.MONTH, month - 1);
+		calendar_from.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMinimum(Calendar.DAY_OF_MONTH));
 
-			this.selectedYear();
+		calendar_to.set(Calendar.YEAR, year);
+		calendar_to.set(Calendar.MONTH, month - 1);
+		calendar_to.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-		} else {
+		this.date_from_overview.setValue(calendar_from.getTime());
+		this.date_to_overview.setValue(calendar_to.getTime());
 
-			final Integer year = Integer.parseInt(yearSelected);
-			final Integer month = Integer.parseInt(monthSelected);
-			final Calendar calendar_from = Calendar.getInstance();
-			final Calendar calendar_to = Calendar.getInstance();
-
-			calendar_from.set(Calendar.YEAR, year);
-			calendar_from.set(Calendar.MONTH, month - 1);
-			calendar_from.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMinimum(Calendar.DAY_OF_MONTH));
-
-			calendar_to.set(Calendar.YEAR, year);
-			calendar_to.set(Calendar.MONTH, month - 1);
-			calendar_to.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH));
-
-			this.date_from_overview.setValue(calendar_from.getTime());
-			this.date_to_overview.setValue(calendar_to.getTime());
-
-		}
-
-		this.refreshOverviewBAP();
+		this.refreshBAP();
 
 	}
 
-	@Listen("onChange =#select_year; onChange = #selectServiceBap; onClick = #removeServiceFilterBap")
-	public void selectedYear() {
+	@Listen("onChange =#select_year; onClick = #reset_filter_select_year")
+	public void selectedYearBAP() {
 
 		if ((this.select_year.getSelectedItem() == null) || (this.select_year.getSelectedItem().getValue() == null)) {
+
+			this.date_from_overview.setValue(null);
+			this.date_to_overview.setValue(null);
+
+			this.refreshBAP();
+
 			return;
 		}
 
@@ -3675,57 +3483,37 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final String yearSelected = this.select_year.getSelectedItem().getValue();
 
-		if (yearSelected.equals("TUTTI")) {
-
-			this.date_from_overview.setValue(null);
-			this.date_to_overview.setValue(null);
-
-			this.refreshOverviewBAP();
-
+		if (this.select_month.getSelectedItem() != null) {
+			this.selectedMonthBAP();
 		} else {
+			final Integer year = Integer.parseInt(yearSelected);
+			final Calendar calendar_from = Calendar.getInstance();
+			final Calendar calendar_to = Calendar.getInstance();
 
-			if (this.select_month.getSelectedItem() != null) {
-				this.selectedMonth();
-			} else {
-				final Integer year = Integer.parseInt(yearSelected);
-				final Calendar calendar_from = Calendar.getInstance();
-				final Calendar calendar_to = Calendar.getInstance();
+			calendar_from.set(Calendar.YEAR, year);
+			calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+			calendar_from.set(Calendar.MONTH, calendar_from.getActualMinimum(Calendar.MONTH));
 
-				calendar_from.set(Calendar.YEAR, year);
-				calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
-				calendar_from.set(Calendar.MONTH, calendar_from.getActualMinimum(Calendar.MONTH));
+			calendar_to.set(Calendar.YEAR, year);
+			calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+			calendar_to.set(Calendar.MONTH, calendar_from.getActualMaximum(Calendar.MONTH));
 
-				calendar_to.set(Calendar.YEAR, year);
-				calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
-				calendar_to.set(Calendar.MONTH, calendar_from.getActualMaximum(Calendar.MONTH));
+			this.date_from_overview.setValue(calendar_from.getTime());
+			this.date_to_overview.setValue(calendar_to.getTime());
 
-				this.date_from_overview.setValue(calendar_from.getTime());
-				this.date_to_overview.setValue(calendar_to.getTime());
-
-				this.refreshOverviewBAP();
-			}
-
+			this.refreshBAP();
 		}
 
 	}
 
 	@Listen("onChange = #selectService; onClick = #removeServiceFilter; onOK = #full_text_search_shipProgram, #shows_rowsProgram")
 	public void selectService() {
-		this.updateShipProgramView();
+		this.refreshShipProgram();
 	}
 
 	@Listen("onChange = #selectServiceDetail; onClick = #removeServiceFilterDetail")
 	public void selectServiceDetail() {
-		this.refreshScheduleShipListBox();
-	}
-
-	@Listen("onChange = #selectServiceBap; onClick = #removeServiceFilterBap")
-	public void selectServiceInBap() {
-		if (this.searchWorkShip.getValue() != null) {
-			this.searchReviewShipData();
-		} else {
-			this.selectedYear();
-		}
+		this.refreshShipDetail();
 	}
 
 	@Listen("onClick = #selectShipNoWork")
@@ -3812,7 +3600,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_workedShip.setSelectedItem(null);
 
 		// set ship listbox
-		this.refreshScheduleShipListBox();
+		this.refreshShipDetail();
 
 	}
 
@@ -4210,55 +3998,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		this.refreshScheduleShipListBox();
-
-	}
-
-	/**
-	 * Search on Ship
-	 */
-	private void updateShipProgramView() {
-
-		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
-		final Date dateTo = this.searchArrivalDateShipTo.getValue();
-
-		if (((dateFrom != null) && (dateTo != null)) || ((dateFrom == null) && (dateTo == null))) {
-
-			Integer idCustomer = null;
-
-			if (this.selectCustomer.getSelectedItem() != null) {
-				final Customer c = this.selectCustomer.getSelectedItem().getValue();
-				if (c != null) {
-					idCustomer = c.getId();
-					if (idCustomer.equals(0)) {
-						idCustomer = null;
-					}
-				}
-			}
-
-			Integer idServiceSelected = null;
-
-			if (this.selectService.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectService.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
-					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
-					idServiceSelected, this.full_text_search_shipProgram.getValue());
-
-			if ((this.shows_rowsProgram.getValue() != null) && (this.shows_rowsProgram.getValue() != 0)) {
-				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rowsProgram.getValue());
-			} else {
-				this.sw_list_scheduleShipProgram.setPageSize(10);
-			}
-
-			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
-
-		}
-
-		this.calculateSummaryShipProgram(this.list_programmed_ship);
+		this.refreshShipDetail();
 
 	}
 }

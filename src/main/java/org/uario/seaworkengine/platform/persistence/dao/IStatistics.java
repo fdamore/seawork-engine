@@ -215,7 +215,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, String rifMCT, Integer shift,
-			Integer invoicing_cycle, Integer working_cycle, Integer serviceId);
+			Integer invoicing_cycle, Integer serviceId);
 
 	/**
 	 * @param date_from
@@ -229,7 +229,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(Date date_from, Date date_to, Integer rifSWS, String rifMCT,
-			Integer invoicing_cycle, Integer working_cycle, String searchText, Integer serviceId);
+			Integer invoicing_cycle, String searchText, Integer serviceId);
 
 	/**
 	 * Get overview abount ship

@@ -59,21 +59,22 @@
 				<comboitem label="VERIFICA LAVORO (BAP)"
 					value="VERIFICA LAVORO NAVI" id="verify_review_ship_item">
 				</comboitem>
-				
+
 				<comboitem label="REPORT LAVORAZIONI"
 					value="REPORT LAVORAZIONI" id="report_review_ship_item">
 				</comboitem>
 			</combobox>
-			
+
 			<button label="Versione Stampabile" sclass="btn-danger"
 				id="print_program_videos"
 				xmlns:w="http://www.zkoss.org/2005/zk/client"
 				w:onClick="window.open('shipscheduler.zul?printProgram=1');" />
-				
+
 			<button label="Stampa" sclass="btn-danger" visible="false"
-			id="print_ShipScheduler" xmlns:w="http://www.zkoss.org/2005/zk/client"
-			w:onClick="window.print()" />
-			
+				id="print_ShipScheduler"
+				xmlns:w="http://www.zkoss.org/2005/zk/client"
+				w:onClick="window.print()" />
+
 		</hbox>
 
 		<space />
@@ -165,14 +166,20 @@
 								<datebox id="ship_departure_schedule"
 									format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 							</row>
-							
+
 							<row>
-								<label value="Tipo Servizio"/>
+								<label value="Tipo Servizio" />
 								<hbox>
-								<combobox id="servicetype_schedule" placeholder="Seleziona tipo servizio..." readonly="false">
-									<comboitem self="@{each='service'}" label="@{service.name}" value="@{service}" />
-								</combobox>
-								<toolbarbutton label="Annulla selezione" style="color: blue" visible="true" onClick="servicetype.setSelectedItem(null);" />	</hbox>				
+									<combobox id="servicetype_schedule"
+										placeholder="Seleziona tipo servizio..." readonly="false">
+										<comboitem
+											self="@{each='service'}" label="@{service.name}"
+											value="@{service}" />
+									</combobox>
+									<toolbarbutton
+										label="Annulla selezione" style="color: blue" visible="true"
+										onClick="servicetype.setSelectedItem(null);" />
+								</hbox>
 							</row>
 
 							<row>
@@ -388,141 +395,146 @@
 													placeholder="Seleziona Secondo Preposto" />
 											</row>
 											<row>
-												<label
-													value="Mani P">
+												<label value="Mani P">
 												</label>
-												<intbox id="handswork_program" />
+												<intbox
+													id="handswork_program" />
 											</row>
 											<row>
 												<label
 													value="Persone P">
 												</label>
-												<intbox id="menwork_program" />
+												<intbox
+													id="menwork_program" />
 											</row>
-											
+
 											<row>
-										<label value="Temperatura:"></label>
+												<label
+													value="Temperatura:">
+												</label>
 
-										<hbox align="center">
-											<combobox
-												id="temperature_detail" readonly="true">
-												<comboitem value="BASSA"
-													label="BASSA">
-												</comboitem>
-												<comboitem value="MEDIA"
-													label="MEDIA">
-												</comboitem>
-												<comboitem value="ALTA"
-													label="ALTA">
-												</comboitem>
-											</combobox>
+												<hbox align="center">
+													<combobox
+														id="temperature_detail" readonly="true">
+														<comboitem
+															value="BASSA" label="BASSA">
+														</comboitem>
+														<comboitem
+															value="MEDIA" label="MEDIA">
+														</comboitem>
+														<comboitem
+															value="ALTA" label="ALTA">
+														</comboitem>
+													</combobox>
 
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="temperature_detail.setSelectedItem(null)">
-											</button>
+													<button
+														sclass="btn-info" label="ANNULLA"
+														onClick="temperature_detail.setSelectedItem(null)">
+													</button>
 
-										</hbox>
-									</row>
+												</hbox>
+											</row>
 
 
-									<row>
-										<label value="Vento:"></label>
+											<row>
+												<label value="Vento:"></label>
 
-										<hbox align="center">
-											<combobox id="wind_detail"
-												readonly="true">
-												<comboitem
-													value="LEGGERO" label="LEGGERO">
-												</comboitem>
-												<comboitem value="MEDIO"
-													label="MEDIO">
-												</comboitem>
-												<comboitem value="FORTE"
-													label="FORTE">
-												</comboitem>
-											</combobox>
+												<hbox align="center">
+													<combobox
+														id="wind_detail" readonly="true">
+														<comboitem
+															value="LEGGERO" label="LEGGERO">
+														</comboitem>
+														<comboitem
+															value="MEDIO" label="MEDIO">
+														</comboitem>
+														<comboitem
+															value="FORTE" label="FORTE">
+														</comboitem>
+													</combobox>
 
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="wind_detail.setSelectedItem(null)">
-											</button>
+													<button
+														sclass="btn-info" label="ANNULLA"
+														onClick="wind_detail.setSelectedItem(null)">
+													</button>
 
-										</hbox>
-									</row>
+												</hbox>
+											</row>
 
-									<row>
-										<label value="Pioggia:"></label>
+											<row>
+												<label
+													value="Pioggia:">
+												</label>
 
-										<hbox align="center">
-											<combobox id="rain_detail"
-												readonly="true">
-												<comboitem
-													value="LEGGERA" label="LEGGERA">
-												</comboitem>
-												<comboitem value="MEDIA"
-													label="MEDIA">
-												</comboitem>
-												<comboitem value="FORTE"
-													label="FORTE">
-												</comboitem>
-											</combobox>
+												<hbox align="center">
+													<combobox
+														id="rain_detail" readonly="true">
+														<comboitem
+															value="LEGGERA" label="LEGGERA">
+														</comboitem>
+														<comboitem
+															value="MEDIA" label="MEDIA">
+														</comboitem>
+														<comboitem
+															value="FORTE" label="FORTE">
+														</comboitem>
+													</combobox>
 
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="rain_detail.setSelectedItem(null)">
-											</button>
+													<button
+														sclass="btn-info" label="ANNULLA"
+														onClick="rain_detail.setSelectedItem(null)">
+													</button>
 
-										</hbox>
-									</row>
+												</hbox>
+											</row>
 
-									<row>
-										<label value="Cielo:"></label>
+											<row>
+												<label value="Cielo:"></label>
 
-										<hbox align="center">
-											<combobox id="sky_detail"
-												readonly="true">
-												<comboitem
-													value="SERENO" label="SERENO">
-												</comboitem>
-												<comboitem
-													value="COPERTO" label="COPERTO">
-												</comboitem>
-												<comboitem
-													value="NUVOLOSO" label="NUVOLOSO">
-												</comboitem>
-											</combobox>
+												<hbox align="center">
+													<combobox
+														id="sky_detail" readonly="true">
+														<comboitem
+															value="SERENO" label="SERENO">
+														</comboitem>
+														<comboitem
+															value="COPERTO" label="COPERTO">
+														</comboitem>
+														<comboitem
+															value="NUVOLOSO" label="NUVOLOSO">
+														</comboitem>
+													</combobox>
 
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="sky_detail.setSelectedItem(null)">
-											</button>
+													<button
+														sclass="btn-info" label="ANNULLA"
+														onClick="sky_detail.setSelectedItem(null)">
+													</button>
 
-										</hbox>
-									</row>
+												</hbox>
+											</row>
 
-									<row>
-										<label
-											value="Primo Contenitore a Terra:">
-										</label>
+											<row>
+												<label
+													value="Primo Contenitore a Terra:">
+												</label>
 
-										<datebox id="first_down_detail"
-											cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
-											width="230px" />
+												<datebox
+													id="first_down_detail" cols="12" format="d/M/yyyy kk:mm"
+													onCreate="self.value = null" width="230px" />
 
-									</row>
+											</row>
 
-									<row>
-										<label
-											value="Ultimo Contenitore a Bordo:">
-										</label>
+											<row>
+												<label
+													value="Ultimo Contenitore a Bordo:">
+												</label>
 
-										<datebox id="last_down_detail"
-											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
-											width="230px" />
+												<datebox
+													id="last_down_detail" cols="12" format="d/M/yyyy kk:mm"
+													onCreate="self.value = null" width="230px" />
 
-									</row>
-											
+											</row>
+
 											<row>
 												<label
 													value="Note dettaglio:">
@@ -734,14 +746,20 @@
 								<datebox id="ship_departure"
 									format="dd-MM-yyyy" onCreate="self.setValue(new Date())" />
 							</row>
-							
+
 							<row>
-								<label value="Tipo Servizio"/>
+								<label value="Tipo Servizio" />
 								<hbox>
-								<combobox id="servicetype" placeholder="Seleziona tipo servizio..." readonly="false">
-									<comboitem self="@{each='service'}" label="@{service.name}" value="@{service}" />
-								</combobox>
-								<toolbarbutton label="Annulla selezione" style="color: blue" visible="true" onClick="servicetype.setSelectedItem(null);" />	</hbox>				
+									<combobox id="servicetype"
+										placeholder="Seleziona tipo servizio..." readonly="false">
+										<comboitem
+											self="@{each='service'}" label="@{service.name}"
+											value="@{service}" />
+									</combobox>
+									<toolbarbutton
+										label="Annulla selezione" style="color: blue" visible="true"
+										onClick="servicetype.setSelectedItem(null);" />
+								</hbox>
 							</row>
 
 						</rows>
@@ -855,8 +873,8 @@
 									value="Seleziona Secondo Preposto" readonly="true"
 									placeholder="Seleziona Secondo Preposto" />
 							</row>
-							
-							
+
+
 							<row>
 								<label value="Note Dettaglio"></label>
 								<textbox width="90%" rows="5"
@@ -885,6 +903,32 @@
 
 				<datebox id="searchArrivalDateShipTo"
 					placeholder="Alla data..." />
+
+				<hbox align="center">
+					<a label="Filtra su Anno"></a>
+					<combobox placeholder="Sleziona Anno..."
+						id="select_year_program">
+					</combobox>
+				</hbox>
+
+				<hbox align="center">
+					<a label="Filtra su Mese"></a>
+					<combobox placeholder="Sleziona Mese..."
+						id="select_month_program" readonly="true">
+						<comboitem label="1" value="1"></comboitem>
+						<comboitem label="2" value="2"></comboitem>
+						<comboitem label="3" value="3"></comboitem>
+						<comboitem label="4" value="4"></comboitem>
+						<comboitem label="5" value="5"></comboitem>
+						<comboitem label="6" value="6"></comboitem>
+						<comboitem label="7" value="7"></comboitem>
+						<comboitem label="8" value="8"></comboitem>
+						<comboitem label="9" value="9"></comboitem>
+						<comboitem label="10" value="10"></comboitem>
+						<comboitem label="11" value="11"></comboitem>
+						<comboitem label="12" value="12"></comboitem>
+					</combobox>
+				</hbox>
 
 				<button id="currentMonthProgramShip"
 					label="Mese Corrente" sclass="btn-info" />
@@ -921,10 +965,10 @@
 
 			<a label="Righe da visualizzare: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<intbox id="shows_rowsProgram" constraint="no negative, no zero"
-				value="10" />
+			<intbox id="shows_rowsProgram"
+				constraint="no negative, no zero" value="10" />
 			<textbox placeholder="Cerca Nome Nave..."
-						id="full_text_search_shipProgram" />
+				id="full_text_search_shipProgram" />
 			<separator />
 
 
@@ -938,14 +982,14 @@
 
 					<label value="" style="color:blue; font-size:10pt;"
 						id="shipNumberProgramShip_worked" />
-						
+
 					<label style="color:blue; font-size:10pt;"
 						value="Tot. Navi non lav: " />
 
 					<label value="" style="color:blue; font-size:10pt;"
 						id="shipNumberProgramShip_noWorked" />
-						
-					
+
+
 				</hbox>
 
 				<separator />
@@ -1002,21 +1046,24 @@
 				id="sw_addScheduleShipProgram" />
 			<separator />
 
-			<listbox id="sw_list_scheduleShipProgram" pagingPosition="both"
-				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
-				checkmark="true" multiple="false" pageSize="10">
+			<listbox id="sw_list_scheduleShipProgram"
+				pagingPosition="both" mold="paging" onSelect=""
+				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
+				pageSize="10">
 				<listhead sizable="true">
 					<listheader label="Data inizio attività"
-						sort="auto(arrivaldate)" id="arrivalDateColumn"/>
+						sort="auto(arrivaldate)" id="arrivalDateColumn" />
 					<listheader label="Data fine attività"
-						sort="auto(departuredate)" id="departureDateColumn"/>
-					<listheader label="Nome Nave" sort="auto(name)" id="shipNameColumun"/>
-					<listheader label="Cliente" id="customerColumn"/>
-					<listheader label="Volume Atteso" id="volumeColumnScheduleShip"
-						sort="auto(volume)" />
-					<listheader label="Rif Cliente"
-						sort="auto(rif_mct)" id="mctColumn"/>
-					<listheader label="Rif SWS" sort="auto(id)" id="rifSWSColumn"/>
+						sort="auto(departuredate)" id="departureDateColumn" />
+					<listheader label="Nome Nave" sort="auto(name)"
+						id="shipNameColumun" />
+					<listheader label="Cliente" id="customerColumn" />
+					<listheader label="Volume Atteso"
+						id="volumeColumnScheduleShip" sort="auto(volume)" />
+					<listheader label="Rif Cliente" sort="auto(rif_mct)"
+						id="mctColumn" />
+					<listheader label="Rif SWS" sort="auto(id)"
+						id="rifSWSColumn" />
 					<listheader label="Tipo Servizio" />
 					<listheader label="Note Programmazione" />
 					<listheader id="modifyColumnSchedule" label="" />
@@ -1051,8 +1098,8 @@
 						label="@{scheduleship_item.rif_mct}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{scheduleship_item.id}"/>
-						
+						label="@{scheduleship_item.id}" />
+
 					<listcell sclass="myBottonCell"
 						label="@{scheduleship_item.serviceName}" />
 
@@ -1085,8 +1132,8 @@
 				</listitem>
 
 			</listbox>
-					
-		
+
+
 		</div>
 
 		<!-- DETTAGLIO GIORNALIERO -->
@@ -1108,84 +1155,89 @@
 				<button id="currentMonthDetailProgramShip"
 					label="Mese Corrente" sclass="btn-info" />
 				<button id="refreshDetailView" label="Ricarica"
-				sclass="btn-info" />
-				
+					sclass="btn-info" />
+
 				<a label="Scarica dati in CSV"
 					id="detailShipProgram_download" style="color:green" />
 			</hbox>
 
-			<separator/><separator/>
-			
+			<separator />
+			<separator />
+
 			<hbox>
-			<intbox placeholder="Cerca Rif SWS..."
-				id="text_search_rifSWS"
-				onChange="text_search_rifMCT.setValue(null)" />
+				<intbox placeholder="Cerca Rif SWS..."
+					id="text_search_rifSWS"
+					onChange="text_search_rifMCT.setValue(null)" />
 
-			<textbox placeholder="Cerca Rif Cliente..."
-				id="text_search_rifMCT"
-				onChange="text_search_rifSWS.setValue(null)" />
+				<textbox placeholder="Cerca Rif Cliente..."
+					id="text_search_rifMCT"
+					onChange="text_search_rifSWS.setValue(null)" />
 
-			<a label="Filtra per cliente: " />
-			<combobox placeholder="Scegli cliente..." readonly="true"
-				id="select_customer"
-				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-			<a label="Filtra per servizio: " />
-			<vbox>
-				<combobox id="selectServiceDetail"
-					placeholder="Seleziona servizio..." readonly="false">
-					<comboitem self="@{each='service'}"
-						label="@{service.name}" value="@{service}" />
-				</combobox>
-				<a label="Annulla filtro servizio"
-					id="removeServiceFilterDetail" style="color:green"
-					onClick="selectServiceDetail.setSelectedItem(null);" />
-			</vbox>
+				<a label="Filtra per cliente: " />
+				<combobox placeholder="Scegli cliente..."
+					readonly="true" id="select_customer"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+				<a label="Filtra per servizio: " />
+				<vbox>
+					<combobox id="selectServiceDetail"
+						placeholder="Seleziona servizio..." readonly="false">
+						<comboitem self="@{each='service'}"
+							label="@{service.name}" value="@{service}" />
+					</combobox>
+					<a label="Annulla filtro servizio"
+						id="removeServiceFilterDetail" style="color:green"
+						onClick="selectServiceDetail.setSelectedItem(null);" />
+				</vbox>
 			</hbox>
-			<separator/>
-					
+			<separator />
+
 
 			<hbox align="center">
-			
-			<a label="Filtra su numero turno: " />
-			<combobox placeholder="Scegli turno..." readonly="true"
-				id="select_shift" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-				<comboitem value="TUTTI" label="TUTTI"
-					id="item_all_shift_overview">
-				</comboitem>
-				<comboitem value="1" label="1"></comboitem>
-				<comboitem value="2" label="2"></comboitem>
-				<comboitem value="3" label="3"></comboitem>
-				<comboitem value="4" label="4"></comboitem>
-			</combobox>
-			
-			<a label="Ricerca Navi per Data Turno: "
+
+				<a label="Filtra su numero turno: " />
+				<combobox placeholder="Scegli turno..." readonly="true"
+					id="select_shift"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+					<comboitem value="TUTTI" label="TUTTI"
+						id="item_all_shift_overview">
+					</comboitem>
+					<comboitem value="1" label="1"></comboitem>
+					<comboitem value="2" label="2"></comboitem>
+					<comboitem value="3" label="3"></comboitem>
+					<comboitem value="4" label="4"></comboitem>
+				</combobox>
+
+				<a label="Ricerca Navi per Data Turno: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 				<datebox id="searchDateShift" placeholder="Data Turno"
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"
+					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
 
-			
-			
-			
 
-			<a label="Filtra per tipo nave " />
-			<combobox placeholder="Scegli tipo nave..." readonly="true"
-				id="select_typeShip" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-				<comboitem value="activityh" label="Attività H" />
-				<comboitem value="nowork" label="Non Lavoro" />
-				<comboitem value="all" label="Tutti" />
-			</combobox>
-			
-			<a label="Filtra per lavorate " />
-			<combobox placeholder="Scegli se lavorate..." readonly="true"
-				id="select_workedShip" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-				<comboitem value="yes" label="Si" />
-				<comboitem value="no" label="No" />
-				<comboitem value="all" label="Tutte" />
-			</combobox>
-			
+
+
+
+				<a label="Filtra per tipo nave " />
+				<combobox placeholder="Scegli tipo nave..."
+					readonly="true" id="select_typeShip"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+					<comboitem value="activityh" label="Attività H" />
+					<comboitem value="nowork" label="Non Lavoro" />
+					<comboitem value="all" label="Tutti" />
+				</combobox>
+
+				<a label="Filtra per lavorate " />
+				<combobox placeholder="Scegli se lavorate..."
+					readonly="true" id="select_workedShip"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+					<comboitem value="yes" label="Si" />
+					<comboitem value="no" label="No" />
+					<comboitem value="all" label="Tutte" />
+				</combobox>
+
 			</hbox>
-			
-			<separator />			
+
+			<separator />
 
 			<separator />
 			<a label="Righe da visualizzare: "
@@ -1193,50 +1245,57 @@
 			<intbox id="shows_rows" constraint="no negative, no zero"
 				value="10" />
 
-			<textbox placeholder="Cerca Nome Nave..." id="full_text_search" onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"/>	
+			<textbox placeholder="Cerca Nome Nave..."
+				id="full_text_search"
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
 
 			<separator />
 
-			
+
 			<separator />
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />
 			<separator />
-			
+
 			<listbox id="sw_list_scheduleShip" pagingPosition="both"
 				mold="paging" onSelect="" style="border: 1px solid #CCCCCC;"
 				checkmark="true" multiple="false" pageSize="10">
 				<listhead sizable="true">
-					<listheader label="Nome Nave" sort="auto(name)" hflex="2"/>
-					<listheader label="Cliente" hflex="1"/>
-					<listheader label="Rif Cliente" hflex="1"/>
-					<listheader label="Rif SWS" hflex="1"/>
-					<listheader label="Data Turno" hflex="1"/>
-					<listheader label="Turno" sort="auto(shift)" id="shiftNumberColumn" />
+					<listheader label="Nome Nave" sort="auto(name)"
+						hflex="2" />
+					<listheader label="Cliente" hflex="1" />
+					<listheader label="Rif Cliente" hflex="1" />
+					<listheader label="Rif SWS" hflex="1" />
+					<listheader label="Data Turno" hflex="1" />
+					<listheader label="Turno" sort="auto(shift)"
+						id="shiftNumberColumn" />
 					<listheader label="Operazione"
-						sort="auto(operation)" hflex="1"/>
+						sort="auto(operation)" hflex="1" />
 					<listheader label="Primo Preposto"
 						sort="auto(firstOperativeName)" />
 					<listheader label="Secondo Preposto"
 						sort="auto(secondOperativeName)" />
-					<listheader label="Lavorata"
-						sort="auto(worked)" />
-					<listheader label="Mani P"   sort="auto(handswork_program)"/>
-					<listheader label="Mani C" id="handsColumn"  sort="auto(handswork)"/>
-					<listheader label="Persone P"  sort="auto(menwork_program)"/>
-					<listheader label="Persone C" id="personsColumn" sort="auto(menwork)"/>
-					
-					<listheader label="Tipo servizio" hflex="1"/>
+					<listheader label="Lavorata" sort="auto(worked)" />
+					<listheader label="Mani P"
+						sort="auto(handswork_program)" />
+					<listheader label="Mani C" id="handsColumn"
+						sort="auto(handswork)" />
+					<listheader label="Persone P"
+						sort="auto(menwork_program)" />
+					<listheader label="Persone C" id="personsColumn"
+						sort="auto(menwork)" />
+
+					<listheader label="Tipo servizio" hflex="1" />
 
 					<listheader label="Data inizio"
-						sort="auto(arrivaldate)" hflex="1"/>
+						sort="auto(arrivaldate)" hflex="1" />
 					<listheader label="Data fine"
-						sort="auto(departuredate)" hflex="1"/>
+						sort="auto(departuredate)" hflex="1" />
 
-					<listheader id="modifyColumnScheduleShip" label=""/>
+					<listheader id="modifyColumnScheduleShip" label="" />
 				</listhead>
 
-				
+
 				<listitem self="@{each='detailscheduleship_item'}"
 					value="@{detailscheduleship_item}">
 
@@ -1245,9 +1304,9 @@
 							style="color:blue; font-size:12pt; font-family: Arial,Sans-serif;"
 							id="shipNameDetail" value="@{detailscheduleship_item.name}">
 							<attribute name="onClick">
-								sw_list_scheduleShip.setSelectedItem((Listitem) self.getParent().getParent());
-								popup_ship.open(self, "after_pointer");
-							</attribute>
+	sw_list_scheduleShip.setSelectedItem((Listitem) self.getParent().getParent());
+	popup_ship.open(self, "after_pointer");
+</attribute>
 						</label>
 					</listcell>
 
@@ -1258,7 +1317,7 @@
 						label="@{detailscheduleship_item.rif_mct}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.idscheduleship}"/>
+						label="@{detailscheduleship_item.idscheduleship}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
@@ -1280,12 +1339,12 @@
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.handswork}" />
 					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.menwork_program}" />					
+						label="@{detailscheduleship_item.menwork_program}" />
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.menwork}" />
-						
+
 					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.serviceType}" />	
+						label="@{detailscheduleship_item.serviceType}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.arrivaldate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
@@ -1316,10 +1375,10 @@
 
 					</listcell>
 				</listitem>
-				
+
 			</listbox>
 
-			
+
 
 
 
@@ -1342,248 +1401,248 @@
 					label="Consuntiva Dettagli Programmazione Nave">
 
 				</caption>
-				
-				
+
+
 
 				<panelchildren>
-				
-				<separator></separator>
-										
-				
-				<div id="saveReview">
-				
-				<button sclass="btn-info" label="Salva Consuntivo" id="save_review" visible="true"/>
-										
-				
-				<separator></separator>
 
-					<grid style="border: 1px solid #CFCFCF"
-						sclass="domain">
-						<columns>
-							<column label="Type" hflex="1" />
-							<column label="Informazioni" hflex="2" />
-						</columns>
-						<rows>
-							<row>
-								<label value="Nome Nave e Turno: " />
-								<label id="infoShipNameAndShift"
-									value="" style="font-weight: bold; font-size: 18px; " />
-							</row>
-							<row>
-								<label value="Rif Cliente:" />
-								<hbox align="center">
-
-									<textbox id="rif_mct_review" />
-
-									<button id="updateRifMCT"
-										label="Aggiorna Rif Cliente" sclass="btn-info"
-										visible="true">
-									</button>
-
-									<label id="messageUpdateRifMCT"
-										value="Aggiornato Rif Cliente" visible="false" />
-
-								</hbox>
-							</row>
-							<row>
-								<label value="Rif SWS:"></label>
-								<label id="rif_sws_review" />
-							</row>
-							<row>
-								<label
-									value="Periodo di Lavorazione:">
-								</label>
-								<label id="working_cycle_review" />
-							</row>
-							
-							<row>
-								<label value="Lavorata:"></label>
-
-								<radiogroup id="workedGroup">
-									<radio id="workedYes" label="Si"
-										radiogroup="workedGroup" selected="true"/>
-									<space />
-									<radio id="workedNo" label="No"
-										radiogroup="workedGroup"  />
-								</radiogroup>
-
-							</row>
-
-							<row>
-								<label value="Mani P:"></label>
-								<label id="handswork_program_Daily"/>
-							</row>
-							<row>
-								<label value="Mani C:"></label>
-								<intbox id="handswork_Daily" value="0"
-									constraint="no negative" />
-							</row>
-							<row>
-								<label value="Persone P:"></label>
-								<label id="menwork_program_Daily"/>
-							</row>
-							<row>
-								<label value="Persone C:"></label>
-								<intbox id="menwork_Daily" value="0"
-									constraint="no negative" />
-							</row>
-							
-							<row>
-										<label value="Temperatura:"></label>
-
-										<hbox align="center">
-											<combobox
-												id="temperature_review" readonly="true">
-												<comboitem value="BASSA"
-													label="BASSA">
-												</comboitem>
-												<comboitem value="MEDIA"
-													label="MEDIA">
-												</comboitem>
-												<comboitem value="ALTA"
-													label="ALTA">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="temperature_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-
-
-									<row>
-										<label value="Vento:"></label>
-
-										<hbox align="center">
-											<combobox id="wind_review"
-												readonly="true">
-												<comboitem
-													value="LEGGERO" label="LEGGERO">
-												</comboitem>
-												<comboitem value="MEDIO"
-													label="MEDIO">
-												</comboitem>
-												<comboitem value="FORTE"
-													label="FORTE">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="wind_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-
-									<row>
-										<label value="Pioggia:"></label>
-
-										<hbox align="center">
-											<combobox id="rain_review"
-												readonly="true">
-												<comboitem
-													value="LEGGERA" label="LEGGERA">
-												</comboitem>
-												<comboitem value="MEDIA"
-													label="MEDIA">
-												</comboitem>
-												<comboitem value="FORTE"
-													label="FORTE">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="rain_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-
-									<row>
-										<label value="Cielo:"></label>
-
-										<hbox align="center">
-											<combobox id="sky_review"
-												readonly="true">
-												<comboitem
-													value="SERENO" label="SERENO">
-												</comboitem>
-												<comboitem
-													value="COPERTO" label="COPERTO">
-												</comboitem>
-												<comboitem
-													value="NUVOLOSO" label="NUVOLOSO">
-												</comboitem>
-											</combobox>
-
-											<button sclass="btn-info"
-												label="ANNULLA"
-												onClick="sky_review.setSelectedItem(null)">
-											</button>
-
-										</hbox>
-									</row>
-									
-									<row>
-										<label
-											value="Persone a bordo:">
-										</label>
-
-										<datebox id="person_down_review"
-											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
-											width="230px" />
-
-									</row>
-
-									<row>
-										<label
-											value="Primo Contenitore a Terra:">
-										</label>
-
-										<datebox id="first_down_review"
-											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
-											width="230px" />
-
-									</row>
-
-									<row>
-										<label
-											value="Ultimo Contenitore a Bordo:">
-										</label>
-
-										<datebox id="last_down_review"
-											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
-											width="230px" />
-
-									</row>
-									
-									<row>
-										<label
-											value="Persone a terra:">
-										</label>
-
-										<datebox id="person_onboard_review"
-											cols="12" format="d/M/yyyy kk:mm"  onCreate="self.value = null"
-											width="230px" />
-
-									</row>
-									
-									
-
-						</rows>
-					</grid>
 					<separator></separator>
 
-					<button sclass="btn-danger" label="Aggiungi Dettaglio" id="add_details_panels_review"
-						onClick="panel_editor_review_details.setVisible(true);saveReview.setVisible(true);" visible="true">
-					</button>
-				</div>
-					
+
+					<div id="saveReview">
+
+						<button sclass="btn-info"
+							label="Salva Consuntivo" id="save_review" visible="true" />
+
+
+						<separator></separator>
+
+						<grid style="border: 1px solid #CFCFCF"
+							sclass="domain">
+							<columns>
+								<column label="Type" hflex="1" />
+								<column label="Informazioni" hflex="2" />
+							</columns>
+							<rows>
+								<row>
+									<label value="Nome Nave e Turno: " />
+									<label id="infoShipNameAndShift"
+										value="" style="font-weight: bold; font-size: 18px; " />
+								</row>
+								<row>
+									<label value="Rif Cliente:" />
+									<hbox align="center">
+
+										<textbox id="rif_mct_review" />
+
+										<button id="updateRifMCT"
+											label="Aggiorna Rif Cliente" sclass="btn-info"
+											visible="true">
+										</button>
+
+										<label id="messageUpdateRifMCT"
+											value="Aggiornato Rif Cliente" visible="false" />
+
+									</hbox>
+								</row>
+								<row>
+									<label value="Rif SWS:"></label>
+									<label id="rif_sws_review" />
+								</row>
+								<row>
+									<label
+										value="Periodo di Lavorazione:">
+									</label>
+									<label id="working_cycle_review" />
+								</row>
+
+								<row>
+									<label value="Lavorata:"></label>
+
+									<radiogroup id="workedGroup">
+										<radio id="workedYes" label="Si"
+											radiogroup="workedGroup" selected="true" />
+										<space />
+										<radio id="workedNo" label="No"
+											radiogroup="workedGroup" />
+									</radiogroup>
+
+								</row>
+
+								<row>
+									<label value="Mani P:"></label>
+									<label id="handswork_program_Daily" />
+								</row>
+								<row>
+									<label value="Mani C:"></label>
+									<intbox id="handswork_Daily"
+										value="0" constraint="no negative" />
+								</row>
+								<row>
+									<label value="Persone P:"></label>
+									<label id="menwork_program_Daily" />
+								</row>
+								<row>
+									<label value="Persone C:"></label>
+									<intbox id="menwork_Daily" value="0"
+										constraint="no negative" />
+								</row>
+
+								<row>
+									<label value="Temperatura:"></label>
+
+									<hbox align="center">
+										<combobox
+											id="temperature_review" readonly="true">
+											<comboitem value="BASSA"
+												label="BASSA">
+											</comboitem>
+											<comboitem value="MEDIA"
+												label="MEDIA">
+											</comboitem>
+											<comboitem value="ALTA"
+												label="ALTA">
+											</comboitem>
+										</combobox>
+
+										<button sclass="btn-info"
+											label="ANNULLA"
+											onClick="temperature_review.setSelectedItem(null)">
+										</button>
+
+									</hbox>
+								</row>
+
+
+								<row>
+									<label value="Vento:"></label>
+
+									<hbox align="center">
+										<combobox id="wind_review"
+											readonly="true">
+											<comboitem value="LEGGERO"
+												label="LEGGERO">
+											</comboitem>
+											<comboitem value="MEDIO"
+												label="MEDIO">
+											</comboitem>
+											<comboitem value="FORTE"
+												label="FORTE">
+											</comboitem>
+										</combobox>
+
+										<button sclass="btn-info"
+											label="ANNULLA"
+											onClick="wind_review.setSelectedItem(null)">
+										</button>
+
+									</hbox>
+								</row>
+
+								<row>
+									<label value="Pioggia:"></label>
+
+									<hbox align="center">
+										<combobox id="rain_review"
+											readonly="true">
+											<comboitem value="LEGGERA"
+												label="LEGGERA">
+											</comboitem>
+											<comboitem value="MEDIA"
+												label="MEDIA">
+											</comboitem>
+											<comboitem value="FORTE"
+												label="FORTE">
+											</comboitem>
+										</combobox>
+
+										<button sclass="btn-info"
+											label="ANNULLA"
+											onClick="rain_review.setSelectedItem(null)">
+										</button>
+
+									</hbox>
+								</row>
+
+								<row>
+									<label value="Cielo:"></label>
+
+									<hbox align="center">
+										<combobox id="sky_review"
+											readonly="true">
+											<comboitem value="SERENO"
+												label="SERENO">
+											</comboitem>
+											<comboitem value="COPERTO"
+												label="COPERTO">
+											</comboitem>
+											<comboitem value="NUVOLOSO"
+												label="NUVOLOSO">
+											</comboitem>
+										</combobox>
+
+										<button sclass="btn-info"
+											label="ANNULLA" onClick="sky_review.setSelectedItem(null)">
+										</button>
+
+									</hbox>
+								</row>
+
+								<row>
+									<label value="Persone a bordo:">
+									</label>
+
+									<datebox id="person_down_review"
+										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
+										width="230px" />
+
+								</row>
+
+								<row>
+									<label
+										value="Primo Contenitore a Terra:">
+									</label>
+
+									<datebox id="first_down_review"
+										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
+										width="230px" />
+
+								</row>
+
+								<row>
+									<label
+										value="Ultimo Contenitore a Bordo:">
+									</label>
+
+									<datebox id="last_down_review"
+										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
+										width="230px" />
+
+								</row>
+
+								<row>
+									<label value="Persone a terra:">
+									</label>
+
+									<datebox id="person_onboard_review"
+										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
+										width="230px" />
+
+								</row>
+
+
+
+							</rows>
+						</grid>
+						<separator></separator>
+
+						<button sclass="btn-danger"
+							label="Aggiungi Dettaglio" id="add_details_panels_review"
+							onClick="panel_editor_review_details.setVisible(true);saveReview.setVisible(true);"
+							visible="true">
+						</button>
+					</div>
+
 
 					<separator></separator>
 
@@ -1599,12 +1658,14 @@
 							<hbox>
 								<button sclass="btn-info"
 									id="add_finalDetailScheduleShip_command"
-									label="Salva Dettaglio" visible="true" onClick="saveReview.setVisible(true);panel_editor_review_details.setVisible(false); ">
+									label="Salva Dettaglio" visible="true"
+									onClick="saveReview.setVisible(true);panel_editor_review_details.setVisible(false); ">
 								</button>
 
 								<button
 									id="modify_finalDetailScheduleShip_command"
-									label="Modifica Dettaglio" sclass="btn-info" visible="false" onClick="saveReview.setVisible(true);panel_editor_review_details.setVisible(false);">
+									label="Modifica Dettaglio" sclass="btn-info" visible="false"
+									onClick="saveReview.setVisible(true);panel_editor_review_details.setVisible(false);">
 								</button>
 
 								<button label="Chiudi" sclass="btn-info"
@@ -1743,7 +1804,8 @@
 								sort="auto(timework)" />
 
 							<listheader label="Note" />
-							<listheader id="modifyColumnDetail" label="" />
+							<listheader id="modifyColumnDetail"
+								label="" />
 						</listhead>
 
 						<listitem
@@ -1830,24 +1892,62 @@
 					<datebox id="date_to_overview"
 						placeholder="Selezione data finale" width="200px" />
 
-					<a label="Filtra su anno: " />
-					<combobox placeholder="Seleziona anno..."
-						readonly="true" id="select_year" />
-						
-					<a label="Filtra su mese: " />
-					<combobox placeholder="Seleziona mese..."
-						readonly="true" id="select_month" />
-						
+					<hbox>
+						<a label="Filtra su anno: " />
+
+						<vbox align="start">
+							<combobox placeholder="Seleziona anno..."
+								readonly="true" id="select_year" />
+
+							<a label="Annulla filtro"
+								id="reset_filter_select_year" style="color:green"
+								onClick="select_year.setSelectedItem(null);" />
+
+						</vbox>
+
+					</hbox>
+
+					<hbox align="center">
+
+						<a label="Filtra su mese: " />
+
+						<vbox align="start">
+							<combobox placeholder="Seleziona mese..."
+								readonly="true" id="select_month">
+
+								<comboitem label="1" value="1"></comboitem>
+								<comboitem label="2" value="2"></comboitem>
+								<comboitem label="3" value="3"></comboitem>
+								<comboitem label="4" value="4"></comboitem>
+								<comboitem label="5" value="5"></comboitem>
+								<comboitem label="6" value="6"></comboitem>
+								<comboitem label="7" value="7"></comboitem>
+								<comboitem label="8" value="8"></comboitem>
+								<comboitem label="9" value="9"></comboitem>
+								<comboitem label="10" value="10"></comboitem>
+								<comboitem label="11" value="11"></comboitem>
+								<comboitem label="12" value="12"></comboitem>
+
+							</combobox>
+
+							<a label="Annulla filtro"
+								id="reset_filter_month_detail" style="color:green"
+								onClick="select_month.setSelectedItem(null);" />
+
+						</vbox>
+
+					</hbox>
+
 					<button id="refresh_command" label="Ricarica"
-							sclass="btn-info" />
-						<a label="Scarica dati in CSV"
-							id="overview_download" style="color:green">
-						</a>
+						sclass="btn-info" />
+					<a label="Scarica dati in CSV"
+						id="overview_download" style="color:green">
+					</a>
 
 				</hbox>
 
 				<separator />
-				
+
 				<hbox id="filter_work" visible="true">
 					<intbox placeholder="Cerca Rif SWS..."
 						id="full_text_search_rifSWS" />
@@ -1857,10 +1957,7 @@
 
 					<intbox width="150px"
 						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
-					<intbox width="150px"
-						placeholder="Periodo Lavorazione..." id="working_cycle_search"
-						visible="false" />
-
+					
 					<a label="Filtra per servizio: " />
 					<vbox>
 						<combobox id="selectServiceBap"
@@ -1879,16 +1976,27 @@
 				<div id="filter_user" visible="true">
 
 					<hbox align="center">
-						
-						<a label="Filtra su numero turno: " />
-						<combobox placeholder="Scegli turno..."
-							readonly="true" id="select_shiftBap">
-							<comboitem value="TUTTI" label="TUTTI" />
-							<comboitem value="1" label="1"></comboitem>
-							<comboitem value="2" label="2"></comboitem>
-							<comboitem value="3" label="3"></comboitem>
-							<comboitem value="4" label="4"></comboitem>
-						</combobox>		
+
+						<hbox align="center">
+
+							<a label="Filtra su numero turno: " />
+
+							<vbox align="start">
+								<combobox placeholder="Scegli turno..."
+									readonly="true" id="select_shiftBap">
+									<comboitem value="1" label="1"></comboitem>
+									<comboitem value="2" label="2"></comboitem>
+									<comboitem value="3" label="3"></comboitem>
+									<comboitem value="4" label="4"></comboitem>
+								</combobox>
+
+								<a label="Annulla filtro servizio"
+									id="remove_select_shiftbap" style="color:green"
+									onClick="select_shiftBap.setSelectedItem(null);" />
+
+							</vbox>
+
+						</hbox>
 
 						<a label="Ricerca Navi per Data Turno: "
 							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
@@ -1898,18 +2006,19 @@
 					</hbox>
 
 					<separator></separator>
-					
+
 					<hbox align="center">
 
-					<a label="Righe da visualizzare: "
-						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-					<intbox id="shows_rows_ship"
-						constraint="no negative, no zero" value="10" />
+						<a label="Righe da visualizzare: "
+							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+						<intbox id="shows_rows_ship"
+							constraint="no negative, no zero" value="10" />
 						<textbox placeholder="Cerca Nome Nave..."
-						id="full_text_search_ship" />
+							id="full_text_search_ship" />
 					</hbox>
-					
-					<separator /><separator />
+
+					<separator />
+					<separator />
 
 					<hbox align="center">
 
@@ -1977,13 +2086,13 @@
 				<div id="filter_ship" visible="true">
 					<hbox align="center">
 
-							<label style="color:blue; font-size:10pt;"
-								value="Produttività media: " />
+						<label style="color:blue; font-size:10pt;"
+							value="Produttività media: " />
 
-							<label style="color:blue; font-size:10pt;"
-								id="ProductivityAVG" value="0" />
+						<label style="color:blue; font-size:10pt;"
+							id="ProductivityAVG" value="0" />
 
-						</hbox>
+					</hbox>
 				</div>
 
 				<separator />
@@ -2018,7 +2127,7 @@
 
 									<listheader label="Nome Nave"
 										hflex="2" />
-									<listheader label="Data" hflex="2" />
+									<listheader label="Data Turno" hflex="2" />
 									<listheader label="Turno" hflex="1" />
 									<listheader
 										label="Periodo di Fatturazione" hflex="1" />
@@ -2128,11 +2237,11 @@
 
 									<listheader label="Tempo Lavorato"
 										hflex="1" />
-									<listheader label="Volumi"
-										hflex="1" id="volumeStatisticColumn"/>
+									<listheader label="Volumi" hflex="1"
+										id="volumeStatisticColumn" />
 									<listheader label="Produttività Gru"
 										hflex="1" />
-									
+
 									<listheader
 										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
@@ -2170,7 +2279,7 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_ship, converter='org.uario.seaworkengine.zkevent.converter.ProductivityConverter'}" />
-									
+
 									<listcell sclass="myBottonCell"
 										label="@{item_review_ship.volumeunderboard}" />
 
@@ -2222,8 +2331,8 @@
 												label="@{itm_ship.time_vacation, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberConverter'}" />
 										</listitem>
 									</listbox>
-									
-									
+
+
 								</panelchildren>
 							</panel>
 
@@ -2256,18 +2365,19 @@
 					<a label="Filtra su anno: " />
 					<combobox placeholder="Seleziona anno..."
 						readonly="true" id="select_year_report" />
-						<button id="refreshReportView" label="Ricarica" sclass="btn-info" />
+					<button id="refreshReportView" label="Ricarica"
+						sclass="btn-info" />
 				</hbox>
 			</vbox>
-			
-			
-			
+
+
+
 			<separator></separator>
 
 
 			<listbox sclass="domain" mold="paging" pageSize="10"
 				pagingPosition="both" id="reportListboxContainer">
-				
+
 				<listhead sizable="true">
 					<listheader label="" hflex="1" />
 					<listheader label="Gennaio" hflex="1" />
@@ -2286,7 +2396,8 @@
 				</listhead>
 				<listitem self="@{each='reportItem'}"
 					value="@{reportItem}">
-					<listcell sclass="myBottonCell" label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+					<listcell sclass="myBottonCell"
+						label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
 						<custom-attributes month="argument" />
 					</listcell>
 					<listcell sclass="myBottonCell"
