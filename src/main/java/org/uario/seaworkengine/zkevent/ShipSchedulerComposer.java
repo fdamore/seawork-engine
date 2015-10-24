@@ -1433,12 +1433,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	@Listen("onOK = #shows_rows_ship")
-	public void defineView() {
-
-		this.refreshBAP();
-	}
-
 	private void definingPrintableVersion() {
 		// set visibility print button
 		this.print_ShipScheduler.setVisible(true);
@@ -1715,21 +1709,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// set info about customer combo
 		final List<Customer> list_customer = ShipSchedulerComposer.this.customerDAO.listAllCustomers();
+
 		final ListModel<Customer> model_customer = new ListModelList<Customer>(list_customer);
 		ShipSchedulerComposer.this.ship_customer.setModel(model_customer);
 
 		final ListModel<Customer> model_customer_add = new ListModelList<Customer>(list_customer);
 		ShipSchedulerComposer.this.ship_customer_add.setModel(model_customer_add);
 
-		final List<Customer> list = new ArrayList<Customer>(list_customer);
+		ShipSchedulerComposer.this.select_customer.setModel(new ListModelList<Customer>(list_customer));
 
-		final Customer allCustomer = new Customer();
-		allCustomer.setName("TUTTI");
-		allCustomer.setId(0);
-		list.add(allCustomer);
-		ShipSchedulerComposer.this.select_customer.setModel(new ListModelList<Customer>(list));
-
-		ShipSchedulerComposer.this.selectCustomer.setModel(new ListModelList<Customer>(list));
+		ShipSchedulerComposer.this.selectCustomer.setModel(new ListModelList<Customer>(list_customer));
 
 		ShipSchedulerComposer.this.sw_list_scheduleDetailShip.setModel(new ListModelList<DetailScheduleShip>());
 
@@ -2428,7 +2417,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Called on initial view definition
 	 */
-	@Listen("onChange =  #full_text_search_ship, #invoicing_cycle_search,#date_from_overview, #date_to_overview, #select_shiftBap; onOK= #full_text_search_ship, #invoicing_cycle_search,#date_from_overview, #date_to_overview;onChange = #selectServiceBap, #select_shiftBap; onClick = #removeServiceFilterBap, #remove_select_shiftbap")
+	@Listen("onChange =  #full_text_search_ship, #invoicing_cycle_search,#date_from_overview, #date_to_overview, #select_shiftBap; onOK= #shows_rows_ship, #full_text_search_ship, #invoicing_cycle_search,#date_from_overview, #date_to_overview;onChange = #selectServiceBap, #select_shiftBap; onClick = #shows_rows_ship,#removeServiceFilterBap, #remove_select_shiftbap")
 	public void refreshBAP() {
 
 		// get date
@@ -2933,7 +2922,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Integer selectedShift = this.getSelectedShift();
 
 		Integer idCustomer = null;
-		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+		if (this.select_customer.getSelectedItem() != null) {
 			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
 			idCustomer = customerSelected.getId();
 		}
@@ -3015,7 +3004,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Integer no_shift = this.getSelectedShift();
 
 		Integer idCustomer = null;
-		if ((this.select_customer.getSelectedItem() != null) && (this.select_customer.getSelectedItem().getLabel() != "TUTTI")) {
+		if (this.select_customer.getSelectedItem() != null) {
 			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
 			idCustomer = customerSelected.getId();
 		}
@@ -3347,6 +3336,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.refreshShipProgram();
 	}
 
+	@Listen("onChange = #searchWorkShip; onOK = #searchWorkShip")
+	public void searchDateShiftBAP() {
+
+		if (this.searchWorkShip.getValue() == null) {
+			return;
+		}
+
+		// get date
+		this.date_from_overview.setValue(this.searchWorkShip.getValue());
+		this.date_to_overview.setValue(this.searchWorkShip.getValue());
+
+		this.select_month.setValue(null);
+		this.select_year.setValue(null);
+
+		this.refreshBAP();
+	}
+
 	@Listen("onOK = #full_text_search_rifMCT")
 	public void searchMCT() {
 		this.searchWorkShip.setValue(null);
@@ -3570,14 +3576,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.dailyDetailShip.setVisible(true);
 		this.reviewWorkShip.setVisible(false);
 		this.reportWorkShip.setVisible(false);
-
 		this.text_search_rifMCT.setValue(null);
 		this.text_search_rifSWS.setValue(null);
 		this.full_text_search.setValue(null);
-
 		this.selectServiceDetail.setSelectedItem(null);
 
-		this.select_shift.setSelectedIndex(0);
+		this.select_shift.setValue(null);
 
 		// set period in info date
 		final Calendar current_cal = Calendar.getInstance();
@@ -3587,11 +3591,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 		this.searchArrivalDateShipTo.setValue(current_cal.getTime());
 
-		// set initial query for review work
-		final Calendar cal = Calendar.getInstance();
-		this.searchWorkShip.setValue(cal.getTime());
+		this.searchWorkShip.setValue(null);
 
-		this.searchDateShift.setValue(DateUtils.truncate(cal.getTime(), Calendar.DATE));
+		this.searchDateShift.setValue(null);
 
 		this.select_customer.setSelectedItem(null);
 

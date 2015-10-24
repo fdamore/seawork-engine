@@ -6,7 +6,7 @@
 	<cache-ref namespace="schedule" />
 
 
-	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BOP) -->
+	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BAP) -->
 	<select id="reviewShipWork" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ReviewShipWork">
 
@@ -24,32 +24,31 @@
 		d.volume_tw_mct,
 		d.notedetail,
 		d.invoicing_cycle,
-		dss.sky, dss.rain, dss.wind, dss.temperature, dss.first_down,
+		dss.sky, dss.rain, dss.wind, dss.temperature,
+		dss.first_down,
 		dss.last_down
 		from
 		ship s,
 		scheduleship ss,
 		detailscheduleship dss
 		left join
-		detailfinalscheduleship d ON (dss.id = d.iddetailscheduleship)
+		detailfinalscheduleship d ON (dss.id =
+		d.iddetailscheduleship)
 		where
 		dss.idscheduleship = ss.id
-		and s.id = ss.idship
+		and s.id =
+		ss.idship
 
-		<if test="dt_arg_to != null">
-			<if test="dt_arg_from != null">
+		<if test="dt_arg_to != null and dt_arg_from != null">
+			
 				and dss.shiftdate <![CDATA[>=]]>
 				#{dt_arg_from} and
 				dss.shiftdate <![CDATA[<=]]>
 				#{dt_arg_to}
-			</if>
+			
 		</if>
 
-		<if test="dt_arg_to == null">
-			<if test="dt_arg_from != null">
-				and dss.shiftdate = #{dt_arg_from}
-			</if>
-		</if>
+		
 
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
@@ -71,8 +70,8 @@
 			and d.invoicing_cycle = #{invoicing_cycle_search}
 		</if>
 
-		
-		
+
+
 		<if test="idService != null">
 			and ss.id_service = #{idService}
 		</if>
@@ -80,7 +79,7 @@
 		order by s.name , date_request, dss.shift
 	</select>
 
-	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BOP) -->
+	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BAP) -->
 	<select id="reviewShipWorkAggregate" parameterType="map"
 		resultType="org.uario.seaworkengine.statistics.ReviewShipWorkAggregate">
 
@@ -109,40 +108,36 @@
 		and s.id =
 		ss.idship and d.iddetailscheduleship = dss.id
 
-		<if test="dt_arg_to != null">
-			<if test="dt_arg_from != null">
-				and dss.shiftdate <![CDATA[>=]]>
-				#{dt_arg_from} and
-				dss.shiftdate <![CDATA[<=]]>
-				#{dt_arg_to}
-			</if>
+		<if test="dt_arg_to != null and dt_arg_from != null">
+
+			and dss.shiftdate <![CDATA[>=]]>
+			#{dt_arg_from} and
+			dss.shiftdate <![CDATA[<=]]>
+			#{dt_arg_to}
+
 		</if>
 
-		<if test="dt_arg_to == null">
-			<if test="dt_arg_from != null">
-				and dss.shiftdate = #{dt_arg_from}
-			</if>
-		</if>
+
 
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
-		
+
 		<if test="rifSWS != null">
 			and ss.id = #{rifSWS}
 		</if>
-		
+
 		<if test="rifMCT != null">
 			and ss.rif_mct = #{rifMCT}
-		</if>	
-		
+		</if>
+
 		<if test="invoicing_cycle != null">
 			and d.invoicing_cycle = #{invoicing_cycle}
 		</if>
-		
+
 		<if test="serviceId != null">
 			and ss.id_service = #{serviceId}
-		</if>		
+		</if>
 
 		group by rif_sws order by s.name
 	</select>
@@ -288,13 +283,14 @@
 	<select id="overviewFinalScheduleByShip" resultType="org.uario.seaworkengine.statistics.ShipOverview"
 		parameterType="map">
 		select
-		dfs.id_ship, dfs.board, 
+		dfs.id_ship, dfs.board,
 		s.name,
 		sum(dfs.time) as time,
 		sum(dfs.time_vacation)
 		as time_vacation
 		FROM
-		ship s,
+		ship
+		s,
 		detailfinalschedule dfs,
 		schedule sc
 		WHERE
@@ -316,17 +312,17 @@
 		group by dfs.id_ship order by s.name
 
 	</select>
-	
+
 	<select id="countWorkerInOverviewInitalSchedule" resultType="Integer"
 		parameterType="map">
-		select count(distinct u.id) 
+		select count(distinct u.id)
 		from
-		user u, user u1, user u2, usertask ut, 
+		user u, user u1, user u2, usertask ut,
 		schedule s left outer join
 		detailinitialschedule dfs on
 		(dfs.id_schedule = s.id)
-		where ut.id=dfs.task and ut.isabsence=0 and 
-		s.user = u.id and s.editor=u1.id and s.controller = u2.id  
+		where ut.id=dfs.task and ut.isabsence=0 and
+		s.user = u.id and s.editor=u1.id and s.controller = u2.id
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -353,27 +349,27 @@
 		<if test="task_id != null and task_id != -1">
 			and (dfs.task = #{task_id})
 		</if>
-		
+
 		<if test="task_id != null and task_id == -1">
-			and (dfs.task is null) 
+			and (dfs.task is null)
 		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
 
 	</select>
-	
+
 	<select id="countWorkerInOverviewFinalSchedule" resultType="Integer"
 		parameterType="map">
-		select count(distinct u.id) 
+		select count(distinct u.id)
 		from
-		user u, user u1, user u2, usertask ut, 
+		user u, user u1, user u2, usertask ut,
 		schedule s left
 		outer join
 		detailfinalschedule dfs on
 		(dfs.id_schedule = s.id)
-		where 
-		ut.id=dfs.task and ut.isabsence=0 and 
-		s.user = u.id and s.editor=u1.id and s.controller = u2.id  
+		where
+		ut.id=dfs.task and ut.isabsence=0 and
+		s.user = u.id and s.editor=u1.id and s.controller = u2.id
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or
@@ -399,25 +395,25 @@
 		<if test="task_id != null and task_id != -1">
 			and (dfs.task = #{task_id})
 		</if>
-		
+
 		<if test="task_id != null and task_id == -1">
-			and (dfs.task is null) 
+			and (dfs.task is null)
 		</if>
 
 		<if test="reviewshift != null">
-			and (dfs.reviewshift = #{reviewshift}) 
+			and (dfs.reviewshift = #{reviewshift})
 		</if>
-		
+
 		<if test="craneId != null">
-			and (dfs.crane like CONCAT('%', #{craneId}, '%') ) 
+			and (dfs.crane like CONCAT('%', #{craneId}, '%') )
 		</if>
-		
+
 		<if test="idShip != null and idShip != -1">
-			and (dfs.id_ship = #{idShip}) 
+			and (dfs.id_ship = #{idShip})
 		</if>
-		
+
 		<if test="idShip != null and idShip == -1">
-			and (dfs.id_ship is null) 
+			and (dfs.id_ship is null)
 		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift asc
@@ -432,7 +428,8 @@
 		concat(u.lastname, ' ', u.firstname) as user,
 		u.employee_identification as employee_identification,
 		dfs.id,
-		s.id as  id_schedule,
+		s.id as
+		id_schedule,
 		dfs.shift,
 		dfs.id_ship, dfs.crane as crane,
 		s.shift as
@@ -443,24 +440,24 @@
 		dfs.time_from,
 		dfs.time_to,
 		dfs.board, dfs.reviewshift,
-		s.date_schedule, s.note, 
-		u.id as id_user, 
-		(select 
-            concat(temp_1.lastname, ' ', temp_1.firstname)
-        from
-            user temp_1
-        where
-            temp_1.id = s.editor) as editor, 
-		(select 
-            concat(temp_1.lastname, ' ', temp_1.firstname)
-        from
-            user temp_1
-        where
-            temp_1.id = s.controller) as controller,  
-        (select t.code 
-        from user_usertask uut, usertask t 
-        where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1 
-        )  as defaultTask         
+		s.date_schedule, s.note,
+		u.id as id_user,
+		(select
+		concat(temp_1.lastname, ' ', temp_1.firstname)
+		from
+		user temp_1
+		where
+		temp_1.id = s.editor) as editor,
+		(select
+		concat(temp_1.lastname, ' ', temp_1.firstname)
+		from
+		user temp_1
+		where
+		temp_1.id = s.controller) as controller,
+		(select t.code
+		from user_usertask uut, usertask t
+		where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1
+		) as defaultTask
 		from
 		user u,
 		schedule s left
@@ -468,7 +465,7 @@
 		detailfinalschedule dfs on
 		(dfs.id_schedule = s.id)
 		where
-		s.user = u.id  
+		s.user = u.id
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or
@@ -494,25 +491,25 @@
 		<if test="task_id != null and task_id != -1">
 			and (dfs.task = #{task_id})
 		</if>
-		
+
 		<if test="task_id != null and task_id == -1">
-			and (dfs.task is null) 
+			and (dfs.task is null)
 		</if>
 
 		<if test="reviewshift != null">
-			and (dfs.reviewshift = #{reviewshift}) 
+			and (dfs.reviewshift = #{reviewshift})
 		</if>
-		
+
 		<if test="craneId != null">
-			and (dfs.crane like CONCAT('%', #{craneId}, '%') ) 
+			and (dfs.crane like CONCAT('%', #{craneId}, '%') )
 		</if>
-		
+
 		<if test="idShip != null and idShip != -1">
-			and (dfs.id_ship = #{idShip}) 
+			and (dfs.id_ship = #{idShip})
 		</if>
-		
+
 		<if test="idShip != null and idShip == -1">
-			and (dfs.id_ship is null) 
+			and (dfs.id_ship is null)
 		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift, dfs.time_from asc
@@ -534,30 +531,31 @@
 		dfs.time_vacation,
 		dfs.time_from,
 		dfs.time_to,
-		s.date_schedule, s.note,
-		(select 
-            concat(temp_1.lastname, ' ', temp_1.firstname)
-        from
-            user temp_1
-        where
-            temp_1.id = s.editor) as editor, 
-		(select 
-            concat(temp_1.lastname, ' ', temp_1.firstname)
-        from
-            user temp_1
-        where
-            temp_1.id = s.controller) as controller,  
-        (select t.code 
-        from user_usertask uut, usertask t 
-        where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1 
-        )  as defaultTask             
+		s.date_schedule,
+		s.note,
+		(select
+		concat(temp_1.lastname, ' ', temp_1.firstname)
 		from
-		user u,  
+		user temp_1
+		where
+		temp_1.id = s.editor) as editor,
+		(select
+		concat(temp_1.lastname, ' ', temp_1.firstname)
+		from
+		user temp_1
+		where
+		temp_1.id = s.controller) as controller,
+		(select t.code
+		from user_usertask uut, usertask t
+		where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1
+		) as defaultTask
+		from
+		user u,
 		schedule s left outer join
 		detailinitialschedule dfs on
 		(dfs.id_schedule = s.id)
 		where
-		s.user = u.id  
+		s.user = u.id
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -584,9 +582,9 @@
 		<if test="task_id != null and task_id != -1">
 			and (dfs.task = #{task_id})
 		</if>
-		
+
 		<if test="task_id != null and task_id == -1">
-			and (dfs.task is null) 
+			and (dfs.task is null)
 		</if>
 
 		order by u.lastname, s.date_schedule, dfs.shift, dfs.time_from asc
@@ -848,21 +846,28 @@
 		and (date_format(ss.date_schedule, '%m-%d') in
 		(${days_hol}))
 	</select>
-	
-	
+
+
 
 	<!-- REPORT SHIP WORK -->
 
-	<select id="getTotalInvoiceContainer" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="int">
-	select sum(dfs.volume) as containerInvoice,  month(s.arrivaldate) as monthInvoice 
-	from detailfinalscheduleship dfs, detailscheduleship dis, scheduleship s 
-	where dfs.iddetailscheduleship = dis.id and dis.idscheduleship = s.id and year(s.arrivaldate)=#{year} and dfs.invoicing_cycle=true group by month(s.arrivaldate);
+	<select id="getTotalInvoiceContainer" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="int">
+		select sum(dfs.volume) as containerInvoice, month(s.arrivaldate) as
+		monthInvoice
+		from detailfinalscheduleship dfs, detailscheduleship dis, scheduleship s
+		where dfs.iddetailscheduleship = dis.id and dis.idscheduleship = s.id
+		and year(s.arrivaldate)=#{year} and dfs.invoicing_cycle=true group by
+		month(s.arrivaldate);
 	</select>
-	
-	<select id="getTotalHandsMen" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="int">
-	select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork, month(s.arrivaldate) as monthInvoice 
-	from detailscheduleship dis, scheduleship s 
-	WHERE dis.idscheduleship = s.id and year(s.arrivaldate)=#{year} group by month(s.arrivaldate);
+
+	<select id="getTotalHandsMen" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="int">
+		select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork,
+		month(s.arrivaldate) as monthInvoice
+		from detailscheduleship dis, scheduleship s
+		WHERE dis.idscheduleship = s.id and year(s.arrivaldate)=#{year} group by
+		month(s.arrivaldate);
 	</select>
 
 

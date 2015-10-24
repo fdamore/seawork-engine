@@ -450,6 +450,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
 			final String rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer idService) {
 
+		MyBatisStatisticsDAO.logger.info("loadReviewShipWork");
+
 		Integer rif_sws_arg = rifSWS;
 		String rif_mct_arg = rifMCT;
 		if ((rifMCT != null) && rifMCT.equals("")) {
@@ -458,8 +460,6 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		if ((rifSWS != null) && rifSWS.equals("")) {
 			rif_sws_arg = null;
 		}
-
-		MyBatisStatisticsDAO.logger.info("loadReviewShipWork by date");
 
 		Date dt_arg_from = null;
 		if (date_from != null) {
