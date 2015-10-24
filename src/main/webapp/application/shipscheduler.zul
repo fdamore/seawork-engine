@@ -90,7 +90,8 @@
 						label="Salva Programmazione" visible="true" sclass="btn-info">
 					</button>
 					<button id="closeShipSchedule_command"
-						sclass="btn-info" label="Chiudi" visible="true">
+						onClick="program_ship_editor.setVisible(false)" sclass="btn-info"
+						label="Chiudi" visible="true">
 					</button>
 
 				</caption>
