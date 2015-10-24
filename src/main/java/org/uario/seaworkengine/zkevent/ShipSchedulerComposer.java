@@ -104,6 +104,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private static final long				serialVersionUID				= 1L;
 
+	private static final String				SHIP_WORKED_NO					= "no";
+
+	private static final String				SHIP_WORKED_YES					= "yes";
+
 	@Wire
 	private Button							add_finalDetailScheduleShip_command;
 
@@ -121,6 +125,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader						arrivalDateColumn;
+
+	@Wire
+	private Label							avg_productivity;
 
 	@Wire
 	private Label							avgVolmueCurrentMonth;
@@ -163,9 +170,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private ICustomerDAO					customerDAO;
 
 	@Wire
-	public Component						dailyDetailShip;
-
-	@Wire
 	private Datebox							date_from_overview;
 
 	@Wire
@@ -173,6 +177,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader						departureDateColumn;
+
+	@Wire
+	public Component						detail_div;
 
 	@Wire
 	private Comboitem						detail_item;
@@ -186,9 +193,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component						detailShipProgram_download;
-
-	@Wire
-	private Component						filter_ship;
 
 	@Wire
 	private Datebox							first_down_detail;
@@ -214,9 +218,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox							full_text_search_shipProgram;
-
-	@Wire
-	private Component						grid_scheduleShip;
 
 	@Wire
 	private Component						grid_scheduleShip_details;
@@ -397,10 +398,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Button							print_ShipScheduler;
 
 	@Wire
-	private Label							ProductivityAVG;
+	public Component						program_div;
 
 	@Wire
 	private Comboitem						program_item;
+
+	@Wire
+	private Component						program_ship_editor;
 
 	@Wire
 	private Combobox						rain_detail;
@@ -409,13 +413,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox						rain_review;
 
 	@Wire
+	private Component						report_div;
+
+	@Wire
 	private Comboitem						report_review_ship_item;
 
 	@Wire
 	private Listbox							reportListboxContainer;
 
 	@Wire
-	private Component						reportWorkShip;
+	private Component						review_div;
 
 	@Wire
 	private Component						reviewedTime;
@@ -425,9 +432,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Timebox							reviewTimeTo;
-
-	@Wire
-	private Component						reviewWorkShip;
 
 	@Wire
 	private Textbox							rif_mct_review;
@@ -483,6 +487,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox						select_month;
 
 	@Wire
+	public Combobox							select_month_detail;
+
+	@Wire
+	private Combobox						select_month_program;
+
+	@Wire
 	public Combobox							select_shift;
 
 	@Wire
@@ -496,6 +506,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox						select_year;
+
+	@Wire
+	public Combobox							select_year_detail;
+
+	@Wire
+	private Combobox						select_year_program;
 
 	@Wire
 	private Combobox						select_year_report;
@@ -599,9 +615,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label							shipNumberProgramShip_worked;
-
-	@Wire
-	public Component						shipProgram;
 
 	@Wire
 	private Component						shipProgram_download;
@@ -885,9 +898,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.shipSchedulerDao.createScheduleShip(ship_to_add);
 
-		this.refreshShipProgram();
+		this.refreshProgram();
 
-		this.grid_scheduleShip.setVisible(false);
+		this.program_ship_editor.setVisible(false);
 
 	}
 
@@ -979,8 +992,42 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void calculateBAPShipStatistics(final String text) {
+
+		String text_select = null;
+		if ((text != null) && !text.equals("")) {
+			text_select = text;
+		}
+
+		// select date period
+		Date date_from = this.date_from_overview.getValue();
+		Date date_to = this.date_to_overview.getValue();
+
+		if ((date_from != null) && (date_to != null) && !date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
+
+			// truncate
+			date_from = DateUtils.truncate(date_from, Calendar.DATE);
+			date_to = DateUtils.truncate(date_to, Calendar.DATE);
+		}
+
+		this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_select, date_from, date_to);
+
+		this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.list_ship_statistics.setPageSize(this.shows_rows.getValue());
+		}
+
+	}
+
+	/**
+	 * Set avg productivity in satistics
+	 *
+	 * @param list_review_work_aggregate
+	 * @return
+	 */
 	private Double calculateProductivityAVG(final List<ReviewShipWorkAggregate> list_review_work_aggregate) {
-		this.ProductivityAVG.setValue("");
+		this.avg_productivity.setValue(null);
 
 		if (list_review_work_aggregate.size() == 0) {
 			return 0.0;
@@ -1315,7 +1362,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -1338,7 +1385,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -1356,35 +1403,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick= #closeShipSchedule_command")
 	public void closeAddShipScheduleView() {
 
-		this.grid_scheduleShip.setVisible(false);
-	}
-
-	@Listen("onClick = #currentMonthDetailProgramShip")
-	public void currentMonthDetailProgramShip() {
-
-		final Calendar current_cal = Calendar.getInstance();
-		current_cal.set(Calendar.DAY_OF_MONTH, 1);
-		this.searchArrivalDateShipFrom_detail.setValue(current_cal.getTime());
-
-		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		this.searchArrivalDateShipTo_detail.setValue(current_cal.getTime());
-
-		this.refreshShipDetailDatePeriod();
-
-	}
-
-	@Listen("onClick = #currentMonthProgramShip")
-	public void currentMonthProgramShip() {
-
-		final Calendar current_cal = Calendar.getInstance();
-		current_cal.set(Calendar.DAY_OF_MONTH, 1);
-		this.searchArrivalDateShipFrom.setValue(current_cal.getTime());
-
-		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		this.searchArrivalDateShipTo.setValue(current_cal.getTime());
-
-		this.refreshShipProgram();
-
+		this.program_ship_editor.setVisible(false);
 	}
 
 	@Listen("onChange = #scheduler_type_selector; onSelect = #bap_overview_tab")
@@ -1394,41 +1413,38 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (selected.equals(this.program_item)) {
 
-			this.grid_scheduleShip.setVisible(false);
-			this.shipProgram.setVisible(true);
-			this.dailyDetailShip.setVisible(false);
-			this.reviewWorkShip.setVisible(false);
-			this.filter_ship.setVisible(false);
-			this.reportWorkShip.setVisible(false);
-			this.refreshShipProgram();
+			this.program_div.setVisible(true);
+			this.detail_div.setVisible(false);
+			this.review_div.setVisible(false);
+			this.report_div.setVisible(false);
+
+			this.refreshProgram();
 
 		} else if (selected.equals(this.detail_item)) {
 
-			this.grid_scheduleShip.setVisible(false);
-			this.shipProgram.setVisible(false);
-			this.dailyDetailShip.setVisible(true);
-			this.reviewWorkShip.setVisible(false);
-			this.filter_ship.setVisible(false);
-			this.reportWorkShip.setVisible(false);
-			this.refreshShipDetail();
+			this.program_div.setVisible(false);
+			this.detail_div.setVisible(true);
+			this.review_div.setVisible(false);
+			this.report_div.setVisible(false);
+
+			this.refreshDetail();
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
 
-			this.grid_scheduleShip.setVisible(false);
-			this.shipProgram.setVisible(false);
-			this.dailyDetailShip.setVisible(false);
-			this.reviewWorkShip.setVisible(true);
-			this.filter_ship.setVisible(false);
-			this.reportWorkShip.setVisible(false);
+			this.program_div.setVisible(false);
+			this.detail_div.setVisible(false);
+			this.review_div.setVisible(true);
+			this.report_div.setVisible(false);
 
 			this.refreshBAP();
+
 		} else if (selected.equals(this.report_review_ship_item)) {
-			this.grid_scheduleShip.setVisible(false);
-			this.shipProgram.setVisible(false);
-			this.dailyDetailShip.setVisible(false);
-			this.reviewWorkShip.setVisible(false);
-			this.filter_ship.setVisible(false);
-			this.reportWorkShip.setVisible(true);
+
+			this.program_div.setVisible(false);
+			this.detail_div.setVisible(false);
+			this.review_div.setVisible(false);
+			this.report_div.setVisible(true);
+
 			this.refreshReport();
 		}
 	}
@@ -1473,9 +1489,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.modifyColumnScheduleShip.setVisible(false);
 		this.modifyColumnDetail.setVisible(false);
 
-		this.dailyDetailShip.setVisible(false);
-		this.shipProgram.setVisible(false);
-		this.reviewWorkShip.setVisible(false);
+		this.detail_div.setVisible(false);
+		this.program_div.setVisible(false);
+		this.review_div.setVisible(false);
 
 		this.scheduler_type_selector.setSelectedItem(null);
 	}
@@ -1506,7 +1522,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.shipSchedulerDao.deleteDetailScheduleShip(this.detailScheduleShipSelected.getId());
 
-		this.refreshShipDetail();
+		this.refreshDetail();
 	}
 
 	@Listen("onClick = #sw_link_deleteDetailship")
@@ -1537,31 +1553,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
 
 		// define year to select in combo
-		final ArrayList<String> years_report = new ArrayList<String>();
 		final ArrayList<String> years = new ArrayList<String>();
-		final ArrayList<String> yearsReport = new ArrayList<String>();
-
 		for (Integer i = 2014; i <= (todayYear + 2); i++) {
 			years.add(i.toString());
-			yearsReport.add(i.toString());
-			years_report.add(i.toString());
+
 		}
 
 		ShipSchedulerComposer.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		final List<Service> serviceList = this.configurationDao.selectService(null, null, null);
-		this.servicetype.setModel(new ListModelList<Service>(serviceList));
 
+		this.servicetype.setModel(new ListModelList<Service>(serviceList));
 		this.servicetype_schedule.setModel(new ListModelList<Service>(serviceList));
 
 		this.selectService.setModel(new ListModelList<Service>(serviceList));
-
 		this.selectServiceDetail.setModel(new ListModelList<Service>(serviceList));
-
 		this.selectServiceBap.setModel(new ListModelList<Service>(serviceList));
 
 		this.select_year.setModel(new ListModelList<String>(years));
-
-		this.select_year_report.setModel(new ListModelList<String>(yearsReport));
+		this.select_year_program.setModel(new ListModelList<String>(years));
+		this.select_year_report.setModel(new ListModelList<String>(years));
+		this.select_year_detail.setModel(new ListModelList<String>(years));
 
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 
@@ -2233,7 +2244,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.popup_scheduleShip.close();
 
 		// update ship program view
-		this.refreshShipProgram();
+		this.refreshProgram();
 
 	}
 
@@ -2480,39 +2491,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			final Double avgProd = this.calculateProductivityAVG(this.list_review_work_aggregate);
 
-			this.ProductivityAVG.setValue(avgProd.toString());
+			this.avg_productivity.setValue(avgProd.toString());
 
 		} else if (this.statisticsShipTab.isSelected()) {
 
-			this.refreshBAPShipStatistics(this.full_text_search_ship.getValue());
-		}
-
-	}
-
-	private void refreshBAPShipStatistics(final String text) {
-
-		String text_select = null;
-		if ((text != null) && !text.equals("")) {
-			text_select = text;
-		}
-
-		// select date period
-		Date date_from = this.date_from_overview.getValue();
-		Date date_to = this.date_to_overview.getValue();
-
-		if ((date_from != null) && (date_to != null) && !date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
-
-			// truncate
-			date_from = DateUtils.truncate(date_from, Calendar.DATE);
-			date_to = DateUtils.truncate(date_to, Calendar.DATE);
-		}
-
-		this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_select, date_from, date_to);
-
-		this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
-
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.list_ship_statistics.setPageSize(this.shows_rows.getValue());
+			this.calculateBAPShipStatistics(this.full_text_search_ship.getValue());
 		}
 
 	}
@@ -2520,10 +2503,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #refresh_command")
 	public void refreshBapView() {
 
-		this.select_year.setSelectedItem(null);
+		final Calendar calendar_from = Calendar.getInstance();
+		final Calendar calendar_to = Calendar.getInstance();
+		calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+		calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+		this.select_year.setValue("" + calendar_from.get(Calendar.YEAR));
 		this.select_month.setSelectedItem(null);
-		this.date_from_overview.setValue(null);
-		this.date_to_overview.setValue(null);
+		this.date_from_overview.setValue(calendar_from.getTime());
+		this.date_to_overview.setValue(calendar_to.getTime());
 
 		this.full_text_search_ship.setValue(null);
 		this.full_text_search_rifSWS.setValue(null);
@@ -2534,6 +2521,182 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_shiftBap.setSelectedItem(null);
 
 		this.refreshBAP();
+	}
+
+	/**
+	 * Search info for detail
+	 */
+	@Listen("onChange = #selectServiceDetail, #select_shift, #select_customer, #select_typeShip, #select_workedShip; onOK = #selectServiceDetail, #shows_rows, #full_text_search; onClick = #remove_select_year_detail, #remove_select_month_detail, #remove_select_typeShip, #remove_select_workedShip, #removeServiceFilterDetail, #remove_select_customer")
+	public void refreshDetail() {
+
+		final Date dateFrom = this.searchArrivalDateShipFrom_detail.getValue();
+		final Date dateTo = this.searchArrivalDateShipTo_detail.getValue();
+
+		String text_search = this.full_text_search.getValue();
+
+		if ((text_search != null) && text_search.equals("")) {
+			text_search = null;
+		}
+
+		final Integer no_shift = this.getSelectedShift();
+
+		Integer idCustomer = null;
+		if (this.select_customer.getSelectedItem() != null) {
+			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+			idCustomer = customerSelected.getId();
+		}
+
+		// set ship type filter
+		Boolean nowork = null;
+		Boolean activityh = null;
+		if (this.select_typeShip.getSelectedItem() != null) {
+			final String selected = this.select_typeShip.getSelectedItem().getValue();
+			if (selected.equals("activityh")) {
+				activityh = true;
+			} else if (selected.equals("nowork")) {
+				nowork = true;
+			}
+		}
+
+		// set worked filter
+		Boolean worked = null;
+		if ((this.select_workedShip.getSelectedItem() != null)) {
+			if (this.select_workedShip.getSelectedItem().getValue().equals(ShipSchedulerComposer.SHIP_WORKED_YES)) {
+				worked = true;
+			} else if (this.select_workedShip.getSelectedItem().getValue().equals(ShipSchedulerComposer.SHIP_WORKED_NO)) {
+				worked = false;
+			}
+		}
+
+		// set rif_mct filter and rif_sws filter
+		String rifMCT = this.text_search_rifMCT.getValue();
+		if (rifMCT.equals("")) {
+			rifMCT = null;
+		}
+
+		Integer idServiceSelected = null;
+
+		if (this.selectServiceDetail.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+
+			idServiceSelected = serviceSelected.getId();
+		}
+
+		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipByPeriodOrDateshift(dateFrom, dateTo,
+				this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected);
+
+		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
+		} else {
+			this.sw_list_scheduleShip.setPageSize(10);
+		}
+
+		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
+	}
+
+	/**
+	 *
+	 */
+	@Listen("onClick = #refreshDetailView")
+	public void refreshDetailView() {
+
+		final Calendar calendar_from = Calendar.getInstance();
+		final Calendar calendar_to = Calendar.getInstance();
+
+		calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+		calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+		this.select_year_detail.setValue("" + calendar_from.get(Calendar.YEAR));
+		this.select_month_detail.setSelectedItem(null);
+
+		// set null date shift box
+		this.searchDateShift.setValue(null);
+
+		this.searchArrivalDateShipFrom_detail.setValue(calendar_from.getTime());
+		this.searchArrivalDateShipTo_detail.setValue(calendar_to.getTime());
+
+		this.text_search_rifSWS.setValue(null);
+		this.text_search_rifMCT.setValue(null);
+
+		this.selectServiceDetail.setSelectedItem(null);
+		this.select_customer.setSelectedItem(null);
+
+		this.select_shift.setValue(null);
+
+		this.select_typeShip.setValue(null);
+
+		this.select_workedShip.setValue(null);
+
+		this.full_text_search.setValue(null);
+
+		this.refreshDetail();
+
+	}
+
+	/**
+	 * Search on Ship
+	 */
+	@Listen("onOK = #full_text_search_shipProgram, #shows_rowsProgram; onChange = #selectService, #selectServiceDetail,  #searchArrivalDateShipFrom, #searchArrivalDateShipTo, #selectCustomer;onOK = #searchArrivalDateShipFrom, #searchArrivalDateShipTo;onClick = #removeServiceFilter, #remove_selectCustomer, #remove_select_month_program, #remove_select_year_program")
+	public void refreshProgram() {
+
+		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
+		final Date dateTo = this.searchArrivalDateShipTo.getValue();
+
+		Integer id_customer = null;
+
+		if (this.selectCustomer.getSelectedItem() != null) {
+			final Customer c = this.selectCustomer.getSelectedItem().getValue();
+			if (c != null) {
+				id_customer = c.getId();
+			}
+		}
+
+		Integer id_service = null;
+
+		if (this.selectService.getSelectedItem() != null) {
+			final Service serviceSelected = this.selectService.getSelectedItem().getValue();
+			id_service = serviceSelected.getId();
+		}
+
+		this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(dateFrom, dateTo, this.search_rifSWS.getValue(),
+				this.search_rifMCT.getValue(), id_customer, id_service, this.full_text_search_shipProgram.getValue());
+
+		if ((this.shows_rowsProgram.getValue() != null) && (this.shows_rowsProgram.getValue() != 0)) {
+			this.sw_list_scheduleShipProgram.setPageSize(this.shows_rowsProgram.getValue());
+		} else {
+			this.sw_list_scheduleShipProgram.setPageSize(10);
+		}
+
+		this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
+
+		this.calculateSummaryShipProgram(this.list_programmed_ship);
+
+	}
+
+	@Listen("onClick = #refreshScheduleView")
+	public void refreshProgramView() {
+
+		final Calendar calendar_from = Calendar.getInstance();
+		final Calendar calendar_to = Calendar.getInstance();
+
+		calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+		calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+		this.select_year_program.setValue("" + calendar_from.get(Calendar.YEAR));
+		this.select_month_program.setSelectedItem(null);
+
+		this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
+		this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
+
+		this.search_rifSWS.setValue(null);
+		this.search_rifMCT.setValue(null);
+
+		this.selectService.setSelectedItem(null);
+		this.selectCustomer.setSelectedItem(null);
+
+		this.full_text_search_shipProgram.setValue(null);
+
+		this.refreshProgram();
 	}
 
 	@Listen("onClick = #refreshReportView;onChange=#select_year_report")
@@ -2885,242 +3048,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	/**
-	 * Set ship list box with initial events
-	 */
-	@Listen("onOK = #shows_rows, #full_text_search;onChange = #select_shift, #select_customer, #select_typeShip, #select_workedShip")
-	public void refreshShipDetail() {
-
-		if (this.searchDateShift.getValue() != null) {
-			this.refreshShipDetailByDateShift();
-		} else {
-			this.refreshShipDetailDatePeriod();
-		}
-
-	}
-
-	@Listen("onChange = #searchDateShift; onOK = #searchDateShift")
-	public void refreshShipDetailByDateShift() {
-
-		this.searchArrivalDateShipFrom_detail.setValue(null);
-		this.searchArrivalDateShipTo_detail.setValue(null);
-
-		if (this.searchDateShift.getValue() == null) {
-			return;
-		}
-
-		final Date date = this.searchDateShift.getValue();
-
-		this.list_details_programmed_ship = null;
-
-		String text_search = this.full_text_search.getValue();
-
-		if ((text_search != null) && text_search.equals("")) {
-			text_search = null;
-		}
-
-		final Integer selectedShift = this.getSelectedShift();
-
-		Integer idCustomer = null;
-		if (this.select_customer.getSelectedItem() != null) {
-			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
-			idCustomer = customerSelected.getId();
-		}
-
-		// set ship type filter
-		Boolean nowork = null;
-		Boolean activityh = null;
-		if (this.select_typeShip.getSelectedItem() != null) {
-			final String selected = this.select_typeShip.getSelectedItem().getValue();
-			if (selected.equals("activityh")) {
-				activityh = true;
-			} else if (selected.equals("nowork")) {
-				nowork = true;
-			}
-		}
-
-		// set worked filter
-		Boolean worked = false;
-		if (this.select_workedShip.getSelectedItem() == null) {
-			worked = null;
-		} else if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
-			worked = true;
-		} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
-			worked = false;
-		} else if (this.select_workedShip.getSelectedItem().getValue().equals("all")) {
-			worked = null;
-		}
-
-		// set rif_mct filter and rif_sws filter
-		String rifMCT = this.text_search_rifMCT.getValue();
-
-		if (rifMCT.equals("")) {
-			rifMCT = null;
-		}
-
-		Integer idServiceSelected = null;
-
-		if (this.selectServiceDetail.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
-
-			idServiceSelected = serviceSelected.getId();
-		}
-
-		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(date, text_search, selectedShift, idCustomer, nowork,
-				activityh, worked, idServiceSelected);
-
-		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
-
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
-		} else {
-			this.sw_list_scheduleShip.setPageSize(10);
-		}
-
-		// caluclate summaru info
-		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
-
-	}
-
-	@Listen("onChange = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail; onOK = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail")
-	public void refreshShipDetailDatePeriod() {
-
-		// set null date shift box
-		this.searchDateShift.setValue(null);
-
-		final Date dateFrom = this.searchArrivalDateShipFrom_detail.getValue();
-		final Date dateTo = this.searchArrivalDateShipTo_detail.getValue();
-
-		if ((dateFrom == null) || (dateTo == null)) {
-			return;
-		}
-
-		String text_search = this.full_text_search.getValue();
-
-		if ((text_search != null) && text_search.equals("")) {
-			text_search = null;
-		}
-
-		final Integer no_shift = this.getSelectedShift();
-
-		Integer idCustomer = null;
-		if (this.select_customer.getSelectedItem() != null) {
-			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
-			idCustomer = customerSelected.getId();
-		}
-
-		// set ship type filter
-		Boolean nowork = null;
-		Boolean activityh = null;
-		if (this.select_typeShip.getSelectedItem() != null) {
-			final String selected = this.select_typeShip.getSelectedItem().getValue();
-			if (selected.equals("activityh")) {
-				activityh = true;
-			} else if (selected.equals("nowork")) {
-				nowork = true;
-			}
-		}
-
-		// set worked filter
-		Boolean worked = null;
-		if ((this.select_workedShip.getSelectedItem() != null)) {
-			if (this.select_workedShip.getSelectedItem().getValue().equals("yes")) {
-				worked = true;
-			} else if (this.select_workedShip.getSelectedItem().getValue().equals("no")) {
-				worked = false;
-			}
-		}
-
-		// set rif_mct filter and rif_sws filter
-		String rifMCT = this.text_search_rifMCT.getValue();
-		if (rifMCT.equals("")) {
-			rifMCT = null;
-		}
-
-		Integer idServiceSelected = null;
-
-		if (this.selectServiceDetail.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
-
-			idServiceSelected = serviceSelected.getId();
-		}
-
-		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo, text_search, no_shift, idCustomer,
-				nowork, activityh, worked, idServiceSelected);
-
-		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
-
-		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
-	}
-
-	/**
-	 * Search on Ship
-	 */
-	private void refreshShipProgram() {
-
-		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
-		final Date dateTo = this.searchArrivalDateShipTo.getValue();
-
-		if (((dateFrom != null) && (dateTo != null)) || ((dateFrom == null) && (dateTo == null))) {
-
-			Integer idCustomer = null;
-
-			if (this.selectCustomer.getSelectedItem() != null) {
-				final Customer c = this.selectCustomer.getSelectedItem().getValue();
-				if (c != null) {
-					idCustomer = c.getId();
-					if (idCustomer.equals(0)) {
-						idCustomer = null;
-					}
-				}
-			}
-
-			Integer idServiceSelected = null;
-
-			if (this.selectService.getSelectedItem() != null) {
-				final Service serviceSelected = this.selectService.getSelectedItem().getValue();
-
-				idServiceSelected = serviceSelected.getId();
-			}
-
-			this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(this.searchArrivalDateShipFrom.getValue(),
-					this.searchArrivalDateShipTo.getValue(), this.search_rifSWS.getValue(), this.search_rifMCT.getValue(), idCustomer,
-					idServiceSelected, this.full_text_search_shipProgram.getValue());
-
-			if ((this.shows_rowsProgram.getValue() != null) && (this.shows_rowsProgram.getValue() != 0)) {
-				this.sw_list_scheduleShipProgram.setPageSize(this.shows_rowsProgram.getValue());
-			} else {
-				this.sw_list_scheduleShipProgram.setPageSize(10);
-			}
-
-			this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
-
-		}
-
-		this.calculateSummaryShipProgram(this.list_programmed_ship);
-
-	}
-
-	@Listen("onClick = #refreshScheduleView")
-	public void refreshShipProgramView() {
-
-		final Calendar current_cal = Calendar.getInstance();
-		current_cal.set(Calendar.DAY_OF_MONTH, 1);
-		this.searchArrivalDateShipFrom.setValue(current_cal.getTime());
-
-		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		this.searchArrivalDateShipTo.setValue(current_cal.getTime());
-
-		this.search_rifSWS.setValue(null);
-		this.search_rifMCT.setValue(null);
-
-		this.selectService.setSelectedItem(null);
-
-		this.selectCustomer.setSelectedItem(null);
-
-		this.refreshShipProgram();
-	}
-
 	@Listen("onClick = #sw_link_deleteship")
 	public void removeItem() {
 
@@ -3169,9 +3096,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						public void onEvent(final ClickEvent e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
 								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-								.getId());
+										.getId());
 
-								ShipSchedulerComposer.this.refreshShipProgram();
+								ShipSchedulerComposer.this.refreshProgram();
 							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
 							}
@@ -3255,7 +3182,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 
 		// reset view
-		this.refreshShipDetail();
+		this.refreshDetail();
 		this.alertShiftDate_detail.setVisible(false);
 		this.popup_detail_Daily.close();
 
@@ -3317,23 +3244,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 
 		// reset view
-		this.refreshShipDetail();
+		this.refreshDetail();
 
 		this.popup_review_detail.close();
 
-	}
-
-	@Listen("onChange = #searchArrivalDateShipFrom, #searchArrivalDateShipTo")
-	public void searchByDateProgram() {
-		this.search_rifMCT.setValue(null);
-		this.search_rifSWS.setValue(null);
-
-		this.refreshShipProgram();
-	}
-
-	@Listen("onChange = #selectCustomer")
-	public void searchCustomer() {
-		this.refreshShipProgram();
 	}
 
 	@Listen("onChange = #searchWorkShip; onOK = #searchWorkShip")
@@ -3373,18 +3287,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void searchRifMCT() {
 		this.searchArrivalDateShipFrom.setValue(null);
 		this.searchArrivalDateShipTo.setValue(null);
+		this.select_year_program.setValue(null);
+		this.select_month_program.setValue(null);
+
 		this.search_rifSWS.setValue(null);
 
-		this.refreshShipProgram();
+		this.refreshProgram();
 	}
 
 	@Listen("onOK = #search_rifSWS")
 	public void searchRifSWS() {
 		this.searchArrivalDateShipFrom.setValue(null);
 		this.searchArrivalDateShipTo.setValue(null);
+		this.select_year_program.setValue(null);
 		this.search_rifMCT.setValue(null);
+		this.select_month_program.setValue(null);
 
-		this.refreshShipProgram();
+		this.refreshProgram();
 	}
 
 	@Listen("onOK = #text_search_rifSWS, #text_search_rifMCT")
@@ -3435,7 +3354,28 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #select_month;onClick = #reset_filter_month_detail")
+	@Listen("onChange = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail; onOK = #searchArrivalDateShipFrom_detail, #searchArrivalDateShipTo_detail")
+	public void selectDetailDatePeriod() {
+
+		// the search must to be for date period
+		this.searchDateShift.setValue(null);
+
+		this.refreshDetail();
+	}
+
+	@Listen("onChange = #searchDateShift; onOK = #searchDateShift")
+	public void selectDetailDateshift() {
+
+		// the search must to be for date period
+		this.searchArrivalDateShipFrom_detail.setValue(null);
+		this.searchArrivalDateShipTo_detail.setValue(null);
+		this.select_year_detail.setValue(null);
+		this.select_month_program.setValue(null);
+
+		this.refreshDetail();
+	}
+
+	@Listen("onChange = #select_month;onClick = #reset_filter_select_month")
 	public void selectedMonthBAP() {
 
 		if ((this.select_year.getSelectedItem() == null) || (this.select_year.getSelectedItem().getValue() == null)) {
@@ -3469,6 +3409,76 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.date_to_overview.setValue(calendar_to.getTime());
 
 		this.refreshBAP();
+
+	}
+
+	@Listen("onChange = #select_month_detail;onClick = #remove_select_month_detail")
+	public void selectedMonthDetail() {
+
+		if ((this.select_year_detail.getSelectedItem() == null) || (this.select_year_detail.getSelectedItem().getValue() == null)) {
+			return;
+		}
+
+		if ((this.select_month_detail.getSelectedItem() == null) || (this.select_month_detail.getSelectedItem().getValue() == null)) {
+			this.selectedYearDetail();
+			return;
+		}
+
+		final String monthSelected = this.select_month_detail.getSelectedItem().getValue();
+		final String yearSelected = this.select_year_detail.getSelectedItem().getValue();
+
+		final Integer year = Integer.parseInt(yearSelected);
+		final Integer month = Integer.parseInt(monthSelected);
+		final Calendar calendar_from = Calendar.getInstance();
+		final Calendar calendar_to = Calendar.getInstance();
+
+		calendar_from.set(Calendar.YEAR, year);
+		calendar_from.set(Calendar.MONTH, month - 1);
+		calendar_from.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+		calendar_to.set(Calendar.YEAR, year);
+		calendar_to.set(Calendar.MONTH, month - 1);
+		calendar_to.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		this.searchArrivalDateShipFrom_detail.setValue(calendar_from.getTime());
+		this.searchArrivalDateShipTo_detail.setValue(calendar_to.getTime());
+
+		this.refreshDetail();
+
+	}
+
+	@Listen("onChange = #select_month_program;onClick = #remove_select_month_program")
+	public void selectedMonthProgram() {
+
+		if ((this.select_year_program.getSelectedItem() == null) || (this.select_year_program.getSelectedItem().getValue() == null)) {
+			return;
+		}
+
+		if ((this.select_month_program.getSelectedItem() == null) || (this.select_month_program.getSelectedItem().getValue() == null)) {
+			this.selectedYearProgram();
+			return;
+		}
+
+		final String monthSelected = this.select_month_program.getSelectedItem().getValue();
+		final String yearSelected = this.select_year_program.getSelectedItem().getValue();
+
+		final Integer year = Integer.parseInt(yearSelected);
+		final Integer month = Integer.parseInt(monthSelected);
+		final Calendar calendar_from = Calendar.getInstance();
+		final Calendar calendar_to = Calendar.getInstance();
+
+		calendar_from.set(Calendar.YEAR, year);
+		calendar_from.set(Calendar.MONTH, month - 1);
+		calendar_from.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+		calendar_to.set(Calendar.YEAR, year);
+		calendar_to.set(Calendar.MONTH, month - 1);
+		calendar_to.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+		this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
+		this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
+
+		this.refreshProgram();
 
 	}
 
@@ -3512,14 +3522,80 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #selectService; onClick = #removeServiceFilter; onOK = #full_text_search_shipProgram, #shows_rowsProgram")
-	public void selectService() {
-		this.refreshShipProgram();
+	@Listen("onChange =#select_year_detail; onClick = #remove_select_year_detail")
+	public void selectedYearDetail() {
+
+		if ((this.select_year_detail.getSelectedItem() == null) || (this.select_year_detail.getSelectedItem().getValue() == null)) {
+
+			this.searchArrivalDateShipFrom_detail.setValue(null);
+			this.searchArrivalDateShipTo_detail.setValue(null);
+
+			this.refreshDetail();
+
+			return;
+		}
+
+		final String yearSelected = this.select_year_detail.getSelectedItem().getValue();
+
+		if (this.select_month_detail.getSelectedItem() != null) {
+			this.refreshProgram();
+		} else {
+			final Integer year = Integer.parseInt(yearSelected);
+			final Calendar calendar_from = Calendar.getInstance();
+			final Calendar calendar_to = Calendar.getInstance();
+
+			calendar_from.set(Calendar.YEAR, year);
+			calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+			calendar_from.set(Calendar.MONTH, calendar_from.getActualMinimum(Calendar.MONTH));
+
+			calendar_to.set(Calendar.YEAR, year);
+			calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+			calendar_to.set(Calendar.MONTH, calendar_from.getActualMaximum(Calendar.MONTH));
+
+			this.searchArrivalDateShipFrom_detail.setValue(calendar_from.getTime());
+			this.searchArrivalDateShipTo_detail.setValue(calendar_to.getTime());
+
+			this.refreshDetail();
+		}
+
 	}
 
-	@Listen("onChange = #selectServiceDetail; onClick = #removeServiceFilterDetail")
-	public void selectServiceDetail() {
-		this.refreshShipDetail();
+	@Listen("onChange =#select_year_program; onClick = #remove_select_year_program")
+	public void selectedYearProgram() {
+
+		if ((this.select_year_program.getSelectedItem() == null) || (this.select_year_program.getSelectedItem().getValue() == null)) {
+
+			this.searchArrivalDateShipFrom.setValue(null);
+			this.searchArrivalDateShipTo.setValue(null);
+
+			this.refreshProgram();
+
+			return;
+		}
+
+		final String yearSelected = this.select_year_program.getSelectedItem().getValue();
+
+		if (this.select_month_program.getSelectedItem() != null) {
+			this.refreshProgram();
+		} else {
+			final Integer year = Integer.parseInt(yearSelected);
+			final Calendar calendar_from = Calendar.getInstance();
+			final Calendar calendar_to = Calendar.getInstance();
+
+			calendar_from.set(Calendar.YEAR, year);
+			calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+			calendar_from.set(Calendar.MONTH, calendar_from.getActualMinimum(Calendar.MONTH));
+
+			calendar_to.set(Calendar.YEAR, year);
+			calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+			calendar_to.set(Calendar.MONTH, calendar_from.getActualMaximum(Calendar.MONTH));
+
+			this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
+			this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
+
+			this.refreshProgram();
+		}
+
 	}
 
 	@Listen("onClick = #selectShipNoWork")
@@ -3567,42 +3643,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * Show ships
+	 * Define initial view
 	 */
-	public void setInitialView() {
+	private void setInitialView() {
 
-		this.grid_scheduleShip.setVisible(false);
-		this.shipProgram.setVisible(false);
-		this.dailyDetailShip.setVisible(true);
-		this.reviewWorkShip.setVisible(false);
-		this.reportWorkShip.setVisible(false);
-		this.text_search_rifMCT.setValue(null);
-		this.text_search_rifSWS.setValue(null);
-		this.full_text_search.setValue(null);
-		this.selectServiceDetail.setSelectedItem(null);
+		// define initial view
+		this.refreshProgramView();
+		this.refreshDetailView();
+		this.refreshBapView();
 
-		this.select_shift.setValue(null);
+		// set second item in view selector
+		this.scheduler_type_selector.setSelectedItem(this.detail_item);
 
-		// set period in info date
-		final Calendar current_cal = Calendar.getInstance();
-		current_cal.set(Calendar.DAY_OF_MONTH, 1);
-		this.searchArrivalDateShipFrom.setValue(current_cal.getTime());
-
-		current_cal.set(Calendar.DAY_OF_MONTH, current_cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		this.searchArrivalDateShipTo.setValue(current_cal.getTime());
-
-		this.searchWorkShip.setValue(null);
-
-		this.searchDateShift.setValue(null);
-
-		this.select_customer.setSelectedItem(null);
-
-		this.select_typeShip.setSelectedItem(null);
-
-		this.select_workedShip.setSelectedItem(null);
-
-		// set ship listbox
-		this.refreshShipDetail();
+		// set initial session
+		this.program_div.setVisible(false);
+		this.detail_div.setVisible(true);
+		this.review_div.setVisible(false);
+		this.report_div.setVisible(false);
 
 	}
 
@@ -3633,7 +3690,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.servicetype_schedule.setSelectedItem(null);
 
-		this.grid_scheduleShip.setVisible(true);
+		this.program_ship_editor.setVisible(true);
 	}
 
 	@Listen("onClick = #shipNameProgram, #shipNameDetail")
@@ -4000,7 +4057,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		this.refreshShipDetail();
+		this.refreshDetail();
 
 	}
 }

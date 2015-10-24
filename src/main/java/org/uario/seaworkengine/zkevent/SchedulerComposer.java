@@ -3118,7 +3118,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			cal.add(Calendar.DATE, 1);
 			final Date tomorrowDate = DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
-			final List<DetailScheduleShip> list_DetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShip(tomorrowDate, null, null, null,
+			final List<DetailScheduleShip> list_DetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShipByDateshit(tomorrowDate, null, null, null,
 					null, null, null, null);
 
 			ProgramReportBuilder.createReport(final_list, list_DetailScheduleShip, tomorrowDate).toPdf(stream);

@@ -181,7 +181,7 @@
 
 
 
-	<select id="searchDetailScheduleShipPeriod" parameterType="map"
+	<select id="searchDetailScheduleShipByPeriodOrDateshift" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
@@ -211,41 +211,44 @@
 		user us ON
 		(d1.idseconduser = us.id),
 		ship s, scheduleship ss
-		where
+		where d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id 
 
 		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search}, '%') ) and
+			and (s.name like CONCAT('%',#{full_text_search}, '%') )
 		</if>
 		
 		<if test="serviceId!=null">
-			ss.id_service = #{serviceId} and 
+			and ss.id_service = #{serviceId}
 		</if>
 
 		<if test="shift != null">
-			d.shift = #{shift} and
+			and d.shift = #{shift}
 		</if>
 		
-		<if test="datefrom!=null and dateto!=null">
-				<![CDATA[ ss.arrivaldate>=#{datefrom} and #{dateto}>=ss.arrivaldate and ]]>
+		<if test="dateshift != null">
+			and d.shiftdate = #{dateshift} 
+		</if>
+		
+		<if test="datefrom !=null and dateto !=null and dateshift == null">
+			<![CDATA[ and ss.arrivaldate >= #{datefrom} and ss.arrivaldate <= date#{dateto} ]]>
 		</if>
 	
 		<if test="idCustomer != null">
-			#{idCustomer}=ss.customer_id and
+			and #{idCustomer}=ss.customer_id
 		</if>
 
 		<if test="nowork != null">
-			#{nowork}=s.nowork and
+			and #{nowork}=s.nowork
 		</if>
 
 		<if test="activityh != null">
-			#{activityh}=s.activityh and
+			and #{activityh}=s.activityh
 		</if>
 		
 		<if test="worked != null">
-			#{worked}=d.worked and 
-		</if>
+			and #{worked}=d.worked 
+		</if>	
 		
-		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id 
 		order by
 		d.shiftdate, d.shift, s.name asc;
 

@@ -39,11 +39,26 @@ public interface IScheduleShip {
 
 	public List<Ship> loadShipInDate(Timestamp arrivalDate);
 
-	public List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, String full_text_search, Integer shift, Integer idCustomer,
+	public List<DetailScheduleShip> searchDetailScheduleShipByDateshit(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
 			Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
 
-	public List<DetailScheduleShip> searchDetailScheduleShip(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
-			Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
+	/**
+	 * If dateshift is not null, the query will use only dateshift
+	 *
+	 * @param datefrom
+	 * @param dateto
+	 * @param dateshift TODO
+	 * @param full_text_search
+	 * @param shift
+	 * @param idCustomer
+	 * @param nowork
+	 * @param activityh
+	 * @param worked
+	 * @param serviceId
+	 * @return
+	 */
+	public List<DetailScheduleShip> searchDetailScheduleShipByPeriodOrDateshift(Date datefrom, Date dateto, Date dateshift, String full_text_search,
+			Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
 
 	public List<DetailScheduleShip> searchDetailScheduleShipRif_MCT_SWS(Integer rif_sws, String rif_mct);
 

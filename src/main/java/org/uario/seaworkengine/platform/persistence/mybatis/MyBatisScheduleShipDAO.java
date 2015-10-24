@@ -1,10 +1,12 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.DetailFinalScheduleShip;
@@ -15,7 +17,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 
 public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements IScheduleShip {
 
-	private static Logger logger = Logger.getLogger(MyBatisScheduleShipDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisScheduleShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisScheduleShipDAO.logger;
@@ -144,34 +146,19 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final String full_text_search,
-			final Integer shift, final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked,
-			final Integer serviceId) {
-		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("datefrom", datefrom);
-		map.put("dateto", dateto);
-		map.put("full_text_search", full_text_search);
-		map.put("shift", shift);
-		map.put("idCustomer", idCustomer);
-		map.put("nowork", nowork);
-		map.put("activityh", activityh);
-		map.put("worked", worked);
-		map.put("serviceId", serviceId);
-
-		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipPeriod", map);
-
-	}
-
-	@Override
-	public List<DetailScheduleShip> searchDetailScheduleShip(final Date shiftdate, final String full_text_search, final Integer shift,
+	public List<DetailScheduleShip> searchDetailScheduleShipByDateshit(final Date shiftdate, final String full_text_search, final Integer shift,
 			final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId) {
+
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
+
+		String full_text_search_arg = full_text_search;
+		if ((full_text_search != null) && full_text_search.isEmpty()) {
+			full_text_search_arg = null;
+		}
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("shiftdate", shiftdate);
-		map.put("full_text_search", full_text_search);
+		map.put("full_text_search", full_text_search_arg);
 		map.put("shift", shift);
 		map.put("idCustomer", idCustomer);
 		map.put("nowork", nowork);
@@ -182,6 +169,43 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		final List<DetailScheduleShip> list = this.getSqlSession().selectList("scheduleship.searchDetailScheduleShip", map);
 
 		return list;
+	}
+
+	@Override
+	public List<DetailScheduleShip> searchDetailScheduleShipByPeriodOrDateshift(final Date datefrom, final Date dateto, final Date dateshift,
+			final String full_text_search, final Integer shift, final Integer idCustomer, final Boolean nowork, final Boolean activityh,
+			final Boolean worked, final Integer serviceId) {
+
+		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
+
+		String full_text_search_arg = full_text_search;
+		if ((full_text_search != null) && full_text_search.isEmpty()) {
+			full_text_search_arg = null;
+		}
+
+		Date date_from_arg = null;
+		Date date_to_arg = null;
+		if (datefrom != null) {
+			date_from_arg = DateUtils.truncate(datefrom, Calendar.DATE);
+		}
+		if (dateto != null) {
+			date_to_arg = DateUtils.truncate(dateto, Calendar.DATE);
+		}
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("datefrom", date_from_arg);
+		map.put("dateto", date_to_arg);
+		map.put("dateshift", dateshift);
+		map.put("full_text_search", full_text_search_arg);
+		map.put("shift", shift);
+		map.put("idCustomer", idCustomer);
+		map.put("nowork", nowork);
+		map.put("activityh", activityh);
+		map.put("worked", worked);
+		map.put("serviceId", serviceId);
+
+		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipByPeriodOrDateshift", map);
+
 	}
 
 	@Override
@@ -212,6 +236,11 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 			mct_arg = null;
 		}
 
+		String textSearch_arg = textSearch;
+		if ((textSearch != null) && textSearch.isEmpty()) {
+			textSearch_arg = null;
+		}
+
 		final HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("datefrom", datefrom);
 		map.put("dateto", dateto);
@@ -219,7 +248,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("mct", mct_arg);
 		map.put("idCustomer", idCustomer);
 		map.put("idService", idService);
-		map.put("textSearch", textSearch);
+		map.put("textSearch", textSearch_arg);
 
 		return this.getSqlSession().selectList("scheduleship.searchScheduleShip", map);
 	}
