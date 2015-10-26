@@ -78,6 +78,196 @@
 		</hbox>
 
 		<space />
+		
+		
+		
+		
+		
+		
+		
+		<!--FILTRI-->
+		<div>
+		<hbox>
+
+			<a label="Ricerca Navi in intervallo di Lavorazione: "
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+			<datebox id="searchArrivalDateShipFrom"
+				placeholder="Dalla data..."
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+
+			<datebox id="searchArrivalDateShipTo"
+				placeholder="Alla data..."
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+
+
+			<a label="Filtra su Anno"></a>
+
+			<vbox align="start">
+				<combobox placeholder="Seleziona Anno..."
+					readonly="true" id="select_year_detail">
+				</combobox>
+
+				<a label="Annulla filtro" id="remove_select_year_detail"
+					style="color:green"
+					onClick="select_year_detail.setSelectedItem(null);" />
+
+			</vbox>
+
+			<a label="Filtra su Mese"></a>
+
+			<vbox align="start">
+				<combobox placeholder="Seleziona Mese..."
+					id="select_month_detail" readonly="true">
+					<comboitem label="1" value="1"></comboitem>
+					<comboitem label="2" value="2"></comboitem>
+					<comboitem label="3" value="3"></comboitem>
+					<comboitem label="4" value="4"></comboitem>
+					<comboitem label="5" value="5"></comboitem>
+					<comboitem label="6" value="6"></comboitem>
+					<comboitem label="7" value="7"></comboitem>
+					<comboitem label="8" value="8"></comboitem>
+					<comboitem label="9" value="9"></comboitem>
+					<comboitem label="10" value="10"></comboitem>
+					<comboitem label="11" value="11"></comboitem>
+					<comboitem label="12" value="12"></comboitem>
+				</combobox>
+
+				<a label="Annulla filtro"
+					id="remove_select_month_detail" style="color:green"
+					onClick="select_month_detail.setSelectedItem(null);" />
+
+			</vbox>
+
+			<button id="refreshDetailView" label="Ricarica"
+				sclass="btn-info" />
+
+			<a label="Scarica dati in CSV"
+				id="detailShipProgram_download" style="color:green" />
+		</hbox>
+
+		<separator />
+
+		<hbox>
+			<intbox placeholder="Cerca Rif SWS..."
+				id="text_search_rifSWS"
+				onChange="text_search_rifMCT.setValue(null); searchArrivalDateShipFrom.setValue(null);searchArrivalDateShipTo.setValue(null);select_year_detail.setValue(null);select_month_detail.setValue(null);invoicing_cycle_search.setValue(null);" />
+
+			<textbox placeholder="Cerca Rif Cliente..."
+				id="text_search_rifMCT"
+				onChange="text_search_rifSWS.setValue(null); searchArrivalDateShipFrom.setValue(null);searchArrivalDateShipTo.setValue(null);select_year_detail.setValue(null);select_month_detail.setValue(null);invoicing_cycle_search.setValue(null);" />
+
+			<intbox width="150px"
+						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
+
+			<hbox id="filterCustomer">
+			<a label="Filtra per cliente: " />
+			<vbox>
+				<combobox placeholder="Scegli cliente..."
+					readonly="true" id="select_customer"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+
+				<a label="Annulla filtro" id="remove_select_customer"
+					style="color:green"
+					onClick="select_customer.setSelectedItem(null);" />
+
+			</vbox>
+			</hbox>
+
+			<hbox id="filterService">
+			<a label="Filtra per servizio: " />
+			<vbox>
+				<combobox id="selectServiceDetail"
+					placeholder="Seleziona servizio..." readonly="false">
+					<comboitem self="@{each='service'}"
+						label="@{service.name}" value="@{service}" />
+				</combobox>
+				<a label="Annulla filtro" id="removeServiceFilterDetail"
+					style="color:green"
+					onClick="selectServiceDetail.setSelectedItem(null);" />
+			</vbox>
+			</hbox>
+		</hbox>
+		<separator />
+
+
+		<hbox>
+
+			
+			<hbox id="filterShift">
+			<a label="Filtra su numero turno: " />
+			<combobox placeholder="Scegli turno..." readonly="true"
+				id="select_shift"
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+				<comboitem value="1" label="1"></comboitem>
+				<comboitem value="2" label="2"></comboitem>
+				<comboitem value="3" label="3"></comboitem>
+				<comboitem value="4" label="4"></comboitem>
+			</combobox>
+			</hbox>
+
+			<hbox id="filterShip">
+			<a label="Ricerca Navi per Data Turno: "
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+			<datebox id="searchDateShift" placeholder="Data Turno"
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"
+				onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+			</hbox>
+
+			<hbox id="filterShipType">
+			<a label="Filtra per tipo nave " />
+			<vbox align="start">
+				<combobox placeholder="Scegli tipo nave..."
+					readonly="true" id="select_typeShip"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+					<comboitem value="activityh" label="Attività H" />
+					<comboitem value="nowork" label="Non Lavoro" />
+				</combobox>
+
+				<a label="Annulla filtro" id="remove_select_typeShip"
+					style="color:green"
+					onClick="select_typeShip.setSelectedItem(null);" />
+			</vbox>
+			</hbox>
+
+			<hbox id="filterShipWorked">
+			<a label="Filtra per lavorate " />
+			<vbox align="start">
+
+				<combobox placeholder="Scegli se lavorate..."
+					readonly="true" id="select_workedShip"
+					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+					<comboitem value="yes" label="Si" />
+					<comboitem value="no" label="No" />
+				</combobox>
+
+				<a label="Annulla filtro" id="remove_select_workedShip"
+					style="color:green"
+					onClick="select_workedShip.setSelectedItem(null);" />
+
+			</vbox>
+			</hbox>
+
+		</hbox>
+
+		<separator />
+
+		<separator />
+		<hbox id="filterRows">
+			<a label="Righe da visualizzare: "
+				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+			<intbox id="shows_rows" constraint="no negative, no zero"
+				value="10" />
+
+			<textbox placeholder="Cerca Nome Nave..."
+				id="full_text_search"
+				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+		</hbox>
+
+		<separator />
+		</div>
+
+		
 
 		<!-- SCHEDULESHIP EDITOR (ADD SHIP PROGRAM)-->
 		<div id="program_ship_editor" visible="false">
@@ -895,116 +1085,6 @@
 				sclass="green lighter rcaption" />
 			<separator />
 
-			<hbox>
-				<a label="Ricerca Navi in intervallo di Lavorazione: "
-					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-				<datebox id="searchArrivalDateShipFrom"
-					placeholder="Dalla data..." />
-
-				<datebox id="searchArrivalDateShipTo"
-					placeholder="Alla data..." />
-
-				<hbox>
-					<a label="Filtra su Anno"></a>
-
-					<vbox align="start">
-						<combobox placeholder="Seleziona Anno..."
-							readonly="true" id="select_year_program">
-						</combobox>
-
-						<a label="Annulla filtro"
-							id="remove_select_year_program" style="color:green"
-							onClick="select_year_program.setSelectedItem(null);" />
-
-					</vbox>
-
-				</hbox>
-
-				<hbox>
-					<a label="Filtra su Mese"></a>
-
-					<vbox align="start">
-						<combobox placeholder="Sleziona Mese..."
-							id="select_month_program" readonly="true">
-							<comboitem label="1" value="1"></comboitem>
-							<comboitem label="2" value="2"></comboitem>
-							<comboitem label="3" value="3"></comboitem>
-							<comboitem label="4" value="4"></comboitem>
-							<comboitem label="5" value="5"></comboitem>
-							<comboitem label="6" value="6"></comboitem>
-							<comboitem label="7" value="7"></comboitem>
-							<comboitem label="8" value="8"></comboitem>
-							<comboitem label="9" value="9"></comboitem>
-							<comboitem label="10" value="10"></comboitem>
-							<comboitem label="11" value="11"></comboitem>
-							<comboitem label="12" value="12"></comboitem>
-						</combobox>
-
-						<a label="Annulla filtro"
-							id="remove_select_month_program" style="color:green"
-							onClick="select_month_program.setSelectedItem(null);" />
-
-					</vbox>
-
-				</hbox>
-
-
-
-				<button id="refreshScheduleView" label="Ricarica"
-					sclass="btn-info" />
-				<a label="Scarica dati in CSV" id="shipProgram_download"
-					style="color:green" />
-			</hbox>
-
-			<separator />
-
-			<hbox>
-				<intbox placeholder="Cerca Rif SWS..."
-					id="search_rifSWS" onChange="selectCustomer.setSelectedItem(null)" />
-				<textbox placeholder="Cerca Rif Cliente..."
-					id="search_rifMCT" onChange="selectCustomer.setSelectedItem(null)" />
-
-				<hbox>
-
-					<a label="Filtra per cliente: " />
-
-					<vbox align="start">
-						<combobox placeholder="Scegli cliente..."
-							readonly="true" id="selectCustomer"
-							onChange="search_rifSWS.setValue(null);search_rifMCT.setValue(null)" />
-
-						<a label="Annulla filtro"
-							id="remove_selectCustomer" style="color:green"
-							onClick="selectCustomer.setSelectedItem(null);" />
-
-					</vbox>
-
-				</hbox>
-
-
-				<a label="Filtra per servizio: " />
-				<vbox>
-					<combobox id="selectService"
-						placeholder="Seleziona servizio..." readonly="false">
-						<comboitem self="@{each='service'}"
-							label="@{service.name}" value="@{service}" />
-					</combobox>
-					<a label="Annulla filtro" id="removeServiceFilter"
-						style="color:green"
-						onClick="selectService.setSelectedItem(null);" />
-				</vbox>
-			</hbox>
-
-			<a label="Righe da visualizzare: "
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<intbox id="shows_rowsProgram"
-				constraint="no negative, no zero" value="10" />
-			<textbox placeholder="Cerca Nome Nave..."
-				id="full_text_search_shipProgram" />
-			<separator />
-
-
 			<hbox align="center">
 
 				<!-- SHIP NAMBER -->
@@ -1176,176 +1256,7 @@
 				sclass="green lighter rcaption" />
 			<separator></separator>
 
-			<hbox>
-
-				<a label="Ricerca Navi in intervallo di Lavorazione: "
-					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-				<datebox id="searchArrivalDateShipFrom_detail"
-					placeholder="Dalla data..."
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-
-				<datebox id="searchArrivalDateShipTo_detail"
-					placeholder="Alla data..."
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-
-
-				<a label="Filtra su hhhAnno"></a>
-
-				<vbox align="start">
-					<combobox placeholder="Seleziona Anno..."
-						readonly="true" id="select_year_detail">
-					</combobox>
-
-					<a label="Annulla filtro"
-						id="remove_select_year_detail" style="color:green"
-						onClick="select_year_detail.setSelectedItem(null);" />
-
-				</vbox>
-
-
-
-
-				<a label="Filtra su Mese"></a>
-
-				<vbox align="start">
-					<combobox placeholder="Sleziona Mese..."
-						id="select_month_detail" readonly="true">
-						<comboitem label="1" value="1"></comboitem>
-						<comboitem label="2" value="2"></comboitem>
-						<comboitem label="3" value="3"></comboitem>
-						<comboitem label="4" value="4"></comboitem>
-						<comboitem label="5" value="5"></comboitem>
-						<comboitem label="6" value="6"></comboitem>
-						<comboitem label="7" value="7"></comboitem>
-						<comboitem label="8" value="8"></comboitem>
-						<comboitem label="9" value="9"></comboitem>
-						<comboitem label="10" value="10"></comboitem>
-						<comboitem label="11" value="11"></comboitem>
-						<comboitem label="12" value="12"></comboitem>
-					</combobox>
-
-					<a label="Annulla filtro"
-						id="remove_select_month_detail" style="color:green"
-						onClick="select_month_detail.setSelectedItem(null);" />
-
-				</vbox>
-
-
-
-
-				<button id="refreshDetailView" label="Ricarica"
-					sclass="btn-info" />
-
-				<a label="Scarica dati in CSV"
-					id="detailShipProgram_download" style="color:green" />
-			</hbox>
-
-			<separator />
-
-			<hbox>
-				<intbox placeholder="Cerca Rif SWS..."
-					id="text_search_rifSWS"
-					onChange="text_search_rifMCT.setValue(null)" />
-
-				<textbox placeholder="Cerca Rif Cliente..."
-					id="text_search_rifMCT"
-					onChange="text_search_rifSWS.setValue(null)" />
-
-
-				<a label="Filtra per cliente: " />
-				<vbox>
-					<combobox placeholder="Scegli cliente..."
-						readonly="true" id="select_customer"
-						onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-
-					<a label="Annulla filtro"
-						id="remove_select_customer" style="color:green"
-						onClick="select_customer.setSelectedItem(null);" />
-
-				</vbox>
-
-				<a label="Filtra per servizio: " />
-				<vbox>
-					<combobox id="selectServiceDetail"
-						placeholder="Seleziona servizio..." readonly="false">
-						<comboitem self="@{each='service'}"
-							label="@{service.name}" value="@{service}" />
-					</combobox>
-					<a label="Annulla filtro"
-						id="removeServiceFilterDetail" style="color:green"
-						onClick="selectServiceDetail.setSelectedItem(null);" />
-				</vbox>
-			</hbox>
-			<separator />
-
-
-			<hbox>
-
-				<a label="Filtra su numero turno: " />
-				<combobox placeholder="Scegli turno..." readonly="true"
-					id="select_shift"
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-					<comboitem value="1" label="1"></comboitem>
-					<comboitem value="2" label="2"></comboitem>
-					<comboitem value="3" label="3"></comboitem>
-					<comboitem value="4" label="4"></comboitem>
-				</combobox>
-
-				<a label="Ricerca Navi per Data Turno: "
-					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-				<datebox id="searchDateShift" placeholder="Data Turno"
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"
-					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-
-
-
-				<a label="Filtra per tipo nave " />
-				<vbox align="start">
-					<combobox placeholder="Scegli tipo nave..."
-						readonly="true" id="select_typeShip"
-						onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-						<comboitem value="activityh" label="Attività H" />
-						<comboitem value="nowork" label="Non Lavoro" />
-					</combobox>
-
-					<a label="Annulla filtro"
-						id="remove_select_typeShip" style="color:green"
-						onClick="select_typeShip.setSelectedItem(null);" />
-				</vbox>
-
-
-				<a label="Filtra per lavorate " />
-				<vbox align="start">
-
-					<combobox placeholder="Scegli se lavorate..."
-						readonly="true" id="select_workedShip"
-						onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-						<comboitem value="yes" label="Si" />
-						<comboitem value="no" label="No" />
-					</combobox>
-
-					<a label="Annulla filtro"
-						id="remove_select_workedShip" style="color:green"
-						onClick="select_workedShip.setSelectedItem(null);" />
-
-				</vbox>
-
-			</hbox>
-
-			<separator />
-
-			<separator />
-			<a label="Righe da visualizzare: "
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<intbox id="shows_rows" constraint="no negative, no zero"
-				value="10" />
-
-			<textbox placeholder="Cerca Nome Nave..."
-				id="full_text_search"
-				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
-
-			<separator />
+			
 
 
 			<separator />
@@ -1971,141 +1882,9 @@
 			<separator></separator>
 
 			<vbox>
-
-				<hbox>
-					<a label="Filtra su periodo: "></a>
-					<datebox id="date_from_overview"
-						placeholder="Selezione data iniziale" width="200px" />
-
-					<datebox id="date_to_overview"
-						placeholder="Selezione data finale" width="200px" />
-
-
-					<a label="Filtra su anno: " />
-					<vbox align="start">
-						<combobox placeholder="Seleziona anno..."
-							readonly="true" id="select_year" />
-
-						<a label="Annulla filtro"
-							id="reset_filter_select_year" style="color:green"
-							onClick="select_year.setSelectedItem(null);" />
-
-					</vbox>
-
-
-
-
-
-					<a label="Filtra su mese: " />
-					<vbox align="start">
-						<combobox placeholder="Seleziona mese..."
-							readonly="true" id="select_month">
-
-							<comboitem label="1" value="1"></comboitem>
-							<comboitem label="2" value="2"></comboitem>
-							<comboitem label="3" value="3"></comboitem>
-							<comboitem label="4" value="4"></comboitem>
-							<comboitem label="5" value="5"></comboitem>
-							<comboitem label="6" value="6"></comboitem>
-							<comboitem label="7" value="7"></comboitem>
-							<comboitem label="8" value="8"></comboitem>
-							<comboitem label="9" value="9"></comboitem>
-							<comboitem label="10" value="10"></comboitem>
-							<comboitem label="11" value="11"></comboitem>
-							<comboitem label="12" value="12"></comboitem>
-
-						</combobox>
-
-						<a label="Annulla filtro"
-							id="reset_filter_select_month" style="color:green"
-							onClick="select_month.setSelectedItem(null);" />
-
-					</vbox>
-
-
-
-					<button id="refresh_command" label="Ricarica"
-						sclass="btn-info" />
-					<a label="Scarica dati in CSV"
-						id="overview_download" style="color:green">
-					</a>
-
-				</hbox>
-
-				<separator />
-
-				<hbox id="filter_work" visible="true">
-					<intbox placeholder="Cerca Rif SWS..."
-						id="full_text_search_rifSWS" />
-
-					<textbox placeholder="Cerca Rif Cliente..."
-						id="full_text_search_rifMCT" />
-
-					<intbox width="150px"
-						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
-
-					<a label="Filtra per servizio: " />
-					<vbox>
-						<combobox id="selectServiceBap"
-							placeholder="Seleziona servizio..." readonly="false">
-							<comboitem self="@{each='service'}"
-								label="@{service.name}" value="@{service}" />
-						</combobox>
-						<a label="Annulla filtro"
-							id="removeServiceFilterBap" style="color:green"
-							onClick="selectServiceBap.setSelectedItem(null);" />
-					</vbox>
-				</hbox>
-
-				<separator />
-
-				<div id="filter_user" visible="true">
-
-					<hbox>
-
-						<a label="Filtra su numero turno: " />
-
-						<hbox>
-
-							<vbox align="start">
-								<combobox placeholder="Scegli turno..."
-									readonly="true" id="select_shiftBap">
-									<comboitem value="1" label="1"></comboitem>
-									<comboitem value="2" label="2"></comboitem>
-									<comboitem value="3" label="3"></comboitem>
-									<comboitem value="4" label="4"></comboitem>
-								</combobox>
-
-								<a label="Annulla filtro"
-									id="remove_select_shiftbap" style="color:green"
-									onClick="select_shiftBap.setSelectedItem(null);" />
-
-							</vbox>
-
-						</hbox>
-
-						<a label="Ricerca Navi per Data Turno: "
-							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-
-						<datebox id="searchWorkShip"
-							placeholder="Data Turno..." />
-					</hbox>
-
-					<separator></separator>
-
-					<hbox>
-
-						<a label="Righe da visualizzare: "
-							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-						<intbox id="shows_rows_ship"
-							constraint="no negative, no zero" value="10" />
-						<textbox placeholder="Cerca Nome Nave..."
-							id="full_text_search_ship" />
-					</hbox>
-
-					<separator />
-					<separator />
-
+										
+				<div  visible="true">
+				
 					<hbox>
 
 						<hbox align="center">
@@ -2175,18 +1954,42 @@
 					<tabs>
 						<tab label="VERIFICA LAVORO UTENTE"
 							id="overviewBap" selected="true"
-							onClick="filter_user.setVisible(true);filter_work.setVisible(true);">
+							onClick="text_search_rifSWS.setVisible(true);
+										text_search_rifMCT.setVisible(true);
+										invoicing_cycle_search.setVisible(true);
+										filterCustomer.setVisible(false);
+										filterService.setVisible(true);
+										filterShift.setVisible(true);
+										filterShip.setVisible(true);
+										filterShipType.setVisible(false);
+										filterShipWorked.setVisible(false);">
 						</tab>
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO NAVE)"
 							id="overviewBapAggregate" selected="false"
-							onClick="filter_user.setVisible(false);filter_work.setVisible(true);">
+							onClick="text_search_rifSWS.setVisible(true);
+									text_search_rifMCT.setVisible(true);
+									invoicing_cycle_search.setVisible(true);
+									filterCustomer.setVisible(false);
+									filterService.setVisible(true);
+									filterShift.setVisible(false);
+									filterShip.setVisible(false);
+									filterShipType.setVisible(false);
+									filterShipWorked.setVisible(false);">
 						</tab>
 
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO UTENTE)"
 							id="statisticsShipTab"
-							onClick="filter_user.setVisible(false);filter_work.setVisible(false);">
+							onClick="text_search_rifSWS.setVisible(false);
+									text_search_rifMCT.setVisible(false);
+									invoicing_cycle_search.setVisible(false);
+									filterCustomer.setVisible(false);
+									filterService.setVisible(false);
+									filterShift.setVisible(false);
+									filterShip.setVisible(false);
+									filterShipType.setVisible(false);
+									filterShipWorked.setVisible(false);">
 						</tab>
 
 					</tabs>
@@ -2560,13 +2363,6 @@
 
 
 		</div>
-
-
-
-
-
-
-
 
 
 	</vlayout>

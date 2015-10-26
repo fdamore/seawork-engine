@@ -15,8 +15,7 @@
 
 
 	<!-- SOAP SERVICE -->
-	<jaxws:endpoint address="/soapservice" implementor="#soapservice">
-
+	<jaxws:endpoint address="/soapservice" implementor="#soapservice"> 
 
 		<jaxws:inInterceptors>
 
