@@ -2191,7 +2191,6 @@
 
 
 						</tabpanel>
-
 						<tabpanel id="overview_statistics_ship">
 
 							<panel border="normal" collapsible="false"

@@ -913,7 +913,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		item.setFirst_down(this.first_down_detail.getValue());
 		item.setLast_down(this.last_down_detail.getValue());
 		item.setTemperature(this.temperature_detail.getValue());
-		item.setWorked(false);
+		item.setWorked(true);
 
 		// save info if ship is an activity
 		if (this.scheduleShip_selected.getIdship_activity() != null) {
