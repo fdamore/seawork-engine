@@ -192,6 +192,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Component						filterCustomer;
 
 	@Wire
+	private Component						filterDateWork;
+
+	@Wire
+	private Component						filterMonth;
+
+	@Wire
 	private Component						filterRows;
 
 	@Wire
@@ -208,6 +214,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component						filterShipWorked;
+
+	@Wire
+	private Component						filterYear;
 
 	@Wire
 	private Datebox							first_down_detail;
@@ -483,8 +492,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	public Combobox							select_year_detail;
 
-	@Wire
-	private Combobox						select_year_report;
 	@Wire
 	private Combobox						selectServiceDetail;
 
@@ -1366,7 +1373,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.filterService.setVisible(false);
 		this.text_search_rifSWS.setVisible(false);
 		this.text_search_rifMCT.setVisible(false);
+
+		this.filterDateWork.setVisible(true);
+
 		this.filterRows.setVisible(true);
+		this.searchArrivalDateShipFrom.setVisible(true);
+		this.searchArrivalDateShipTo.setVisible(true);
+		this.filterYear.setVisible(true);
+		this.filterMonth.setVisible(true);
 
 		if (selected.equals(this.program_item)) {
 
@@ -1452,6 +1466,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.report_div.setVisible(true);
 
 			this.filterRows.setVisible(false);
+			this.text_search_rifSWS.setVisible(false);
+			this.text_search_rifMCT.setVisible(false);
+			this.invoicing_cycle_search.setVisible(false);
+			this.filterCustomer.setVisible(false);
+			this.filterService.setVisible(false);
+			this.filterShift.setVisible(false);
+			this.filterShip.setVisible(false);
+			this.filterShipType.setVisible(false);
+			this.filterShipWorked.setVisible(false);
+
+			this.filterDateWork.setVisible(false);
+			this.filterYear.setVisible(true);
+			this.filterMonth.setVisible(false);
 
 			this.refreshReport();
 		}
@@ -1569,7 +1596,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.selectServiceDetail.setModel(new ListModelList<Service>(serviceList));
 
 		this.select_year_detail.setModel(new ListModelList<String>(years));
-		this.select_year_report.setModel(new ListModelList<String>(years));
+		this.select_year_detail.setModel(new ListModelList<String>(years));
 
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 
@@ -2423,8 +2450,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Called on initial view definition
 	 */
-	// @Listen("onChange = #invoicing_cycle_search; onOK=
-	// #invoicing_cycle_search;")
 	public void refreshBAP() {
 
 		// get date
@@ -2527,9 +2552,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Search info for detail
 	 */
-	// @Listen("onChange = #select_shift, #select_typeShip, #select_workedShip;
-	// onOK = #selectServiceDetail; onClick = #remove_select_typeShip,
-	// #remove_select_workedShip, #remove_select_customer")
 	public void refreshDetail() {
 
 		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
@@ -2599,10 +2621,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
 	}
 
-	/**
-	 *
-	 */
-	@Listen("onClick = #refreshDetailView")
 	public void refreshDetailView() {
 
 		final Calendar calendar_from = Calendar.getInstance();
@@ -2612,6 +2630,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
 		this.select_year_detail.setValue("" + calendar_from.get(Calendar.YEAR));
 		this.select_month_detail.setSelectedItem(null);
+
+		this.invoicing_cycle_search.setVisible(false);
 
 		// set null date shift box
 		this.searchDateShift.setValue(null);
@@ -2673,16 +2693,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #refreshReportView;onChange=#select_year_report")
 	public void refreshReport() {
 
-		if (this.select_year_report.getSelectedItem() == null) {
+		if (this.select_year_detail.getSelectedItem() == null) {
 			return;
 		}
 
-		this.reportListboxContainer.setModel(new ListModelList<>());
+		final Integer year = Integer.parseInt((String) this.select_year_detail.getSelectedItem().getValue());
 
-		final Integer year = Integer.parseInt((String) this.select_year_report.getSelectedItem().getValue());
+		this.reportListboxContainer.setModel(new ListModelList<>());
 
 		final Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, year);
@@ -3019,6 +3038,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// list.add(itemContainerOnMen);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(list));
+
+	}
+
+	private void refreshReportView() {
+
+		final Integer year = Calendar.getInstance().get(Calendar.YEAR);
+
+		this.select_year_detail.setSelectedIndex(year - 2014);
 
 	}
 
@@ -3482,6 +3509,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.refreshSchedulerView();
 		this.refreshDetailView();
 		this.refreshBapView();
+		this.refreshReportView();
 
 		// set second item in view selector
 		this.scheduler_type_selector.setSelectedItem(this.detail_item);

@@ -87,6 +87,7 @@
 		<div>
 		<hbox>
 
+			<hbox id="filterDateWork">
 			<a label="Ricerca Navi in intervallo di Lavorazione: "
 				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
@@ -97,8 +98,9 @@
 			<datebox id="searchArrivalDateShipTo"
 				placeholder="Alla data..."
 				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+			</hbox>
 
-
+			<hbox id="filterYear">
 			<a label="Filtra su Anno"></a>
 
 			<vbox align="start">
@@ -111,9 +113,10 @@
 					onClick="select_year_detail.setSelectedItem(null);" />
 
 			</vbox>
+			</hbox>
 
+			<hbox id="filterMonth">			
 			<a label="Filtra su Mese"></a>
-
 			<vbox align="start">
 				<combobox placeholder="Seleziona Mese..."
 					id="select_month_detail" readonly="true">
@@ -136,6 +139,7 @@
 					onClick="select_month_detail.setSelectedItem(null);" />
 
 			</vbox>
+			</hbox>
 
 			<button id="refreshDetailView" label="Ricarica"
 				sclass="btn-info" />
@@ -2250,19 +2254,6 @@
 		<div id="report_div">
 			<a label="Report Lavorazione Navi" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
-			<separator></separator>
-
-
-			<vbox>
-				<hbox align="center">
-					<a label="Filtra su anno: " />
-					<combobox placeholder="Seleziona anno..."
-						readonly="true" id="select_year_report" />
-					<button id="refreshReportView" label="Ricarica"
-						sclass="btn-info" />
-				</hbox>
-			</vbox>
-
 			<separator></separator>
 
 			<panel border="normal" width="100%">
