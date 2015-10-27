@@ -48,8 +48,6 @@
 			
 		</if>
 
-		
-
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
@@ -116,7 +114,6 @@
 			#{dt_arg_to}
 
 		</if>
-
 
 
 		<if test="searchText != null">
@@ -299,7 +296,7 @@
 		dfs.id_ship
 
 		<if test="shipname != null">
-			and (s.name like '%'#{shipname}'%')
+			and (s.name like CONCAT('%', #{shipname},'%')) 
 		</if>
 
 		<if test="date_from != null and date_to != null">

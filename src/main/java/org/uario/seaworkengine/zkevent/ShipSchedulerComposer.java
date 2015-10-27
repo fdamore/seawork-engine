@@ -1358,7 +1358,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_year_detail, #select_month_detail, #select_customer, #selectServiceDetail; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search; onClick = #remove_select_year_detail, #remove_select_month_detail, #remove_select_customer, #removeServiceFilterDetail")
+	@Listen("onChange = #scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search; onClick = #remove_select_customer, #removeServiceFilterDetail")
 	public void defineSchedulerView() {
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
@@ -1659,7 +1659,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Integer getSelectedShift() {
 		Integer shiftSelected = null;
 		if ((this.select_shift.getSelectedItem() != null) && (this.select_shift.getSelectedIndex() != 0)) {
-			shiftSelected = this.select_shift.getSelectedIndex();
+			shiftSelected = this.select_shift.getSelectedIndex() + 1;
 		}
 		return shiftSelected;
 	}
@@ -2439,8 +2439,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void refreshBAP() {
 
 		// get date
-		final Date date_from = this.searchArrivalDateShipFrom.getValue();
-		final Date date_to = this.searchArrivalDateShipTo.getValue();
+		Date date_from = this.searchArrivalDateShipFrom.getValue();
+		Date date_to = this.searchArrivalDateShipTo.getValue();
+
+		if ((date_from == null) && (date_to == null) && (this.searchDateShift.getValue() != null)) {
+			// search by shiftDate
+			date_from = this.searchDateShift.getValue();
+			date_to = date_from;
+		}
 
 		// get text
 		final String text_search = this.full_text_search.getValue();
@@ -3313,11 +3319,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
-			if ((this.text_search_rifMCT.getValue() != null) && (this.text_search_rifMCT.getValue().toString().trim() != "")) {
-				this.refreshBAP();
-			}
 
-		} else if (selected.equals(this.report_review_ship_item)) {
+			this.refreshBAP();
 
 		}
 
@@ -3341,7 +3344,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_year_detail.setValue(null);
 		this.select_month_detail.setValue(null);
 
-		this.refreshDetail();
+		this.defineSchedulerView();
 	}
 
 	@Listen("onChange = #select_month_detail;onClick = #remove_select_month_detail")
@@ -3375,8 +3378,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
 		this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
 
-		this.refreshDetail();
-
+		this.defineSchedulerView();
 	}
 
 	@Listen("onChange =#select_year_detail; onClick = #remove_select_year_detail")
@@ -3387,17 +3389,34 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.searchArrivalDateShipFrom.setValue(null);
 			this.searchArrivalDateShipTo.setValue(null);
 
-			this.refreshDetail();
+			this.defineSchedulerView();
 
 			return;
+
 		}
 
 		final String yearSelected = this.select_year_detail.getSelectedItem().getValue();
+		final Integer year = Integer.parseInt(yearSelected);
 
 		if (this.select_month_detail.getSelectedItem() != null) {
-			this.refreshProgram();
+			final String monthSelected = this.select_month_detail.getSelectedItem().getValue();
+			final Integer month = Integer.parseInt(monthSelected);
+
+			final Calendar calendar_from = Calendar.getInstance();
+			final Calendar calendar_to = Calendar.getInstance();
+
+			calendar_from.set(Calendar.YEAR, year);
+			calendar_from.set(Calendar.MONTH, month - 1);
+			calendar_from.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMinimum(Calendar.DAY_OF_MONTH));
+
+			calendar_to.set(Calendar.YEAR, year);
+			calendar_to.set(Calendar.MONTH, month - 1);
+			calendar_to.set(Calendar.DAY_OF_MONTH, calendar_from.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
+			this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
+
 		} else {
-			final Integer year = Integer.parseInt(yearSelected);
 			final Calendar calendar_from = Calendar.getInstance();
 			final Calendar calendar_to = Calendar.getInstance();
 
@@ -3412,8 +3431,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
 			this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
 
-			this.refreshDetail();
 		}
+
+		this.defineSchedulerView();
 
 	}
 

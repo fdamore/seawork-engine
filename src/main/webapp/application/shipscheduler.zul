@@ -22,8 +22,6 @@
 
 <zk>
 
-
-
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.ShipSchedulerComposer"
 		id="page_ship_scheduler">
@@ -151,11 +149,13 @@
 		<hbox>
 			<intbox placeholder="Cerca Rif SWS..."
 				id="text_search_rifSWS"
-				onChange="text_search_rifMCT.setValue(null); searchArrivalDateShipFrom.setValue(null);searchArrivalDateShipTo.setValue(null);select_year_detail.setValue(null);select_month_detail.setValue(null);invoicing_cycle_search.setValue(null);" />
+				onChange="text_search_rifSWS.setValue(null); text_search_rifMCT.setValue(null);	invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
+						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
 
 			<textbox placeholder="Cerca Rif Cliente..."
 				id="text_search_rifMCT"
-				onChange="text_search_rifSWS.setValue(null); searchArrivalDateShipFrom.setValue(null);searchArrivalDateShipTo.setValue(null);select_year_detail.setValue(null);select_month_detail.setValue(null);invoicing_cycle_search.setValue(null);" />
+				onChange="text_search_rifSWS.setValue(null); text_search_rifMCT.setValue(null);	invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
+						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
 
 			<intbox width="150px"
 						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
@@ -196,6 +196,7 @@
 			
 			<hbox id="filterShift">
 			<a label="Filtra su numero turno: " />
+			<vbox>
 			<combobox placeholder="Scegli turno..." readonly="true"
 				id="select_shift"
 				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
@@ -204,6 +205,10 @@
 				<comboitem value="3" label="3"></comboitem>
 				<comboitem value="4" label="4"></comboitem>
 			</combobox>
+			<a label="Annulla filtro" id="remove_select_shift"
+					style="color:green"
+					onClick="select_shift.setSelectedItem(null);" />
+			</vbox>
 			</hbox>
 
 			<hbox id="filterShip">
