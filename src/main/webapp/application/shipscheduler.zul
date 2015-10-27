@@ -1260,10 +1260,7 @@
 			<a label="Dettaglio Giornaliero" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 			<separator></separator>
-
-			
-
-
+	
 			<separator />
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />
@@ -2279,9 +2276,9 @@
 						<listhead sizable="true">
 							<listheader label="" />
 							<listheader label="Gennaio" />
-							<listheader label="Febbraio" />
+							<listheader label="Febbraio"  />
 							<listheader label="Marzo" />
-							<listheader label="Aprile" />
+							<listheader label="Aprile"  />
 							<listheader label="Maggio" />
 							<listheader label="Giugno" />
 							<listheader label="Luglio" />

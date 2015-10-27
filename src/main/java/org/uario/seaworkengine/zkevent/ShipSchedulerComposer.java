@@ -485,34 +485,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox						select_year_report;
-
 	@Wire
 	private Combobox						selectServiceDetail;
 
 	@Wire
 	private Combobox						servicetype;
-
 	@Wire
 	private Combobox						servicetype_schedule;
-
 	@Wire
 	private Combobox						shift;
-
 	@Wire
 	public Combobox							shift_Daily;
-
 	@Wire
 	private Datebox							shiftdate;
-
 	@Wire
 	public Datebox							shiftdate_Daily;
-
 	@Wire
 	private Component						shiftFilter;
-
 	@Wire
 	private Listheader						shiftNumberColumn;
-
 	@Wire
 	private Combobox						ship_activity;
 
@@ -639,6 +630,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox							text_search_rifSWS;
+
+	@Wire
+	private Listheader						textCol;
 
 	@Wire
 	private Doublebox						time_review;
@@ -1480,16 +1474,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.bap_overview_tab.setWidth("950px");
 
 		// ship program view
-		this.shiftNumberColumn.setWidth("50px");
-		this.handsColumn.setWidth("50px");
-		this.personsColumn.setWidth("70px");
-		this.rifSWSColumn.setWidth("55px");
-		this.mctColumn.setWidth("65px");
-		this.customerColumn.setWidth("80px");
-		this.arrivalDateColumn.setWidth("100px");
-		this.departureDateColumn.setWidth("100px");
-		this.shipNameColumun.setWidth("125px");
-		this.volumeColumnScheduleShip.setWidth("90px");
+		this.sw_list_scheduleShip.setWidth("950px");
+
+		// report view
+		this.reportListboxContainer.setWidth("950px");
 
 		// tab statistiche nave
 		this.volumeStatisticColumn.setWidth("45px");
@@ -1504,6 +1492,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.detail_div.setVisible(false);
 		this.program_div.setVisible(false);
 		this.review_div.setVisible(false);
+		this.report_div.setVisible(false);
 
 		this.scheduler_type_selector.setSelectedItem(null);
 	}
@@ -3056,6 +3045,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_customer.setSelectedItem(null);
 
 		this.full_text_search.setValue(null);
+
+		if (selected == null) {
+			return;
+		}
 
 		if (selected.equals(this.program_item)) {
 
