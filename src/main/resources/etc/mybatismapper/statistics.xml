@@ -68,13 +68,11 @@
 			and d.invoicing_cycle = #{invoicing_cycle_search}
 		</if>
 
-
-
 		<if test="idService != null">
 			and ss.id_service = #{idService}
 		</if>
 
-		order by s.name , date_request, dss.shift
+		order by date_request, s.name , dss.shift
 	</select>
 
 	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BAP) -->

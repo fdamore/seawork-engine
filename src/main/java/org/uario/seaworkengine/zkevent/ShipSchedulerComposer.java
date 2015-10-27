@@ -3026,7 +3026,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void refreshSchedulerView() {
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
-
 		final Calendar calendar_from = Calendar.getInstance();
 		final Calendar calendar_to = Calendar.getInstance();
 
