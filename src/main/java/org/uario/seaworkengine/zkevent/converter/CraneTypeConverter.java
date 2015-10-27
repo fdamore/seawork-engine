@@ -39,7 +39,12 @@ public class CraneTypeConverter implements TypeConverter {
 				final DetailFinalScheduleShip item = (DetailFinalScheduleShip) arg0;
 
 				final Boolean crane_gtw = item.getCrane_gtw();
-				final String crane = "" + item.getCrane();
+
+				String crane = "";
+
+				if (item.getCrane() != null) {
+					crane = "" + item.getCrane();
+				}
 
 				return this.defineCraneString(crane_gtw, crane);
 
@@ -67,11 +72,15 @@ public class CraneTypeConverter implements TypeConverter {
 			}
 		} else {
 
-			if (crane_gtw) {
-				return "GTW" + crane;
-			} else {
-				return "CR" + crane;
+			if (!crane.equals("")) {
+				if (crane_gtw) {
+					return "GTW" + crane;
+				} else {
+					return "CR" + crane;
+				}
 			}
+
+			return "";
 		}
 	}
 }
