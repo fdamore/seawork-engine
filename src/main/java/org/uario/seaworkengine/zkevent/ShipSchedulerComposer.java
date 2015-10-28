@@ -427,6 +427,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Comboitem						report_review_ship_item;
 
+	private final ArrayList<ReportItem>		reportList						= new ArrayList<ReportItem>();
+
 	@Wire
 	private Listbox							reportListboxContainer;
 
@@ -494,7 +496,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox						selectServiceDetail;
-
 	@Wire
 	private Combobox						servicetype;
 	@Wire
@@ -511,6 +512,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Component						shiftFilter;
 	@Wire
 	private Listheader						shiftNumberColumn;
+
 	@Wire
 	private Combobox						ship_activity;
 
@@ -1651,6 +1653,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 		} else if (selected.equals(this.report_review_ship_item)) {
+			if (this.reportList.size() != 0) {
+				final StringBuilder builder = UtilityCSV.downloadCSV_ReportShip(this.reportListboxContainer, this.shipDao);
+
+				Filedownload.save(builder.toString(), "application/text", "report_lavorazione_navi.csv");
+			}
 
 		}
 	}
@@ -2709,8 +2716,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(year);
 		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year);
 
-		final ArrayList<ReportItem> list = new ArrayList<ReportItem>();
-
 		final ReportItem itemContainer = new ReportItem();
 		itemContainer.setArgument(ReportItemTag.Containers);
 		final ReportItem itemHands = new ReportItem();
@@ -3030,14 +3035,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		itemHands.setTot(totalHands);
 
-		list.add(itemContainer);
-		list.add(avgMonth);
-		list.add(itemHands);
-		list.add(itemHandsOnDays);
-		list.add(itemMenOnHand);
+		this.reportList.add(itemContainer);
+		this.reportList.add(avgMonth);
+		this.reportList.add(itemHands);
+		this.reportList.add(itemHandsOnDays);
+		this.reportList.add(itemMenOnHand);
 		// list.add(itemContainerOnMen);
 
-		this.reportListboxContainer.setModel(new ListModelList<>(list));
+		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 
 	}
 

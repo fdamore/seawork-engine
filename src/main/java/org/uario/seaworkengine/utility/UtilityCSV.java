@@ -24,6 +24,7 @@ import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
@@ -34,16 +35,19 @@ import org.uario.seaworkengine.zkevent.converter.ProductivityConverter;
 import org.uario.seaworkengine.zkevent.converter.UserEnableConverter;
 import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
 import org.zkoss.spring.SpringUtil;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final NumberFormat number_format = NumberFormat.getInstance(Locale.ITALIAN);
+	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
 			final ICustomerDAO customerDAO) {
@@ -222,6 +226,45 @@ public class UtilityCSV {
 		}
 
 		return builder;
+	}
+
+	public static StringBuilder downloadCSV_ReportShip(final Listbox reportList, final IShip shipDAO) {
+		if (reportList == null) {
+			return null;
+		}
+
+		final StringBuilder builder = new StringBuilder();
+		String line = "";
+
+		final String header = " ;Gennaio;Febbraio;Marzo;Aprile;Maggio;Giugno;Luglio;Agosto;Settembre;Ottobre;Novembre;Dicembre;Totale";
+		builder.append(header);
+
+		final List<Listitem> items = reportList.getItems();
+
+		for (final Listitem listitem : items) {
+			final List<Listcell> listcells = listitem.getChildren();
+			for (final Listcell listcell : listcells) {
+				if (line.equals("")) {
+					if (listcell.getLabel() == "") {
+						line = " ";
+					} else {
+						line = listcell.getLabel();
+					}
+				} else {
+					if (listcell.getLabel() == "") {
+						line = line + ";";
+					} else {
+						line = line + ";" + listcell.getLabel();
+					}
+				}
+
+			}
+			builder.append("\n" + line);
+			line = "";
+		}
+
+		return builder;
+
 	}
 
 	public static StringBuilder downloadCSV_ScheduleProgramShip(final List<ScheduleShip> modelListScheduleShip, final ICustomerDAO customerDAO) {
