@@ -13,47 +13,49 @@ import javax.xml.bind.annotation.XmlTransient;
 public class DetailFinalScheduleShip implements Serializable {
 
 	@XmlTransient
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private Date activity_end;
+	private Date				activity_end;
 
-	private Date activity_start;
+	private Date				activity_start;
 
-	private Integer crane;
+	private Integer				crane;
 
-	private Boolean crane_gtw;
+	private Boolean				crane_gtw;
 
 	@XmlTransient
-	private Date datetime;
+	private Date				datetime;
 
 	// rif sws
-	private Integer id;
+	private Integer				id;
 
-	private Integer iddetailscheduleship;
+	private Integer				iddetailscheduleship;
 
 	@XmlTransient
-	private Integer invoicing_cycle;
+	private Integer				invoicing_cycle;
 
-	private String notedetail;
+	private Integer				menwork_activityh;
+
+	private String				notedetail;
 
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
-	private String rif_mct;
+	private String				rif_mct;
 
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
-	private Integer rif_sws;
+	private Integer				rif_sws;
 
-	private Double timework;
+	private Double				timework;
 
-	private Integer volume;
+	private Integer				volume;
 
-	private Integer volume_tw_mct;
+	private Integer				volume_tw_mct;
 
-	private Integer volumeunderboard;
+	private Integer				volumeunderboard;
 
 	@XmlTransient
-	private Integer volumeunderboard_sws;
+	private Integer				volumeunderboard_sws;
 
 	public Date getActivity_end() {
 		return this.activity_end;
@@ -85,6 +87,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public Integer getInvoicing_cycle() {
 		return this.invoicing_cycle;
+	}
+
+	public Integer getMenwork_activityh() {
+		return this.menwork_activityh;
 	}
 
 	public String getNotedetail() {
@@ -149,6 +155,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setInvoicing_cycle(final Integer invoicing_cycle) {
 		this.invoicing_cycle = invoicing_cycle;
+	}
+
+	public void setMenwork_activityh(final Integer menwork_activityh) {
+		this.menwork_activityh = menwork_activityh;
 	}
 
 	public void setNotedetail(final String notedetail) {

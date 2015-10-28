@@ -295,6 +295,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Listheader						mctColumn;
 
 	@Wire
+	private Component						menwork;
+
+	@Wire
+	private Intbox							menwork_activityh;
+
+	@Wire
+	private Component						menwork_activityhRow;
+
+	@Wire
 	public Intbox							menwork_Daily;
 
 	@Wire
@@ -749,6 +758,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			detailFinalScheduleShip.setActivity_end(date_to);
 			detailFinalScheduleShip.setActivity_start(date_from);
+
+			detailFinalScheduleShip.setMenwork_activityh(this.menwork_activityh.getValue());
 
 		}
 
@@ -1699,6 +1710,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.volumeunde_tw_mct_review.setValue(null);
 		this.note_review.setValue(null);
 
+		this.menwork_activityh.setValue(null);
+
 		this.time_review.setValue(null);
 		this.crane_gtw_review.setChecked(Boolean.FALSE);
 
@@ -1836,6 +1849,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			detailFinal.setActivity_end(date_to);
 			detailFinal.setActivity_start(date_from);
 
+			detailFinal.setMenwork_activityh(this.menwork_activityh.getValue());
+
 		}
 
 		this.shipSchedulerDao.updateDetailFinalScheduleShip(detailFinal);
@@ -1888,8 +1903,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.reviewTimeFrom.setValue(null);
 		this.reviewTimeTo.setValue(null);
+		this.menwork_activityh.setValue(null);
 
 		this.reviewedTime.setVisible(false);
+		this.menwork_activityhRow.setVisible(false);
+		this.menwork.setVisible(true);
 		this.check_last_shiftReview.setChecked(false);
 		this.check_last_shiftReview.setVisible(false);
 
@@ -1908,6 +1926,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.reviewTimeFrom.setValue(from);
 			this.reviewTimeTo.setValue(to);
 
+			this.menwork_activityh.setValue(detailFinal.getMenwork_activityh());
+
 			if (detailScheduleShip.getShift().equals(4)) {
 				this.check_last_shiftReview.setVisible(true);
 				if ((from != null) && (to != null)) {
@@ -1925,6 +1945,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.reviewedTime.setVisible(true);
+			this.menwork_activityhRow.setVisible(true);
+			this.menwork.setVisible(false);
 
 		}
 
@@ -3726,9 +3748,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		String shipActivity = "";
 
 		this.reviewedTime.setVisible(false);
+		this.menwork_activityhRow.setVisible(false);
+		this.menwork.setVisible(true);
 
 		this.reviewTimeFrom.setValue(null);
 		this.reviewTimeTo.setValue(null);
+		this.menwork_activityh.setValue(null);
 		this.check_last_shiftReview.setVisible(false);
 		this.check_last_shiftReview.setChecked(false);
 
@@ -3769,6 +3794,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.reviewedTime.setVisible(true);
+			this.menwork_activityhRow.setVisible(true);
+			this.menwork.setVisible(false);
 		}
 
 		// set ship name and alert

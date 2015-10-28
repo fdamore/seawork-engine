@@ -1495,7 +1495,7 @@
 									<label value="Persone P:"></label>
 									<label id="menwork_program_Daily" />
 								</row>
-								<row>
+								<row id="menwork">
 									<label value="Persone C:"></label>
 									<intbox id="menwork_Daily" value="0"
 										constraint="no negative" />
@@ -1722,6 +1722,11 @@
 
 										</hbox>
 									</row>
+									
+									<row id="menwork_activityhRow">
+										<label value="Persone consuntivate:"/>
+										<intbox id="menwork_activityh" constraint="no negative" />
+									</row>
 
 									<row>
 										<label value="Tipo Gru GTW:"></label>
@@ -1796,7 +1801,7 @@
 								sort="auto(rif_mct)" />
 							<listheader label="Periodo di Fatturazione"
 								sort="auto(invoicing_cycle)" />
-
+								
 							<listheader label="Gru" sort="auto(crane)" />
 
 							<listheader label="Volumi"
