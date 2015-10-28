@@ -759,6 +759,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			detailFinalScheduleShip.setActivity_end(date_to);
 			detailFinalScheduleShip.setActivity_start(date_from);
 
+			this.calculateTimeReview();
+
 			detailFinalScheduleShip.setMenwork_activityh(this.menwork_activityh.getValue());
 
 		}
@@ -1245,6 +1247,24 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onChange = #reviewTimeFrom,#reviewTimeTo; onOK = #reviewTimeFrom,#reviewTimeTo; onChanging = #reviewTimeFrom,#reviewTimeTo; onClick=#calculateTime;")
+	public void calculateTimeReview() {
+
+		final Date date_from = this.reviewTimeFrom.getValue();
+		final Date date_to = this.reviewTimeTo.getValue();
+
+		Double time = null;
+
+		if ((date_from != null) && (date_to != null)) {
+			time = (double) (date_to.getTime() - date_from.getTime());
+
+			time = (time / (1000 * 60 * 60));
+		}
+
+		this.time_review.setValue(Utility.roundTwo(time));
+
+	}
+
 	public void changeBehaviorForShify(final Integer shift_no, final Date date_shift, final Timebox ship_from, final Timebox ship_to,
 			final Checkbox check_last_shift) {
 
@@ -1372,7 +1392,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search; onClick = #remove_select_customer, #removeServiceFilterDetail")
+	@Listen("onChange = #select_workedShip, #select_typeShip,#scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search; onClick = #remove_select_shift, #remove_searchDateShift, #remove_select_typeShip,#remove_select_workedShip,#remove_select_customer, #removeServiceFilterDetail")
 	public void defineSchedulerView() {
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
@@ -1692,7 +1712,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	private Integer getSelectedShift() {
 		Integer shiftSelected = null;
-		if ((this.select_shift.getSelectedItem() != null) && (this.select_shift.getSelectedIndex() != 0)) {
+		if ((this.select_shift.getSelectedItem() != null)) {
 			shiftSelected = this.select_shift.getSelectedIndex() + 1;
 		}
 		return shiftSelected;
@@ -1710,9 +1730,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.volumeunde_tw_mct_review.setValue(null);
 		this.note_review.setValue(null);
 
+		this.calculateTimeReview();
 		this.menwork_activityh.setValue(null);
 
-		this.time_review.setValue(null);
 		this.crane_gtw_review.setChecked(Boolean.FALSE);
 
 		this.add_finalDetailScheduleShip_command.setVisible(true);

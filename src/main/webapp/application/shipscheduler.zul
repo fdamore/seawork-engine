@@ -153,12 +153,12 @@
 		<hbox>
 			<intbox placeholder="Cerca Rif SWS..."
 				id="text_search_rifSWS"
-				onChange="text_search_rifSWS.setValue(null); text_search_rifMCT.setValue(null);	invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
+				onChange=" text_search_rifMCT.setValue(null);full_text_search.setValue(null);invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
 						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
 
 			<textbox placeholder="Cerca Rif Cliente..."
 				id="text_search_rifMCT"
-				onChange="text_search_rifSWS.setValue(null); text_search_rifMCT.setValue(null);	invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
+				onChange="text_search_rifSWS.setValue(null);full_text_search.setValue(null);invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
 						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
 
 			<intbox width="150px"
@@ -216,11 +216,17 @@
 			</hbox>
 
 			<hbox id="filterShip">
-			<a label="Ricerca Navi per Data Turno: "
-				iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-			<datebox id="searchDateShift" placeholder="Data Turno"
-				onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"
-				onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+				<a label="Ricerca Navi per Data Turno: "
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+				<vbox>
+					<datebox id="searchDateShift"
+						placeholder="Data Turno"
+						onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)"
+						onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+					<a label="Annulla filtro"
+						id="remove_searchDateShift" style="color:green"
+						onClick="searchDateShift.setValue(null);" />
+				</vbox>
 			</hbox>
 
 			<hbox id="filterShipType">
@@ -1719,8 +1725,20 @@
 												id="check_last_shiftReview" visible="false"
 												label="Finisce il Giorno Dopo" checked="false">
 											</checkbox>
+											
+											<button id="calculateTime" label="Calcola Tempo Lavorato" sclass="btn-info" />
 
 										</hbox>
+									</row>
+									
+									<row>
+										<label
+											value="Tempo lavorato:">
+										</label>
+
+										<doublebox
+											constraint="no negative" id="time_review" >
+										</doublebox>
 									</row>
 									
 									<row id="menwork_activityhRow">
@@ -1764,17 +1782,7 @@
 										<label value="Volumi TW MCT:"></label>
 										<intbox
 											id="volumeunde_tw_mct_review" />
-									</row>
-
-									<row>
-										<label
-											value="Tempo lavorato:">
-										</label>
-
-										<doublebox
-											constraint="no negative" id="time_review">
-										</doublebox>
-									</row>
+									</row>								
 
 									<row>
 										<label value="Note:"></label>
