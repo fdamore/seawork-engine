@@ -40,7 +40,8 @@
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
 		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity,
 		s.id_service,
-		(SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName
+		(SELECT sr.name FROM service sr where s.id_service=sr.id)
+		as serviceName
 		FROM
 		scheduleship s,
 		ship sh
@@ -63,19 +64,22 @@
 		(SELECT sr.name
 		FROM service sr
 		WHERE s.id_service=sr.id
-		) as serviceName
+		)
+		as serviceName
 		FROM
-		scheduleship s left join customer c ON (s.customer_id = c.id), ship sh
+		scheduleship s left join customer c ON
+		(s.customer_id = c.id), ship sh
 		where
 		s.idship = sh.id
 
-		<if test="datefrom!=null">
-			<if test="dateto!=null">
-				and date(s.arrivaldate) >= date(#{datefrom}) and
-				date(#{dateto}) >= date(s.arrivaldate)
-			</if>
+		<if test="datefrom!=null and dateto!=null">
+
+<![CDATA[ 
+			and (date(s.arrivaldate) >= date(#{datefrom}) and date(#{dateto}) >= date(s.arrivaldate)) or (date(s.departuredate) >=
+			date(#{datefrom}) and date(s.departuredate) <= date(date#{dateto}))]]>
+
 		</if>
-		
+
 		<if test="datefrom !=null and dateto == null">
 			<![CDATA[ and s.arrivaldate = #{datefrom} ]]>
 		</if>
@@ -207,34 +211,42 @@
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down,
 		d.worked, d.last_down,
-		s.name, d.operation, d.activity_start, d.activity_end,
+		s.name, d.operation, d.activity_start,
+		d.activity_end,
 		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
 		ss.departuredate,
 		d.iduser,d.idseconduser,
 		d.handswork,
-		d.menwork, d.handswork_program,
-		d.menwork_program, d.person_down, d.person_onboard,
+		d.menwork,
+		d.handswork_program,
+		d.menwork_program, d.person_down,
+		d.person_onboard,
 		d.shiftdate,
 		s.id as
 		id_ship,
 		concat(u.lastname, '
-		', u.firstname) AS
+		',
+		u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS
-		secondOperativeName, (SELECT sr.name FROM service sr where
+		secondOperativeName, (SELECT sr.name FROM service sr
+		where
 		ss.id_service=sr.id) as serviceType
 		FROM
 		detailscheduleship d
-		left join
+		left
+		join
 		user u ON
 		(d.iduser = u.id),
 		detailscheduleship d1
 		left join
-		user us ON
+		user us
+		ON
 		(d1.idseconduser = us.id),
 		ship s, scheduleship ss
-		where d.idscheduleship = ss.id and ss.idship =
+		where
+		d.idscheduleship = ss.id and ss.idship =
 		s.id and d1.id = d.id
 
 		<if test="full_text_search != null">
@@ -254,7 +266,7 @@
 		</if>
 
 		<if test="datefrom !=null and dateto !=null and dateshift == null">
-			<![CDATA[ and (ss.arrivaldate >= #{datefrom} and ss.arrivaldate <= date#{dateto})  ]]>
+			<![CDATA[ and ((ss.arrivaldate >= #{datefrom} and ss.arrivaldate <= date#{dateto}) or  (ss.departuredate >= #{datefrom} and ss.departuredate <= date#{dateto}))  ]]>
 		</if>
 
 		<if test="datefrom !=null and dateto == null and dateshift == null">
@@ -283,10 +295,10 @@
 
 		order by
 		d.shiftdate, d.shift, s.name asc
-		
-		
-		
-		
+
+
+
+
 
 	</select>
 
@@ -296,18 +308,22 @@
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down,
 		d.worked, d.last_down,
-		s.name, d.operation, d.activity_start, d.activity_end,
+		s.name, d.operation, d.activity_start,
+		d.activity_end,
 		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
 		ss.departuredate,
 		d.iduser,
 		d.idseconduser,
 		d.handswork,
-		d.menwork, d.handswork_program,
-		d.menwork_program, d.person_down, d.person_onboard,
+		d.menwork,
+		d.handswork_program,
+		d.menwork_program, d.person_down,
+		d.person_onboard,
 		d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname,
-		' ', u.firstname) AS
+		' ',
+		u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS
@@ -344,31 +360,38 @@
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
 		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down,
 		d.worked, d.last_down,
-		s.name, d.operation, d.activity_start, d.activity_end,
+		s.name, d.operation, d.activity_start,
+		d.activity_end,
 		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
 		ss.departuredate,
 		d.iduser,
 		d.idseconduser,
 		d.handswork,
-		d.menwork, d.handswork_program,
-		d.menwork_program, d.person_down, d.person_onboard,
+		d.menwork,
+		d.handswork_program,
+		d.menwork_program, d.person_down,
+		d.person_onboard,
 		d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname,
-		' ', u.firstname) AS
+		' ',
+		u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS
-		secondOperativeName, (SELECT sr.name FROM service sr where
+		secondOperativeName, (SELECT sr.name FROM service sr
+		where
 		ss.id_service=sr.id) as serviceType
 		FROM
 		detailscheduleship d
-		left join
+		left
+		join
 		user u ON
 		(d.iduser = u.id),
 		detailscheduleship d1
 		left join
-		user us ON
+		user us
+		ON
 		(d1.idseconduser = us.id),
 		ship s, scheduleship ss
 		where
@@ -421,8 +444,10 @@
 		d.handswork, d.menwork, d.handswork_program,
 		d.menwork_program,
 		d.shiftdate,
-		d.notedetail, d.activity_start, d.activity_end, d.rain, d.wind, d.sky,
-		d.temperature, d.worked, d.first_down, d.last_down, d.person_down,
+		d.notedetail, d.activity_start,
+		d.activity_end, d.rain, d.wind, d.sky,
+		d.temperature, d.worked,
+		d.first_down, d.last_down, d.person_down,
 		d.person_onboard,
 		concat(u.lastname, '
 		',
@@ -463,7 +488,8 @@
 		s.id_service=sr.id) as serviceName
 		FROM
 		scheduleship s where
-		s.idship = #{idship} and
+		s.idship =
+		#{idship} and
 		s.arrivaldate =
 		#{arrivaldate};
 	</select>
@@ -511,16 +537,19 @@
 		menwork_program =
 		#{menwork_program},
 		shiftdate = #{shiftdate},
-		notedetail = #{notedetail},
+		notedetail =
+		#{notedetail},
 		activity_start =
 		#{activity_start},
-		activity_end = #{activity_end},
+		activity_end =
+		#{activity_end},
 		rain = #{rain},
 		wind = #{wind},
 		sky = #{sky},
 		temperature = #{temperature},
 		first_down = #{first_down},
-		last_down = #{last_down},
+		last_down =
+		#{last_down},
 		worked = #{worked},
 		person_down = #{person_down},
 		person_onboard = #{person_onboard}
@@ -532,16 +561,19 @@
 		UPDATE
 		detailscheduleship SET
 		operation = #{operation},
-		handswork = #{handswork},
+		handswork =
+		#{handswork},
 		menwork = #{menwork},
 		rain = #{rain},
 		wind = #{wind},
-		sky = #{sky},
+		sky =
+		#{sky},
 		temperature = #{temperature},
 		first_down = #{first_down},
 		last_down = #{last_down},
 		person_down = #{person_down},
-		person_onboard = #{person_onboard}
+		person_onboard =
+		#{person_onboard}
 		WHERE id = #{id};
 	</update>
 
@@ -612,7 +644,8 @@
 		activity_start =
 		#{activity_start},
 		activity_end = #{activity_end},
-		menwork_activityh = #{menwork_activityh}
+		menwork_activityh =
+		#{menwork_activityh}
 		WHERE id = #{id};
 	</update>
 
