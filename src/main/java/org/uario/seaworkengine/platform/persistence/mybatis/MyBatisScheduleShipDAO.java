@@ -224,6 +224,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	@Override
 	public List<ScheduleShip> searchScheduleShip(final Date datefrom, final Date dateto, final Integer sws, final String mct,
 			final Integer idCustomer, final Integer idService, final String textSearch) {
+
 		MyBatisScheduleShipDAO.logger.info("load ScheduleShip");
 
 		Integer sws_arg = sws;
@@ -241,9 +242,21 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 			textSearch_arg = null;
 		}
 
+		// define date arg
+		Date date_from_arg = null;
+		Date date_to_arg = null;
+
+		if (datefrom != null) {
+			date_from_arg = DateUtils.truncate(datefrom, Calendar.DATE);
+		}
+
+		if (dateto != null) {
+			date_to_arg = DateUtils.truncate(dateto, Calendar.DATE);
+		}
+
 		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("datefrom", datefrom);
-		map.put("dateto", dateto);
+		map.put("datefrom", date_from_arg);
+		map.put("dateto", date_to_arg);
 		map.put("sws", sws_arg);
 		map.put("mct", mct_arg);
 		map.put("idCustomer", idCustomer);

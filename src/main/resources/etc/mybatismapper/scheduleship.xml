@@ -75,8 +75,8 @@
 		<if test="datefrom!=null and dateto!=null">
 
 <![CDATA[ 
-			and (date(s.arrivaldate) >= date(#{datefrom}) and date(#{dateto}) >= date(s.arrivaldate)) or (date(s.departuredate) >=
-			date(#{datefrom}) and date(s.departuredate) <= date(date#{dateto}))]]>
+		AND (s.arrivaldate <= #{dateto} and s.departuredate >= #{datefrom}) 			
+			]]>
 
 		</if>
 
@@ -266,7 +266,9 @@
 		</if>
 
 		<if test="datefrom !=null and dateto !=null and dateshift == null">
-			<![CDATA[ and ((ss.arrivaldate >= #{datefrom} and ss.arrivaldate <= date#{dateto}) or  (ss.departuredate >= #{datefrom} and ss.departuredate <= date#{dateto}))  ]]>
+		<![CDATA[ 
+		AND (ss.arrivaldate <= #{dateto} and ss.departuredate >= #{datefrom}) 			
+			]]>
 		</if>
 
 		<if test="datefrom !=null and dateto == null and dateshift == null">
