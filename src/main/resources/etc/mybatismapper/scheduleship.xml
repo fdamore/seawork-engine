@@ -38,10 +38,11 @@
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity, s.id_service, 
-		(SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName  
+		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity,
+		s.id_service,
+		(SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName
 		FROM
-		scheduleship s,  
+		scheduleship s,
 		ship sh
 		where
 		s.idship =
@@ -57,43 +58,52 @@
 		s.idship, s.volume, s.note, s.arrivaldate,
 		s.departuredate,
 		sh.name,
-		s.rif_mct, s.customer_id, s.idship_activity, s.id_service, 
-			(SELECT sr.name 
-			 FROM service sr 
-			 WHERE s.id_service=sr.id 			 
-			 ) as serviceName			  
+		s.rif_mct, s.customer_id, s.idship_activity,
+		s.id_service,
+		(SELECT sr.name
+		FROM service sr
+		WHERE s.id_service=sr.id
+		) as serviceName
 		FROM
-		scheduleship s left join customer c ON (s.customer_id = c.id), ship sh 				 
+		scheduleship s left join customer c ON (s.customer_id = c.id), ship sh
 		where
-		s.idship = sh.id 
-		
+		s.idship = sh.id
+
 		<if test="datefrom!=null">
 			<if test="dateto!=null">
 				and date(s.arrivaldate) >= date(#{datefrom}) and
 				date(#{dateto}) >= date(s.arrivaldate)
 			</if>
 		</if>
+		
+		<if test="datefrom !=null and dateto == null">
+			<![CDATA[ and s.arrivaldate = #{datefrom} ]]>
+		</if>
+
+		<if test="datefrom == null and dateto != null">
+			<![CDATA[ and s.departuredate = #{dateto} ]]>
+		</if>
 
 		<if test="sws!=null">
-			and #{sws} = s.id 
+			and #{sws} = s.id
 		</if>
-		
+
 		<if test="textSearch!=null">
-			and sh.name like CONCAT('%',#{textSearch},'%') 
+			and sh.name like CONCAT('%',#{textSearch},'%')
 		</if>
 
 		<if test="mct!=null">
 			and #{mct} = s.rif_mct
 		</if>
-		
+
 		<if test="idCustomer!=null">
-			and #{idCustomer} = c.id 
+			and #{idCustomer} = c.id
 		</if>
-		
+
 		<if test="idService!=null">
-			and s.id_service = #{idService} 
+			and s.id_service = #{idService}
 		</if>
-				
+
 		order by
 		s.arrivaldate
 		DESC;
@@ -103,7 +113,9 @@
 	<select id="selectAllScheduleShipFulltextSearchLike"
 		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName 
+		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity,
+		s.id_service, (SELECT sr.name FROM service sr where
+		s.id_service=sr.id) as serviceName
 		FROM
 		scheduleship s,
 		ship sh
@@ -132,8 +144,9 @@
 		rif_mct =
 		#{rif_mct},
 		customer_id = #{customer_id},
-		idship_activity = #{idship_activity}, 
-		id_service = #{id_service} 
+		idship_activity =
+		#{idship_activity},
+		id_service = #{id_service}
 		WHERE id = #{id};
 	</update>
 
@@ -149,12 +162,19 @@
 		INSERT INTO
 		detailscheduleship
 		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, handswork_program, menwork_program, shiftdate, notedetail,
-		activity_start, activity_end, rain, wind, sky, temperature, first_down, last_down, worked,person_down, person_onboard)
+		idseconduser, handswork, menwork, handswork_program, menwork_program,
+		shiftdate, notedetail,
+		activity_start, activity_end, rain, wind, sky,
+		temperature, first_down, last_down, worked,person_down,
+		person_onboard)
 		VALUES
 		(#{idscheduleship},
-		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork}, #{handswork_program}, #{menwork_program}, #{shiftdate},
-		#{notedetail}, #{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky}, #{temperature}, #{first_down}, #{last_down},#{worked}, #{person_down}, #{person_onboard});
+		#{shift},#{operation},#{iduser},#{idseconduser},#{handswork},#{menwork},
+		#{handswork_program}, #{menwork_program}, #{shiftdate},
+		#{notedetail},
+		#{activity_start}, #{activity_end}, #{rain}, #{wind}, #{sky},
+		#{temperature}, #{first_down}, #{last_down},#{worked}, #{person_down},
+		#{person_onboard});
 	</insert>
 
 	<delete id="deleteDetailScheduleShip" parameterType="Integer">
@@ -173,25 +193,27 @@
 		#{id_scheduleShip};
 	</delete>
 
-	
-	
 
 
 
 
 
 
-	<select id="searchDetailScheduleShipByPeriodOrDateshift" parameterType="map"
-		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+
+
+	<select id="searchDetailScheduleShipByPeriodOrDateshift"
+		parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail,  d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
+		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down,
+		d.worked, d.last_down,
 		s.name, d.operation, d.activity_start, d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct, 
+		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
 		ss.departuredate,
 		d.iduser,d.idseconduser,
 		d.handswork,
-		d.menwork, d.handswork_program, d.menwork_program, d.person_down, d.person_onboard, 
+		d.menwork, d.handswork_program,
+		d.menwork_program, d.person_down, d.person_onboard,
 		d.shiftdate,
 		s.id as
 		id_ship,
@@ -199,8 +221,9 @@
 		', u.firstname) AS
 		firstOperativeName,
 		concat(us.lastname, ' ',
-		us.firstname) AS 
-		secondOperativeName, (SELECT sr.name FROM service sr where ss.id_service=sr.id) as serviceType 
+		us.firstname) AS
+		secondOperativeName, (SELECT sr.name FROM service sr where
+		ss.id_service=sr.id) as serviceType
 		FROM
 		detailscheduleship d
 		left join
@@ -211,12 +234,13 @@
 		user us ON
 		(d1.idseconduser = us.id),
 		ship s, scheduleship ss
-		where d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id 
+		where d.idscheduleship = ss.id and ss.idship =
+		s.id and d1.id = d.id
 
 		<if test="full_text_search != null">
 			and (s.name like CONCAT('%',#{full_text_search}, '%') )
 		</if>
-		
+
 		<if test="serviceId!=null">
 			and ss.id_service = #{serviceId}
 		</if>
@@ -224,15 +248,23 @@
 		<if test="shift != null">
 			and d.shift = #{shift}
 		</if>
-		
+
 		<if test="dateshift != null">
-			and d.shiftdate = #{dateshift} 
+			and d.shiftdate = #{dateshift}
 		</if>
-		
+
 		<if test="datefrom !=null and dateto !=null and dateshift == null">
-			<![CDATA[ and ss.arrivaldate >= #{datefrom} and ss.arrivaldate <= date#{dateto} ]]>
+			<![CDATA[ and (ss.arrivaldate >= #{datefrom} and ss.arrivaldate <= date#{dateto})  ]]>
 		</if>
-	
+
+		<if test="datefrom !=null and dateto == null and dateshift == null">
+			<![CDATA[ and ss.arrivaldate = #{datefrom} ]]>
+		</if>
+
+		<if test="datefrom == null and dateto != null and dateshift == null">
+			<![CDATA[ and ss.departuredate = #{dateto} ]]>
+		</if>
+
 		<if test="idCustomer != null">
 			and #{idCustomer}=ss.customer_id
 		</if>
@@ -244,28 +276,34 @@
 		<if test="activityh != null">
 			and #{activityh}=s.activityh
 		</if>
-		
+
 		<if test="worked != null">
-			and #{worked}=d.worked 
-		</if>	
-		
+			and #{worked}=d.worked
+		</if>
+
 		order by
-		d.shiftdate, d.shift, s.name asc;
+		d.shiftdate, d.shift, s.name asc
+		
+		
+		
+		
 
 	</select>
-	
+
 	<select id="searchDetailScheduleShipRif_MCT_SWS" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
+		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down,
+		d.worked, d.last_down,
 		s.name, d.operation, d.activity_start, d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct, 
+		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
 		ss.departuredate,
 		d.iduser,
 		d.idseconduser,
 		d.handswork,
-		d.menwork, d.handswork_program, d.menwork_program, d.person_down, d.person_onboard, 
+		d.menwork, d.handswork_program,
+		d.menwork_program, d.person_down, d.person_onboard,
 		d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname,
@@ -293,25 +331,27 @@
 		<if test="rif_sws != null">
 			d.idscheduleship=#{rif_sws} and
 		</if>
-				
+
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
 		order by
 		d.shiftdate, d.shift, s.name asc;
-		
+
 	</select>
 
 	<select id="searchDetailScheduleShip" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down, d.worked, d.last_down, 
+		d.notedetail, d.rain, d.wind, d.sky, d.temperature, d.first_down,
+		d.worked, d.last_down,
 		s.name, d.operation, d.activity_start, d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct, 
+		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
 		ss.departuredate,
 		d.iduser,
 		d.idseconduser,
 		d.handswork,
-		d.menwork, d.handswork_program, d.menwork_program, d.person_down, d.person_onboard, 
+		d.menwork, d.handswork_program,
+		d.menwork_program, d.person_down, d.person_onboard,
 		d.shiftdate, s.id as
 		id_ship,
 		concat(u.lastname,
@@ -319,7 +359,8 @@
 		firstOperativeName,
 		concat(us.lastname, ' ',
 		us.firstname) AS
-		secondOperativeName, (SELECT sr.name FROM service sr where ss.id_service=sr.id) as serviceType
+		secondOperativeName, (SELECT sr.name FROM service sr where
+		ss.id_service=sr.id) as serviceType
 		FROM
 		detailscheduleship d
 		left join
@@ -336,9 +377,9 @@
 			(s.name like CONCAT('%',#{full_text_search},
 			'%') ) and
 		</if>
-		
+
 		<if test="serviceId!=null">
-			ss.id_service = #{serviceId} and 
+			ss.id_service = #{serviceId} and
 		</if>
 
 		<if test="shift != null">
@@ -360,11 +401,11 @@
 		<if test="activityh != null">
 			#{activityh}=s.activityh and
 		</if>
-		
+
 		<if test="worked != null">
-			#{worked}=d.worked and 
+			#{worked}=d.worked and
 		</if>
-		
+
 		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
 		order by
 		d.shiftdate, d.shift, s.name asc;
@@ -377,9 +418,12 @@
 		d.operation,
 		d.iduser,
 		d.idseconduser,
-		d.handswork, d.menwork, d.handswork_program, d.menwork_program, 
+		d.handswork, d.menwork, d.handswork_program,
+		d.menwork_program,
 		d.shiftdate,
-		d.notedetail, d.activity_start, d.activity_end, d.rain, d.wind, d.sky, d.temperature, d.worked, d.first_down, d.last_down, d.person_down, d.person_onboard, 
+		d.notedetail, d.activity_start, d.activity_end, d.rain, d.wind, d.sky,
+		d.temperature, d.worked, d.first_down, d.last_down, d.person_down,
+		d.person_onboard,
 		concat(u.lastname, '
 		',
 		u.firstname) AS
@@ -412,19 +456,26 @@
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
 		parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT s.id, s.idship, s.volume, s.note,
-		s.arrivaldate, s.departuredate, s.rif_mct, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id)  as serviceName 
+		SELECT s.id, s.idship, s.volume,
+		s.note,
+		s.arrivaldate, s.departuredate, s.rif_mct, s.customer_id,
+		s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where
+		s.id_service=sr.id) as serviceName
 		FROM
 		scheduleship s where
-		s.idship = 	#{idship} and
-		s.arrivaldate = #{arrivaldate};
+		s.idship = #{idship} and
+		s.arrivaldate =
+		#{arrivaldate};
 	</select>
 
 	<select id="loadScheduleShipByArrivalDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id,
-		s.idship, s.volume, s.note, s.arrivaldate, s.departuredate,
-		s.rif_mct, s.customer_id, s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id)  as serviceName 
+		s.idship, s.volume, s.note, s.arrivaldate,
+		s.departuredate,
+		s.rif_mct, s.customer_id, s.idship_activity,
+		s.id_service, (SELECT sr.name FROM service sr where
+		s.id_service=sr.id) as serviceName
 		FROM
 		scheduleship s where
 		date(s.arrivaldate) =
@@ -434,7 +485,9 @@
 	<select id="loadShipInDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Ship">
 		SELECT sh.id, sh.name, sh.line, sh.shiptype,
-		sh.shipcondition, sh.twtype, s.id as rifSWS, sh.nowork, sh.activityh, s.id_service, (SELECT sr.name FROM service sr where s.id_service=sr.id) as serviceName     
+		sh.shipcondition, sh.twtype, s.id as rifSWS, sh.nowork, sh.activityh,
+		s.id_service, (SELECT sr.name FROM service sr where
+		s.id_service=sr.id) as serviceName
 		FROM scheduleship s, ship sh
 		WHERE
 		sh.id=s.idship and date(#{shipDate}) >=
@@ -453,22 +506,24 @@
 		idseconduser =
 		#{idseconduser},
 		handswork = #{handswork},
-		menwork = #{menwork}, 
+		menwork = #{menwork},
 		handswork_program = #{handswork_program},
-		menwork_program = #{menwork_program}, 
+		menwork_program =
+		#{menwork_program},
 		shiftdate = #{shiftdate},
 		notedetail = #{notedetail},
-		activity_start = #{activity_start}, 
-		activity_end = #{activity_end}, 
-		rain = #{rain}, 
-		wind = #{wind}, 
-		sky = #{sky}, 
-		temperature = #{temperature}, 
-		first_down = #{first_down}, 
-		last_down = #{last_down}, 
-		worked = #{worked}, 
-		person_down = #{person_down}, 
-		person_onboard = #{person_onboard}    
+		activity_start =
+		#{activity_start},
+		activity_end = #{activity_end},
+		rain = #{rain},
+		wind = #{wind},
+		sky = #{sky},
+		temperature = #{temperature},
+		first_down = #{first_down},
+		last_down = #{last_down},
+		worked = #{worked},
+		person_down = #{person_down},
+		person_onboard = #{person_onboard}
 		WHERE id = #{id};
 	</update>
 
@@ -476,17 +531,17 @@
 	<update id="updateDetailScheduleShipForMobile" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		UPDATE
 		detailscheduleship SET
-		operation = #{operation}, 
-		handswork =	#{handswork},
-		menwork = #{menwork},  
-		rain = #{rain}, 
-		wind = #{wind}, 
-		sky = #{sky}, 
-		temperature = #{temperature}, 
-		first_down = #{first_down}, 
-		last_down = #{last_down}, 
-		person_down = #{person_down}, 
-		person_onboard = #{person_onboard}  
+		operation = #{operation},
+		handswork = #{handswork},
+		menwork = #{menwork},
+		rain = #{rain},
+		wind = #{wind},
+		sky = #{sky},
+		temperature = #{temperature},
+		first_down = #{first_down},
+		last_down = #{last_down},
+		person_down = #{person_down},
+		person_onboard = #{person_onboard}
 		WHERE id = #{id};
 	</update>
 
@@ -521,7 +576,7 @@
 		df.iddetailscheduleship, df.notedetail, df.volumeunderboard,
 		df.volumeunderboard_sws,
 		df.volume_tw_mct, s.rif_mct, s.id as rif_sws,
-		df.invoicing_cycle, activity_start, activity_end, menwork_activityh  
+		df.invoicing_cycle, activity_start, activity_end, menwork_activityh
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship
@@ -556,8 +611,8 @@
 		invoicing_cycle = #{invoicing_cycle},
 		activity_start =
 		#{activity_start},
-		activity_end = #{activity_end}, 
-		menwork_activityh = #{menwork_activityh}  		
+		activity_end = #{activity_end},
+		menwork_activityh = #{menwork_activityh}
 		WHERE id = #{id};
 	</update>
 
@@ -570,7 +625,7 @@
 		df.volumeunderboard,df.volumeunderboard_sws,
 		df.volume_tw_mct,
 		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, df.activity_start,
-		df.activity_end, df.menwork_activityh  
+		df.activity_end, df.menwork_activityh
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship d,

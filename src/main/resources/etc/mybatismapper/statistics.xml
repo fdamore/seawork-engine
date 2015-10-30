@@ -47,6 +47,18 @@
 				#{dt_arg_to}
 			
 		</if>
+		
+		<if test="dt_arg_to != null and dt_arg_from == null">
+			
+				and dss.shiftdate = #{dt_arg_to}
+			
+		</if>
+		
+		<if test="dt_arg_to == null and dt_arg_from != null">
+			
+				and dss.shiftdate = #{dt_arg_from}
+			
+		</if>
 
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
@@ -110,6 +122,18 @@
 			#{dt_arg_from} and
 			dss.shiftdate <![CDATA[<=]]>
 			#{dt_arg_to}
+
+		</if>
+		
+		<if test="dt_arg_to != null and dt_arg_from == null">
+			
+			and dss.shiftdate = #{dt_arg_to}
+
+		</if>
+		
+		<if test="dt_arg_to == null and dt_arg_from != null">
+			
+			and dss.shiftdate = #{dt_arg_from}
 
 		</if>
 
@@ -302,6 +326,14 @@
 			#{date_from} and sc.date_schedule
 			<![CDATA[<=]]>
 			#{date_to})
+		</if>
+		
+		<if test="date_from != null and date_to == null">
+			and sc.date_schedule = #{date_from}
+		</if>
+		
+		<if test="date_from == null and date_to != null">
+			and sc.date_schedule = #{date_to}
 		</if>
 
 		group by dfs.id_ship order by s.name
