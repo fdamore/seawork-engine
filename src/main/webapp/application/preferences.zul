@@ -1258,10 +1258,10 @@
 								multiple="false" pageSize="20">
 								<listhead sizable="true">
 
+									<listheader label="Numero" sort="auto"/>
+									
 									<listheader label="Nome" sort="auto" />
 										
-									<listheader label="Numero" sort="auto"/>
-
 									<listheader label="Descrizione" sort="auto" />
 
 									<listheader label="" />
@@ -1269,13 +1269,13 @@
 
 								<listitem self="@{each='crane_item'}"
 									value="@{crane_item}">
+									
+									<listcell sclass="myBottonCell"
+										label="@{crane_item.number}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{crane_item.name}" />
 										
-									<listcell sclass="myBottonCell"
-										label="@{crane_item.number}" />
-
 									<listcell sclass="myBottonCell"
 										label="@{crane_item.description}" />
 

@@ -653,6 +653,9 @@ public class Preferences extends SelectorComposer<Component> {
 				Preferences.this.refreshServiceList();
 				Preferences.this.resetServiceInfo();
 
+				// refresh crane list
+				Preferences.this.refreshCraneList();
+
 				// show bank holiday
 				Preferences.this.showBankHolidays();
 
