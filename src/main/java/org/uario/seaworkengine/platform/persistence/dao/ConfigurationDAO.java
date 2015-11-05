@@ -2,6 +2,7 @@ package org.uario.seaworkengine.platform.persistence.dao;
 
 import java.util.List;
 
+import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -14,11 +15,15 @@ public interface ConfigurationDAO {
 
 	public List<Service> checkServiceExist(String name);
 
+	public void createCrane(Crane crane);
+
 	public void createShift(UserShift shift);
 
 	public void createTask(UserTask task);
 
 	public UserTask getChangeshiftTask();
+
+	public List<Crane> getCrane(Integer id, Integer number, String name, String description);
 
 	public UserTask getDelayOperationTask();
 
@@ -74,6 +79,8 @@ public interface ConfigurationDAO {
 
 	public void removeAllWaitBreakShift();
 
+	public void removeCrane(Integer id);
+
 	public void removeService(Integer id);
 
 	public void removeShift(Integer id);
@@ -105,6 +112,8 @@ public interface ConfigurationDAO {
 	public void setTaskAsEndoperation(Integer idTask);
 
 	public void setTaskAsOverflow(Integer idTask);
+
+	public void updateCrane(Crane crane);
 
 	public void updateService(Service service);
 

@@ -147,6 +147,7 @@
 			<tab label="Centri di Costo" id="billcenter" />
 			<tab label="Tipo Rapporto di Lavoro" id="status" />
 			<tab label="Tipo Servizio" id="serviceType" />
+			<tab label="Gru" id="crane"/>
 		</tabs>
 
 		<tabpanels>
@@ -1134,7 +1135,8 @@
 											id="sw_link_deleteservice" style="color:blue"
 											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());"
 											label="Cancella">
-										</toolbarbutton>
+										</toolbarbutton>							
+										
 
 									</listcell>
 
@@ -1149,6 +1151,160 @@
 				</panel>
 			</tabpanel>
 			
+			<tabpanel>
+				<panel id="panel_crane" border="normal"
+					collapsible="false" sclass="transparent">
+					<caption iconSclass="z-icon-star orange"
+						label="Gestione Gru">
+					</caption>
+
+					<panelchildren>
+						<!-- CRANE -->
+						<div>
+							<a label="Gru"
+								iconSclass="z-icon-list" sclass="green lighter rcaption" />
+
+							<!-- CRANE EDITOR -->
+							<div id="grid_crane_details"
+								visible="false">
+
+								<panel border="normal"
+									collapsible="false" sclass="transparent">
+									<caption
+										iconSclass="z-icon-star orange" label="Dettagli">
+										<toolbarbutton label="Chiudi"
+											style="color: blue"
+											onClick="grid_crane_details.setVisible(false);">
+										</toolbarbutton>
+										<toolbarbutton
+											id="add_crane_command" label="Aggiungi" style="color: blue"
+											visible="false">
+										</toolbarbutton>
+										<toolbarbutton label="Modifica" id="modify_crane_command" 
+											style="color: blue"
+											onClick="grid_crane_details.setVisible(true);">
+										</toolbarbutton>
+									</caption>
+									<panelchildren>
+										<grid sclass="domain">
+											<columns>
+												<column label="Tipo" />
+												<column
+													label="Informazioni" />
+											</columns>
+											<rows>
+												<row
+													id="row_number_crane">
+													<label
+														value="Numero">
+													</label>
+													<intbox
+														id="number_crane" constraint="no negative"  mold="rounded" />
+												</row>
+												<row
+													id="row_name_crane">
+													<label
+														value="Nome:">
+													</label>
+													<textbox
+														id="name_crane" mold="rounded" />
+												</row>
+												<row
+													id="row_description_crane">
+													<label
+														value="Descrizione:">
+													</label>
+													<textbox id="description_crane" mold="rounded" />
+												</row>
+												
+											</rows>
+										</grid>
+									</panelchildren>
+								</panel>
+							</div>
+
+							<div>
+								<separator></separator>
+
+								<button sclass="btn-info" label="Aggiungi Gru"
+									onClick="modify_crane_command.setVisible(false);add_crane_command.setVisible(true);grid_crane_details.setVisible(true);description_crane.setValue(null);name_crane.setValue(null);number_crane.setValue(null);">
+								</button>
+
+								<button id="sw_refresh_crane_list"
+									sclass="btn-info" label="Ricarica" onClick="full_text_search_Crane.setValue(null);shows_rows_crane.setValue(null)">
+								</button>
+
+								<separator></separator>
+
+								<a label="Righe da visualizzare: "
+									iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+								<intbox id="shows_rows_crane"
+									constraint="no negative, no zero" value="10">
+								</intbox>
+
+								<intbox placeholder="Cerca Numero Gru..."
+									id="full_text_search_Crane" width="180px">
+								</intbox>
+
+								<separator></separator>
+
+								<separator></separator>
+							</div>
+
+
+							<listbox id="sw_list_crane"
+								pagingPosition="both" mold="paging"
+								style="border: 1px solid #CCCCCC;" checkmark="true"
+								multiple="false" pageSize="20">
+								<listhead sizable="true">
+
+									<listheader label="Nome" sort="auto" />
+										
+									<listheader label="Numero" sort="auto"/>
+
+									<listheader label="Descrizione" sort="auto" />
+
+									<listheader label="" />
+								</listhead>
+
+								<listitem self="@{each='crane_item'}"
+									value="@{crane_item}">
+
+									<listcell sclass="myBottonCell"
+										label="@{crane_item.name}" />
+										
+									<listcell sclass="myBottonCell"
+										label="@{crane_item.number}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{crane_item.description}" />
+
+									<listcell sclass="myBottonCell">
+
+										<toolbarbutton
+											id="sw_link_deletecrane" style="color:blue"
+											onClick="sw_list_crane.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Cancella">
+										</toolbarbutton>
+										
+										<toolbarbutton
+											id="sw_link_modifycrane" label="Modifica" 
+											onClick="sw_list_crane.setSelectedItem((Listitem)self.getParent().getParent());grid_crane_details.setVisible(true);add_crane_command.setVisible(false);modify_crane_command.setVisible(true);" 
+											style="color: blue">
+										</toolbarbutton>
+
+									</listcell>
+
+								</listitem>
+
+							</listbox>
+						</div>
+
+					</panelchildren>
+
+
+				</panel>
+			</tabpanel>
 
 		</tabpanels>
 	</tabbox>

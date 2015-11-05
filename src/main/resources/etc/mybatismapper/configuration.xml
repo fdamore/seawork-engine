@@ -471,7 +471,44 @@
 		#{idTask};
 	</update>
 
-
+	<!-- CRANE -->	
+	<insert id="createCrane" parameterType="org.uario.seaworkengine.model.Crane">
+		INSERT INTO crane
+		(name,number,description)
+		VALUES
+		(#{name},#{number},#{description});
+	</insert>
+	
+	<select id="getCrane" parameterType="map" resultType="org.uario.seaworkengine.model.Crane">
+	  	SELECT id, name, description, number 
+	  	FROM crane 
+	  	WHERE id is not null 
+	  	
+	  	<if test="name!=null">
+			and name like CONCAT('%',#{name},'%')  
+		</if>
+		
+		<if test="description!=null">
+			and description like CONCAT('%',#{description},'%')  
+		</if>
+		
+		<if test="number!=null">
+			and number = #{number} 
+		</if>
+		
+		<if test="id!=null">
+			and id = #{id};    
+		</if>	  		
+	</select>
+	
+	<delete id="removeCrane" parameterType="Integer">
+		delete from crane 
+		where id = #{id};
+	</delete>
+	
+	<update id="updateCrane" parameterType="org.uario.seaworkengine.model.Crane">
+		update crane set name=#{name}, description=#{description}, number=#{number} where id=#{id}; 
+	</update>
 
 
 </mapper>

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -17,11 +18,11 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 
 public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements ConfigurationDAO {
-	private static Logger logger = Logger.getLogger(MyBatisConfigurationDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisConfigurationDAO.class);
 
-	private IShiftCache shift_cache;
+	private IShiftCache		shift_cache;
 
-	private ITaskCache task_cache;
+	private ITaskCache		task_cache;
 
 	@Override
 	public void addService(final Service service) {
@@ -47,6 +48,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void createCrane(final Crane crane) {
+		MyBatisConfigurationDAO.logger.info("Create crane");
+
+		this.getSqlSession().insert("configuration.createCrane", crane);
+	}
+
+	@Override
 	public void createShift(final UserShift shift) {
 		MyBatisConfigurationDAO.logger.info("Insert shift " + shift);
 		this.getSqlSession().insert("configuration.insertShift", shift);
@@ -69,6 +77,19 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	public UserTask getChangeshiftTask() {
 		MyBatisConfigurationDAO.logger.info("getChangeshiftTask");
 		return this.getSqlSession().selectOne("configuration.getChangeshiftTask");
+	}
+
+	@Override
+	public List<Crane> getCrane(final Integer id, final Integer number, final String name, final String description) {
+		MyBatisConfigurationDAO.logger.info("Search crane");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("number", number);
+		map.put("name", name);
+		map.put("description", description);
+
+		return this.getSqlSession().selectList("configuration.getCrane", map);
 	}
 
 	@Override
@@ -274,6 +295,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public void removeCrane(final Integer id) {
+		MyBatisConfigurationDAO.logger.info("Remove crane");
+
+		this.getSqlSession().delete("configuration.removeCrane", id);
+	}
+
+	@Override
 	public void removeService(final Integer id) {
 		MyBatisConfigurationDAO.logger.info("Remove Service");
 
@@ -441,6 +469,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 
 		this.getSqlSession().update("configuration.setTaskAsOverflow", idTask);
 
+	}
+
+	@Override
+	public void updateCrane(final Crane crane) {
+		MyBatisConfigurationDAO.logger.info("Update crane");
+
+		this.getSqlSession().update("configuration.updateCrane", crane);
 	}
 
 	@Override

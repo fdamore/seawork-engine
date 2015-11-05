@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.uario.seaworkengine.model.BillCenter;
+import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -41,158 +42,179 @@ public class Preferences extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Component add_billcenter_command;
+	private Component			add_billcenter_command;
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays		bank_holiday;
 
-	private BillCenter billCenterSelected;
-
-	@Wire
-	private Checkbox changeshift_task;
+	private BillCenter			billCenterSelected;
 
 	@Wire
-	private Textbox code_shift;
+	private Checkbox			changeshift_task;
 
 	@Wire
-	private Textbox code_status;
+	private Textbox				code_shift;
 
 	@Wire
-	private Textbox code_task;
-
-	private ConfigurationDAO configurationDao;
+	private Textbox				code_status;
 
 	@Wire
-	private Checkbox delayoperation_task;
+	private Textbox				code_task;
+
+	private ConfigurationDAO	configurationDao;
 
 	@Wire
-	private Textbox description_billcenter;
+	private Checkbox			delayoperation_task;
 
 	@Wire
-	private Textbox description_service;
+	private Textbox				description_billcenter;
 
 	@Wire
-	private Textbox description_shift;
+	private Textbox				description_crane;
 
 	@Wire
-	private Textbox description_status;
+	private Textbox				description_service;
 
 	@Wire
-	private Textbox description_task;
+	private Textbox				description_shift;
 
 	@Wire
-	private Textbox docrepo;
+	private Textbox				description_status;
 
 	@Wire
-	private Checkbox endoperation_task;
+	private Textbox				description_task;
 
 	@Wire
-	private Checkbox forceable;
+	private Textbox				docrepo;
 
 	@Wire
-	private Textbox full_text_search_BillCenter;
+	private Checkbox			endoperation_task;
 
 	@Wire
-	private Textbox full_text_search_Service;
+	private Checkbox			forceable;
 
 	@Wire
-	private Textbox full_text_searchShift;
+	private Textbox				full_text_search_BillCenter;
 
 	@Wire
-	private Textbox full_text_searchTask;
+	private Intbox				full_text_search_Crane;
 
 	@Wire
-	private Component grid_billcenter_details;
+	private Textbox				full_text_search_Service;
 
 	@Wire
-	private Div grid_service_details;
+	private Textbox				full_text_searchShift;
 
 	@Wire
-	private Div grid_shift_details;
+	private Textbox				full_text_searchTask;
 
 	@Wire
-	private Div grid_status_details;
+	private Component			grid_billcenter_details;
 
 	@Wire
-	private Div grid_task_details;
+	private Div					grid_crane_details;
 
 	@Wire
-	private Checkbox hidden_task;
+	private Div					grid_service_details;
 
 	@Wire
-	private Checkbox isabsence_task;
-
-	private IJobCost jobCostDao;
+	private Div					grid_shift_details;
 
 	@Wire
-	private Checkbox justificatory_task;
+	private Div					grid_status_details;
 
 	@Wire
-	private Label label_allocated_meomry;
+	private Div					grid_task_details;
 
 	@Wire
-	private Label label_free_meomry;
+	private Checkbox			hidden_task;
 
 	@Wire
-	private Label label_max_meomry;
+	private Checkbox			isabsence_task;
+
+	private IJobCost			jobCostDao;
 
 	@Wire
-	private Listbox list_bankholiday;
+	private Checkbox			justificatory_task;
 
 	@Wire
-	private Component modify_billcenter_command;
+	private Label				label_allocated_meomry;
 
 	@Wire
-	private Textbox name_service;
-
-	private final NumberFormat numberFormat = NumberFormat.getInstance();
+	private Label				label_free_meomry;
 
 	@Wire
-	private Checkbox overflow_task;
-
-	private IParams paramsDAO;
+	private Label				label_max_meomry;
 
 	@Wire
-	public Checkbox recorded_shift;
+	private Listbox				list_bankholiday;
 
 	@Wire
-	private Checkbox recorded_task;
-
-	private final Runtime runtime = Runtime.getRuntime();
-
-	private int selectedOptionMobileTask;
+	private Component			modify_billcenter_command;
 
 	@Wire
-	private Intbox shows_rows;
+	private Textbox				name_crane;
 
 	@Wire
-	private Intbox shows_rowsShift;
+	private Textbox				name_service;
 
 	@Wire
-	private Intbox shows_rowsTask;
+	private Intbox				number_crane;
+
+	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
 
 	@Wire
-	private Listbox sw_list_billcenter;
+	private Checkbox			overflow_task;
+
+	private IParams				paramsDAO;
 
 	@Wire
-	private Listbox sw_list_service;
+	public Checkbox				recorded_shift;
 
 	@Wire
-	private Listbox sw_list_shift;
+	private Checkbox			recorded_task;
+
+	private final Runtime		runtime				= Runtime.getRuntime();
+
+	private int					selectedOptionMobileTask;
 
 	@Wire
-	private Listbox sw_list_status;
+	private Intbox				shows_rows;
 
 	@Wire
-	private Listbox sw_list_task;
+	private Intbox				shows_rows_crane;
 
 	@Wire
-	private Combobox type_shift;
+	private Intbox				shows_rowsShift;
 
 	@Wire
-	private Combobox typeofbreak;
+	private Intbox				shows_rowsTask;
+
+	@Wire
+	private Listbox				sw_list_billcenter;
+
+	@Wire
+	private Listbox				sw_list_crane;
+
+	@Wire
+	private Listbox				sw_list_service;
+
+	@Wire
+	private Listbox				sw_list_shift;
+
+	@Wire
+	private Listbox				sw_list_status;
+
+	@Wire
+	private Listbox				sw_list_task;
+
+	@Wire
+	private Combobox			type_shift;
+
+	@Wire
+	private Combobox			typeofbreak;
 
 	@Listen("onClick = #add_billcenter_command")
 	public void addBillCenterCommand() {
@@ -202,6 +224,32 @@ public class Preferences extends SelectorComposer<Component> {
 			this.jobCostDao.createBillCenter(billCenter);
 			this.refreshBillCenterList();
 		}
+	}
+
+	@Listen("onClick = #add_crane_command")
+	public void addCrane() {
+
+		final List<Crane> craneList = this.configurationDao.getCrane(null, this.number_crane.getValue(), null, null);
+
+		if (craneList.size() == 0) {
+			final Crane crane = new Crane();
+			crane.setName(this.name_crane.getValue());
+			crane.setDescription(this.description_crane.getValue());
+			crane.setNumber(this.number_crane.getValue());
+			this.configurationDao.createCrane(crane);
+
+			this.refreshCraneList();
+
+			this.resetCraneInfo();
+		} else {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Numero gru già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+		}
+
 	}
 
 	@Listen("onClick = #add_service_command")
@@ -501,6 +549,16 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_link_deletecrane")
+	public void deleteCrane() {
+		if (this.sw_list_crane.getSelectedItem() != null) {
+			final Crane craneSelected = this.sw_list_crane.getSelectedItem().getValue();
+			this.configurationDao.removeCrane(craneSelected.getId());
+			this.refreshCraneList();
+		}
+
+	}
+
 	@Listen("onClick = #sw_link_deleteservice")
 	public void deleteService() {
 		if (this.sw_list_service.getSelectedItem() != null) {
@@ -642,6 +700,47 @@ public class Preferences extends SelectorComposer<Component> {
 
 			this.refreshBillCenterList();
 		}
+	}
+
+	@Listen("onClick = #modify_crane_command")
+	public void modifyCraneCommand() {
+		if ((this.sw_list_crane.getSelectedItem() == null) || (this.number_crane.getValue() == null)) {
+			return;
+		}
+
+		final Crane craneSelected = this.sw_list_crane.getSelectedItem().getValue();
+
+		final List<Crane> list = this.configurationDao.getCrane(null, this.number_crane.getValue(), null, null);
+
+		if (list.size() != 0) {
+
+			final Crane crane = list.get(0);
+
+			if (crane.getId() != craneSelected.getId()) {
+
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Numero gru già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
+				return;
+			}
+		}
+
+		craneSelected.setDescription(this.description_crane.getValue());
+		craneSelected.setName(this.name_crane.getValue());
+		craneSelected.setNumber(this.number_crane.getValue());
+
+		this.configurationDao.updateCrane(craneSelected);
+
+		this.refreshCraneList();
+
+		this.resetCraneInfo();
+
+		this.grid_crane_details.setVisible(false);
+
 	}
 
 	@Listen("onClick = #sw_link_modifyshift")
@@ -948,6 +1047,20 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_refresh_crane_list")
+	public void refreshCraneList() {
+
+		final List<Crane> list = this.configurationDao.getCrane(null, null, null, null);
+		Preferences.this.sw_list_crane.setModel(new ListModelList<Crane>(list));
+
+		if ((this.shows_rows_crane.getValue() != null) && (this.shows_rows_crane.getValue() != 0)) {
+			this.sw_list_crane.setPageSize(this.shows_rows_crane.getValue());
+		} else {
+			this.sw_list_crane.setPageSize(10);
+		}
+
+	}
+
 	@Listen("onClick = #sw_refresh_service_list")
 	public void refreshServiceList() {
 
@@ -1101,6 +1214,12 @@ public class Preferences extends SelectorComposer<Component> {
 
 	}
 
+	private void resetCraneInfo() {
+		this.description_crane.setValue(null);
+		this.name_crane.setValue(null);
+		this.number_crane.setValue(null);
+	}
+
 	private void resetServiceInfo() {
 		this.description_service.setValue(null);
 		this.name_service.setValue(null);
@@ -1140,6 +1259,19 @@ public class Preferences extends SelectorComposer<Component> {
 			if (listBillCenter != null) {
 				this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));
 			}
+		}
+	}
+
+	@Listen("onChange = #full_text_search_Crane; onOK = #full_text_search_Crane")
+	public void searchCrane() {
+		if (this.full_text_search_Crane.getValue() != null) {
+			final List<Crane> list = this.configurationDao.getCrane(null, this.full_text_search_Crane.getValue(), null, null);
+
+			if (list != null) {
+				this.sw_list_crane.setModel(new ListModelList<Crane>(list));
+			}
+		} else {
+			this.refreshCraneList();
 		}
 	}
 
@@ -1204,6 +1336,22 @@ public class Preferences extends SelectorComposer<Component> {
 		} else {
 			this.forceable.setDisabled(false);
 		}
+	}
+
+	@Listen("onClick = #sw_link_modifycrane")
+	public void setModifyCranePanel() {
+		if ((this.sw_list_crane.getSelectedItem() == null)) {
+			return;
+		}
+
+		final Crane craneSelected = this.sw_list_crane.getSelectedItem().getValue();
+		if (craneSelected == null) {
+			return;
+		}
+
+		this.name_crane.setValue(craneSelected.getName());
+		this.description_crane.setValue(craneSelected.getDescription());
+		this.number_crane.setValue(craneSelected.getNumber());
 	}
 
 	@Listen("onChange = #type_shift")
@@ -1321,6 +1469,15 @@ public class Preferences extends SelectorComposer<Component> {
 	public void showRows() {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_billcenter.setPageSize(this.shows_rows.getValue());
+		}
+	}
+
+	@Listen("onOK=#shows_rows_crane")
+	public void showRowsCraneList() {
+		if ((this.shows_rows_crane.getValue() != null) && (this.shows_rows_crane.getValue() != 0)) {
+			this.sw_list_crane.setPageSize(this.shows_rows_crane.getValue());
+		} else {
+			this.sw_list_crane.setPageSize(10);
 		}
 	}
 
