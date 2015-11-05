@@ -497,8 +497,11 @@
 		</if>
 		
 		<if test="id!=null">
-			and id = #{id};    
-		</if>	  		
+			and id = #{id}   
+		</if>
+		
+		ORDER BY number;
+			  		
 	</select>
 	
 	<delete id="removeCrane" parameterType="Integer">

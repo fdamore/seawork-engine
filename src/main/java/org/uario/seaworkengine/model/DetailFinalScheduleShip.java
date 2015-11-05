@@ -29,6 +29,8 @@ public class DetailFinalScheduleShip implements Serializable {
 	// rif sws
 	private Integer				id;
 
+	private Integer				id_crane;
+
 	private Integer				iddetailscheduleship;
 
 	@XmlTransient
@@ -79,6 +81,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public Integer getId() {
 		return this.id;
+	}
+
+	public Integer getId_crane() {
+		return this.id_crane;
 	}
 
 	public Integer getIddetailscheduleship() {
@@ -147,6 +153,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setId_crane(final Integer id_crane) {
+		this.id_crane = id_crane;
 	}
 
 	public void setIddetailscheduleship(final Integer iddetailscheduleship) {

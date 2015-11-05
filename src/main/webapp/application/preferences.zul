@@ -1258,11 +1258,11 @@
 								multiple="false" pageSize="20">
 								<listhead sizable="true">
 
-									<listheader label="Numero" sort="auto"/>
+									<listheader label="Numero" />
 									
-									<listheader label="Nome" sort="auto" />
+									<listheader label="Nome"  />
 										
-									<listheader label="Descrizione" sort="auto" />
+									<listheader label="Descrizione" />
 
 									<listheader label="" />
 								</listhead>

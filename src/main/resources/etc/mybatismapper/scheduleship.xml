@@ -587,14 +587,14 @@
 		volume, timework, iddetailscheduleship, notedetail,
 		volumeunderboard,volumeunderboard_sws,
 		volume_tw_mct,invoicing_cycle,
-		activity_start, activity_end, menwork_activityh)
+		activity_start, activity_end, menwork_activityh, id_crane)
 		VALUES
 		(#{crane},#{crane_gtw},
 		#{volume}, #{timework},
 		#{iddetailscheduleship}, #{notedetail},
 		#{volumeunderboard},
 		#{volumeunderboard_sws},#{volume_tw_mct},#{invoicing_cycle},
-		#{activity_start}, #{activity_end}, #{menwork_activityh});
+		#{activity_start}, #{activity_end}, #{menwork_activityh}, #{id_crane});
 	</insert>
 
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -606,17 +606,17 @@
 
 	<select id="loadDetailFinalScheduleShipById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
-		SELECT df.id, df.crane, df.crane_gtw volume, df.timework,
+		SELECT df.id, (select c.number from crane c where df.id_crane=c.id) as crane, df.crane_gtw volume, df.timework,
 		df.iddetailscheduleship, df.notedetail, df.volumeunderboard,
 		df.volumeunderboard_sws,
 		df.volume_tw_mct, s.rif_mct, s.id as rif_sws,
-		df.invoicing_cycle, activity_start, activity_end, menwork_activityh
+		df.invoicing_cycle, df.activity_start, df.activity_end, df.menwork_activityh, df.id_crane
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship
 		d, scheduleship s
 		where
-		id = #{id} and
+		df.id = #{id} and
 		df.iddetailscheduleship = d.id
 		and
 		d.idscheduleship =
@@ -647,7 +647,8 @@
 		#{activity_start},
 		activity_end = #{activity_end},
 		menwork_activityh =
-		#{menwork_activityh}
+		#{menwork_activityh}, 
+		id_crane = #{id_crane} 
 		WHERE id = #{id};
 	</update>
 
@@ -655,12 +656,12 @@
 	<select id="loadDetailFinalScheduleShipByIdDetailScheduleShip"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip"
 		parameterType="Integer">
-		SELECT df.id, df.crane,df.crane_gtw, df.volume,
+		SELECT df.id, (select c.number from crane c where df.id_crane=c.id) as crane,df.crane_gtw, df.volume,
 		df.timework, df.iddetailscheduleship, df.notedetail,
 		df.volumeunderboard,df.volumeunderboard_sws,
 		df.volume_tw_mct,
 		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, df.activity_start,
-		df.activity_end, df.menwork_activityh
+		df.activity_end, df.menwork_activityh, df.id_crane 
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship d,

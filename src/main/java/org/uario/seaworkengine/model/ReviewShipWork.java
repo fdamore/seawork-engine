@@ -10,6 +10,7 @@ public class ReviewShipWork implements Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	// used only for view
 	private String				crane;
 
 	private Boolean				crane_gtw;

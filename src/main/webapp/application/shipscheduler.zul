@@ -1754,8 +1754,15 @@
 
 									<row>
 										<label value="Gru:"></label>
-										<intbox id="crane_review"
-											constraint="no negative" />
+																				
+										<combobox id="idCrane_review"
+											autodrop="true"
+											placeholder="Seleziona numero gru...">
+
+											<comboitem
+												self="@{each='crane'}" label="@{crane.number}" value="@{crane}" />
+										</combobox>
+											
 									</row>
 
 									<row>
