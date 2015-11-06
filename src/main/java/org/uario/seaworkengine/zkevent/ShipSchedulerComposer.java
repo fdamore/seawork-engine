@@ -434,6 +434,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox						rain_review;
 
 	@Wire
+	private Component						remove_select_year_detail;
+
+	@Wire
 	private Component						report_div;
 
 	@Wire
@@ -1385,6 +1388,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.text_search_rifMCT.setVisible(false);
 
 		this.filterDateWork.setVisible(true);
+		this.remove_select_year_detail.setVisible(true);
 
 		this.filterRows.setVisible(true);
 		this.searchArrivalDateShipFrom.setVisible(true);
@@ -1487,6 +1491,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.filterShipWorked.setVisible(false);
 
 			this.filterDateWork.setVisible(false);
+			this.remove_select_year_detail.setVisible(false);
 			this.filterYear.setVisible(true);
 			this.filterMonth.setVisible(false);
 
@@ -2762,7 +2767,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void refreshReport() {
 
 		if (this.select_year_detail.getSelectedItem() == null) {
-			return;
+			final Calendar calendar_from = Calendar.getInstance();
+			calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+			this.select_year_detail.setValue("" + calendar_from.get(Calendar.YEAR));
 		}
 
 		final Integer year = Integer.parseInt((String) this.select_year_detail.getSelectedItem().getValue());
