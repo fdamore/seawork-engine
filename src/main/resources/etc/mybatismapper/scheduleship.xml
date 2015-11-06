@@ -583,13 +583,13 @@
 	<insert id="createDetailFinalScheduleShip"
 		parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
 		INSERT INTO
-		detailfinalscheduleship (crane,crane_gtw,
+		detailfinalscheduleship (crane_gtw,
 		volume, timework, iddetailscheduleship, notedetail,
 		volumeunderboard,volumeunderboard_sws,
 		volume_tw_mct,invoicing_cycle,
 		activity_start, activity_end, menwork_activityh, id_crane)
 		VALUES
-		(#{crane},#{crane_gtw},
+		(#{crane_gtw},
 		#{volume}, #{timework},
 		#{iddetailscheduleship}, #{notedetail},
 		#{volumeunderboard},
@@ -628,8 +628,6 @@
 		UPDATE detailfinalscheduleship
 		SET
 		id = #{id},
-		crane =
-		#{crane},
 		crane_gtw = #{crane_gtw},
 		timework = #{timework},
 		volume =
