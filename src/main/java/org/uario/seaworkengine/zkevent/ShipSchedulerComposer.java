@@ -15,6 +15,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.Customer;
+import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
@@ -253,6 +254,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Label							handswork_program_Daily;
 
 	@Wire
+	private Label							hourReview;
+
+	@Wire
 	private Combobox						idCrane_review;
 
 	@Wire
@@ -314,6 +318,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Label							menwork_program_Daily;
+
+	@Wire
+	private Label							menworkReview;
 
 	@Wire
 	private Label							messageUpdateRifMCT;
@@ -3746,6 +3753,38 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if (detailSelected == null) {
 			return;
 		}
+
+		// calculate menwork and hour by user reviewed view
+		Integer idShip = detailSelected.getId_ship();
+
+		final Ship ship = this.shipDao.loadShip(idShip);
+
+		if (ship.getActivityh()) {
+			final ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
+			if ((scheduleShip != null) && (scheduleShip.getIdship_activity() != null)) {
+				idShip = scheduleShip.getIdship_activity();
+			}
+		}
+
+		final Integer countWorker = this.statisticDAO.countWorkerInOverviewFinalSchedule(null, detailSelected.getShift(), null, null,
+				detailSelected.getShiftdate(), detailSelected.getShiftdate(), null, idShip, null);
+		if (countWorker != null) {
+			this.menworkReview.setValue(countWorker.toString());
+		} else {
+			this.menworkReview.setValue("");
+		}
+
+		final List<DetailFinalSchedule> listDetailRevision = this.statisticDAO.listDetailFinalSchedule(null, detailSelected.getShift(), null, null,
+				detailSelected.getShiftdate(), detailSelected.getShiftdate(), null, idShip, null);
+		double count_h = 0;
+
+		for (final DetailFinalSchedule item : listDetailRevision) {
+			if (item.getTime() != null) {
+				count_h += item.getTime();
+			}
+		}
+
+		this.hourReview.setValue("" + Utility.roundTwo(count_h));
 
 		ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
 
