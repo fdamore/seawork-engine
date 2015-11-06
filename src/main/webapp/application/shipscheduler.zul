@@ -1360,7 +1360,7 @@
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.menwork_program}" />
 					<listcell sclass="myBottonCell"
-						label="@{detailscheduleship_item.menwork}" />
+						label="@{detailscheduleship_item, converter='org.uario.seaworkengine.zkevent.converter.ActivityHMenworkConverter'}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.serviceType}" />

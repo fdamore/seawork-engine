@@ -1087,10 +1087,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				count_menworking_program += itm_details.getMenwork_program();
 			}
 
-			if (itm_details.getMenwork() != null) {
-				count_menworking_review += itm_details.getMenwork();
-			}
-
 			// HANDS
 			if (itm_details.getHandswork_program() != null) {
 				count_programmed_handswork += itm_details.getHandswork_program();
@@ -1104,6 +1100,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			if (!(itm_details.getId_ship() == null)) {
 
 				final Ship ship = this.ship_cache.getShip(itm_details.getId_ship());
+
 				if (ship.getNowork()) {
 					if (!count_sws_not_work.contains(itm_details.getIdscheduleship())) {
 						count_sws_not_work.add(itm_details.getIdscheduleship());
@@ -1113,6 +1110,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						count_sws_work.add(itm_details.getIdscheduleship());
 					}
 				}
+
+				if (!ship.getActivityh()) {
+					if (itm_details.getMenwork() != null) {
+						count_menworking_review += itm_details.getMenwork();
+					}
+				}
+
 			}
 
 		}
