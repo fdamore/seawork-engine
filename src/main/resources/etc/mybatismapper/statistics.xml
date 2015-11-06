@@ -16,7 +16,7 @@
 		id_ship,
 		dss.shift,
 		d.timework as time_work,
-		d.crane, d.crane_gtw,
+		(select c.number from crane c where d.id_crane=c.id) as crane, d.crane_gtw,
 		dss.shiftdate as date_request,
 		d.volume,
 		d.volumeunderboard,
@@ -432,7 +432,7 @@
 		</if>
 
 		<if test="craneId != null">
-			and (dfs.crane like CONCAT('%', #{craneId}, '%') )
+			and (crane like CONCAT('%', #{craneId}, '%') )
 		</if>
 
 		<if test="idShip != null and idShip != -1">
@@ -528,7 +528,7 @@
 		</if>
 
 		<if test="craneId != null">
-			and (dfs.crane like CONCAT('%', #{craneId}, '%') )
+			and (crane like CONCAT('%', #{craneId}, '%') )
 		</if>
 
 		<if test="idShip != null and idShip != -1">
