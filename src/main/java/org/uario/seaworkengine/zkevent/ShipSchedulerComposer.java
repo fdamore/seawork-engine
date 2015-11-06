@@ -439,7 +439,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Comboitem						report_review_ship_item;
 
-	private final ArrayList<ReportItem>		reportList						= new ArrayList<ReportItem>();
+	private ArrayList<ReportItem>			reportList						= new ArrayList<ReportItem>();
 
 	@Wire
 	private Listbox							reportListboxContainer;
@@ -2768,6 +2768,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Integer year = Integer.parseInt((String) this.select_year_detail.getSelectedItem().getValue());
 
 		this.reportListboxContainer.setModel(new ListModelList<>());
+
+		this.reportList = new ArrayList<ReportItem>();
 
 		final Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, year);
