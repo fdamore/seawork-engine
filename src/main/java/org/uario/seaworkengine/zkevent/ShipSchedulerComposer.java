@@ -3581,6 +3581,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.refreshBapView();
 		this.refreshReportView();
 
+		this.defineSchedulerView();
+
 		// set second item in view selector
 		this.scheduler_type_selector.setSelectedItem(this.detail_item);
 

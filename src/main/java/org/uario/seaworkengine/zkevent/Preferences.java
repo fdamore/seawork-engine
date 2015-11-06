@@ -1060,6 +1060,7 @@ public class Preferences extends SelectorComposer<Component> {
 			this.sw_list_crane.setPageSize(this.shows_rows_crane.getValue());
 		} else {
 			this.sw_list_crane.setPageSize(10);
+			this.shows_rows_crane.setValue(10);
 		}
 
 	}
