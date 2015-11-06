@@ -2299,65 +2299,70 @@
 							<listheader label="Novembre" />
 							<listheader label="Dicembre" />
 							<listheader label="Totale" />
+							<listheader label="Media" />
 							
 						</listhead>
 						<listitem self="@{each='reportItem'}"
 							value="@{reportItem}">
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="argument" />
+								<custom-attributes tag="argument" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="gen" />
+								<custom-attributes tag="gen" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="feb" />
+								<custom-attributes tag="feb" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="mar" />
+								<custom-attributes tag="mar" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="apr" />
+								<custom-attributes tag="apr" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="may" />
+								<custom-attributes tag="may" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="jun" />
+								<custom-attributes tag="jun" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="jul" />
+								<custom-attributes tag="jul" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="aug" />
+								<custom-attributes tag="aug" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="sep" />
+								<custom-attributes tag="sep" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="oct" />
+								<custom-attributes tag="oct" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="nov" />
+								<custom-attributes tag="nov" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="dec" />
+								<custom-attributes tag="dec" />
 							</listcell>
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
-								<custom-attributes month="tot" />
+								<custom-attributes tag="tot" />
+							</listcell>
+							<listcell sclass="myBottonCell"
+								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+								<custom-attributes tag="avg" />
 							</listcell>
 							
 						</listitem>

@@ -34,27 +34,14 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 
 		final Map<String, Object> list = cell.getAttributes();
 
-		final String month = (String) list.get("month");
-
-		if (source.getArgument().equals(ReportItemTag.MonthAvg)) {
-			if (month.equals(ReportItemTag.MonthAvg)) {
-				return "";
-			} else if (month.equals("dec")) {
-				return ReportItemTag.MonthAvg;
-			} else if (month.equals("tot")) {
-				if (source.getTot() != null) {
-					final Double value = Utility.roundTwo(source.getTot());
-					return value.toString();
-				}
-			}
-		}
+		final String tag = (String) list.get("tag");
 
 		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.Hands)) {
 			Integer value = 0;
-			if (month.equals("argument")) {
+			if (tag.equals("argument")) {
 				return source.getArgument();
 			}
-			if (month.equals("gen")) {
+			if (tag.equals("gen")) {
 				if (source.getGen() != null) {
 					value = source.getGen().intValue();
 				} else {
@@ -62,88 +49,95 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 				}
 
 			}
-			if (month.equals("feb")) {
+			if (tag.equals("feb")) {
 				if (source.getFeb() != null) {
 					value = source.getFeb().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("mar")) {
+			if (tag.equals("mar")) {
 				if (source.getMar() != null) {
 					value = source.getMar().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("apr")) {
+			if (tag.equals("apr")) {
 				if (source.getApr() != null) {
 					value = source.getApr().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("may")) {
+			if (tag.equals("may")) {
 				if (source.getMay() != null) {
 					value = source.getMay().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("jun")) {
+			if (tag.equals("jun")) {
 				if (source.getJun() != null) {
 					value = source.getJun().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("jul")) {
+			if (tag.equals("jul")) {
 				if (source.getJul() != null) {
 					value = source.getJul().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("aug")) {
+			if (tag.equals("aug")) {
 				if (source.getAug() != null) {
 					value = source.getAug().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("sep")) {
+			if (tag.equals("sep")) {
 				if (source.getSep() != null) {
 					value = source.getSep().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("oct")) {
+			if (tag.equals("oct")) {
 				if (source.getOct() != null) {
 					value = source.getOct().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("nov")) {
+			if (tag.equals("nov")) {
 				if (source.getNov() != null) {
 					value = source.getNov().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("dec")) {
+			if (tag.equals("dec")) {
 				if (source.getDec() != null) {
 					value = source.getDec().intValue();
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("tot")) {
+			if (tag.equals("tot")) {
 				if (source.getTot() != null) {
 					value = source.getTot().intValue();
 				} else {
 					return "0";
+				}
+			}
+			if (tag.equals("avg")) {
+				if (source.getAvg() != null) {
+					value = source.getAvg().intValue();
+				} else {
+					return "";
 				}
 			}
 			return value.toString();
@@ -153,11 +147,11 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 				|| source.getArgument().equals(ReportItemTag.ContainersOnMen)) {
 			Double value = 0.0;
 
-			if (month.equals("argument")) {
+			if (tag.equals("argument")) {
 				return source.getArgument();
 			}
 
-			if (month.equals("gen")) {
+			if (tag.equals("gen")) {
 				if (source.getGen() != null) {
 					value = Utility.roundTwo(source.getGen());
 				} else {
@@ -165,86 +159,95 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 				}
 
 			}
-			if (month.equals("feb")) {
+			if (tag.equals("feb")) {
 				if (source.getFeb() != null) {
 					value = Utility.roundTwo(source.getFeb());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("mar")) {
+			if (tag.equals("mar")) {
 				if (source.getMar() != null) {
 					value = Utility.roundTwo(source.getMar());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("apr")) {
+			if (tag.equals("apr")) {
 				if (source.getApr() != null) {
 					value = Utility.roundTwo(source.getApr());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("may")) {
+			if (tag.equals("may")) {
 				if (source.getMay() != null) {
 					value = Utility.roundTwo(source.getMay());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("jun")) {
+			if (tag.equals("jun")) {
 				if (source.getJun() != null) {
 					value = Utility.roundTwo(source.getJun());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("jul")) {
+			if (tag.equals("jul")) {
 				if (source.getJul() != null) {
 					value = Utility.roundTwo(source.getJul());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("aug")) {
+			if (tag.equals("aug")) {
 				if (source.getAug() != null) {
 					value = Utility.roundTwo(source.getAug());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("sep")) {
+			if (tag.equals("sep")) {
 				if (source.getSep() != null) {
 					value = Utility.roundTwo(source.getSep());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("oct")) {
+			if (tag.equals("oct")) {
 				if (source.getOct() != null) {
 					value = Utility.roundTwo(source.getOct());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("nov")) {
+			if (tag.equals("nov")) {
 				if (source.getNov() != null) {
 					value = Utility.roundTwo(source.getNov());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("dec")) {
+			if (tag.equals("dec")) {
 				if (source.getDec() != null) {
 					value = Utility.roundTwo(source.getDec());
 				} else {
 					return "0";
 				}
 			}
-			if (month.equals("tot")) {
+			if (tag.equals("tot")) {
 				return "";
 			}
+
+			if (tag.equals("avg")) {
+				if (source.getAvg() != null) {
+					value = Utility.roundTwo(source.getAvg());
+				} else {
+					return "";
+				}
+			}
+
 			return value.toString();
 		}
 

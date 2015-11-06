@@ -2796,7 +2796,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		for (final ShipTotal shipTotal : containerList) {
 
-			if (shipTotal.getContainerInvoice() != null) {
+			if ((shipTotal.getContainerInvoice() != null) && !shipTotal.getContainerInvoice().equals(0.0)) {
 				totalContainer += shipTotal.getContainerInvoice();
 				numberOfContainerNotNull++;
 			}
@@ -2826,26 +2826,27 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			} else if (shipTotal.getMonthInvoice() == 12) {
 				itemContainer.setDec(shipTotal.getContainerInvoice());
 			}
+
 		}
 
 		itemContainer.setTot(totalContainer);
 
 		// MEDIA MENSILE CONTAINER
-		final ReportItem avgMonth = new ReportItem();
-		avgMonth.setArgument(ReportItemTag.MonthAvg);
 		if ((totalContainer != null) && (numberOfContainerNotNull != 0)) {
-			avgMonth.setTot(totalContainer / numberOfContainerNotNull);
+			itemContainer.setAvg(totalContainer / numberOfContainerNotNull);
 		} else {
-			avgMonth.setTot(0.0);
+			itemContainer.setAvg(0.0);
 		}
 
 		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO
 		Double totalHands = 0.0;
+		Integer numberOfHandsNotNull = 0;
 
 		for (final ShipTotal shipTotal : handMenList) {
 
-			if (shipTotal.getHandswork() != null) {
+			if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
 				totalHands += shipTotal.getHandswork();
+				numberOfHandsNotNull++;
 			}
 
 			if (shipTotal.getMonthInvoice() == 1) {
@@ -3093,9 +3094,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		itemHands.setTot(totalHands);
+		itemHands.setAvg(totalHands / numberOfHandsNotNull);
+
+		itemHandsOnDays.setAvg(null);
+		itemMenOnHand.setAvg(null);
 
 		this.reportList.add(itemContainer);
-		this.reportList.add(avgMonth);
 		this.reportList.add(itemHands);
 		this.reportList.add(itemHandsOnDays);
 		this.reportList.add(itemMenOnHand);

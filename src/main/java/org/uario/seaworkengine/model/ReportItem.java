@@ -7,22 +7,23 @@ public class ReportItem implements Serializable {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private Double	apr;
-	private String	argument;
-	private Double	aug;
-	private Double	dec;
-	private Double	feb;
-	private Double	gen;
-	private Double	jul;
-	private Double	jun;
-	private Double	mar;
-	private Double	may;
-	private Double	nov;
-	private Double	oct;
-	private Double	sep;
-	private Double	tot;
+	private Double				apr;
+	private String				argument;
+	private Double				aug;
+	private Double				avg;
+	private Double				dec;
+	private Double				feb;
+	private Double				gen;
+	private Double				jul;
+	private Double				jun;
+	private Double				mar;
+	private Double				may;
+	private Double				nov;
+	private Double				oct;
+	private Double				sep;
+	private Double				tot;
 
 	public Double getApr() {
 		return this.apr;
@@ -34,6 +35,10 @@ public class ReportItem implements Serializable {
 
 	public Double getAug() {
 		return this.aug;
+	}
+
+	public Double getAvg() {
+		return this.avg;
 	}
 
 	public Double getDec() {
@@ -90,6 +95,10 @@ public class ReportItem implements Serializable {
 
 	public void setAug(final Double aug) {
 		this.aug = aug;
+	}
+
+	public void setAvg(final Double avg) {
+		this.avg = avg;
 	}
 
 	public void setDec(final Double dec) {

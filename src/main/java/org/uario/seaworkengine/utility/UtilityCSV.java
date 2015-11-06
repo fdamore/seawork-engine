@@ -236,7 +236,7 @@ public class UtilityCSV {
 		final StringBuilder builder = new StringBuilder();
 		String line = "";
 
-		final String header = " ;Gennaio;Febbraio;Marzo;Aprile;Maggio;Giugno;Luglio;Agosto;Settembre;Ottobre;Novembre;Dicembre;Totale";
+		final String header = " ;Gennaio;Febbraio;Marzo;Aprile;Maggio;Giugno;Luglio;Agosto;Settembre;Ottobre;Novembre;Dicembre;Totale;Media";
 		builder.append(header);
 
 		final List<Listitem> items = reportList.getItems();
