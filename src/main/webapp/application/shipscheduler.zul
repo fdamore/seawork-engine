@@ -1757,9 +1757,9 @@
 																				
 										<combobox id="idCrane_review"
 											autodrop="true"
-											placeholder="Seleziona numero gru...">
+											placeholder="Seleziona numero gru..." readonly="true">
 
-											<comboitem
+											<comboitem 
 												self="@{each='crane'}" label="@{crane.number}" value="@{crane}" />
 										</combobox>
 											
@@ -2299,6 +2299,7 @@
 							<listheader label="Novembre" />
 							<listheader label="Dicembre" />
 							<listheader label="Totale" />
+							
 						</listhead>
 						<listitem self="@{each='reportItem'}"
 							value="@{reportItem}">
@@ -2358,6 +2359,7 @@
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
 								<custom-attributes month="tot" />
 							</listcell>
+							
 						</listitem>
 
 
