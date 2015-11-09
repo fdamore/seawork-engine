@@ -78,4 +78,5 @@ public interface IScheduleShip {
 	public void updateRifMCT(Integer id, String rif_mct);
 
 	public void updateScheduleShip(ScheduleShip scheduleShip);
+
 }

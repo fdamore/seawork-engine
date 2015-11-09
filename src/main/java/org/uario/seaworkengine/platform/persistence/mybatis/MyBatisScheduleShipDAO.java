@@ -326,4 +326,5 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		this.getSqlSession().update("scheduleship.updateScheduleShip", scheduleShip);
 
 	}
+
 }

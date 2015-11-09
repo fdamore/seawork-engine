@@ -17,6 +17,7 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.TerminalProductivity;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.RateShift;
@@ -136,6 +137,18 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		}
 
 		return this.getSqlSession().selectOne("statistics.countWorkerInOverviewInitalSchedule", map);
+	}
+
+	@Override
+	public void createTerminalProductivity(final TerminalProductivity terminalProductivity) {
+		MyBatisStatisticsDAO.logger.info("createTerminalProductivity");
+		this.getSqlSession().insert("statistics.createTerminalProductivity", terminalProductivity);
+	}
+
+	@Override
+	public void deleteTerminalProductivity(final Integer id) {
+		MyBatisStatisticsDAO.logger.info("deleteTerminalProductivity");
+		this.getSqlSession().delete("statistics.deleteTerminalProductivity", id);
 	}
 
 	@Override
@@ -364,10 +377,14 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipTotal> getTotalInvoiceContainer(final Integer year) {
+	public List<ShipTotal> getTotalInvoiceContainer(final Integer year, final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
 
-		return this.getSqlSession().selectList("statistics.getTotalInvoiceContainer", year);
+		if (by_invoice) {
+			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByInvoce", year);
+		} else {
+			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByShiftDate", year);
+		}
 
 	}
 
@@ -530,6 +547,18 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public TerminalProductivity loadTerminalProductivity(final Integer id) {
+		MyBatisStatisticsDAO.logger.info("loadTerminalProductivity");
+		return this.getSqlSession().selectOne("statistics.loadTerminalProductivity", id);
+	}
+
+	@Override
+	public List<TerminalProductivity> loadTerminalProductivityYear(final Integer year) {
+		MyBatisStatisticsDAO.logger.info("loadTerminalProductivity");
+		return this.getSqlSession().selectList("statistics.loadTerminalProductivityYear", year);
+	}
+
+	@Override
 	public List<ShipOverview> overviewFinalScheduleByShip(final String text_search, final Date date_from, final Date date_to, final String shipType,
 			final String shipLine, final String shipCondition) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
@@ -551,6 +580,12 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	public void setBank_holiday(final IBankHolidays bank_holiday) {
 		this.bank_holiday = bank_holiday;
+	}
+
+	@Override
+	public void updateTerminalProductivity(final TerminalProductivity terminalProductivity) {
+		MyBatisStatisticsDAO.logger.info("updateTerminalProductivity");
+		this.getSqlSession().update("statistics.updateTerminalProductivity", terminalProductivity);
 	}
 
 }

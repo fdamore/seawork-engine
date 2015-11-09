@@ -7,19 +7,22 @@ public class ShipTotal implements Serializable {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private Double	containerInvoice;
-	private Double	handswork;
+	private Double				containerInvoice;
+	private Double				handswork;
 
-	private Double	menwork;
-	private Integer	monthInvoice;
+	private Integer				invoice_month;
+	private Double				menwork;
 
-	private Integer	totalProgramHands;
-	private Integer	totalProgramMen;
+	private Integer				monthInvoice;
+	private Integer				shift_month;
 
-	private Integer	totalReviewHands;
-	private Integer	totalReviewMen;
+	private Integer				totalProgramHands;
+	private Integer				totalProgramMen;
+
+	private Integer				totalReviewHands;
+	private Integer				totalReviewMen;
 
 	public Double getContainerInvoice() {
 		return this.containerInvoice;
@@ -29,12 +32,20 @@ public class ShipTotal implements Serializable {
 		return this.handswork;
 	}
 
+	public Integer getInvoice_month() {
+		return this.invoice_month;
+	}
+
 	public Double getMenwork() {
 		return this.menwork;
 	}
 
 	public Integer getMonthInvoice() {
 		return this.monthInvoice;
+	}
+
+	public Integer getShift_month() {
+		return this.shift_month;
 	}
 
 	public Integer getTotalProgramHands() {
@@ -61,12 +72,20 @@ public class ShipTotal implements Serializable {
 		this.handswork = handswork;
 	}
 
+	public void setInvoice_month(final Integer invoice_month) {
+		this.invoice_month = invoice_month;
+	}
+
 	public void setMenwork(final Double menwork) {
 		this.menwork = menwork;
 	}
 
 	public void setMonthInvoice(final Integer monthInvoice) {
 		this.monthInvoice = monthInvoice;
+	}
+
+	public void setShift_month(final Integer shift_month) {
+		this.shift_month = shift_month;
 	}
 
 	public void setTotalProgramHands(final Integer totalProgramHands) {

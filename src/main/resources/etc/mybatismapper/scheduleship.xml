@@ -694,5 +694,6 @@
 		df.iddetailscheduleship = d.id and
 		d.idscheduleship = s.id;
 	</select>
+	
 
 </mapper>

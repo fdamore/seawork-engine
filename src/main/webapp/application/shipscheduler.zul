@@ -2313,6 +2313,78 @@
 			<panel border="normal" width="100%">
 
 				<panelchildren>
+				
+					<listbox sclass="domain" mold="paging" pageSize="10"
+						sizedByContent="false" width="100%" pagingPosition="both"
+						id="terminalProductivy">
+						
+						<listhead sizable="true">
+							<listheader label="" />
+							<listheader label="Gennaio" />
+							<listheader label="Febbraio"  />
+							<listheader label="Marzo" />
+							<listheader label="Aprile"  />
+							<listheader label="Maggio" />
+							<listheader label="Giugno" />
+							<listheader label="Luglio" />
+							<listheader label="Agosto" />
+							<listheader label="Settembre" />
+							<listheader label="Ottobre" />
+							<listheader label="Novembre" />
+							<listheader label="Dicembre" />
+							<listheader label="" />
+							<listheader label="" />
+						</listhead>
+						
+						<listitem>
+							<listcell sclass="myBottonCell">
+								
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%" id="tp_gen"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%" id="tp_feb"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<textbox width="100%"/>
+							</listcell>
+							
+							<listcell sclass="myBottonCell">								
+							</listcell>
+							<listcell sclass="myBottonCell">								
+							</listcell>
+														
+						</listitem>						
+					
+					</listbox>
 
 					<listbox sclass="domain" mold="paging" pageSize="10"
 						sizedByContent="false" width="100%" pagingPosition="both"
@@ -2334,8 +2406,9 @@
 							<listheader label="Dicembre" />
 							<listheader label="Totale" />
 							<listheader label="Media" />
-							
 						</listhead>
+						
+						
 						<listitem self="@{each='reportItem'}"
 							value="@{reportItem}">
 							<listcell sclass="myBottonCell"

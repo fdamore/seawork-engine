@@ -7,6 +7,7 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.model.TerminalProductivity;
 import org.uario.seaworkengine.statistics.RateShift;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
@@ -43,6 +44,10 @@ public interface IStatistics {
 	 */
 	public Integer countWorkerInOverviewInitalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
 			Date date_from, Date date_to);
+
+	public void createTerminalProductivity(TerminalProductivity terminalProductivity);
+
+	public void deleteTerminalProductivity(Integer id);
 
 	/**
 	 * Get average for shit giving user and date
@@ -147,7 +152,7 @@ public interface IStatistics {
 
 	public List<ShipTotal> getTotalHandsMen(Integer year);
 
-	public List<ShipTotal> getTotalInvoiceContainer(Integer year);
+	public List<ShipTotal> getTotalInvoiceContainer(Integer year, Boolean by_invoice);
 
 	/**
 	 * Get hours time work
@@ -231,6 +236,10 @@ public interface IStatistics {
 	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(Date date_from, Date date_to, Integer rifSWS, String rifMCT,
 			Integer invoicing_cycle, String searchText, Integer serviceId, String shipType, String shipLine, String shipCondition);
 
+	public TerminalProductivity loadTerminalProductivity(Integer id);
+
+	public List<TerminalProductivity> loadTerminalProductivityYear(Integer year);
+
 	/**
 	 * Get overview abount ship
 	 *
@@ -241,5 +250,7 @@ public interface IStatistics {
 	 */
 	public List<ShipOverview> overviewFinalScheduleByShip(String text_search, Date date_from, Date date_to, String shipType, String shipLine,
 			String shipCondition);
+
+	public void updateTerminalProductivity(TerminalProductivity terminalProductivity);
 
 }

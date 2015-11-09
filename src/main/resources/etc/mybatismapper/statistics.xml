@@ -16,15 +16,18 @@
 		id_ship,
 		dss.shift,
 		d.timework as time_work,
-		(select c.number from crane c where d.id_crane=c.id) as crane, d.crane_gtw,
-		dss.shiftdate as date_request,
+		(select c.number from crane
+		c where d.id_crane=c.id) as crane, d.crane_gtw,
+		dss.shiftdate as
+		date_request,
 		d.volume,
 		d.volumeunderboard,
 		d.volumeunderboard_sws,
 		d.volume_tw_mct,
 		d.notedetail,
 		d.invoicing_cycle,
-		dss.sky, dss.rain, dss.wind, dss.temperature,
+		dss.sky, dss.rain,
+		dss.wind, dss.temperature,
 		dss.first_down,
 		dss.last_down
 		from
@@ -40,40 +43,40 @@
 		ss.idship
 
 		<if test="dt_arg_to != null and dt_arg_from != null">
-			
-				and dss.shiftdate <![CDATA[>=]]>
-				#{dt_arg_from} and
-				dss.shiftdate <![CDATA[<=]]>
-				#{dt_arg_to}
-			
+
+			and dss.shiftdate <![CDATA[>=]]>
+			#{dt_arg_from} and
+			dss.shiftdate <![CDATA[<=]]>
+			#{dt_arg_to}
+
 		</if>
-		
+
 		<if test="dt_arg_to != null and dt_arg_from == null">
-			
-				and dss.shiftdate = #{dt_arg_to}
-			
+
+			and dss.shiftdate = #{dt_arg_to}
+
 		</if>
-		
+
 		<if test="dt_arg_to == null and dt_arg_from != null">
-			
-				and dss.shiftdate = #{dt_arg_from}
-			
+
+			and dss.shiftdate = #{dt_arg_from}
+
 		</if>
 
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
-		
+
 		<if test="shipType!=null">
-			and s.shiptype like CONCAT('%',#{shipType},'%') 
+			and s.shiptype like CONCAT('%',#{shipType},'%')
 		</if>
-		
+
 		<if test="shipLine!=null">
-			and s.line like CONCAT('%',#{shipLine},'%') 
+			and s.line like CONCAT('%',#{shipLine},'%')
 		</if>
-		
+
 		<if test="shipCondition!=null">
-			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
 
 		<if test="rifSWS != null">
@@ -136,15 +139,15 @@
 			#{dt_arg_to}
 
 		</if>
-		
+
 		<if test="dt_arg_to != null and dt_arg_from == null">
-			
+
 			and dss.shiftdate = #{dt_arg_to}
 
 		</if>
-		
+
 		<if test="dt_arg_to == null and dt_arg_from != null">
-			
+
 			and dss.shiftdate = #{dt_arg_from}
 
 		</if>
@@ -153,17 +156,17 @@
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
-		
+
 		<if test="shipType!=null">
-			and s.shiptype like CONCAT('%',#{shipType},'%') 
+			and s.shiptype like CONCAT('%',#{shipType},'%')
 		</if>
-		
+
 		<if test="shipLine!=null">
-			and s.line like CONCAT('%',#{shipLine},'%') 
+			and s.line like CONCAT('%',#{shipLine},'%')
 		</if>
-		
+
 		<if test="shipCondition!=null">
-			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
 
 		<if test="rifSWS != null">
@@ -334,27 +337,29 @@
 		FROM
 		ship
 		s,
-		detailfinalschedule dfs,
+		detailfinalschedule
+		dfs,
 		schedule sc
 		WHERE
 		sc.id = dfs.id_schedule and
-		dfs.id_ship is not null and s.id =
+		dfs.id_ship is not null
+		and s.id =
 		dfs.id_ship
 
 		<if test="shipname != null">
-			and (s.name like CONCAT('%', #{shipname},'%')) 
+			and (s.name like CONCAT('%', #{shipname},'%'))
 		</if>
-		
+
 		<if test="shipType!=null">
-			and s.shiptype like CONCAT('%',#{shipType},'%') 
+			and s.shiptype like CONCAT('%',#{shipType},'%')
 		</if>
-		
+
 		<if test="shipLine!=null">
-			and s.line like CONCAT('%',#{shipLine},'%') 
+			and s.line like CONCAT('%',#{shipLine},'%')
 		</if>
-		
+
 		<if test="shipCondition!=null">
-			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
 
 		<if test="date_from != null and date_to != null">
@@ -363,11 +368,11 @@
 			<![CDATA[<=]]>
 			#{date_to})
 		</if>
-		
+
 		<if test="date_from != null and date_to == null">
 			and sc.date_schedule = #{date_from}
 		</if>
-		
+
 		<if test="date_from == null and date_to != null">
 			and sc.date_schedule = #{date_to}
 		</if>
@@ -429,10 +434,12 @@
 		schedule s left
 		outer join
 		detailfinalschedule dfs on
-		(dfs.id_schedule = s.id)
+		(dfs.id_schedule =
+		s.id)
 		where
 		ut.id=dfs.task and ut.isabsence=0 and
-		s.user = u.id and s.editor=u1.id and s.controller = u2.id
+		s.user = u.id and
+		s.editor=u1.id and s.controller = u2.id
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or
@@ -504,11 +511,13 @@
 		dfs.time_to,
 		dfs.board, dfs.reviewshift,
 		s.date_schedule, s.note,
-		u.id as id_user,
+		u.id as
+		id_user,
 		(select
 		concat(temp_1.lastname, ' ', temp_1.firstname)
 		from
-		user temp_1
+		user
+		temp_1
 		where
 		temp_1.id = s.editor) as editor,
 		(select
@@ -518,15 +527,18 @@
 		where
 		temp_1.id = s.controller) as controller,
 		(select t.code
-		from user_usertask uut, usertask t
-		where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1
+		from
+		user_usertask uut, usertask t
+		where uut.id_usertask = t.id and
+		uut.id_user = u.id and uut.task_default=1
 		) as defaultTask
 		from
 		user u,
 		schedule s left
 		outer join
 		detailfinalschedule dfs on
-		(dfs.id_schedule = s.id)
+		(dfs.id_schedule =
+		s.id)
 		where
 		s.user = u.id
 		<if test="my_full_text_search != null">
@@ -599,7 +611,8 @@
 		(select
 		concat(temp_1.lastname, ' ', temp_1.firstname)
 		from
-		user temp_1
+		user
+		temp_1
 		where
 		temp_1.id = s.editor) as editor,
 		(select
@@ -609,8 +622,10 @@
 		where
 		temp_1.id = s.controller) as controller,
 		(select t.code
-		from user_usertask uut, usertask t
-		where uut.id_usertask = t.id and uut.id_user = u.id and uut.task_default=1
+		from
+		user_usertask uut, usertask t
+		where uut.id_usertask = t.id and
+		uut.id_user = u.id and uut.task_default=1
 		) as defaultTask
 		from
 		user u,
@@ -914,25 +929,62 @@
 
 	<!-- REPORT SHIP WORK -->
 
-	<select id="getTotalInvoiceContainer" resultType="org.uario.seaworkengine.statistics.ShipTotal"
-		parameterType="int">
-		select sum(dfs.volume) as containerInvoice, month(s.arrivaldate) as
-		monthInvoice
-		from detailfinalscheduleship dfs, detailscheduleship dis, scheduleship s
-		where dfs.iddetailscheduleship = dis.id and dis.idscheduleship = s.id
-		and year(s.arrivaldate)=#{year} and dfs.invoicing_cycle=true group by
-		month(s.arrivaldate);
+	<select id="getTotalInvoiceContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="Integer">
+		select sum(dfs.volume) as containerInvoice, dfs.invoicing_cycle as monthInvoice 
+		from detailfinalscheduleship dfs, detailscheduleship dis 
+		where dfs.invoicing_cycle is not null and dfs.iddetailscheduleship = dis.id 
+		and year(dis.shiftdate)=#{year} 
+		group by monthInvoice;				
 	</select>
-
-	<select id="getTotalHandsMen" resultType="org.uario.seaworkengine.statistics.ShipTotal"
-		parameterType="int">
-		select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork,
-		month(s.arrivaldate) as monthInvoice
-		from detailscheduleship dis, scheduleship s
-		WHERE dis.idscheduleship = s.id and year(s.arrivaldate)=#{year} group by
-		month(s.arrivaldate);
+	
+	<select id="getTotalInvoiceContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="Integer">
+		select sum(dfs.volume) as containerInvoice, month(dis.shiftdate) as monthInvoice 
+		from detailfinalscheduleship dfs, detailscheduleship dis 
+		where dfs.iddetailscheduleship = dis.id and year(dis.shiftdate)=#{year} 
+		group by monthInvoice;		
 	</select>
-
+		
+	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="int">
+		select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork, month(s.arrivaldate) as monthInvoice 
+		from detailfinalscheduleship dfs, detailscheduleship dis 
+		where dfs.invoicing_cycle is not null and dfs.iddetailscheduleship = dis.id 
+		and year(dis.shiftdate)=#{year} 
+		group by monthInvoice;
+	</select>
+	
+	
+	
+	<!-- TERMINAL PRODUCTIVITY -->
+	
+	<insert id="createTerminalProductivity" parameterType="org.uario.seaworkengine.model.TerminalProductivity">
+		INSERT INTO terminalproductivity (year_tp,month_tp,productivity) VALUES (#{year_tp},#{month_tp},#{productivity});
+	</insert>
+	
+	<delete id="deleteTerminalProductivity" parameterType="Integer">
+		DELETE FROM terminalproductivity WHERE id=#{id};
+	</delete>
+	
+	<select id="loadTerminalProductivity" parameterType="Integer" resultType="org.uario.seaworkengine.model.TerminalProductivity">
+		SELECT id, year_tp, month_tp, productivity 
+		FROM terminalproductivity 
+		WHERE id=#{id}; 
+	</select>
+	
+	<select id="loadTerminalProductivityYear" parameterType="Integer" resultType="org.uario.seaworkengine.model.TerminalProductivity">
+		SELECT id, year_tp, month_tp, productivity 
+		FROM terminalproductivity 
+		WHERE year_tp=#{year};
+	</select>
+	
+	<update id="updateTerminalProductivity" parameterType="org.uario.seaworkengine.model.TerminalProductivity">
+		UPDATE terminalproductivity 
+		SET year_tp=#{year_tp},month_tp=#{month_tp},productivity=#{productivity}
+		WHERE id=#{id};
+	</update>
+	
 
 
 </mapper>
