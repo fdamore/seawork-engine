@@ -150,7 +150,7 @@ public interface IStatistics {
 	 */
 	public Double getTimeWorked(Integer id_user, Date date_from, Date date_to);
 
-	public List<ShipTotal> getTotalHandsMen(Integer year);
+	public List<ShipTotal> getTotalHandsMen(Integer year, Boolean by_invoice);
 
 	public List<ShipTotal> getTotalInvoiceContainer(Integer year, Boolean by_invoice);
 

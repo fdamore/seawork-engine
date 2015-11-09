@@ -370,10 +370,14 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipTotal> getTotalHandsMen(final Integer year) {
+	public List<ShipTotal> getTotalHandsMen(final Integer year, final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalHandsMen...");
 
-		return this.getSqlSession().selectList("statistics.getTotalHandsMen", year);
+		if (by_invoice) {
+			return this.getSqlSession().selectList("statistics.getTotalHandsMenByInvoce", year);
+		} else {
+			return this.getSqlSession().selectList("statistics.getTotalHandsMenByShiftDate", year);
+		}
 	}
 
 	@Override

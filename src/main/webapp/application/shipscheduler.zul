@@ -2309,11 +2309,18 @@
 			<a label="Report Lavorazione Navi" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 			<separator></separator>
+			
+			<hbox>
+				<a label="Calcola su Periodo di Lavorazione" />
+				<checkbox checked="false" id="byInvoce" />
+			</hbox>
+			
+			<separator/><separator/>
 
 			<panel border="normal" width="100%">
 
-				<panelchildren>
-				
+				<panelchildren>		
+														
 					<listbox sclass="domain" mold="paging" pageSize="10"
 						sizedByContent="false" width="100%" pagingPosition="both"
 						id="terminalProductivy">

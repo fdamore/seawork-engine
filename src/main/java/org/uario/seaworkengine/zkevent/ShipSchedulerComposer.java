@@ -141,6 +141,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Tabbox							bap_overview_tab;
 
 	@Wire
+	private Checkbox						byInvoce;
+
+	@Wire
 	private Caption							captionDetailProgramShip;
 
 	@Wire
@@ -824,8 +827,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set list review
-		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao.loadDetailFinalScheduleShipByIdDetailScheduleShip(detailSelected
-				.getId());
+		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao
+				.loadDetailFinalScheduleShipByIdDetailScheduleShip(detailSelected.getId());
 		this.list_reviewDetailScheduleShip.setModel(new ListModelList<DetailFinalScheduleShip>(final_details));
 
 	}
@@ -1349,9 +1352,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #shiftdate")
 	public void checkShiftDate() {
 
-		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
-				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null)
+				&& ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0)
+						|| (ShipSchedulerComposer.this.shiftdate.getValue()
+								.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -1372,9 +1376,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 		}
 
-		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null))
+				&& ((ShipSchedulerComposer.this.shiftdate_Daily.getValue()
+						.compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0)
+						|| (ShipSchedulerComposer.this.shiftdate_Daily.getValue()
+								.compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -2591,8 +2597,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		} else if (this.statisticsShipTab.isSelected()) {
 
-			this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_search, date_from, date_to,
-					this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
+			this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_search, date_from, date_to, this.ship_type_search.getValue(),
+					this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 			this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
 
@@ -2802,8 +2808,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, year);
 
-		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(year, true);
-		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year);
+		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(year, this.byInvoce.isChecked());
+		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year, this.byInvoce.isChecked());
 
 		final ReportItem itemContainer = new ReportItem();
 		itemContainer.setArgument(ReportItemTag.Containers);
@@ -3147,7 +3153,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #refreshDetailView")
+	@Listen("onClick = #refreshDetailView, #byInvoce")
 	public void refreshSchedulerView() {
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
@@ -3259,8 +3265,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						@Override
 						public void onEvent(final ClickEvent e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-								.getId());
+								ShipSchedulerComposer.this.shipSchedulerDao
+										.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected.getId());
 
 								ShipSchedulerComposer.this.refreshProgram();
 							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {

@@ -948,11 +948,19 @@
 		
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="int">
-		select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork, month(s.arrivaldate) as monthInvoice 
+		select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork, dfs.invoicing_cycle as monthInvoice 
 		from detailfinalscheduleship dfs, detailscheduleship dis 
 		where dfs.invoicing_cycle is not null and dfs.iddetailscheduleship = dis.id 
 		and year(dis.shiftdate)=#{year} 
 		group by monthInvoice;
+	</select>
+	
+	<select id="getTotalHandsMenByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="int">
+		select sum(dis.handswork) as handswork, sum(dis.menwork) as menwork, month(dis.shiftdate) as monthInvoice 
+		from detailfinalscheduleship dfs, detailscheduleship dis 
+		where dfs.iddetailscheduleship = dis.id and year(dis.shiftdate)=#{year} 
+		group by monthInvoice;		
 	</select>
 	
 	
