@@ -73,8 +73,8 @@
 											iconSclass="z-icon-star orange" label="Dettagli navi">
 
 											<toolbarbutton
-												id="add_ships_command" label="Aggiungi Nave"
-												style="color: blue" visible="false">
+												id="add_ships_command" label="Aggiungi Nave" 
+												style="color:blue" visible="false">
 											</toolbarbutton>
 
 											<toolbarbutton
@@ -184,7 +184,7 @@
 					<div>
 						<separator></separator>
 
-						<button id="sw_addship" sclass="btn-info"
+						<button id="sw_addship" sclass="btn-danger"
 							label="Aggiungi Nave">
 						</button>
 
