@@ -13,4 +13,6 @@ public interface ReportItemTag {
 
 	public static String	MenOnHands			= "Uomini/Mani";
 
+	public static String	Productivity		= "Prod. Terminal";
+
 }

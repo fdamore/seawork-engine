@@ -10,15 +10,15 @@ public class TerminalProductivity implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	private Integer				id;
-	private Double				month_tp;
+	private Integer				month_tp;
 	private Double				productivity;
-	private Double				year_tp;
+	private Integer				year_tp;
 
 	public Integer getId() {
 		return this.id;
 	}
 
-	public Double getMonth_tp() {
+	public Integer getMonth_tp() {
 		return this.month_tp;
 	}
 
@@ -26,7 +26,7 @@ public class TerminalProductivity implements Serializable {
 		return this.productivity;
 	}
 
-	public Double getYear_tp() {
+	public Integer getYear_tp() {
 		return this.year_tp;
 	}
 
@@ -34,7 +34,7 @@ public class TerminalProductivity implements Serializable {
 		this.id = id;
 	}
 
-	public void setMonth_tp(final Double month_tp) {
+	public void setMonth_tp(final Integer month_tp) {
 		this.month_tp = month_tp;
 	}
 
@@ -42,7 +42,7 @@ public class TerminalProductivity implements Serializable {
 		this.productivity = productivity;
 	}
 
-	public void setYear_tp(final Double year_tp) {
+	public void setYear_tp(final Integer year_tp) {
 		this.year_tp = year_tp;
 	}
 

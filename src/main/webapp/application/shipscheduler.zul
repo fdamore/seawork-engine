@@ -106,7 +106,7 @@
 
 					<vbox align="start">
 						<combobox placeholder="Seleziona Anno..."
-							readonly="true" id="select_year_detail">
+							readonly="true" id="select_year_detail" onChange="tp_gen.setValue(null);tp_feb.setValue(null);tp_mar.setValue(null);tp_apr.setValue(null);tp_may.setValue(null);tp_jun.setValue(null);tp_jul.setValue(null);tp_aug.setValue(null);tp_sep.setValue(null);tp_oct.setValue(null);tp_nov.setValue(null);tp_dec.setValue(null);">
 						</combobox>
 
 						<a label="Annulla filtro"
@@ -2348,40 +2348,40 @@
 								
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%" id="tp_gen"/>
+								<doublebox width="100%" id="tp_gen"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%" id="tp_feb"/>
+								<doublebox width="100%" id="tp_feb"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_mar"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_apr"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_may"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_jun"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_jul"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_aug"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_sep"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_oct"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_nov"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<textbox width="100%"/>
+								<doublebox width="100%" id="tp_dec"/>
 							</listcell>
 							
 							<listcell sclass="myBottonCell">								

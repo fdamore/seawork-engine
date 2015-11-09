@@ -144,7 +144,7 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 		}
 
 		if (source.getArgument().equals(ReportItemTag.HandsOnDays) || source.getArgument().equals(ReportItemTag.MenOnHands)
-				|| source.getArgument().equals(ReportItemTag.ContainersOnMen)) {
+				|| source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.Productivity)) {
 			Double value = 0.0;
 
 			if (tag.equals("argument")) {

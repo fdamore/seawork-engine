@@ -24,6 +24,7 @@ import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.model.TerminalProductivity;
 import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
@@ -93,657 +94,684 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	private static final String				CAPTION_DETAIL_PROGRAM_SHIP		= "Dettagli di Programmazione Nave";
+	private static final String								CAPTION_DETAIL_PROGRAM_SHIP		= "Dettagli di Programmazione Nave";
 
-	private static final String				CAPTION_POPUP_SCHEDULE_SHIP		= "Programmazione Nave";
+	private static final String								CAPTION_POPUP_SCHEDULE_SHIP		= "Programmazione Nave";
 
-	private static final String				CAPTION_SHIP_PROGRAM_LABEL		= "Dettaglio di Programmazione Nave";
+	private static final String								CAPTION_SHIP_PROGRAM_LABEL		= "Dettaglio di Programmazione Nave";
 
-	private static final String				PRINT_PROGRAM					= "printProgram";
+	private static final String								PRINT_PROGRAM					= "printProgram";
 
 	/**
 	 *
 	 */
-	private static final long				serialVersionUID				= 1L;
+	private static final long								serialVersionUID				= 1L;
 
-	private static final String				SHIP_WORKED_NO					= "no";
+	private static final String								SHIP_WORKED_NO					= "no";
 
-	private static final String				SHIP_WORKED_YES					= "yes";
-
-	@Wire
-	private Button							add_finalDetailScheduleShip_command;
+	private static final String								SHIP_WORKED_YES					= "yes";
 
 	@Wire
-	private Component						add_scheduleShips_command;
+	private Button											add_finalDetailScheduleShip_command;
 
 	@Wire
-	Toolbarbutton							add_scheduleShipsDetail_command;
+	private Component										add_scheduleShips_command;
 
 	@Wire
-	public Row								alertShiftDate;
+	Toolbarbutton											add_scheduleShipsDetail_command;
 
 	@Wire
-	public Row								alertShiftDate_detail;
+	public Row												alertShiftDate;
 
 	@Wire
-	private Listheader						arrivalDateColumn;
+	public Row												alertShiftDate_detail;
 
 	@Wire
-	private Label							avg_productivity;
+	private Listheader										arrivalDateColumn;
 
 	@Wire
-	private Label							avgVolmueCurrentMonth;
+	private Label											avg_productivity;
 
 	@Wire
-	private Label							avgVolmueShipProgram;
+	private Label											avgVolmueCurrentMonth;
 
 	@Wire
-	private Tabbox							bap_overview_tab;
+	private Label											avgVolmueShipProgram;
 
 	@Wire
-	private Checkbox						byInvoce;
+	private Tabbox											bap_overview_tab;
 
 	@Wire
-	private Caption							captionDetailProgramShip;
+	private Checkbox										byInvoce;
 
 	@Wire
-	private Caption							captionPopupScheduleShip;
+	private Caption											captionDetailProgramShip;
 
 	@Wire
-	private Caption							captionShipProgram;
+	private Caption											captionPopupScheduleShip;
 
 	@Wire
-	private Checkbox						check_last_shift;
+	private Caption											captionShipProgram;
 
 	@Wire
-	private Checkbox						check_last_shift_detail;
+	private Checkbox										check_last_shift;
 
 	@Wire
-	private Checkbox						check_last_shiftReview;
-
-	private ConfigurationDAO				configurationDao;
+	private Checkbox										check_last_shift_detail;
 
 	@Wire
-	private org.zkoss.zul.Checkbox			crane_gtw_review;
+	private Checkbox										check_last_shiftReview;
 
-	private List<Crane>						craneListModel;
-
-	@Wire
-	private Listheader						customerColumn;
-
-	private ICustomerDAO					customerDAO;
+	private ConfigurationDAO								configurationDao;
 
 	@Wire
-	private Listheader						departureDateColumn;
+	private org.zkoss.zul.Checkbox							crane_gtw_review;
+
+	private List<Crane>										craneListModel;
 
 	@Wire
-	public Component						detail_div;
+	private Listheader										customerColumn;
+
+	private ICustomerDAO									customerDAO;
 
 	@Wire
-	private Comboitem						detail_item;
+	private Listheader										departureDateColumn;
 
 	@Wire
-	private Tab								detail_scheduleShip_tab;
-
-	private DetailScheduleShip				detailScheduleShipSelect;
-
-	private DetailScheduleShip				detailScheduleShipSelected;
+	public Component										detail_div;
 
 	@Wire
-	private Component						detailShipProgram_download;
+	private Comboitem										detail_item;
 
 	@Wire
-	private Component						filterCustomer;
+	private Tab												detail_scheduleShip_tab;
+
+	private DetailScheduleShip								detailScheduleShipSelect;
+
+	private DetailScheduleShip								detailScheduleShipSelected;
 
 	@Wire
-	private Component						filterDateWork;
+	private Component										detailShipProgram_download;
 
 	@Wire
-	private Component						filterMonth;
+	private Component										filterCustomer;
 
 	@Wire
-	private Component						filterRows;
+	private Component										filterDateWork;
 
 	@Wire
-	private Component						filterService;
+	private Component										filterMonth;
 
 	@Wire
-	private Component						filterShift;
+	private Component										filterRows;
 
 	@Wire
-	private Component						filterShip;
+	private Component										filterService;
 
 	@Wire
-	private Component						filterShipType;
+	private Component										filterShift;
 
 	@Wire
-	private Component						filterShipWorked;
+	private Component										filterShip;
 
 	@Wire
-	private Component						filterYear;
+	private Component										filterShipType;
 
 	@Wire
-	private Datebox							first_down_detail;
+	private Component										filterShipWorked;
 
 	@Wire
-	private Datebox							first_down_review;
-
-	private final SimpleDateFormat			format_it_date					= new SimpleDateFormat("dd/MM/yyyy");
-
-	private final SimpleDateFormat			format_month					= new SimpleDateFormat("MM");
+	private Component										filterYear;
 
 	@Wire
-	private Textbox							full_text_search;
+	private Datebox											first_down_detail;
 
 	@Wire
-	private Component						grid_scheduleShip_details;
+	private Datebox											first_down_review;
+
+	private final SimpleDateFormat							format_it_date					= new SimpleDateFormat("dd/MM/yyyy");
+
+	private final SimpleDateFormat							format_month					= new SimpleDateFormat("MM");
 
 	@Wire
-	private Row								h_detail_period;
+	private Textbox											full_text_search;
 
 	@Wire
-	private Row								h_program_period;
+	private Component										grid_scheduleShip_details;
 
 	@Wire
-	private Listheader						handsColumn;
+	private Row												h_detail_period;
 
 	@Wire
-	public Intbox							handswork_Daily;
+	private Row												h_program_period;
 
 	@Wire
-	private Intbox							handswork_program;
+	private Listheader										handsColumn;
 
 	@Wire
-	public Label							handswork_program_Daily;
+	public Intbox											handswork_Daily;
 
 	@Wire
-	private Label							hourReview;
+	private Intbox											handswork_program;
 
 	@Wire
-	private Combobox						idCrane_review;
+	public Label											handswork_program_Daily;
 
 	@Wire
-	private Label							infoDetailShipProgram;
+	private Label											hourReview;
 
 	@Wire
-	private Label							infoShipNameAndShift;
+	private Combobox										idCrane_review;
 
 	@Wire
-	private Intbox							invoicing_cycle_review;
+	private Label											infoDetailShipProgram;
 
 	@Wire
-	private Intbox							invoicing_cycle_search;
+	private Label											infoShipNameAndShift;
 
 	@Wire
-	private Datebox							last_down_detail;
+	private Intbox											invoicing_cycle_review;
 
 	@Wire
-	private Datebox							last_down_review;
+	private Intbox											invoicing_cycle_search;
+
+	@Wire
+	private Datebox											last_down_detail;
+
+	@Wire
+	private Datebox											last_down_review;
 
 	// used to collect details about programmed ship
-	private List<DetailScheduleShip>		list_details_programmed_ship	= new ArrayList<DetailScheduleShip>();
+	private List<DetailScheduleShip>						list_details_programmed_ship	= new ArrayList<DetailScheduleShip>();
 
 	// used to collect programmed ship
-	private List<ScheduleShip>				list_programmed_ship			= new ArrayList<ScheduleShip>();
+	private List<ScheduleShip>								list_programmed_ship			= new ArrayList<ScheduleShip>();
 
-	private List<ReviewShipWork>			list_review_work				= new ArrayList<ReviewShipWork>();
-
-	private List<ReviewShipWorkAggregate>	list_review_work_aggregate		= new ArrayList<ReviewShipWorkAggregate>();
-
+	private List<ReviewShipWork>							list_review_work				= new ArrayList<ReviewShipWork>();
+	private List<ReviewShipWorkAggregate>					list_review_work_aggregate		= new ArrayList<ReviewShipWorkAggregate>();
 	@Wire
-	private Listbox							list_reviewDetailScheduleShip;
-
+	private Listbox											list_reviewDetailScheduleShip;
 	@Wire
-	private Listbox							list_ship_statistics;
-
-	private List<DetailScheduleShip>		listDetailScheduleShip			= new ArrayList<DetailScheduleShip>();
-
+	private Listbox											list_ship_statistics;
+	private List<DetailScheduleShip>						listDetailScheduleShip			= new ArrayList<DetailScheduleShip>();
 	// statistics - USED DOWNLOAD
-	private List<ShipOverview>				listShipStatistics				= new ArrayList<ShipOverview>();
+	private List<ShipOverview>								listShipStatistics				= new ArrayList<ShipOverview>();
+	@Wire
+	private Listheader										mctColumn;
+	@Wire
+	private Component										menwork;
+	@Wire
+	private Intbox											menwork_activityh;
+	@Wire
+	private Component										menwork_activityhRow;
+	@Wire
+	public Intbox											menwork_Daily;
+	@Wire
+	private Intbox											menwork_program;
 
 	@Wire
-	private Listheader						mctColumn;
+	public Label											menwork_program_Daily;
 
 	@Wire
-	private Component						menwork;
+	private Label											menworkReview;
 
 	@Wire
-	private Intbox							menwork_activityh;
+	private Label											messageUpdateRifMCT;
 
 	@Wire
-	private Component						menwork_activityhRow;
+	private Button											modify_finalDetailScheduleShip_command;
 
 	@Wire
-	public Intbox							menwork_Daily;
+	private Component										modify_Scheduleships_command;
 
 	@Wire
-	private Intbox							menwork_program;
+	private Toolbarbutton									modify_scheduleShipsDetail_command;
 
 	@Wire
-	public Label							menwork_program_Daily;
+	private Listheader										modifyColumnDetail;
 
 	@Wire
-	private Label							menworkReview;
+	private Listheader										modifyColumnSchedule;
 
 	@Wire
-	private Label							messageUpdateRifMCT;
+	private Listheader										modifyColumnScheduleShip;
 
 	@Wire
-	private Button							modify_finalDetailScheduleShip_command;
+	public Label											msgAlert;
 
 	@Wire
-	private Component						modify_Scheduleships_command;
+	public Label											msgAlert_detail;
 
 	@Wire
-	private Toolbarbutton					modify_scheduleShipsDetail_command;
+	private Textbox											note;
 
 	@Wire
-	private Listheader						modifyColumnDetail;
+	private Textbox											note_review;
 
 	@Wire
-	private Listheader						modifyColumnSchedule;
+	public Textbox											note_schedule;
 
 	@Wire
-	private Listheader						modifyColumnScheduleShip;
+	public Textbox											notedetail;
 
 	@Wire
-	public Label							msgAlert;
+	private Textbox											noteshipdetail;
 
 	@Wire
-	public Label							msgAlert_detail;
+	private Combobox										operation;
 
 	@Wire
-	private Textbox							note;
+	public Combobox											operation_Daily;
 
 	@Wire
-	private Textbox							note_review;
+	private Tabpanel										overview_statistics_ship;
 
 	@Wire
-	public Textbox							note_schedule;
+	private Tab												overviewBap;
 
 	@Wire
-	public Textbox							notedetail;
+	private Tab												overviewBapAggregate;
 
 	@Wire
-	private Textbox							noteshipdetail;
+	private Panel											panel_detail_program;
 
 	@Wire
-	private Combobox						operation;
+	private Component										panel_editor_review_details;
 
 	@Wire
-	public Combobox							operation_Daily;
+	private Datebox											person_down_review;
 
+	private Person											person_logged;
+
+	@Wire
+	private Datebox											person_onboard_review;
+
+	private PersonDAO										personDao;
+
 	@Wire
-	private Tabpanel						overview_statistics_ship;
+	private Listheader										personsColumn;
 
 	@Wire
-	private Tab								overviewBap;
+	private Popup											popu_detail;
 
 	@Wire
-	private Tab								overviewBapAggregate;
+	public Popup											popup_detail;
 
 	@Wire
-	private Panel							panel_detail_program;
+	public Popup											popup_detail_Daily;
 
 	@Wire
-	private Component						panel_editor_review_details;
+	public Popup											popup_review_detail;
 
 	@Wire
-	private Datebox							person_down_review;
+	private Popup											popup_scheduleShip;
 
-	private Person							person_logged;
+	@Wire
+	private Popup											popup_ship;
 
 	@Wire
-	private Datebox							person_onboard_review;
+	private Listbox											popup_shipDetail;
 
-	private PersonDAO						personDao;
+	@Wire
+	private Button											print_program_videos;
 
 	@Wire
-	private Listheader						personsColumn;
+	private Button											print_ShipScheduler;
 
 	@Wire
-	private Popup							popu_detail;
+	public Component										program_div;
 
 	@Wire
-	public Popup							popup_detail;
+	private Comboitem										program_item;
 
 	@Wire
-	public Popup							popup_detail_Daily;
+	private Component										program_ship_editor;
 
 	@Wire
-	public Popup							popup_review_detail;
+	private Combobox										rain_detail;
 
 	@Wire
-	private Popup							popup_scheduleShip;
+	private Combobox										rain_review;
 
 	@Wire
-	private Popup							popup_ship;
+	private Component										remove_select_year_detail;
 
 	@Wire
-	private Listbox							popup_shipDetail;
+	private Component										report_div;
 
 	@Wire
-	private Button							print_program_videos;
+	private Comboitem										report_review_ship_item;
 
+	private ArrayList<ReportItem>							reportList						= new ArrayList<ReportItem>();
+
 	@Wire
-	private Button							print_ShipScheduler;
+	private Listbox											reportListboxContainer;
 
 	@Wire
-	public Component						program_div;
+	private Component										review_div;
 
 	@Wire
-	private Comboitem						program_item;
+	private Component										reviewedTime;
 
 	@Wire
-	private Component						program_ship_editor;
+	private Timebox											reviewTimeFrom;
 
 	@Wire
-	private Combobox						rain_detail;
+	private Timebox											reviewTimeTo;
 
 	@Wire
-	private Combobox						rain_review;
+	private Textbox											rif_mct_review;
 
 	@Wire
-	private Component						remove_select_year_detail;
+	private Label											rif_sws_review;
 
 	@Wire
-	private Component						report_div;
+	private Listheader										rifSWSColumn;
 
 	@Wire
-	private Comboitem						report_review_ship_item;
+	private Row												row_info_activity_ship;
 
-	private ArrayList<ReportItem>			reportList						= new ArrayList<ReportItem>();
+	@Wire
+	private Row												row_info_activity_ship_add;
 
 	@Wire
-	private Listbox							reportListboxContainer;
+	private Combobox										scheduler_type_selector;
+
+	private ScheduleShip									scheduleShip_selected			= null;
 
 	@Wire
-	private Component						review_div;
+	private Datebox											searchArrivalDateShipFrom;
 
 	@Wire
-	private Component						reviewedTime;
+	private Datebox											searchArrivalDateShipTo;
 
 	@Wire
-	private Timebox							reviewTimeFrom;
+	private Datebox											searchDateShift;
 
 	@Wire
-	private Timebox							reviewTimeTo;
+	private A												selecetedShipName;
 
 	@Wire
-	private Textbox							rif_mct_review;
+	private Combobox										select_customer;
 
 	@Wire
-	private Label							rif_sws_review;
+	public Combobox											select_month_detail;
 
 	@Wire
-	private Listheader						rifSWSColumn;
+	public Combobox											select_shift;
 
 	@Wire
-	private Row								row_info_activity_ship;
+	private Combobox										select_typeShip;
 
 	@Wire
-	private Row								row_info_activity_ship_add;
+	private Combobox										select_workedShip;
 
 	@Wire
-	private Combobox						scheduler_type_selector;
+	public Combobox											select_year_detail;
 
-	private ScheduleShip					scheduleShip_selected			= null;
+	@Wire
+	private Combobox										selectServiceDetail;
 
 	@Wire
-	private Datebox							searchArrivalDateShipFrom;
+	private Combobox										servicetype;
 
 	@Wire
-	private Datebox							searchArrivalDateShipTo;
+	private Combobox										servicetype_schedule;
 
 	@Wire
-	private Datebox							searchDateShift;
+	private Combobox										shift;
 
 	@Wire
-	private A								selecetedShipName;
+	public Combobox											shift_Daily;
 
 	@Wire
-	private Combobox						select_customer;
+	private Datebox											shiftdate;
 
 	@Wire
-	public Combobox							select_month_detail;
+	public Datebox											shiftdate_Daily;
 
 	@Wire
-	public Combobox							select_shift;
+	private Component										shiftFilter;
 
 	@Wire
-	private Combobox						select_typeShip;
+	private Listheader										shiftNumberColumn;
 
 	@Wire
-	private Combobox						select_workedShip;
+	private Combobox										ship_activity;
 
 	@Wire
-	public Combobox							select_year_detail;
+	private Combobox										ship_activity_add;
 
 	@Wire
-	private Combobox						selectServiceDetail;
+	private Datebox											ship_arrival;
 
 	@Wire
-	private Combobox						servicetype;
+	public Datebox											ship_arrival_schedule;
 
+	private IShipCache										ship_cache;
+
 	@Wire
-	private Combobox						servicetype_schedule;
+	private Textbox											ship_condition_search;
 	@Wire
-	private Combobox						shift;
+	private Combobox										ship_customer;
 	@Wire
-	public Combobox							shift_Daily;
+	private Combobox										ship_customer_add;
 	@Wire
-	private Datebox							shiftdate;
+	private Datebox											ship_departure;
 	@Wire
-	public Datebox							shiftdate_Daily;
+	public Datebox											ship_departure_schedule;
 	@Wire
-	private Component						shiftFilter;
+	private Timebox											ship_from;
 	@Wire
-	private Listheader						shiftNumberColumn;
+	private Timebox											ship_from_detail;
 	@Wire
-	private Combobox						ship_activity;
+	private Textbox											ship_line_search;
 	@Wire
-	private Combobox						ship_activity_add;
+	private Combobox										ship_name;
 
 	@Wire
-	private Datebox							ship_arrival;
+	public Combobox											ship_name_schedule;
 
 	@Wire
-	public Datebox							ship_arrival_schedule;
-
-	private IShipCache						ship_cache;
+	private Textbox											ship_rif_mcf;
 
 	@Wire
-	private Textbox							ship_condition_search;
+	private Label											ship_rif_sws;
 
 	@Wire
-	private Combobox						ship_customer;
+	private Timebox											ship_to;
 
 	@Wire
-	private Combobox						ship_customer_add;
+	private Timebox											ship_to_detail;
 
 	@Wire
-	private Datebox							ship_departure;
+	private Textbox											ship_type_search;
 
 	@Wire
-	public Datebox							ship_departure_schedule;
+	private Intbox											ship_volume;
 
 	@Wire
-	private Timebox							ship_from;
+	public Intbox											ship_volume_schedule;
 
-	@Wire
-	private Timebox							ship_from_detail;
+	protected IShip											shipDao;
 
 	@Wire
-	private Textbox							ship_line_search;
+	private Listheader										shipNameColumun;
 
 	@Wire
-	private Combobox						ship_name;
+	private Label											shipNumberProgramShip_noWorked;
 
 	@Wire
-	public Combobox							ship_name_schedule;
+	private Label											shipNumberProgramShip_worked;
 
 	@Wire
-	private Textbox							ship_rif_mcf;
+	private Textbox											shipRif_mcf;
 
-	@Wire
-	private Label							ship_rif_sws;
+	private IScheduleShip									shipSchedulerDao;
 
 	@Wire
-	private Timebox							ship_to;
+	private Intbox											shows_rows;
 
 	@Wire
-	private Timebox							ship_to_detail;
+	private Combobox										sky_detail;
 
 	@Wire
-	private Textbox							ship_type_search;
+	private Combobox										sky_review;
+
+	private IStatistics										statistic_dao;
 
+	private IStatistics										statisticDAO;
+
 	@Wire
-	private Intbox							ship_volume;
+	private Tab												statisticsShipTab;
 
 	@Wire
-	public Intbox							ship_volume_schedule;
+	private Label											sumVolumeCurrentMonthShipProgram;
 
-	protected IShip							shipDao;
+	@Wire
+	private Label											sumVolumeShipProgram;
 
 	@Wire
-	private Listheader						shipNameColumun;
+	private Button											sw_addScheduleShipProgram;
 
 	@Wire
-	private Label							shipNumberProgramShip_noWorked;
+	private Toolbarbutton									sw_link_reviewscheduleship;
 
 	@Wire
-	private Label							shipNumberProgramShip_worked;
+	private Listbox											sw_list_reviewWork;
 
 	@Wire
-	private Textbox							shipRif_mcf;
+	private Listbox											sw_list_reviewWorkAggregate;
 
-	private IScheduleShip					shipSchedulerDao;
+	@Wire
+	private Listbox											sw_list_scheduleDetailShip;
 
 	@Wire
-	private Intbox							shows_rows;
+	private Listbox											sw_list_scheduleShip;
 
 	@Wire
-	private Combobox						sky_detail;
+	private Listbox											sw_list_scheduleShipProgram;
 
 	@Wire
-	private Combobox						sky_review;
+	private Combobox										temperature_detail;
 
-	private IStatistics						statistic_dao;
+	@Wire
+	private Combobox										temperature_review;
 
-	private IStatistics						statisticDAO;
+	private final HashMap<Integer, TerminalProductivity>	terminalProductivityList		= new HashMap<>();
 
 	@Wire
-	private Tab								statisticsShipTab;
+	private Textbox											text_search_rifMCT;
 
 	@Wire
-	private Label							sumVolumeCurrentMonthShipProgram;
+	private Intbox											text_search_rifSWS;
 
 	@Wire
-	private Label							sumVolumeShipProgram;
+	private Listheader										textCol;
 
 	@Wire
-	private Button							sw_addScheduleShipProgram;
+	private Doublebox										time_review;
 
 	@Wire
-	private Toolbarbutton					sw_link_reviewscheduleship;
+	private Label											TotalTimeWork;
 
 	@Wire
-	private Listbox							sw_list_reviewWork;
+	private Label											TotalVolume;
 
 	@Wire
-	private Listbox							sw_list_reviewWorkAggregate;
+	private Label											TotalVolumeOnBoard;
 
 	@Wire
-	private Listbox							sw_list_scheduleDetailShip;
+	private Label											TotalVolumeOnBoard_sws;
 
 	@Wire
-	private Listbox							sw_list_scheduleShip;
+	private Label											TotalVolumeTWMTC;
 
 	@Wire
-	private Listbox							sw_list_scheduleShipProgram;
+	private Doublebox										tp_apr;
 
 	@Wire
-	private Combobox						temperature_detail;
+	private Doublebox										tp_aug;
 
 	@Wire
-	private Combobox						temperature_review;
+	private Doublebox										tp_dec;
 
 	@Wire
-	private Textbox							text_search_rifMCT;
+	private Doublebox										tp_feb;
 
 	@Wire
-	private Intbox							text_search_rifSWS;
+	private Doublebox										tp_gen;
 
 	@Wire
-	private Listheader						textCol;
+	private Doublebox										tp_jul;
 
 	@Wire
-	private Doublebox						time_review;
+	private Doublebox										tp_jun;
 
 	@Wire
-	private Label							TotalTimeWork;
+	private Doublebox										tp_mar;
 
 	@Wire
-	private Label							TotalVolume;
+	private Doublebox										tp_may;
 
 	@Wire
-	private Label							TotalVolumeOnBoard;
+	private Doublebox										tp_nov;
 
 	@Wire
-	private Label							TotalVolumeOnBoard_sws;
+	private Doublebox										tp_oct;
 
 	@Wire
-	private Label							TotalVolumeTWMTC;
+	private Doublebox										tp_sep;
 
 	@Wire
-	private Combobox						user;
+	private Combobox										user;
 
 	@Wire
-	public Combobox							user_Daily;
+	public Combobox											user_Daily;
 
-	protected PersonDAO						userPrep;
+	protected PersonDAO										userPrep;
 
 	@Wire
-	private Combobox						usersecond;
+	private Combobox										usersecond;
 
 	@Wire
-	private Combobox						usersecond_Daily;
+	private Combobox										usersecond_Daily;
 
 	@Wire
-	private Comboitem						verify_review_ship_item;
+	private Comboitem										verify_review_ship_item;
 
 	@Wire
-	private Intbox							volume_review;
+	private Intbox											volume_review;
 
 	@Wire
-	private Listheader						volumeColumn;
+	private Listheader										volumeColumn;
 
 	@Wire
-	private Listheader						volumeColumnScheduleShip;
+	private Listheader										volumeColumnScheduleShip;
 
 	@Wire
-	private Listheader						volumeStatisticColumn;
+	private Listheader										volumeStatisticColumn;
 
 	@Wire
-	private Intbox							volumeunde_tw_mct_review;
+	private Intbox											volumeunde_tw_mct_review;
 
 	@Wire
-	private Intbox							volumeunderboard_review;
+	private Intbox											volumeunderboard_review;
 
 	@Wire
-	private Intbox							volumeunderboard_sws_review;
+	private Intbox											volumeunderboard_sws_review;
 
 	@Wire
-	private Combobox						wind_detail;
+	private Combobox										wind_detail;
 
 	@Wire
-	private Combobox						wind_review;
+	private Combobox										wind_review;
 
 	@Wire
-	private Radiogroup						workedGroup;
+	private Radiogroup										workedGroup;
 
 	@Wire
-	private Label							working_cycle_review;
+	private Label											working_cycle_review;
 
 	@Listen("onClick = #add_finalDetailScheduleShip_command")
 	public void addDetailFinalScheduleShip() throws ParseException {
@@ -1748,6 +1776,25 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void initTerminalProductivity(final Integer year) {
+		final List<TerminalProductivity> list = this.statisticDAO.loadTerminalProductivityYear(year);
+
+		if (this.terminalProductivityList == null) {
+			return;
+		}
+
+		this.terminalProductivityList.clear();
+
+		for (final TerminalProductivity tp : list) {
+
+			final Double productivity = tp.getProductivity();
+			final Integer month = tp.getMonth_tp();
+
+			this.terminalProductivityList.put(month, tp);
+		}
+
+	}
+
 	private void mainSchedulerView(final String version) {
 		if (ShipSchedulerComposer.this.person_logged.isViewerOnly()) {
 			// set initial item if user is a viewer only user
@@ -2745,6 +2792,21 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void refreshInputProductivityCell() {
+		this.tp_gen.setValue(null);
+		this.tp_feb.setValue(null);
+		this.tp_mar.setValue(null);
+		this.tp_apr.setValue(null);
+		this.tp_may.setValue(null);
+		this.tp_jun.setValue(null);
+		this.tp_jul.setValue(null);
+		this.tp_aug.setValue(null);
+		this.tp_sep.setValue(null);
+		this.tp_oct.setValue(null);
+		this.tp_nov.setValue(null);
+		this.tp_dec.setValue(null);
+	}
+
 	public void refreshProgram() {
 
 		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
@@ -2801,6 +2863,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final Integer year = Integer.parseInt((String) this.select_year_detail.getSelectedItem().getValue());
 
+		this.initTerminalProductivity(year);
+
 		this.reportListboxContainer.setModel(new ListModelList<>());
 
 		this.reportList = new ArrayList<ReportItem>();
@@ -2820,6 +2884,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final ReportItem itemMen = new ReportItem();
 		final ReportItem itemMenOnHand = new ReportItem();
 		itemMenOnHand.setArgument(ReportItemTag.MenOnHands);
+		final ReportItem itemProductivity = new ReportItem();
+		itemProductivity.setArgument(ReportItemTag.Productivity);
 		final ReportItem itemContainerOnMen = new ReportItem();
 		itemContainerOnMen.setArgument(ReportItemTag.ContainersOnMen);
 
@@ -3135,10 +3201,60 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsOnDays.setAvg(null);
 		itemMenOnHand.setAvg(null);
 
+		if (this.terminalProductivityList != null) {
+			for (int i = 1; i <= 12; i++) {
+				if (this.terminalProductivityList.get(i) != null) {
+					final Double productivity = this.terminalProductivityList.get(i).getProductivity();
+					switch (i) {
+					case 1:
+						itemProductivity.setGen(productivity);
+						break;
+					case 2:
+						itemProductivity.setFeb(productivity);
+						break;
+					case 3:
+						itemProductivity.setMar(productivity);
+						break;
+					case 4:
+						itemProductivity.setApr(productivity);
+						break;
+					case 5:
+						itemProductivity.setMay(productivity);
+						break;
+					case 6:
+						itemProductivity.setJun(productivity);
+						break;
+					case 7:
+						itemProductivity.setJul(productivity);
+						break;
+					case 8:
+						itemProductivity.setAug(productivity);
+						break;
+					case 9:
+						itemProductivity.setSep(productivity);
+						break;
+					case 10:
+						itemProductivity.setOct(productivity);
+						break;
+					case 11:
+						itemProductivity.setNov(productivity);
+						break;
+					case 12:
+						itemProductivity.setDec(productivity);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+
+		}
+
 		this.reportList.add(itemContainer);
 		this.reportList.add(itemHands);
 		this.reportList.add(itemHandsOnDays);
 		this.reportList.add(itemMenOnHand);
+		this.reportList.add(itemProductivity);
 		// list.add(itemContainerOnMen);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
@@ -4066,5 +4182,81 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.refreshDetail();
 
+	}
+
+	@Listen("onOK=#tp_gen,#tp_feb,#tp_mar,#tp_apr,#tp_may,#tp_jun,#tp_jul,#tp_aug,#tp_sep,#tp_oct,#tp_nov,#tp_dec")
+	public void updateTerminalProductivity() {
+		if ((this.terminalProductivityList == null) || (this.select_year_detail.getSelectedItem() == null)) {
+			return;
+		}
+
+		final Integer year = Integer.parseInt((String) this.select_year_detail.getSelectedItem().getValue());
+
+		final Double productivity = null;
+		final int i = 0;
+		if (this.tp_gen.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_gen.getValue(), 1, year);
+			this.tp_gen.setValue(null);
+		}
+		if (this.tp_feb.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_feb.getValue(), 2, year);
+			this.tp_feb.setValue(null);
+		}
+		if (this.tp_mar.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_mar.getValue(), 3, year);
+			this.tp_mar.setValue(null);
+		}
+		if (this.tp_apr.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_apr.getValue(), 4, year);
+			this.tp_apr.setValue(null);
+		}
+		if (this.tp_may.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_may.getValue(), 5, year);
+			this.tp_may.setValue(null);
+		}
+		if (this.tp_jun.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_jun.getValue(), 6, year);
+			this.tp_jun.setValue(null);
+		}
+		if (this.tp_jul.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_jul.getValue(), 7, year);
+			this.tp_jul.setValue(null);
+		}
+		if (this.tp_aug.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_aug.getValue(), 8, year);
+			this.tp_aug.setValue(null);
+		}
+		if (this.tp_sep.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_sep.getValue(), 9, year);
+			this.tp_sep.setValue(null);
+		}
+		if (this.tp_oct.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_oct.getValue(), 10, year);
+			this.tp_oct.setValue(null);
+		}
+		if (this.tp_nov.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_nov.getValue(), 11, year);
+			this.tp_nov.setValue(null);
+		}
+		if (this.tp_dec.getValue() != null) {
+			this.updateTerminalProductivity(this.tp_dec.getValue(), 12, year);
+			this.tp_dec.setValue(null);
+		}
+
+		this.refreshReport();
+
+	}
+
+	private void updateTerminalProductivity(final Double productivity, final Integer month, final Integer year) {
+		if (this.terminalProductivityList.get(month) != null) {
+			this.terminalProductivityList.get(month).setProductivity(productivity);
+			this.statisticDAO.updateTerminalProductivity(this.terminalProductivityList.get(month));
+		} else {
+			final TerminalProductivity tp = new TerminalProductivity();
+			tp.setMonth_tp(month);
+			tp.setYear_tp(year);
+			tp.setProductivity(productivity);
+			this.statisticDAO.createTerminalProductivity(tp);
+		}
 	}
 }
