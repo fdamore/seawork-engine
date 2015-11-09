@@ -74,7 +74,7 @@
 
 		<if test="datefrom!=null and dateto!=null">
 
-<![CDATA[ 
+		<![CDATA[ 
 		AND (s.arrivaldate <= #{dateto} and s.departuredate >= #{datefrom}) 			
 			]]>
 
@@ -89,11 +89,23 @@
 		</if>
 
 		<if test="sws!=null">
-			and #{sws} = s.id
+			and #{sws} = s.id 
 		</if>
 
 		<if test="textSearch!=null">
-			and sh.name like CONCAT('%',#{textSearch},'%')
+			and sh.name like CONCAT('%',#{textSearch},'%') 
+		</if>
+		
+		<if test="shipType!=null">
+			and sh.shiptype like CONCAT('%',#{shipType},'%') 
+		</if>
+		
+		<if test="shipLine!=null">
+			and sh.line like CONCAT('%',#{shipLine},'%') 
+		</if>
+		
+		<if test="shipCondition!=null">
+			and sh.shipcondition like CONCAT('%',#{shipCondition},'%') 
 		</if>
 
 		<if test="mct!=null">
@@ -251,6 +263,18 @@
 
 		<if test="full_text_search != null">
 			and (s.name like CONCAT('%',#{full_text_search}, '%') )
+		</if>
+		
+		<if test="shipType!=null">
+			and s.shiptype like CONCAT('%',#{shipType},'%') 
+		</if>
+		
+		<if test="shipLine!=null">
+			and s.line like CONCAT('%',#{shipLine},'%') 
+		</if>
+		
+		<if test="shipCondition!=null">
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
 		</if>
 
 		<if test="serviceId!=null">

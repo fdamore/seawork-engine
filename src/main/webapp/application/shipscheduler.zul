@@ -143,7 +143,7 @@
 				</hbox>
 
 				<button id="refreshDetailView" label="Ricarica"
-					sclass="btn-info" />
+					sclass="btn-info" onClick="ship_line_search.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);"/>
 
 				<a label="Scarica dati in CSV"
 					id="detailShipProgram_download" style="color:green" />
@@ -279,7 +279,20 @@
 
 				<textbox placeholder="Cerca Nome Nave..."
 					id="full_text_search"
-					onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_line_search.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);" />
+					
+				<textbox placeholder="Cerca Tipo Nave..."
+					id="ship_type_search"
+					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_line_search.setValue(null);ship_condition_search.setValue(null);full_text_search.setValue(null);" />
+					
+				<textbox placeholder="Cerca Linea Nave..."
+					id="ship_line_search"
+					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);full_text_search.setValue(null);" />
+					
+				<textbox placeholder="Cerca Condizioni Nave..."
+					id="ship_condition_search"
+					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_type_search.setValue(null);ship_line_search.setValue(null);full_text_search.setValue(null);" />	
+				
 			</hbox>
 
 			<separator />

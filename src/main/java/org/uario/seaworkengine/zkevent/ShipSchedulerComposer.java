@@ -515,10 +515,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Combobox							select_year_detail;
+
 	@Wire
 	private Combobox						selectServiceDetail;
+
 	@Wire
 	private Combobox						servicetype;
+
 	@Wire
 	private Combobox						servicetype_schedule;
 	@Wire
@@ -531,13 +534,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Datebox							shiftdate_Daily;
 	@Wire
 	private Component						shiftFilter;
-
 	@Wire
 	private Listheader						shiftNumberColumn;
-
 	@Wire
 	private Combobox						ship_activity;
-
 	@Wire
 	private Combobox						ship_activity_add;
 
@@ -548,6 +548,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Datebox							ship_arrival_schedule;
 
 	private IShipCache						ship_cache;
+
+	@Wire
+	private Textbox							ship_condition_search;
 
 	@Wire
 	private Combobox						ship_customer;
@@ -568,6 +571,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Timebox							ship_from_detail;
 
 	@Wire
+	private Textbox							ship_line_search;
+
+	@Wire
 	private Combobox						ship_name;
 
 	@Wire
@@ -584,6 +590,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Timebox							ship_to_detail;
+
+	@Wire
+	private Textbox							ship_type_search;
 
 	@Wire
 	private Intbox							ship_volume;
@@ -1383,7 +1392,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #select_workedShip, #select_typeShip,#scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search; onClick = #remove_select_shift, #remove_searchDateShift, #remove_select_typeShip,#remove_select_workedShip,#remove_select_customer, #removeServiceFilterDetail")
+	@Listen("onChange = #select_workedShip, #select_typeShip,#scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search,#ship_type_search,#ship_line_search,#ship_condition_search; onClick = #remove_select_shift, #remove_searchDateShift, #remove_select_typeShip,#remove_select_workedShip,#remove_select_customer, #removeServiceFilterDetail")
 	public void defineSchedulerView() {
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
@@ -2553,7 +2562,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if (this.overviewBap.isSelected()) {
 
 			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, date_to, text_search, rif_sws, rif_mct, shiftNumber, invoicing,
-					idServiceSelected);
+					idServiceSelected, this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.sw_list_reviewWork.setPageSize(this.shows_rows.getValue());
@@ -2568,7 +2577,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		} else if (this.overviewBapAggregate.isSelected()) {
 
 			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, date_to, rif_sws, rif_mct, invoicing,
-					text_search, idServiceSelected);
+					text_search, idServiceSelected, this.ship_type_search.getValue(), this.ship_line_search.getValue(),
+					this.ship_condition_search.getValue());
 
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows.getValue());
@@ -2584,7 +2594,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		} else if (this.statisticsShipTab.isSelected()) {
 
-			this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_search, date_from, date_to);
+			this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_search, date_from, date_to, this.ship_type_search.getValue(),
+					this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 			this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
 
@@ -2681,7 +2692,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipByPeriodOrDateshift(dateFrom, dateTo,
-				this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected);
+				this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected,
+				this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 
@@ -2761,7 +2773,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(dateFrom, dateTo, this.text_search_rifSWS.getValue(),
-				this.text_search_rifMCT.getValue(), id_customer, id_service, text_search);
+				this.text_search_rifMCT.getValue(), id_customer, id_service, text_search, this.ship_type_search.getValue(),
+				this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_scheduleShipProgram.setPageSize(this.shows_rows.getValue());

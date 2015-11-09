@@ -63,6 +63,18 @@
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
 		</if>
+		
+		<if test="shipType!=null">
+			and s.shiptype like CONCAT('%',#{shipType},'%') 
+		</if>
+		
+		<if test="shipLine!=null">
+			and s.line like CONCAT('%',#{shipLine},'%') 
+		</if>
+		
+		<if test="shipCondition!=null">
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
+		</if>
 
 		<if test="rifSWS != null">
 			and ss.id = #{rifSWS}
@@ -140,6 +152,18 @@
 
 		<if test="searchText != null">
 			and s.name like CONCAT('%', #{searchText},'%')
+		</if>
+		
+		<if test="shipType!=null">
+			and s.shiptype like CONCAT('%',#{shipType},'%') 
+		</if>
+		
+		<if test="shipLine!=null">
+			and s.line like CONCAT('%',#{shipLine},'%') 
+		</if>
+		
+		<if test="shipCondition!=null">
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
 		</if>
 
 		<if test="rifSWS != null">
@@ -319,6 +343,18 @@
 
 		<if test="shipname != null">
 			and (s.name like CONCAT('%', #{shipname},'%')) 
+		</if>
+		
+		<if test="shipType!=null">
+			and s.shiptype like CONCAT('%',#{shipType},'%') 
+		</if>
+		
+		<if test="shipLine!=null">
+			and s.line like CONCAT('%',#{shipLine},'%') 
+		</if>
+		
+		<if test="shipCondition!=null">
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
 		</if>
 
 		<if test="date_from != null and date_to != null">
