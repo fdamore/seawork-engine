@@ -3201,10 +3201,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsOnDays.setAvg(null);
 		itemMenOnHand.setAvg(null);
 
+		Double totalProductivity = 0.0;
+		Integer productivityNotNull = 0;
+
 		if (this.terminalProductivityList != null) {
 			for (int i = 1; i <= 12; i++) {
 				if (this.terminalProductivityList.get(i) != null) {
 					final Double productivity = this.terminalProductivityList.get(i).getProductivity();
+					if ((productivity != null) && (productivity != 0)) {
+						totalProductivity = totalProductivity + productivity;
+						productivityNotNull++;
+					}
 					switch (i) {
 					case 1:
 						itemProductivity.setGen(productivity);
@@ -3248,6 +3255,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
+		}
+
+		if (productivityNotNull != 0.0) {
+			itemProductivity.setAvg(totalProductivity / productivityNotNull);
+		} else {
+			itemProductivity.setAvg(0.0);
 		}
 
 		this.reportList.add(itemContainer);

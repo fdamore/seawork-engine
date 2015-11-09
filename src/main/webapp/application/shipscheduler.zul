@@ -2348,40 +2348,40 @@
 								
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_gen"/>
+								<doublebox width="100%" id="tp_gen" constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_feb"/>
+								<doublebox width="100%" id="tp_feb" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_mar"/>
+								<doublebox width="100%" id="tp_mar" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_apr"/>
+								<doublebox width="100%" id="tp_apr" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_may"/>
+								<doublebox width="100%" id="tp_may" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_jun"/>
+								<doublebox width="100%" id="tp_jun" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_jul"/>
+								<doublebox width="100%" id="tp_jul" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_aug"/>
+								<doublebox width="100%" id="tp_aug" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_sep"/>
+								<doublebox width="100%" id="tp_sep" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_oct"/>
+								<doublebox width="100%" id="tp_oct" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_nov"/>
+								<doublebox width="100%" id="tp_nov" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_dec"/>
+								<doublebox width="100%" id="tp_dec" constraint="no negative"/>
 							</listcell>
 							
 							<listcell sclass="myBottonCell">								
