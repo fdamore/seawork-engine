@@ -258,8 +258,8 @@
 	
 	<insert id="addService" parameterType="org.uario.seaworkengine.model.Service">
 		INSERT INTO service
-		(name,description)
-		VALUES (#{name},#{description});
+		(name,description,isRZ)
+		VALUES (#{name},#{description},#{isRZ});
 	</insert>
 
 	<delete id="removeStatus">
@@ -271,6 +271,12 @@
 		DELETE FROM service
 		WHERE id=#{id};
 	</delete>
+	
+	<select id="loadRZService" resultType="org.uario.seaworkengine.model.Service"> 
+		SELECT id,name,description,isRZ
+		FROM service 
+		WHERE isRZ=1;
+	</select>
 
 	<select id="selectAllStatus" resultType="String">
 		SELECT description
@@ -279,7 +285,7 @@
 	</select>
 	
 	<select id="selectService" parameterType="map" resultType="org.uario.seaworkengine.model.Service">
-		SELECT id, name, description
+		SELECT id, name, description, isRZ 
 		FROM service
 		WHERE id is not null  
 		<if test="id != null">
@@ -290,12 +296,12 @@
 		</if>
 		<if test="description != null">
 			and description like CONCAT('%',#{description}, '%') 
-		</if> 
+		</if>
 		order by name asc;
 	</select>
 	
 	<select id="checkServiceExist" parameterType="String" resultType="org.uario.seaworkengine.model.Service">
-		SELECT id, name, description
+		SELECT id, name, description, isRZ
 		FROM service 
 		WHERE name=#{name};
 	</select>
@@ -309,7 +315,7 @@
 	
 	<update id="updateService" parameterType="org.uario.seaworkengine.model.Service">
 		UPDATE service 
-		SET name = #{name}, description = #{description}
+		SET name = #{name}, description = #{description}, isRZ = #{isRZ} 
 		WHERE id = #{id};
 	</update>	
 

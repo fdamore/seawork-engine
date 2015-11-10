@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.zkevent;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Component			add_billcenter_command;
+
+	@Wire
+	private Component			add_service_command;
 
 	private IBankHolidays		bank_holiday;
 
@@ -134,6 +138,9 @@ public class Preferences extends SelectorComposer<Component> {
 	@Wire
 	private Checkbox			isabsence_task;
 
+	@Wire
+	private Checkbox			isRZ;
+
 	private IJobCost			jobCostDao;
 
 	@Wire
@@ -153,6 +160,9 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Component			modify_billcenter_command;
+
+	@Wire
+	private Component			modify_service_command;
 
 	@Wire
 	private Textbox				name_crane;
@@ -179,6 +189,8 @@ public class Preferences extends SelectorComposer<Component> {
 	private final Runtime		runtime				= Runtime.getRuntime();
 
 	private int					selectedOptionMobileTask;
+
+	private Service				serviceSelected;
 
 	@Wire
 	private Intbox				shows_rows;
@@ -258,14 +270,46 @@ public class Preferences extends SelectorComposer<Component> {
 		final List<Service> serviceList = this.configurationDao.checkServiceExist(this.name_service.getValue());
 
 		if (serviceList.size() == 0) {
-			final Service service = new Service();
-			service.setName(this.name_service.getValue());
-			service.setDescription(this.description_service.getValue());
-			this.configurationDao.addService(service);
 
-			this.refreshServiceList();
+			if (this.isRZ.isChecked()) {
+				final Service rzService = this.configurationDao.loadRZService();
+				if (rzService != null) {
+					final Map<String, String> params = new HashMap();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[2];
+					buttons[0] = Messagebox.Button.OK;
+					buttons[1] = Messagebox.Button.CANCEL;
+					Messagebox.show("Il servizio Rizzaggio è già presente, procedere?", "CONFERMA ASSEGNAZIONE RIZZAGGIO", buttons, null,
+							Messagebox.EXCLAMATION, null, new EventListener() {
+								@Override
+								public void onEvent(final Event e) {
+									if (Messagebox.ON_OK.equals(e.getName())) {
+										final Service rzService = Preferences.this.configurationDao.loadRZService();
+										rzService.setIsRZ(false);
+										Preferences.this.configurationDao.updateService(rzService);
+										final Service service = new Service();
+										service.setName(Preferences.this.name_service.getValue());
+										service.setDescription(Preferences.this.description_service.getValue());
+										service.setIsRZ(true);
+										Preferences.this.configurationDao.addService(service);
+										Preferences.this.refreshServiceList();
+										Preferences.this.resetServiceInfo();
+									} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+										// Cancel is clicked
+									}
+								}
+							}, params);
+				}
+			} else {
+				final Service service = new Service();
+				service.setName(Preferences.this.name_service.getValue());
+				service.setDescription(Preferences.this.description_service.getValue());
+				service.setIsRZ(false);
+				Preferences.this.configurationDao.addService(service);
+				Preferences.this.refreshServiceList();
+				Preferences.this.resetServiceInfo();
+			}
 
-			this.resetServiceInfo();
 		} else {
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
@@ -275,11 +319,6 @@ public class Preferences extends SelectorComposer<Component> {
 			Messagebox.show("Nome tipo di servizio già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 		}
 
-	}
-
-	@Listen("onClick = #sw_addservice")
-	public void addServiceDefine() {
-		this.resetServiceInfo();
 	}
 
 	@Listen("onClick = #add_shifts_command")
@@ -564,25 +603,36 @@ public class Preferences extends SelectorComposer<Component> {
 		if (this.sw_list_service.getSelectedItem() != null) {
 			final Service serviceSelected = this.sw_list_service.getSelectedItem().getValue();
 
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
+			if (!serviceSelected.getIsRZ()) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
 
-			final Messagebox.Button[] buttons = new Messagebox.Button[2];
-			buttons[0] = Messagebox.Button.OK;
-			buttons[1] = Messagebox.Button.CANCEL;
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.CANCEL;
 
-			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-					new EventListener() {
-						@Override
-						public void onEvent(final Event e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								Preferences.this.configurationDao.removeService(serviceSelected.getId());
-								Preferences.this.refreshServiceList();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-								// Cancel is clicked
+				Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+						new EventListener() {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									Preferences.this.configurationDao.removeService(serviceSelected.getId());
+									Preferences.this.refreshServiceList();
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									// Cancel is clicked
+								}
 							}
-						}
-					}, params);
+						}, params);
+			} else {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Impossibile cancellare il servizio di Rizzaggio", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
+			}
+
 		}
 	}
 
@@ -761,6 +811,75 @@ public class Preferences extends SelectorComposer<Component> {
 
 		this.grid_crane_details.setVisible(false);
 
+	}
+
+	@Listen("onClick=#sw_link_modifyservice")
+	public void modifyService() {
+		if (this.sw_list_service.getSelectedItem() != null) {
+			this.serviceSelected = this.sw_list_service.getSelectedItem().getValue();
+
+			this.name_service.setValue(this.serviceSelected.getName());
+			this.description_service.setValue(this.serviceSelected.getDescription());
+			this.isRZ.setChecked(this.serviceSelected.getIsRZ());
+
+			this.add_service_command.setVisible(false);
+			this.modify_service_command.setVisible(true);
+		}
+	}
+
+	@Listen("onClick=#modify_service_command")
+	public void modifyServiceCommand() {
+		if (this.serviceSelected == null) {
+			return;
+		}
+
+		final Service service = this.configurationDao.loadRZService();
+
+		if (this.isRZ.isChecked() && (service != null) && !service.getId().equals(this.serviceSelected.getId())) {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[2];
+			buttons[0] = Messagebox.Button.OK;
+			buttons[1] = Messagebox.Button.CANCEL;
+			Messagebox.show("Il servizio Rizzaggio è già presente, procedere?", "CONFERMA ASSEGNAZIONE RIZZAGGIO", buttons, null,
+					Messagebox.EXCLAMATION, null, new EventListener() {
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								final Service rzService = Preferences.this.configurationDao.loadRZService();
+								rzService.setIsRZ(false);
+								Preferences.this.configurationDao.updateService(rzService);
+								Preferences.this.serviceSelected.setDescription(Preferences.this.description_service.getValue());
+								Preferences.this.serviceSelected.setName(Preferences.this.name_service.getValue());
+								Preferences.this.serviceSelected.setIsRZ(Preferences.this.isRZ.isChecked());
+								Preferences.this.configurationDao.updateService(Preferences.this.serviceSelected);
+								Preferences.this.resetServiceInfo();
+								Preferences.this.refreshServiceList();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					}, params);
+		} else if (!this.isRZ.isChecked() && (service != null) && service.getId().equals(this.serviceSelected.getId())) {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Riassegnare il servizio di rizzaggio!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
+			this.isRZ.setChecked(true);
+
+			return;
+		} else {
+
+			this.serviceSelected.setDescription(this.description_service.getValue());
+			this.serviceSelected.setName(this.name_service.getValue());
+			this.serviceSelected.setIsRZ(this.isRZ.isChecked());
+			this.configurationDao.updateService(this.serviceSelected);
+			this.refreshServiceList();
+			this.resetServiceInfo();
+		}
 	}
 
 	@Listen("onClick = #sw_link_modifyshift")
@@ -1244,6 +1363,10 @@ public class Preferences extends SelectorComposer<Component> {
 	private void resetServiceInfo() {
 		this.description_service.setValue(null);
 		this.name_service.setValue(null);
+		this.isRZ.setChecked(false);
+		this.grid_service_details.setVisible(false);
+		this.add_service_command.setVisible(true);
+		this.modify_service_command.setVisible(false);
 	}
 
 	private void resetShiftInfo() {
@@ -1305,6 +1428,17 @@ public class Preferences extends SelectorComposer<Component> {
 				this.sw_list_service.setModel(new ListModelList<Service>(list));
 			}
 		}
+	}
+
+	@Listen("onClick = #selectRZ")
+	public void selectRZService() {
+		this.full_text_search_Service.setValue(null);
+
+		final List<Service> list = new ArrayList<>();
+		final Service service = this.configurationDao.loadRZService();
+		list.add(service);
+
+		Preferences.this.sw_list_service.setModel(new ListModelList<Service>(list));
 	}
 
 	@Listen("onSelect = #typeofbreak")

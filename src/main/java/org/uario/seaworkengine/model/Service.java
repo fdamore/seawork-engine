@@ -7,11 +7,12 @@ public class Service implements Serializable, Comparable<Service> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private String	description;
-	private Integer	id;
-	private String	name;
+	private String				description;
+	private Integer				id;
+	private Boolean				isRZ;
+	private String				name;
 
 	@Override
 	public int compareTo(final Service o) {
@@ -39,6 +40,10 @@ public class Service implements Serializable, Comparable<Service> {
 		return this.id;
 	}
 
+	public Boolean getIsRZ() {
+		return this.isRZ;
+	}
+
 	public String getName() {
 		return this.name;
 	}
@@ -49,6 +54,10 @@ public class Service implements Serializable, Comparable<Service> {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setIsRZ(final Boolean isRZ) {
+		this.isRZ = isRZ;
 	}
 
 	public void setName(final String name) {

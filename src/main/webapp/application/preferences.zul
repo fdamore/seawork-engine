@@ -1038,12 +1038,18 @@
 										iconSclass="z-icon-star orange" label="Dettagli">
 										<toolbarbutton label="Chiudi"
 											style="color: blue"
-											onClick="grid_service_details.setVisible(false);">
+											onClick="grid_service_details.setVisible(false); add_service_command.setVisible(true); modify_service_command.setVisible(false);
+													description_service.setValue(null);name_service.setValue(null);isRZ.setChecked(false);">
 										</toolbarbutton>
 										<toolbarbutton
-											id="add_service_command" label="Aggiungi" style="color: blue"
+											id="add_service_command" label="Aggiungi" style="color: blue" 
 											visible="false">
 										</toolbarbutton>
+										<toolbarbutton
+											id="modify_service_command" label="Modifica" style="color: blue"
+											visible="false">
+										</toolbarbutton>
+										
 									</caption>
 									<panelchildren>
 										<grid sclass="domain">
@@ -1069,6 +1075,12 @@
 													<textbox
 														id="description_service" mold="rounded" />
 												</row>
+												<row>
+													<label
+														value="Rizzaggio:">
+													</label>
+													<checkbox id="isRZ" />
+												</row>
 											</rows>
 										</grid>
 									</panelchildren>
@@ -1080,11 +1092,15 @@
 
 								<button id="sw_addservice"
 									sclass="btn-info" label="Aggiungi Tipo di Servizio"
-									onClick="add_service_command.setVisible(true);grid_service_details.setVisible(true)">
+									onClick="add_service_command.setVisible(true);modify_service_command.setVisible(false);grid_service_details.setVisible(true);">
 								</button>
 
 								<button id="sw_refresh_service_list"
 									sclass="btn-info" label="Ricarica Lista">
+								</button>
+								
+								<button id="selectRZ"
+									sclass="btn-info" label="Servizio Rizzaggio">
 								</button>
 
 								<separator></separator>
@@ -1116,6 +1132,9 @@
 
 									<listheader label="Descrizione"
 										sort="auto" />
+									
+									<listheader label="Rizzaggio"
+										sort="auto" />
 
 									<listheader label="" />
 								</listhead>
@@ -1128,6 +1147,11 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{service_item.description}" />
+										
+									<listcell style="text-align: center" sclass="myBottonCell">
+										<image
+											src="@{service_item.isRZ, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
 
 									<listcell sclass="myBottonCell">
 
@@ -1135,6 +1159,12 @@
 											id="sw_link_deleteservice" style="color:blue"
 											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());"
 											label="Cancella">
+										</toolbarbutton>
+										
+										<toolbarbutton
+											id="sw_link_modifyservice" style="color:blue"
+											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());add_service_command.setVisible(false);modify_service_command.setVisible(true);grid_service_details.setVisible(true);"
+											label="Modifica">
 										</toolbarbutton>							
 										
 

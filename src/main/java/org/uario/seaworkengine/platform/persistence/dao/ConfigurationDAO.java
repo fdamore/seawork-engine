@@ -51,6 +51,8 @@ public interface ConfigurationDAO {
 
 	public List<String> loadAllTaskCode();
 
+	public Service loadRZService();
+
 	public UserShift loadShiftById(Integer id);
 
 	public List<UserShift> loadShifts();
