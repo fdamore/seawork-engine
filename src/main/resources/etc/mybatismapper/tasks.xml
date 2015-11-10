@@ -11,6 +11,11 @@
 		FROM usertask
 		WHERE id = #{idTask};		
 	</select>
+	
+	<select id="listAllTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM usertask;
+	</select>
 
 
 	<select id="selectAllTasksByUser" resultType="org.uario.seaworkengine.model.UserTask"

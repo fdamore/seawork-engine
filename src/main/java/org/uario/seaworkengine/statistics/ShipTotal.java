@@ -17,12 +17,17 @@ public class ShipTotal implements Serializable {
 	private Integer				invoice_month;
 	private Double				menwork;
 
+	private Integer				month_date;
 	private Integer				monthInvoice;
+
 	private Integer				shift_month;
+	private String				task_code;
+	private Double				task_hour;
 
+	private Integer				task_id;
 	private Integer				totalProgramHands;
-	private Integer				totalProgramMen;
 
+	private Integer				totalProgramMen;
 	private Integer				totalReviewHands;
 	private Integer				totalReviewMen;
 
@@ -50,12 +55,28 @@ public class ShipTotal implements Serializable {
 		return this.menwork;
 	}
 
+	public Integer getMonth_date() {
+		return this.month_date;
+	}
+
 	public Integer getMonthInvoice() {
 		return this.monthInvoice;
 	}
 
 	public Integer getShift_month() {
 		return this.shift_month;
+	}
+
+	public String getTask_code() {
+		return this.task_code;
+	}
+
+	public Double getTask_hour() {
+		return this.task_hour;
+	}
+
+	public Integer getTask_id() {
+		return this.task_id;
 	}
 
 	public Integer getTotalProgramHands() {
@@ -98,12 +119,28 @@ public class ShipTotal implements Serializable {
 		this.menwork = menwork;
 	}
 
+	public void setMonth_date(final Integer month_date) {
+		this.month_date = month_date;
+	}
+
 	public void setMonthInvoice(final Integer monthInvoice) {
 		this.monthInvoice = monthInvoice;
 	}
 
 	public void setShift_month(final Integer shift_month) {
 		this.shift_month = shift_month;
+	}
+
+	public void setTask_code(final String task_code) {
+		this.task_code = task_code;
+	}
+
+	public void setTask_hour(final Double task_hour) {
+		this.task_hour = task_hour;
+	}
+
+	public void setTask_id(final Integer task_id) {
+		this.task_id = task_id;
 	}
 
 	public void setTotalProgramHands(final Integer totalProgramHands) {

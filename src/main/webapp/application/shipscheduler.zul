@@ -2393,7 +2393,7 @@
 					
 					</listbox>
 
-					<listbox sclass="domain" mold="paging" pageSize="10"
+					<listbox sclass="domain" mold="paging" pageSize="50"
 						sizedByContent="false" width="100%" pagingPosition="both"
 						id="reportListboxContainer">
 

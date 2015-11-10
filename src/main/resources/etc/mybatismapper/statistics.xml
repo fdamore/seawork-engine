@@ -964,6 +964,24 @@
 		group by monthInvoice;		
 	</select>
 	
+	<select id="getTotalHoursByTask" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="Integer">
+		SELECT 
+		dtf.task as task_id,
+		t.code as task_code,
+		month(s.date_schedule) as month_date,
+		sum(dtf.time) as task_hour
+		FROM
+		detailfinalschedule dtf,
+		schedule s,
+		usertask t
+		where
+		t.id = dtf.task 
+		and s.id = dtf.id_schedule
+		and year(s.date_schedule) = #{year}
+		group by task_id , month_date
+		order by task_id , month_date
+	</select>
+	
 	
 	
 	<!-- TERMINAL PRODUCTIVITY -->

@@ -19,4 +19,6 @@ public interface ReportItemTag {
 
 	public static String	Productivity		= "Prod. Terminal";
 
+	public static String	TaskHours			= "Ore lavorate per mansione";
+
 }

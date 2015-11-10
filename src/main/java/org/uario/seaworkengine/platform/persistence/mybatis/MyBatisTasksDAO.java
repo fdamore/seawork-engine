@@ -67,6 +67,13 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 	}
 
 	@Override
+	public List<UserTask> listAllTask() {
+		MyBatisTasksDAO.logger.info("listAllTask");
+
+		return this.getSqlSession().selectList("tasks.listAllTask");
+	}
+
+	@Override
 	public UserTask loadTask(final Integer idTask) {
 		return this.getSqlSession().selectOne("tasks.loadTask", idTask);
 

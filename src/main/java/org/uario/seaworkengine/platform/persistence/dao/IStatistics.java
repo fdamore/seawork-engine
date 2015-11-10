@@ -152,6 +152,8 @@ public interface IStatistics {
 
 	public List<ShipTotal> getTotalHandsMen(Integer year, Boolean by_invoice);
 
+	public List<ShipTotal> getTotalHoursByTask(final Integer year);
+
 	public List<ShipTotal> getTotalInvoiceContainer(Integer year, Boolean by_invoice);
 
 	/**

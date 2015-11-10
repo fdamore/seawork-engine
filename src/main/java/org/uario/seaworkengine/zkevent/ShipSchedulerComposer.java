@@ -25,6 +25,7 @@ import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.TerminalProductivity;
+import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
@@ -32,6 +33,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
+import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.ShipTotal;
@@ -651,6 +653,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											sw_list_scheduleShipProgram;
+
+	private TasksDAO										taskDAO;
 
 	@Wire
 	private Combobox										temperature_detail;
@@ -1665,6 +1669,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.select_year_detail.setModel(new ListModelList<String>(years));
 
 		this.statisticDAO = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
+
+		this.taskDAO = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 
 		// check for printable version
 		final String att_print = Executions.getCurrent().getParameter(ShipSchedulerComposer.PRINT_PROGRAM);
@@ -3325,14 +3331,82 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			itemProductivity.setAvg(0.0);
 		}
 
+		itemContainer.setIsTaskROW(false);
 		this.reportList.add(itemContainer);
+		itemRZ_TW_SWS.setIsTaskROW(false);
 		this.reportList.add(itemRZ_TW_SWS);
+		itemRZ_TW_MCT.setIsTaskROW(false);
 		this.reportList.add(itemRZ_TW_MCT);
+		itemHands.setIsTaskROW(false);
 		this.reportList.add(itemHands);
+		itemHandsOnDays.setIsTaskROW(false);
 		this.reportList.add(itemHandsOnDays);
+		itemMenOnHand.setIsTaskROW(false);
 		this.reportList.add(itemMenOnHand);
+		itemProductivity.setIsTaskROW(false);
 		this.reportList.add(itemProductivity);
-		// list.add(itemContainerOnMen);
+
+		final List<UserTask> tasks = this.taskDAO.listAllTask();
+		final List<ShipTotal> taskHoursList = this.statisticDAO.getTotalHoursByTask(year);
+
+		for (final UserTask userTask : tasks) {
+			final ReportItem itemTaskHour = new ReportItem();
+			itemTaskHour.setIsTaskROW(true);
+			itemTaskHour.setArgument(userTask.getCode());
+
+			// TASK HOURS
+			Double totalHours = 0.0;
+			Integer numberOfHoursNotNull = 0;
+
+			for (final ShipTotal shipTotal : taskHoursList) {
+
+				if (shipTotal.getTask_id().equals(userTask.getId())) {
+					if ((shipTotal.getTask_hour() != null) && !shipTotal.getTask_hour().equals(0.0)) {
+						totalHours += shipTotal.getTask_hour();
+						numberOfHoursNotNull++;
+					}
+
+					if (shipTotal.getMonth_date() == 1) {
+						itemTaskHour.setGen(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 2) {
+						itemTaskHour.setFeb(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 3) {
+						itemTaskHour.setMar(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 4) {
+						itemTaskHour.setApr(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 5) {
+						itemTaskHour.setMay(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 6) {
+						itemTaskHour.setJun(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 7) {
+						itemTaskHour.setJul(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 8) {
+						itemTaskHour.setAug(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 9) {
+						itemTaskHour.setSep(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 10) {
+						itemTaskHour.setOct(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 11) {
+						itemTaskHour.setNov(shipTotal.getTask_hour());
+					} else if (shipTotal.getMonth_date() == 12) {
+						itemTaskHour.setDec(shipTotal.getTask_hour());
+					}
+				}
+
+			}
+
+			// TASK HOURS
+			itemTaskHour.setTot(totalHours);
+
+			// MEDIA MENSILE ORE MANSIONI
+			if ((totalHours != null) && (numberOfHoursNotNull != 0)) {
+				itemTaskHour.setAvg(totalHours / numberOfHoursNotNull);
+			} else {
+				itemTaskHour.setAvg(0.0);
+			}
+
+			this.reportList.add(itemTaskHour);
+		}
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 

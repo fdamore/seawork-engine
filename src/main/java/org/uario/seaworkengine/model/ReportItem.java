@@ -16,6 +16,7 @@ public class ReportItem implements Serializable {
 	private Double				dec;
 	private Double				feb;
 	private Double				gen;
+	private Boolean				isTaskROW;
 	private Double				jul;
 	private Double				jun;
 	private Double				mar;
@@ -23,6 +24,7 @@ public class ReportItem implements Serializable {
 	private Double				nov;
 	private Double				oct;
 	private Double				sep;
+
 	private Double				tot;
 
 	public Double getApr() {
@@ -51,6 +53,10 @@ public class ReportItem implements Serializable {
 
 	public Double getGen() {
 		return this.gen;
+	}
+
+	public Boolean getIsTaskROW() {
+		return this.isTaskROW;
 	}
 
 	public Double getJul() {
@@ -111,6 +117,10 @@ public class ReportItem implements Serializable {
 
 	public void setGen(final Double gen) {
 		this.gen = gen;
+	}
+
+	public void setIsTaskROW(final Boolean isTaskROW) {
+		this.isTaskROW = isTaskROW;
 	}
 
 	public void setJul(final Double jul) {
