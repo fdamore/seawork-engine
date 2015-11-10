@@ -2326,7 +2326,7 @@
 						id="terminalProductivy">
 						
 						<listhead sizable="true">
-							<listheader label="" />
+							<listheader label="" width="150px"/>
 							<listheader label="Gennaio" />
 							<listheader label="Febbraio"  />
 							<listheader label="Marzo" />
@@ -2345,7 +2345,7 @@
 						
 						<listitem>
 							<listcell sclass="myBottonCell">
-								
+								<label value="Edita Prod. Terminal" />
 							</listcell>
 							<listcell sclass="myBottonCell">
 								<doublebox width="100%" id="tp_gen" constraint="no negative" />
@@ -2398,7 +2398,7 @@
 						id="reportListboxContainer">
 
 						<listhead sizable="true">
-							<listheader label="" />
+							<listheader label="" width="150px"/>
 							<listheader label="Gennaio" />
 							<listheader label="Febbraio"  />
 							<listheader label="Marzo" />
