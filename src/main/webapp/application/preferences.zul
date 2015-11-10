@@ -1095,7 +1095,7 @@
 									constraint="no negative, no zero" value="10">
 								</intbox>
 
-								<textbox placeholder="Cerca..."
+								<textbox placeholder="Cerca per codice..."
 									id="full_text_search_Service">
 								</textbox>
 
@@ -1111,7 +1111,7 @@
 								multiple="false" pageSize="20">
 								<listhead sizable="true">
 
-									<listheader label="Nome"
+									<listheader label="Codice"
 										sort="auto" />
 
 									<listheader label="Descrizione"

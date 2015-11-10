@@ -563,10 +563,27 @@ public class Preferences extends SelectorComposer<Component> {
 	public void deleteService() {
 		if (this.sw_list_service.getSelectedItem() != null) {
 			final Service serviceSelected = this.sw_list_service.getSelectedItem().getValue();
-			this.configurationDao.removeService(serviceSelected.getId());
-			this.refreshServiceList();
-		}
 
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+
+			final Messagebox.Button[] buttons = new Messagebox.Button[2];
+			buttons[0] = Messagebox.Button.OK;
+			buttons[1] = Messagebox.Button.CANCEL;
+
+			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					new EventListener() {
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								Preferences.this.configurationDao.removeService(serviceSelected.getId());
+								Preferences.this.refreshServiceList();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
+						}
+					}, params);
+		}
 	}
 
 	private void deleteShift() {
