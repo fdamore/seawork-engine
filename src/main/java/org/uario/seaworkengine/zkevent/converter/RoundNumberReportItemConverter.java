@@ -36,7 +36,8 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 
 		final String tag = (String) list.get("tag");
 
-		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.Hands)) {
+		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_SWS)
+				|| source.getArgument().equals(ReportItemTag.ContainerRZ_TW_MCT) || source.getArgument().equals(ReportItemTag.Hands)) {
 			Integer value = 0;
 			if (tag.equals("argument")) {
 				return source.getArgument();

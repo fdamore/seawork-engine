@@ -10,6 +10,8 @@ public class ShipTotal implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	private Double				containerInvoice;
+	private Double				containerRZ_TW_MCT;
+	private Double				containerRZ_TW_SWS;
 	private Double				handswork;
 
 	private Integer				invoice_month;
@@ -26,6 +28,14 @@ public class ShipTotal implements Serializable {
 
 	public Double getContainerInvoice() {
 		return this.containerInvoice;
+	}
+
+	public Double getContainerRZ_TW_MCT() {
+		return this.containerRZ_TW_MCT;
+	}
+
+	public Double getContainerRZ_TW_SWS() {
+		return this.containerRZ_TW_SWS;
 	}
 
 	public Double getHandswork() {
@@ -66,6 +76,14 @@ public class ShipTotal implements Serializable {
 
 	public void setContainerInvoice(final Double containerInvoice) {
 		this.containerInvoice = containerInvoice;
+	}
+
+	public void setContainerRZ_TW_MCT(final Double containerRZ_TW_MCT) {
+		this.containerRZ_TW_MCT = containerRZ_TW_MCT;
+	}
+
+	public void setContainerRZ_TW_SWS(final Double containerRZ_TW_SWS) {
+		this.containerRZ_TW_SWS = containerRZ_TW_SWS;
 	}
 
 	public void setHandswork(final Double handswork) {

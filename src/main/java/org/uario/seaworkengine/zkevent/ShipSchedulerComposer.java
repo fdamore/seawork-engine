@@ -2877,6 +2877,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		final ReportItem itemContainer = new ReportItem();
 		itemContainer.setArgument(ReportItemTag.Containers);
+		final ReportItem itemRZ_TW_SWS = new ReportItem();
+		itemRZ_TW_SWS.setArgument(ReportItemTag.ContainerRZ_TW_SWS);
+		final ReportItem itemRZ_TW_MCT = new ReportItem();
+		itemRZ_TW_MCT.setArgument(ReportItemTag.ContainerRZ_TW_MCT);
 		final ReportItem itemHands = new ReportItem();
 		itemHands.setArgument(ReportItemTag.Hands);
 		final ReportItem itemHandsOnDays = new ReportItem();
@@ -2895,6 +2899,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// CONTAINER FATTURATI
 		Double totalContainer = 0.0;
 		Integer numberOfContainerNotNull = 0;
+		Double totalContainerRZ_TW_SWS = 0.0;
+		Integer numberOfContainerRZ_TW_SWSNotNull = 0;
+		Double totalContainerRZ_TW_MCT = 0.0;
+		Integer numberOfContainerRZ_TW_MCTNotNull = 0;
 
 		for (final ShipTotal shipTotal : containerList) {
 
@@ -2903,34 +2911,68 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				numberOfContainerNotNull++;
 			}
 
-			if (shipTotal.getMonthInvoice() == 1) {
-				itemContainer.setGen(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 2) {
-				itemContainer.setFeb(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 3) {
-				itemContainer.setMar(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 4) {
-				itemContainer.setApr(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 5) {
-				itemContainer.setMay(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 6) {
-				itemContainer.setJun(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 7) {
-				itemContainer.setJul(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 8) {
-				itemContainer.setAug(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 9) {
-				itemContainer.setSep(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 10) {
-				itemContainer.setOct(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 11) {
-				itemContainer.setNov(shipTotal.getContainerInvoice());
-			} else if (shipTotal.getMonthInvoice() == 12) {
-				itemContainer.setDec(shipTotal.getContainerInvoice());
+			if ((shipTotal.getContainerRZ_TW_SWS() != null) && !shipTotal.getContainerRZ_TW_SWS().equals(0.0)) {
+				totalContainerRZ_TW_SWS += shipTotal.getContainerRZ_TW_SWS();
+				numberOfContainerRZ_TW_SWSNotNull++;
 			}
 
+			if ((shipTotal.getContainerRZ_TW_MCT() != null) && !shipTotal.getContainerRZ_TW_MCT().equals(0.0)) {
+				totalContainerRZ_TW_MCT += shipTotal.getContainerRZ_TW_MCT();
+				numberOfContainerRZ_TW_MCTNotNull++;
+			}
+
+			if (shipTotal.getMonthInvoice() == 1) {
+				itemContainer.setGen(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setGen(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setGen(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 2) {
+				itemContainer.setFeb(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setFeb(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setFeb(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 3) {
+				itemContainer.setMar(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setMar(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setMar(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 4) {
+				itemContainer.setApr(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setApr(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setApr(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 5) {
+				itemContainer.setMay(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setMay(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setMay(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 6) {
+				itemContainer.setJun(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setJun(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setJun(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 7) {
+				itemContainer.setJul(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setJul(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setJul(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 8) {
+				itemContainer.setAug(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setAug(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setAug(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 9) {
+				itemContainer.setSep(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setSep(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setSep(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 10) {
+				itemContainer.setOct(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setOct(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setOct(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 11) {
+				itemContainer.setNov(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setNov(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setNov(shipTotal.getContainerRZ_TW_MCT());
+			} else if (shipTotal.getMonthInvoice() == 12) {
+				itemContainer.setDec(shipTotal.getContainerInvoice());
+				itemRZ_TW_SWS.setDec(shipTotal.getContainerRZ_TW_SWS());
+				itemRZ_TW_MCT.setDec(shipTotal.getContainerRZ_TW_MCT());
+			}
 		}
 
+		// CONTAINER
 		itemContainer.setTot(totalContainer);
 
 		// MEDIA MENSILE CONTAINER
@@ -2938,6 +2980,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			itemContainer.setAvg(totalContainer / numberOfContainerNotNull);
 		} else {
 			itemContainer.setAvg(0.0);
+		}
+
+		// CONTAINER RZ_TW_SWS
+		itemRZ_TW_SWS.setTot(totalContainerRZ_TW_SWS);
+
+		// MEDIA MENSILE CONTAINER RZ_TW_SWS
+		if ((totalContainerRZ_TW_SWS != null) && (numberOfContainerRZ_TW_SWSNotNull != 0)) {
+			itemRZ_TW_SWS.setAvg(totalContainerRZ_TW_SWS / numberOfContainerRZ_TW_SWSNotNull);
+		} else {
+			itemRZ_TW_SWS.setAvg(0.0);
+		}
+
+		// CONTAINER RZ_TW_SWS
+		itemRZ_TW_MCT.setTot(totalContainerRZ_TW_MCT);
+
+		// MEDIA MENSILE CONTAINER RZ_TW_SWS
+		if ((totalContainerRZ_TW_MCT != null) && (numberOfContainerRZ_TW_MCTNotNull != 0)) {
+			itemRZ_TW_MCT.setAvg(totalContainerRZ_TW_MCT / numberOfContainerRZ_TW_MCTNotNull);
+		} else {
+			itemRZ_TW_MCT.setAvg(0.0);
 		}
 
 		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO
@@ -3264,6 +3326,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.reportList.add(itemContainer);
+		this.reportList.add(itemRZ_TW_SWS);
+		this.reportList.add(itemRZ_TW_MCT);
 		this.reportList.add(itemHands);
 		this.reportList.add(itemHandsOnDays);
 		this.reportList.add(itemMenOnHand);
