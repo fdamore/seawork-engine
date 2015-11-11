@@ -9,6 +9,8 @@ public interface ReportItemTag {
 
 	public static String	Containers			= "RZ Volumi";
 
+	public static String	ContainersOnHours	= "Container/ora";
+
 	public static String	ContainersOnMen		= "Container/uomo";
 
 	public static String	Hands				= "Totale Mani";

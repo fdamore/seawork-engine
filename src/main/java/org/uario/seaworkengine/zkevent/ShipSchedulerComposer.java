@@ -2894,6 +2894,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final ReportItem totalHoursRZ_PP_task = new ReportItem();
 		final ReportItem itemMenOnHand = new ReportItem();
 		itemMenOnHand.setArgument(ReportItemTag.MenOnHands);
+		final ReportItem itemContainerOnHours = new ReportItem();
+		itemContainerOnHours.setArgument(ReportItemTag.ContainersOnHours);
 		final ReportItem itemProductivity = new ReportItem();
 		itemProductivity.setArgument(ReportItemTag.Productivity);
 		final ReportItem itemContainerOnMen = new ReportItem();
@@ -3169,8 +3171,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setGen(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getGen() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setGen((itemContainer.getGen() + itemRZ_TW_SWS.getGen()) / sumHourRZ_PP);
+							itemContainerOnHours.setGen(((itemContainer.getGen() + itemRZ_TW_SWS.getGen()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setGen(itemRZ_TW_SWS.getGen());
+							itemContainerOnHours.setGen(0.0);
 						}
 					} else {
 						itemMenOnHand.setGen(0.0);
@@ -3197,8 +3201,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setFeb(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getFeb() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setFeb((itemContainer.getFeb() + itemRZ_TW_SWS.getFeb()) / sumHourRZ_PP);
+							itemContainerOnHours.setFeb(((itemContainer.getFeb() + itemRZ_TW_SWS.getFeb()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setFeb(itemRZ_TW_SWS.getFeb());
+							itemContainerOnHours.setFeb(0.0);
 						}
 					} else {
 						itemMenOnHand.setFeb(0.0);
@@ -3224,8 +3230,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setMar(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getMar() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setMar((itemContainer.getMar() + itemRZ_TW_SWS.getMar()) / sumHourRZ_PP);
+							itemContainerOnHours.setMar(((itemContainer.getMar() + itemRZ_TW_SWS.getMar()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setMar(itemRZ_TW_SWS.getMar());
+							itemContainerOnHours.setMar(0.0);
 						}
 					} else {
 						itemMenOnHand.setMar(0.0);
@@ -3251,8 +3259,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setApr(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getApr() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setApr((itemContainer.getApr() + itemRZ_TW_SWS.getApr()) / sumHourRZ_PP);
+							itemContainerOnHours.setApr(((itemContainer.getApr() + itemRZ_TW_SWS.getApr()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setApr(itemRZ_TW_SWS.getApr());
+							itemContainerOnHours.setApr(0.0);
 						}
 					} else {
 						itemMenOnHand.setApr(0.0);
@@ -3277,8 +3287,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setMay(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getMay() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setMay((itemContainer.getMay() + itemRZ_TW_SWS.getMay()) / sumHourRZ_PP);
+							itemContainerOnHours.setMay(((itemContainer.getMay() + itemRZ_TW_SWS.getMay()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setMay(itemRZ_TW_SWS.getMay());
+							itemContainerOnHours.setMay(0.0);
 						}
 					} else {
 						itemMenOnHand.setMay(0.0);
@@ -3303,8 +3315,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setJun(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getJun() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setJun((itemContainer.getJun() + itemRZ_TW_SWS.getJun()) / sumHourRZ_PP);
+							itemContainerOnHours.setJun(((itemContainer.getJun() + itemRZ_TW_SWS.getJun()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setJun(itemRZ_TW_SWS.getJun());
+							itemContainerOnHours.setJun(0.0);
 						}
 					} else {
 						itemMenOnHand.setJun(0.0);
@@ -3329,8 +3343,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setJul(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getJul() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setJul((itemContainer.getJul() + itemRZ_TW_SWS.getJul()) / sumHourRZ_PP);
+							itemContainerOnHours.setJul(((itemContainer.getJul() + itemRZ_TW_SWS.getJul()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setJul(itemRZ_TW_SWS.getJul());
+							itemContainerOnHours.setJul(0.0);
 						}
 					} else {
 						itemMenOnHand.setJul(0.0);
@@ -3355,8 +3371,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setAug(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getAug() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setAug((itemContainer.getAug() + itemRZ_TW_SWS.getAug()) / sumHourRZ_PP);
+							itemContainerOnHours.setAug(((itemContainer.getAug() + itemRZ_TW_SWS.getAug()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setAug(itemRZ_TW_SWS.getAug());
+							itemContainerOnHours.setAug(0.0);
 						}
 					} else {
 						itemMenOnHand.setAug(0.0);
@@ -3380,8 +3398,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setSep(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getSep() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setSep((itemContainer.getSep() + itemRZ_TW_SWS.getSep()) / sumHourRZ_PP);
+							itemContainerOnHours.setSep(((itemContainer.getSep() + itemRZ_TW_SWS.getSep()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setSep(itemRZ_TW_SWS.getSep());
+							itemContainerOnHours.setSep(0.0);
 						}
 					} else {
 						itemMenOnHand.setSep(0.0);
@@ -3406,8 +3426,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setOct(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getOct() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setOct((itemContainer.getOct() + itemRZ_TW_SWS.getOct()) / sumHourRZ_PP);
+							itemContainerOnHours.setOct(((itemContainer.getOct() + itemRZ_TW_SWS.getOct()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setOct(itemRZ_TW_SWS.getOct());
+							itemContainerOnHours.setOct(0.0);
 						}
 					} else {
 						itemMenOnHand.setOct(0.0);
@@ -3432,8 +3454,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setNov(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getNov() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setNov((itemContainer.getNov() + itemRZ_TW_SWS.getNov()) / sumHourRZ_PP);
+							itemContainerOnHours.setNov(((itemContainer.getNov() + itemRZ_TW_SWS.getNov()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setNov(itemRZ_TW_SWS.getNov());
+							itemContainerOnHours.setNov(0.0);
 						}
 					} else {
 						itemMenOnHand.setNov(0.0);
@@ -3458,8 +3482,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setDec(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						if ((itemContainer.getDec() != null) && (sumHourRZ_PP != 0)) {
 							itemContainerOnMen.setDec((itemContainer.getDec() + itemRZ_TW_SWS.getDec()) / sumHourRZ_PP);
+							itemContainerOnHours.setDec(((itemContainer.getDec() + itemRZ_TW_SWS.getDec()) / shipTotal.getHandswork() / 6));
 						} else {
 							itemContainerOnMen.setDec(itemRZ_TW_SWS.getDec());
+							itemContainerOnHours.setDec(0.0);
 						}
 					} else {
 						itemMenOnHand.setDec(0.0);
@@ -3477,6 +3503,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		itemHandsOnDays.setAvg(null);
 		itemMenOnHand.setAvg(null);
+		itemContainerOnMen.setAvg(null);
+		itemContainerOnMen.setTot(0.0);
+		itemContainerOnHours.setAvg(null);
 
 		this.reportList.add(0, itemContainer);
 		this.reportList.add(1, itemRZ_TW_SWS);
@@ -3485,7 +3514,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.reportList.add(4, itemHandsOnDays);
 		this.reportList.add(5, itemMenOnHand);
 		this.reportList.add(6, itemContainerOnMen);
-		this.reportList.add(7, itemProductivity);
+		this.reportList.add(7, itemContainerOnHours);
+		this.reportList.add(8, itemProductivity);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 
