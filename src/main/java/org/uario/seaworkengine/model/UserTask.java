@@ -10,32 +10,36 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private Boolean changeshift;
+	private Boolean				changeshift;
 
-	private String code;
+	private String				code;
 
-	private Boolean delayoperation;
+	private Boolean				delayoperation;
 
-	private String description;
+	private String				description;
 
-	private Boolean endoperation;
+	private Boolean				endoperation;
 
-	private Boolean hiddentask;
+	private Boolean				hiddentask;
 
-	private Integer id;
+	private Integer				id;
 
-	private Boolean isabsence;
+	private Boolean				isabsence;
 
-	private Boolean justificatory;
+	private Boolean				isPP;
 
-	private Boolean overflow;
+	private Boolean				isRZ;
 
-	private Boolean recorded;
+	private Boolean				justificatory;
+
+	private Boolean				overflow;
+
+	private Boolean				recorded;
 
 	// used in join with user
-	private Boolean task_default;
+	private Boolean				task_default;
 
 	@Override
 	public int compareTo(final UserTask o) {
@@ -112,6 +116,14 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.isabsence;
 	}
 
+	public Boolean getIsPP() {
+		return this.isPP;
+	}
+
+	public Boolean getIsRZ() {
+		return this.isRZ;
+	}
+
 	public Boolean getJustificatory() {
 		return this.justificatory;
 	}
@@ -161,6 +173,14 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setIsabsence(final Boolean isabsence) {
 		this.isabsence = isabsence;
+	}
+
+	public void setIsPP(final Boolean isPP) {
+		this.isPP = isPP;
+	}
+
+	public void setIsRZ(final Boolean isRZ) {
+		this.isRZ = isRZ;
 	}
 
 	public void setJustificatory(final Boolean justificatory) {

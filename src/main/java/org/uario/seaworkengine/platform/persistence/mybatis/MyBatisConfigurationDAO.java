@@ -200,9 +200,21 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public UserTask loadPPTask() {
+		MyBatisConfigurationDAO.logger.info("loadPPTask");
+		return this.getSqlSession().selectOne("configuration.loadPPTask");
+	}
+
+	@Override
 	public Service loadRZService() {
 		MyBatisConfigurationDAO.logger.info("loadRZService");
 		return this.getSqlSession().selectOne("configuration.loadRZService");
+	}
+
+	@Override
+	public UserTask loadRZTask() {
+		MyBatisConfigurationDAO.logger.info("loadRZTask");
+		return this.getSqlSession().selectOne("configuration.loadRZTask");
 	}
 
 	@Override

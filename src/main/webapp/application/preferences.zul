@@ -286,6 +286,24 @@
 												</row>
 												
 												<row
+													id="row_isRZ_task">
+													<label
+														value="Mansione di Rizzaggio:">
+													</label>
+													<checkbox
+														id="isRZ_task" onCheck="isPP_task.setChecked(false);"/>
+												</row>
+												
+												<row
+													id="row_isPP_task">
+													<label
+														value="Mansione di Preposto Piazzale:">
+													</label>
+													<checkbox
+														id="isPP_task" onCheck="isRZ_task.setChecked(false);"/>
+												</row>
+												
+												<row
 													id="row_hidden_task">
 													<label
 														value="Nascosto al preposto (non visibile in App e Stampa Preposto): ">
@@ -370,6 +388,8 @@
 									<listheader label="Fine Operazione (App Mobile)" sort="auto(endoperation)" />
 									<listheader label="Esubero (App Mobile)" sort="auto(overflow)" />
 									<listheader label="Ritardo (App Mobile)" sort="auto(delayoperation)" />
+									<listheader label="Rizzaggio" sort="auto(isRZ)" />
+									<listheader label="Preposto" sort="auto(isPP)" />
 									<listheader label="Nascosto al preposto" sort="auto(hiddentask)"/>
 									<listheader label="" />
 
@@ -424,6 +444,18 @@
 
 										<image
 											src="@{task_item.delayoperation, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+
+										<image
+											src="@{task_item.isRZ, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+
+										<image
+											src="@{task_item.isPP, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 									
 									<listcell style="text-align: center" sclass="myBottonCell">

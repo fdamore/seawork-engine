@@ -17,9 +17,21 @@
 		code,
 		description, isabsence, recorded,
 		overflow, endoperation,
-		delayoperation, changeshift, hiddentask, justificatory 
+		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP 
 		FROM usertask
 		WHERE id=#{id} order by code asc;
+	</select>
+	
+	<select id="loadRZTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM usertask 
+		WHERE isRZ=1;
+	</select>
+	
+	<select id="loadPPTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM usertask 
+		WHERE isPP=1;
 	</select>
 
 	<select id="loadAllShiftCode" resultType="String">
@@ -48,7 +60,9 @@
 		t.changeshift,
 		t.delayoperation, 
 		t.hiddentask, 
-		t.justificatory  
+		t.justificatory, 
+		t.isRZ, 
+		t.isPP   
 		FROM usertask t
 		WHERE t.hiddentask = 1 order by t.code asc;
 	</select>
@@ -64,7 +78,9 @@
 		t.changeshift,
 		t.delayoperation, 
 		t.hiddentask, 
-		t.justificatory  
+		t.justificatory,
+		t.isRZ, 
+		t.isPP    
 		FROM usertask t
 		WHERE t.isabsence = 0 and t.justificatory = 0 order by t.code asc;
 	</select>
@@ -80,7 +96,9 @@
 		t.changeshift,
 		t.delayoperation, 
 		t.hiddentask, 
-		t.justificatory  
+		t.justificatory,
+		t.isRZ, 
+		t.isPP   
 		FROM usertask t
 		WHERE t.justificatory = 1 
 		order by t.code asc;
@@ -97,7 +115,9 @@
 		t.changeshift,
 		t.delayoperation, 
 		t.hiddentask, 
-		t.justificatory  
+		t.justificatory,
+		t.isRZ, 
+		t.isPP   
 		FROM usertask t
 		WHERE t.isabsence = 1 
 		order by t.code asc;
@@ -109,7 +129,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask , justificatory 
+		overflow, delayoperation, changeshift, hiddentask , justificatory, isRZ, isPP  
 		FROM usertask
 		order by description;
 
@@ -120,7 +140,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask, justificatory 
+		overflow, delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP   
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -183,12 +203,12 @@
 		INSERT INTO usertask
 		(code,
 		description, isabsence, recorded, endoperation, overflow,
-		delayoperation, changeshift, hiddentask, justificatory)
+		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP)
 		VALUES
 		(#{code},#{description},
 		#{isabsence},
 		#{recorded}, #{endoperation}, #{overflow},
-		#{delayoperation}, #{changeshift}, #{hiddentask}, #{justificatory});
+		#{delayoperation}, #{changeshift}, #{hiddentask}, #{justificatory}, #{isRZ}, #{isPP});
 
 	</insert>
 
@@ -222,9 +242,10 @@
 		delayoperation = #{delayoperation},
 		changeshift = #{changeshift}, 
 		hiddentask = #{hiddentask}, 
-		justificatory = #{justificatory} 
+		justificatory = #{justificatory}, 
+		isRZ = #{isRZ}, 
+		isPP = #{isPP} 
 		WHERE id = #{id}
-
 	</update>
 
 	<update id="updateShift" parameterType="org.uario.seaworkengine.model.UserShift">

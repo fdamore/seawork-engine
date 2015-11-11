@@ -139,7 +139,13 @@ public class Preferences extends SelectorComposer<Component> {
 	private Checkbox			isabsence_task;
 
 	@Wire
+	private Checkbox			isPP_task;
+
+	@Wire
 	private Checkbox			isRZ;
+
+	@Wire
+	private Checkbox			isRZ_task;
 
 	private IJobCost			jobCostDao;
 
@@ -221,6 +227,10 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox				sw_list_task;
+
+	private UserTask			taskAdded;
+
+	private UserTask			taskUpdated;
 
 	@Wire
 	private Combobox			type_shift;
@@ -455,7 +465,7 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onClick = #add_tasks_command")
 	public void addTask() {
 
-		final UserTask task = new UserTask();
+		this.taskAdded = new UserTask();
 
 		// check if user code is present in table
 		if (this.checkIfUserCodeIsPresent(this.configurationDao.loadAllTaskCode(), this.code_task.getValue().toUpperCase())) {
@@ -507,25 +517,16 @@ public class Preferences extends SelectorComposer<Component> {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
-							if (Preferences.this.selectedOptionMobileTask == 1) {
-								Preferences.this.configurationDao.removeAllOverflowTasks();
-							} else if (Preferences.this.selectedOptionMobileTask == 2) {
-								Preferences.this.configurationDao.removeAllEndoperationTasks();
-							} else if (Preferences.this.selectedOptionMobileTask == 3) {
-								Preferences.this.configurationDao.removeAllDelayOperationTasks();
-							} else if (Preferences.this.selectedOptionMobileTask == 4) {
-								Preferences.this.configurationDao.removeAllChangeshiftTasks();
-							}
-
-							Preferences.this.createTask(task);
-
+							Preferences.this.checkRZ_PPTask_add();
+							return;
 						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 							return;
 						}
 					}
 				}, params);
 			} else {
-				this.createTask(task);
+				this.checkRZ_PPTask_add();
+				return;
 			}
 
 		}
@@ -549,6 +550,329 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 
 		return false;
+
+	}
+
+	public void checkRZ_PPTask_add() {
+
+		UserTask userTask = null;
+
+		if (this.isRZ_task.isChecked()) {
+			userTask = this.configurationDao.loadRZTask();
+
+			if (userTask != null) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.CANCEL;
+
+				Messagebox.show("La mansione di Rizzaggio è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
+						Messagebox.EXCLAMATION, null, new EventListener() {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									if (Preferences.this.selectedOptionMobileTask == 1) {
+										Preferences.this.configurationDao.removeAllOverflowTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 2) {
+										Preferences.this.configurationDao.removeAllEndoperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 3) {
+										Preferences.this.configurationDao.removeAllDelayOperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 4) {
+										Preferences.this.configurationDao.removeAllChangeshiftTasks();
+									}
+									final UserTask userTask = Preferences.this.configurationDao.loadRZTask();
+									userTask.setIsRZ(false);
+									userTask.setIsPP(false);
+									Preferences.this.configurationDao.updateTask(userTask);
+									Preferences.this.taskAdded.setIsRZ(true);
+									Preferences.this.taskAdded.setIsPP(false);
+									Preferences.this.createTask(Preferences.this.taskAdded);
+									return;
+
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
+				return;
+			} else {
+				if (Preferences.this.selectedOptionMobileTask == 1) {
+					Preferences.this.configurationDao.removeAllOverflowTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 2) {
+					Preferences.this.configurationDao.removeAllEndoperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 3) {
+					Preferences.this.configurationDao.removeAllDelayOperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 4) {
+					Preferences.this.configurationDao.removeAllChangeshiftTasks();
+				}
+				Preferences.this.taskAdded.setIsRZ(this.isRZ_task.isChecked());
+				Preferences.this.taskAdded.setIsPP(this.isPP_task.isChecked());
+				Preferences.this.createTask(Preferences.this.taskAdded);
+				return;
+			}
+
+		} else if (this.isPP_task.isChecked()) {
+			userTask = this.configurationDao.loadPPTask();
+
+			if (userTask != null) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.CANCEL;
+
+				Messagebox.show("La mansione di Preposto Piazzale è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
+						Messagebox.EXCLAMATION, null, new EventListener() {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									if (Preferences.this.selectedOptionMobileTask == 1) {
+										Preferences.this.configurationDao.removeAllOverflowTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 2) {
+										Preferences.this.configurationDao.removeAllEndoperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 3) {
+										Preferences.this.configurationDao.removeAllDelayOperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 4) {
+										Preferences.this.configurationDao.removeAllChangeshiftTasks();
+									}
+									final UserTask userTask = Preferences.this.configurationDao.loadPPTask();
+									userTask.setIsPP(false);
+									userTask.setIsRZ(false);
+									Preferences.this.configurationDao.updateTask(userTask);
+									Preferences.this.taskAdded.setIsPP(true);
+									Preferences.this.taskAdded.setIsRZ(false);
+									Preferences.this.createTask(Preferences.this.taskAdded);
+									return;
+
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
+				return;
+			} else {
+				if (Preferences.this.selectedOptionMobileTask == 1) {
+					Preferences.this.configurationDao.removeAllOverflowTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 2) {
+					Preferences.this.configurationDao.removeAllEndoperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 3) {
+					Preferences.this.configurationDao.removeAllDelayOperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 4) {
+					Preferences.this.configurationDao.removeAllChangeshiftTasks();
+				}
+				Preferences.this.taskAdded.setIsRZ(this.isRZ_task.isChecked());
+				Preferences.this.taskAdded.setIsPP(this.isPP_task.isChecked());
+				Preferences.this.createTask(Preferences.this.taskAdded);
+				return;
+			}
+		}
+
+		if (Preferences.this.selectedOptionMobileTask == 1) {
+			Preferences.this.configurationDao.removeAllOverflowTasks();
+		} else if (Preferences.this.selectedOptionMobileTask == 2) {
+			Preferences.this.configurationDao.removeAllEndoperationTasks();
+		} else if (Preferences.this.selectedOptionMobileTask == 3) {
+			Preferences.this.configurationDao.removeAllDelayOperationTasks();
+		} else if (Preferences.this.selectedOptionMobileTask == 4) {
+			Preferences.this.configurationDao.removeAllChangeshiftTasks();
+		}
+		this.taskAdded.setIsPP(false);
+		this.taskAdded.setIsRZ(false);
+		Preferences.this.createTask(Preferences.this.taskAdded);
+
+	}
+
+	public void checkRZ_PPTask_modify() {
+
+		UserTask userTask = null;
+		final UserTask userTaskRZ = this.configurationDao.loadRZTask();
+		final UserTask userTaskPP = this.configurationDao.loadPPTask();
+
+		if (this.isRZ_task.isChecked()) {
+			userTask = this.configurationDao.loadRZTask();
+
+			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId()) && this.taskUpdated.getIsPP()) {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons, null, Messagebox.EXCLAMATION,
+						null, null, params);
+				return;
+			}
+
+			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId())) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.CANCEL;
+
+				Messagebox.show("La mansione di Rizzaggio è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
+						Messagebox.EXCLAMATION, null, new EventListener() {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									if (Preferences.this.selectedOptionMobileTask == 1) {
+										Preferences.this.configurationDao.removeAllOverflowTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 2) {
+										Preferences.this.configurationDao.removeAllEndoperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 3) {
+										Preferences.this.configurationDao.removeAllDelayOperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 4) {
+										Preferences.this.configurationDao.removeAllChangeshiftTasks();
+									}
+									final UserTask userTask = Preferences.this.configurationDao.loadRZTask();
+									userTask.setIsRZ(false);
+									userTask.setIsPP(false);
+									Preferences.this.configurationDao.updateTask(userTask);
+
+									if (Preferences.this.selectedOptionMobileTask == 1) {
+										Preferences.this.configurationDao.removeAllOverflowTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 2) {
+										Preferences.this.configurationDao.removeAllEndoperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 3) {
+										Preferences.this.configurationDao.removeAllDelayOperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 4) {
+										Preferences.this.configurationDao.removeAllChangeshiftTasks();
+									}
+									Preferences.this.taskUpdated.setIsRZ(true);
+									Preferences.this.taskUpdated.setIsPP(false);
+									Preferences.this.updateTask(Preferences.this.taskUpdated);
+
+									return;
+
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
+				return;
+			} else {
+				if (Preferences.this.selectedOptionMobileTask == 1) {
+					Preferences.this.configurationDao.removeAllOverflowTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 2) {
+					Preferences.this.configurationDao.removeAllEndoperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 3) {
+					Preferences.this.configurationDao.removeAllDelayOperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 4) {
+					Preferences.this.configurationDao.removeAllChangeshiftTasks();
+				}
+				this.taskUpdated.setIsRZ(this.isRZ_task.isChecked());
+				this.taskUpdated.setIsPP(this.isPP_task.isChecked());
+				Preferences.this.updateTask(this.taskUpdated);
+				return;
+			}
+
+		} else if (!this.isRZ_task.isChecked() && (userTaskRZ != null) && userTaskRZ.getId().equals(this.taskUpdated.getId())) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Impossibile procedere, riassegnare mansione di rizzaggio.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
+			this.isRZ_task.setChecked(true);
+			this.isPP_task.setChecked(false);
+			return;
+		} else if (this.isPP_task.isChecked()) {
+			userTask = this.configurationDao.loadPPTask();
+
+			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId()) && this.taskUpdated.getIsRZ()) {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Impossibile procedere, riassegnare mansione di rizzaggio.", "Error", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
+
+				return;
+			}
+
+			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId())) {
+				final Map<String, String> params = new HashMap();
+				params.put("sclass", "mybutton Button");
+
+				final Messagebox.Button[] buttons = new Messagebox.Button[2];
+				buttons[0] = Messagebox.Button.OK;
+				buttons[1] = Messagebox.Button.CANCEL;
+
+				Messagebox.show("La mansione di Preposto Piazzale è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
+						Messagebox.EXCLAMATION, null, new EventListener() {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									final UserTask userTask = Preferences.this.configurationDao.loadPPTask();
+									userTask.setIsRZ(false);
+									userTask.setIsPP(false);
+									Preferences.this.configurationDao.updateTask(userTask);
+
+									if (Preferences.this.selectedOptionMobileTask == 1) {
+										Preferences.this.configurationDao.removeAllOverflowTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 2) {
+										Preferences.this.configurationDao.removeAllEndoperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 3) {
+										Preferences.this.configurationDao.removeAllDelayOperationTasks();
+									} else if (Preferences.this.selectedOptionMobileTask == 4) {
+										Preferences.this.configurationDao.removeAllChangeshiftTasks();
+									}
+									Preferences.this.taskUpdated.setIsRZ(false);
+									Preferences.this.taskUpdated.setIsPP(true);
+									Preferences.this.updateTask(Preferences.this.taskUpdated);
+									return;
+
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
+				return;
+			} else {
+				if (Preferences.this.selectedOptionMobileTask == 1) {
+					Preferences.this.configurationDao.removeAllOverflowTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 2) {
+					Preferences.this.configurationDao.removeAllEndoperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 3) {
+					Preferences.this.configurationDao.removeAllDelayOperationTasks();
+				} else if (Preferences.this.selectedOptionMobileTask == 4) {
+					Preferences.this.configurationDao.removeAllChangeshiftTasks();
+				}
+				this.taskUpdated.setIsRZ(this.isRZ_task.isChecked());
+				this.taskUpdated.setIsPP(this.isPP_task.isChecked());
+				this.updateTask(this.taskUpdated);
+				return;
+			}
+		} else if (!this.isPP_task.isChecked() && (userTaskPP != null) && userTaskPP.getId().equals(this.taskUpdated.getId())) {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
+			this.isPP_task.setChecked(true);
+			this.isRZ_task.setChecked(false);
+			return;
+		}
+
+		if (Preferences.this.selectedOptionMobileTask == 1) {
+			Preferences.this.configurationDao.removeAllOverflowTasks();
+		} else if (Preferences.this.selectedOptionMobileTask == 2) {
+			Preferences.this.configurationDao.removeAllEndoperationTasks();
+		} else if (Preferences.this.selectedOptionMobileTask == 3) {
+			Preferences.this.configurationDao.removeAllDelayOperationTasks();
+		} else if (Preferences.this.selectedOptionMobileTask == 4) {
+			Preferences.this.configurationDao.removeAllChangeshiftTasks();
+		}
+		this.taskUpdated.setIsRZ(this.isRZ_task.isChecked());
+		this.taskUpdated.setIsPP(this.isPP_task.isChecked());
+		this.updateTask(this.taskUpdated);
 
 	}
 
@@ -1079,6 +1403,8 @@ public class Preferences extends SelectorComposer<Component> {
 		this.changeshift_task.setChecked(task.getChangeshift());
 		this.recorded_task.setChecked(task.getRecorded());
 		this.hidden_task.setChecked(task.getHiddentask());
+		this.isRZ_task.setChecked(task.getIsRZ());
+		this.isPP_task.setChecked(task.getIsPP());
 
 	}
 
@@ -1089,10 +1415,10 @@ public class Preferences extends SelectorComposer<Component> {
 			return;
 		}
 
-		final UserTask task = this.sw_list_task.getSelectedItem().getValue();
+		this.taskUpdated = this.sw_list_task.getSelectedItem().getValue();
 		final List<String> listTaskCode = this.configurationDao.loadAllTaskCode();
-		if (task.getCode().toUpperCase().equals(this.code_task.getValue().toUpperCase())) {
-			listTaskCode.remove(task.getCode());
+		if (this.taskUpdated.getCode().toUpperCase().equals(this.code_task.getValue().toUpperCase())) {
+			listTaskCode.remove(this.taskUpdated.getCode());
 		}
 
 		if (this.checkIfUserCodeIsPresent(listTaskCode, this.code_task.getValue().toUpperCase())) {
@@ -1113,23 +1439,25 @@ public class Preferences extends SelectorComposer<Component> {
 			final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
 			final UserTask actualChangeshiftTask = this.configurationDao.getChangeshiftTask();
 
-			if (this.overflow_task.isChecked() && (actualOverFlowTask != null) && (!actualOverFlowTask.getId().equals(task.getId()))) {
+			if (this.overflow_task.isChecked() && (actualOverFlowTask != null) && (!actualOverFlowTask.getId().equals(this.taskUpdated.getId()))) {
 				alertMessage = "Mansione di Esubero per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 1;
 			}
 
-			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null) && (!actualEndOperationTask.getId().equals(task.getId()))) {
+			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null)
+					&& (!actualEndOperationTask.getId().equals(this.taskUpdated.getId()))) {
 				alertMessage = "Mansione di Fine operazione per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 2;
 			}
 
 			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)
-					&& (!actualDelayOperationTask.getId().equals(task.getId()))) {
+					&& (!actualDelayOperationTask.getId().equals(this.taskUpdated.getId()))) {
 				alertMessage = "Mansione di Ritado per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 3;
 			}
 
-			if (this.changeshift_task.isChecked() && (actualChangeshiftTask != null) && (!actualChangeshiftTask.getId().equals(task.getId()))) {
+			if (this.changeshift_task.isChecked() && (actualChangeshiftTask != null)
+					&& (!actualChangeshiftTask.getId().equals(this.taskUpdated.getId()))) {
 				alertMessage = "Mansione di Cambio Turno per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 4;
 			}
@@ -1146,25 +1474,15 @@ public class Preferences extends SelectorComposer<Component> {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
-							if (Preferences.this.selectedOptionMobileTask == 1) {
-								Preferences.this.configurationDao.removeAllOverflowTasks();
-							} else if (Preferences.this.selectedOptionMobileTask == 2) {
-								Preferences.this.configurationDao.removeAllEndoperationTasks();
-							} else if (Preferences.this.selectedOptionMobileTask == 3) {
-								Preferences.this.configurationDao.removeAllDelayOperationTasks();
-							} else if (Preferences.this.selectedOptionMobileTask == 4) {
-								Preferences.this.configurationDao.removeAllChangeshiftTasks();
-							}
-
-							Preferences.this.updateTask(task);
-
+							Preferences.this.checkRZ_PPTask_modify();
+							return;
 						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 							return;
 						}
 					}
 				}, params);
 			} else {
-				this.updateTask(task);
+				this.checkRZ_PPTask_modify();
 			}
 
 		}
@@ -1333,25 +1651,41 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_deletetask")
 	public void removeTask() {
-		final Map<String, String> params = new HashMap();
-		params.put("sclass", "mybutton Button");
 
-		final Messagebox.Button[] buttons = new Messagebox.Button[2];
-		buttons[0] = Messagebox.Button.OK;
-		buttons[1] = Messagebox.Button.CANCEL;
+		if (this.sw_list_task.getSelectedItem() == null) {
+			return;
+		}
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.deleteTask();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
+		final UserTask task = this.sw_list_task.getSelectedItem().getValue();
+
+		if (!task.getIsPP() && !task.getIsRZ()) {
+			final Map<String, String> params = new HashMap();
+			params.put("sclass", "mybutton Button");
+
+			final Messagebox.Button[] buttons = new Messagebox.Button[2];
+			buttons[0] = Messagebox.Button.OK;
+			buttons[1] = Messagebox.Button.CANCEL;
+
+			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					new EventListener() {
+						@Override
+						public void onEvent(final Event e) {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								Preferences.this.deleteTask();
+							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+								// Cancel is clicked
+							}
 						}
-					}
-				}, params);
+					}, params);
+		} else {
+			final Map<String, String> params = new HashMap<String, String>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
 
+			Messagebox.show("Impossibile procedere, mansione speciale.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			return;
+		}
 	}
 
 	private void resetCraneInfo() {
@@ -1392,6 +1726,8 @@ public class Preferences extends SelectorComposer<Component> {
 		this.changeshift_task.setChecked(false);
 		this.recorded_task.setChecked(false);
 		this.hidden_task.setChecked(false);
+		this.isRZ_task.setChecked(false);
+		this.isPP_task.setChecked(false);
 
 	}
 

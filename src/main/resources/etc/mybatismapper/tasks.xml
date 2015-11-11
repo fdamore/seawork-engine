@@ -16,15 +16,14 @@
 		SELECT *
 		FROM usertask;
 	</select>
-
-
+	
 	<select id="selectAllTasksByUser" resultType="org.uario.seaworkengine.model.UserTask"
 		parameterType="map">
 		SELECT t.id,
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, t.justificatory, ut.task_default
+		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default
 		FROM
 		usertask t,
 		user_usertask ut where ut.id_user = #{id_user} and
@@ -40,7 +39,7 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, t.justificatory, ut.task_default 
+		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default 
 		FROM
 		usertask t,
 		user_usertask ut 
@@ -56,7 +55,7 @@
 		t.description,
 		t.isabsence,
 		t.recorded, 
-		t.justificatory 
+		t.justificatory, t.isRZ, t.isPP  
 		FROM usertask t,
 		user_usertask ut where t.id = ut.id_user and ut.id_user =
 		#{id_user}
@@ -89,7 +88,7 @@
 
 		SELECT t.id,
 		t.code,
-		t.description, t.isabsence, t.recorded, t.justificatory 
+		t.description, t.isabsence, t.recorded, t.justificatory, t.isRZ, t.isPP  
 		FROM user_usertask ut, usertask t
 		WHERE
 		ut.task_default = 1 and ut.id_user =
