@@ -1071,6 +1071,18 @@ public class Preferences extends SelectorComposer<Component> {
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_MobileUsertask));
 	}
 
+	@Listen("onClick = #sw_return_RZ_PP")
+	public void getRZandPPTask() {
+		final List<UserTask> list = new ArrayList<>();
+
+		final UserTask rz = this.configurationDao.loadRZTask();
+		final UserTask pp = this.configurationDao.loadPPTask();
+		list.add(rz);
+		list.add(pp);
+
+		this.sw_list_task.setModel(new ListModelList<UserTask>(list));
+	}
+
 	@Listen("onClick = #sw_link_modifyBillCenter")
 	public void modifyBillCenter() {
 
