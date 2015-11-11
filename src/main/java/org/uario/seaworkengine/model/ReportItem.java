@@ -22,9 +22,10 @@ public class ReportItem implements Serializable {
 	private Double				mar;
 	private Double				may;
 	private Double				nov;
-	private Double				oct;
-	private Double				sep;
 
+	private Double				oct;
+
+	private Double				sep;
 	private Double				tot;
 
 	public Double getApr() {

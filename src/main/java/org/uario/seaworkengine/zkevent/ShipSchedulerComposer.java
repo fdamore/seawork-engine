@@ -2891,7 +2891,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHands.setArgument(ReportItemTag.Hands);
 		final ReportItem itemHandsOnDays = new ReportItem();
 		itemHandsOnDays.setArgument(ReportItemTag.HandsOnDays);
-		final ReportItem itemMen = new ReportItem();
+		final ReportItem totalHoursRZ_PP_task = new ReportItem();
 		final ReportItem itemMenOnHand = new ReportItem();
 		itemMenOnHand.setArgument(ReportItemTag.MenOnHands);
 		final ReportItem itemProductivity = new ReportItem();
@@ -3008,267 +3008,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			itemRZ_TW_MCT.setAvg(0.0);
 		}
 
-		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO
-		Double totalHands = 0.0;
-		Integer numberOfHandsNotNull = 0;
-
-		for (final ShipTotal shipTotal : handMenList) {
-
-			if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
-				totalHands += shipTotal.getHandswork();
-				numberOfHandsNotNull++;
-			}
-
-			if (shipTotal.getMonthInvoice() == 1) {
-				itemHands.setGen(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setGen(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setGen(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getGen() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setGen(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setGen(0.0);
-						}
-					} else {
-						itemMenOnHand.setGen(0.0);
-					}
-				} else {
-					itemHandsOnDays.setGen(0.0);
-				}
-
-				itemMen.setGen(shipTotal.getMenwork());
-
-			} else if (shipTotal.getMonthInvoice() == 2) {
-				itemHands.setFeb(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setFeb(shipTotal.getHandswork() / dayInFeb);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setFeb(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getFeb() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setFeb(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setFeb(0.0);
-						}
-					} else {
-						itemMenOnHand.setFeb(0.0);
-					}
-				} else {
-					itemHandsOnDays.setFeb(0.0);
-				}
-
-				itemMen.setFeb(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 3) {
-				itemHands.setMar(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setMar(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setMar(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getMar() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setMar(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setMar(0.0);
-						}
-					} else {
-						itemMenOnHand.setMar(0.0);
-					}
-				} else {
-					itemHandsOnDays.setMar(0.0);
-				}
-
-				itemMen.setMar(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 4) {
-				itemHands.setApr(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setApr(shipTotal.getHandswork() / 30);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setApr(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getApr() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setApr(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setApr(0.0);
-						}
-					} else {
-						itemMenOnHand.setApr(0.0);
-					}
-				} else {
-					itemHandsOnDays.setApr(0.0);
-				}
-
-				itemMen.setApr(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 5) {
-				itemHands.setMay(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setMay(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setMay(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getMay() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setMay(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setMay(0.0);
-						}
-					} else {
-						itemMenOnHand.setMay(0.0);
-					}
-				} else {
-					itemHandsOnDays.setMay(0.0);
-				}
-
-				itemMen.setMay(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 6) {
-				itemHands.setJun(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setJun(shipTotal.getHandswork() / 30);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setJun(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getJun() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setJun(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setJun(0.0);
-						}
-					} else {
-						itemMenOnHand.setJun(0.0);
-					}
-				} else {
-					itemHandsOnDays.setJun(0.0);
-				}
-
-				itemMen.setJun(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 7) {
-				itemHands.setJul(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setJul(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setJul(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getJul() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setJul(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setJul(0.0);
-						}
-					} else {
-						itemMenOnHand.setJul(0.0);
-					}
-				} else {
-					itemHandsOnDays.setJul(0.0);
-				}
-
-				itemMen.setJul(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 8) {
-				itemHands.setAug(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setAug(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setAug(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getAug() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setAug(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setAug(0.0);
-						}
-					} else {
-						itemMenOnHand.setAug(0.0);
-					}
-				} else {
-					itemHandsOnDays.setAug(0.0);
-				}
-
-				itemMen.setAug(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 9) {
-				itemHands.setSep(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setSep(shipTotal.getHandswork() / 30);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setSep(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getSep() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setSep(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setSep(0.0);
-						}
-					} else {
-						itemMenOnHand.setSep(0.0);
-					}
-				} else {
-					itemHandsOnDays.setSep(0.0);
-				}
-
-				itemMen.setSep(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 10) {
-				itemHands.setOct(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setOct(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setOct(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getOct() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setOct(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setOct(0.0);
-						}
-					} else {
-						itemMenOnHand.setOct(0.0);
-					}
-				} else {
-					itemHandsOnDays.setOct(0.0);
-				}
-
-				itemMen.setOct(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 11) {
-				itemHands.setNov(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setNov(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setNov(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getNov() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setNov(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setNov(0.0);
-						}
-					} else {
-						itemMenOnHand.setNov(0.0);
-					}
-				} else {
-					itemHandsOnDays.setNov(0.0);
-				}
-
-				itemMen.setNov(shipTotal.getMenwork());
-			} else if (shipTotal.getMonthInvoice() == 12) {
-				itemHands.setDec(shipTotal.getHandswork());
-
-				if (shipTotal.getHandswork() != null) {
-					itemHandsOnDays.setDec(shipTotal.getHandswork() / 31);
-					if ((shipTotal.getMenwork() != null) && (shipTotal.getHandswork() != 0)) {
-						itemMenOnHand.setDec(shipTotal.getMenwork() / shipTotal.getHandswork());
-						if ((itemContainer.getDec() != null) && (shipTotal.getMenwork() != 0)) {
-							itemContainerOnMen.setDec(itemContainer.getGen() / shipTotal.getMenwork());
-						} else {
-							itemContainerOnMen.setDec(0.0);
-						}
-					} else {
-						itemMenOnHand.setDec(0.0);
-					}
-				} else {
-					itemHandsOnDays.setDec(0.0);
-				}
-
-				itemMen.setDec(shipTotal.getMenwork());
-			}
-		}
-
-		itemHands.setTot(totalHands);
-		itemHands.setAvg(totalHands / numberOfHandsNotNull);
-
-		itemHandsOnDays.setAvg(null);
-		itemMenOnHand.setAvg(null);
-
 		Double totalProductivity = 0.0;
 		Integer productivityNotNull = 0;
 
@@ -3331,23 +3070,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			itemProductivity.setAvg(0.0);
 		}
 
-		itemContainer.setIsTaskROW(false);
-		this.reportList.add(itemContainer);
-		itemRZ_TW_SWS.setIsTaskROW(false);
-		this.reportList.add(itemRZ_TW_SWS);
-		itemRZ_TW_MCT.setIsTaskROW(false);
-		this.reportList.add(itemRZ_TW_MCT);
-		itemHands.setIsTaskROW(false);
-		this.reportList.add(itemHands);
-		itemHandsOnDays.setIsTaskROW(false);
-		this.reportList.add(itemHandsOnDays);
-		itemMenOnHand.setIsTaskROW(false);
-		this.reportList.add(itemMenOnHand);
-		itemProductivity.setIsTaskROW(false);
-		this.reportList.add(itemProductivity);
-
 		final List<UserTask> tasks = this.taskDAO.listAllTask();
 		final List<ShipTotal> taskHoursList = this.statisticDAO.getTotalHoursByTask(year);
+
+		final UserTask taskRZ = this.configurationDao.loadRZTask();
+		final UserTask taskPP = this.configurationDao.loadPPTask();
+		ReportItem itemRZ = new ReportItem();
+		ReportItem itemPP = new ReportItem();
 
 		for (final UserTask userTask : tasks) {
 			final ReportItem itemTaskHour = new ReportItem();
@@ -3404,8 +3133,365 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				itemTaskHour.setAvg(0.0);
 			}
 
+			if ((taskRZ != null) && userTask.getId().equals(taskRZ.getId())) {
+				itemRZ = itemTaskHour;
+			}
+			if ((taskPP != null) && userTask.getId().equals(taskPP.getId())) {
+				itemPP = itemTaskHour;
+			}
+
 			this.reportList.add(itemTaskHour);
 		}
+
+		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO
+		Double totalHands = 0.0;
+		Integer numberOfHandsNotNull = 0;
+
+		for (final ShipTotal shipTotal : handMenList) {
+
+			if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
+				totalHands += shipTotal.getHandswork();
+				numberOfHandsNotNull++;
+			}
+
+			if (shipTotal.getMonthInvoice() == 1) {
+				itemHands.setGen(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setGen(shipTotal.getHandswork() / 31);
+					if (itemRZ.getGen() != null) {
+						sumHourRZ_PP = itemRZ.getGen();
+					}
+					if (itemPP.getGen() != null) {
+						sumHourRZ_PP = sumHourRZ_PP + itemPP.getGen();
+					}
+					if ((sumHourRZ_PP != 0.0) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setGen(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getGen() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setGen(itemContainer.getGen() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setGen(0.0);
+						}
+					} else {
+						itemMenOnHand.setGen(0.0);
+					}
+				} else {
+					itemHandsOnDays.setGen(0.0);
+				}
+
+				totalHoursRZ_PP_task.setGen(sumHourRZ_PP);
+
+			} else if (shipTotal.getMonthInvoice() == 2) {
+				itemHands.setFeb(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setFeb(shipTotal.getHandswork() / dayInFeb);
+					if (itemRZ.getFeb() != null) {
+						sumHourRZ_PP = itemRZ.getFeb();
+					}
+					if (itemPP.getFeb() != null) {
+						sumHourRZ_PP = sumHourRZ_PP + itemPP.getFeb();
+					}
+
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setFeb(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getFeb() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setFeb(itemContainer.getFeb() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setFeb(0.0);
+						}
+					} else {
+						itemMenOnHand.setFeb(0.0);
+					}
+				} else {
+					itemHandsOnDays.setFeb(0.0);
+				}
+
+				totalHoursRZ_PP_task.setFeb(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 3) {
+				itemHands.setMar(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getMar() != null) {
+					sumHourRZ_PP = itemRZ.getMar();
+				}
+				if (itemPP.getMar() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getMar();
+				}
+
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setMar(shipTotal.getHandswork() / 31);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setMar(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getMar() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setMar(itemContainer.getMar() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setMar(0.0);
+						}
+					} else {
+						itemMenOnHand.setMar(0.0);
+					}
+				} else {
+					itemHandsOnDays.setMar(0.0);
+				}
+
+				totalHoursRZ_PP_task.setMar(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 4) {
+				itemHands.setApr(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getApr() != null) {
+					sumHourRZ_PP = itemRZ.getApr();
+				}
+				if (itemPP.getApr() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getApr();
+				}
+
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setApr(shipTotal.getHandswork() / 30);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setApr(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getApr() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setApr(itemContainer.getApr() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setApr(0.0);
+						}
+					} else {
+						itemMenOnHand.setApr(0.0);
+					}
+				} else {
+					itemHandsOnDays.setApr(0.0);
+				}
+
+				totalHoursRZ_PP_task.setApr(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 5) {
+				itemHands.setMay(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getMay() != null) {
+					sumHourRZ_PP = itemRZ.getMay();
+				}
+				if (itemPP.getMay() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getMay();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setMay(shipTotal.getHandswork() / 31);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setMay(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getMay() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setMay(itemContainer.getMay() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setMay(0.0);
+						}
+					} else {
+						itemMenOnHand.setMay(0.0);
+					}
+				} else {
+					itemHandsOnDays.setMay(0.0);
+				}
+
+				totalHoursRZ_PP_task.setMay(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 6) {
+				itemHands.setJun(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getJun() != null) {
+					sumHourRZ_PP = itemRZ.getJun();
+				}
+				if (itemPP.getJun() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getJun();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setJun(shipTotal.getHandswork() / 30);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setJun(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getJun() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setJun(itemContainer.getJun() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setJun(0.0);
+						}
+					} else {
+						itemMenOnHand.setJun(0.0);
+					}
+				} else {
+					itemHandsOnDays.setJun(0.0);
+				}
+
+				totalHoursRZ_PP_task.setJun(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 7) {
+				itemHands.setJul(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getJul() != null) {
+					sumHourRZ_PP = itemRZ.getJul();
+				}
+				if (itemPP.getJul() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getJul();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setJul(shipTotal.getHandswork() / 31);
+					if ((sumHourRZ_PP != null) && (sumHourRZ_PP != 0)) {
+						itemMenOnHand.setJul(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getJul() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setJul(itemContainer.getJul() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setJul(0.0);
+						}
+					} else {
+						itemMenOnHand.setJul(0.0);
+					}
+				} else {
+					itemHandsOnDays.setJul(0.0);
+				}
+
+				totalHoursRZ_PP_task.setJul(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 8) {
+				itemHands.setAug(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getAug() != null) {
+					sumHourRZ_PP = itemRZ.getAug();
+				}
+				if (itemPP.getAug() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getAug();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setAug(shipTotal.getHandswork() / 31);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setAug(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getAug() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setAug(itemContainer.getAug() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setAug(0.0);
+						}
+					} else {
+						itemMenOnHand.setAug(0.0);
+					}
+				} else {
+					itemHandsOnDays.setAug(0.0);
+				}
+				totalHoursRZ_PP_task.setAug(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 9) {
+				itemHands.setSep(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getSep() != null) {
+					sumHourRZ_PP = itemRZ.getSep();
+				}
+				if (itemPP.getSep() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getSep();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setSep(shipTotal.getHandswork() / 30);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setSep(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getSep() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setSep(itemContainer.getSep() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setSep(0.0);
+						}
+					} else {
+						itemMenOnHand.setSep(0.0);
+					}
+				} else {
+					itemHandsOnDays.setSep(0.0);
+				}
+
+				totalHoursRZ_PP_task.setSep(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 10) {
+				itemHands.setOct(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getOct() != null) {
+					sumHourRZ_PP = itemRZ.getOct();
+				}
+				if (itemPP.getOct() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getOct();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setOct(shipTotal.getHandswork() / 31);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setOct(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getOct() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setOct(itemContainer.getOct() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setOct(0.0);
+						}
+					} else {
+						itemMenOnHand.setOct(0.0);
+					}
+				} else {
+					itemHandsOnDays.setOct(0.0);
+				}
+
+				totalHoursRZ_PP_task.setOct(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 11) {
+				itemHands.setNov(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getNov() != null) {
+					sumHourRZ_PP = itemRZ.getNov();
+				}
+				if (itemPP.getNov() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getNov();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setNov(shipTotal.getHandswork() / 31);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setNov(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getNov() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setNov(itemContainer.getNov() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setNov(0.0);
+						}
+					} else {
+						itemMenOnHand.setNov(0.0);
+					}
+				} else {
+					itemHandsOnDays.setNov(0.0);
+				}
+
+				totalHoursRZ_PP_task.setNov(sumHourRZ_PP);
+			} else if (shipTotal.getMonthInvoice() == 12) {
+				itemHands.setDec(shipTotal.getHandswork());
+				Double sumHourRZ_PP = 0.0;
+				if (itemRZ.getDec() != null) {
+					sumHourRZ_PP = itemRZ.getDec();
+				}
+				if (itemPP.getDec() != null) {
+					sumHourRZ_PP = sumHourRZ_PP + itemPP.getDec();
+				}
+				if (shipTotal.getHandswork() != null) {
+					itemHandsOnDays.setDec(shipTotal.getHandswork() / 31);
+					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
+						itemMenOnHand.setDec(sumHourRZ_PP / shipTotal.getHandswork() / 6);
+						if ((itemContainer.getDec() != null) && (sumHourRZ_PP != 0)) {
+							itemContainerOnMen.setDec(itemContainer.getDec() / sumHourRZ_PP);
+						} else {
+							itemContainerOnMen.setDec(0.0);
+						}
+					} else {
+						itemMenOnHand.setDec(0.0);
+					}
+				} else {
+					itemHandsOnDays.setDec(0.0);
+				}
+
+				totalHoursRZ_PP_task.setDec(sumHourRZ_PP);
+			}
+		}
+
+		itemHands.setTot(totalHands);
+		itemHands.setAvg(totalHands / numberOfHandsNotNull);
+
+		itemHandsOnDays.setAvg(null);
+		itemMenOnHand.setAvg(null);
+
+		itemContainer.setIsTaskROW(false);
+		this.reportList.add(0, itemContainer);
+		itemRZ_TW_SWS.setIsTaskROW(false);
+		this.reportList.add(1, itemRZ_TW_SWS);
+		itemRZ_TW_MCT.setIsTaskROW(false);
+		this.reportList.add(2, itemRZ_TW_MCT);
+		itemHands.setIsTaskROW(false);
+		this.reportList.add(3, itemHands);
+		itemHandsOnDays.setIsTaskROW(false);
+		this.reportList.add(4, itemHandsOnDays);
+		itemMenOnHand.setIsTaskROW(false);
+		this.reportList.add(5, itemMenOnHand);
+		itemProductivity.setIsTaskROW(false);
+		this.reportList.add(6, itemProductivity);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 
