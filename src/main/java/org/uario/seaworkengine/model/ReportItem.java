@@ -16,7 +16,7 @@ public class ReportItem implements Serializable {
 	private Double				dec;
 	private Double				feb;
 	private Double				gen;
-	private Boolean				isTaskROW;
+	private Boolean				isTaskROW			= false;
 	private Double				jul;
 	private Double				jun;
 	private Double				mar;
