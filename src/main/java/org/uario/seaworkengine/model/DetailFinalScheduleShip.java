@@ -26,6 +26,21 @@ public class DetailFinalScheduleShip implements Serializable {
 	@XmlTransient
 	private Date				datetime;
 
+	@XmlTransient
+	private Double				franchise_timework;
+
+	@XmlTransient
+	private Double				franchise_volume;
+
+	@XmlTransient
+	private Double				franchise_volume_tw_mct;
+
+	@XmlTransient
+	private Double				franchise_volumeunderboard;
+
+	@XmlTransient
+	private Double				franchise_volumeunderboard_sws;
+
 	// rif sws
 	private Integer				id;
 
@@ -77,6 +92,26 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public Date getDatetime() {
 		return this.datetime;
+	}
+
+	public Double getFranchise_timework() {
+		return this.franchise_timework;
+	}
+
+	public Double getFranchise_volume() {
+		return this.franchise_volume;
+	}
+
+	public Double getFranchise_volume_tw_mct() {
+		return this.franchise_volume_tw_mct;
+	}
+
+	public Double getFranchise_volumeunderboard() {
+		return this.franchise_volumeunderboard;
+	}
+
+	public Double getFranchise_volumeunderboard_sws() {
+		return this.franchise_volumeunderboard_sws;
 	}
 
 	public Integer getId() {
@@ -149,6 +184,26 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setDatetime(final Date datetime) {
 		this.datetime = datetime;
+	}
+
+	public void setFranchise_timework(final Double franchise_timework) {
+		this.franchise_timework = franchise_timework;
+	}
+
+	public void setFranchise_volume(final Double franchise_volume) {
+		this.franchise_volume = franchise_volume;
+	}
+
+	public void setFranchise_volume_tw_mct(final Double franchise_volume_tw_mct) {
+		this.franchise_volume_tw_mct = franchise_volume_tw_mct;
+	}
+
+	public void setFranchise_volumeunderboard(final Double franchise_volumeunderboard) {
+		this.franchise_volumeunderboard = franchise_volumeunderboard;
+	}
+
+	public void setFranchise_volumeunderboard_sws(final Double franchise_volumeunderboard_sws) {
+		this.franchise_volumeunderboard_sws = franchise_volumeunderboard_sws;
 	}
 
 	public void setId(final Integer id) {

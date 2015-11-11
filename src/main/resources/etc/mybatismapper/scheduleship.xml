@@ -89,23 +89,23 @@
 		</if>
 
 		<if test="sws!=null">
-			and #{sws} = s.id 
+			and #{sws} = s.id
 		</if>
 
 		<if test="textSearch!=null">
-			and sh.name like CONCAT('%',#{textSearch},'%') 
+			and sh.name like CONCAT('%',#{textSearch},'%')
 		</if>
-		
+
 		<if test="shipType!=null">
-			and sh.shiptype like CONCAT('%',#{shipType},'%') 
+			and sh.shiptype like CONCAT('%',#{shipType},'%')
 		</if>
-		
+
 		<if test="shipLine!=null">
-			and sh.line like CONCAT('%',#{shipLine},'%') 
+			and sh.line like CONCAT('%',#{shipLine},'%')
 		</if>
-		
+
 		<if test="shipCondition!=null">
-			and sh.shipcondition like CONCAT('%',#{shipCondition},'%') 
+			and sh.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
 
 		<if test="mct!=null">
@@ -264,17 +264,17 @@
 		<if test="full_text_search != null">
 			and (s.name like CONCAT('%',#{full_text_search}, '%') )
 		</if>
-		
+
 		<if test="shipType!=null">
-			and s.shiptype like CONCAT('%',#{shipType},'%') 
+			and s.shiptype like CONCAT('%',#{shipType},'%')
 		</if>
-		
+
 		<if test="shipLine!=null">
-			and s.line like CONCAT('%',#{shipLine},'%') 
+			and s.line like CONCAT('%',#{shipLine},'%')
 		</if>
-		
+
 		<if test="shipCondition!=null">
-			and s.shipcondition like CONCAT('%',#{shipCondition},'%') 
+			and s.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
 
 		<if test="serviceId!=null">
@@ -608,17 +608,26 @@
 		parameterType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
 		INSERT INTO
 		detailfinalscheduleship (crane_gtw,
-		volume, timework, iddetailscheduleship, notedetail,
+		volume,
+		timework, iddetailscheduleship, notedetail,
 		volumeunderboard,volumeunderboard_sws,
 		volume_tw_mct,invoicing_cycle,
-		activity_start, activity_end, menwork_activityh, id_crane)
+		activity_start, activity_end, menwork_activityh,
+		id_crane,franchise_volume,
+		franchise_volumeunderboard,
+		franchise_volumeunderboard_sws, franchise_volume_tw_mct,
+		franchise_timework)
 		VALUES
 		(#{crane_gtw},
 		#{volume}, #{timework},
 		#{iddetailscheduleship}, #{notedetail},
 		#{volumeunderboard},
 		#{volumeunderboard_sws},#{volume_tw_mct},#{invoicing_cycle},
-		#{activity_start}, #{activity_end}, #{menwork_activityh}, #{id_crane});
+		#{activity_start}, #{activity_end}, #{menwork_activityh},
+		#{id_crane},#{franchise_volume},
+		#{franchise_volumeunderboard},
+		#{franchise_volumeunderboard_sws}, #{franchise_volume_tw_mct},
+		#{franchise_timework});
 	</insert>
 
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -630,11 +639,16 @@
 
 	<select id="loadDetailFinalScheduleShipById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
-		SELECT df.id, (select c.number from crane c where df.id_crane=c.id) as crane, df.crane_gtw volume, df.timework,
+		SELECT df.id, (select c.number from crane c where
+		df.id_crane=c.id) as crane, df.crane_gtw volume, df.timework,
 		df.iddetailscheduleship, df.notedetail, df.volumeunderboard,
 		df.volumeunderboard_sws,
 		df.volume_tw_mct, s.rif_mct, s.id as rif_sws,
-		df.invoicing_cycle, df.activity_start, df.activity_end, df.menwork_activityh, df.id_crane
+		df.invoicing_cycle, df.activity_start, df.activity_end,
+		df.menwork_activityh, df.id_crane, df.franchise_volume,
+		df.franchise_volumeunderboard,
+		df.franchise_volumeunderboard_sws, df.franchise_volume_tw_mct,
+		df.franchise_timework
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship
@@ -652,7 +666,8 @@
 		UPDATE detailfinalscheduleship
 		SET
 		id = #{id},
-		crane_gtw = #{crane_gtw},
+		crane_gtw =
+		#{crane_gtw},
 		timework = #{timework},
 		volume =
 		#{volume},
@@ -669,8 +684,13 @@
 		#{activity_start},
 		activity_end = #{activity_end},
 		menwork_activityh =
-		#{menwork_activityh}, 
-		id_crane = #{id_crane} 
+		#{menwork_activityh},
+		id_crane = #{id_crane},
+		franchise_volume = #{franchise_volume},
+		franchise_volumeunderboard = #{franchise_volumeunderboard},
+		franchise_volumeunderboard_sws = #{franchise_volumeunderboard_sws},
+		franchise_volume_tw_mct = #{franchise_volume_tw_mct},
+		franchise_timework = #{franchise_timework}
 		WHERE id = #{id};
 	</update>
 
@@ -678,12 +698,21 @@
 	<select id="loadDetailFinalScheduleShipByIdDetailScheduleShip"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip"
 		parameterType="Integer">
-		SELECT df.id, (select c.number from crane c where df.id_crane=c.id) as crane,df.crane_gtw, df.volume,
-		df.timework, df.iddetailscheduleship, df.notedetail,
+		SELECT df.id, (select c.number from crane c where
+		df.id_crane=c.id) as crane,df.crane_gtw, df.volume,
+		df.timework,
+		df.iddetailscheduleship, df.notedetail,
 		df.volumeunderboard,df.volumeunderboard_sws,
 		df.volume_tw_mct,
-		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, df.activity_start,
-		df.activity_end, df.menwork_activityh, df.id_crane 
+		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, 
+		df.activity_start,
+		df.activity_end, 
+		df.menwork_activityh, df.id_crane,
+		df.franchise_volume,
+		df.franchise_volumeunderboard,
+		df.franchise_volumeunderboard_sws, 
+		df.franchise_volume_tw_mct,
+		df.franchise_timework
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship d,
@@ -694,6 +723,6 @@
 		df.iddetailscheduleship = d.id and
 		d.idscheduleship = s.id;
 	</select>
-	
+
 
 </mapper>

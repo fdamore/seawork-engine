@@ -106,7 +106,8 @@
 
 					<vbox align="start">
 						<combobox placeholder="Seleziona Anno..."
-							readonly="true" id="select_year_detail" onChange="tp_gen.setValue(null);tp_feb.setValue(null);tp_mar.setValue(null);tp_apr.setValue(null);tp_may.setValue(null);tp_jun.setValue(null);tp_jul.setValue(null);tp_aug.setValue(null);tp_sep.setValue(null);tp_oct.setValue(null);tp_nov.setValue(null);tp_dec.setValue(null);">
+							readonly="true" id="select_year_detail"
+							onChange="tp_gen.setValue(null);tp_feb.setValue(null);tp_mar.setValue(null);tp_apr.setValue(null);tp_may.setValue(null);tp_jun.setValue(null);tp_jul.setValue(null);tp_aug.setValue(null);tp_sep.setValue(null);tp_oct.setValue(null);tp_nov.setValue(null);tp_dec.setValue(null);">
 						</combobox>
 
 						<a label="Annulla filtro"
@@ -143,7 +144,8 @@
 				</hbox>
 
 				<button id="refreshDetailView" label="Ricarica"
-					sclass="btn-info" onClick="ship_line_search.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);"/>
+					sclass="btn-info"
+					onClick="ship_line_search.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);" />
 
 				<a label="Scarica dati in CSV"
 					id="detailShipProgram_download" style="color:green" />
@@ -280,19 +282,19 @@
 				<textbox placeholder="Cerca Nome Nave..."
 					id="full_text_search"
 					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_line_search.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);" />
-					
+
 				<textbox placeholder="Cerca Tipo Nave..."
 					id="ship_type_search"
 					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_line_search.setValue(null);ship_condition_search.setValue(null);full_text_search.setValue(null);" />
-					
+
 				<textbox placeholder="Cerca Linea Nave..."
 					id="ship_line_search"
 					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);full_text_search.setValue(null);" />
-					
+
 				<textbox placeholder="Cerca Condizioni Nave..."
 					id="ship_condition_search"
-					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_type_search.setValue(null);ship_line_search.setValue(null);full_text_search.setValue(null);" />	
-				
+					onOK="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null);ship_type_search.setValue(null);ship_line_search.setValue(null);full_text_search.setValue(null);" />
+
 			</hbox>
 
 			<separator />
@@ -1764,20 +1766,30 @@
 
 										</hbox>
 									</row>
-									
+
 									<row>
 										<label
 											value="Tempo lavorato:">
 										</label>
 
-										<doublebox
-											constraint="no negative" id="time_review" >
-										</doublebox>
+										<hbox>
+											<doublebox
+												constraint="no negative" id="time_review">
+											</doublebox>
+											<label value="Fr. "></label>
+											<doublebox
+												id="time_review_franchise">
+											</doublebox>
+										</hbox>
+
+
 									</row>
-									
+
 									<row id="menwork_activityhRow">
-										<label value="Persone consuntivate:"/>
-										<intbox id="menwork_activityh" constraint="no negative" />
+										<label
+											value="Persone consuntivate:" />
+										<intbox id="menwork_activityh"
+											constraint="no negative" />
 									</row>
 
 									<row>
@@ -1800,30 +1812,68 @@
 									</row>
 
 									<row>
+
 										<label value="Volumi:"></label>
-										<intbox id="volume_review" />
+
+										<hbox>
+											<intbox id="volume_review" />
+											<label value="Fr. "></label>
+											<doublebox
+												id="volume_review_franchise">
+											</doublebox>
+										</hbox>
 									</row>
 									<row>
 										<label
 											value="Volumi Rizz. da Bordo (x Cliente):">
 										</label>
-										<intbox
-											id="volumeunderboard_review" />
+
+										<hbox>
+											<intbox
+												id="volumeunderboard_review" />
+											<label value="Fr. "></label>
+											<doublebox
+												id="volumeunderboard_review_franchise">
+											</doublebox>
+										</hbox>
+
+
+
 									</row>
 
 									<row>
 										<label
 											value="Volumi Rizz. da Bordo (x SWS):">
 										</label>
-										<intbox
-											id="volumeunderboard_sws_review" />
+
+										<hbox>
+											<intbox
+												id="volumeunderboard_sws_review" />
+											<label value="Fr. "></label>
+											<doublebox
+												id="volumeunderboard_sws_review_franchise">
+											</doublebox>
+										</hbox>
+
+
+
 									</row>
 
 									<row>
 										<label value="Volumi TW MCT:"></label>
-										<intbox
-											id="volumeunde_tw_mct_review" />
-									</row>								
+
+										<hbox>
+											<intbox
+												id="volumeunde_tw_mct_review" />
+											<label value="Fr. "></label>
+											<doublebox
+												id="volumeunde_tw_mct_review_franchise">
+											</doublebox>
+										</hbox>
+
+
+
+									</row>
 
 									<row>
 										<label value="Note:"></label>
