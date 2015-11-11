@@ -3352,11 +3352,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		for (final UserTask userTask : tasks) {
 			final ReportItem itemTaskHour = new ReportItem();
 			itemTaskHour.setIsTaskROW(true);
-			itemTaskHour.setArgument(userTask.getCode());
 
 			// TASK HOURS
 			Double totalHours = 0.0;
 			Integer numberOfHoursNotNull = 0;
+			itemTaskHour.setArgument(userTask.getCode() + " - " + userTask.getDescription());
 
 			for (final ShipTotal shipTotal : taskHoursList) {
 
@@ -3365,7 +3365,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						totalHours += shipTotal.getTask_hour();
 						numberOfHoursNotNull++;
 					}
-
 					if (shipTotal.getMonth_date() == 1) {
 						itemTaskHour.setGen(shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 2) {

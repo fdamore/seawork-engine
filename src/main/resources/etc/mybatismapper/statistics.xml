@@ -967,7 +967,7 @@
 	<select id="getTotalHoursByTask" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="Integer">
 		SELECT 
 		dtf.task as task_id,
-		t.code as task_code,
+		concat(t.code,' - ',t.description)as task_code,
 		month(s.date_schedule) as month_date,
 		sum(dtf.time) as task_hour
 		FROM
