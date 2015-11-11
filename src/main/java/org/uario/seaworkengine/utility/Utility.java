@@ -34,15 +34,15 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class Utility {
 
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat			dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
 
-	private static SimpleDateFormat dateFormat_it = new SimpleDateFormat("dd-MM-yyyy");
+	private static SimpleDateFormat			dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
 
-	private static SimpleDateFormat dateTimeformat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	private static SimpleDateFormat			dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-	private static final SimpleDateFormat formatDay = new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
 
 	public static String convertToDateAndTime(final Date date) {
 		return Utility.dateTimeformat.format(date);
@@ -251,7 +251,7 @@ public class Utility {
 
 		final long diff = date_to.getTime() - date_from.getTime();
 
-		final long day_global = TimeUnit.MILLISECONDS.toDays(diff);
+		final long day_global = TimeUnit.MILLISECONDS.toDays(diff) + 1;
 
 		final long weekCount = day_global / 7;
 
