@@ -298,6 +298,12 @@
 		FROM service 
 		WHERE isRZ=1;
 	</select>
+	
+	<select id="loadService" resultType="org.uario.seaworkengine.model.Service" parameterType="Integer">
+		SELECT *
+		FROM service 
+		WHERE id=#{id};
+	</select>
 
 	<select id="selectAllStatus" resultType="String">
 		SELECT description

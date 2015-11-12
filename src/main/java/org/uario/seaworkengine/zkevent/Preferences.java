@@ -1752,11 +1752,11 @@ public class Preferences extends SelectorComposer<Component> {
 		this.description_service.setValue(null);
 		this.name_service.setValue(null);
 		this.isRZ.setChecked(false);
-		this.fr_timework.setValue(null);
-		this.fr_volume.setValue(null);
-		this.fr_volume_tw_mct.setValue(null);
-		this.fr_volumeunderboard.setValue(null);
-		this.fr_volumeunderboard_sws.setValue(null);
+		this.fr_timework.setValue(0.0);
+		this.fr_volume.setValue(0.0);
+		this.fr_volume_tw_mct.setValue(0.0);
+		this.fr_volumeunderboard.setValue(0.0);
+		this.fr_volumeunderboard_sws.setValue(0.0);
 		this.grid_service_details.setVisible(false);
 		this.add_service_command.setVisible(true);
 		this.modify_service_command.setVisible(false);

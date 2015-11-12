@@ -1074,7 +1074,8 @@
 										<toolbarbutton label="Chiudi"
 											style="color: blue"
 											onClick="grid_service_details.setVisible(false); add_service_command.setVisible(true); modify_service_command.setVisible(false);
-													description_service.setValue(null);name_service.setValue(null);isRZ.setChecked(false);">
+													description_service.setValue(null);name_service.setValue(null);isRZ.setChecked(false);fr_timework.setValue(0.0);
+													fr_volume.setValue(0.0);fr_volumeunderboard.setValue(0.0);fr_volumeunderboard_sws.setValue(0.0);fr_volume_tw_mct.setValue(0.0)">
 										</toolbarbutton>
 										<toolbarbutton
 											id="add_service_command" label="Aggiungi" style="color: blue" 
@@ -1118,23 +1119,23 @@
 												</row>
 												<row>
 													<label 	value="Franchigia Tempo Lavorato:"/>
-													<doublebox id="fr_timework" constraint="no negative"/>
+													<doublebox id="fr_timework" value="0.0" constraint="no negative,no empty"/>
 												</row>
 												<row>
 													<label 	value="Franchigia Volume:"/>
-													<doublebox id="fr_volume" constraint="no negative" />
+													<doublebox id="fr_volume" value="0.0"  constraint="no negative,no empty" />
 												</row>
 												<row>
 													<label 	value="Franchigia Volume Rizz. da Bordo (x Cliente):"/>
-													<doublebox id="fr_volumeunderboard" constraint="no negative"/>
+													<doublebox id="fr_volumeunderboard" value="0.0"  constraint="no negative,no empty"/>
 												</row>
 												<row>
 													<label 	value="Franchigia Volume Rizz. da Bordo (x SWS):"/>
-													<doublebox id="fr_volumeunderboard_sws" constraint="no negative"/>
+													<doublebox id="fr_volumeunderboard_sws" value="0.0"  constraint="no negative,no empty"/>
 												</row>
 												<row>
 													<label 	value="Franchigia Volume TW MCT:"/>
-													<doublebox id="fr_volume_tw_mct" constraint="no negative"/>
+													<doublebox id="fr_volume_tw_mct" value="0.0"  constraint="no negative,no empty"/>
 												</row>
 											</rows>
 										</grid>

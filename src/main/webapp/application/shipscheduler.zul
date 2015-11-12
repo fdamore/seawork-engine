@@ -1469,6 +1469,13 @@
 							<label style="color:blue; font-size:10pt;"
 								value="" id="hourReview" />
 						</hbox>
+						
+						<hbox>
+							<label style="color:blue; font-size:10pt;"
+								value="Tipo di Servizio: " />
+							<label style="color:blue; font-size:10pt;"
+								value="" id="serviceTypeDescriprion" />
+						</hbox>
 
 						<separator></separator>
 
@@ -1780,6 +1787,7 @@
 											<doublebox
 												id="time_review_franchise">
 											</doublebox>
+											<label id="franchise_time_default" style="color:green"/>
 										</hbox>
 
 
@@ -1817,10 +1825,11 @@
 
 										<hbox>
 											<intbox id="volume_review" />
-											<label value="Fr. "></label>
+											<label value="Fr. "/>
 											<doublebox
 												id="volume_review_franchise">
 											</doublebox>
+											<label id="franchise_volume_default" style="color:green"/>
 										</hbox>
 									</row>
 									<row>
@@ -1835,9 +1844,10 @@
 											<doublebox
 												id="volumeunderboard_review_franchise">
 											</doublebox>
+											<label id="franchise_volumeunderboard_default" style="color:green"/>
 										</hbox>
 
-
+										
 
 									</row>
 
@@ -1853,6 +1863,7 @@
 											<doublebox
 												id="volumeunderboard_sws_review_franchise">
 											</doublebox>
+											<label id="franchise_volumeunderboard_sws_default" style="color:green"/>
 										</hbox>
 
 
@@ -1869,6 +1880,7 @@
 											<doublebox
 												id="volumeunde_tw_mct_review_franchise">
 											</doublebox>
+											<label id="franchise_volumeunde_tw_mct_default" style="color:green"/>
 										</hbox>
 
 

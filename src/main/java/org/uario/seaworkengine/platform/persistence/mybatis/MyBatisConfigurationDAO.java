@@ -218,6 +218,12 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public Service loadService(final Integer id) {
+		MyBatisConfigurationDAO.logger.info("loadService");
+		return this.getSqlSession().selectOne("configuration.loadService", id);
+	}
+
+	@Override
 	public UserShift loadShiftById(final Integer id) {
 		MyBatisConfigurationDAO.logger.info("loadShiftById " + id);
 
