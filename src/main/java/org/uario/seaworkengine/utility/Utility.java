@@ -237,44 +237,46 @@ public class Utility {
 		return Utility.formatDay.format(date);
 	}
 
-	/**
-	 * Hours work
-	 *
-	 * @param date_from
-	 * @param date_to
-	 * @param hours_per_week
-	 * @param day_per_week
-	 * @return
-	 */
-	public static Double getHoursWorkAmount(final Date date_from, final Date date_to, final Integer day_per_week, final Integer hour_per_week) {
-
-		final Calendar cal_start = DateUtils.toCalendar(date_from);
-
-		final Calendar cal_end = DateUtils.toCalendar(date_to);
-
-		// define dayCount;
-		Double dayCount = 0.0;
-
-		final Calendar item_cal = DateUtils.toCalendar(cal_start.getTime());
-
-		do {
-
-			int week_day = item_cal.get(Calendar.DAY_OF_WEEK) - 1;
-
-			if (week_day == 0) {
-				week_day = 7;
-			}
-			if (week_day <= day_per_week) {
-				dayCount++;
-			}
-
-			item_cal.add(Calendar.DAY_OF_YEAR, 1);
-		} while (!item_cal.after(cal_end));
-
-		final double hour_per_day = hour_per_week.doubleValue() / day_per_week.doubleValue();
-
-		return dayCount.doubleValue() * hour_per_day;
-	}
+	// /**
+	// * Hours work
+	// *
+	// * @param date_from
+	// * @param date_to
+	// * @param hours_per_week
+	// * @param day_per_week
+	// * @return
+	// */
+	// public static Double getHoursWorkAmount(final Date date_from, final Date
+	// date_to, final Integer day_per_week, final Integer hour_per_week) {
+	//
+	// final Calendar cal_start = DateUtils.toCalendar(date_from);
+	//
+	// final Calendar cal_end = DateUtils.toCalendar(date_to);
+	//
+	// // define dayCount;
+	// Double dayCount = 0.0;
+	//
+	// final Calendar item_cal = DateUtils.toCalendar(cal_start.getTime());
+	//
+	// do {
+	//
+	// int week_day = item_cal.get(Calendar.DAY_OF_WEEK) - 1;
+	//
+	// if (week_day == 0) {
+	// week_day = 7;
+	// }
+	// if (week_day <= day_per_week) {
+	// dayCount++;
+	// }
+	//
+	// item_cal.add(Calendar.DAY_OF_YEAR, 1);
+	// } while (!item_cal.after(cal_end));
+	//
+	// final double hour_per_day = hour_per_week.doubleValue() /
+	// day_per_week.doubleValue();
+	//
+	// return dayCount.doubleValue() * hour_per_day;
+	// }
 
 	public static Integer getMonthNumber(final Date date) {
 		final Calendar cal = Calendar.getInstance();

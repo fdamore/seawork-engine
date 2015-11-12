@@ -59,8 +59,17 @@ public class StatProceduresImpl implements IStatProcedure {
 			return 0.0;
 		}
 
+		final long millis = date_to.getTime() - date_from.getTime();
+		final Long days = (millis / DateUtils.MILLIS_PER_DAY) + 1;
+
+		// remove some absence from day_worked
+		final Integer day_absence = this.statisticDAO.daysToRemoveFromSaturation(user.getId(), date_from, date_to);
+		final Integer days_worked = days.intValue() - day_absence;
+
+		final double hour_per_day = user.getHourswork_w().doubleValue() / user.getDaywork_w().doubleValue();
+
 		// work day amount
-		final Double hours_work_ammount = Utility.getHoursWorkAmount(date_from, date_to, user.getDaywork_w(), user.getHourswork_w());
+		final Double hours_work_ammount = days_worked * hour_per_day;
 
 		// get compensation
 		Double hours_compensate = this.compensationDAO.getTotalHoursInDateYear(user.getId(), date_from);
@@ -69,7 +78,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		}
 
 		// sat = current work - shift_rec - compensation - work_ammount
-		final Double hours_saturation = hour_current_work_count - hours_compensate - hours_work_ammount;
+		final Double hours_saturation = hour_current_work_count - hours_work_ammount - hours_compensate;
 
 		return hours_saturation;
 
@@ -366,20 +375,20 @@ public class StatProceduresImpl implements IStatProcedure {
 
 				if (sunday_work != 0) {
 					if (av.getShift() == 1) {
-						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_1(
+						        userStatistics.getShift_perc_1() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 2) {
-						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_2(
+						        userStatistics.getShift_perc_2() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 3) {
-						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_3(
+						        userStatistics.getShift_perc_3() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 4) {
-						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_4(
+						        userStatistics.getShift_perc_4() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 				} else {
 					if (av.getShift() == 1) {
@@ -906,29 +915,29 @@ public class StatProceduresImpl implements IStatProcedure {
 				// set period
 				switch (my_no_shift) {
 
-				case 1:
+					case 1:
 
-					item.setTime_from(new Timestamp(cal_shift_1_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_1_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_1_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_1_time_to.getTimeInMillis()));
+						break;
 
-				case 2:
+					case 2:
 
-					item.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
+						break;
 
-				case 3:
+					case 3:
 
-					item.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
+						break;
 
-				case 4:
+					case 4:
 
-					item.setTime_from(new Timestamp(cal_shift_4_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_4_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_4_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_4_time_to.getTimeInMillis()));
+						break;
 
 				}
 

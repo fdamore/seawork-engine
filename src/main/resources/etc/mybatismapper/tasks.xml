@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tasks">
 
-	<cache-ref namespace="configuration" />
+	<cache-ref namespace="schedule" />
 
 	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask"
 		parameterType="Integer">
