@@ -249,28 +249,7 @@
 	</select>
 
 
-	<select id="getWorkTimeCompensationCountByUser" resultType="double"
-		parameterType="map">
 
-		SELECT
-		SUM(time_vacation)
-		FROM
-		detailfinalschedule dfs,
-		schedule s,
-		usertask ut
-		WHERE
-		dfs.id_schedule = s.id
-		AND (ut.isabsence = 1 and
-		ut.recorded = 1)
-		AND dfs.task = ut.id
-		AND s.user = #{id_user}
-		AND
-		date(s.date_schedule) <![CDATA[>=]]>
-		date(#{date_from})
-		AND date(s.date_schedule) <![CDATA[<=]]>
-		date(#{date_to})
-
-	</select>
 
 
 

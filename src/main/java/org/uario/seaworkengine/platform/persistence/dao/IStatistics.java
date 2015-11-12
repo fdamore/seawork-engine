@@ -157,16 +157,6 @@ public interface IStatistics {
 	public List<ShipTotal> getTotalInvoiceContainer(Integer year, Boolean by_invoice);
 
 	/**
-	 * Get hours time work
-	 *
-	 * @param id_user
-	 * @param date_from
-	 * @param date_to
-	 * @return
-	 */
-	public Double getWorkTimeCompensationCountByUser(Integer id_user, Date date_from, Date date_to);
-
-	/**
 	 * List detail initial schedule
 	 *
 	 * @param full_text_search

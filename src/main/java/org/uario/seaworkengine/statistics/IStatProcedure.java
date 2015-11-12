@@ -18,7 +18,7 @@ public interface IStatProcedure {
 	 *            TODO
 	 * @return
 	 */
-	public Double calculeDaySaturation(Person user, Date date_from, Date date_to);
+	public Double calculeHourSaturation(Person user, Date date_from, Date date_to);
 
 	/**
 	 * get a random day

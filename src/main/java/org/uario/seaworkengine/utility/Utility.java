@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
@@ -249,17 +248,32 @@ public class Utility {
 	 */
 	public static Double getHoursWorkAmount(final Date date_from, final Date date_to, final Integer day_per_week, final Integer hour_per_week) {
 
-		final long diff = date_to.getTime() - date_from.getTime();
+		final Calendar cal_start = DateUtils.toCalendar(date_from);
 
-		final long day_global = TimeUnit.MILLISECONDS.toDays(diff) + 1;
+		final Calendar cal_end = DateUtils.toCalendar(date_to);
 
-		final long weekCount = day_global / 7;
+		// define dayCount;
+		Double dayCount = 0.0;
 
-		final Long dayCount = day_per_week * weekCount;
+		final Calendar item_cal = DateUtils.toCalendar(cal_start.getTime());
 
-		final Long hour_per_day = (long) hour_per_week / (long) day_per_week;
+		do {
 
-		return dayCount.doubleValue() * hour_per_day.doubleValue();
+			int week_day = item_cal.get(Calendar.DAY_OF_WEEK) - 1;
+
+			if (week_day == 0) {
+				week_day = 7;
+			}
+			if (week_day <= day_per_week) {
+				dayCount++;
+			}
+
+			item_cal.add(Calendar.DAY_OF_YEAR, 1);
+		} while (!item_cal.after(cal_end));
+
+		final double hour_per_day = hour_per_week.doubleValue() / day_per_week.doubleValue();
+
+		return dayCount.doubleValue() * hour_per_day;
 	}
 
 	public static Integer getMonthNumber(final Date date) {

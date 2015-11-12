@@ -1718,7 +1718,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		for (final Person person : list_person) {
 
-			final Double sat = this.statProcedure.calculeDaySaturation(person, date_from_on_month, date_to_on_month);
+			final Double sat = this.statProcedure.calculeHourSaturation(person, date_from_on_month, date_to_on_month);
 			this.cache_sat.put(person.getId(), sat);
 
 		}

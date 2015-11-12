@@ -400,24 +400,6 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Double getWorkTimeCompensationCountByUser(final Integer id_user, final Date date_from, final Date date_to) {
-		MyBatisStatisticsDAO.logger.info("getSundayWorkPercentage..");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id_user", id_user);
-		map.put("date_from", date_from);
-		map.put("date_to", date_to);
-
-		final Double ret = this.getSqlSession().selectOne("statistics.getWorkTimeCompensationCountByUser", map);
-
-		if ((ret == null) || (ret == 0.0)) {
-			return 0.0;
-		}
-
-		return ret;
-	}
-
-	@Override
 	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
 			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift, final Integer idShip, final String craneId) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
