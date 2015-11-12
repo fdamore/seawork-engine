@@ -1116,6 +1116,26 @@
 													</label>
 													<checkbox id="isRZ" />
 												</row>
+												<row>
+													<label 	value="Franchigia Tempo Lavorato:"/>
+													<doublebox id="fr_timework" constraint="no negative"/>
+												</row>
+												<row>
+													<label 	value="Franchigia Volume:"/>
+													<doublebox id="fr_volume" constraint="no negative" />
+												</row>
+												<row>
+													<label 	value="Franchigia Volume Rizz. da Bordo (x Cliente):"/>
+													<doublebox id="fr_volumeunderboard" constraint="no negative"/>
+												</row>
+												<row>
+													<label 	value="Franchigia Volume Rizz. da Bordo (x SWS):"/>
+													<doublebox id="fr_volumeunderboard_sws" constraint="no negative"/>
+												</row>
+												<row>
+													<label 	value="Franchigia Volume TW MCT:"/>
+													<doublebox id="fr_volume_tw_mct" constraint="no negative"/>
+												</row>
 											</rows>
 										</grid>
 									</panelchildren>
@@ -1170,6 +1190,21 @@
 									
 									<listheader label="Rizzaggio"
 										sort="auto" />
+									
+									<listheader label="Franchigia Tempo Lavorato"
+										sort="auto" />
+										
+									<listheader label="Franchigia Volume"
+										sort="auto" />
+										
+									<listheader label="Franchigia Volume Rizz. da Bordo (x Cliente)"
+										sort="auto" />
+									
+									<listheader label="Franchigia Volume Rizz. da Bordo (x SWS)"
+										sort="auto" />
+										
+									<listheader label="Franchigia Volume TW MCT"  
+										sort="auto" />
 
 									<listheader label="" />
 								</listhead>
@@ -1187,6 +1222,21 @@
 										<image
 											src="@{service_item.isRZ, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
+									
+									<listcell sclass="myBottonCell"
+										label="@{service_item.franchise_timework}" />
+										
+									<listcell sclass="myBottonCell"
+										label="@{service_item.franchise_volume}" />
+										
+									<listcell sclass="myBottonCell"
+										label="@{service_item.franchise_volumeunderboard}" />
+										
+									<listcell sclass="myBottonCell"
+										label="@{service_item.franchise_volumeunderboard_sws}" />
+										
+									<listcell sclass="myBottonCell"
+										label="@{service_item.franchise_volume_tw_mct}" />
 
 									<listcell sclass="myBottonCell">
 
@@ -1195,7 +1245,7 @@
 											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());"
 											label="Cancella">
 										</toolbarbutton>
-										
+																														
 										<toolbarbutton
 											id="sw_link_modifyservice" style="color:blue"
 											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());add_service_command.setVisible(false);modify_service_command.setVisible(true);grid_service_details.setVisible(true);"

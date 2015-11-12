@@ -31,6 +31,7 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
@@ -98,6 +99,21 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Wire
 	private Checkbox			forceable;
+
+	@Wire
+	private Doublebox			fr_timework;
+
+	@Wire
+	private Doublebox			fr_volume;
+
+	@Wire
+	private Doublebox			fr_volume_tw_mct;
+
+	@Wire
+	private Doublebox			fr_volumeunderboard;
+
+	@Wire
+	private Doublebox			fr_volumeunderboard_sws;
 
 	@Wire
 	private Textbox				full_text_search_BillCenter;
@@ -301,6 +317,11 @@ public class Preferences extends SelectorComposer<Component> {
 										service.setName(Preferences.this.name_service.getValue());
 										service.setDescription(Preferences.this.description_service.getValue());
 										service.setIsRZ(true);
+										service.setFranchise_timework(Preferences.this.fr_timework.getValue());
+										service.setFranchise_volume(Preferences.this.fr_volume.getValue());
+										service.setFranchise_volume_tw_mct(Preferences.this.fr_volume_tw_mct.getValue());
+										service.setFranchise_volumeunderboard(Preferences.this.fr_volumeunderboard.getValue());
+										service.setFranchise_volumeunderboard_sws(Preferences.this.fr_volumeunderboard_sws.getValue());
 										Preferences.this.configurationDao.addService(service);
 										Preferences.this.refreshServiceList();
 										Preferences.this.resetServiceInfo();
@@ -315,6 +336,11 @@ public class Preferences extends SelectorComposer<Component> {
 				service.setName(Preferences.this.name_service.getValue());
 				service.setDescription(Preferences.this.description_service.getValue());
 				service.setIsRZ(false);
+				service.setFranchise_timework(this.fr_timework.getValue());
+				service.setFranchise_volume(this.fr_volume.getValue());
+				service.setFranchise_volume_tw_mct(this.fr_volume_tw_mct.getValue());
+				service.setFranchise_volumeunderboard(this.fr_volumeunderboard.getValue());
+				service.setFranchise_volumeunderboard_sws(this.fr_volumeunderboard_sws.getValue());
 				Preferences.this.configurationDao.addService(service);
 				Preferences.this.refreshServiceList();
 				Preferences.this.resetServiceInfo();
@@ -1157,6 +1183,11 @@ public class Preferences extends SelectorComposer<Component> {
 			this.name_service.setValue(this.serviceSelected.getName());
 			this.description_service.setValue(this.serviceSelected.getDescription());
 			this.isRZ.setChecked(this.serviceSelected.getIsRZ());
+			this.fr_timework.setValue(this.serviceSelected.getFranchise_timework());
+			this.fr_volume.setValue(this.serviceSelected.getFranchise_volume());
+			this.fr_volume_tw_mct.setValue(this.serviceSelected.getFranchise_volume_tw_mct());
+			this.fr_volumeunderboard.setValue(this.serviceSelected.getFranchise_volumeunderboard());
+			this.fr_volumeunderboard_sws.setValue(this.serviceSelected.getFranchise_volumeunderboard_sws());
 
 			this.add_service_command.setVisible(false);
 			this.modify_service_command.setVisible(true);
@@ -1187,6 +1218,12 @@ public class Preferences extends SelectorComposer<Component> {
 								Preferences.this.configurationDao.updateService(rzService);
 								Preferences.this.serviceSelected.setDescription(Preferences.this.description_service.getValue());
 								Preferences.this.serviceSelected.setName(Preferences.this.name_service.getValue());
+								Preferences.this.serviceSelected.setFranchise_timework(Preferences.this.fr_timework.getValue());
+								Preferences.this.serviceSelected.setFranchise_volume(Preferences.this.fr_volume.getValue());
+								Preferences.this.serviceSelected.setFranchise_volume_tw_mct(Preferences.this.fr_volume_tw_mct.getValue());
+								Preferences.this.serviceSelected.setFranchise_volumeunderboard(Preferences.this.fr_volumeunderboard.getValue());
+								Preferences.this.serviceSelected
+										.setFranchise_volumeunderboard_sws(Preferences.this.fr_volumeunderboard_sws.getValue());
 								Preferences.this.serviceSelected.setIsRZ(Preferences.this.isRZ.isChecked());
 								Preferences.this.configurationDao.updateService(Preferences.this.serviceSelected);
 								Preferences.this.resetServiceInfo();
@@ -1212,6 +1249,11 @@ public class Preferences extends SelectorComposer<Component> {
 			this.serviceSelected.setDescription(this.description_service.getValue());
 			this.serviceSelected.setName(this.name_service.getValue());
 			this.serviceSelected.setIsRZ(this.isRZ.isChecked());
+			this.serviceSelected.setFranchise_timework(this.fr_timework.getValue());
+			this.serviceSelected.setFranchise_volume(this.fr_volume.getValue());
+			this.serviceSelected.setFranchise_volume_tw_mct(this.fr_volume_tw_mct.getValue());
+			this.serviceSelected.setFranchise_volumeunderboard(this.fr_volumeunderboard.getValue());
+			this.serviceSelected.setFranchise_volumeunderboard_sws(this.fr_volumeunderboard_sws.getValue());
 			this.configurationDao.updateService(this.serviceSelected);
 			this.refreshServiceList();
 			this.resetServiceInfo();
@@ -1710,6 +1752,11 @@ public class Preferences extends SelectorComposer<Component> {
 		this.description_service.setValue(null);
 		this.name_service.setValue(null);
 		this.isRZ.setChecked(false);
+		this.fr_timework.setValue(null);
+		this.fr_volume.setValue(null);
+		this.fr_volume_tw_mct.setValue(null);
+		this.fr_volumeunderboard.setValue(null);
+		this.fr_volumeunderboard_sws.setValue(null);
 		this.grid_service_details.setVisible(false);
 		this.add_service_command.setVisible(true);
 		this.modify_service_command.setVisible(false);

@@ -279,8 +279,8 @@
 	
 	<insert id="addService" parameterType="org.uario.seaworkengine.model.Service">
 		INSERT INTO service
-		(name,description,isRZ)
-		VALUES (#{name},#{description},#{isRZ});
+		(name,description,isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework)
+		VALUES (#{name},#{description},#{isRZ},#{franchise_volume},#{franchise_volume_tw_mct},#{franchise_volumeunderboard},#{franchise_volumeunderboard_sws},#{franchise_timework});
 	</insert>
 
 	<delete id="removeStatus">
@@ -294,7 +294,7 @@
 	</delete>
 	
 	<select id="loadRZService" resultType="org.uario.seaworkengine.model.Service"> 
-		SELECT id,name,description,isRZ
+		SELECT id,name,description,isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework 
 		FROM service 
 		WHERE isRZ=1;
 	</select>
@@ -306,7 +306,7 @@
 	</select>
 	
 	<select id="selectService" parameterType="map" resultType="org.uario.seaworkengine.model.Service">
-		SELECT id, name, description, isRZ 
+		SELECT id, name, description, isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework 
 		FROM service
 		WHERE id is not null  
 		<if test="id != null">
@@ -322,7 +322,7 @@
 	</select>
 	
 	<select id="checkServiceExist" parameterType="String" resultType="org.uario.seaworkengine.model.Service">
-		SELECT id, name, description, isRZ
+		SELECT id, name, description, isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework
 		FROM service 
 		WHERE name=#{name};
 	</select>
@@ -336,7 +336,12 @@
 	
 	<update id="updateService" parameterType="org.uario.seaworkengine.model.Service">
 		UPDATE service 
-		SET name = #{name}, description = #{description}, isRZ = #{isRZ} 
+		SET name = #{name}, description = #{description}, isRZ = #{isRZ},
+		franchise_volume = #{franchise_volume},
+		franchise_volume_tw_mct = #{franchise_volume_tw_mct},
+		franchise_volumeunderboard = #{franchise_volumeunderboard},
+		franchise_volumeunderboard_sws = #{franchise_volumeunderboard_sws},
+		franchise_timework = #{franchise_timework} 
 		WHERE id = #{id};
 	</update>	
 
