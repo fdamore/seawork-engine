@@ -2943,7 +2943,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		cal.set(Calendar.YEAR, year);
 
 		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(year, this.byInvoce.isChecked());
-		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year, this.byInvoce.isChecked());
+		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year, null, this.byInvoce.isChecked());
 
 		final ReportItem itemContainer = new ReportItem();
 		itemContainer.setArgument(ReportItemTag.Containers);
@@ -3580,6 +3580,63 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.reportList.add(6, itemContainerOnMen);
 		this.reportList.add(7, itemContainerOnHours);
 		this.reportList.add(8, itemProductivity);
+
+		// Mani consuntivate
+		Double totalHandsC = 0.0;
+		Integer numberOfHandsNotNullC = 0;
+
+		for (int i = 1; i <= 4; i++) {
+			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, this.byInvoce.isChecked());
+			totalHandsC = 0.0;
+			numberOfHandsNotNullC = 0;
+
+			final ReportItem itemHandsC = new ReportItem();
+			itemHandsC.setArgument(ReportItemTag.HandsC_shift + i);
+
+			for (final ShipTotal shipTotal : list) {
+
+				if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
+					totalHandsC += shipTotal.getHandswork();
+					numberOfHandsNotNullC++;
+				}
+
+				if (shipTotal.getMonthInvoice() == 1) {
+					itemHandsC.setGen(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 2) {
+					itemHandsC.setFeb(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 3) {
+					itemHandsC.setMar(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 4) {
+					itemHandsC.setApr(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 5) {
+					itemHandsC.setMay(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 6) {
+					itemHandsC.setJun(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 7) {
+					itemHandsC.setJul(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 8) {
+					itemHandsC.setAug(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 9) {
+					itemHandsC.setSep(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 10) {
+					itemHandsC.setOct(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 11) {
+					itemHandsC.setNov(shipTotal.getHandswork());
+				} else if (shipTotal.getMonthInvoice() == 12) {
+					itemHandsC.setDec(shipTotal.getHandswork());
+				}
+
+			}
+
+			itemHandsC.setTot(totalHandsC);
+			if ((numberOfHandsNotNullC != 0) && (totalHandsC != null)) {
+				itemHandsC.setAvg(totalHandsC / numberOfHandsNotNullC);
+			} else {
+				itemHandsC.setAvg(null);
+			}
+			this.reportList.add(itemHandsC);
+
+		}
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 

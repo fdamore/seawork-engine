@@ -15,6 +15,8 @@ public interface ReportItemTag {
 
 	public static String	Hands				= "Totale Mani";
 
+	public static String	HandsC_shift		= "Mani C turno ";
+
 	public static String	HandsOnDays			= "Mani/Giorno";
 
 	public static String	MenOnHands			= "Uomini/Mani";

@@ -13,6 +13,7 @@ public class ShipTotal implements Serializable {
 	private Double				containerRZ_TW_MCT;
 	private Double				containerRZ_TW_SWS;
 	private Double				handswork;
+	private Integer				handswork_program;
 
 	private Integer				invoice_month;
 	private Double				menwork;
@@ -45,6 +46,10 @@ public class ShipTotal implements Serializable {
 
 	public Double getHandswork() {
 		return this.handswork;
+	}
+
+	public Integer getHandswork_program() {
+		return this.handswork_program;
 	}
 
 	public Integer getInvoice_month() {
@@ -109,6 +114,10 @@ public class ShipTotal implements Serializable {
 
 	public void setHandswork(final Double handswork) {
 		this.handswork = handswork;
+	}
+
+	public void setHandswork_program(final Integer handswork_program) {
+		this.handswork_program = handswork_program;
 	}
 
 	public void setInvoice_month(final Integer invoice_month) {

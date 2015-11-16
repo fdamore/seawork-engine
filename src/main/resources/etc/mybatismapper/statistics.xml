@@ -960,25 +960,29 @@
 	</select>
 
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
-		parameterType="int">
+		parameterType="map">
 
-		select sum(handswork)as handswork, sum(menwork)as
-		menwork, invoicing_cycle
-		as monthInvoice
+		select sum(handswork)as handswork, sum(handswork_program)as handswork_program,sum(menwork)as
+		menwork, invoicing_cycle as monthInvoice 
 		from reportmen
-		where shiftyear =
-		#{year} and invoicing_cycle is not null group by
-		invoicing_cycle
+		where shiftyear = #{year} and invoicing_cycle is not null 
+		<if test="shift!=null">
+			and shift=#{shift}
+		</if> 
+		group by invoicing_cycle
 
 	</select>
 
 	<select id="getTotalHandsMenByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
-		parameterType="int">
-		select sum(dis.handswork) as handswork, sum(dis.menwork)
+		parameterType="map">
+		select sum(dis.handswork) as handswork, sum(dis.handswork_program)as handswork_program, sum(dis.menwork)
 		as menwork, month(dis.shiftdate) as monthInvoice
 		from
 		detailscheduleship dis
 		where year(dis.shiftdate)=#{year}
+		<if test="shift!=null">
+			and shift=#{shift}
+		</if> 
 		group by
 		monthInvoice;
 	</select>

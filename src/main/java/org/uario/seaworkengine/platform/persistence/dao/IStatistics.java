@@ -29,7 +29,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public Integer countWorkerInOverviewFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-	        Date date_from, Date date_to, Boolean reviewshift, Integer idShip, String crane);
+			Date date_from, Date date_to, Boolean reviewshift, Integer idShip, String crane);
 
 	/**
 	 * Count worker
@@ -43,7 +43,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public Integer countWorkerInOverviewInitalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-	        Date date_from, Date date_to);
+			Date date_from, Date date_to);
 
 	public void createTerminalProductivity(TerminalProductivity terminalProductivity);
 
@@ -160,7 +160,7 @@ public interface IStatistics {
 	 */
 	public Double getTimeWorked(Integer id_user, Date date_from, Date date_to);
 
-	public List<ShipTotal> getTotalHandsMen(Integer year, Boolean by_invoice);
+	public List<ShipTotal> getTotalHandsMen(final Integer year, final Integer shift, final Boolean by_invoice);
 
 	public List<ShipTotal> getTotalHoursByTask(final Integer year);
 
@@ -179,7 +179,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<DetailFinalSchedule> listDetailFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-	        Date date_from, Date date_to, Boolean reviewshift, Integer idShip, String crane);
+			Date date_from, Date date_to, Boolean reviewshift, Integer idShip, String crane);
 
 	/**
 	 * List detail initial schedule
@@ -193,7 +193,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-	        Date date_from, Date date_to);
+			Date date_from, Date date_to);
 
 	/**
 	 * List detail initial schedule
@@ -222,7 +222,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<ReviewShipWork> loadReviewShipWork(Date date_from, Date date_to, String searchText, Integer rifSWS, String rifMCT, Integer shift,
-	        Integer invoicing_cycle, Integer serviceId, String shipType, String shipLine, String shipCondition);
+			Integer invoicing_cycle, Integer serviceId, String shipType, String shipLine, String shipCondition);
 
 	/**
 	 * @param date_from
@@ -236,7 +236,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(Date date_from, Date date_to, Integer rifSWS, String rifMCT,
-	        Integer invoicing_cycle, String searchText, Integer serviceId, String shipType, String shipLine, String shipCondition);
+			Integer invoicing_cycle, String searchText, Integer serviceId, String shipType, String shipLine, String shipCondition);
 
 	public TerminalProductivity loadTerminalProductivity(Integer id);
 
@@ -251,7 +251,7 @@ public interface IStatistics {
 	 * @return
 	 */
 	public List<ShipOverview> overviewFinalScheduleByShip(String text_search, Date date_from, Date date_to, String shipType, String shipLine,
-	        String shipCondition);
+			String shipCondition);
 
 	public void updateTerminalProductivity(TerminalProductivity terminalProductivity);
 
