@@ -72,7 +72,7 @@ public class CraneTypeConverter implements TypeConverter {
 			}
 		} else {
 
-			if (!crane.equals("")) {
+			if ((crane != null) && !crane.equals("")) {
 				if (crane_gtw) {
 					return "GTW" + crane;
 				} else {
