@@ -39,7 +39,7 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_SWS)
 				|| source.getArgument().equals(ReportItemTag.TaskHours) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_MCT)
 				|| source.getArgument().equals(ReportItemTag.Hands) || source.getIsTaskROW()
-				|| source.getArgument().contains(ReportItemTag.HandsC_shift)) {
+				|| source.getArgument().contains(ReportItemTag.HandsC_shift) || source.getArgument().contains(ReportItemTag.HandsP_shift)) {
 			Integer value = 0;
 			if (tag.equals("argument")) {
 				return source.getArgument();

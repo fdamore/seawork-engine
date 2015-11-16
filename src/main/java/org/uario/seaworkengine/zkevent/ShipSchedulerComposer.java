@@ -3638,7 +3638,65 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 			this.reportList.add(indexRowHandsC, itemHandsC);
 			indexRowHandsC++;
+		}
 
+		// Mani programmate
+		Double totalHandsP = 0.0;
+		Integer numberOfHandsNotNullP = 0;
+
+		int indexRowHandsP = 13;
+
+		for (int i = 1; i <= 4; i++) {
+			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, this.byInvoce.isChecked());
+			totalHandsP = 0.0;
+			numberOfHandsNotNullP = 0;
+
+			final ReportItem itemHandsP = new ReportItem();
+			itemHandsP.setArgument(ReportItemTag.HandsP_shift + i);
+
+			for (final ShipTotal shipTotal : list) {
+
+				if ((shipTotal.getHandswork_program() != null) && !shipTotal.getHandswork_program().equals(0.0)) {
+					totalHandsP += shipTotal.getHandswork_program();
+					numberOfHandsNotNullP++;
+				}
+
+				if (shipTotal.getMonthInvoice() == 1) {
+					itemHandsP.setGen(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 2) {
+					itemHandsP.setFeb(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 3) {
+					itemHandsP.setMar(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 4) {
+					itemHandsP.setApr(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 5) {
+					itemHandsP.setMay(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 6) {
+					itemHandsP.setJun(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 7) {
+					itemHandsP.setJul(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 8) {
+					itemHandsP.setAug(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 9) {
+					itemHandsP.setSep(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 10) {
+					itemHandsP.setOct(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 11) {
+					itemHandsP.setNov(shipTotal.getHandswork_program());
+				} else if (shipTotal.getMonthInvoice() == 12) {
+					itemHandsP.setDec(shipTotal.getHandswork_program());
+				}
+
+			}
+
+			itemHandsP.setTot(totalHandsP);
+			if ((numberOfHandsNotNullP != 0) && (totalHandsP != null)) {
+				itemHandsP.setAvg(totalHandsP / numberOfHandsNotNullP);
+			} else {
+				itemHandsP.setAvg(null);
+			}
+			this.reportList.add(indexRowHandsP, itemHandsP);
+			indexRowHandsP++;
 		}
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));

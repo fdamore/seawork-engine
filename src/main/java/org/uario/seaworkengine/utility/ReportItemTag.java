@@ -19,6 +19,8 @@ public interface ReportItemTag {
 
 	public static String	HandsOnDays			= "Mani/Giorno";
 
+	public static String	HandsP_shift		= "Mani P turno ";
+
 	public static String	MenOnHands			= "Uomini/Mani";
 
 	public static String	Productivity		= "Prod. Terminal";

@@ -978,8 +978,8 @@
 		select sum(dis.handswork) as handswork, sum(dis.handswork_program)as handswork_program, sum(dis.menwork)
 		as menwork, month(dis.shiftdate) as monthInvoice
 		from
-		detailscheduleship dis
-		where year(dis.shiftdate)=#{year}
+		detailscheduleship dis, scheduleship ss  
+		where year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and ss.id_service = (select sv.id AS id from service sv where sv.isRZ=1) 
 		<if test="shift!=null">
 			and shift=#{shift}
 		</if> 
