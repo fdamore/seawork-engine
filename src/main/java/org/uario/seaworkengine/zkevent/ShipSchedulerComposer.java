@@ -3585,6 +3585,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Double totalHandsC = 0.0;
 		Integer numberOfHandsNotNullC = 0;
 
+		int indexRowHandsC = 9;
+
 		for (int i = 1; i <= 4; i++) {
 			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, this.byInvoce.isChecked());
 			totalHandsC = 0.0;
@@ -3634,7 +3636,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			} else {
 				itemHandsC.setAvg(null);
 			}
-			this.reportList.add(itemHandsC);
+			this.reportList.add(indexRowHandsC, itemHandsC);
+			indexRowHandsC++;
 
 		}
 
