@@ -3826,6 +3826,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		itemHandsC_P.setTot(null);
 		this.reportList.add(indexRowHandsP, itemHandsC_P);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));

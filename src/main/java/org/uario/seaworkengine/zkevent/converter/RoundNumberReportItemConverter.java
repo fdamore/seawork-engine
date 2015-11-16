@@ -134,7 +134,7 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 				if (source.getTot() != null) {
 					value = source.getTot().intValue();
 				} else {
-					return "0";
+					return "";
 				}
 			}
 			if (tag.equals("avg")) {
