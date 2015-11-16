@@ -3587,6 +3587,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		int indexRowHandsC = 9;
 
+		final List<Integer> handsC = new ArrayList<Integer>();
+		for (int i = 1; i <= 12; i++) {
+			handsC.add(0);
+		}
+
 		for (int i = 1; i <= 4; i++) {
 			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, this.byInvoce.isChecked());
 			totalHandsC = 0.0;
@@ -3604,28 +3609,64 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getMonthInvoice() == 1) {
 					itemHandsC.setGen(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(0, (int) (handsC.get(0) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 2) {
 					itemHandsC.setFeb(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(1, (int) (handsC.get(1) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 3) {
 					itemHandsC.setMar(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(2, (int) (handsC.get(2) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 4) {
 					itemHandsC.setApr(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(3, (int) (handsC.get(3) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 5) {
 					itemHandsC.setMay(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(4, (int) (handsC.get(4) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 6) {
 					itemHandsC.setJun(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(5, (int) (handsC.get(5) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 7) {
 					itemHandsC.setJul(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(6, (int) (handsC.get(6) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 8) {
 					itemHandsC.setAug(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(7, (int) (handsC.get(7) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 9) {
 					itemHandsC.setSep(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(8, (int) (handsC.get(8) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 10) {
 					itemHandsC.setOct(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(9, (int) (handsC.get(9) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 11) {
 					itemHandsC.setNov(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(10, (int) (handsC.get(10) + shipTotal.getHandswork()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 12) {
 					itemHandsC.setDec(shipTotal.getHandswork());
+					if (shipTotal.getHandswork() != null) {
+						handsC.set(11, (int) (handsC.get(11) + shipTotal.getHandswork()));
+					}
 				}
 
 			}
@@ -3646,6 +3687,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		int indexRowHandsP = 13;
 
+		final List<Integer> handsP = new ArrayList<Integer>();
+		for (int i = 1; i <= 12; i++) {
+			handsP.add(0);
+		}
+
 		for (int i = 1; i <= 4; i++) {
 			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, this.byInvoce.isChecked());
 			totalHandsP = 0.0;
@@ -3663,30 +3709,65 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if (shipTotal.getMonthInvoice() == 1) {
 					itemHandsP.setGen(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(0, (int) (handsP.get(0) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 2) {
 					itemHandsP.setFeb(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(1, (int) (handsP.get(1) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 3) {
 					itemHandsP.setMar(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(2, (int) (handsP.get(2) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 4) {
 					itemHandsP.setApr(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(3, (int) (handsP.get(3) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 5) {
 					itemHandsP.setMay(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(4, (int) (handsP.get(4) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 6) {
 					itemHandsP.setJun(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(5, (int) (handsP.get(5) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 7) {
 					itemHandsP.setJul(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(6, (int) (handsP.get(6) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 8) {
 					itemHandsP.setAug(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(7, (int) (handsP.get(7) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 9) {
 					itemHandsP.setSep(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(8, (int) (handsP.get(8) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 10) {
 					itemHandsP.setOct(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(9, (int) (handsP.get(9) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 11) {
 					itemHandsP.setNov(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(10, (int) (handsP.get(10) + shipTotal.getHandswork_program()));
+					}
 				} else if (shipTotal.getMonthInvoice() == 12) {
 					itemHandsP.setDec(shipTotal.getHandswork_program());
+					if (shipTotal.getHandswork_program() != null) {
+						handsP.set(11, (int) (handsP.get(11) + shipTotal.getHandswork_program()));
+					}
 				}
-
 			}
 
 			itemHandsP.setTot(totalHandsP);
@@ -3699,8 +3780,55 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			indexRowHandsP++;
 		}
 
-		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
+		// Mani C-P
+		final ReportItem itemHandsC_P = new ReportItem();
+		itemHandsC_P.setArgument(ReportItemTag.HandsC_P);
+		for (int i = 1; i <= 12; i++) {
+			switch (i) {
+			case 1:
+				itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
+				break;
+			case 2:
+				itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
+				break;
+			case 3:
+				itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
+				break;
+			case 4:
+				itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
+				break;
+			case 5:
+				itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
+				break;
+			case 6:
+				itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
+				break;
+			case 7:
+				itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
+				break;
+			case 8:
+				itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
+				break;
+			case 9:
+				itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
+				break;
+			case 10:
+				itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
+				break;
+			case 11:
+				itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
+				break;
+			case 12:
+				itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
+				break;
+			default:
+				break;
+			}
+		}
 
+		this.reportList.add(indexRowHandsP, itemHandsC_P);
+
+		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 	}
 
 	private void refreshReportView() {
