@@ -527,6 +527,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Combobox											select_year_detail;
 
 	@Wire
+	private Combobox										selectCustomer;
+
+	@Wire
 	private Combobox										selectServiceDetail;
 
 	@Wire
@@ -567,7 +570,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Datebox											ship_arrival_schedule;
-
 	private IShipCache										ship_cache;
 	@Wire
 	private Textbox											ship_condition_search;
@@ -583,6 +585,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Timebox											ship_from;
 	@Wire
 	private Timebox											ship_from_detail;
+
 	@Wire
 	private Textbox											ship_line_search;
 
@@ -1724,6 +1727,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.craneListModel = this.configurationDao.getCrane(null, null, null, null);
 		this.idCrane_review.setModel(new ListModelList<Crane>(this.craneListModel));
+
+		// Set customer combobox in report view
+		ShipSchedulerComposer.this.customerDAO = (ICustomerDAO) SpringUtil.getBean(BeansTag.CUSTOMER_DAO);
+		final List<Customer> customerList = this.customerDAO.listAllCustomers();
+		this.selectCustomer.setModel(new ListModelList<Customer>(customerList));
 
 	}
 
