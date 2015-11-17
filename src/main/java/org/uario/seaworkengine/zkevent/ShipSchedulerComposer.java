@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.uario.seaworkengine.model.Complaint;
 import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
@@ -164,6 +165,42 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Checkbox										check_last_shiftReview;
 
+	@Wire
+	private Intbox											complaint_apr;
+
+	@Wire
+	private Intbox											complaint_aug;
+
+	@Wire
+	private Intbox											complaint_dec;
+
+	@Wire
+	private Intbox											complaint_feb;
+
+	@Wire
+	private Intbox											complaint_gen;
+
+	@Wire
+	private Intbox											complaint_jul;
+
+	@Wire
+	private Intbox											complaint_jun;
+
+	@Wire
+	private Intbox											complaint_mar;
+
+	@Wire
+	private Intbox											complaint_may;
+
+	@Wire
+	private Intbox											complaint_nov;
+
+	@Wire
+	private Intbox											complaint_oct;
+
+	@Wire
+	private Intbox											complaint_sep;
+
 	private ConfigurationDAO								configurationDao;
 
 	@Wire
@@ -173,6 +210,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader										customerColumn;
+
+	private HashMap<Integer, HashMap<Integer, ShipTotal>>	customerComplaint				= new HashMap<Integer, HashMap<Integer, ShipTotal>>();
 
 	private ICustomerDAO									customerDAO;
 
@@ -267,37 +306,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Intbox											handswork_Daily;
-
 	@Wire
 	private Intbox											handswork_program;
-
 	@Wire
 	public Label											handswork_program_Daily;
-
 	@Wire
 	private Label											hourReview;
-
 	@Wire
 	private Combobox										idCrane_review;
-
 	@Wire
 	private Label											infoDetailShipProgram;
-
 	@Wire
 	private Label											infoShipNameAndShift;
-
 	@Wire
 	private Intbox											invoicing_cycle_review;
-
 	@Wire
 	private Intbox											invoicing_cycle_search;
-
 	@Wire
 	private Datebox											last_down_detail;
-
 	@Wire
 	private Datebox											last_down_review;
-
 	// used to collect details about programmed ship
 	private List<DetailScheduleShip>						list_details_programmed_ship	= new ArrayList<DetailScheduleShip>();
 
@@ -305,24 +333,35 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private List<ScheduleShip>								list_programmed_ship			= new ArrayList<ScheduleShip>();
 
 	private List<ReviewShipWork>							list_review_work				= new ArrayList<ReviewShipWork>();
+
 	private List<ReviewShipWorkAggregate>					list_review_work_aggregate		= new ArrayList<ReviewShipWorkAggregate>();
+
 	@Wire
 	private Listbox											list_reviewDetailScheduleShip;
+
 	@Wire
 	private Listbox											list_ship_statistics;
+
 	private List<DetailScheduleShip>						listDetailScheduleShip			= new ArrayList<DetailScheduleShip>();
+
 	// statistics - USED DOWNLOAD
 	private List<ShipOverview>								listShipStatistics				= new ArrayList<ShipOverview>();
+
 	@Wire
 	private Listheader										mctColumn;
+
 	@Wire
 	private Component										menwork;
+
 	@Wire
 	private Intbox											menwork_activityh;
+
 	@Wire
 	private Component										menwork_activityhRow;
+
 	@Wire
 	public Intbox											menwork_Daily;
+
 	@Wire
 	private Intbox											menwork_program;
 
@@ -531,28 +570,20 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox										selectServiceDetail;
-
 	@Wire
 	private Combobox										servicetype;
-
 	@Wire
 	private Combobox										servicetype_schedule;
-
 	@Wire
 	private Label											serviceTypeDescriprion;
-
 	@Wire
 	private Combobox										shift;
-
 	@Wire
 	public Combobox											shift_Daily;
-
 	@Wire
 	private Datebox											shiftdate;
-
 	@Wire
 	public Datebox											shiftdate_Daily;
-
 	@Wire
 	private Component										shiftFilter;
 
@@ -570,19 +601,27 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Datebox											ship_arrival_schedule;
+
 	private IShipCache										ship_cache;
+
 	@Wire
 	private Textbox											ship_condition_search;
+
 	@Wire
 	private Combobox										ship_customer;
+
 	@Wire
 	private Combobox										ship_customer_add;
+
 	@Wire
 	private Datebox											ship_departure;
+
 	@Wire
 	public Datebox											ship_departure_schedule;
+
 	@Wire
 	private Timebox											ship_from;
+
 	@Wire
 	private Timebox											ship_from_detail;
 
@@ -693,37 +732,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader										textCol;
-
 	@Wire
 	private Doublebox										time_review;
-
 	@Wire
 	private Doublebox										time_review_franchise;
-
 	@Wire
 	private Label											TotalTimeWork;
-
 	@Wire
 	private Label											TotalVolume;
-
 	@Wire
 	private Label											TotalVolumeOnBoard;
-
 	@Wire
 	private Label											TotalVolumeOnBoard_sws;
-
 	@Wire
 	private Label											TotalVolumeTWMTC;
-
 	@Wire
 	private Doublebox										tp_apr;
-
 	@Wire
 	private Doublebox										tp_aug;
-
 	@Wire
 	private Doublebox										tp_dec;
-
 	@Wire
 	private Doublebox										tp_feb;
 
@@ -1732,6 +1760,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		ShipSchedulerComposer.this.customerDAO = (ICustomerDAO) SpringUtil.getBean(BeansTag.CUSTOMER_DAO);
 		final List<Customer> customerList = this.customerDAO.listAllCustomers();
 		this.selectCustomer.setModel(new ListModelList<Customer>(customerList));
+		this.select_customer.setSelectedItem(null);
 
 	}
 
@@ -2870,6 +2899,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private void refreshInputComplaintCell() {
+		this.complaint_gen.setValue(null);
+		this.complaint_feb.setValue(null);
+		this.complaint_mar.setValue(null);
+		this.complaint_apr.setValue(null);
+		this.complaint_may.setValue(null);
+		this.complaint_jun.setValue(null);
+		this.complaint_jul.setValue(null);
+		this.complaint_aug.setValue(null);
+		this.complaint_sep.setValue(null);
+		this.complaint_oct.setValue(null);
+		this.complaint_nov.setValue(null);
+		this.complaint_dec.setValue(null);
+		this.select_customer.setSelectedItem(null);
+	}
+
 	private void refreshInputProductivityCell() {
 		this.tp_gen.setValue(null);
 		this.tp_feb.setValue(null);
@@ -3843,6 +3888,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer totalComplaint = 0;
 		Integer complainNotNull = 0;
 
+		this.customerComplaint = new HashMap<Integer, HashMap<Integer, ShipTotal>>();
+
 		if (customerList != null) {
 			for (final Customer customer : customerList) {
 				if (customer == null) {
@@ -3852,89 +3899,90 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				itemComplaint.setArgument(ReportItemTag.CustomerComplaint + customer.getName());
 
 				final HashMap<Integer, ShipTotal> complaintList = this.statisticDAO.countComplaintByCustomer(year, customer.getId());
-				if ((complaintList.get(1) != null) && !complaintList.get(1).equals(0)) {
-					itemComplaint.setGen((double) complaintList.get(1).getMonth_date());
+
+				if ((complaintList.get(1) != null) && !complaintList.get(1).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setGen((double) complaintList.get(1).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getGen());
 					complainNotNull++;
 				} else {
-					itemComplaint.setGen(0.0);
+					itemComplaint.setGen(null);
 				}
-				if ((complaintList.get(2) != null) && !complaintList.get(2).equals(0)) {
-					itemComplaint.setFeb((double) complaintList.get(2).getMonth_date());
+				if ((complaintList.get(2) != null) && !complaintList.get(2).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setFeb((double) complaintList.get(2).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getFeb());
 					complainNotNull++;
 				} else {
-					itemComplaint.setFeb(0.0);
+					itemComplaint.setFeb(null);
 				}
-				if ((complaintList.get(3) != null) && !complaintList.get(3).equals(0)) {
-					itemComplaint.setMar((double) complaintList.get(3).getMonth_date());
+				if ((complaintList.get(3) != null) && !complaintList.get(3).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setMar((double) complaintList.get(3).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getMar());
 					complainNotNull++;
 				} else {
-					itemComplaint.setMar(0.0);
+					itemComplaint.setMar(null);
 				}
-				if ((complaintList.get(4) != null) && !complaintList.get(4).equals(0)) {
-					itemComplaint.setApr((double) complaintList.get(4).getMonth_date());
+				if ((complaintList.get(4) != null) && !complaintList.get(4).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setApr((double) complaintList.get(4).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getApr());
 					complainNotNull++;
 				} else {
-					itemComplaint.setApr(0.0);
+					itemComplaint.setApr(null);
 				}
-				if ((complaintList.get(5) != null) && !complaintList.get(5).equals(0)) {
-					itemComplaint.setMay((double) complaintList.get(5).getMonth_date());
+				if ((complaintList.get(5) != null) && !complaintList.get(5).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setMay((double) complaintList.get(5).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getMay());
 					complainNotNull++;
 				} else {
-					itemComplaint.setMay(0.0);
+					itemComplaint.setMay(null);
 				}
-				if ((complaintList.get(6) != null) && !complaintList.get(6).equals(0)) {
-					itemComplaint.setJun((double) complaintList.get(6).getMonth_date());
+				if ((complaintList.get(6) != null) && !complaintList.get(6).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setJun((double) complaintList.get(6).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getJun());
 					complainNotNull++;
 				} else {
-					itemComplaint.setJun(0.0);
+					itemComplaint.setJun(null);
 				}
-				if ((complaintList.get(7) != null) && !complaintList.get(7).equals(0)) {
-					itemComplaint.setJul((double) complaintList.get(7).getMonth_date());
+				if ((complaintList.get(7) != null) && !complaintList.get(7).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setJul((double) complaintList.get(7).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getJul());
 					complainNotNull++;
 				} else {
-					itemComplaint.setJul(0.0);
+					itemComplaint.setJul(null);
 				}
-				if ((complaintList.get(8) != null) && !complaintList.get(8).equals(0)) {
-					itemComplaint.setAug((double) complaintList.get(8).getMonth_date());
+				if ((complaintList.get(8) != null) && !complaintList.get(8).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setAug((double) complaintList.get(8).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getAug());
 					complainNotNull++;
 				} else {
-					itemComplaint.setAug(0.0);
+					itemComplaint.setAug(null);
 				}
-				if ((complaintList.get(9) != null) && !complaintList.get(9).equals(0)) {
-					itemComplaint.setSep((double) complaintList.get(9).getMonth_date());
+				if ((complaintList.get(9) != null) && !complaintList.get(9).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setSep((double) complaintList.get(9).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getSep());
 					complainNotNull++;
 				} else {
-					itemComplaint.setSep(0.0);
+					itemComplaint.setSep(null);
 				}
-				if ((complaintList.get(10) != null) && !complaintList.get(10).equals(0)) {
-					itemComplaint.setOct((double) complaintList.get(10).getMonth_date());
+				if ((complaintList.get(10) != null) && !complaintList.get(10).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setOct((double) complaintList.get(10).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getOct());
 					complainNotNull++;
 				} else {
-					itemComplaint.setOct(0.0);
+					itemComplaint.setOct(null);
 				}
-				if ((complaintList.get(11) != null) && !complaintList.get(11).equals(0)) {
-					itemComplaint.setNov((double) complaintList.get(11).getMonth_date());
+				if ((complaintList.get(11) != null) && !complaintList.get(11).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setNov((double) complaintList.get(11).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getNov());
 					complainNotNull++;
 				} else {
-					itemComplaint.setNov(0.0);
+					itemComplaint.setNov(null);
 				}
-				if ((complaintList.get(12) != null) && !complaintList.get(12).equals(0)) {
-					itemComplaint.setDec((double) complaintList.get(12).getMonth_date());
+				if ((complaintList.get(12) != null) && !complaintList.get(12).getNumberofcomplaint().equals(0)) {
+					itemComplaint.setDec((double) complaintList.get(12).getNumberofcomplaint());
 					totalComplaint = (int) (totalComplaint + itemComplaint.getDec());
 					complainNotNull++;
 				} else {
-					itemComplaint.setDec(0.0);
+					itemComplaint.setDec(null);
 				}
 
 				itemComplaint.setTot((double) totalComplaint);
@@ -3942,6 +3990,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				if (!complainNotNull.equals(0)) {
 					itemComplaint.setAvg((double) totalComplaint / complainNotNull);
 				}
+				totalComplaint = 0;
+				complainNotNull = 0;
+
+				this.customerComplaint.put(customer.getId(), new HashMap<Integer, ShipTotal>(complaintList));
 
 				this.reportList.add(indexRowHandsP, itemComplaint);
 				indexRowHandsP++;
@@ -4782,6 +4834,86 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onOK=#complaint_gen,#complaint_feb,#complaint_mar,#complaint_apr,#complaint_may,#complaint_jun,#complaint_jul,#complaint_aug,#complaint_sep,#complaint_oct,#complaint_nov,#complaint_dec")
+	public void updateCustomerComplaint() {
+		if ((this.customerComplaint == null) || (this.select_year_detail.getSelectedItem() == null) || (this.selectCustomer.getSelectedItem() == null)
+				|| (this.selectCustomer.getSelectedItem().getValue() == null)) {
+			return;
+		}
+
+		final Customer customer = this.selectCustomer.getSelectedItem().getValue();
+		final Integer year = Integer.parseInt((String) this.select_year_detail.getSelectedItem().getValue());
+		if (this.complaint_gen.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_gen.getValue(), 1, year);
+			this.complaint_gen.setValue(null);
+		}
+		if (this.complaint_feb.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_feb.getValue(), 2, year);
+			this.complaint_feb.setValue(null);
+		}
+		if (this.complaint_mar.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_mar.getValue(), 3, year);
+			this.complaint_mar.setValue(null);
+		}
+		if (this.complaint_apr.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_apr.getValue(), 4, year);
+			this.complaint_apr.setValue(null);
+		}
+		if (this.complaint_may.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_may.getValue(), 5, year);
+			this.complaint_may.setValue(null);
+		}
+		if (this.complaint_jun.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_jun.getValue(), 6, year);
+			this.complaint_jun.setValue(null);
+		}
+		if (this.complaint_jul.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_jul.getValue(), 7, year);
+			this.complaint_jul.setValue(null);
+		}
+		if (this.complaint_aug.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_aug.getValue(), 8, year);
+			this.complaint_aug.setValue(null);
+		}
+		if (this.complaint_sep.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_sep.getValue(), 9, year);
+			this.complaint_sep.setValue(null);
+		}
+		if (this.complaint_oct.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_oct.getValue(), 10, year);
+			this.complaint_oct.setValue(null);
+		}
+		if (this.complaint_nov.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_nov.getValue(), 11, year);
+			this.complaint_nov.setValue(null);
+		}
+		if (this.complaint_dec.getValue() != null) {
+			this.updateCustomerComplaint(customer.getId(), this.complaint_dec.getValue(), 12, year);
+			this.complaint_dec.setValue(null);
+		}
+
+		this.refreshReport();
+
+	}
+
+	private void updateCustomerComplaint(final Integer id_customer, final Integer numberOfComplaint, final Integer month, final Integer year) {
+
+		Complaint complaint = this.statistic_dao.loadComplaint(id_customer, year, month);
+
+		if (complaint == null) {
+			complaint = new Complaint();
+			complaint.setMonth_comp(month);
+			complaint.setYear_comp(year);
+			complaint.setNumberofcomplaint(numberOfComplaint);
+			complaint.setId_customer(id_customer);
+			this.statisticDAO.createComplaint(complaint);
+		} else {
+			complaint.setNumberofcomplaint(numberOfComplaint);
+			this.statisticDAO.updateComplaint(complaint);
+		}
+
+	}
+
 	@Listen("onClick = #modify_scheduleShipsDetail_command")
 	public void updateDetail() {
 
@@ -4898,9 +5030,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final Integer year = Integer.parseInt((String) this.select_year_detail.getSelectedItem().getValue());
-
-		final Double productivity = null;
-		final int i = 0;
 		if (this.tp_gen.getValue() != null) {
 			this.updateTerminalProductivity(this.tp_gen.getValue(), 1, year);
 			this.tp_gen.setValue(null);
@@ -4966,4 +5095,5 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.statisticDAO.createTerminalProductivity(tp);
 		}
 	}
+
 }

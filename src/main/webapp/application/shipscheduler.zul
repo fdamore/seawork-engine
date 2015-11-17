@@ -2463,40 +2463,40 @@
 								</combobox>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_gen" constraint="no negative" />
+								<intbox width="100%" id="complaint_gen" constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_feb" constraint="no negative"/>
+								<intbox width="100%" id="complaint_feb" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_mar" constraint="no negative"/>
+								<intbox width="100%" id="complaint_mar" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_apr" constraint="no negative"/>
+								<intbox width="100%" id="complaint_apr" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_may" constraint="no negative"/>
+								<intbox width="100%" id="complaint_may" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_jun" constraint="no negative"/>
+								<intbox width="100%" id="complaint_jun" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_jul" constraint="no negative"/>
+								<intbox width="100%" id="complaint_jul" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_aug" constraint="no negative"/>
+								<intbox width="100%" id="complaint_aug" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_sep" constraint="no negative"/>
+								<intbox width="100%" id="complaint_sep" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_oct" constraint="no negative"/>
+								<intbox width="100%" id="complaint_oct" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_nov" constraint="no negative"/>
+								<intbox width="100%" id="complaint_nov" constraint="no negative"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="complaint_dec" constraint="no negative"/>
+								<intbox width="100%" id="complaint_dec" constraint="no negative"/>
 							</listcell>
 							
 							<listcell sclass="myBottonCell">								

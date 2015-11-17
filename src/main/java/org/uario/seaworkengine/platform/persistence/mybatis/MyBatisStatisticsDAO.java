@@ -522,6 +522,18 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public Complaint loadComplaint(final Integer idCustomer, final Integer year, final Integer month) {
+		MyBatisStatisticsDAO.logger.info("listSchedule..");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("idCustomer", idCustomer);
+		map.put("year", year);
+		map.put("month", month);
+
+		return this.getSqlSession().selectOne("statistics.loadComplaint", map);
+	}
+
+	@Override
 	public Complaint loadComplaintById(final Integer id) {
 		MyBatisStatisticsDAO.logger.info("loadComplaintById..");
 		return this.getSqlSession().selectOne("statistics.loadComplaintById", id);

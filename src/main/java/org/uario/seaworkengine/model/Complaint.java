@@ -23,7 +23,7 @@ public class Complaint implements Serializable {
 		return this.id_customer;
 	}
 
-	public Integer getMonth() {
+	public Integer getMonth_comp() {
 		return this.month_comp;
 	}
 
@@ -31,7 +31,7 @@ public class Complaint implements Serializable {
 		return this.numberofcomplaint;
 	}
 
-	public Integer getYear() {
+	public Integer getYear_comp() {
 		return this.year_comp;
 	}
 
@@ -43,16 +43,16 @@ public class Complaint implements Serializable {
 		this.id_customer = id_customer;
 	}
 
-	public void setMonth(final Integer month) {
-		this.month_comp = month;
+	public void setMonth_comp(final Integer month_comp) {
+		this.month_comp = month_comp;
 	}
 
 	public void setNumberofcomplaint(final Integer numberofcomplaint) {
 		this.numberofcomplaint = numberofcomplaint;
 	}
 
-	public void setYear(final Integer year) {
-		this.year_comp = year;
+	public void setYear_comp(final Integer year_comp) {
+		this.year_comp = year_comp;
 	}
 
 }

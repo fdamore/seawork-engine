@@ -218,6 +218,8 @@ public interface IStatistics {
 	 */
 	public List<Schedule> listSchedule(String full_text_search, Integer shift, Date date_from, Date date_to);
 
+	public Complaint loadComplaint(Integer idCustomer, Integer year, Integer month);
+
 	public Complaint loadComplaintById(Integer id);
 
 	public List<Complaint> loadComplaintByYear(Integer year);

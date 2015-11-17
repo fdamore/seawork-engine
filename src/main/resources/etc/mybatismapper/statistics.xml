@@ -1070,7 +1070,13 @@
 	<select id="loadComplaintByYear" parameterType="Integer" resultType="org.uario.seaworkengine.model.Complaint">
 		SELECT *
 		FROM complaint
-		WHERE year_tp=#{year};
+		WHERE year_comp=#{year};
+	</select>
+	
+	<select id="loadComplaint" parameterType="map" resultType="org.uario.seaworkengine.model.Complaint">
+		SELECT *
+		FROM complaint
+		WHERE id_customer = #{idCustomer} and year_comp=#{year} and month_comp=#{month};
 	</select>
 	
 	<update id="updateComplaint" parameterType="org.uario.seaworkengine.model.Complaint">
