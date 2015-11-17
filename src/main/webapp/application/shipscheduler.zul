@@ -2388,7 +2388,7 @@
 						id="terminalProductivy">
 						
 						<listhead sizable="true">
-							<listheader label="" width="180px"/>
+							<listheader label="" width="200px"/>
 							<listheader label="Gennaio" />
 							<listheader label="Febbraio"  />
 							<listheader label="Marzo" />
@@ -2516,7 +2516,7 @@
 						id="reportListboxContainer">
 
 						<listhead sizable="true">
-							<listheader label="" width="180px"/>
+							<listheader label="" width="200px"/>
 							<listheader label="Gennaio" />
 							<listheader label="Febbraio"  />
 							<listheader label="Marzo" />
@@ -2535,9 +2535,9 @@
 						
 						
 						<listitem self="@{each='reportItem'}"
-							value="@{reportItem}">
+							value="@{reportItem}" style="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.ReportStyleRowConverter'}">
 							<listcell sclass="myBottonCell"
-								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
+								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}" >
 								<custom-attributes tag="argument" />
 							</listcell>
 							<listcell sclass="myBottonCell"
