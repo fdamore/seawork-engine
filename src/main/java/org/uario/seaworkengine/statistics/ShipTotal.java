@@ -20,6 +20,7 @@ public class ShipTotal implements Serializable {
 
 	private Integer				month_date;
 	private Integer				monthInvoice;
+	private Integer				numberofcomplaint;
 
 	private Integer				shift_month;
 	private String				task_code;
@@ -66,6 +67,10 @@ public class ShipTotal implements Serializable {
 
 	public Integer getMonthInvoice() {
 		return this.monthInvoice;
+	}
+
+	public Integer getNumberofcomplaint() {
+		return this.numberofcomplaint;
 	}
 
 	public Integer getShift_month() {
@@ -134,6 +139,10 @@ public class ShipTotal implements Serializable {
 
 	public void setMonthInvoice(final Integer monthInvoice) {
 		this.monthInvoice = monthInvoice;
+	}
+
+	public void setNumberofcomplaint(final Integer numberofcomplaint) {
+		this.numberofcomplaint = numberofcomplaint;
 	}
 
 	public void setShift_month(final Integer shift_month) {

@@ -1011,7 +1011,6 @@
 	</select>
 
 
-
 	<!-- TERMINAL PRODUCTIVITY -->
 
 	<insert id="createTerminalProductivity" parameterType="org.uario.seaworkengine.model.TerminalProductivity">
@@ -1050,5 +1049,41 @@
 	</update>
 
 
+	<!-- CUSTOMER COMPLAINTS -->
+	<insert id="createComplaint" parameterType="org.uario.seaworkengine.model.Complaint">
+		INSERT INTO complaint (year_comp,month_comp,numberofcomplaint,id_customer) 
+		VALUES (#{year_comp},#{month_comp},#{numberofcomplaint},#{id_customer});
+	</insert>
+	
+	<delete id="deleteComplaint" parameterType="Integer">
+		DELETE
+		FROM complaint WHERE id=#{id};
+	</delete>
+	
+	<select id="loadComplaintById" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.Complaint">
+		SELECT *
+		FROM complaint
+		WHERE id=#{id};
+	</select>
+	
+	<select id="loadComplaintByYear" parameterType="Integer" resultType="org.uario.seaworkengine.model.Complaint">
+		SELECT *
+		FROM complaint
+		WHERE year_tp=#{year};
+	</select>
+	
+	<update id="updateComplaint" parameterType="org.uario.seaworkengine.model.Complaint">
+		UPDATE complaint 
+		SET  year_comp=#{year_comp},month_comp=#{month_comp},numberofcomplaint=#{numberofcomplaint},id_customer=#{id_customer} 
+		WHERE id=#{id};
+	</update>
+	
+	<select id="countComplaintByCustomer" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="map">
+		select sum(numberofcomplaint) as numberofcomplaint, month_comp as month_date
+		from complaint 
+		where year_comp=#{year} and id_customer=#{id_customer} 
+		group by month_comp;
+	</select>
 
 </mapper>

@@ -13,6 +13,8 @@ public interface ReportItemTag {
 
 	public static String	ContainersOnMen		= "Container/uomo";
 
+	public static String	CustomerComplaint	= "Reclami cliente ";
+
 	public static String	Hands				= "Totale Mani";
 
 	public static String	HandsC_P			= "Mani C - P ";

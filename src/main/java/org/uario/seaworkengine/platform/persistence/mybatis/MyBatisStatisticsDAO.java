@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.uario.seaworkengine.model.Complaint;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.ReviewShipWork;
@@ -99,6 +100,28 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public HashMap<Integer, ShipTotal> countComplaintByCustomer(final Integer year, final Integer id_customer) {
+		MyBatisStatisticsDAO.logger.info("countComplaintByCustomer..");
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("year", year);
+		map.put("id_customer", id_customer);
+
+		final List<ShipTotal> list = this.getSqlSession().selectList("statistics.countComplaintByCustomer", map);
+
+		if (list == null) {
+			return null;
+		}
+
+		final HashMap<Integer, ShipTotal> shipTotal = new HashMap<Integer, ShipTotal>();
+		for (final ShipTotal sT : list) {
+			shipTotal.put(sT.getMonth_date(), sT);
+		}
+
+		return shipTotal;
+	}
+
+	@Override
 	public Integer countWorkerInOverviewFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
 			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift, final Integer idShip, final String craneId) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
@@ -140,6 +163,14 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public void createComplaint(final Complaint complaint) {
+		MyBatisStatisticsDAO.logger.info("createComplaint..");
+
+		this.getSqlSession().insert("statistics.createComplaint", complaint);
+
+	}
+
+	@Override
 	public void createTerminalProductivity(final TerminalProductivity terminalProductivity) {
 		MyBatisStatisticsDAO.logger.info("createTerminalProductivity");
 		this.getSqlSession().insert("statistics.createTerminalProductivity", terminalProductivity);
@@ -167,6 +198,12 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		return ret;
 
+	}
+
+	@Override
+	public void deleteComplaint(final Integer id) {
+		MyBatisStatisticsDAO.logger.info("deleteComplaint");
+		this.getSqlSession().delete("statistics.deleteComplaint", id);
 	}
 
 	@Override
@@ -485,6 +522,18 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public Complaint loadComplaintById(final Integer id) {
+		MyBatisStatisticsDAO.logger.info("loadComplaintById..");
+		return this.getSqlSession().selectOne("statistics.loadComplaintById", id);
+	}
+
+	@Override
+	public List<Complaint> loadComplaintByYear(final Integer year) {
+		MyBatisStatisticsDAO.logger.info("loadComplaintByYear..");
+		return this.getSqlSession().selectList("statistics.loadComplaintByYear", year);
+	}
+
+	@Override
 	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
 			final String rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer idService, final String shipType,
 			final String shipLine, final String shipCondition) {
@@ -601,6 +650,13 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	public void setBank_holiday(final IBankHolidays bank_holiday) {
 		this.bank_holiday = bank_holiday;
+	}
+
+	@Override
+	public void updateComplaint(final Complaint complaint) {
+		MyBatisStatisticsDAO.logger.info("updateComplaint");
+		this.getSqlSession().update("statistics.updateComplaint", complaint);
+
 	}
 
 	@Override

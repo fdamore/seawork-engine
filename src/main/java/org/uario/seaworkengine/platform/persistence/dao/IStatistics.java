@@ -1,8 +1,10 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import org.uario.seaworkengine.model.Complaint;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.ReviewShipWork;
@@ -15,6 +17,8 @@ import org.uario.seaworkengine.statistics.ShipTotal;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public interface IStatistics {
+
+	public HashMap<Integer, ShipTotal> countComplaintByCustomer(Integer year, Integer id_customer);
 
 	/**
 	 * Count worker
@@ -45,6 +49,8 @@ public interface IStatistics {
 	public Integer countWorkerInOverviewInitalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
 			Date date_from, Date date_to);
 
+	public void createComplaint(Complaint complaint);
+
 	public void createTerminalProductivity(TerminalProductivity terminalProductivity);
 
 	/**
@@ -56,6 +62,8 @@ public interface IStatistics {
 	 * @return
 	 */
 	public Integer daysToRemoveFromSaturation(Integer user_id, Date date_from, Date date_to);
+
+	public void deleteComplaint(Integer id);
 
 	public void deleteTerminalProductivity(Integer id);
 
@@ -210,6 +218,10 @@ public interface IStatistics {
 	 */
 	public List<Schedule> listSchedule(String full_text_search, Integer shift, Date date_from, Date date_to);
 
+	public Complaint loadComplaintById(Integer id);
+
+	public List<Complaint> loadComplaintByYear(Integer year);
+
 	/**
 	 * @param date_from
 	 * @param date_to
@@ -252,6 +264,8 @@ public interface IStatistics {
 	 */
 	public List<ShipOverview> overviewFinalScheduleByShip(String text_search, Date date_from, Date date_to, String shipType, String shipLine,
 			String shipCondition);
+
+	public void updateComplaint(Complaint complaint);
 
 	public void updateTerminalProductivity(TerminalProductivity terminalProductivity);
 

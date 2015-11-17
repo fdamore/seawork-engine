@@ -2451,7 +2451,60 @@
 							<listcell sclass="myBottonCell">								
 							</listcell>
 														
-						</listitem>						
+						</listitem>		
+						
+						<listitem>
+							<listcell sclass="myBottonCell">
+								<label value="Edita Numero Reclami per Cliente:" />
+								<combobox id="selectCustomer"
+									placeholder="Seleziona Cliente..." readonly="true">
+									<comboitem self="@{each='customer'}"
+										label="@{customer.name}" value="@{customer}" />
+								</combobox>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_gen" constraint="no negative" />
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_feb" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_mar" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_apr" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_may" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_jun" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_jul" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_aug" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_sep" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_oct" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_nov" constraint="no negative"/>
+							</listcell>
+							<listcell sclass="myBottonCell">
+								<doublebox width="100%" id="complaint_dec" constraint="no negative"/>
+							</listcell>
+							
+							<listcell sclass="myBottonCell">								
+							</listcell>
+							<listcell sclass="myBottonCell">								
+							</listcell>
+														
+						</listitem>				
 					
 					</listbox>
 

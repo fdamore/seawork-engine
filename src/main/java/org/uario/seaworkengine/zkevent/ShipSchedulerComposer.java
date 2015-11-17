@@ -3829,6 +3829,117 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsC_P.setTot(null);
 		this.reportList.add(indexRowHandsP, itemHandsC_P);
 
+		// RECLAMI CLIENTI
+		final List<Customer> customerList = this.customerDAO.listAllCustomers();
+		indexRowHandsP++;
+		Integer totalComplaint = 0;
+		Integer complainNotNull = 0;
+
+		if (customerList != null) {
+			for (final Customer customer : customerList) {
+				if (customer == null) {
+					break;
+				}
+				final ReportItem itemComplaint = new ReportItem();
+				itemComplaint.setArgument(ReportItemTag.CustomerComplaint + customer.getName());
+
+				final HashMap<Integer, ShipTotal> complaintList = this.statisticDAO.countComplaintByCustomer(year, customer.getId());
+				if ((complaintList.get(1) != null) && !complaintList.get(1).equals(0)) {
+					itemComplaint.setGen((double) complaintList.get(1).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getGen());
+					complainNotNull++;
+				} else {
+					itemComplaint.setGen(0.0);
+				}
+				if ((complaintList.get(2) != null) && !complaintList.get(2).equals(0)) {
+					itemComplaint.setFeb((double) complaintList.get(2).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getFeb());
+					complainNotNull++;
+				} else {
+					itemComplaint.setFeb(0.0);
+				}
+				if ((complaintList.get(3) != null) && !complaintList.get(3).equals(0)) {
+					itemComplaint.setMar((double) complaintList.get(3).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getMar());
+					complainNotNull++;
+				} else {
+					itemComplaint.setMar(0.0);
+				}
+				if ((complaintList.get(4) != null) && !complaintList.get(4).equals(0)) {
+					itemComplaint.setApr((double) complaintList.get(4).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getApr());
+					complainNotNull++;
+				} else {
+					itemComplaint.setApr(0.0);
+				}
+				if ((complaintList.get(5) != null) && !complaintList.get(5).equals(0)) {
+					itemComplaint.setMay((double) complaintList.get(5).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getMay());
+					complainNotNull++;
+				} else {
+					itemComplaint.setMay(0.0);
+				}
+				if ((complaintList.get(6) != null) && !complaintList.get(6).equals(0)) {
+					itemComplaint.setJun((double) complaintList.get(6).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getJun());
+					complainNotNull++;
+				} else {
+					itemComplaint.setJun(0.0);
+				}
+				if ((complaintList.get(7) != null) && !complaintList.get(7).equals(0)) {
+					itemComplaint.setJul((double) complaintList.get(7).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getJul());
+					complainNotNull++;
+				} else {
+					itemComplaint.setJul(0.0);
+				}
+				if ((complaintList.get(8) != null) && !complaintList.get(8).equals(0)) {
+					itemComplaint.setAug((double) complaintList.get(8).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getAug());
+					complainNotNull++;
+				} else {
+					itemComplaint.setAug(0.0);
+				}
+				if ((complaintList.get(9) != null) && !complaintList.get(9).equals(0)) {
+					itemComplaint.setSep((double) complaintList.get(9).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getSep());
+					complainNotNull++;
+				} else {
+					itemComplaint.setSep(0.0);
+				}
+				if ((complaintList.get(10) != null) && !complaintList.get(10).equals(0)) {
+					itemComplaint.setOct((double) complaintList.get(10).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getOct());
+					complainNotNull++;
+				} else {
+					itemComplaint.setOct(0.0);
+				}
+				if ((complaintList.get(11) != null) && !complaintList.get(11).equals(0)) {
+					itemComplaint.setNov((double) complaintList.get(11).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getNov());
+					complainNotNull++;
+				} else {
+					itemComplaint.setNov(0.0);
+				}
+				if ((complaintList.get(12) != null) && !complaintList.get(12).equals(0)) {
+					itemComplaint.setDec((double) complaintList.get(12).getMonth_date());
+					totalComplaint = (int) (totalComplaint + itemComplaint.getDec());
+					complainNotNull++;
+				} else {
+					itemComplaint.setDec(0.0);
+				}
+
+				itemComplaint.setTot((double) totalComplaint);
+				itemComplaint.setAvg(0.0);
+				if (!complainNotNull.equals(0)) {
+					itemComplaint.setAvg((double) totalComplaint / complainNotNull);
+				}
+
+				this.reportList.add(indexRowHandsP, itemComplaint);
+				indexRowHandsP++;
+			}
+		}
+
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 	}
 
