@@ -2388,7 +2388,7 @@
 						id="terminalProductivy">
 						
 						<listhead sizable="true">
-							<listheader label="" width="150px"/>
+							<listheader label="" width="180px"/>
 							<listheader label="Gennaio" />
 							<listheader label="Febbraio"  />
 							<listheader label="Marzo" />
@@ -2407,7 +2407,7 @@
 						
 						<listitem>
 							<listcell sclass="myBottonCell">
-								<label value="Edita Prod. Terminal" />
+								<label value="Edita Prod. Terminal"/>
 							</listcell>
 							<listcell sclass="myBottonCell">
 								<doublebox width="100%" id="tp_gen" constraint="no negative" />
@@ -2454,7 +2454,7 @@
 						</listitem>		
 						
 						<listitem>
-							<listcell sclass="myBottonCell">
+							<listcell sclass="myBottonCell" >
 								<label value="Edita Numero Reclami per Cliente:" />
 								<combobox id="selectCustomer"
 									placeholder="Seleziona Cliente..." readonly="true">
@@ -2516,7 +2516,7 @@
 						id="reportListboxContainer">
 
 						<listhead sizable="true">
-							<listheader label="" width="150px"/>
+							<listheader label="" width="180px"/>
 							<listheader label="Gennaio" />
 							<listheader label="Febbraio"  />
 							<listheader label="Marzo" />
