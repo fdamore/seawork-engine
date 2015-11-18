@@ -46,7 +46,7 @@
 		d.notedetail,
 		d.invoicing_cycle,
 		dss.sky, dss.rain,
-		dss.wind, dss.temperature,
+		dss.wind, dss.windyday, dss.temperature,
 		dss.first_down,
 		dss.last_down
 		from

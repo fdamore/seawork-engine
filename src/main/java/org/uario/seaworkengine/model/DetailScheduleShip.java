@@ -20,92 +20,94 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return DetailScheduleShip.serialVersionUID;
 	}
 
-	private Date activity_end;
+	private Date	activity_end;
 
-	private Date activity_start;
+	private Date	activity_start;
 
 	/**
 	 * Used only in view mode
 	 */
-	private Date arrivaldate;
+	private Date	arrivaldate;
 
 	// only for view
-	private Integer customer_id;
+	private Integer	customer_id;
 
 	/**
 	 * Used only in view mode
 	 */
-	private Date departuredate;
+	private Date	departuredate;
 
-	private Date first_down;
+	private Date	first_down;
 
 	/**
 	 * Used only for visualization purpose *
 	 */
-	private String firstOperativeName;
+	private String	firstOperativeName;
 
 	// by app
-	private Integer handswork;
+	private Integer	handswork;
 
-	private Integer handswork_program;
+	private Integer	handswork_program;
 
-	private Integer id;
+	private Integer	id;
 
 	// ship id
-	private Integer id_ship;
+	private Integer	id_ship;
 
-	private Integer idscheduleship;
+	private Integer	idscheduleship;
 
-	private Integer idseconduser;
+	private Integer	idseconduser;
 
-	private Integer iduser;
+	private Integer	iduser;
 
-	private Date last_down;
+	private Date	last_down;
 
 	// by app
-	private Integer menwork;
+	private Integer	menwork;
 
-	private Integer menwork_program;
+	private Integer	menwork_program;
 
 	// ship name
-	private String name;
+	private String	name;
 
-	private String note;
+	private String	note;
 
-	private String notedetail;
+	private String	notedetail;
 
-	private String operation;
+	private String	operation;
 
-	private Date person_down;
+	private Date	person_down;
 
-	private Date person_onboard;
+	private Date	person_onboard;
 
-	private String rain;
+	private String	rain;
 
-	private String rif_mct;
+	private String	rif_mct;
 
 	/**
 	 * Used only for visualization purpose *
 	 */
-	private String secondOperativeName;
+	private String	secondOperativeName;
 
 	// only for view
-	private Integer serviceId;
+	private Integer	serviceId;
 
 	// only for view
-	private String serviceType;
+	private String	serviceType;
 
-	private Integer shift;
+	private Integer	shift;
 
-	private Date shiftdate;
+	private Date	shiftdate;
 
-	private String sky;
+	private String	sky;
 
-	private String temperature;
+	private String	temperature;
 
-	private String wind;
+	private String	wind;
 
-	private Boolean worked;
+	private Boolean	windyday;
+
+	private Boolean	worked;
 
 	@Override
 	public int compareTo(final Person o) {
@@ -245,6 +247,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 		return this.wind;
 	}
 
+	public Boolean getWindyday() {
+		return this.windyday;
+	}
+
 	public Boolean getWorked() {
 		return this.worked;
 	}
@@ -379,6 +385,10 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 
 	public void setWind(final String wind) {
 		this.wind = wind;
+	}
+
+	public void setWindyday(final Boolean windyday) {
+		this.windyday = windyday;
 	}
 
 	public void setWorked(final Boolean worked) {

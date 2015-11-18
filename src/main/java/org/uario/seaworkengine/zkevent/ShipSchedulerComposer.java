@@ -836,6 +836,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox										wind_review;
 
 	@Wire
+	private Radiogroup										windydayGroup;
+
+	@Wire
 	private Radiogroup										workedGroup;
 
 	@Wire
@@ -4229,6 +4232,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected.setWorked(false);
 		}
 
+		if (this.windydayGroup.getSelectedIndex() == 0) {
+			this.detailScheduleShipSelected.setWindyday(true);
+		} else {
+			this.detailScheduleShipSelected.setWindyday(false);
+		}
+
 		this.detailScheduleShipSelected.setHandswork(this.handswork_Daily.getValue());
 		this.detailScheduleShipSelected.setMenwork(this.menwork_Daily.getValue());
 
@@ -4689,6 +4698,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.workedGroup.setSelectedIndex(0);
 		} else {
 			this.workedGroup.setSelectedIndex(1);
+		}
+		if ((detailSelected.getWindyday() != null) && detailSelected.getWindyday()) {
+			this.windydayGroup.setSelectedIndex(0);
+		} else {
+			this.windydayGroup.setSelectedIndex(1);
 		}
 
 		this.handswork_Daily.setValue(detailSelected.getHandswork());

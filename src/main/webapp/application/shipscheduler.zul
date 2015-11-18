@@ -1439,8 +1439,6 @@
 
 				</caption>
 
-
-
 				<panelchildren>
 
 					<separator></separator>
@@ -1528,7 +1526,18 @@
 										<radio id="workedNo" label="No"
 											radiogroup="workedGroup" />
 									</radiogroup>
+								</row>
+								
+								<row>
+									<label value="Giorno Disagio Vento:"></label>
 
+									<radiogroup id="windydayGroup">
+										<radio id="windydayYes" label="Si"
+											radiogroup="windydayGroup" selected="true" />
+										<space />
+										<radio id="windydayNo" label="No"
+											radiogroup="windydayGroup" />
+									</radiogroup>
 								</row>
 
 								<row>
