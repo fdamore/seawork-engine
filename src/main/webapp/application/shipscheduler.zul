@@ -2033,7 +2033,7 @@
 						<hbox>
 
 							<label style="color:blue; font-size:10pt;"
-								value="Tempo Lavorato Netto: " />
+								value="Tempo Netto Lavorato: " />
 
 							<label id="TotalTimeWork"
 								style="color:blue; font-size:10pt;" />

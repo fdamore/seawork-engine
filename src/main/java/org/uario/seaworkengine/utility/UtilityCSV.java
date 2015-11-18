@@ -812,8 +812,8 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Lavorato;Volumi Attesi;";
-		header = header + "Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;Periodo di Lavorazione;";
+		String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
+		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Lavorazione;";
 		header = header + "Cielo;Vento;Temperatura;Primo a Terra; Ultimo a Terra";
 		header = header + "\n";
 
@@ -879,26 +879,26 @@ public class UtilityCSV {
 				crane = (String) craneConverter.defineCraneString(crane_gtw, craneId);
 			}
 
-			if (item.getTime_work() != null) {
+			if (item.getTimeworkLessFranchise() != null) {
 
-				workedTime = Utility.decimatToTime(item.getTime_work());
+				workedTime = Utility.decimatToTime(item.getTimeworkLessFranchise());
 
 			}
 
-			if (item.getVolume() != null) {
-				volume = item.getVolume().toString();
+			if (item.getVolumeLessFranchise() != null) {
+				volume = item.getVolumeLessFranchise().toString();
 			}
 
-			if (item.getVolumeunderboard() != null) {
-				volumeOnBoard = item.getVolumeunderboard().toString();
+			if (item.getVolumeunderboardLessFranchise() != null) {
+				volumeOnBoard = item.getVolumeunderboardLessFranchise().toString();
 			}
 
-			if (item.getVolumeunderboard_sws() != null) {
-				volumeOnBoard_sws = item.getVolumeunderboard_sws().toString();
+			if (item.getVolumeunderboard_swsLessFranchise() != null) {
+				volumeOnBoard_sws = item.getVolumeunderboard_swsLessFranchise().toString();
 			}
 
-			if (item.getVolume_tw_mct() != null) {
-				volumeTW = item.getVolume_tw_mct().toString();
+			if (item.getVolume_tw_mctLessFranchise() != null) {
+				volumeTW = item.getVolume_tw_mctLessFranchise().toString();
 			}
 
 			if (item.getInvoicing_cycle() != null) {
@@ -938,7 +938,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWorkAggregate(final List<ReviewShipWorkAggregate> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome Nave;Tempo Lavorato;Volumi Attesi;Produttività;Volumi Rizz. da Bordo (x Cliente);Volumi Rizz. da Bordo (x SWS);Volumi TW MTC;\n";
+		final String header = "Nome Nave;Tempo Netto Lavorato;Volumi Netti;Produttività;Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;\n";
 		builder.append(header);
 
 		for (final ReviewShipWorkAggregate item : reviewShipWorkList) {
