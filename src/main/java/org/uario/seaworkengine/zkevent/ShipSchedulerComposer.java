@@ -2837,33 +2837,33 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		// set rif_mct filter and rif_sws filter
-		String rifMCT = this.text_search_rifMCT.getValue();
-		if (rifMCT.equals("")) {
-			rifMCT = null;
-		}
+		if (((this.text_search_rifMCT.getValue() == null) || this.text_search_rifMCT.getValue().equals(""))
+				&& ((this.text_search_rifSWS.getValue() == null) || this.text_search_rifSWS.getValue().equals(""))) {
 
-		Integer idServiceSelected = null;
+			Integer idServiceSelected = null;
 
-		if (this.selectServiceDetail.getSelectedItem() != null) {
-			final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
+			if (this.selectServiceDetail.getSelectedItem() != null) {
+				final Service serviceSelected = this.selectServiceDetail.getSelectedItem().getValue();
 
-			idServiceSelected = serviceSelected.getId();
-		}
+				idServiceSelected = serviceSelected.getId();
+			}
 
-		this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipByPeriodOrDateshift(dateFrom, dateTo,
-				this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected,
-				this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
+			this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipByPeriodOrDateshift(dateFrom, dateTo,
+					this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected,
+					this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
-		this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
+			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-			this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
+			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+				this.sw_list_scheduleShip.setPageSize(this.shows_rows.getValue());
+			} else {
+				this.sw_list_scheduleShip.setPageSize(10);
+			}
+
+			this.calculateSummaryShipDetails(this.list_details_programmed_ship);
 		} else {
-			this.sw_list_scheduleShip.setPageSize(10);
+			this.searchRifSWS_MCT();
 		}
-
-		this.calculateSummaryShipDetails(this.list_details_programmed_ship);
 	}
 
 	public void refreshDetailView() {
@@ -4437,6 +4437,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				// calculate details
 				this.calculateSummaryShipDetails(this.list_details_programmed_ship);
 
+			} else {
+				this.refreshSchedulerView();
 			}
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
