@@ -270,6 +270,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Datebox											first_down_review;
 
+	private final SimpleDateFormat							format							= new SimpleDateFormat("dd-MM-yyyy");
+
 	private final SimpleDateFormat							format_it_date					= new SimpleDateFormat("dd/MM/yyyy");
 
 	private final SimpleDateFormat							format_month					= new SimpleDateFormat("MM");
@@ -303,7 +305,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader										handsColumn;
-
 	@Wire
 	public Intbox											handswork_Daily;
 	@Wire
@@ -326,6 +327,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Datebox											last_down_detail;
 	@Wire
 	private Datebox											last_down_review;
+
 	// used to collect details about programmed ship
 	private List<DetailScheduleShip>						list_details_programmed_ship	= new ArrayList<DetailScheduleShip>();
 
@@ -567,7 +569,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox										selectCustomer;
-
 	@Wire
 	private Combobox										selectServiceDetail;
 	@Wire
@@ -584,6 +585,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Datebox											shiftdate;
 	@Wire
 	public Datebox											shiftdate_Daily;
+
 	@Wire
 	private Component										shiftFilter;
 
@@ -729,7 +731,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox											text_search_rifSWS;
-
 	@Wire
 	private Listheader										textCol;
 	@Wire
@@ -752,6 +753,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Doublebox										tp_aug;
 	@Wire
 	private Doublebox										tp_dec;
+
 	@Wire
 	private Doublebox										tp_feb;
 
@@ -4942,7 +4944,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// set ship name and alert
 		this.messageUpdateRifMCT.setVisible(false);
-		this.infoShipNameAndShift.setValue(detailSelected.getName() + shipActivity + " - Turno " + detailSelected.getShift());
+		if (detailSelected.getShiftdate() != null) {
+
+			this.infoShipNameAndShift.setValue(detailSelected.getName() + shipActivity + " - Turno " + detailSelected.getShift() + " - Data Turno: "
+					+ this.format.format(detailSelected.getShiftdate()));
+		} else {
+			this.infoShipNameAndShift.setValue(detailSelected.getName() + shipActivity + " - Turno " + detailSelected.getShift());
+		}
 
 		// set working and invoicing cycle (default to same value)
 		if (detailSelected.getShiftdate() != null) {
