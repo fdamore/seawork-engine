@@ -138,6 +138,8 @@ public interface IStatistics {
 	 */
 	public List<MonitorData> getMonitorData(Date date_request);
 
+	public List<ShipTotal> getShipNumber(String operation, Integer year, Boolean by_invoice);
+
 	/**
 	 * Get percentage working sunday
 	 *

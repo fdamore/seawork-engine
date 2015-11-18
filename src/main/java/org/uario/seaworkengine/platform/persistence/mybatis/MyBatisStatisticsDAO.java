@@ -4,6 +4,7 @@
  */
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -369,6 +370,23 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		return ret;
 
+	}
+
+	@Override
+	public List<ShipTotal> getShipNumber(final String operation, final Integer year, final Boolean by_invoice) {
+		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
+
+		final List<ShipTotal> list = new ArrayList<ShipTotal>();
+
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("year", year);
+		map.put("operation", operation);
+
+		if (by_invoice) {
+			return this.getSqlSession().selectList("statistics.countShipByInvoce", map);
+		} else {
+			return this.getSqlSession().selectList("statistics.countShipByShiftDate", map);
+		}
 	}
 
 	@Override

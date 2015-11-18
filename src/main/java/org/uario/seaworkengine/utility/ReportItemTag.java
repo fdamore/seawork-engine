@@ -29,6 +29,10 @@ public interface ReportItemTag {
 
 	public static String	Productivity		= "Prod. Terminal";
 
+	public static String	ShipNumberComplete	= "Numero navi - Completa";
+
+	public static String	ShipNumberTwist		= "Numero navi - TW";
+
 	public static String	TaskHours			= "Ore lavorate per mansione";
 
 	public static String	WindyDay			= "Giorni disagio vento";

@@ -19,10 +19,11 @@ public class ShipTotal implements Serializable {
 	private Double				menwork;
 
 	private Integer				month_date;
-
 	private Integer				monthInvoice;
+
 	private Integer				numberofcomplaint;
 	private Integer				shift_month;
+	private Integer				shipnumber;
 
 	private String				task_code;
 	private Double				task_hour;
@@ -77,6 +78,10 @@ public class ShipTotal implements Serializable {
 
 	public Integer getShift_month() {
 		return this.shift_month;
+	}
+
+	public Integer getShipnumber() {
+		return this.shipnumber;
 	}
 
 	public String getTask_code() {
@@ -153,6 +158,10 @@ public class ShipTotal implements Serializable {
 
 	public void setShift_month(final Integer shift_month) {
 		this.shift_month = shift_month;
+	}
+
+	public void setShipnumber(final Integer shipnumber) {
+		this.shipnumber = shipnumber;
 	}
 
 	public void setTask_code(final String task_code) {

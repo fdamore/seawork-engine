@@ -45,8 +45,10 @@ public class ReportStyleRowConverter implements TypeConverter {
 			return "background-color:#FFFDCF";
 		} else if (source.getArgument().contains(ReportItemTag.CustomerComplaint)) {
 			return "background-color:#F74537";
-		} else if (source.getArgument().contains(ReportItemTag.WindyDay)) {
+		} else if (source.getArgument().equals(ReportItemTag.WindyDay)) {
 			return "background-color:#DEDEDE";
+		} else if (source.getArgument().equals(ReportItemTag.ShipNumberComplete) || source.getArgument().equals(ReportItemTag.ShipNumberTwist)) {
+			return "background-color:##FFFFFF";
 		}
 		return "";
 
