@@ -19,19 +19,21 @@ public class ShipTotal implements Serializable {
 	private Double				menwork;
 
 	private Integer				month_date;
+
 	private Integer				monthInvoice;
 	private Integer				numberofcomplaint;
-
 	private Integer				shift_month;
+
 	private String				task_code;
 	private Double				task_hour;
-
 	private Integer				task_id;
-	private Integer				totalProgramHands;
 
+	private Integer				totalProgramHands;
 	private Integer				totalProgramMen;
+
 	private Integer				totalReviewHands;
 	private Integer				totalReviewMen;
+	private Integer				windyday;
 
 	public Double getContainerInvoice() {
 		return this.containerInvoice;
@@ -105,6 +107,10 @@ public class ShipTotal implements Serializable {
 		return this.totalReviewMen;
 	}
 
+	public Integer getWindyday() {
+		return this.windyday;
+	}
+
 	public void setContainerInvoice(final Double containerInvoice) {
 		this.containerInvoice = containerInvoice;
 	}
@@ -175,6 +181,10 @@ public class ShipTotal implements Serializable {
 
 	public void setTotalReviewMen(final Integer totalReviewMen) {
 		this.totalReviewMen = totalReviewMen;
+	}
+
+	public void setWindyday(final Integer windyday) {
+		this.windyday = windyday;
 	}
 
 }

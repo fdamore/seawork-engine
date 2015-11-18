@@ -3020,6 +3020,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemProductivity.setArgument(ReportItemTag.Productivity);
 		final ReportItem itemContainerOnMen = new ReportItem();
 		itemContainerOnMen.setArgument(ReportItemTag.ContainersOnMen);
+		final ReportItem itemWindyDay = new ReportItem();
+		itemWindyDay.setArgument(ReportItemTag.WindyDay);
 
 		cal.set(Calendar.MONTH, 1);
 		final Integer dayInFeb = cal.getActualMaximum(Calendar.DATE);
@@ -3265,9 +3267,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.reportList.add(itemTaskHour);
 		}
 
-		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO
+		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO -
+		// GIORNI DISAGIO VENTO
 		Double totalHands = 0.0;
 		Integer numberOfHandsNotNull = 0;
+
+		Integer totalWindyDay = 0;
+		Integer numberOfWindyDayNotNull = 0;
 
 		for (final ShipTotal shipTotal : handMenList) {
 
@@ -3276,8 +3282,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				numberOfHandsNotNull++;
 			}
 
+			if ((shipTotal.getWindyday() != null) && !shipTotal.getWindyday().equals(0.0)) {
+				totalWindyDay += shipTotal.getWindyday();
+				numberOfWindyDayNotNull++;
+			}
+
 			if (shipTotal.getMonthInvoice() == 1) {
 				itemHands.setGen(shipTotal.getHandswork());
+				itemWindyDay.setGen((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setGen(shipTotal.getHandswork() / 31);
@@ -3307,6 +3319,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			} else if (shipTotal.getMonthInvoice() == 2) {
 				itemHands.setFeb(shipTotal.getHandswork());
+				itemWindyDay.setFeb((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (shipTotal.getHandswork() != null) {
 					itemHandsOnDays.setFeb(shipTotal.getHandswork() / dayInFeb);
@@ -3336,6 +3349,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setFeb(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 3) {
 				itemHands.setMar(shipTotal.getHandswork());
+				itemWindyDay.setMar((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getMar() != null) {
 					sumHourRZ_PP = itemRZ.getMar();
@@ -3365,6 +3379,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setMar(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 4) {
 				itemHands.setApr(shipTotal.getHandswork());
+				itemWindyDay.setApr((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getApr() != null) {
 					sumHourRZ_PP = itemRZ.getApr();
@@ -3394,6 +3409,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setApr(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 5) {
 				itemHands.setMay(shipTotal.getHandswork());
+				itemWindyDay.setMay((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getMay() != null) {
 					sumHourRZ_PP = itemRZ.getMay();
@@ -3422,6 +3438,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setMay(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 6) {
 				itemHands.setJun(shipTotal.getHandswork());
+				itemWindyDay.setJun((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getJun() != null) {
 					sumHourRZ_PP = itemRZ.getJun();
@@ -3450,6 +3467,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setJun(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 7) {
 				itemHands.setJul(shipTotal.getHandswork());
+				itemWindyDay.setJul((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getJul() != null) {
 					sumHourRZ_PP = itemRZ.getJul();
@@ -3478,6 +3496,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setJul(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 8) {
 				itemHands.setAug(shipTotal.getHandswork());
+				itemWindyDay.setAug((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getAug() != null) {
 					sumHourRZ_PP = itemRZ.getAug();
@@ -3505,6 +3524,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setAug(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 9) {
 				itemHands.setSep(shipTotal.getHandswork());
+				itemWindyDay.setSep((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getSep() != null) {
 					sumHourRZ_PP = itemRZ.getSep();
@@ -3533,6 +3553,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setSep(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 10) {
 				itemHands.setOct(shipTotal.getHandswork());
+				itemWindyDay.setOct((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getOct() != null) {
 					sumHourRZ_PP = itemRZ.getOct();
@@ -3561,6 +3582,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setOct(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 11) {
 				itemHands.setNov(shipTotal.getHandswork());
+				itemWindyDay.setNov((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getNov() != null) {
 					sumHourRZ_PP = itemRZ.getNov();
@@ -3589,6 +3611,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setNov(sumHourRZ_PP);
 			} else if (shipTotal.getMonthInvoice() == 12) {
 				itemHands.setDec(shipTotal.getHandswork());
+				itemWindyDay.setDec((double) shipTotal.getWindyday());
 				Double sumHourRZ_PP = 0.0;
 				if (itemRZ.getDec() != null) {
 					sumHourRZ_PP = itemRZ.getDec();
@@ -3626,6 +3649,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemContainerOnMen.setAvg(null);
 		itemContainerOnMen.setTot(0.0);
 		itemContainerOnHours.setAvg(null);
+
+		if (!numberOfWindyDayNotNull.equals(0)) {
+			itemWindyDay.setAvg((double) (totalWindyDay / numberOfWindyDayNotNull));
+		} else {
+			itemWindyDay.setAvg(0.0);
+		}
+		itemWindyDay.setTot((double) totalWindyDay);
 
 		this.reportList.add(0, itemContainer);
 		this.reportList.add(1, itemRZ_TW_SWS);
@@ -4002,6 +4032,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				indexRowHandsP++;
 			}
 		}
+
+		this.reportList.add(indexRowHandsP, itemWindyDay);
 
 		this.reportListboxContainer.setModel(new ListModelList<>(this.reportList));
 	}

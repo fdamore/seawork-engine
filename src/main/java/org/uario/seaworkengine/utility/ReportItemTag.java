@@ -31,4 +31,6 @@ public interface ReportItemTag {
 
 	public static String	TaskHours			= "Ore lavorate per mansione";
 
+	public static String	WindyDay			= "Giorni disagio vento";
+
 }
