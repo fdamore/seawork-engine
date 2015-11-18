@@ -4827,10 +4827,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		ScheduleShip scheduleShip = this.shipSchedulerDao.loadScheduleShip(detailSelected.getIdscheduleship());
 
 		// select if worked or not
-		if ((detailSelected.getWorked() != null) && detailSelected.getWorked()) {
-			this.workedGroup.setSelectedIndex(0);
+		if ((detailSelected.getWorked() != null)) {
+			if (detailSelected.getWorked()) {
+				this.workedGroup.setSelectedIndex(0);
+			} else {
+				this.workedGroup.setSelectedIndex(1);
+			}
 		} else {
-			this.workedGroup.setSelectedIndex(1);
+			this.workedGroup.setSelectedIndex(0);
 		}
 		if ((detailSelected.getWindyday() != null) && detailSelected.getWindyday()) {
 			this.windydayGroup.setSelectedIndex(0);

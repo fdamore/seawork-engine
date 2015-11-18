@@ -1523,8 +1523,7 @@
 										<radio id="workedYes" label="Si"
 											radiogroup="workedGroup" selected="true" />
 										<space />
-										<radio id="workedNo" label="No"
-											radiogroup="workedGroup" />
+										<radio id="workedNo" label="No" radiogroup="workedGroup" />
 									</radiogroup>
 								</row>
 								
