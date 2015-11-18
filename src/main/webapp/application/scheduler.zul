@@ -3318,6 +3318,11 @@
 							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 						<label id="overview_count_worker_stat"
 							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+						
+						<a label=" - Somma Saturazione: "
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+						<label id="overview_sum_saturation"
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 
 
 						<separator />
