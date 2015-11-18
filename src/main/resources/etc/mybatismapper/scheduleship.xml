@@ -592,7 +592,7 @@
 		#{handswork},
 		menwork = #{menwork},
 		rain = #{rain},
-		wind = #{wind}, windyday = #{windyday},	sky=#{sky},
+		wind = #{wind}, sky=#{sky},
 		temperature = #{temperature},
 		first_down = #{first_down},
 		last_down = #{last_down},

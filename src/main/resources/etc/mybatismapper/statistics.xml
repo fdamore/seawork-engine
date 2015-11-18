@@ -34,15 +34,15 @@
 		s.id as
 		id_ship,
 		dss.shift,
-		d.timework as time_work,
+		d.timework as time_work, d.franchise_timework, 
 		(select c.number from crane
 		c where d.id_crane=c.id) as crane, d.crane_gtw,
 		dss.shiftdate as
 		date_request,
-		d.volume,
-		d.volumeunderboard,
-		d.volumeunderboard_sws,
-		d.volume_tw_mct,
+		d.volume,d.franchise_volume, 
+		d.volumeunderboard, d.franchise_volumeunderboard, 
+		d.volumeunderboard_sws, d.franchise_volumeunderboard_sws, 
+		d.volume_tw_mct, d.franchise_volume_tw_mct,  
 		d.notedetail,
 		d.invoicing_cycle,
 		dss.sky, dss.rain,
@@ -129,14 +129,14 @@
 		ss.idship as id_ship,
 		ss.id as rif_sws,
 		ss.rif_mct as rif_mct,
-		sum(d.timework) as
+		sum(d.timework - d.franchise_timework) as
 		time_work,
-		sum(d.volume) as
+		sum(d.volume - d.franchise_volume) as
 		volume,
-		sum(d.volumeunderboard) as
+		sum(d.volumeunderboard - d.franchise_volumeunderboard) as
 		volumeunderboard,
-		sum(d.volumeunderboard_sws) as volumeunderboard_sws,
-		sum(d.volume_tw_mct) as volume_tw_mct
+		sum(d.volumeunderboard_sws - d.franchise_volumeunderboard_sws) as volumeunderboard_sws,
+		sum(d.volume_tw_mct - d.franchise_volume_tw_mct) as volume_tw_mct
 		from
 		ship s,
 		scheduleship ss,

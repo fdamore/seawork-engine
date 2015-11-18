@@ -25,16 +25,12 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	@XmlTransient
 	private Date				datetime;
-
 	@XmlTransient
 	private Double				franchise_timework;
-
 	@XmlTransient
 	private Double				franchise_volume;
-
 	@XmlTransient
 	private Double				franchise_volume_tw_mct;
-
 	@XmlTransient
 	private Double				franchise_volumeunderboard;
 
@@ -150,6 +146,14 @@ public class DetailFinalScheduleShip implements Serializable {
 		return this.timework;
 	}
 
+	public Double getTimeworkLessFranchise() {
+		if ((this.timework != null) && (this.franchise_timework != null)) {
+			return this.timework - this.franchise_timework;
+		} else {
+			return this.timework;
+		}
+	}
+
 	public Integer getVolume() {
 		return this.volume;
 	}
@@ -158,12 +162,44 @@ public class DetailFinalScheduleShip implements Serializable {
 		return this.volume_tw_mct;
 	}
 
+	public Integer getVolume_tw_mctLessFranchise() {
+		if ((this.volume_tw_mct != null) && (this.franchise_volume_tw_mct != null)) {
+			return (int) (this.volume_tw_mct - this.franchise_volume_tw_mct);
+		} else {
+			return this.volume_tw_mct;
+		}
+	}
+
+	public Integer getVolumeLessFranchise() {
+		if ((this.volume != null) && (this.franchise_volume != null)) {
+			return (int) (this.volume - this.franchise_volume);
+		} else {
+			return this.volume;
+		}
+	}
+
 	public Integer getVolumeunderboard() {
 		return this.volumeunderboard;
 	}
 
 	public Integer getVolumeunderboard_sws() {
 		return this.volumeunderboard_sws;
+	}
+
+	public Integer getVolumeunderboard_swsLessFranchise() {
+		if ((this.volumeunderboard_sws != null) && (this.franchise_volumeunderboard_sws != null)) {
+			return (int) (this.volumeunderboard_sws - this.franchise_volumeunderboard_sws);
+		} else {
+			return this.volumeunderboard_sws;
+		}
+	}
+
+	public Integer getVolumeunderboardLessFranchise() {
+		if ((this.volumeunderboard != null) && (this.franchise_volumeunderboard != null)) {
+			return (int) (this.volumeunderboard - this.franchise_volumeunderboard);
+		} else {
+			return this.volumeunderboard;
+		}
 	}
 
 	public void setActivity_end(final Date activity_end) {

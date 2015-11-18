@@ -1924,22 +1924,22 @@
 								
 							<listheader label="Gru" sort="auto(crane)" />
 
-							<listheader label="Volumi"
-								sort="auto(volume)" id="volumeColum" />
+							<listheader label="Volumi Netti"
+								sort="auto(volumeLessFranchise)" id="volumeColum" />
 
 							<listheader
-								label="Volumi Rizz. da Bordo (x Cliente)"
-								sort="auto(volumeunderboard)" />
+								label="Volumi Netti Rizz. da Bordo (x Cliente)"
+								sort="auto(volumeunderboardLessFranchise)" />
 
 							<listheader
-								label="Volumi Rizz. da Bordo (x SWS)"
-								sort="auto(volumeunderboard_sws)" />
+								label="Volumi Netti Rizz. da Bordo (x SWS)"
+								sort="auto(volumeunderboard_swsLessFranchise)" />
 
-							<listheader label="Volumi TW MCT"
-								sort="auto(volume_tw_mct)" />
+							<listheader label="Volumi Netti TW MCT"
+								sort="auto(volume_tw_mctLessFranchise)" />
 
-							<listheader label="Tempo lavorato"
-								sort="auto(timework)" />
+							<listheader label="Tempo Netto Lavorato"
+								sort="auto(timeworkLessFranchise)" />
 
 							<listheader label="Note" />
 							<listheader id="modifyColumnDetail"
@@ -1963,21 +1963,21 @@
 								label="@{detailfinalscheduleship_item, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
 
 							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.volume}" />
+								label="@{detailfinalscheduleship_item.volumeLessFranchise}" />
 
 							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.volumeunderboard}" />
+								label="@{detailfinalscheduleship_item.volumeunderboardLessFranchise}" />
 
 							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.volumeunderboard_sws}" />
-
-
-							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.volume_tw_mct}" />
+								label="@{detailfinalscheduleship_item.volumeunderboard_swsLessFranchise}" />
 
 
 							<listcell sclass="myBottonCell"
-								label="@{detailfinalscheduleship_item.timework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+								label="@{detailfinalscheduleship_item.volume_tw_mctLessFranchise}" />
+
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.timeworkLessFranchise, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.notedetail}" />
 							<listcell sclass="myBottonCell">
@@ -2021,7 +2021,7 @@
 						<hbox align="center">
 
 							<label style="color:blue; font-size:10pt;"
-								value="Totale Volumi: " />
+								value="Totale Volumi Netti: " />
 
 							<label style="color:blue; font-size:10pt;"
 								id="TotalVolume" value="0" />
@@ -2033,7 +2033,7 @@
 						<hbox>
 
 							<label style="color:blue; font-size:10pt;"
-								value="Tempo lavorato: " />
+								value="Tempo Lavorato Netto: " />
 
 							<label id="TotalTimeWork"
 								style="color:blue; font-size:10pt;" />
@@ -2045,7 +2045,7 @@
 						<hbox align="center">
 
 							<label style="color:blue; font-size:10pt;"
-								value="Totale Volumi Rizz. da Bordo (x Cliente): " />
+								value="Totale Volumi Netti Rizz. da Bordo (x Cliente): " />
 
 							<label style="color:blue; font-size:10pt;"
 								id="TotalVolumeOnBoard" value="0" />
@@ -2056,7 +2056,7 @@
 						<hbox align="center">
 
 							<label style="color:blue; font-size:10pt;"
-								value="Totale Volumi Rizz. da Bordo (x SWS): " />
+								value="Totale Volumi Netti Rizz. da Bordo (x SWS): " />
 
 							<label style="color:blue; font-size:10pt;"
 								id="TotalVolumeOnBoard_sws" value="0" />
@@ -2068,7 +2068,7 @@
 
 						<hbox align="center">
 							<label style="color:blue; font-size:10pt;"
-								value="Totale Volumi TW MCT: " />
+								value="Totale Volumi Netti TW MCT: " />
 
 							<label style="color:blue; font-size:10pt;"
 								id="TotalVolumeTWMTC" value="0" />
@@ -2149,16 +2149,16 @@
 									<listheader label="Rif Cliente"
 										hflex="1" />
 									<listheader label="Gru" hflex="1" />
-									<listheader label="Tempo Lavorato"
+									<listheader label="Tempo Netto Lavorato"
 										hflex="1" />
-									<listheader label="Volumi"
+									<listheader label="Volumi Netti"
 										hflex="1" />
 									<listheader
-										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
+										label="Volumi Netti Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
-										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
+										label="Volumi Netti Rizz. da Bordo (x SWS):" hflex="1" />
 
-									<listheader label="Volumi TW MCT"
+									<listheader label="Volumi Netti TW MCT"
 										hflex="1" />
 									<listheader label="Note" hflex="2" />
 
@@ -2191,10 +2191,6 @@
 										label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
 									</listcell>
 
-
-
-
-
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.rif_sws}" />
 
@@ -2207,18 +2203,18 @@
 										label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
 
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work.time_work, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+										label="@{item_review_work.time_workLessFranchise, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work.volume}" />
+										label="@{item_review_work.volumeLessFranchise}" />
 
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work.volumeunderboard}" />
+										label="@{item_review_work.volumeunderboardLessFranchise}" />
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work.volumeunderboard_sws}" />
+										label="@{item_review_work.volumeunderboard_swsLessFranchise}" />
 
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work.volume_tw_mct}" />
+										label="@{item_review_work.volume_tw_mctLessFranchise}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.notedetail}" />
@@ -2258,19 +2254,19 @@
 									<listheader label="Rif Cliente"
 										hflex="1" />
 
-									<listheader label="Tempo Lavorato"
+									<listheader label="Tempo Netto Lavorato"
 										hflex="1" />
-									<listheader label="Volumi" hflex="1"
+									<listheader label="Volumi Netti" hflex="1"
 										id="volumeStatisticColumn" />
 									<listheader label="Produttività Gru"
 										hflex="1" />
 
 									<listheader
-										label="Volumi Rizz. da Bordo (x Cliente):" hflex="1" />
+										label="Volumi Netti Rizz. da Bordo (x Cliente):" hflex="1" />
 									<listheader
-										label="Volumi Rizz. da Bordo (x SWS):" hflex="1" />
+										label="Volumi Netti Rizz. da Bordo (x SWS):" hflex="1" />
 
-									<listheader label="Volumi TW MCT"
+									<listheader label="Volumi Netti TW MCT"
 										hflex="1" />
 
 

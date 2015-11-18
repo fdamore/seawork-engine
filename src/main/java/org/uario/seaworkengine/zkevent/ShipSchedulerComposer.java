@@ -1143,23 +1143,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		for (final ReviewShipWork itm_review : this.list_review_work) {
 
 			if (itm_review.getVolume() != null) {
-				sumVolume += itm_review.getVolume();
+				sumVolume += itm_review.getVolumeLessFranchise();
 			}
 
 			if (itm_review.getVolumeunderboard() != null) {
-				sumVolumeOnBoard += itm_review.getVolumeunderboard();
+				sumVolumeOnBoard += itm_review.getVolumeunderboardLessFranchise();
 			}
 
 			if (itm_review.getVolumeunderboard_sws() != null) {
-				sumVolumeOnBoard_sws += itm_review.getVolumeunderboard_sws();
+				sumVolumeOnBoard_sws += itm_review.getVolumeunderboard_swsLessFranchise();
 			}
 
 			if (itm_review.getVolume_tw_mct() != null) {
-				sumVolumeMTC += itm_review.getVolume_tw_mct();
+				sumVolumeMTC += itm_review.getVolume_tw_mctLessFranchise();
 			}
 
 			if (itm_review.getTime_work() != null) {
-				time_worked += itm_review.getTime_work();
+				time_worked += itm_review.getTimeworkLessFranchise();
 			}
 
 		}
