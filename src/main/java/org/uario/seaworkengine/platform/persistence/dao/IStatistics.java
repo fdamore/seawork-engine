@@ -170,7 +170,7 @@ public interface IStatistics {
 	 */
 	public Double getTimeWorked(Integer id_user, Date date_from, Date date_to);
 
-	public List<ShipTotal> getTotalHandsMen(final Integer year, final Integer shift, final Boolean by_invoice);
+	public List<ShipTotal> getTotalHandsMen(final Integer year, final Integer shift, Integer idService, final Boolean by_invoice);
 
 	public List<ShipTotal> getTotalHoursByTask(final Integer year);
 

@@ -49,6 +49,12 @@ public class ReportStyleRowConverter implements TypeConverter {
 			return "background-color:#DEDEDE";
 		} else if (source.getArgument().equals(ReportItemTag.ShipNumberComplete) || source.getArgument().equals(ReportItemTag.ShipNumberTwist)) {
 			return "background-color:##FFFFFF";
+		} else if (source.getIsService() != null) {
+			final int i = source.getIsService() % 2;
+			if (i == 0) {
+				return "background-color:#D4A190";
+			}
+			return "background-color:#EDD6CE";
 		}
 		return "";
 

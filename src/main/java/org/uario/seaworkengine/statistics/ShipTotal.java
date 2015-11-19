@@ -12,16 +12,18 @@ public class ShipTotal implements Serializable {
 	private Double				containerInvoice;
 	private Double				containerRZ_TW_MCT;
 	private Double				containerRZ_TW_SWS;
+	private Integer				countService;
 	private Double				handswork;
-	private Double				handswork_program;
 
+	private Double				handswork_program;
+	private Integer				idService;
 	private Integer				invoice_month;
+
 	private Double				menwork;
 	private Integer				month_date;
-
 	private Integer				monthInvoice;
-	private Integer				numberofcomplaint;
 
+	private Integer				numberofcomplaint;
 	private Integer				shift_month;
 	private Integer				shipnumber;
 	private String				task_code;
@@ -49,12 +51,20 @@ public class ShipTotal implements Serializable {
 		return this.containerRZ_TW_SWS;
 	}
 
+	public Integer getCountService() {
+		return this.countService;
+	}
+
 	public Double getHandswork() {
 		return this.handswork;
 	}
 
 	public Double getHandswork_program() {
 		return this.handswork_program;
+	}
+
+	public Integer getIdService() {
+		return this.idService;
 	}
 
 	public Integer getInvoice_month() {
@@ -133,12 +143,20 @@ public class ShipTotal implements Serializable {
 		this.containerRZ_TW_SWS = containerRZ_TW_SWS;
 	}
 
+	public void setCountService(final Integer countService) {
+		this.countService = countService;
+	}
+
 	public void setHandswork(final Double handswork) {
 		this.handswork = handswork;
 	}
 
 	public void setHandswork_program(final Double handswork_program) {
 		this.handswork_program = handswork_program;
+	}
+
+	public void setIdService(final Integer idService) {
+		this.idService = idService;
 	}
 
 	public void setInvoice_month(final Integer invoice_month) {

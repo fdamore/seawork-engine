@@ -930,8 +930,8 @@
 	<!-- CONTAINER -->
 	<select id="getTotalInvoiceContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select sum(dfs.volume - dfs.franchise_volume) as containerInvoice, sum(dfs.timework - dfs.franchise_timework) as timework, 
-		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS,
+		select sum(dfs.volume - dfs.franchise_volume) as containerInvoice, sum(dfs.timework - dfs.franchise_timework) as timework,  
+		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS, count(s.id) as countService,
 		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) as containerRZ_TW_MCT,dfs.invoicing_cycle as
 		monthInvoice
 		from detailfinalscheduleship dfs, detailscheduleship dis,
@@ -946,7 +946,7 @@
 	<select id="getTotalInvoiceContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 		select sum(dfs.volume  - dfs.franchise_volume) as containerInvoice, sum(dfs.timework - dfs.franchise_timework) as timework,
-		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS,
+		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS, count(s.id) as countService,
 		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) as containerRZ_TW_MCT,month(dis.shiftdate) as
 		monthInvoice
 		from detailfinalscheduleship dfs, detailscheduleship dis,
@@ -965,7 +965,7 @@
 		select sum(handswork)as handswork, sum(handswork_program)as handswork_program,sum(menwork) as menwork, 
 		invoicing_cycle as monthInvoice, sum(windyday) as windyday 
 		from reportmen
-		where shiftyear = #{year} and invoicing_cycle is not null 
+		where shiftyear = #{year} and invoicing_cycle is not null and idService=#{idService} 
 		<if test="shift!=null">
 			and shift=#{shift}
 		</if> 
@@ -979,7 +979,7 @@
 		as menwork, month(dis.shiftdate) as monthInvoice, sum(dis.windyday) as windyday 
 		from
 		detailscheduleship dis, scheduleship ss  
-		where year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and ss.id_service = (select sv.id AS id from service sv where sv.isRZ=1) 
+		where year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and ss.id_service = #{idService}  
 		<if test="shift!=null">
 			and shift=#{shift}
 		</if> 
