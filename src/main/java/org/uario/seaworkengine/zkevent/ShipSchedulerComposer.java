@@ -3000,7 +3000,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, year);
 
-		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(year, this.byInvoce.isChecked());
+		final Service serviceRZ = this.configurationDao.loadRZService();
+		Integer idService = null;
+		if (serviceRZ != null) {
+			idService = serviceRZ.getId();
+		}
+
+		final List<ShipTotal> containerList = this.statisticDAO.getTotalInvoiceContainer(year, idService, this.byInvoce.isChecked());
 		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year, null, this.byInvoce.isChecked());
 
 		final ReportItem itemContainer = new ReportItem();

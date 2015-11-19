@@ -929,8 +929,8 @@
 
 	<!-- CONTAINER -->
 	<select id="getTotalInvoiceContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
-		parameterType="Integer">
-		select sum(dfs.volume - dfs.franchise_volume) as containerInvoice,
+		parameterType="map">
+		select sum(dfs.volume - dfs.franchise_volume) as containerInvoice, sum(dfs.timework - dfs.franchise_timework) as timework, 
 		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS,
 		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) as containerRZ_TW_MCT,dfs.invoicing_cycle as
 		monthInvoice
@@ -939,14 +939,13 @@
 		where dfs.invoicing_cycle is not null and
 		dfs.iddetailscheduleship = dis.id and s.id=dis.idscheduleship
 		and
-		year(dis.shiftdate)=#{year} and s.id_service=(select sv.id from
-		service sv where sv.isRZ=1)
+		year(dis.shiftdate)=#{year} and s.id_service=#{idService} 
 		group by monthInvoice;
 	</select>
 
 	<select id="getTotalInvoiceContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
-		parameterType="Integer">
-		select sum(dfs.volume  - dfs.franchise_volume) as containerInvoice,
+		parameterType="map">
+		select sum(dfs.volume  - dfs.franchise_volume) as containerInvoice, sum(dfs.timework - dfs.franchise_timework) as timework,
 		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS,
 		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) as containerRZ_TW_MCT,month(dis.shiftdate) as
 		monthInvoice
@@ -954,11 +953,12 @@
 		scheduleship s
 		where dfs.iddetailscheduleship = dis.id and
 		year(dis.shiftdate)=#{year} and s.id=dis.idscheduleship and
-		s.id_service=(select sv.id from service sv where sv.isRZ=1)
+		s.id_service=#{idService} 
 		group by
 		monthInvoice;
 	</select>
 
+	<!-- HAND - MEN -->
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 
@@ -987,6 +987,8 @@
 		monthInvoice;
 	</select>
 	
+	<!-- SHIP NUMBER -->
+	
 	<select id="countShipByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 		select count(id) as shipnumber , invoicing_cycle as monthInvoice 
@@ -1010,6 +1012,8 @@
 		group by monthInvoice;
 	</select>
 
+	<!-- HOURS BY TASK -->
+
 	<select id="getTotalHoursByTask" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="Integer">
 		SELECT
@@ -1032,7 +1036,6 @@
 		order by
 		task_id , month_date
 	</select>
-
 
 	<!-- TERMINAL PRODUCTIVITY -->
 
@@ -1113,6 +1116,6 @@
 		from complaint 
 		where year_comp=#{year} and id_customer=#{id_customer} 
 		group by month_comp;
-	</select>
+	</select>	
 
 </mapper>

@@ -471,13 +471,17 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipTotal> getTotalInvoiceContainer(final Integer year, final Boolean by_invoice) {
+	public List<ShipTotal> getTotalInvoiceContainer(final Integer year, final Integer idService, final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
 
+		final HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("year", year);
+		map.put("idService", idService);
+
 		if (by_invoice) {
-			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByInvoce", year);
+			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByInvoce", map);
 		} else {
-			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByShiftDate", year);
+			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByShiftDate", map);
 		}
 
 	}
