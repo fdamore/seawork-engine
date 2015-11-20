@@ -35,9 +35,7 @@ public class ReportStyleRowConverter implements TypeConverter {
 		} else if (source.getArgument().equals(ReportItemTag.TaskHours) || source.getIsTaskROW()) {
 			return "background-color:#F4E4B3";
 		} else if (source.getArgument().equals(ReportItemTag.HandsOnDays) || source.getArgument().equals(ReportItemTag.MenOnHands)
-				|| source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.Productivity)
-				|| source.getArgument().equals(ReportItemTag.ContainerOnHours) || source.getArgument().equals(ReportItemTag.ContainerOnHours)
-				|| source.getArgument().equals(ReportItemTag.ContainersOnHours)) {
+				|| source.getArgument().equals(ReportItemTag.Productivity) || source.getArgument().equals(ReportItemTag.ContainersOnHours)) {
 			return "background-color:#F4E4B3";
 		} else if (source.getArgument().contains(ReportItemTag.HandsC_shift)) {
 			return "background-color:#E9C6B2";
@@ -55,6 +53,8 @@ public class ReportStyleRowConverter implements TypeConverter {
 				return "background-color:#D4A190";
 			}
 			return "background-color:#EDD6CE";
+		} else if (source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.ContainerOnHours)) {
+			return "background-color:#FFD700";
 		}
 		return "";
 
