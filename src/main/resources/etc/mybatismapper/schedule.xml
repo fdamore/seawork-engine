@@ -16,7 +16,7 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4
+		sync_mobile_4, continueshift 
 		FROM
 		schedule
 		WHERE
@@ -30,7 +30,7 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4
+		sync_mobile_4, continueshift 
 		FROM
 		schedule
 		WHERE id =
@@ -48,7 +48,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, continueshift, 
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -75,7 +75,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, continueshift, 
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -107,11 +107,9 @@
 	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO
 		schedule
-		(date_schedule, user, editor, controller, note,shift)
+		(date_schedule, user, editor, controller, note,shift,continueshift)
 		VALUES
-		(#{date_schedule}, #{user}, #{editor}, #{controller},
-		#{note},
-		#{shift});
+		(#{date_schedule}, #{user}, #{editor}, #{controller},#{note}, #{shift}, #{continueshift});
 	</insert>
 
 
@@ -127,7 +125,8 @@
 		#{editor},
 		controller = #{controller},
 		note = #{note},
-		shift = #{shift}
+		shift = #{shift}, 
+		continueshift = #{continueshift} 
 		WHERE id = #{id};
 	</update>
 
@@ -177,7 +176,7 @@
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-		SELECT s.id, s.date_schedule, s.user, s.editor,
+		SELECT s.id, s.date_schedule, s.user, s.editor,s.continueshift, 
 		s.controller,
 		s.shift,s.note,
 		s.sync_mobile_1,
@@ -204,7 +203,7 @@
 
 	<select id="selectScheduleInIntervalDateByUserId" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller,
+		SELECT id, date_schedule, user, note, editor, controller, s.continueshift, 
 		shift,
 		sync_mobile_1,
 		sync_mobile_2,
@@ -229,7 +228,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, s.continueshift, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -284,7 +283,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, s.continueshift, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,
@@ -343,7 +342,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, s.continueshift, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -395,7 +394,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,
+		s.sync_mobile_4, s.continueshift, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,

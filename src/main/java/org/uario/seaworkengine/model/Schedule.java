@@ -17,6 +17,8 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	private Boolean				continueshift		= false;
+
 	private Integer				controller;
 
 	private Date				date_schedule;
@@ -95,6 +97,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 			return 1;
 		}
 		return this.getDate_schedule().compareTo(item.getDate_schedule());
+	}
+
+	public Boolean getContinueshift() {
+		return this.continueshift;
 	}
 
 	public Integer getController() {
@@ -179,6 +185,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public Integer getUser() {
 		return this.user;
+	}
+
+	public void setContinueshift(final Boolean continueshift) {
+		this.continueshift = continueshift;
 	}
 
 	public void setController(final Integer controller) {

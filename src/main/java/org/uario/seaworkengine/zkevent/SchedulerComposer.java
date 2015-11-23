@@ -363,6 +363,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private ConfigurationDAO				configurationDAO;
 
 	@Wire
+	private Checkbox						continue_shift;
+
+	@Wire
 	private A								controller_label;
 
 	@Wire
@@ -494,9 +497,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_statistic_task_popup;
-
 	@Wire
 	private Component						last_programmer_tag;
+
 	@Wire
 	private Label							lastProgrammer;
 
@@ -606,16 +609,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabpanel						overview_statistics;
-
 	@Wire
 	private Label							overview_sum_saturation;
+
 	@Wire
 	private Tabbox							overview_tab;
-
 	@Wire
 	private Panel							panel_shift_period;
 	private final String					partTimeMessage					= "Part Time";
 	private Person							person_logged					= null;
+
 	private PersonDAO						personDAO;
 
 	private Person							personLock;
@@ -628,16 +631,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Panel							preprocessing_panel;
-
 	@Wire
 	private Component						print_program_videos;
 	@Wire
 	private Component						print_scheduler;
 	@Wire
 	private Div								program_div;
+
 	@Wire
 	private Component						program_head_1_1;
-
 	@Wire
 	private Component						program_head_1_2;
 	@Wire
@@ -646,6 +648,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component						program_head_1_4;
 	@Wire
 	private Component						program_head_4_1;
+
 	@Wire
 	private Component						program_head_4_2;
 
@@ -687,13 +690,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_1_3;
-
 	@Wire
 	private Auxheader						program_tot_1_4;
 	@Wire
 	private Auxheader						program_tot_2_1;
 	@Wire
 	private Auxheader						program_tot_2_2;
+
 	@Wire
 	private Auxheader						program_tot_2_3;
 
@@ -705,16 +708,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_3_2;
-
 	@Wire
 	private Auxheader						program_tot_3_3;
 	@Wire
 	private Auxheader						program_tot_3_4;
 	@Wire
 	private Auxheader						program_tot_4_1;
+
 	@Wire
 	private Auxheader						program_tot_4_2;
-
 	@Wire
 	private Auxheader						program_tot_4_3;
 	@Wire
@@ -737,6 +739,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						programUser_tot_1_4;
 	@Wire
 	private Auxheader						programUser_tot_2_1;
+
 	@Wire
 	private Auxheader						programUser_tot_2_2;
 
@@ -862,18 +865,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						reviewUser_tot_2_3;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_4;
+
 	@Wire
 	private Label							saturation;
-
 	@Wire
 	private Label							saturation_month;
 	@Wire
 	private Button							save_program_item;
 	@Wire
 	private Button							save_review_item;
+
 	private ISchedule						scheduleDAO;
 
 	@Wire
@@ -4061,12 +4064,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// set note_program
 			SchedulerComposer.this.note_review.setValue(SchedulerComposer.this.currentSchedule.getNote());
 
+			SchedulerComposer.this.continue_shift.setChecked(SchedulerComposer.this.currentSchedule.getContinueshift());
+
 			// set initial program and revision
 			this.list_details_review = this.scheduleDAO.loadDetailFinalScheduleByIdScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
 
 		} else {
 			// if we haven't information about schedule
 			this.note_review.setValue(null);
+			this.continue_shift.setChecked(false);
 			this.listbox_review.getItems().clear();
 
 			// set list revision
@@ -5056,6 +5062,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// save note and controller:
 		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		final String note = this.note_review.getValue();
+		this.currentSchedule.setContinueshift(this.continue_shift.isChecked());
 		this.currentSchedule.setNote(note);
 		this.currentSchedule.setController(person.getId());
 		this.saveCurrentScheduler();

@@ -2099,6 +2099,12 @@
 							</hbox>
 
 							<separator></separator>
+							
+							<hbox align="center">
+								<a label="Continua Turno"></a>
+								<checkbox checked="false"
+									id="continue_shift" />
+							</hbox>
 
 							<hbox align="center">
 								<a label="Inviato ad App Mobile"></a>
