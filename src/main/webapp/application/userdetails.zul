@@ -703,6 +703,7 @@
 			<listheader label="Telefono" sort="auto(phone)" hflex="4" />
 			<listheader label="Ruolo" hflex="3" />
 			<listheader label="Qualifica" hflex="4" />
+			<listheader label="Mansioni" hflex="4" />
 			<listheader label="" hflex="2" />
 		</listhead>
 
@@ -729,6 +730,9 @@
 
 			<listcell sclass="myBottonCell"
 				label="@{user_item.current_position}" />
+				
+			<listcell sclass="myBottonCell"
+				label="@{user_item.tasksPerson}" />
 
 			<listcell sclass="myBottonCell">
 

@@ -132,6 +132,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	@XmlTransient
 	private String				status;
 
+	private String				tasksPerson;
+
 	/**
 	 * this list of user task is used only bu mobile app
 	 */
@@ -417,6 +419,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 		return this.status;
 	}
 
+	public String getTasksPerson() {
+		return this.tasksPerson;
+	}
+
 	@Override
 	public String getUsername() {
 		return this.getEmail();
@@ -586,7 +592,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setBirth_province(final String birth_province) {
 		this.birth_province = birth_province;
-	}
+	};
 
 	public void setCity(final String city) {
 		this.city = city;
@@ -594,7 +600,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setContractual_level(final Integer contractual_level) {
 		this.contractual_level = contractual_level;
-	};
+	}
 
 	public void setCountry(final String country) {
 		this.country = country;
@@ -711,6 +717,10 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setStatus(final String status) {
 		this.status = status;
+	}
+
+	public void setTasksPerson(final String tasksPerson) {
+		this.tasksPerson = tasksPerson;
 	}
 
 	public void setUserTaskForMobile(final List<UserTask> userTaskForMobile) {

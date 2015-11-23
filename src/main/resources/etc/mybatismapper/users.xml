@@ -44,7 +44,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w,
-		u.contractual_level 
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user u
 		where ( u.authority like
@@ -96,7 +98,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level
+		u.contractual_level, (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user u
 		where ( u.authority like
@@ -198,7 +202,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w,
-		u.contractual_level 
+		u.contractual_level, (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson  
 		FROM
 		user u
 		where ( u.authority like
@@ -248,7 +254,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w,
-		u.contractual_level 
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user u
 		where ( u.authority like
@@ -298,7 +306,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level 
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user
 		u
@@ -346,7 +356,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level 
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user
 		u
@@ -395,7 +407,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level 
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user
 		u
@@ -444,7 +458,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level 
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user
 		u
@@ -493,7 +509,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level 
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user
 		u
@@ -646,7 +664,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level 
+		u.contractual_level, (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson 
 		FROM
 		user
 		u order by
@@ -812,7 +832,9 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w, 
-		u.contractual_level 
+		u.contractual_level, (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		) as tasksPerson  
 		FROM
 		user u
 		<if test="my_full_text_search != null">
