@@ -727,8 +727,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private final HashMap<Integer, TerminalProductivity>	terminalProductivityList		= new HashMap<>();
 
 	@Wire
-	private Textbox											text_search_rifMCT;
+	private Listbox											terminalProductivy;
 
+	@Wire
+	private Textbox											text_search_rifMCT;
 	@Wire
 	private Intbox											text_search_rifSWS;
 	@Wire
@@ -751,6 +753,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Doublebox										tp_apr;
 	@Wire
 	private Doublebox										tp_aug;
+
 	@Wire
 	private Doublebox										tp_dec;
 
@@ -1669,6 +1672,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.report_div.setVisible(false);
 
 		this.scheduler_type_selector.setSelectedItem(null);
+
+		this.terminalProductivy.setVisible(false);
 	}
 
 	@Listen("onClick = #deleteDetailFinalScheduleShip")

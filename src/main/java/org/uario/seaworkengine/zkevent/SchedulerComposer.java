@@ -491,12 +491,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A								label_date_shift_review;
-
 	@Wire
 	private A								label_statistic_popup;
 
 	@Wire
 	private A								label_statistic_task_popup;
+
 	@Wire
 	private Component						last_programmer_tag;
 
@@ -603,7 +603,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabpanel						overview_program;
-
 	@Wire
 	private Tabpanel						overview_review;
 
@@ -611,12 +610,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Tabpanel						overview_statistics;
 	@Wire
 	private Label							overview_sum_saturation;
-
 	@Wire
 	private Tabbox							overview_tab;
 	@Wire
 	private Panel							panel_shift_period;
+
 	private final String					partTimeMessage					= "Part Time";
+
 	private Person							person_logged					= null;
 
 	private PersonDAO						personDAO;
@@ -625,27 +625,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Div								preprocessing_div;
-
 	@Wire
 	private Comboitem						preprocessing_item;
-
 	@Wire
 	private Panel							preprocessing_panel;
 	@Wire
 	private Component						print_program_videos;
+
 	@Wire
 	private Component						print_scheduler;
 	@Wire
 	private Div								program_div;
-
 	@Wire
 	private Component						program_head_1_1;
 	@Wire
 	private Component						program_head_1_2;
 	@Wire
 	private Component						program_head_1_3;
+
 	@Wire
 	private Component						program_head_1_4;
+
 	@Wire
 	private Component						program_head_4_1;
 
@@ -684,16 +684,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_1_1;
-
 	@Wire
 	private Auxheader						program_tot_1_2;
-
 	@Wire
 	private Auxheader						program_tot_1_3;
 	@Wire
 	private Auxheader						program_tot_1_4;
+
 	@Wire
 	private Auxheader						program_tot_2_1;
+
 	@Wire
 	private Auxheader						program_tot_2_2;
 
@@ -702,19 +702,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_2_4;
-
 	@Wire
 	private Auxheader						program_tot_3_1;
-
 	@Wire
 	private Auxheader						program_tot_3_2;
 	@Wire
 	private Auxheader						program_tot_3_3;
+
 	@Wire
 	private Auxheader						program_tot_3_4;
 	@Wire
 	private Auxheader						program_tot_4_1;
-
 	@Wire
 	private Auxheader						program_tot_4_2;
 	@Wire
@@ -735,8 +733,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						programUser_tot_1_2;
 	@Wire
 	private Auxheader						programUser_tot_1_3;
+
 	@Wire
 	private Auxheader						programUser_tot_1_4;
+
 	@Wire
 	private Auxheader						programUser_tot_2_1;
 
@@ -859,7 +859,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						reviewUser_tot_2_1;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_2;
 
@@ -867,13 +866,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						reviewUser_tot_2_3;
 	@Wire
 	private Auxheader						reviewUser_tot_2_4;
-
 	@Wire
 	private Label							saturation;
 	@Wire
 	private Label							saturation_month;
+
 	@Wire
 	private Button							save_program_item;
+
 	@Wire
 	private Button							save_review_item;
 
