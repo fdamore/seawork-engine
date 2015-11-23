@@ -55,6 +55,8 @@ public class ReportStyleRowConverter implements TypeConverter {
 			return "background-color:#EDD6CE";
 		} else if (source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.ContainerOnHours)) {
 			return "background-color:#FFD700";
+		} else if (source.getArgument().equals(ReportItemTag.Service_TimeWorkTotal)) {
+			return "background-color:#FFD700";
 		}
 		return "";
 

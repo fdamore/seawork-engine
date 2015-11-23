@@ -9,24 +9,24 @@ public class ReportItem implements Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
-	private Double				apr;
+	private Double				apr					= 0.0;
 	private String				argument;
-	private Double				aug;
+	private Double				aug					= 0.0;
 	private Double				avg;
-	private Double				dec;
-	private Double				feb;
-	private Double				gen;
+	private Double				dec					= 0.0;
+	private Double				feb					= 0.0;
+	private Double				gen					= 0.0;
 	private Integer				isService			= null;
 	private Boolean				isTaskROW			= false;
-	private Double				jul;
-	private Double				jun;
-	private Double				mar;
-	private Double				may;
+	private Double				jul					= 0.0;
+	private Double				jun					= 0.0;
+	private Double				mar					= 0.0;
+	private Double				may					= 0.0;
 
-	private Double				nov;
+	private Double				nov					= 0.0;
 
-	private Double				oct;
-	private Double				sep;
+	private Double				oct					= 0.0;
+	private Double				sep					= 0.0;
 	private Double				tot;
 
 	public Double getApr() {

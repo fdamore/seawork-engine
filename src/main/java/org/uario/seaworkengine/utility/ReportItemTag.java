@@ -20,6 +20,7 @@ public interface ReportItemTag {
 	public static String	Service_NumberOfMan		= "Totale uomini per servizio ";
 	public static String	Service_NumberOfService	= "Numero di servizi ";
 	public static String	Service_TimeWork		= "Totale ore Fatturate Nette per servizio ";
+	public static String	Service_TimeWorkTotal	= "Totale ore Fatturate Nette";
 	public static String	ShipNumberComplete		= "Numero navi - Completa";
 	public static String	ShipNumberTwist			= "Numero navi - TW";
 	public static String	TaskHours				= "Ore lavorate per mansione";
