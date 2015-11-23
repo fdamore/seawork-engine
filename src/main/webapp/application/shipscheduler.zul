@@ -2377,10 +2377,15 @@
 			<separator></separator>
 			
 			<hbox>
-				<a label="Calcola su Periodo di Lavorazione" />
-				<checkbox checked="false" id="byInvoce" />
+				<a label="Calcola su Periodo di " />
+				<radiogroup id="byInvoce">
+					<radio id="twYes" label="Fatturazione" radiogroup="byInvoce"
+						selected="true" />
+					<space />
+					<radio id="twNo" label="Lavorazione" radiogroup="byInvoce" />
+				</radiogroup>
 			</hbox>
-			
+
 			<separator/><separator/>
 
 			<panel border="normal" width="100%">
