@@ -2386,9 +2386,9 @@
 				sclass="green lighter rcaption" />
 			<separator></separator>
 			
-			<hbox>
+			<hbox align = "center">
 				<a label="Calcola su Periodo di " />
-				<radiogroup id="byInvoce">
+				<radiogroup id="byInvoce" >
 					<radio id="twYes" label="Fatturazione" radiogroup="byInvoce"
 						selected="true" />
 					<space />
