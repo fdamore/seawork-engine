@@ -34,6 +34,27 @@ color: #636363;
     overflow-y: scroll!important;
 }
 
+.myBottonCell { border-bottom: 1px solid; border-right: 1px
+			solid; border-color:#CFCFCF;}
+
+
+/* STILI REPORT */
+.containerStyleReport{background-color:#FFFDCF !important;}
+.taskTotalHoursStyleReport{background-color:#FAD905 !important;}
+.handsStyleReport{background-color:#F0CE8F !important;}
+.handsC_PStyleReport{background-color:#F1886B !important;}
+.taskHoursStyleReport{background-color:#F4E4B3 !important;}
+.handsOnDaysStyleReport{background-color:#F4E4B3 !important;}
+.handsC_shiftStyleReport{background-color:#E9C6B2 !important;}
+.handsP_shiftStyleReport{background-color:#FFFDCF !important;}
+.customerComplaintStyleReport{background-color:#F74537 !important;}
+.windyDayStyleReport{background-color:#DEDEDE !important;}
+.shipNumberStyleReport{background-color:#FFFFFF !important;}
+.isServiceStyleReport{background-color:#D4A190 !important;}
+.isServiceStyleReportd{background-color:#EDD6CE !important;}
+.containersOnMenStyleReport{background-color:#FFD700 !important;}
+.service_TimeWorkTotalStyleReport{background-color:#FFD700 !important;}
+
 
 
 

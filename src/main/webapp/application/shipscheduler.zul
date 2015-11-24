@@ -28,8 +28,7 @@
 
 		<style>
 
-			.myBottonCell { border-bottom: 1px solid; border-right: 1px
-			solid; border-color:#CFCFCF;}		
+				
 
 		</style>
 
@@ -2554,7 +2553,7 @@
 						
 						
 						<listitem self="@{each='reportItem'}"
-							value="@{reportItem}" style="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.ReportStyleRowConverter'}">
+							value="@{reportItem}" zclass="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.ReportStyleRowConverter'}">
 							<listcell sclass="myBottonCell"
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}" >
 								<custom-attributes tag="argument" />
