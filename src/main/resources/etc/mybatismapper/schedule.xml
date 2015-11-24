@@ -48,7 +48,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, continueshift, 
+		s.sync_mobile_4, s.continueshift, 
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -75,7 +75,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, continueshift, 
+		s.sync_mobile_4, s.continueshift, 
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -203,7 +203,7 @@
 
 	<select id="selectScheduleInIntervalDateByUserId" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller, s.continueshift, 
+		SELECT id, date_schedule, user, note, editor, controller, continueshift, 
 		shift,
 		sync_mobile_1,
 		sync_mobile_2,
