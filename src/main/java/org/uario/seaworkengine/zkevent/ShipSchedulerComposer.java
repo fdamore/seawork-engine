@@ -814,6 +814,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Listheader										volumeColumnScheduleShip;
 
 	@Wire
+	private Component										volumeGrid;
+
+	@Wire
 	private Listheader										volumeStatisticColumn;
 
 	@Wire
@@ -1883,6 +1886,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.add_finalDetailScheduleShip_command.setVisible(true);
 		this.modify_finalDetailScheduleShip_command.setVisible(false);
+
+		this.volumeGrid.setVisible(true);
+
+		if (this.sw_list_scheduleShip.getSelectedItem() != null) {
+			final DetailScheduleShip itm = this.sw_list_scheduleShip.getSelectedItem().getValue();
+			final Ship ship = this.shipDao.loadShip(itm.getId_ship());
+
+			if ((ship != null) && (ship.getActivityh() != null) && ship.getActivityh().booleanValue()) {
+				this.volumeGrid.setVisible(false);
+			}
+		}
 
 	}
 
