@@ -3226,6 +3226,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final UserTask taskPP = this.configurationDao.loadPPTask();
 		ReportItem itemRZ = new ReportItem();
 		ReportItem itemPP = new ReportItem();
+		final ReportItem itemTotalHoursTask = new ReportItem();
+		itemTotalHoursTask.setArgument(ReportItemTag.TaskTotalHours);
+		double totalHoursTask = 0.0;
+		int hoursTaskNotNull = 0;
+		final int indexTotalHoursTask = this.reportList.size();
 
 		for (final UserTask userTask : tasks) {
 			final ReportItem itemTaskHour = new ReportItem();
@@ -3245,31 +3250,42 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					}
 					if (shipTotal.getMonth_date() == 1) {
 						itemTaskHour.setGen(shipTotal.getTask_hour());
+						itemTotalHoursTask.setGen(itemTotalHoursTask.getGen() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 2) {
 						itemTaskHour.setFeb(shipTotal.getTask_hour());
+						itemTotalHoursTask.setFeb(itemTotalHoursTask.getFeb() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 3) {
 						itemTaskHour.setMar(shipTotal.getTask_hour());
+						itemTotalHoursTask.setMar(itemTotalHoursTask.getMar() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 4) {
 						itemTaskHour.setApr(shipTotal.getTask_hour());
+						itemTotalHoursTask.setApr(itemTotalHoursTask.getApr() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 5) {
 						itemTaskHour.setMay(shipTotal.getTask_hour());
+						itemTotalHoursTask.setMay(itemTotalHoursTask.getMay() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 6) {
 						itemTaskHour.setJun(shipTotal.getTask_hour());
+						itemTotalHoursTask.setJun(itemTotalHoursTask.getJun() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 7) {
 						itemTaskHour.setJul(shipTotal.getTask_hour());
+						itemTotalHoursTask.setJul(itemTotalHoursTask.getJul() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 8) {
 						itemTaskHour.setAug(shipTotal.getTask_hour());
+						itemTotalHoursTask.setAug(itemTotalHoursTask.getAug() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 9) {
 						itemTaskHour.setSep(shipTotal.getTask_hour());
+						itemTotalHoursTask.setSep(itemTotalHoursTask.getSep() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 10) {
 						itemTaskHour.setOct(shipTotal.getTask_hour());
+						itemTotalHoursTask.setOct(itemTotalHoursTask.getOct() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 11) {
 						itemTaskHour.setNov(shipTotal.getTask_hour());
+						itemTotalHoursTask.setNov(itemTotalHoursTask.getNov() + shipTotal.getTask_hour());
 					} else if (shipTotal.getMonth_date() == 12) {
 						itemTaskHour.setDec(shipTotal.getTask_hour());
+						itemTotalHoursTask.setDec(itemTotalHoursTask.getDec() + shipTotal.getTask_hour());
 					}
 				}
-
 			}
 
 			// TASK HOURS
@@ -3291,6 +3307,56 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.reportList.add(itemTaskHour);
 		}
+
+		totalHoursTask = itemTotalHoursTask.getGen() + itemTotalHoursTask.getFeb() + itemTotalHoursTask.getMar() + itemTotalHoursTask.getApr()
+				+ itemTotalHoursTask.getMay() + itemTotalHoursTask.getJun() + itemTotalHoursTask.getJul() + itemTotalHoursTask.getAug()
+				+ itemTotalHoursTask.getSep() + itemTotalHoursTask.getOct() + itemTotalHoursTask.getNov() + itemTotalHoursTask.getDec();
+
+		if (!itemTotalHoursTask.getGen().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getFeb().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getMar().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getApr().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getMay().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getJun().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getJul().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getAug().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getSep().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getOct().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getNov().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+		if (!itemTotalHoursTask.getDec().equals(0.0)) {
+			hoursTaskNotNull++;
+		}
+
+		if (hoursTaskNotNull != 0) {
+			itemTotalHoursTask.setAvg(totalHoursTask / hoursTaskNotNull);
+		} else {
+			itemTotalHoursTask.setAvg(0.0);
+		}
+		itemTotalHoursTask.setTot(totalHoursTask);
+
+		this.reportList.add(indexTotalHoursTask, itemTotalHoursTask);
 
 		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO -
 		// GIORNI DISAGIO VENTO

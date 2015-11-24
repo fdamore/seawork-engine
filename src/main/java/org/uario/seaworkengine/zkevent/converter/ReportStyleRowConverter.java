@@ -28,6 +28,8 @@ public class ReportStyleRowConverter implements TypeConverter {
 		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_SWS)
 				|| source.getArgument().equals(ReportItemTag.ContainerRZ_TW_MCT)) {
 			return "background-color:#FFFDCF";
+		} else if (source.getArgument().equals(ReportItemTag.TaskTotalHours)) {
+			return "background-color:#FAD905";
 		} else if (source.getArgument().equals(ReportItemTag.Hands)) {
 			return "background-color:#F0CE8F";
 		} else if (source.getArgument().equals(ReportItemTag.HandsC_P)) {
