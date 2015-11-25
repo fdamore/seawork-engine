@@ -15,67 +15,73 @@ import javax.xml.bind.annotation.XmlTransient;
 public class DetailFinalSchedule implements Serializable, Comparable<DetailFinalSchedule> {
 
 	@XmlTransient
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private String board;
+	private String				board;
+
+	/**
+	 * Show in overview users - NOT UPDATE
+	 */
+	@XmlTransient
+	private Boolean				continueshift;
 
 	// to show in review
-	private String controller;
+	private String				controller;
 
-	private String crane;
+	private String				crane;
 
 	// to show in overview
 	@XmlTransient
-	private Date date_schedule;
+	private Date				date_schedule;
 
 	// to show in overview
-	private String defaultTask;
+	private String				defaultTask;
 
 	// to show in review
-	private String editor;
+	private String				editor;
 
 	// to show in overview
 	@XmlTransient
-	private String employee_identification;
+	private String				employee_identification;
 
-	private Integer id;
+	private Integer				id;
 
-	private Integer id_schedule;
+	private Integer				id_schedule;
 
-	private Integer id_ship;
+	private Integer				id_ship;
 
 	// to show in overview on break shift
-	private Integer id_user;
+	private Integer				id_user;
 
 	// to show in overview listbox
-	private String note;
+	private String				note;
 
-	private Boolean reviewshift;
+	private Boolean				reviewshift;
 
 	@XmlElement(name = "no_shift")
-	private Integer shift;
+	private Integer				shift;
 
 	// to show in overview
 	@XmlTransient
-	private Integer shift_type;
+	private Integer				shift_type;
 
-	private Integer task;
-
-	@XmlTransient
-	private Double time;
+	private Integer				task;
 
 	@XmlTransient
-	private Timestamp time_from;
+	private Double				time;
 
 	@XmlTransient
-	private Timestamp time_to;
+	private Timestamp			time_from;
 
 	@XmlTransient
-	private Double time_vacation;
+	private Timestamp			time_to;
+
+	@XmlTransient
+	private Double				time_vacation;
 
 	// to show in overview
 	@XmlTransient
-	private String user;
+	private String				user;
 
 	@Override
 	public int compareTo(final DetailFinalSchedule o) {
@@ -110,6 +116,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public String getBoard() {
 		return this.board;
+	}
+
+	public Boolean getContinueshift() {
+		return this.continueshift;
 	}
 
 	public String getController() {

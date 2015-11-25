@@ -529,7 +529,8 @@
 		user_usertask uut, usertask t
 		where uut.id_usertask = t.id and
 		uut.id_user = u.id and uut.task_default=1
-		) as defaultTask
+		) as defaultTask,
+		s.continueshift
 		from
 		user u,
 		schedule s left
