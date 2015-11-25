@@ -221,6 +221,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.user;
 	}
 
+	public Boolean isWorkingDay() {
+		return !this.continueshift;
+	}
+
 	public void setBoard(final String board) {
 		this.board = board;
 	}

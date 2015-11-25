@@ -282,7 +282,9 @@
 				value="10">
 			</intbox>
 
-			<textbox placeholder="Cerca per Nome o Matr...." id="full_text_search"></textbox>
+			<textbox placeholder="Cerca per Nome o Matr...."
+				id="full_text_search">
+			</textbox>
 
 			<button id="refresh_command" label="Ricarica"
 				sclass="btn-info" />
@@ -2786,6 +2788,12 @@
 								<label id="overview_count_worker"
 									visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 							</hbox>
+
+							<hbox>
+								<a label="Totale Giorni Lavorati:" />
+								<label id="overview_count_days" />
+							</hbox>
+
 						</vbox>
 					</div>
 
@@ -2865,8 +2873,13 @@
 
 										<listheader label="Turno"
 											hflex="1" align="center" />
+										
 										<listheader label="Mansione"
 											hflex="1" align="center" />
+
+										<listheader label="GG. Lav."
+											hflex="1" align="center" />
+
 										<listheader
 											label="Ore lavorate (Ore:Minuti)" hflex="1" align="center" />
 										<listheader
@@ -2968,6 +2981,16 @@
 	Events.sendEvent("onOverviewReviewTaskClick", page_panel, null);
 </attribute>
 											</a>
+										</listcell>
+										
+										<listcell
+											sclass="myBottonCell">
+
+											<checkbox
+												checked="@{itemoverviewreview.workingDay}"
+												disabled="true">
+											</checkbox>
+
 										</listcell>
 
 										<listcell sclass="myBottonCell"
