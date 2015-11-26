@@ -5208,13 +5208,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #show_add_panel_program")
 	public void showPanelAdd() {
 
-		this.shift.setSelectedIndex(0);
-		this.operation.setValue("-");
-		this.user.setSelectedItem(null);
-		this.usersecond.setSelectedItem(null);
-		this.handswork_program.setValue(0);
-		this.menwork_program.setValue(0);
-
 		this.shift_Daily.setSelectedIndex(0);
 		this.operation_Daily.setSelectedItem(null);
 		this.user_Daily.setSelectedItem(null);
@@ -5225,7 +5218,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.menwork_program_Daily.setValue("0");
 		this.shiftdate_Daily.setValue(new Date());
 		this.notedetail.setValue("");
-		this.noteshipdetail.setValue("");
 
 		// define if ship activity fields need to be disabled
 		final Integer id_ship = this.scheduleShip_selected.getIdship();
