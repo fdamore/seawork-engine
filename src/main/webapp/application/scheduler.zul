@@ -298,6 +298,9 @@
 			<button sclass="btn-danger" id="calculate_sat"
 				label="Aggiorna Statistiche Saturazione a Video">
 			</button>
+			<button sclass="btn-danger" id="sortByStatistic"
+				label="Ordina per Statistiche Saturazione">
+			</button>
 
 			<separator></separator>
 

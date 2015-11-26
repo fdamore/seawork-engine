@@ -12,9 +12,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -304,844 +308,874 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private final static String				STATUS_COMP_EDITOR_EDIT			= "STATUS_COMP_EDITOR_EDIT";
 
-	@Wire
-	private Button							add_program_item;
+	private static Map<Integer, Double> sortByComparator(final Map<Integer, Double> unsortMap, final boolean order) {
+
+		final List<Entry<Integer, Double>> list = new LinkedList<Entry<Integer, Double>>(unsortMap.entrySet());
+
+		// Sorting the list based on values
+		Collections.sort(list, new Comparator<Entry<Integer, Double>>() {
+			@Override
+			public int compare(final Entry<Integer, Double> o1, final Entry<Integer, Double> o2) {
+				if (order) {
+					return o1.getValue().compareTo(o2.getValue());
+				} else {
+					return o2.getValue().compareTo(o1.getValue());
+
+				}
+			}
+		});
+
+		// Maintaining insertion order with the help of LinkedList
+		final Map<Integer, Double> sortedMap = new LinkedHashMap<Integer, Double>();
+		for (final Entry<Integer, Double> entry : list) {
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
+
+		return sortedMap;
+	}
 
 	@Wire
-	private Button							add_review_item;
+	private Button						add_program_item;
 
 	@Wire
-	private Label							alertMinHours;
+	private Button						add_review_item;
 
 	@Wire
-	private Label							alertMinHoursReview;
+	private Label						alertMinHours;
 
 	@Wire
-	private Button							assign_program_review;
-
-	private IBankHolidays					bank_holiday;
+	private Label						alertMinHoursReview;
 
 	@Wire
-	private Combobox						board;
+	private Button						assign_program_review;
+
+	private IBankHolidays				bank_holiday;
+
+	@Wire
+	private Combobox					board;
 
 	// cache sat
-	private HashMap<Integer, Double>		cache_sat						= null;
+	private HashMap<Integer, Double>	cache_sat						= null;
 
 	@Wire
-	private Button							cancel_day_definition;
+	private Button						cancel_day_definition;
 
 	@Wire
-	private Button							cancel_modify;
+	private Button						cancel_modify;
 
 	@Wire
-	private Button							cancel_modify_program;
+	private Button						cancel_modify_program;
 
 	@Wire
-	private Button							cancel_program;
+	private Button						cancel_program;
 
 	@Wire
-	private Button							cancel_review;
+	private Button						cancel_review;
 
 	@Wire
-	private Component						color_legend_review;
+	private Component					color_legend_review;
 
 	@Wire
-	private Component						color_program_legend;
+	private Component					color_program_legend;
 
 	@Wire
-	private Combobox						combo_user_dip;
+	private Combobox					combo_user_dip;
 
 	@Wire
-	private Div								comp_editor;
+	private Div							comp_editor;
 
 	@Wire
-	private A								compe_popup_year;
+	private A							compe_popup_year;
 
 	@Wire
-	private Popup							compensation_popup;
+	private Popup						compensation_popup;
 
-	private ConfigurationDAO				configurationDAO;
-
-	@Wire
-	private Checkbox						continue_shift;
+	private ConfigurationDAO			configurationDAO;
 
 	@Wire
-	private A								controller_label;
+	private Checkbox					continue_shift;
 
 	@Wire
-	private A								controller_label_daydefinition;
+	private A							controller_label;
 
 	@Wire
-	private A								controller_label_review;
+	private A							controller_label_daydefinition;
 
 	@Wire
-	private Textbox							crane;
+	private A							controller_label_review;
 
 	@Wire
-	private Textbox							craneSelector;
-
-	private Schedule						currentSchedule;
+	private Textbox						crane;
 
 	@Wire
-	private Datebox							date_from_overview;
+	private Textbox						craneSelector;
+
+	private Schedule					currentSchedule;
 
 	@Wire
-	private Datebox							date_init_scheduler;
+	private Datebox						date_from_overview;
 
 	@Wire
-	private Datebox							date_init_scheduler_review;
+	private Datebox						date_init_scheduler;
 
 	@Wire
-	private Datebox							date_submitUser;
+	private Datebox						date_init_scheduler_review;
 
 	@Wire
-	private Datebox							date_to_overview;
+	private Datebox						date_submitUser;
 
 	@Wire
-	private Datebox							day_after_config;
+	private Datebox						date_to_overview;
 
 	@Wire
-	private Popup							day_definition_popup;
+	private Datebox						day_after_config;
 
 	@Wire
-	private Popup							day_name_popup;
+	private Popup						day_definition_popup;
 
 	@Wire
-	private Component						day_shift_over;
+	private Popup						day_name_popup;
 
 	@Wire
-	private Checkbox						day_shift_over_control;
+	private Component					day_shift_over;
 
 	@Wire
-	private Checkbox						day_shift_over_control_init;
+	private Checkbox					day_shift_over_control;
 
 	@Wire
-	private Checkbox						day_shift_over_control_program;
+	private Checkbox					day_shift_over_control_init;
 
 	@Wire
-	private Checkbox						day_shift_over_control_program_init;
+	private Checkbox					day_shift_over_control_program;
 
 	@Wire
-	private Component						day_shift_over_program;
+	private Checkbox					day_shift_over_control_program_init;
 
 	@Wire
-	private Component						define_program_body;
+	private Component					day_shift_over_program;
 
 	@Wire
-	private Component						div_force_shift;
+	private Component					define_program_body;
 
 	@Wire
-	private Component						download_program_report;
+	private Component					div_force_shift;
 
 	@Wire
-	private A								editor_label;
+	private Component					download_program_report;
 
 	@Wire
-	private A								editor_label_daydefinition;
+	private A							editor_label;
 
 	@Wire
-	private A								editor_label_review;
+	private A							editor_label_daydefinition;
 
 	@Wire
-	private Label							errorMessageAddItem;
+	private A							editor_label_review;
 
 	@Wire
-	private Label							errorMessageAddProgramItem;
+	private Label						errorMessageAddItem;
+
+	@Wire
+	private Label						errorMessageAddProgramItem;
 
 	/**
 	 * First date in grid
 	 */
-	private Date							firstDateInGrid;
+	private Date						firstDateInGrid;
 
 	@Wire
-	private Combobox						force_shift_combo;
+	private Combobox					force_shift_combo;
 
 	@Wire
-	private Textbox							full_text_search;
+	private Textbox						full_text_search;
 
 	@Wire
-	private Listbox							grid_scheduler;
+	private Listbox						grid_scheduler;
 
 	@Wire
-	private Listbox							grid_scheduler_day;
+	private Listbox						grid_scheduler_day;
 
 	@Wire
-	private Listbox							grid_scheduler_review;
+	private Listbox						grid_scheduler_review;
 
 	@Wire
-	private Component						header_info;
+	private Component					header_info;
 
 	@Wire
-	public Combobox							hoursInterval;
+	public Combobox						hoursInterval;
 
 	@Wire
-	private Label							infoBadge;
+	private Label						infoBadge;
 
 	@Wire
-	private Comboitem						item_all_shift_overview;
+	private Comboitem					item_all_shift_overview;
 
 	@Wire
-	private A								label_date_popup;
+	private A							label_date_popup;
 
 	@Wire
-	private A								label_date_shift_preprocessing;
+	private A							label_date_shift_preprocessing;
 
 	@Wire
-	private A								label_date_shift_program;
+	private A							label_date_shift_program;
 
 	@Wire
-	private A								label_date_shift_review;
+	private A							label_date_shift_review;
+	@Wire
+	private A							label_statistic_popup;
 
 	@Wire
-	private A								label_statistic_popup;
-	@Wire
-	private A								label_statistic_task_popup;
+	private A							label_statistic_task_popup;
 
 	@Wire
-	private Component						last_programmer_tag;
+	private Component					last_programmer_tag;
 
 	@Wire
-	private Label							lastProgrammer;
+	private Label						lastProgrammer;
 
 	// initial program and revision - USED IN POPUP
-	private List<DetailInitialSchedule>		list_details_program;
+	private List<DetailInitialSchedule>	list_details_program;
 
-	private List<DetailFinalSchedule>		list_details_review;
-
-	@Wire
-	private Listbox							list_overview_preprocessing;
+	private List<DetailFinalSchedule>	list_details_review;
 
 	@Wire
-	private Listbox							list_overview_program;
+	private Listbox						list_overview_preprocessing;
 
 	@Wire
-	private Listbox							list_overview_review;
-
-	private ArrayList<RowSchedule>			list_rows_program;
+	private Listbox						list_overview_program;
 
 	@Wire
-	private Listbox							list_statistics;
+	private Listbox						list_overview_review;
+
+	private ArrayList<RowDaySchedule>	list_rowDaySchedule				= new ArrayList<RowDaySchedule>();
+
+	private ArrayList<RowSchedule>		list_rows_program;
+
+	private ArrayList<RowSchedule>		list_rowSchedule;
 
 	@Wire
-	private Listbox							list_task_stat;
+	private Listbox						list_statistics;
 
 	@Wire
-	private Listbox							listbox_program;
+	private Listbox						list_task_stat;
 
 	@Wire
-	private Listbox							listbox_review;
+	private Listbox						listbox_program;
+
+	@Wire
+	private Listbox						listbox_review;
 
 	// initial program and revision - USED DOWNLOAD
-	private List<DetailInitialSchedule>		listDetailProgram				= null;
+	private List<DetailInitialSchedule>	listDetailProgram				= null;
 
 	// review program and revision - USED DOWNLOAD
-	private List<DetailFinalSchedule>		listDetailRevision				= null;
+	private List<DetailFinalSchedule>	listDetailRevision				= null;
 
 	// review program and revision - USED DOWNLOAD
-	private List<Schedule>					listSchedule					= null;
+	private List<Schedule>				listSchedule					= null;
 
 	// statistics - USED DOWNLOAD
-	private List<UserStatistics>			listUserStatistics				= null;
+	private List<UserStatistics>		listUserStatistics				= null;
 
-	private LockTableDAO					lockTableDAO;
+	private LockTableDAO				lockTableDAO;
 
 	@Wire
-	private Label							loggerUserOnTable;
+	private Label						loggerUserOnTable;
 
-	private final String					messageTableLock				= "Utente connesso: ";
+	private final String				messageTableLock				= "Utente connesso: ";
 
-	private final String					messageTableUnLock				= "Nessun utente connesso.";
+	private final String				messageTableUnLock				= "Nessun utente connesso.";
 
-	private final String					messageTimeConnectionTableLock	= "Inizio connessione: ";
+	private final String				messageTimeConnectionTableLock	= "Inizio connessione: ";
 
-	private boolean							minHoursAlert					= false;
+	private boolean						minHoursAlert					= false;
 
 	@Wire
-	private Textbox							note_compUser;
+	private Textbox						note_compUser;
 
 	@Wire
-	private Textbox							note_preprocessing;
+	private Textbox						note_preprocessing;
 
 	@Wire
-	private Textbox							note_program;
+	private Textbox						note_program;
 
 	@Wire
-	private Textbox							note_review;
+	private Textbox						note_review;
 
 	@Wire
-	private Button							ok_day_shift;
+	private Button						ok_day_shift;
 
 	@Wire
-	private Button							ok_program;
+	private Button						ok_program;
 
 	@Wire
-	private Button							ok_review;
+	private Button						ok_review;
 
 	@Wire
-	private Label							overview_count_days;
+	private Label						overview_count_days;
 
 	@Wire
-	private Label							overview_count_h;
+	private Label						overview_count_h;
 
 	@Wire
-	private Label							overview_count_h_c;
+	private Label						overview_count_h_c;
 
 	@Wire
-	private Label							overview_count_h_stat;
+	private Label						overview_count_h_stat;
 
 	@Wire
-	private Label							overview_count_worker;
+	private Label						overview_count_worker;
 
 	@Wire
-	private Label							overview_count_worker_stat;
+	private Label						overview_count_worker_stat;
 
 	@Wire
-	private Div								overview_div;
-
-	@Wire
-	private Component						overview_download;
-
-	@Wire
-	private Comboitem						overview_item;
-
-	@Wire
-	private Tabpanel						overview_preprocessing;
+	private Div							overview_div;
 	@Wire
-	private Tabpanel						overview_program;
+	private Component					overview_download;
 
 	@Wire
-	private Tabpanel						overview_review;
+	private Comboitem					overview_item;
 	@Wire
-	private Tabpanel						overview_statistics;
+	private Tabpanel					overview_preprocessing;
 	@Wire
-	private Label							overview_sum_saturation;
+	private Tabpanel					overview_program;
 	@Wire
-	private Tabbox							overview_tab;
+	private Tabpanel					overview_review;
 
 	@Wire
-	private Panel							panel_shift_period;
-
-	private final String					partTimeMessage					= "Part Time";
-
-	private Person							person_logged					= null;
-
-	private PersonDAO						personDAO;
+	private Tabpanel					overview_statistics;
 
-	private Person							personLock;
 	@Wire
-	private Div								preprocessing_div;
+	private Label						overview_sum_saturation;
+
 	@Wire
-	private Comboitem						preprocessing_item;
+	private Tabbox						overview_tab;
+
 	@Wire
-	private Panel							preprocessing_panel;
+	private Panel						panel_shift_period;
 
+	private final String				partTimeMessage					= "Part Time";
+	private Person						person_logged					= null;
+	private PersonDAO					personDAO;
+	private Person						personLock;
+
 	@Wire
-	private Component						print_program_videos;
+	private Div							preprocessing_div;
 	@Wire
-	private Component						print_scheduler;
+	private Comboitem					preprocessing_item;
 	@Wire
-	private Div								program_div;
+	private Panel						preprocessing_panel;
 	@Wire
-	private Component						program_head_1_1;
+	private Component					print_program_videos;
 	@Wire
-	private Component						program_head_1_2;
+	private Component					print_scheduler;
 
 	@Wire
-	private Component						program_head_1_3;
+	private Div							program_div;
 
 	@Wire
-	private Component						program_head_1_4;
+	private Component					program_head_1_1;
 
 	@Wire
-	private Component						program_head_4_1;
+	private Component					program_head_1_2;
 
 	@Wire
-	private Component						program_head_4_2;
+	private Component					program_head_1_3;
 
 	@Wire
-	private Component						program_head_4_3;
+	private Component					program_head_1_4;
 
 	@Wire
-	private Component						program_head_4_4;
+	private Component					program_head_4_1;
 
 	@Wire
-	private Component						program_head_5_1;
+	private Component					program_head_4_2;
 
 	@Wire
-	private Component						program_head_5_2;
+	private Component					program_head_4_3;
 
 	@Wire
-	private Component						program_head_5_3;
+	private Component					program_head_4_4;
 
 	@Wire
-	private Component						program_head_5_4;
+	private Component					program_head_5_1;
 
 	@Wire
-	private Comboitem						program_item;
+	private Component					program_head_5_2;
 
 	@Wire
-	private Panel							program_panel;
+	private Component					program_head_5_3;
 
 	@Wire
-	private Listheader						program_panel_name;
+	private Component					program_head_5_4;
 
 	@Wire
-	private Combobox						program_task;
+	private Comboitem					program_item;
 	@Wire
-	private Auxheader						program_tot_1_1;
+	private Panel						program_panel;
 	@Wire
-	private Auxheader						program_tot_1_2;
+	private Listheader					program_panel_name;
 	@Wire
-	private Auxheader						program_tot_1_3;
+	private Combobox					program_task;
 
 	@Wire
-	private Auxheader						program_tot_1_4;
+	private Auxheader					program_tot_1_1;
 
 	@Wire
-	private Auxheader						program_tot_2_1;
+	private Auxheader					program_tot_1_2;
 
 	@Wire
-	private Auxheader						program_tot_2_2;
+	private Auxheader					program_tot_1_3;
 
 	@Wire
-	private Auxheader						program_tot_2_3;
+	private Auxheader					program_tot_1_4;
 	@Wire
-	private Auxheader						program_tot_2_4;
+	private Auxheader					program_tot_2_1;
 	@Wire
-	private Auxheader						program_tot_3_1;
+	private Auxheader					program_tot_2_2;
 	@Wire
-	private Auxheader						program_tot_3_2;
+	private Auxheader					program_tot_2_3;
 
 	@Wire
-	private Auxheader						program_tot_3_3;
+	private Auxheader					program_tot_2_4;
 	@Wire
-	private Auxheader						program_tot_3_4;
+	private Auxheader					program_tot_3_1;
 	@Wire
-	private Auxheader						program_tot_4_1;
+	private Auxheader					program_tot_3_2;
 	@Wire
-	private Auxheader						program_tot_4_2;
+	private Auxheader					program_tot_3_3;
 	@Wire
-	private Auxheader						program_tot_4_3;
+	private Auxheader					program_tot_3_4;
 	@Wire
-	private Auxheader						program_tot_4_4;
+	private Auxheader					program_tot_4_1;
 	@Wire
-	private Auxheader						program_tot_5_1;
+	private Auxheader					program_tot_4_2;
 	@Wire
-	private Auxheader						program_tot_5_2;
+	private Auxheader					program_tot_4_3;
 	@Wire
-	private Auxheader						program_tot_5_3;
+	private Auxheader					program_tot_4_4;
 	@Wire
-	private Auxheader						program_tot_5_4;
+	private Auxheader					program_tot_5_1;
 	@Wire
-	private Auxheader						programUser_tot_1_1;
+	private Auxheader					program_tot_5_2;
 	@Wire
-	private Auxheader						programUser_tot_1_2;
+	private Auxheader					program_tot_5_3;
 
 	@Wire
-	private Auxheader						programUser_tot_1_3;
+	private Auxheader					program_tot_5_4;
 
 	@Wire
-	private Auxheader						programUser_tot_1_4;
+	private Auxheader					programUser_tot_1_1;
 
 	@Wire
-	private Auxheader						programUser_tot_2_1;
+	private Auxheader					programUser_tot_1_2;
 
 	@Wire
-	private Auxheader						programUser_tot_2_2;
+	private Auxheader					programUser_tot_1_3;
 
 	@Wire
-	private Auxheader						programUser_tot_2_3;
+	private Auxheader					programUser_tot_1_4;
 
 	@Wire
-	private Auxheader						programUser_tot_2_4;
+	private Auxheader					programUser_tot_2_1;
 
 	@Wire
-	private Auxheader						programUser_tot_3_1;
+	private Auxheader					programUser_tot_2_2;
 
 	@Wire
-	private Auxheader						programUser_tot_3_2;
+	private Auxheader					programUser_tot_2_3;
 
 	@Wire
-	private Auxheader						programUser_tot_3_3;
+	private Auxheader					programUser_tot_2_4;
 
 	@Wire
-	private Auxheader						programUser_tot_3_4;
+	private Auxheader					programUser_tot_3_1;
 
 	@Wire
-	private Auxheader						programUser_tot_4_1;
+	private Auxheader					programUser_tot_3_2;
 
 	@Wire
-	private Auxheader						programUser_tot_4_2;
+	private Auxheader					programUser_tot_3_3;
 
 	@Wire
-	private Auxheader						programUser_tot_4_3;
+	private Auxheader					programUser_tot_3_4;
 
 	@Wire
-	private Auxheader						programUser_tot_4_4;
+	private Auxheader					programUser_tot_4_1;
 
 	@Wire
-	private Auxheader						programUser_tot_5_1;
+	private Auxheader					programUser_tot_4_2;
 
 	@Wire
-	private Auxheader						programUser_tot_5_2;
+	private Auxheader					programUser_tot_4_3;
 
 	@Wire
-	private Auxheader						programUser_tot_5_3;
+	private Auxheader					programUser_tot_4_4;
 
 	@Wire
-	private Auxheader						programUser_tot_5_4;
+	private Auxheader					programUser_tot_5_1;
 
 	@Wire
-	private Button							remove_program_item;
+	private Auxheader					programUser_tot_5_2;
 
 	@Wire
-	private Button							remove_review_item;
+	private Auxheader					programUser_tot_5_3;
 
 	@Wire
-	private Button							repogram_users;
+	private Auxheader					programUser_tot_5_4;
 
 	@Wire
-	private Div								review_div;
+	private Button						remove_program_item;
 
 	@Wire
-	private Comboitem						review_item;
+	private Button						remove_review_item;
 
 	@Wire
-	private Panel							review_panel;
+	private Button						repogram_users;
 
 	@Wire
-	private Listheader						review_panel_name;
+	private Div							review_div;
 
 	@Wire
-	private Combobox						review_task;
+	private Comboitem					review_item;
 
 	@Wire
-	private Auxheader						review_tot_1_1;
+	private Panel						review_panel;
 
 	@Wire
-	private Auxheader						review_tot_1_2;
+	private Listheader					review_panel_name;
 
 	@Wire
-	private Auxheader						review_tot_1_3;
+	private Combobox					review_task;
 
 	@Wire
-	private Auxheader						review_tot_1_4;
+	private Auxheader					review_tot_1_1;
 
 	@Wire
-	private Auxheader						review_tot_2_1;
+	private Auxheader					review_tot_1_2;
 
 	@Wire
-	private Auxheader						review_tot_2_2;
+	private Auxheader					review_tot_1_3;
 
 	@Wire
-	private Auxheader						review_tot_2_3;
+	private Auxheader					review_tot_1_4;
 
 	@Wire
-	private Auxheader						review_tot_2_4;
+	private Auxheader					review_tot_2_1;
 
 	@Wire
-	private Component						reviewSearchBox;
+	private Auxheader					review_tot_2_2;
 
 	@Wire
-	private Checkbox						reviewShift;
+	private Auxheader					review_tot_2_3;
 
 	@Wire
-	private Component						reviewShiftBox;
+	private Auxheader					review_tot_2_4;
 
 	@Wire
-	private Tab								reviewTab;
+	private Component					reviewSearchBox;
 
 	@Wire
-	private Auxheader						reviewUser_tot_1_1;
+	private Checkbox					reviewShift;
 
 	@Wire
-	private Auxheader						reviewUser_tot_1_2;
+	private Component					reviewShiftBox;
 
 	@Wire
-	private Auxheader						reviewUser_tot_1_3;
+	private Tab							reviewTab;
 
 	@Wire
-	private Auxheader						reviewUser_tot_1_4;
+	private Auxheader					reviewUser_tot_1_1;
 	@Wire
-	private Auxheader						reviewUser_tot_2_1;
+	private Auxheader					reviewUser_tot_1_2;
 
+	@Wire
+	private Auxheader					reviewUser_tot_1_3;
 	@Wire
-	private Auxheader						reviewUser_tot_2_2;
+	private Auxheader					reviewUser_tot_1_4;
 	@Wire
-	private Auxheader						reviewUser_tot_2_3;
+	private Auxheader					reviewUser_tot_2_1;
 	@Wire
-	private Auxheader						reviewUser_tot_2_4;
+	private Auxheader					reviewUser_tot_2_2;
+
+	@Wire
+	private Auxheader					reviewUser_tot_2_3;
+
+	@Wire
+	private Auxheader					reviewUser_tot_2_4;
+
 	@Wire
-	private Label							saturation;
+	private Label						saturation;
 
 	@Wire
-	private Label							saturation_month;
+	private Label						saturation_month;
 
 	@Wire
-	private Button							save_program_item;
+	private Button						save_program_item;
 
 	@Wire
-	private Button							save_review_item;
+	private Button						save_review_item;
 
-	private ISchedule						scheduleDAO;
+	private ISchedule					scheduleDAO;
 
 	@Wire
-	private A								scheduler_label;
+	private A							scheduler_label;
 
 	@Wire
-	private A								scheduler_label_review;
+	private A							scheduler_label_review;
 
 	@Wire
-	private Combobox						scheduler_type_selector;
+	private Combobox					scheduler_type_selector;
 
-	private IScheduleShip					scheduleShipDAO;
+	private IScheduleShip				scheduleShipDAO;
 
 	@Wire
-	public Combobox							select_month;
+	public Combobox						select_month;
 
 	@Wire
-	private Combobox						select_shift_overview;
+	private Combobox					select_shift_overview;
 
 	@Wire
-	private Combobox						select_shifttype_overview;
+	private Combobox					select_shifttype_overview;
 
 	@Wire
-	public Combobox							select_week;
+	public Combobox						select_week;
 
 	@Wire
-	public Combobox							select_year;
+	public Combobox						select_year;
 
 	// selected day
-	private Integer							selectedDay;
+	private Integer						selectedDay;
 
-	private DetailFinalSchedule				selectedItemReview;
+	private DetailFinalSchedule			selectedItemReview;
 
 	// selected shift
-	private Integer							selectedShift;
+	private Integer						selectedShift;
 
 	/**
 	 * User selected to schedule
 	 */
-	private Integer							selectedUser;
+	private Integer						selectedUser;
 
 	@Wire
-	private Component						set_panel_shift_period;
+	private Component					set_panel_shift_period;
 
-	private IShiftCache						shift_cache;
-
-	@Wire
-	private Popup							shift_definition_popup;
+	private IShiftCache					shift_cache;
 
 	@Wire
-	private Popup							shift_definition_popup_review;
+	private Popup						shift_definition_popup;
 
 	@Wire
-	private Label							shift_description;
+	private Popup						shift_definition_popup_review;
 
 	@Wire
-	private Label							shift_id;
+	private Label						shift_description;
 
 	@Wire
-	private Label							shift_perc_1;
+	private Label						shift_id;
 
 	@Wire
-	private Label							shift_perc_2;
+	private Label						shift_perc_1;
 
 	@Wire
-	private Label							shift_perc_3;
+	private Label						shift_perc_2;
 
 	@Wire
-	private Label							shift_perc_4;
+	private Label						shift_perc_3;
 
 	@Wire
-	private Combobox						shift_period_combo;
+	private Label						shift_perc_4;
 
 	@Wire
-	private Datebox							shift_period_from;
+	private Combobox					shift_period_combo;
 
 	@Wire
-	private Label							shift_period_name;
+	private Datebox						shift_period_from;
 
 	@Wire
-	private Button							shift_period_ok;
+	private Label						shift_period_name;
 
 	@Wire
-	private Datebox							shift_period_to;
+	private Button						shift_period_ok;
 
 	@Wire
-	private Popup							shift_popup;
+	private Datebox						shift_period_to;
 
 	@Wire
-	private Combobox						shifts_combo_select;
+	private Popup						shift_popup;
 
 	@Wire
-	private Combobox						ship;
-
-	private IShipCache						ship_cache;
-
-	private IShip							shipDAO;
+	private Combobox					shifts_combo_select;
 
 	@Wire
-	public Combobox							shipInDay;
+	private Combobox					ship;
 
-	private IScheduleShip					shipSchedulerDao;
+	private IShipCache					ship_cache;
 
-	private Ship							shipSelected;
-
-	@Wire
-	private Combobox						shipSelector;
+	private IShip						shipDAO;
 
 	@Wire
-	private Intbox							shows_rows;
+	public Combobox						shipInDay;
+
+	private IScheduleShip				shipSchedulerDao;
+
+	private Ship						shipSelected;
 
 	@Wire
-	private Div								stat_update_command;
-
-	private IStatistics						statisticDAO;
+	private Combobox					shipSelector;
 
 	@Wire
-	private Tab								statisticsTab;
-
-	private IStatProcedure					statProcedure;
-
-	private String							status_comp_editor				= SchedulerComposer.STATUS_COMP_EDITOR_ADD;
+	private Intbox						shows_rows;
 
 	@Wire
-	private Listbox							sw_compensation_list;
+	private Div							stat_update_command;
+
+	private IStatistics					statisticDAO;
 
 	@Wire
-	private Toolbarbutton					sw_link_edit_program;
+	private Tab							statisticsTab;
+
+	private IStatProcedure				statProcedure;
+
+	private String						status_comp_editor				= SchedulerComposer.STATUS_COMP_EDITOR_ADD;
 
 	@Wire
-	private Toolbarbutton					sw_link_edit_review;
+	private Listbox						sw_compensation_list;
 
 	@Wire
-	private Button							switchButton;
-
-	private final String					switchButtonValueClose			= "Chiudi";
-
-	private final String					switchButtonValueOpen			= "Apri";
+	private Toolbarbutton				sw_link_edit_program;
 
 	@Wire
-	private Checkbox						sync_schedule;
-
-	protected ITaskCache					task_cache;
+	private Toolbarbutton				sw_link_edit_review;
 
 	@Wire
-	private Label							task_description;
+	private Button						switchButton;
+
+	private final String				switchButtonValueClose			= "Chiudi";
+
+	private final String				switchButtonValueOpen			= "Apri";
 
 	@Wire
-	private Label							task_id;
+	private Checkbox					sync_schedule;
+
+	protected ITaskCache				task_cache;
 
 	@Wire
-	private Popup							task_list_popup;
+	private Label						task_description;
 
 	@Wire
-	private Popup							task_popup;
+	private Label						task_id;
 
 	@Wire
-	public Combobox							taskComboBox;
-
-	private TasksDAO						taskDAO;
+	private Popup						task_list_popup;
 
 	@Wire
-	private Doublebox						time_compUser;
+	private Popup						task_popup;
 
 	@Wire
-	private Timebox							time_from;
+	public Combobox						taskComboBox;
+
+	private TasksDAO					taskDAO;
 
 	@Wire
-	private Timebox							time_from_program;
+	private Doublebox					time_compUser;
 
 	@Wire
-	private Timebox							time_to;
+	private Timebox						time_from;
 
 	@Wire
-	private Timebox							time_to_program;
+	private Timebox						time_from_program;
 
 	@Wire
-	private Auxheader						total_program_day_1;
+	private Timebox						time_to;
 
 	@Wire
-	private Auxheader						total_program_day_2;
+	private Timebox						time_to_program;
 
 	@Wire
-	private Auxheader						total_program_day_3;
+	private Auxheader					total_program_day_1;
 
 	@Wire
-	private Auxheader						total_program_day_4;
+	private Auxheader					total_program_day_2;
 
 	@Wire
-	private Auxheader						total_program_day_5;
+	private Auxheader					total_program_day_3;
 
 	@Wire
-	private Auxheader						total_review_day_1;
+	private Auxheader					total_program_day_4;
 
 	@Wire
-	private Auxheader						total_review_day_2;
+	private Auxheader					total_program_day_5;
 
 	@Wire
-	public Label							totalHours_Program;
+	private Auxheader					total_review_day_1;
 
 	@Wire
-	public Label							totalHours_Review;
+	private Auxheader					total_review_day_2;
 
 	@Wire
-	private Auxheader						totalUser_program_day_1;
+	public Label						totalHours_Program;
 
 	@Wire
-	private Auxheader						totalUser_program_day_2;
+	public Label						totalHours_Review;
 
 	@Wire
-	private Auxheader						totalUser_program_day_3;
+	private Auxheader					totalUser_program_day_1;
 
 	@Wire
-	private Auxheader						totalUser_program_day_4;
+	private Auxheader					totalUser_program_day_2;
 
 	@Wire
-	private Auxheader						totalUser_program_day_5;
+	private Auxheader					totalUser_program_day_3;
 
 	@Wire
-	private Auxheader						totalUser_review_day_1;
+	private Auxheader					totalUser_program_day_4;
 
 	@Wire
-	private Auxheader						totalUser_review_day_2;
+	private Auxheader					totalUser_program_day_5;
 
 	@Wire
-	private Label							updateStatisticTime;
+	private Auxheader					totalUser_review_day_1;
+
+	@Wire
+	private Auxheader					totalUser_review_day_2;
+
+	@Wire
+	private Label						updateStatisticTime;
 
 	/**
 	 * Userstatistic selected
 	 */
-	private UserStatistics					user_statistic_selected;
+	private UserStatistics				user_statistic_selected;
 
-	private UserCompensationDAO				userCompensationDAO;
-
-	@Wire
-	private Label							userDepartment;
-
-	private LockTable						userLockTable;
+	private UserCompensationDAO			userCompensationDAO;
 
 	@Wire
-	private Label							userRoles;
+	private Label						userDepartment;
+
+	private LockTable					userLockTable;
 
 	@Wire
-	private Label							work_current_month;
+	private Label						userRoles;
 
 	@Wire
-	private Label							work_current_week;
+	private Label						work_current_month;
 
 	@Wire
-	private Label							work_current_year;
+	private Label						work_current_week;
 
 	@Wire
-	private Label							work_holiday_perc;
+	private Label						work_current_year;
 
 	@Wire
-	private Label							work_sunday_perc;
+	private Label						work_holiday_perc;
 
 	@Wire
-	private Label							working_series;
+	private Label						work_sunday_perc;
+
+	@Wire
+	private Label						working_series;
 
 	@Listen("onClick = #sw_link_add_comp")
 	public void addCompenstion() {
@@ -3086,7 +3120,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-	}
+	};
 
 	@Listen("onClick= #download_program_report")
 	public void downloadProgramReport() {
@@ -3158,7 +3192,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-	};
+	}
 
 	@Listen("onChange = #force_shift_combo;")
 	public void forceProgramShift() {
@@ -6357,7 +6391,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			list = this.scheduleDAO.selectSchedulersForPreprocessing(this.firstDateInGrid, final_date, this.full_text_search.getValue());
 		}
 
-		final ArrayList<RowDaySchedule> list_row = new ArrayList<RowDaySchedule>();
+		this.list_rowDaySchedule = new ArrayList<RowDaySchedule>();
 		RowDaySchedule currentRow = null;
 
 		for (int i = 0; i < list.size(); i++) {
@@ -6370,7 +6404,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow = new RowDaySchedule();
 				currentRow.setUser(schedule.getUser());
 				currentRow.setName_user(schedule.getName_user());
-				list_row.add(currentRow);
+				this.list_rowDaySchedule.add(currentRow);
 
 				// set items for current row
 				this.initializeDateForDaySchedule(currentRow, this.firstDateInGrid);
@@ -6541,7 +6575,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.grid_scheduler_day.setPageSize(this.shows_rows.getValue());
 		}
-		this.grid_scheduler_day.setModel(new ListModelList<RowDaySchedule>(list_row));
+		this.grid_scheduler_day.setModel(new ListModelList<RowDaySchedule>(this.list_rowDaySchedule));
 
 	}
 
@@ -6979,7 +7013,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// get info on program
 		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(date_schedule, text_search_person);
 
-		final ArrayList<RowSchedule> list_row = new ArrayList<RowSchedule>();
+		this.list_rowSchedule = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
 
 		// count review tot
@@ -7006,7 +7040,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				currentRow = new RowSchedule();
 				currentRow.setUser(schedule.getUser());
 				currentRow.setName_user(schedule.getName_user());
-				list_row.add(currentRow);
+				this.list_rowSchedule.add(currentRow);
 
 				// set user type for available
 				if (map_status.containsKey(schedule.getUser())) {
@@ -7026,7 +7060,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// count review
-		for (final RowSchedule itemrow_count : list_row) {
+		for (final RowSchedule itemrow_count : this.list_rowSchedule) {
 
 			final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
 			if (!user.isInOffice()) {
@@ -7103,7 +7137,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				myRow = new RowSchedule();
 				myRow.setUser(schedule.getUser());
 				myRow.setName_user(schedule.getName_user());
-				list_row.add(myRow);
+				this.list_rowSchedule.add(myRow);
 
 				// set user type for available
 				if (map_status.containsKey(schedule.getUser())) {
@@ -7123,7 +7157,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// count review
-		for (final RowSchedule itemrow_count : list_row) {
+		for (final RowSchedule itemrow_count : this.list_rowSchedule) {
 
 			final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
 
@@ -7196,18 +7230,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			addedRow.setItem_1(item_1);
 			addedRow.setItem_2(item_2);
 
-			list_row.add(addedRow);
+			this.list_rowSchedule.add(addedRow);
 
 		}
 
 		// sort
-		Collections.sort(list_row);
+		Collections.sort(this.list_rowSchedule);
 
 		// set grid
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.grid_scheduler_review.setPageSize(this.shows_rows.getValue());
 		}
-		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(list_row);
+		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(this.list_rowSchedule);
 		model.setMultiple(true);
 		this.grid_scheduler_review.setModel(model);
 
@@ -7472,6 +7506,130 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		SchedulerComposer.this.task_list_popup.open(anchorComponent, "after_pointer");
 
+	}
+
+	@Listen("onClick=#sortByStatistic")
+	public void sortByStatistic() {
+		this.defineSchedulerView();
+		this.calculateSatOnPersons();
+
+		HashMap<Integer, Double> cache_sat = (HashMap<Integer, Double>) Executions.getCurrent().getSession().getAttribute(ZkSessionTag.PersonCache);
+
+		if (cache_sat == null) {
+			return;
+		}
+
+		// order hashmap
+		cache_sat = (HashMap<Integer, Double>) SchedulerComposer.sortByComparator(cache_sat, true);
+
+		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
+
+		if (selected == this.preprocessing_item) {
+
+			final ArrayList<RowDaySchedule> sortedList = new ArrayList<RowDaySchedule>();
+			final Iterator it = cache_sat.entrySet().iterator();
+			while (it.hasNext()) {
+				final Map.Entry pair = (Map.Entry) it.next();
+				final Integer idPerson = (Integer) pair.getKey();
+				for (final RowDaySchedule rowDaySchedule : this.list_rowDaySchedule) {
+					if (rowDaySchedule.getUser().equals(idPerson)) {
+						sortedList.add(rowDaySchedule);
+						break;
+					}
+				}
+			}
+			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+				this.grid_scheduler_day.setPageSize(this.shows_rows.getValue());
+			}
+			this.grid_scheduler_day.setModel(new ListModelList<RowDaySchedule>(sortedList));
+
+		} else if (selected == this.program_item) {
+			final ArrayList<RowSchedule> sortedList = new ArrayList<RowSchedule>();
+			final Iterator it = cache_sat.entrySet().iterator();
+			while (it.hasNext()) {
+				final Map.Entry pair = (Map.Entry) it.next();
+				final Integer idPerson = (Integer) pair.getKey();
+				for (final RowSchedule detail : this.list_rows_program) {
+					if (detail.getUser().equals(idPerson)) {
+						sortedList.add(detail);
+						break;
+					}
+				}
+			}
+			this.grid_scheduler.setModel(new ListModelList<RowSchedule>(sortedList));
+		} else if (selected == this.review_item) {
+			final ArrayList<RowSchedule> sortedList = new ArrayList<RowSchedule>();
+			final Iterator it = cache_sat.entrySet().iterator();
+			while (it.hasNext()) {
+				final Map.Entry pair = (Map.Entry) it.next();
+				final Integer idPerson = (Integer) pair.getKey();
+				for (final RowSchedule detail : this.list_rowSchedule) {
+					if (detail.getUser().equals(idPerson)) {
+						sortedList.add(detail);
+						break;
+					}
+				}
+			}
+			this.grid_scheduler_review.setModel(new ListModelList<RowSchedule>(sortedList));
+
+		} else if (selected == this.overview_item) {
+			if (this.overview_review.isSelected()) {
+				final ArrayList<DetailFinalSchedule> sortedList = new ArrayList<DetailFinalSchedule>();
+				final Iterator it = cache_sat.entrySet().iterator();
+				while (it.hasNext()) {
+					final Map.Entry pair = (Map.Entry) it.next();
+					final Integer idPerson = (Integer) pair.getKey();
+					for (final DetailFinalSchedule detail : this.listDetailRevision) {
+						if (detail.getId_user().equals(idPerson)) {
+							sortedList.add(detail);
+						}
+					}
+				}
+				this.list_overview_review.setModel(new ListModelList<DetailFinalSchedule>(sortedList));
+			} else if (this.overview_program.isSelected()) {
+				final ArrayList<DetailInitialSchedule> sortedList = new ArrayList<DetailInitialSchedule>();
+				final Iterator it = cache_sat.entrySet().iterator();
+				while (it.hasNext()) {
+					final Map.Entry pair = (Map.Entry) it.next();
+					final Integer idPerson = (Integer) pair.getKey();
+					for (final DetailInitialSchedule detail : this.listDetailProgram) {
+						if (detail.getId_user().equals(idPerson)) {
+							sortedList.add(detail);
+						}
+					}
+				}
+				this.list_overview_program.setModel(new ListModelList<DetailInitialSchedule>(sortedList));
+			} else if (this.overview_preprocessing.isSelected()) {
+				final ArrayList<Schedule> sortedList = new ArrayList<Schedule>();
+				final Iterator it = cache_sat.entrySet().iterator();
+				while (it.hasNext()) {
+					final Map.Entry pair = (Map.Entry) it.next();
+					final Integer idPerson = (Integer) pair.getKey();
+					for (final Schedule detail : this.listSchedule) {
+						if (detail.getUser().equals(idPerson)) {
+							sortedList.add(detail);
+						}
+					}
+				}
+				this.list_overview_preprocessing.setModel(new ListModelList<Schedule>(sortedList));
+			} else if (this.overview_statistics.isSelected()) {
+				final ArrayList<UserStatistics> sortedList = new ArrayList<UserStatistics>();
+				final Iterator it = cache_sat.entrySet().iterator();
+				while (it.hasNext()) {
+					final Map.Entry pair = (Map.Entry) it.next();
+					final Integer idPerson = (Integer) pair.getKey();
+					for (final UserStatistics detail : this.listUserStatistics) {
+						final Person person = detail.getPerson();
+						if ((person != null) && person.getId().equals(idPerson)) {
+							sortedList.add(detail);
+							break;
+						}
+					}
+				}
+				this.list_statistics.setModel(new ListModelList<UserStatistics>(sortedList));
+			}
+
+		}
 	}
 
 	@Listen("onClick= #switchButton")
