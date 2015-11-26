@@ -2928,7 +2928,7 @@
 											sclass="myBottonCell">
 
 											<a
-												label="@{itemoverviewreview.user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
+												label="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 												<attribute name="onClick">
 	list_overview_review.setSelectedItem((Listitem) self.getParent().getParent());
@@ -3128,7 +3128,7 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{itemoverviewprogram.user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
+												label="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 												<attribute name="onClick">
 	list_overview_program.setSelectedItem((Listitem) self.getParent().getParent());
@@ -3279,7 +3279,7 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{itemoverviewpreprocessing.name_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
+												label="@{itemoverviewpreprocessing, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 												<attribute name="onClick">
 	list_overview_preprocessing.setSelectedItem((Listitem) self.getParent().getParent());
@@ -3406,7 +3406,7 @@
 										<listcell
 											sclass="myBottonCell">
 											<a
-												label="@{userschedule.person, converter='org.uario.seaworkengine.zkevent.converter.PersonToDottedNameConverter'}">
+												label="@{userschedule, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
 
 												<attribute name="onClick">
 	list_statistics.setSelectedItem((Listitem) self.getParent().getParent());

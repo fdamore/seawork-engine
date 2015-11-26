@@ -3,6 +3,10 @@ package org.uario.seaworkengine.zkevent.converter;
 import java.util.HashMap;
 
 import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.Person;
+import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkSessionTag;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
@@ -71,6 +75,22 @@ public class DottedNameConverter implements TypeConverter {
 			name_user = row.getUser();
 			id_user = row.getId_user();
 
+		} else if (arg0 instanceof DetailInitialSchedule) {
+			final DetailInitialSchedule row = (DetailInitialSchedule) arg0;
+
+			name_user = row.getUser();
+			id_user = row.getId_user();
+		} else if (arg0 instanceof Schedule) {
+			final Schedule row = (Schedule) arg0;
+
+			name_user = row.getName_user();
+			id_user = row.getUser();
+		} else if (arg0 instanceof UserStatistics) {
+			final UserStatistics row = (UserStatistics) arg0;
+
+			final Person person = row.getPerson();
+			name_user = person.getIndividualName();
+			id_user = person.getId();
 		}
 
 		if ((name_user == null) || (id_user == null)) {
