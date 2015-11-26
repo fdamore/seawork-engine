@@ -17,7 +17,7 @@
 		and s.shift = us.id
 		and (us.break_shift = 1
 		or us.waitbreak_shift = 1
-		or us.recorded = 1)
+		or us.recorded = 1 or us.disease_shift = 1)
 		and (s.date_schedule <![CDATA[>=]]>
 		date(#{date_from})
 		and s.date_schedule <![CDATA[<=]]>
