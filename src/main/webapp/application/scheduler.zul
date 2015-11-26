@@ -2859,7 +2859,7 @@
 											sortAscending="${asc}" align="center" hflex="1"
 											sortDescending="${dsc}" />
 
-										<listheader label="Data"
+										<listheader label="Data" sort="auto(date_schedule)"
 											align="center" hflex="1" />
 
 										<listheader label="Festivo"
@@ -2987,7 +2987,7 @@
 											sclass="myBottonCell">
 
 											<checkbox
-												checked="@{itemoverviewreview.workingDay}"
+												checked="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.WorkingDayConverter'}"
 												disabled="true">
 											</checkbox>
 

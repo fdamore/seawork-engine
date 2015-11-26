@@ -17,6 +17,10 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.UserShift;
+import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.zkoss.spring.SpringUtil;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -237,6 +241,12 @@ public class Utility {
 		return Utility.formatDay.format(date);
 	}
 
+	public static Integer getMonthNumber(final Date date) {
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.MONTH) + 1;
+	}
+
 	// /**
 	// * Hours work
 	// *
@@ -278,12 +288,6 @@ public class Utility {
 	// return dayCount.doubleValue() * hour_per_day;
 	// }
 
-	public static Integer getMonthNumber(final Date date) {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		return cal.get(Calendar.MONTH) + 1;
-	}
-
 	/**
 	 * Return the default time format
 	 *
@@ -303,6 +307,34 @@ public class Utility {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return cal.get(Calendar.YEAR);
+	}
+
+	/**
+	 * Return this this detail is refereed to working day
+	 *
+	 * @param detail
+	 * @return
+	 */
+	public static Boolean isWorkingDay(final DetailFinalSchedule detail) {
+		final Boolean shift_continous = detail.getContinueshift();
+
+		if ((shift_continous != null) && shift_continous.booleanValue()) {
+			return Boolean.FALSE;
+		}
+
+		final IShiftCache task_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+		final UserShift shift = task_cache.getUserShift(detail.getShift_type());
+
+		// if not task assigned..
+		if (shift == null) {
+			return Boolean.TRUE;
+		}
+
+		if (shift.getPresence()) {
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
+		}
 	}
 
 	/**
