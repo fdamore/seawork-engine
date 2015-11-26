@@ -304,7 +304,8 @@
 		FROM service 
 		WHERE id=#{id};
 	</select>
-
+	
+	
 	<select id="selectAllStatus" resultType="String">
 		SELECT description
 		FROM
@@ -486,6 +487,12 @@
 		FROM
 		usertask
 		WHERE delayoperation=1;
+	</select>
+	
+	<select id="loadInternalTask" resultType="org.uario.seaworkengine.model.UserTask">
+		SELECT *
+		FROM usertask
+		WHERE internal=1;
 	</select>
 
 	<select id="listSpecialTaskMobile" resultType="org.uario.seaworkengine.model.UserTask">

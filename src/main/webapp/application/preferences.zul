@@ -334,14 +334,15 @@
 								<separator></separator>
 
 								<button id="sw_addtask"
-									sclass="btn-info" label="Aggiungi Mansione o Giustificativo"
+									sclass="btn-success" label="Aggiungi Mansione o Giustificativo"
 									onClick="modify_tasks_command.setVisible(false);add_tasks_command.setVisible(true);grid_task_details.setVisible(true)">
 								</button>
 
 								<button id="sw_refresh_tasklist"
-									sclass="btn-info" label="Ricarica Lista Mansioni e Giustificativi">
+									sclass="btn-primary" label="Ricarica Lista Mansioni e Giustificativi">
 								</button>
 
+								<separator/>
 								<button id="sw_return_defaulttask"
 									sclass="btn-info" label="Mansioni di Assenza">
 								</button>
@@ -360,6 +361,10 @@
 								
 								<button id="sw_return_hiddentask"
 									sclass="btn-info" label="Mansioni nascoste al preposto">
+								</button>
+								
+								<button id="sw_return_internaltask"
+									sclass="btn-info" label="Mansioni Interne">
 								</button>
 															
 
@@ -397,6 +402,7 @@
 									<listheader label="Rizzaggio" sort="auto(isRZ)" />
 									<listheader label="Preposto" sort="auto(isPP)" />
 									<listheader label="Nascosto al preposto" sort="auto(hiddentask)"/>
+									<listheader label="Interna" sort="auto(internal)"/>
 									<listheader label="" />
 
 								</listhead>
@@ -468,6 +474,11 @@
 
 										<image
 											src="@{task_item.hiddentask, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									</listcell>
+									
+									<listcell style="text-align: center" sclass="myBottonCell">
+										<image
+											src="@{task_item.internal, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 									
 									<listcell sclass="myBottonCell">
@@ -653,12 +664,12 @@
 								<separator></separator>
 
 								<button id="sw_addshift"
-									sclass="btn-info" label="Aggiungi Turno"
+									sclass="btn-success" label="Aggiungi Turno"
 									onClick="modify_shifts_command.setVisible(false);add_shifts_command.setVisible(true);grid_shift_details.setVisible(true)">
 								</button>
 
 								<button id="sw_refresh_shiftlist"
-									sclass="btn-info" label="Ricarica Lista Turni">
+									sclass="btn-primary" label="Ricarica Lista Turni">
 								</button>
 
 
@@ -853,12 +864,12 @@
 								<separator></separator>
 
 								<button id="sw_addBillCenter"
-									sclass="btn-info" label="Aggiungi Centro di Costo"
+									sclass="btn-success" label="Aggiungi Centro di Costo"
 									onClick="modify_billcenter_command.setVisible(false);add_billcenter_command.setVisible(true);grid_billcenter_details.setVisible(true)">
 								</button>
 
 								<button id="sw_refresh_billcenterlist"
-									sclass="btn-info" label="Ricarica">
+									sclass="btn-primary" label="Ricarica">
 								</button>
 
 								
@@ -980,12 +991,12 @@
 								<separator></separator>
 
 								<button id="sw_addstatus"
-									sclass="btn-info" label="Aggiungi Tipo Rapporto di Lavoro"
+									sclass="btn-success" label="Aggiungi Tipo Rapporto di Lavoro"
 									onClick="add_status_command.setVisible(true);grid_status_details.setVisible(true)">
 								</button>
 
 								<button id="sw_refresh_status_list"
-									sclass="btn-info" label="Ricarica Lista">
+									sclass="btn-primary" label="Ricarica Lista">
 								</button>
 
 
@@ -1150,12 +1161,12 @@
 								<separator></separator>
 
 								<button id="sw_addservice"
-									sclass="btn-info" label="Aggiungi Tipo di Servizio"
+									sclass="btn-success" label="Aggiungi Tipo di Servizio"
 									onClick="add_service_command.setVisible(true);modify_service_command.setVisible(false);grid_service_details.setVisible(true);">
 								</button>
 
 								<button id="sw_refresh_service_list"
-									sclass="btn-info" label="Ricarica Lista">
+									sclass="btn-primary" label="Ricarica Lista">
 								</button>
 								
 								<button id="selectRZ"
@@ -1345,12 +1356,12 @@
 							<div>
 								<separator></separator>
 
-								<button sclass="btn-info" label="Aggiungi Gru"
+								<button sclass="btn-success" label="Aggiungi Gru"
 									onClick="modify_crane_command.setVisible(false);add_crane_command.setVisible(true);grid_crane_details.setVisible(true);description_crane.setValue(null);name_crane.setValue(null);number_crane.setValue(null);">
 								</button>
 
 								<button id="sw_refresh_crane_list"
-									sclass="btn-info" label="Ricarica" onClick="full_text_search_Crane.setValue(null);shows_rows_crane.setValue(null)">
+									sclass="btn-primary" label="Ricarica" onClick="full_text_search_Crane.setValue(null);shows_rows_crane.setValue(null)">
 								</button>
 
 								<separator></separator>

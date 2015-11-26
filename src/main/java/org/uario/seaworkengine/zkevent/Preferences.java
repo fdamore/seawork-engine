@@ -1994,6 +1994,13 @@ public class Preferences extends SelectorComposer<Component> {
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_MobileUsertask));
 	}
 
+	@Listen("onClick = #sw_return_internaltask")
+	public void showInternalTask() {
+		final List<UserTask> list_InternalUsertask = this.configurationDao.loadInternalTask();
+
+		this.sw_list_task.setModel(new ListModelList<UserTask>(list_InternalUsertask));
+	}
+
 	@Listen("onClick = #sw_return_justificatorytask")
 	public void showJustificatoryTask() {
 		List<UserTask> list_usertask = null;

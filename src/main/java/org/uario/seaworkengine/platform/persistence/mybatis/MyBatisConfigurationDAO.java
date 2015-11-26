@@ -200,6 +200,12 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserTask> loadInternalTask() {
+		MyBatisConfigurationDAO.logger.info("loadInternalTask");
+		return this.getSqlSession().selectList("configuration.loadInternalTask");
+	}
+
+	@Override
 	public UserTask loadPPTask() {
 		MyBatisConfigurationDAO.logger.info("loadPPTask");
 		return this.getSqlSession().selectOne("configuration.loadPPTask");

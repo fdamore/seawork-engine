@@ -51,6 +51,8 @@ public interface ConfigurationDAO {
 
 	public List<String> loadAllTaskCode();
 
+	public List<UserTask> loadInternalTask();
+
 	public UserTask loadPPTask();
 
 	public Service loadRZService();
