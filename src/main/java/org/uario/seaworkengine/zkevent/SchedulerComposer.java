@@ -145,8 +145,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		public void onEvent(final ClickEvent e) {
 			if (Messagebox.ON_OK.equals(e.getName())) {
 
-				final Integer max_shift = SchedulerComposer.this.statProcedure.getMaximumShift(
-						SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
+				final Integer max_shift = SchedulerComposer.this.statProcedure
+						.getMaximumShift(SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
 
 				// save program... finalize
 				SchedulerComposer.this.saveProgramFinalStep();
@@ -599,22 +599,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Div								overview_div;
 
 	@Wire
+	private Component						overview_download;
+
+	@Wire
 	private Comboitem						overview_item;
 
 	@Wire
 	private Tabpanel						overview_preprocessing;
-
 	@Wire
 	private Tabpanel						overview_program;
+
 	@Wire
 	private Tabpanel						overview_review;
-
 	@Wire
 	private Tabpanel						overview_statistics;
 	@Wire
 	private Label							overview_sum_saturation;
 	@Wire
 	private Tabbox							overview_tab;
+
 	@Wire
 	private Panel							panel_shift_period;
 
@@ -625,16 +628,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private PersonDAO						personDAO;
 
 	private Person							personLock;
-
 	@Wire
 	private Div								preprocessing_div;
 	@Wire
 	private Comboitem						preprocessing_item;
 	@Wire
 	private Panel							preprocessing_panel;
+
 	@Wire
 	private Component						print_program_videos;
-
 	@Wire
 	private Component						print_scheduler;
 	@Wire
@@ -643,6 +645,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component						program_head_1_1;
 	@Wire
 	private Component						program_head_1_2;
+
 	@Wire
 	private Component						program_head_1_3;
 
@@ -684,13 +687,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox						program_task;
-
 	@Wire
 	private Auxheader						program_tot_1_1;
 	@Wire
 	private Auxheader						program_tot_1_2;
 	@Wire
 	private Auxheader						program_tot_1_3;
+
 	@Wire
 	private Auxheader						program_tot_1_4;
 
@@ -702,16 +705,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						program_tot_2_3;
-
 	@Wire
 	private Auxheader						program_tot_2_4;
 	@Wire
 	private Auxheader						program_tot_3_1;
 	@Wire
 	private Auxheader						program_tot_3_2;
+
 	@Wire
 	private Auxheader						program_tot_3_3;
-
 	@Wire
 	private Auxheader						program_tot_3_4;
 	@Wire
@@ -734,6 +736,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader						programUser_tot_1_1;
 	@Wire
 	private Auxheader						programUser_tot_1_2;
+
 	@Wire
 	private Auxheader						programUser_tot_1_3;
 
@@ -859,18 +862,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader						reviewUser_tot_1_4;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_1;
+
 	@Wire
 	private Auxheader						reviewUser_tot_2_2;
-
 	@Wire
 	private Auxheader						reviewUser_tot_2_3;
 	@Wire
 	private Auxheader						reviewUser_tot_2_4;
 	@Wire
 	private Label							saturation;
+
 	@Wire
 	private Label							saturation_month;
 
@@ -1290,8 +1293,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					}
 
 					if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
-							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
-							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0)
+									&& (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
+							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+									&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 						this.errorMessageAddProgramItem.setValue("Attenzione, orario in sovrapposizione.");
 						return false;
 					}
@@ -1462,9 +1467,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return false;
 				}
 
-				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0)) || ((new_item
-						.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
-						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
+						|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
+						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+								&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 					this.errorMessageAddItem.setValue("Attenzione, orario in sovrapposizione.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
@@ -1915,7 +1921,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.personLock = null;
 		if (!this.person_logged.isAdministrator()
-				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId())) || (this.userLockTable == null)))) {
+				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId()))
+						|| (this.userLockTable == null)))) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
 				this.personLock = this.personDAO.loadPerson(this.userLockTable.getId_user());
@@ -2032,17 +2039,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -2115,6 +2122,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void defineSchedulerView() {
 
 		this.setLastProgrammerLabel();
+		this.overview_download.setVisible(false);
 
 		this.setVisibilityDownloadReportButton();
 
@@ -2180,6 +2188,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (selected == this.overview_item) {
 
+			this.overview_download.setVisible(true);
 			this.overview_div.setVisible(true);
 			this.preprocessing_div.setVisible(false);
 			this.program_div.setVisible(false);
@@ -4354,8 +4363,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+				Messagebox.show(
+						"Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
 						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
@@ -4415,8 +4424,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						buttons[1] = Messagebox.Button.NO;
 
 						final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_schedule,
-								row_item), params);
+						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
+								new ReassignBreakEvent(date_schedule, row_item), params);
 
 					}
 
@@ -4702,17 +4711,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4895,8 +4904,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// check max 12 h in a day
-			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule
-					.getId());
+			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO
+					.loadDetailInitialScheduleByIdSchedule(this.currentSchedule.getId());
 
 			Double count = sum;
 			for (final DetailInitialSchedule dt : list_detail_schedule) {
@@ -4943,8 +4952,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						if (!((this.selectedShift.equals(1) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay.equals(1))
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
-								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4))
+								|| (this.selectedShift.equals(4) && minShiftInDay.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -5170,8 +5179,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[2] = Messagebox.Button.CANCEL;
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
-						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new BreakInWeekManagement(shift,
-								scheduleListInWeek, row_item, date_scheduled), params);
+						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null,
+						new BreakInWeekManagement(shift, scheduleListInWeek, row_item, date_scheduled), params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -5193,8 +5202,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[1] = Messagebox.Button.NO;
 
 				final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-				Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
-						new ReassignBreakEvent(date_scheduled, row_item), params);
+				Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_scheduled, row_item),
+						params);
 
 			}
 		}
@@ -5980,8 +5989,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (person != null) {
 
-			this.lastProgrammer.setValue(person.getFirstname() + " " + person.getLastname() + " "
-					+ SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
+			this.lastProgrammer.setValue(
+					person.getFirstname() + " " + person.getLastname() + " " + SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
 		}
 
 	}
@@ -6130,8 +6139,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				idCrane = null;
 			}
 
-			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
-					date_from, date_to, reviewshift, idShip, idCrane);
+			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask, date_from,
+					date_to, reviewshift, idShip, idCrane);
 
 			final Integer countWorker = this.statisticDAO.countWorkerInOverviewFinalSchedule(full_text_search, shift_number, shift_type,
 					idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane);
