@@ -152,6 +152,9 @@ public class Preferences extends SelectorComposer<Component> {
 	private Checkbox			hidden_task;
 
 	@Wire
+	private Checkbox			internal_task;
+
+	@Wire
 	private Checkbox			isabsence_task;
 
 	@Wire
@@ -918,6 +921,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setChangeshift(this.changeshift_task.isChecked());
 		task.setRecorded(this.recorded_task.isChecked());
 		task.setHiddentask(this.hidden_task.isChecked());
+		task.setInternal(this.internal_task.isChecked());
 
 		this.configurationDao.createTask(task);
 
@@ -1457,6 +1461,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.changeshift_task.setChecked(task.getChangeshift());
 		this.recorded_task.setChecked(task.getRecorded());
 		this.hidden_task.setChecked(task.getHiddentask());
+		this.internal_task.setChecked(task.getInternal());
 		this.isRZ_task.setChecked(task.getIsRZ());
 		this.isPP_task.setChecked(task.getIsPP());
 
@@ -1785,6 +1790,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.changeshift_task.setChecked(false);
 		this.recorded_task.setChecked(false);
 		this.hidden_task.setChecked(false);
+		this.internal_task.setChecked(false);
 		this.isRZ_task.setChecked(false);
 		this.isPP_task.setChecked(false);
 
@@ -2056,6 +2062,7 @@ public class Preferences extends SelectorComposer<Component> {
 		task.setDelayoperation(this.delayoperation_task.isChecked());
 		task.setRecorded(this.recorded_task.isChecked());
 		task.setHiddentask(this.hidden_task.isChecked());
+		task.setInternal(this.internal_task.isChecked());
 
 		this.configurationDao.updateTask(task);
 

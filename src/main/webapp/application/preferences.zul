@@ -303,13 +303,16 @@
 														id="isPP_task" onCheck="isRZ_task.setChecked(false);"/>
 												</row>
 												
-												<row
-													id="row_hidden_task">
-													<label
-														value="Nascosto al preposto (non visibile in App e Stampa Preposto): ">
+												<row id="row_hidden_task">
+													<label value="Nascosto al preposto (non visibile in App e Stampa Preposto): ">
 													</label>
-													<checkbox
-														id="hidden_task" />
+													<checkbox id="hidden_task" />
+												</row>
+												
+												<row id="row_task">
+													<label value="Interna: ">
+													</label>
+													<checkbox id="internal_task" />
 												</row>
 
 

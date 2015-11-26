@@ -17,7 +17,7 @@
 		code,
 		description, isabsence, recorded,
 		overflow, endoperation,
-		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP 
+		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP, internal  
 		FROM usertask
 		WHERE id=#{id} order by code asc;
 	</select>
@@ -62,7 +62,7 @@
 		t.hiddentask, 
 		t.justificatory, 
 		t.isRZ, 
-		t.isPP   
+		t.isPP, t.internal    
 		FROM usertask t
 		WHERE t.hiddentask = 1 order by t.code asc;
 	</select>
@@ -80,7 +80,7 @@
 		t.hiddentask, 
 		t.justificatory,
 		t.isRZ, 
-		t.isPP    
+		t.isPP, t.internal     
 		FROM usertask t
 		WHERE t.isabsence = 0 and t.justificatory = 0 order by t.code asc;
 	</select>
@@ -98,7 +98,7 @@
 		t.hiddentask, 
 		t.justificatory,
 		t.isRZ, 
-		t.isPP   
+		t.isPP, t.internal    
 		FROM usertask t
 		WHERE t.justificatory = 1 
 		order by t.code asc;
@@ -117,7 +117,7 @@
 		t.hiddentask, 
 		t.justificatory,
 		t.isRZ, 
-		t.isPP   
+		t.isPP, t.internal    
 		FROM usertask t
 		WHERE t.isabsence = 1 
 		order by t.code asc;
@@ -129,7 +129,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask , justificatory, isRZ, isPP  
+		overflow, delayoperation, changeshift, hiddentask , justificatory, isRZ, isPP, internal   
 		FROM usertask
 		order by description;
 
@@ -140,7 +140,7 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP   
+		overflow, delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP, internal    
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -203,12 +203,12 @@
 		INSERT INTO usertask
 		(code,
 		description, isabsence, recorded, endoperation, overflow,
-		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP)
+		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP, internal)
 		VALUES
 		(#{code},#{description},
 		#{isabsence},
 		#{recorded}, #{endoperation}, #{overflow},
-		#{delayoperation}, #{changeshift}, #{hiddentask}, #{justificatory}, #{isRZ}, #{isPP});
+		#{delayoperation}, #{changeshift}, #{hiddentask}, #{justificatory}, #{isRZ}, #{isPP}, #{internal});
 
 	</insert>
 
@@ -231,8 +231,7 @@
 		UPDATE
 		usertask
 		SET
-		id =
-		#{id},
+		id = #{id},
 		code = #{code}, 
 		description = #{description}, 
 		isabsence = #{isabsence},
@@ -244,8 +243,9 @@
 		hiddentask = #{hiddentask}, 
 		justificatory = #{justificatory}, 
 		isRZ = #{isRZ}, 
-		isPP = #{isPP} 
-		WHERE id = #{id}
+		isPP = #{isPP}, 
+		internal = #{internal}  
+		WHERE id = #{id};
 	</update>
 
 	<update id="updateShift" parameterType="org.uario.seaworkengine.model.UserShift">

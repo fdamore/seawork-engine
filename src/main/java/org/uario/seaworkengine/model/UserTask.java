@@ -26,6 +26,8 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	private Integer				id;
 
+	private Boolean				internal;
+
 	private Boolean				isabsence;
 
 	private Boolean				isPP;
@@ -112,6 +114,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 		return this.id;
 	}
 
+	public Boolean getInternal() {
+		return this.internal;
+	}
+
 	public Boolean getIsabsence() {
 		return this.isabsence;
 	}
@@ -169,6 +175,10 @@ public class UserTask implements Serializable, Comparable<UserTask> {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setInternal(final Boolean internal) {
+		this.internal = internal;
 	}
 
 	public void setIsabsence(final Boolean isabsence) {

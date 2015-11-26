@@ -45,7 +45,7 @@
 		u.daywork_w,
 		u.hourswork_w,
 		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
 		) as tasksPerson 
 		FROM
 		user u
@@ -99,7 +99,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
 		) as tasksPerson 
 		FROM
 		user u
@@ -203,7 +203,7 @@
 		u.daywork_w,
 		u.hourswork_w,
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
 		) as tasksPerson  
 		FROM
 		user u
@@ -255,7 +255,7 @@
 		u.daywork_w,
 		u.hourswork_w,
 		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0 
 		) as tasksPerson 
 		FROM
 		user u
@@ -307,7 +307,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
 		) as tasksPerson 
 		FROM
 		user
@@ -357,7 +357,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0 
 		) as tasksPerson 
 		FROM
 		user
@@ -408,7 +408,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
 		) as tasksPerson 
 		FROM
 		user
@@ -459,7 +459,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
 		) as tasksPerson 
 		FROM
 		user
@@ -510,7 +510,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
 		) as tasksPerson 
 		FROM
 		user
@@ -665,7 +665,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
 		) as tasksPerson 
 		FROM
 		user
@@ -833,7 +833,7 @@
 		u.daywork_w,
 		u.hourswork_w, 
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
 		) as tasksPerson  
 		FROM
 		user u

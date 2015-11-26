@@ -23,9 +23,9 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default
+		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default, t.internal 
 		FROM
-		usertask t,
+		usertask t, 
 		user_usertask ut where ut.id_user = #{id_user} and
 		ut.id_usertask =
 		t.id 
@@ -39,7 +39,7 @@
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default 
+		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default, t.internal  
 		FROM
 		usertask t,
 		user_usertask ut 
@@ -55,7 +55,7 @@
 		t.description,
 		t.isabsence,
 		t.recorded, 
-		t.justificatory, t.isRZ, t.isPP  
+		t.justificatory, t.isRZ, t.isPP, t.internal   
 		FROM usertask t,
 		user_usertask ut where t.id = ut.id_user and ut.id_user =
 		#{id_user}
@@ -88,7 +88,7 @@
 
 		SELECT t.id,
 		t.code,
-		t.description, t.isabsence, t.recorded, t.justificatory, t.isRZ, t.isPP  
+		t.description, t.isabsence, t.recorded, t.justificatory, t.isRZ, t.isPP, t.internal   
 		FROM user_usertask ut, usertask t
 		WHERE
 		ut.task_default = 1 and ut.id_user =
