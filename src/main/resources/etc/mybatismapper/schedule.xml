@@ -16,7 +16,7 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4, continueshift 
+		sync_mobile_4  
 		FROM
 		schedule
 		WHERE
@@ -30,7 +30,7 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4, continueshift 
+		sync_mobile_4  
 		FROM
 		schedule
 		WHERE id =
@@ -48,7 +48,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, s.continueshift, 
+		s.sync_mobile_4, 
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -75,7 +75,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, s.continueshift, 
+		s.sync_mobile_4,  
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -107,9 +107,9 @@
 	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO
 		schedule
-		(date_schedule, user, editor, controller, note,shift,continueshift)
+		(date_schedule, user, editor, controller, note,shift)
 		VALUES
-		(#{date_schedule}, #{user}, #{editor}, #{controller},#{note}, #{shift}, #{continueshift});
+		(#{date_schedule}, #{user}, #{editor}, #{controller},#{note}, #{shift});
 	</insert>
 
 
@@ -125,8 +125,7 @@
 		#{editor},
 		controller = #{controller},
 		note = #{note},
-		shift = #{shift}, 
-		continueshift = #{continueshift} 
+		shift = #{shift}  
 		WHERE id = #{id};
 	</update>
 
@@ -176,7 +175,7 @@
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-		SELECT s.id, s.date_schedule, s.user, s.editor,s.continueshift, 
+		SELECT s.id, s.date_schedule, s.user, s.editor, 
 		s.controller,
 		s.shift,s.note,
 		s.sync_mobile_1,
@@ -203,7 +202,7 @@
 
 	<select id="selectScheduleInIntervalDateByUserId" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller, continueshift, 
+		SELECT id, date_schedule, user, note, editor, controller,  
 		shift,
 		sync_mobile_1,
 		sync_mobile_2,
@@ -228,7 +227,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, s.continueshift, 
+		s.sync_mobile_4,  
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -283,14 +282,14 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, s.continueshift, 
+		s.sync_mobile_4,  
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,
 		s.date_schedule,
 		s.note,
 		s.editor,
-		s.controller,
+		s.controller, ds.continueshift,
 		u.id as
 		user,
 		concat(u.lastname, ' ', u.firstname)
@@ -342,7 +341,7 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, s.continueshift, 
+		s.sync_mobile_4, 
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -394,8 +393,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, s.continueshift, 
-		ds.shift as no_shift,
+		s.sync_mobile_4,  
+		ds.shift as no_shift,ds.continueshift, 
 		sum(ds.time) as
 		revision_time,
 		s.date_schedule,
@@ -452,10 +451,10 @@
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task, time, time_from,
-		time_to, time_vacation, id_ship, crane, board, reviewshift)
+		time_to, time_vacation, id_ship, crane, board, reviewshift,continueshift)
 		VALUES
 		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to},
-		#{time_vacation}, #{id_ship}, #{crane}, #{board}, #{reviewshift});
+		#{time_vacation}, #{id_ship}, #{crane}, #{board}, #{reviewshift},#{continueshift});
 	</insert>
 
 
@@ -479,7 +478,7 @@
 		SELECT df.id, df.id_schedule, df.shift, df.task,
 		df.time, df.time_from,
 		df.time_to, df.time_vacation, df.id_ship,
-		df.crane, s.name as nameShip, df.board, df.reviewshift
+		df.crane, s.name as nameShip, df.board, df.reviewshift,df.continueshift 
 		FROM detailfinalschedule df LEFT
 		JOIN ship
 		s ON df.id_ship = s.id
@@ -509,7 +508,7 @@
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		SELECT df.id, df.id_schedule, df.shift, df.task, df.time,
 		df.time_from,
-		df.time_to, df.time_vacation, df.id_ship, df.crane,
+		df.time_to, df.time_vacation, df.id_ship, df.crane,df.continueshift, 
 		df.board,
 		s.name as nameShip
 		FROM detailfinalschedule df LEFT JOIN ship
@@ -639,7 +638,7 @@
 		SELECT d.id, d.id_schedule,
 		d.shift,
 		d.task,
-		d.time, d.time_from, d.time_to, d.time_vacation,
+		d.time, d.time_from, d.time_to, d.time_vacation,d.continueshift, 
 		ut.code as
 		task_mobile_desc,
 		d.id_ship as field_mobile_id_ship,

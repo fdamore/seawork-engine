@@ -29,16 +29,9 @@
 	Comparator dsc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
 </zscript>
 
-
-
-
-
-
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.SchedulerComposer"
 		id="page_panel">
-
-
 
 		<style>
 			.myBottonCell {border-bottom: 1px solid; border-right: 1px
@@ -2106,12 +2099,6 @@
 							<separator></separator>
 							
 							<hbox align="center">
-								<a label="Continua Turno"></a>
-								<checkbox checked="false"
-									id="continue_shift" />
-							</hbox>
-
-							<hbox align="center">
 								<a label="Inviato ad App Mobile"></a>
 								<checkbox checked="true"
 									id="sync_schedule" />
@@ -2172,11 +2159,16 @@
 									format="short" cols="10" id="time_to">
 								</timebox>
 
-								<label
-									value="Consuntiva Fascia Oraria">
-								</label>
-								<checkbox checked="false"
-									id="reviewShift" />
+								<vbox>
+								<hbox align="center">
+								<label value="Consuntiva Fascia Oraria"/>
+								<checkbox checked="false" id="reviewShift" />
+								</hbox>	
+								<hbox align="center">
+								<label value="Continua Turno"/>
+								<checkbox checked="false" id="continue_shift" />
+								</hbox>
+								</vbox>
 
 							</hbox>
 
@@ -2239,6 +2231,8 @@
 									<listheader label="Postazione" />
 									<listheader
 										label="Consuntiva Fascia" />
+									<listheader
+										label="Continua Turno" />
 									<listheader label="" />
 
 
@@ -2285,6 +2279,10 @@
 									<listcell>
 										<checkbox
 											checked="@{itemreview.reviewshift}" disabled="true" />
+									</listcell>
+									<listcell>
+										<checkbox
+											checked="@{itemreview.continueshift}" disabled="true" />
 									</listcell>
 									<listcell>
 										<toolbarbutton
