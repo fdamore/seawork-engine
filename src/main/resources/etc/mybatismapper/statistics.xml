@@ -429,7 +429,7 @@
 		select count(distinct u.id)
 		from
 		user u, user u1, user u2, usertask ut,
-		schedule s left
+		(select scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence from schedule scd left outer join usershift uss on (scd.shift = uss.id)) s left
 		outer join
 		detailfinalschedule dfs on
 		(dfs.id_schedule =
@@ -443,6 +443,15 @@
 			'%') or
 			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
 			u.employee_identification = #{my_full_text_search})
+		</if>
+		
+		<if test="dayWorking!=null">
+			<if test="dayWorking==true">
+				and ((s.shift=null)  or ((dfs.continueshift = false) and (presence=true)))
+			</if>
+			<if test="dayWorking==false">
+				and ((dfs.continueshift = true) or (presence=false) )
+			</if>
 		</if>
 
 		<if test="shift_number != null">
@@ -533,8 +542,8 @@
 		dfs.continueshift
 		from
 		user u,
-		schedule s left
-		outer join
+		(select scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence from schedule scd left outer join usershift uss on (scd.shift = uss.id)) s left
+		outer join 
 		detailfinalschedule dfs on
 		(dfs.id_schedule =
 		s.id)
@@ -549,6 +558,15 @@
 
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
+		</if>
+		
+		<if test="dayWorking!=null">
+			<if test="dayWorking==true">
+				and  ((s.shift=null)  or ((dfs.continueshift = false) and (presence=true)))
+			</if>
+			<if test="dayWorking==false">
+				and ((dfs.continueshift = true) or (presence=false) )
+			</if>
 		</if>
 
 		<if test="date_from != null and date_to != null">

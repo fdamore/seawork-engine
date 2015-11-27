@@ -2763,6 +2763,25 @@
 										constraint="no negative, no zero" />
 
 								</vbox>
+								<space></space>
+								<vbox>
+									<a label="Filtra per Giorno Lavorativo: " />
+								<combobox id="dayWorking_filter"
+									readonly="true" placeholder="Seleziona se Giorno Lavorativo...">
+
+									<comboitem label="TUTTI"
+										value="TUTTI">
+									</comboitem>
+
+									<comboitem label="Si"
+										value="yes">
+									</comboitem>
+									<comboitem label="No"
+										value="no">
+									</comboitem>
+
+								</combobox>
+								</vbox>
 							</hbox>
 
 

@@ -455,6 +455,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component day_shift_over_program;
 
 	@Wire
+	private Combobox dayWorking_filter;
+
+	@Wire
 	private Component define_program_body;
 
 	@Wire
@@ -518,9 +521,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A label_date_shift_program;
-
 	@Wire
 	private A label_date_shift_review;
+
 	@Wire
 	private A label_statistic_popup;
 
@@ -628,18 +631,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label overview_count_worker_stat;
-
 	@Wire
 	private Div overview_div;
+
 	@Wire
 	private Component overview_download;
-
 	@Wire
 	private Comboitem overview_item;
 	@Wire
 	private Tabpanel overview_preprocessing;
 	@Wire
 	private Tabpanel overview_program;
+
 	@Wire
 	private Tabpanel overview_review;
 
@@ -654,12 +657,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Panel panel_shift_period;
-
 	private final String partTimeMessage = "Part Time";
 	private Person person_logged = null;
 	private PersonDAO personDAO;
-	private Person personLock;
 
+	private Person personLock;
 	@Wire
 	private Div preprocessing_div;
 	@Wire
@@ -668,6 +670,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Panel preprocessing_panel;
 	@Wire
 	private Component print_program_videos;
+
 	@Wire
 	private Component print_scheduler;
 
@@ -709,13 +712,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component program_head_5_4;
-
 	@Wire
 	private Comboitem program_item;
 	@Wire
 	private Panel program_panel;
 	@Wire
 	private Listheader program_panel_name;
+
 	@Wire
 	private Combobox program_task;
 
@@ -727,16 +730,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader program_tot_1_3;
-
 	@Wire
 	private Auxheader program_tot_1_4;
 	@Wire
 	private Auxheader program_tot_2_1;
 	@Wire
 	private Auxheader program_tot_2_2;
+
 	@Wire
 	private Auxheader program_tot_2_3;
-
 	@Wire
 	private Auxheader program_tot_2_4;
 	@Wire
@@ -759,6 +761,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader program_tot_5_1;
 	@Wire
 	private Auxheader program_tot_5_2;
+
 	@Wire
 	private Auxheader program_tot_5_3;
 
@@ -884,18 +887,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tab reviewTab;
-
 	@Wire
 	private Auxheader reviewUser_tot_1_1;
+
 	@Wire
 	private Auxheader reviewUser_tot_1_2;
-
 	@Wire
 	private Auxheader reviewUser_tot_1_3;
 	@Wire
 	private Auxheader reviewUser_tot_1_4;
 	@Wire
 	private Auxheader reviewUser_tot_2_1;
+
 	@Wire
 	private Auxheader reviewUser_tot_2_2;
 
@@ -2152,7 +2155,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * define the view in function of the type of the view required
 	 */
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #hoursInterval, #shipSelector; onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search, #craneSelector; onSelect = #overview_tab; onClick = #calculate_sat")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #hoursInterval, #shipSelector, #dayWorking_filter; onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search, #craneSelector; onSelect = #overview_tab; onClick = #calculate_sat")
 	public void defineSchedulerView() {
 
 		this.setLastProgrammerLabel();
@@ -3089,7 +3092,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.mainSchedulerView(SchedulerComposer.PRINT_PROGRAM);
 		}
 
-	}
+	};
 
 	@Listen("onClick = #overview_download")
 	public void downdoadOverviewCSV() {
@@ -3122,7 +3125,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-	};
+	}
 
 	@Listen("onClick= #download_program_report")
 	public void downloadProgramReport() {
@@ -6175,11 +6178,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				idCrane = null;
 			}
 
+			Boolean workingDayFilter = null;
+			if (this.dayWorking_filter.getSelectedIndex() == 1) {
+				workingDayFilter = true;
+			} else if (this.dayWorking_filter.getSelectedIndex() == 2) {
+				workingDayFilter = false;
+			}
+
 			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
-					date_from, date_to, reviewshift, idShip, idCrane);
+					date_from, date_to, reviewshift, idShip, idCrane, workingDayFilter);
 
 			final Integer countWorker = this.statisticDAO.countWorkerInOverviewFinalSchedule(full_text_search, shift_number, shift_type,
-					idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane);
+					idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane, workingDayFilter);
 
 			if (countWorker != null) {
 				this.overview_count_worker.setValue(countWorker.toString());
