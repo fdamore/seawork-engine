@@ -11,9 +11,18 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.handler.UserStaturation;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public interface IWebServiceController {
+
+	/**
+	 * Calculate user saturation
+	 * @param date_request TODO
+	 *
+	 * @return
+	 */
+	public List<UserStaturation> calculateUserSaturation(Date date_request);
 
 	/**
 	 * Check for user abilitation

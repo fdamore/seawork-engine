@@ -14,11 +14,17 @@ import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.handler.UserStaturation;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class SoapControllerImpl implements ISoapServiceInterface {
 
-	private IWebServiceController webcontroller;
+	private IWebServiceController	webcontroller;
+
+	@Override
+	public List<UserStaturation> calculateUserSaturation(final Date date_request) {
+		return this.webcontroller.calculateUserSaturation(date_request);
+	}
 
 	@Override
 	public Boolean checkUser(final String username, final String password) {

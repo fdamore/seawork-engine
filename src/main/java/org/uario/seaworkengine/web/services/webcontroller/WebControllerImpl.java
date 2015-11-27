@@ -26,35 +26,78 @@ import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
+import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.TaskRunner;
+import org.uario.seaworkengine.web.services.handler.UserStaturation;
 import org.uario.seaworkengine.web.services.handler.Worker;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
-	private ConfigurationDAO configurationDAO;
+	private ConfigurationDAO	configurationDAO;
 
-	private final Logger logger = Logger.getLogger(WebControllerImpl.class);
+	private final Logger		logger	= Logger.getLogger(WebControllerImpl.class);
 
-	private PersonDAO personDAO;
+	private PersonDAO			personDAO;
 
-	private ISchedule scheduleDAO;
+	private ISchedule			scheduleDAO;
 
-	private IShiftCache shiftCache;
+	private IShiftCache			shiftCache;
 
-	private IScheduleShip ship_dao;
+	private IScheduleShip		ship_dao;
 
-	private IScheduleShip shipSchedulerDao;
+	private IScheduleShip		shipSchedulerDao;
 
-	private IStatistics statistics;
+	private IStatProcedure		stat_procedure;
 
-	private ITaskCache taskCache;
+	private IStatistics			statistics;
 
-	private TasksDAO taskDAO;
+	private ITaskCache			taskCache;
+
+	private TasksDAO			taskDAO;
+
+	@Override
+	public List<UserStaturation> calculateUserSaturation(final Date date_request) {
+
+		final ArrayList<UserStaturation> ret = new ArrayList<UserStaturation>();
+
+		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
+
+		// set saturation month label
+		final Calendar cal_saturation_month = DateUtils.toCalendar(date_schedule);
+		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+		final Date date_to = cal_saturation_month.getTime();
+
+		cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getMinimum(Calendar.DAY_OF_MONTH));
+		final Date date_from = cal_saturation_month.getTime();
+
+		final List<Person> list = this.personDAO.listAllPersonsForMobile(date_schedule);
+
+		for (final Person person : list) {
+
+			if (person.isBackoffice()) {
+				continue;
+			}
+
+			if (person.isOperative()) {
+				continue;
+			}
+
+			final Double sat = this.stat_procedure.calculeHourSaturation(person, date_from, date_to);
+
+			final UserStaturation item = new UserStaturation();
+			item.setId_user(person.getId());
+			item.setSaturation(sat);
+
+			ret.add(item);
+		}
+
+		return ret;
+	}
 
 	@Override
 	public Boolean checkUser(final String username, final String password) {
@@ -261,6 +304,10 @@ public class WebControllerImpl implements IWebServiceController {
 		return this.shipSchedulerDao;
 	}
 
+	public IStatProcedure getStat_procedure() {
+		return this.stat_procedure;
+	}
+
 	public IStatistics getStatistics() {
 		return this.statistics;
 	}
@@ -313,8 +360,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShipByDateshit(date_request_truncate, null, null, null, null, null,
-				null, null);
+		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShipByDateshit(date_request_truncate, null, null, null, null,
+				null, null, null);
 		return list;
 	}
 
@@ -325,10 +372,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<Person> list = this.personDAO.listAllPersonsForMobile(date_schedule);
-
 		// get special task
 		final List<UserTask> list_special = this.configurationDAO.listSpecialTaskMobile();
+
+		final List<Person> list = this.personDAO.listAllPersonsForMobile(date_schedule);
 
 		for (final Person person : list) {
 
@@ -351,8 +398,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 1
 			if (!schedule.getSync_mobile_1()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-						1);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO
+						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 1);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -365,8 +412,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 2
 			if (!schedule.getSync_mobile_2()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-						2);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO
+						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 2);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -379,8 +426,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 3
 			if (!schedule.getSync_mobile_3()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-						3);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO
+						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 3);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -393,8 +440,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 4
 			if (!schedule.getSync_mobile_4()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-						4);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO
+						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 4);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -458,6 +505,10 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public void setShipSchedulerDao(final IScheduleShip shipSchedulerDao) {
 		this.shipSchedulerDao = shipSchedulerDao;
+	}
+
+	public void setStat_procedure(final IStatProcedure stat_procedure) {
+		this.stat_procedure = stat_procedure;
 	}
 
 	public void setStatistics(final IStatistics statistics) {

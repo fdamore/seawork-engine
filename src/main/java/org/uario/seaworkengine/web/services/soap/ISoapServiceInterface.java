@@ -14,10 +14,21 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.handler.UserStaturation;
 import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 @WebService(serviceName = "SoapControllerServices")
 public interface ISoapServiceInterface {
+
+	/**
+	 * Calculate user saturation
+	 * 
+	 * @param date_request
+	 *            TODO
+	 *
+	 * @return
+	 */
+	public List<UserStaturation> calculateUserSaturation(@WebParam(name = "date_request") Date date_request);
 
 	/**
 	 * Check for user abilitation
@@ -156,10 +167,10 @@ public interface ISoapServiceInterface {
 	 */
 	public void updateDetailScheduleShipForMobile(@WebParam(name = "detail_schedule_ship_id") Integer detail_schedule_ship_id,
 			@WebParam(name = "operation") String operation, @WebParam(name = "handswork") Integer handswork,
-			@WebParam(name = "menwork") final Integer menwork, @WebParam(name = "temperature") String temperature, @WebParam(name = "sky") String sky,
-			@WebParam(name = "rain") String rain, @WebParam(name = "wind") String wind, @WebParam(name = "first_down") Date first_down,
-			@WebParam(name = "last_down") Date last_down, @WebParam(name = "person_down") Date person_down,
-			@WebParam(name = "person_onboard") Date person_onboard);
+			@WebParam(name = "menwork") final Integer menwork, @WebParam(name = "temperature") String temperature,
+			@WebParam(name = "sky") String sky, @WebParam(name = "rain") String rain, @WebParam(name = "wind") String wind,
+			@WebParam(name = "first_down") Date first_down, @WebParam(name = "last_down") Date last_down,
+			@WebParam(name = "person_down") Date person_down, @WebParam(name = "person_onboard") Date person_onboard);
 
 	/**
 	 * Public string get note
