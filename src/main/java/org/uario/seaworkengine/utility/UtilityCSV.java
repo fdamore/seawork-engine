@@ -41,13 +41,13 @@ import org.zkoss.zul.Listitem;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
+	private static final NumberFormat number_format = NumberFormat.getInstance(Locale.ITALIAN);
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
 			final ICustomerDAO customerDAO) {
@@ -152,8 +152,8 @@ public class UtilityCSV {
 			}
 
 			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate + ";" + shiftNumber + ";"
-					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program
-					+ ";" + persons_review + ";" + serviceType + ";" + startDate + ";" + endDate + ";\n";
+					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";"
+					+ persons_program + ";" + persons_review + ";" + serviceType + ";" + startDate + ";" + endDate + ";\n";
 			builder.append(line);
 
 		}
@@ -219,8 +219,8 @@ public class UtilityCSV {
 				currentPosition = item.getCurrent_position();
 			}
 
-			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";" + role
-					+ ";" + currentPosition + ";\n";
+			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";"
+					+ role + ";" + currentPosition + ";\n";
 			builder.append(line);
 
 		}
@@ -367,8 +367,8 @@ public class UtilityCSV {
 				employee_identification = item.getEmployee_identification();
 			}
 
-			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
-					+ date + ";" + code_shift + ";\n";
+			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification
+					+ ";" + date + ";" + code_shift + ";\n";
 			builder.append(line);
 		}
 		return builder;
@@ -539,8 +539,8 @@ public class UtilityCSV {
 
 				if (!task.getIsabsence()) {
 
-					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
@@ -585,7 +585,7 @@ public class UtilityCSV {
 		String controller = "";
 
 		if (administrator) {
-			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
+			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
 		}
 		builder.append(header);
 
@@ -595,6 +595,7 @@ public class UtilityCSV {
 			String mouth = "";
 			String weekDate = "";
 			String day = "";
+			String dayWorked = "No";
 
 			if (item.getDate_schedule() != null) {
 				weekDate = (Utility.getWeekNumber(item.getDate_schedule())).toString();
@@ -745,6 +746,10 @@ public class UtilityCSV {
 
 			}
 
+			if (Utility.isWorkingDay(item)) {
+				dayWorked = "Si";
+			}
+
 			String crane = "";
 			if (item.getCrane() != null) {
 				crane = "=\"" + item.getCrane() + "\"";
@@ -768,8 +773,8 @@ public class UtilityCSV {
 
 				if (!task.getIsabsence()) {
 
-					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds), TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
@@ -794,14 +799,14 @@ public class UtilityCSV {
 			}
 
 			String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date
-					+ ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";"
-					+ crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";\n";
+					+ ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
+					+ nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";\n";
 
 			if (administrator) {
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
-						+ holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";"
-						+ nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";" + programmer
-						+ ";" + controller + ";\n";
+						+ holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";"
+						+ time_vacation_info + ";" + nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";"
+						+ nota + ";" + programmer + ";" + controller + ";\n";
 			}
 
 			builder.append(line);
