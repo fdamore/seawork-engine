@@ -59,8 +59,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			return 0.0;
 		}
 
-		final long millis = date_to.getTime() - date_from.getTime();
-		final Long days = (millis / DateUtils.MILLIS_PER_DAY) + 1;
+		final Long days = this.getDayBetweenDate(date_to, date_from);
 
 		// remove some absence from day_worked
 		final Integer day_absence = this.statisticDAO.daysToRemoveFromSaturation(user.getId(), date_from, date_to);
@@ -111,6 +110,36 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	public UserCompensationDAO getCompensationDAO() {
 		return this.compensationDAO;
+	}
+
+	/**
+	 * Get day between date
+	 *
+	 * @param date_to
+	 * @param date_from
+	 * @return
+	 */
+	private Long getDayBetweenDate(final Date date_to, final Date date_from) {
+
+		if (date_from.after(date_to)) {
+			return 0L;
+		}
+
+		final Calendar cal = DateUtils.toCalendar(date_from);
+
+		Date date_index = cal.getTime();
+
+		long i = 0;
+
+		do {
+
+			i++;
+			date_index = DateUtils.addDays(date_index, 1);
+
+		} while (!DateUtils.isSameDay(date_index, date_to));
+
+		return i + 1;
+
 	}
 
 	/**
