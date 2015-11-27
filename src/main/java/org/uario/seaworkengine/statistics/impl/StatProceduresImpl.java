@@ -59,11 +59,11 @@ public class StatProceduresImpl implements IStatProcedure {
 			return 0.0;
 		}
 
-		final Long days = this.getDayBetweenDate(date_to, date_from);
+		final int days = Utility.getDayBetweenDate(date_to, date_from);
 
 		// remove some absence from day_worked
 		final Integer day_absence = this.statisticDAO.daysToRemoveFromSaturation(user.getId(), date_from, date_to);
-		final Integer days_worked = days.intValue() - day_absence;
+		final Integer days_worked = days - day_absence;
 
 		final double hour_per_day = user.getHourswork_w().doubleValue() / user.getDaywork_w().doubleValue();
 
@@ -110,36 +110,6 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	public UserCompensationDAO getCompensationDAO() {
 		return this.compensationDAO;
-	}
-
-	/**
-	 * Get day between date
-	 *
-	 * @param date_to
-	 * @param date_from
-	 * @return
-	 */
-	private Long getDayBetweenDate(final Date date_to, final Date date_from) {
-
-		if (date_from.after(date_to)) {
-			return 0L;
-		}
-
-		final Calendar cal = DateUtils.toCalendar(date_from);
-
-		Date date_index = cal.getTime();
-
-		long i = 0;
-
-		do {
-
-			i++;
-			date_index = DateUtils.addDays(date_index, 1);
-
-		} while (!DateUtils.isSameDay(date_index, date_to));
-
-		return i + 1;
-
 	}
 
 	/**
@@ -734,7 +704,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -755,7 +725,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,
@@ -793,7 +763,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.uario.seaworkengine.statistics.IStatProcedure#workAssignProcedure
 	 * (org.uario.seaworkengine.model.UserShift, java.util.Date,

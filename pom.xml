@@ -32,6 +32,8 @@
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<joda.version>2.9.1</joda.version>
+
 	</properties>
 
 	<organization>
@@ -64,6 +66,8 @@
 
 	<dependencies>
 
+
+
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
@@ -78,6 +82,13 @@
 			<version>1.2.17</version>
 			<type>jar</type>
 			<optional>false</optional>
+		</dependency>
+
+		<!-- JODA FOR TIME MANAGING REPORT -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda.version}</version>
 		</dependency>
 
 		<!-- DYNAMIC REPORT -->

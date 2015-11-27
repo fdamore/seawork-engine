@@ -17,6 +17,8 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
@@ -241,52 +243,32 @@ public class Utility {
 		return Utility.formatDay.format(date);
 	}
 
+	/**
+	 * Get day between date
+	 *
+	 * @param date_to
+	 * @param date_from
+	 * @return
+	 */
+	public static int getDayBetweenDate(final Date date_to, final Date date_from) {
+
+		if (date_from.after(date_to)) {
+			return 0;
+		}
+
+		final DateTime dt_from = new DateTime(date_from);
+		final DateTime dt_to = new DateTime(date_to);
+
+		final Days days = Days.daysBetween(dt_from, dt_to);
+
+		return days.getDays() + 1;
+	}
+
 	public static Integer getMonthNumber(final Date date) {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return cal.get(Calendar.MONTH) + 1;
 	}
-
-	// /**
-	// * Hours work
-	// *
-	// * @param date_from
-	// * @param date_to
-	// * @param hours_per_week
-	// * @param day_per_week
-	// * @return
-	// */
-	// public static Double getHoursWorkAmount(final Date date_from, final Date
-	// date_to, final Integer day_per_week, final Integer hour_per_week) {
-	//
-	// final Calendar cal_start = DateUtils.toCalendar(date_from);
-	//
-	// final Calendar cal_end = DateUtils.toCalendar(date_to);
-	//
-	// // define dayCount;
-	// Double dayCount = 0.0;
-	//
-	// final Calendar item_cal = DateUtils.toCalendar(cal_start.getTime());
-	//
-	// do {
-	//
-	// int week_day = item_cal.get(Calendar.DAY_OF_WEEK) - 1;
-	//
-	// if (week_day == 0) {
-	// week_day = 7;
-	// }
-	// if (week_day <= day_per_week) {
-	// dayCount++;
-	// }
-	//
-	// item_cal.add(Calendar.DAY_OF_YEAR, 1);
-	// } while (!item_cal.after(cal_end));
-	//
-	// final double hour_per_day = hour_per_week.doubleValue() /
-	// day_per_week.doubleValue();
-	//
-	// return dayCount.doubleValue() * hour_per_day;
-	// }
 
 	/**
 	 * Return the default time format
