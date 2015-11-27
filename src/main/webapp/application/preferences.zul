@@ -366,6 +366,10 @@
 								<button id="sw_return_internaltask"
 									sclass="btn-info" label="Mansioni Interne">
 								</button>
+								
+								<button id="sw_return_recorded"
+									sclass="btn-info" label="Mansioni Contabilizzate">
+								</button>
 															
 
 								<separator></separator>
@@ -672,10 +676,12 @@
 									sclass="btn-primary" label="Ricarica Lista Turni">
 								</button>
 
-
-
 								<button id="sw_return_defaultshift"
 									sclass="btn-info" label="Visualizza Turni Default">
+								</button>
+								
+								<button id="sw_return_recordedshift"
+									sclass="btn-info" label="Turni Contabilizzati">
 								</button>
 
 								<separator></separator>
@@ -701,8 +707,8 @@
 									<listheader label="Descrizione"
 										sort="auto(description)" />
 									<listheader label="Tipo di Turno" />
-									<listheader label="Forzabile" />
-									<listheader label="Contabilizzato" />
+									<listheader label="Forzabile" sort="auto(forceable)"/>
+									<listheader label="Contabilizzato" sort="auto(recorded)"/>
 									<listheader
 										label="Riposo Programmato" />
 									<listheader

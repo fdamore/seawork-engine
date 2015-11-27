@@ -44,218 +44,218 @@ public class Preferences extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Component			add_billcenter_command;
+	private Component add_billcenter_command;
 
 	@Wire
-	private Component			add_service_command;
+	private Component add_service_command;
 
-	private IBankHolidays		bank_holiday;
+	private IBankHolidays bank_holiday;
 
-	private BillCenter			billCenterSelected;
-
-	@Wire
-	private Checkbox			changeshift_task;
+	private BillCenter billCenterSelected;
 
 	@Wire
-	private Textbox				code_shift;
+	private Checkbox changeshift_task;
 
 	@Wire
-	private Textbox				code_status;
+	private Textbox code_shift;
 
 	@Wire
-	private Textbox				code_task;
-
-	private ConfigurationDAO	configurationDao;
+	private Textbox code_status;
 
 	@Wire
-	private Checkbox			delayoperation_task;
+	private Textbox code_task;
+
+	private ConfigurationDAO configurationDao;
 
 	@Wire
-	private Textbox				description_billcenter;
+	private Checkbox delayoperation_task;
 
 	@Wire
-	private Textbox				description_crane;
+	private Textbox description_billcenter;
 
 	@Wire
-	private Textbox				description_service;
+	private Textbox description_crane;
 
 	@Wire
-	private Textbox				description_shift;
+	private Textbox description_service;
 
 	@Wire
-	private Textbox				description_status;
+	private Textbox description_shift;
 
 	@Wire
-	private Textbox				description_task;
+	private Textbox description_status;
 
 	@Wire
-	private Textbox				docrepo;
+	private Textbox description_task;
 
 	@Wire
-	private Checkbox			endoperation_task;
+	private Textbox docrepo;
 
 	@Wire
-	private Checkbox			forceable;
+	private Checkbox endoperation_task;
 
 	@Wire
-	private Doublebox			fr_timework;
+	private Checkbox forceable;
 
 	@Wire
-	private Doublebox			fr_volume;
+	private Doublebox fr_timework;
 
 	@Wire
-	private Doublebox			fr_volume_tw_mct;
+	private Doublebox fr_volume;
 
 	@Wire
-	private Doublebox			fr_volumeunderboard;
+	private Doublebox fr_volume_tw_mct;
 
 	@Wire
-	private Doublebox			fr_volumeunderboard_sws;
+	private Doublebox fr_volumeunderboard;
 
 	@Wire
-	private Textbox				full_text_search_BillCenter;
+	private Doublebox fr_volumeunderboard_sws;
 
 	@Wire
-	private Intbox				full_text_search_Crane;
+	private Textbox full_text_search_BillCenter;
 
 	@Wire
-	private Textbox				full_text_search_Service;
+	private Intbox full_text_search_Crane;
 
 	@Wire
-	private Textbox				full_text_searchShift;
+	private Textbox full_text_search_Service;
 
 	@Wire
-	private Textbox				full_text_searchTask;
+	private Textbox full_text_searchShift;
 
 	@Wire
-	private Component			grid_billcenter_details;
+	private Textbox full_text_searchTask;
 
 	@Wire
-	private Div					grid_crane_details;
+	private Component grid_billcenter_details;
 
 	@Wire
-	private Div					grid_service_details;
+	private Div grid_crane_details;
 
 	@Wire
-	private Div					grid_shift_details;
+	private Div grid_service_details;
 
 	@Wire
-	private Div					grid_status_details;
+	private Div grid_shift_details;
 
 	@Wire
-	private Div					grid_task_details;
+	private Div grid_status_details;
 
 	@Wire
-	private Checkbox			hidden_task;
+	private Div grid_task_details;
 
 	@Wire
-	private Checkbox			internal_task;
+	private Checkbox hidden_task;
 
 	@Wire
-	private Checkbox			isabsence_task;
+	private Checkbox internal_task;
 
 	@Wire
-	private Checkbox			isPP_task;
+	private Checkbox isabsence_task;
 
 	@Wire
-	private Checkbox			isRZ;
+	private Checkbox isPP_task;
 
 	@Wire
-	private Checkbox			isRZ_task;
-
-	private IJobCost			jobCostDao;
+	private Checkbox isRZ;
 
 	@Wire
-	private Checkbox			justificatory_task;
+	private Checkbox isRZ_task;
+
+	private IJobCost jobCostDao;
 
 	@Wire
-	private Label				label_allocated_meomry;
+	private Checkbox justificatory_task;
 
 	@Wire
-	private Label				label_free_meomry;
+	private Label label_allocated_meomry;
 
 	@Wire
-	private Label				label_max_meomry;
+	private Label label_free_meomry;
 
 	@Wire
-	private Listbox				list_bankholiday;
+	private Label label_max_meomry;
 
 	@Wire
-	private Component			modify_billcenter_command;
+	private Listbox list_bankholiday;
 
 	@Wire
-	private Component			modify_service_command;
+	private Component modify_billcenter_command;
 
 	@Wire
-	private Textbox				name_crane;
+	private Component modify_service_command;
 
 	@Wire
-	private Textbox				name_service;
+	private Textbox name_crane;
 
 	@Wire
-	private Intbox				number_crane;
-
-	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
+	private Textbox name_service;
 
 	@Wire
-	private Checkbox			overflow_task;
+	private Intbox number_crane;
 
-	private IParams				paramsDAO;
-
-	@Wire
-	public Checkbox				recorded_shift;
+	private final NumberFormat numberFormat = NumberFormat.getInstance();
 
 	@Wire
-	private Checkbox			recorded_task;
+	private Checkbox overflow_task;
 
-	private final Runtime		runtime				= Runtime.getRuntime();
-
-	private int					selectedOptionMobileTask;
-
-	private Service				serviceSelected;
+	private IParams paramsDAO;
 
 	@Wire
-	private Intbox				shows_rows;
+	public Checkbox recorded_shift;
 
 	@Wire
-	private Intbox				shows_rows_crane;
+	private Checkbox recorded_task;
+
+	private final Runtime runtime = Runtime.getRuntime();
+
+	private int selectedOptionMobileTask;
+
+	private Service serviceSelected;
 
 	@Wire
-	private Intbox				shows_rowsShift;
+	private Intbox shows_rows;
 
 	@Wire
-	private Intbox				shows_rowsTask;
+	private Intbox shows_rows_crane;
 
 	@Wire
-	private Listbox				sw_list_billcenter;
+	private Intbox shows_rowsShift;
 
 	@Wire
-	private Listbox				sw_list_crane;
+	private Intbox shows_rowsTask;
 
 	@Wire
-	private Listbox				sw_list_service;
+	private Listbox sw_list_billcenter;
 
 	@Wire
-	private Listbox				sw_list_shift;
+	private Listbox sw_list_crane;
 
 	@Wire
-	private Listbox				sw_list_status;
+	private Listbox sw_list_service;
 
 	@Wire
-	private Listbox				sw_list_task;
-
-	private UserTask			taskAdded;
-
-	private UserTask			taskUpdated;
+	private Listbox sw_list_shift;
 
 	@Wire
-	private Combobox			type_shift;
+	private Listbox sw_list_status;
 
 	@Wire
-	private Combobox			typeofbreak;
+	private Listbox sw_list_task;
+
+	private UserTask taskAdded;
+
+	private UserTask taskUpdated;
+
+	@Wire
+	private Combobox type_shift;
+
+	@Wire
+	private Combobox typeofbreak;
 
 	@Listen("onClick = #add_billcenter_command")
 	public void addBillCenterCommand() {
@@ -883,8 +883,8 @@ public class Preferences extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons, null, Messagebox.EXCLAMATION, null,
-					null, params);
+			Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons, null, Messagebox.EXCLAMATION,
+					null, null, params);
 			this.isPP_task.setChecked(true);
 			this.isRZ_task.setChecked(false);
 			return;
@@ -983,8 +983,8 @@ public class Preferences extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Impossibile cancellare il servizio di Rizzaggio", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
-						params);
+				Messagebox
+				.show("Impossibile cancellare il servizio di Rizzaggio", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			}
 
 		}
@@ -1226,8 +1226,8 @@ public class Preferences extends SelectorComposer<Component> {
 								Preferences.this.serviceSelected.setFranchise_volume(Preferences.this.fr_volume.getValue());
 								Preferences.this.serviceSelected.setFranchise_volume_tw_mct(Preferences.this.fr_volume_tw_mct.getValue());
 								Preferences.this.serviceSelected.setFranchise_volumeunderboard(Preferences.this.fr_volumeunderboard.getValue());
-								Preferences.this.serviceSelected
-										.setFranchise_volumeunderboard_sws(Preferences.this.fr_volumeunderboard_sws.getValue());
+								Preferences.this.serviceSelected.setFranchise_volumeunderboard_sws(Preferences.this.fr_volumeunderboard_sws
+								.getValue());
 								Preferences.this.serviceSelected.setIsRZ(Preferences.this.isRZ.isChecked());
 								Preferences.this.configurationDao.updateService(Preferences.this.serviceSelected);
 								Preferences.this.resetServiceInfo();
@@ -1385,8 +1385,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 			// if shift is a default shift, user cannot modify shift as a non
 			// default shift
-			if (((isDefault && (this.typeofbreak.getSelectedItem() != null)
-					&& !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito")))) || (!isDefault)) {
+			if (((isDefault && (this.typeofbreak.getSelectedItem() != null) && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito"))))
+					|| (!isDefault)) {
 				shift.setBreak_shift(false);
 				shift.setDisease_shift(false);
 				shift.setAccident_shift(false);
@@ -2001,6 +2001,13 @@ public class Preferences extends SelectorComposer<Component> {
 		this.sw_list_task.setModel(new ListModelList<UserTask>(list_InternalUsertask));
 	}
 
+	@Listen("onClick=#sw_return_recorded")
+	public void showInvoiceTask() {
+		final List<UserTask> list_InternalUsertask = this.configurationDao.loadRecordedTask();
+
+		this.sw_list_task.setModel(new ListModelList<UserTask>(list_InternalUsertask));
+	}
+
 	@Listen("onClick = #sw_return_justificatorytask")
 	public void showJustificatoryTask() {
 		List<UserTask> list_usertask = null;
@@ -2026,6 +2033,12 @@ public class Preferences extends SelectorComposer<Component> {
 		this.label_max_meomry.setValue(max_memory_info);
 		this.label_free_meomry.setValue(free_memory_info);
 		this.label_allocated_meomry.setValue(allocated_memory_info);
+	}
+
+	@Listen("onClick = #sw_return_recordedshift")
+	public void showRecordedShift() {
+
+		this.sw_list_shift.setModel(new ListModelList<UserShift>(this.configurationDao.listRecordedShift()));
 	}
 
 	@Listen("onChange = #shows_rows; onOK = #shows_rows")

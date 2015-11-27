@@ -18,11 +18,11 @@ import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 
 public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements ConfigurationDAO {
-	private static Logger	logger	= Logger.getLogger(MyBatisConfigurationDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisConfigurationDAO.class);
 
-	private IShiftCache		shift_cache;
+	private IShiftCache shift_cache;
 
-	private ITaskCache		task_cache;
+	private ITaskCache task_cache;
 
 	@Override
 	public void addService(final Service service) {
@@ -179,6 +179,13 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	}
 
 	@Override
+	public List<UserShift> listRecordedShift() {
+		MyBatisConfigurationDAO.logger.info("listRecordedShift");
+
+		return this.getSqlSession().selectList("configuration.listRecordedShift");
+	}
+
+	@Override
 	public List<UserTask> listSpecialTaskMobile() {
 		MyBatisConfigurationDAO.logger.info("Load all shift code");
 
@@ -209,6 +216,12 @@ public class MyBatisConfigurationDAO extends SqlSessionDaoSupport implements Con
 	public UserTask loadPPTask() {
 		MyBatisConfigurationDAO.logger.info("loadPPTask");
 		return this.getSqlSession().selectOne("configuration.loadPPTask");
+	}
+
+	@Override
+	public List<UserTask> loadRecordedTask() {
+		MyBatisConfigurationDAO.logger.info("loadRecordedTask");
+		return this.getSqlSession().selectList("configuration.loadRecordedTask");
 	}
 
 	@Override

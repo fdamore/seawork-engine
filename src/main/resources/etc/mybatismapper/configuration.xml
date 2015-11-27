@@ -39,6 +39,10 @@
 		FROM
 		usershift s
 	</select>
+	
+	<select id="loadRecordedTask" resultType="org.uario.seaworkengine.model.UserTask">
+		select * from usertask where recorded=1 order by code asc;
+	</select>
 
 
 	<select id="loadShiftById" resultType="org.uario.seaworkengine.model.UserShift">
@@ -66,6 +70,13 @@
 		FROM usertask t
 		WHERE t.hiddentask = 1 order by t.code asc;
 	</select>
+		
+	<select id="listRecordedShift" resultType="org.uario.seaworkengine.model.UserShift">
+		SELECT *		   
+		FROM usershift 
+		WHERE recorded = 1 order by code asc;
+	</select>
+	
 	
 	<select id="listAllStandardTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,

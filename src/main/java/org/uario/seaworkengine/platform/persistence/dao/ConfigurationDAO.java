@@ -45,6 +45,8 @@ public interface ConfigurationDAO {
 
 	public List<UserTask> listAllTasks(String full_text_search);
 
+	public List<UserShift> listRecordedShift();
+
 	public List<UserTask> listSpecialTaskMobile();
 
 	public List<String> loadAllShiftCode();
@@ -54,6 +56,8 @@ public interface ConfigurationDAO {
 	public List<UserTask> loadInternalTask();
 
 	public UserTask loadPPTask();
+
+	public List<UserTask> loadRecordedTask();
 
 	public Service loadRZService();
 
