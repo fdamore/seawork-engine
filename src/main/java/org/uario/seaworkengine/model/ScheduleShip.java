@@ -9,40 +9,40 @@ public class ScheduleShip implements Serializable {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	public static long getSerialversionuid() {
 		return ScheduleShip.serialVersionUID;
 	}
 
-	private Date arrivaldate;
+	private Date	arrivaldate;
 
-	private Integer customer_id;
+	private Integer	customer_id;
 
-	private Date departuredate;
+	private Date	departuredate;
 
-	private Integer id;
+	private Integer	id;
 
-	private Integer id_service;
+	private Integer	id_service;
 
-	private Integer idship;
+	private Integer	idship;
 
-	private Integer idship_activity;
+	private Integer	idship_activity;
 
 	/**
 	 * Used only in view mode
 	 */
 	@XmlTransient
-	private String name;
+	private String	name;
 
-	private String note;
+	private String	note;
 
-	private String rif_mct;
+	private String	rif_mct;
 
 	// used only in program ship view
-	private String serviceName;
+	private String	serviceName;
 
-	private Integer volume;
+	private Integer	volume;
 
 	public Date getArrivaldate() {
 		return this.arrivaldate;
