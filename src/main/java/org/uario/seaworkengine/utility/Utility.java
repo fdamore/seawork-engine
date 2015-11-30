@@ -298,6 +298,7 @@ public class Utility {
 	 * @return
 	 */
 	public static Boolean isWorkingDay(final DetailFinalSchedule detail) {
+
 		final Boolean shift_continous = detail.getContinueshift();
 
 		if ((shift_continous != null) && shift_continous.booleanValue()) {
@@ -312,11 +313,12 @@ public class Utility {
 			return Boolean.TRUE;
 		}
 
-		if (shift.getPresence()) {
+		if ((shift.getPresence() != null) && shift.getPresence()) {
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
 		}
+
 	}
 
 	/**
