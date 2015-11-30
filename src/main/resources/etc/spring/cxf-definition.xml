@@ -15,8 +15,8 @@
 
 
 	<!-- SOAP SERVICE -->
-	<jaxws:endpoint address="/soapservice" implementor="#soapservice"> 
-	
+	<jaxws:endpoint address="/soapservice" implementor="#soapservice">
+
 		<jaxws:inInterceptors>
 
 			<bean class="org.apache.cxf.binding.soap.saaj.SAAJInInterceptor" />
@@ -74,6 +74,8 @@
 		<property name="shipSchedulerDao" ref="myScheduleShipDAO"></property>
 		<property name="configurationDAO" ref="myConfigurationDAO"></property>
 		<property name="statistics" ref="myStatisticsDAO"></property>
+		<property name="stat_procedure" ref="myStatProcedure"></property>
+
 
 	</bean>
 
