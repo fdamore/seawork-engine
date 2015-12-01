@@ -71,10 +71,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Double hours_work_ammount = days_worked * hour_per_day;
 
 		// get compensation
-		Double hours_compensate = this.compensationDAO.getTotalHoursInDateYear(user.getId(), date_from);
-		if (hours_compensate == null) {
-			hours_compensate = 0.0;
-		}
+		final Double hours_compensate = this.compensationDAO.getTotalHoursInPeriod(user.getId(), date_from, date_to);
 
 		// sat = current work - shift_rec - compensation - work_ammount
 		final Double hours_saturation = hour_current_work_count - hours_work_ammount - hours_compensate;

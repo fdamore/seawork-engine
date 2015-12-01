@@ -6,59 +6,85 @@
 	<cache />
 
 	<insert id="createUserCompensation" parameterType="org.uario.seaworkengine.model.UserCompensation">
-		INSERT INTO user_compensation (id_user, time_comp, date_submit, note)
+		INSERT INTO
+		user_compensation (id_user, time_comp, date_submit, note)
 		VALUES
 		(#{id_user}, #{time_comp}, #{date_submit},#{note});
 	</insert>
-	
+
 	<delete id="deleteUserCompensation" parameterType="Integer">
 		delete from
 		user_compensation
 		where
 		id = #{id}
 	</delete>
-	
-	<select id="loadUserCompensationById" parameterType="Integer" resultType="org.uario.seaworkengine.model.UserCompensation">
+
+	<select id="loadUserCompensationById" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.UserCompensation">
 		select id,id_user, time_comp, date_submit, note
-		from user_compensation
-		where id=#{id} 
+		from
+		user_compensation
+		where id=#{id}
 		order by date_submit;
-	
+
 	</select>
-	
-	<select id="loadAllUserCompensationByUserId" parameterType="Integer" resultType="org.uario.seaworkengine.model.UserCompensation">
+
+	<select id="loadAllUserCompensationByUserId" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.UserCompensation">
 		select id,id_user, time_comp, date_submit, note
-		from user_compensation
-		where id_user=#{id_user} 
+		from
+		user_compensation
+		where id_user=#{id_user}
 		order by date_submit;
 	</select>
-	
+
 	<update id="updateUserCompensation" parameterType="org.uario.seaworkengine.model.UserCompensation">
-		UPDATE user_compensation 
+		UPDATE
+		user_compensation
 		SET
 		id_user =
 		#{id_user},
 		time_comp = #{time_comp},
-		date_submit = #{date_submit} ,
+		date_submit =
+		#{date_submit} ,
 		note = #{note}
 		WHERE id = #{id};
 	</update>
-	
-	<select id="getTotalHoursInDateYear" parameterType="map" resultType="double">
-		SELECT sum(time_comp) as totalTimeComp 
+
+	<select id="getTotalHoursInDateYear" parameterType="map"
+		resultType="double">
+		SELECT sum(time_comp) as totalTimeComp
+		FROM
+		user_compensation
+		WHERE
+		id_user = #{id_user} and YEAR(date_submit) =
+		YEAR(#{date_submit})
+	</select>
+
+	<select id="getTotalHoursInPeriod" parameterType="map"
+		resultType="double">
+		SELECT sum(time_comp) as totalTimeComp
 		FROM user_compensation
 		WHERE
-		id_user = #{id_user} and YEAR(date_submit) = YEAR(#{date_submit})
+		id_user = #{id_user} and date(date_submit) <![CDATA[>=]]>
+		date(#{date_from}) and date(date_submit) <![CDATA[<=]]>
+		date(#{date_to})
 	</select>
-	
-	<select id="loadAllUserCompensationByUserIdInDate" parameterType="map" resultType="org.uario.seaworkengine.model.UserCompensation">
-		SELECT id,id_user, time_comp, date_submit, note
+
+
+
+
+	<select id="loadAllUserCompensationByUserIdInDate"
+		parameterType="map" resultType="org.uario.seaworkengine.model.UserCompensation">
+		SELECT id,id_user, time_comp,
+		date_submit, note
 		from user_compensation
-		where id_user=#{id_user} and YEAR(date_submit) = #{yearDate} 
+		where id_user=#{id_user} and
+		YEAR(date_submit) = #{yearDate}
 		order by date_submit;
 	</select>
-	
-	
-	
-	
+
+
+
+
 </mapper>

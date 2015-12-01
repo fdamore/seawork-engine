@@ -13,6 +13,8 @@ public interface UserCompensationDAO {
 
 	public Double getTotalHoursInDateYear(Integer idUser, Date date_submit);
 
+	public Double getTotalHoursInPeriod(Integer idUser, Date date_from, Date date_to);
+
 	public List<UserCompensation> loadAllUserCompensationByUserId(Integer id_user);
 
 	public List<UserCompensation> loadAllUserCompensationByUserId(Integer id_user, Integer year);
