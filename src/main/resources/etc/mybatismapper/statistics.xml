@@ -430,9 +430,9 @@ WHERE
 
 	</select>
 
-	<select id="countWorkerInOverviewFinalSchedule" resultType="Integer"
+	<select id="countWorkerInOverviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		select count(distinct u.id)
+		select distinct * 
 		from
 		user u, user u1, user u2, usertask ut,
 		(select scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence from schedule scd left outer join usershift uss on (scd.shift = uss.id)) s left
@@ -451,15 +451,6 @@ WHERE
 			u.employee_identification = #{my_full_text_search})
 		</if>
 		
-		<if test="dayWorking!=null">
-			<if test="dayWorking==true">
-				and ((s.shift=null)  or ((dfs.continueshift = false) and (presence=true)))
-			</if>
-			<if test="dayWorking==false">
-				and ((dfs.continueshift = true) or (presence=false) )
-			</if>
-		</if>
-
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
@@ -566,15 +557,6 @@ WHERE
 			and (dfs.shift = #{shift_number})
 		</if>
 		
-		<if test="dayWorking!=null">
-			<if test="dayWorking==true">
-				and  ((s.shift=null)  or ((dfs.continueshift = false) and (presence=true)))
-			</if>
-			<if test="dayWorking==false">
-				and ((dfs.continueshift = true) or (presence=false) )
-			</if>
-		</if>
-
 		<if test="date_from != null and date_to != null">
 			and (s.date_schedule <![CDATA[>=]]>
 			#{date_from} and s.date_schedule

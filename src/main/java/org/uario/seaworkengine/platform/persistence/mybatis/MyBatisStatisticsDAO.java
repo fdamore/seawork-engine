@@ -30,9 +30,9 @@ import org.uario.seaworkengine.statistics.impl.MonitorData;
 
 public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStatistics {
 
-	private static Logger logger = Logger.getLogger(MyBatisStatisticsDAO.class);
+	private static Logger	logger	= Logger.getLogger(MyBatisStatisticsDAO.class);
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays	bank_holiday;
 
 	/**
 	 * Calculate work percentage on list rateshift
@@ -123,9 +123,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Integer countWorkerInOverviewFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift, final Integer idShip, final String craneId,
-			final Boolean dayWorking) {
+	public List<DetailFinalSchedule> countWorkerInOverviewFinalSchedule(final String full_text_search, final Integer shift_number,
+			final Integer shift_type, final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift,
+			final Integer idShip, final String craneId) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -136,14 +136,13 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("reviewshift", reviewshift);
 		map.put("idShip", idShip);
 		map.put("craneId", craneId);
-		map.put("dayWorking", dayWorking);
 
 		if ((date_from != null) && (date_to != null)) {
 			map.put("date_from", DateUtils.truncate(date_from, Calendar.DATE));
 			map.put("date_to", DateUtils.truncate(date_to, Calendar.DATE));
 		}
 
-		return this.getSqlSession().selectOne("statistics.countWorkerInOverviewFinalSchedule", map);
+		return this.getSqlSession().selectList("statistics.countWorkerInOverviewFinalSchedule", map);
 	}
 
 	@Override
@@ -491,8 +490,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 	@Override
 	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift, final Integer idShip, final String craneId,
-			final Boolean dayWorking) {
+			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift, final Integer idShip, final String craneId) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<String, Object>();
@@ -503,7 +501,6 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("reviewshift", reviewshift);
 		map.put("idShip", idShip);
 		map.put("craneId", craneId);
-		map.put("dayWorking", dayWorking);
 
 		if ((date_from != null) && (date_to != null)) {
 			map.put("date_from", DateUtils.truncate(date_from, Calendar.DATE));

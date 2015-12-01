@@ -3208,6 +3208,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	private ArrayList<DetailFinalSchedule> filterDetailFinalScheduleByWorkingDay(final Boolean workingDayFilter) {
+		final ArrayList<DetailFinalSchedule> newList = new ArrayList<DetailFinalSchedule>();
+		for (final DetailFinalSchedule item : this.listDetailRevision) {
+			if (Utility.isWorkingDay(item).equals(workingDayFilter)) {
+				newList.add(item);
+			}
+		}
+		return newList;
+	}
+
 	@Listen("onChange = #force_shift_combo;")
 	public void forceProgramShift() {
 		if (this.force_shift_combo.getSelectedItem() == null) {
@@ -6185,21 +6195,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				idCrane = null;
 			}
 
-			Boolean workingDayFilter = null;
+			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask, date_from,
+					date_to, reviewshift, idShip, idCrane);
+			List<DetailFinalSchedule> countWorkerList = this.statisticDAO.countWorkerInOverviewFinalSchedule(full_text_search, shift_number,
+					shift_type, idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane);
+
 			if (this.dayWorking_filter.getSelectedIndex() == 1) {
-				workingDayFilter = true;
+				this.listDetailRevision = this.filterDetailFinalScheduleByWorkingDay(true);
+				countWorkerList = this.filterDetailFinalScheduleByWorkingDay(true);
 			} else if (this.dayWorking_filter.getSelectedIndex() == 2) {
-				workingDayFilter = false;
+				this.listDetailRevision = this.filterDetailFinalScheduleByWorkingDay(false);
+				countWorkerList = this.filterDetailFinalScheduleByWorkingDay(false);
 			}
 
-			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask, date_from,
-					date_to, reviewshift, idShip, idCrane, workingDayFilter);
-
-			final Integer countWorker = this.statisticDAO.countWorkerInOverviewFinalSchedule(full_text_search, shift_number, shift_type,
-					idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane, workingDayFilter);
-
-			if (countWorker != null) {
-				this.overview_count_worker.setValue(countWorker.toString());
+			if (countWorkerList != null) {
+				this.overview_count_worker.setValue(countWorkerList.size() + "");
 			} else {
 				this.overview_count_worker.setValue("0");
 			}

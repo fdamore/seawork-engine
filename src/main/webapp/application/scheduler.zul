@@ -1422,7 +1422,7 @@
 												value="@{item_program.time_to}">
 											</label>
 										</listcell>
-										<listcell  >
+										<listcell>
 										<checkbox
 											checked="@{item_program.continueshift}" disabled="true" />
 									</listcell>
