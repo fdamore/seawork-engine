@@ -1394,6 +1394,8 @@
 											label="Orario di ingresso" />
 										<listheader
 											label="Orario di uscita" />
+										<listheader
+											label="Continua Turno" />
 										<listheader label="" />
 
 									</listhead>
@@ -1420,6 +1422,10 @@
 												value="@{item_program.time_to}">
 											</label>
 										</listcell>
+										<listcell  >
+										<checkbox
+											checked="@{item_program.continueshift}" disabled="true" />
+									</listcell>
 										<listcell>
 											<toolbarbutton
 												id="sw_link_edit_program" style="color:blue"
