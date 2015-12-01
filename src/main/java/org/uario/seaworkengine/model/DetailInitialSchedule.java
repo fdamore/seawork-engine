@@ -18,73 +18,75 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 	 *
 	 */
 	@XmlTransient
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
+
+	private Boolean				continueshift		= false;
 
 	// to show in review
-	private String controller;
+	private String				controller;
 
 	// to show in overview
 	@XmlTransient
-	private Date date_schedule;
+	private Date				date_schedule;
 
 	// to show in overview
-	private String defaultTask;
+	private String				defaultTask;
 
 	// to show in review
-	private String editor;
+	private String				editor;
 
 	// to show in overview
 	@XmlTransient
-	private String employee_identification;
+	private String				employee_identification;
 
 	// ** FILED USED IN MOBILE ** //
-	private String field_mobile_board;
+	private String				field_mobile_board;
 
-	private String field_mobile_crane;
+	private String				field_mobile_crane;
 
-	private Integer field_mobile_id_ship;
+	private Integer				field_mobile_id_ship;
 
-	private String field_mobile_nameShip;
+	private String				field_mobile_nameShip;
 	// ** END FILED USED IN MOBILE ** //
 
-	private Integer id;
+	private Integer				id;
 
-	private Integer id_schedule;
+	private Integer				id_schedule;
 
 	// to show in overview
 	@XmlTransient
-	private Integer id_user;
+	private Integer				id_user;
 
 	// to show in overview listbox
-	private String note;
+	private String				note;
 
 	@XmlElement(name = "no_shift")
-	private Integer shift;
+	private Integer				shift;
 
 	// to show in overview
 	@XmlTransient
-	private Integer shift_type;
+	private Integer				shift_type;
 
-	private Integer task;
+	private Integer				task;
 
 	// used in mobile device
-	private String task_mobile_desc;
+	private String				task_mobile_desc;
 
 	@XmlTransient
-	private Double time;
+	private Double				time;
 
 	@XmlTransient
-	private Timestamp time_from;
+	private Timestamp			time_from;
 
 	@XmlTransient
-	private Timestamp time_to;
+	private Timestamp			time_to;
 
 	@XmlTransient
-	private Double time_vacation;
+	private Double				time_vacation;
 
 	// to show in overview
 	@XmlTransient
-	private String user;
+	private String				user;
 
 	@Override
 	public int compareTo(final DetailInitialSchedule o) {
@@ -115,6 +117,10 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 		}
 
 		return this.getDate_schedule().compareTo(item.getDate_schedule());
+	}
+
+	public Boolean getContinueshift() {
+		return this.continueshift;
 	}
 
 	public String getController() {
@@ -222,6 +228,10 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 
 	public String getUser() {
 		return this.user;
+	}
+
+	public void setContinueshift(final Boolean continueshift) {
+		this.continueshift = continueshift;
 	}
 
 	public void setController(final String controller) {

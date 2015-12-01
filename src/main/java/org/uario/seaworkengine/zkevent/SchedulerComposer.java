@@ -149,8 +149,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		public void onEvent(final ClickEvent e) {
 			if (Messagebox.ON_OK.equals(e.getName())) {
 
-				final Integer max_shift = SchedulerComposer.this.statProcedure.getMaximumShift(
-						SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
+				final Integer max_shift = SchedulerComposer.this.statProcedure
+						.getMaximumShift(SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
 
 				// save program... finalize
 				SchedulerComposer.this.saveProgramFinalStep();
@@ -396,6 +396,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Checkbox					continue_shift;
 
 	@Wire
+	private Checkbox					continue_shiftProgram;
+
+	@Wire
 	private A							controller_label;
 
 	@Wire
@@ -518,9 +521,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A							label_date_shift_preprocessing;
-
 	@Wire
 	private A							label_date_shift_program;
+
 	@Wire
 	private A							label_date_shift_review;
 
@@ -628,18 +631,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label						overview_count_worker;
-
 	@Wire
 	private Label						overview_count_worker_stat;
+
 	@Wire
 	private Div							overview_div;
-
 	@Wire
 	private Component					overview_download;
 	@Wire
 	private Comboitem					overview_item;
 	@Wire
 	private Tabpanel					overview_preprocessing;
+
 	@Wire
 	private Tabpanel					overview_program;
 
@@ -654,13 +657,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabbox						overview_tab;
-
 	@Wire
 	private Panel						panel_shift_period;
 	private final String				partTimeMessage					= "Part Time";
 	private Person						person_logged					= null;
-	private PersonDAO					personDAO;
 
+	private PersonDAO					personDAO;
 	private Person						personLock;
 	@Wire
 	private Div							preprocessing_div;
@@ -668,6 +670,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Comboitem					preprocessing_item;
 	@Wire
 	private Panel						preprocessing_panel;
+
 	@Wire
 	private Component					print_program_videos;
 
@@ -709,13 +712,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component					program_head_5_3;
-
 	@Wire
 	private Component					program_head_5_4;
 	@Wire
 	private Comboitem					program_item;
 	@Wire
 	private Panel						program_panel;
+
 	@Wire
 	private Listheader					program_panel_name;
 
@@ -727,16 +730,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader					program_tot_1_2;
-
 	@Wire
 	private Auxheader					program_tot_1_3;
 	@Wire
 	private Auxheader					program_tot_1_4;
 	@Wire
 	private Auxheader					program_tot_2_1;
+
 	@Wire
 	private Auxheader					program_tot_2_2;
-
 	@Wire
 	private Auxheader					program_tot_2_3;
 	@Wire
@@ -759,6 +761,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader					program_tot_4_4;
 	@Wire
 	private Auxheader					program_tot_5_1;
+
 	@Wire
 	private Auxheader					program_tot_5_2;
 
@@ -884,18 +887,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component					reviewShiftBox;
-
 	@Wire
 	private Tab							reviewTab;
+
 	@Wire
 	private Auxheader					reviewUser_tot_1_1;
-
 	@Wire
 	private Auxheader					reviewUser_tot_1_2;
 	@Wire
 	private Auxheader					reviewUser_tot_1_3;
 	@Wire
 	private Auxheader					reviewUser_tot_1_4;
+
 	@Wire
 	private Auxheader					reviewUser_tot_2_1;
 
@@ -1254,7 +1257,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final DetailInitialSchedule new_item = new DetailInitialSchedule();
 			new_item.setId_schedule(this.currentSchedule.getId());
 			new_item.setShift(this.selectedShift);
-
+			new_item.setContinueshift(this.continue_shiftProgram.isChecked());
 			new_item.setTask(task.getId());
 
 			final UserTask t = this.configurationDAO.loadTask(task.getId());
@@ -1330,8 +1333,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					}
 
 					if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
-							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
-							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0)
+									&& (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
+							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+									&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 						this.errorMessageAddProgramItem.setValue("Attenzione, orario in sovrapposizione.");
 						return false;
 					}
@@ -1504,9 +1509,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return false;
 				}
 
-				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0)) || ((new_item
-						.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
-						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
+						|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
+						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+								&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 					this.errorMessageAddItem.setValue("Attenzione, orario in sovrapposizione.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
@@ -1801,6 +1807,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.cancel_modify_program.setVisible(false);
 		this.add_program_item.setVisible(true);
 		this.remove_program_item.setVisible(true);
+		this.continue_shiftProgram.setChecked(false);
 	}
 
 	@Listen("onChange = #date_init_scheduler_review;onOK = #date_init_scheduler_review")
@@ -1959,7 +1966,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.personLock = null;
 		if (!this.person_logged.isAdministrator()
-				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId())) || (this.userLockTable == null)))) {
+				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId()))
+						|| (this.userLockTable == null)))) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
 				this.personLock = this.personDAO.loadPerson(this.userLockTable.getId_user());
@@ -3978,6 +3986,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.alertMinHours.setVisible(false);
 		this.errorMessageAddProgramItem.setValue("");
 
+		this.continue_shiftProgram.setChecked(false);
+
 		this.shift_definition_popup.open(this.program_div, "after_pointer");
 
 	}
@@ -4394,8 +4404,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+				Messagebox.show(
+						"Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
 						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
@@ -4455,8 +4465,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						buttons[1] = Messagebox.Button.NO;
 
 						final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_schedule,
-								row_item), params);
+						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
+								new ReassignBreakEvent(date_schedule, row_item), params);
 
 					}
 
@@ -4935,8 +4945,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// check max 12 h in a day
-			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule
-					.getId());
+			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO
+					.loadDetailInitialScheduleByIdSchedule(this.currentSchedule.getId());
 
 			Double count = sum;
 			for (final DetailInitialSchedule dt : list_detail_schedule) {
@@ -4983,8 +4993,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						if (!((this.selectedShift.equals(1) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay.equals(1))
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
-								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4))
+								|| (this.selectedShift.equals(4) && minShiftInDay.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -5060,6 +5070,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.remove_program_item.setVisible(false);
 
 		}
+
+		this.continue_shiftProgram.setChecked(false);
 
 	}
 
@@ -5209,8 +5221,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[2] = Messagebox.Button.CANCEL;
 
 				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
-						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new BreakInWeekManagement(shift,
-								scheduleListInWeek, row_item, date_scheduled), params);
+						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null,
+						new BreakInWeekManagement(shift, scheduleListInWeek, row_item, date_scheduled), params);
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -5232,8 +5244,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[1] = Messagebox.Button.NO;
 
 				final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-				Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
-						new ReassignBreakEvent(date_scheduled, row_item), params);
+				Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_scheduled, row_item),
+						params);
 
 			}
 		}
@@ -5779,6 +5791,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			this.time_from_program.setValue(dateFrom);
 			this.time_to_program.setValue(dateTo);
+			this.continue_shiftProgram.setChecked(detail.getContinueshift());
 
 		}
 
@@ -6021,8 +6034,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (person != null) {
 
-			this.lastProgrammer.setValue(person.getFirstname() + " " + person.getLastname() + " "
-					+ SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
+			this.lastProgrammer.setValue(
+					person.getFirstname() + " " + person.getLastname() + " " + SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
 		}
 
 	}
@@ -6178,8 +6191,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				workingDayFilter = false;
 			}
 
-			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
-					date_from, date_to, reviewshift, idShip, idCrane, workingDayFilter);
+			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask, date_from,
+					date_to, reviewshift, idShip, idCrane, workingDayFilter);
 
 			final Integer countWorker = this.statisticDAO.countWorkerInOverviewFinalSchedule(full_text_search, shift_number, shift_type,
 					idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane, workingDayFilter);
