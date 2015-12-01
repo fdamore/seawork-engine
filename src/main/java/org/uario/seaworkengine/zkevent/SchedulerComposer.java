@@ -2139,6 +2139,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				detail_schedule.setTask(init_item.getTask());
 				detail_schedule.setTime(init_item.getTime());
 				detail_schedule.setTime_vacation(init_item.getTime_vacation());
+				detail_schedule.setContinueshift(init_item.getContinueshift());
 
 				Calendar to_day_calendar = DateUtils.toCalendar(schedule.getDate_schedule());
 				to_day_calendar = DateUtils.truncate(to_day_calendar, Calendar.DATE);
