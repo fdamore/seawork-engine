@@ -299,6 +299,10 @@ public class Utility {
 	 */
 	public static Boolean isWorkingDay(final DetailFinalSchedule detail) {
 
+		if (detail == null) {
+			return Boolean.FALSE;
+		}
+
 		final Boolean shift_continous = detail.getContinueshift();
 
 		if ((shift_continous != null) && shift_continous.booleanValue()) {
@@ -307,6 +311,10 @@ public class Utility {
 
 		final IShiftCache task_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
 		final UserShift shift = task_cache.getUserShift(detail.getShift_type());
+
+		if ((detail.getTime() == null) || detail.getTime().equals(0.0)) {
+			return Boolean.FALSE;
+		}
 
 		// if not task assigned..
 		if (shift == null) {
