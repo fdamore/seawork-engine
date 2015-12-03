@@ -59,7 +59,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			return 0.0;
 		}
 
-		final int days = Utility.getDayBetweenDate(date_to, date_from);
+		final int days = Utility.getDayBetweenDate(date_from, date_to);
 
 		// remove some absence from day_worked
 		final Integer day_absence = this.statisticDAO.daysToRemoveFromSaturation(user.getId(), date_from, date_to);
@@ -370,20 +370,20 @@ public class StatProceduresImpl implements IStatProcedure {
 
 				if (sunday_work != 0) {
 					if (av.getShift() == 1) {
-						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_1(
+						        userStatistics.getShift_perc_1() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 2) {
-						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_2(
+						        userStatistics.getShift_perc_2() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 3) {
-						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_3(
+						        userStatistics.getShift_perc_3() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 4) {
-						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_4(
+						        userStatistics.getShift_perc_4() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 				} else {
 					if (av.getShift() == 1) {
@@ -910,29 +910,29 @@ public class StatProceduresImpl implements IStatProcedure {
 				// set period
 				switch (my_no_shift) {
 
-				case 1:
+					case 1:
 
-					item.setTime_from(new Timestamp(cal_shift_1_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_1_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_1_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_1_time_to.getTimeInMillis()));
+						break;
 
-				case 2:
+					case 2:
 
-					item.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
+						break;
 
-				case 3:
+					case 3:
 
-					item.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
+						break;
 
-				case 4:
+					case 4:
 
-					item.setTime_from(new Timestamp(cal_shift_4_time_from.getTimeInMillis()));
-					item.setTime_to(new Timestamp(cal_shift_4_time_to.getTimeInMillis()));
-					break;
+						item.setTime_from(new Timestamp(cal_shift_4_time_from.getTimeInMillis()));
+						item.setTime_to(new Timestamp(cal_shift_4_time_to.getTimeInMillis()));
+						break;
 
 				}
 

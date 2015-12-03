@@ -28,7 +28,7 @@
 
 		<style>
 
-				
+
 
 		</style>
 
@@ -1137,7 +1137,7 @@
 
 				</hbox>
 
-				<separator />
+				<space></space>
 
 				<hbox align="center">
 
@@ -1148,7 +1148,7 @@
 						id="sumVolumeShipProgram" />
 				</hbox>
 
-				<separator></separator>
+				<space></space>
 
 				<!-- THE AVG IS CALUCLATE ONVER PERIOD SELECTED -->
 				<hbox align="center">
@@ -1160,26 +1160,31 @@
 						id="avgVolmueShipProgram" />
 				</hbox>
 
+			</hbox>		
+
+			<hbox align="center">
+
 				<!-- MONTH PREVISION -->
 				<hbox align="center">
 
 					<label style="color:blue; font-size:10pt;"
-						value="Volumi Attesi Mese Corrente: " />
+						value="Previsione Volumi Attesi su Mese Corrente: " />
 
 					<label value="" style="color:blue; font-size:10pt;"
-						id="sumVolumeCurrentMonthShipProgram" />
+						id="forecasting_volume_month" />
 				</hbox>
 
-				<!-- THE AVG IS CALUCLATE OVER CURRENT MONTH -->
+				<space></space>
+
+				<!-- THE AVG IS CALUCLATE ONVER CURRENT MONTH -->
 				<hbox align="center">
 
 					<label style="color:blue; font-size:10pt;"
-						value="Media Volumi Attesi Mese Corrente:: " />
+						value="Previsione Media giornaliera volumi attesi su Mese Corrente: " />
 
 					<label value="" style="color:blue; font-size:10pt;"
-						id="avgVolmueCurrentMonth" />
+						id="forecasting_avg_volume_month" />
 				</hbox>
-
 
 
 			</hbox>

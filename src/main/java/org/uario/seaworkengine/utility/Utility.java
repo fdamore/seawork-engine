@@ -250,7 +250,7 @@ public class Utility {
 	 * @param date_from
 	 * @return
 	 */
-	public static int getDayBetweenDate(final Date date_to, final Date date_from) {
+	public static int getDayBetweenDate(final Date date_from, final Date date_to) {
 
 		if (date_from.after(date_to)) {
 			return 0;
