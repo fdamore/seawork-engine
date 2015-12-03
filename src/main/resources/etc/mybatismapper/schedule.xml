@@ -564,14 +564,7 @@
 	</delete>
 
 
-	<delete id="removeScheduleUserFired" parameterType="map">
-		<![CDATA[
-		DELETE FROM
-		schedule
-		WHERE user=#{idUser} and date_schedule>=#{firedDate};
-		]]>
-	</delete>
-
+	
 
 
 	<!-- MOBILE -->

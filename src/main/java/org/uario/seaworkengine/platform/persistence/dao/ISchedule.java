@@ -54,8 +54,6 @@ public interface ISchedule {
 
 	public void removeScheduleUser(Integer idUser, Date initialDate, Date finalDate);
 
-	public void removeScheduleUserFired(Integer idUser, Date firedDate);
-
 	public void saveListDetailFinalScheduler(Integer id_schedule, Integer shift, List<DetailFinalSchedule> details);
 
 	public void saveListDetailInitialScheduler(Integer id_schedule, Integer shift, List<DetailInitialSchedule> details);

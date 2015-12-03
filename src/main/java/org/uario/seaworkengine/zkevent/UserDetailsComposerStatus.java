@@ -7,14 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
-import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.utility.BeansTag;
-import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.UserDetailsComposerCons.ContestationMessage;
 import org.zkoss.spring.SpringUtil;
@@ -54,14 +51,10 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	@Wire
 	private Component			grid_details;
 
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposerStatus.class);
-
 	@Wire
 	private Textbox				note;
 
 	private Person				person_selected;
-
-	private ISchedule			scheduleDao;
 
 	@Wire
 	private Combobox			status;
@@ -101,7 +94,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		this.employmentDao.removeEmployment(item.getId());
 
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<String, String>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
@@ -128,7 +121,6 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 				// get DAO
 				UserDetailsComposerStatus.this.employmentDao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
 				UserDetailsComposerStatus.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
-				UserDetailsComposerStatus.this.scheduleDao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
 				UserDetailsComposerStatus.this.setStatusComboBox();
 
@@ -230,7 +222,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			this.employmentDao.createEmploymentForUser(this.person_selected.getId(), item);
 			item.setId_user(this.person_selected.getId());
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -261,35 +253,14 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		Date to_day = Calendar.getInstance().getTime();
 		to_day = DateUtils.truncate(to_day, Calendar.DATE);
 		final Date my_date = DateUtils.truncate(item.getDate_modified(), Calendar.DATE);
-		final String status = item.getStatus();
-		final Integer idUser = item.getId_user();
-		final Date dateStatus = item.getDate_modified();
 
 		if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
-			/**
-			 * Messagebox.show(
-			 * "Vuoi cambiare lo status attuale? In caso di sospensione o licenziamento sarà cancellata la programmazione."
-			 * , "CONFERMA STATUS ATTUALE", Messagebox.OK | Messagebox.CANCEL,
-			 * Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
-			 *
-			 * @Override public void onEvent(final Event e) { if
-			 *           (Messagebox.ON_OK.equals(e.getName())) {
-			 *           UserDetailsComposerStatus.this.onUpdateStatus(); if
-			 *           (status.equals(UserStatusTag.FIRED) ||
-			 *           status.equals(UserStatusTag.SUSPENDED)) {
-			 *           UserDetailsComposerStatus
-			 *           .this.scheduleDao.removeScheduleUserFired(idUser,
-			 *           dateStatus);
-			 *           UserDetailsComposerStatus.this.scheduleDao.
-			 *           removeDayScheduleUserFired(idUser, dateStatus); } }
-			 *           else if (Messagebox.ON_CANCEL.equals(e.getName())) { //
-			 *           Cancel is clicked } } });
-			 **/
+			// send event to show user task
+			final Component comp = Path.getComponent("//user/page_user_detail");
 
-			UserDetailsComposerStatus.this.onUpdateStatus(item);
-			if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED)) {
-				UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(idUser, dateStatus);
+			if (this.status_upload == null) {
+				Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
 			}
 
 			this.status_upload = item.getStatus();
@@ -301,23 +272,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	}
 
-	private void onUpdateStatus(final Employment item) {
-
-		if (this.status_upload == null) {
-			return;
-		}
-
-		// send event to show user task
-		final Component comp = Path.getComponent("//user/page_user_detail");
-
-		// Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp,
-		// this.status_upload);
-		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
-	}
-
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<String, String>();
 		params.put("sclass", "mybutton Button");
 
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -325,16 +282,16 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerStatus.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+		        new EventListener() {
+			        @Override
+			        public void onEvent(final Event e) {
+				        if (Messagebox.ON_OK.equals(e.getName())) {
+					        UserDetailsComposerStatus.this.deleteItemToUser();
+				        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					        // Cancel is clicked
+				        }
+			        }
+		        }, params);
 
 	}
 
@@ -348,9 +305,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
 
-		UserDetailsComposerStatus.this.scheduleDao.removeScheduleUserFired(item.getId_user(), item.getDate_modified());
-
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<String, String>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
@@ -405,7 +360,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			final String status_val = this.status.getSelectedItem().getLabel();
 			item.setStatus(status_val);
 		} else {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -416,7 +371,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		}
 
 		if (this.date_modifiled.getValue() == null) {
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
