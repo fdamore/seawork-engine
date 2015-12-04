@@ -1860,7 +1860,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	@Listen("onChange = #combo_user_dip")
+	@Listen("onChange = #combo_user_dip;onClick = #remove_combo_user_dip")
 	public void changeUserDipComboInUserStatistic() {
 
 		this.refreshUserStatistics(this.full_text_search.getValue(), this.combo_user_dip.getValue());
@@ -4305,7 +4305,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		date_to = DateUtils.truncate(date_to, Calendar.DATE);
 
 		String department_select = null;
-		if ((department != null) && !department.equals(SchedulerComposer.ALL_ITEM) && !department.equals("")) {
+		if ((department != null) && !department.equals("")) {
 			department_select = department;
 		}
 
@@ -4341,14 +4341,46 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.list_statistics.setPageSize(this.shows_rows.getValue());
 		}
 
+		// define msg
 		final Calendar cal = Calendar.getInstance();
-
 		final String tstamp = Utility.convertToDateAndTime(cal.getTime());
-
 		final String msg = "Statistica aggiornata a: " + tstamp + " riferito al periodo " + Utility.getDataAsString_it(date_from) + " - "
 				+ Utility.getDataAsString_it(date_to);
-
 		this.updateStatisticTime.setValue(msg);
+
+		// defining counter
+		double count_h = 0;
+		double sum_saturation = 0;
+
+		for (final UserStatistics statistic : this.listUserStatistics) {
+
+			// check department
+			if (department != null) {
+				if (!department.equals(statistic.getDepartment())) {
+					continue;
+				}
+			}
+
+			if (statistic.getWork_current() != null) {
+
+				try {
+
+					count_h += Double.parseDouble(statistic.getWork_current());
+
+				} catch (final Exception e) {
+				}
+
+			}
+
+			if (statistic.getSaturation() != null) {
+				sum_saturation = sum_saturation + statistic.getSaturation();
+			}
+
+		}
+
+		this.overview_count_h_stat.setValue("" + Utility.roundTwo(count_h));
+		this.overview_sum_saturation.setValue("" + Utility.roundTwo(sum_saturation));
+		this.overview_count_worker_stat.setValue("" + this.listUserStatistics.size());
 
 	}
 
@@ -6315,36 +6347,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		} else if (this.overview_statistics.isSelected()) {
 
-			double count_h = 0;
-			double sum_saturation = 0;
-			int count = 0;
-
 			this.refreshUserStatistics(full_text_search, null);
-
-			if (this.listUserStatistics != null) {
-
-				for (final UserStatistics statistic : this.listUserStatistics) {
-
-					if (statistic.getWork_current() != null) {
-						try {
-							count_h += Double.parseDouble(statistic.getWork_current());
-						} catch (final Exception e) {
-						}
-
-					}
-
-					if (statistic.getSaturation() != null) {
-						sum_saturation = sum_saturation + statistic.getSaturation();
-					}
-
-				}
-
-				count = this.listUserStatistics.size();
-			}
-
-			this.overview_count_h_stat.setValue("" + Utility.roundTwo(count_h));
-			this.overview_sum_saturation.setValue("" + Utility.roundTwo(sum_saturation));
-			this.overview_count_worker_stat.setValue("" + count);
 
 		}
 

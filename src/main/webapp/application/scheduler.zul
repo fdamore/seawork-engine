@@ -399,20 +399,23 @@
 									</row>
 
 									<row>
-										<label value="Saturazione Annuale: " />
+										<label
+											value="Saturazione Annuale: " />
 										<label id="saturation" />
 									</row>
 
 									<row>
 										<label
 											value="Saturazione Mese Precedente: " />
-										<label id="saturation_prec_month" />
+										<label
+											id="saturation_prec_month" />
 									</row>
-									
+
 									<row>
 										<label
 											value="Saturazione Mese Corrente: " />
-										<label id="saturation_current_month" />
+										<label
+											id="saturation_current_month" />
 									</row>
 
 
@@ -3364,37 +3367,45 @@
 
 					<tabpanel id="overview_statistics">
 
-						<combobox id="combo_user_dip" readonly="true"
-							placeholder="Filtra per Reparto...">
+						<hbox>
 
-							<comboitem label="TUTTI" value="TUTTI">
-							</comboitem>
+							<vbox align="start">
 
-							<comboitem label="AMMINISTRAZIONE"
-								value="AMMINISTRAZIONE">
-							</comboitem>
-							<comboitem label="OPERATIVO"
-								value="OPERATIVO">
-							</comboitem>
+								<combobox id="combo_user_dip"
+									readonly="true" placeholder="Filtra per Reparto...">
 
-						</combobox>
+									<comboitem label="AMMINISTRAZIONE"
+										value="AMMINISTRAZIONE">
+									</comboitem>
+									<comboitem label="OPERATIVO"
+										value="OPERATIVO">
+									</comboitem>
 
+								</combobox>
 
-						<a label="Ore lavorate: "></a>
-						<label id="overview_count_h_stat"></label>
+								<a label="Annulla filtro"
+									id="remove_combo_user_dip" style="color:green"
+									onClick="combo_user_dip.setSelectedItem(null);" />
 
-						<a label=" - Totale dipendenti: "
-							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-						<label id="overview_count_worker_stat"
-							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-
-						<a label=" - Somma Saturazione: "
-							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-						<label id="overview_sum_saturation"
-							visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+							</vbox>
 
 
-						<separator />
+							<a label="Ore lavorate: "></a>
+							<label id="overview_count_h_stat"></label>
+
+							<a label=" - Totale dipendenti: "
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+							<label id="overview_count_worker_stat"
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+
+							<a label=" - Somma Saturazione: "
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+							<label id="overview_sum_saturation"
+								visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+						</hbox>
+
+						<space></space>
+
 						<label id="updateStatisticTime"
 							style="font-weight:bold" />
 						<separator />
