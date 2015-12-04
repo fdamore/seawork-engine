@@ -1269,7 +1269,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Set the label total volume value.
 	 */
-	private void calculateSummaryShipProgram(final List<ScheduleShip> list) {
+	private void calculateSummaryShipProgram(final List<ScheduleShip> list, final Date date_from) {
 
 		// set info
 		this.shipNumberProgramShip_worked.setValue("");
@@ -1297,6 +1297,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		for (final ScheduleShip itm_review : list) {
 
+			Date arrival = itm_review.getArrivaldate();
+
+			if (arrival == null) {
+				continue;
+			}
+
+			arrival = DateUtils.truncate(arrival, Calendar.DATE);
+
+			if (arrival.before(date_from)) {
+				continue;
+			}
+
 			if (itm_review.getVolume() != null) {
 				sum_volume += itm_review.getVolume();
 
@@ -1314,8 +1326,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// define min and max date
-			if (itm_review.getArrivaldate().before(first_day)) {
-				first_day = itm_review.getArrivaldate();
+			if (arrival.before(first_day)) {
+				first_day = arrival;
 			}
 
 			if (itm_review.getDeparturedate().after(last_day)) {
@@ -1806,7 +1818,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	 *
 	 * @param list
 	 */
-	private void forecastingForMonthShipProgram() {
+	private void forecastingForMonthShipProgram(final Date date_from) {
 
 		// define forecasting
 		final Calendar cal_period = Calendar.getInstance();
@@ -1828,6 +1840,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final int month_days = current_cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 		for (final ScheduleShip itm_review : list_month) {
+
+			Date arrival = itm_review.getArrivaldate();
+
+			if (arrival == null) {
+				continue;
+			}
+
+			arrival = DateUtils.truncate(arrival, Calendar.DATE);
+
+			if (arrival.before(date_from)) {
+				continue;
+			}
 
 			if (itm_review.getVolume() != null) {
 
@@ -2999,12 +3023,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	public void refreshProgram() {
 
-		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
-		final Date dateTo = this.searchArrivalDateShipTo.getValue();
+		Date dateFrom = this.searchArrivalDateShipFrom.getValue();
+		Date dateTo = this.searchArrivalDateShipTo.getValue();
 
 		if ((dateFrom != null) && (dateTo != null) && dateFrom.after(dateTo)) {
 			return;
 		}
+
+		dateFrom = DateUtils.truncate(dateFrom, Calendar.DATE);
+		dateTo = DateUtils.truncate(dateTo, Calendar.DATE);
 
 		// get text
 		String text_search = this.full_text_search.getValue();
@@ -3039,10 +3066,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.sw_list_scheduleShipProgram.setModel(new ListModelList<ScheduleShip>(this.list_programmed_ship));
 
-		this.calculateSummaryShipProgram(this.list_programmed_ship);
+		this.calculateSummaryShipProgram(this.list_programmed_ship, dateFrom);
 
 		// set forecasting
-		this.forecastingForMonthShipProgram();
+		this.forecastingForMonthShipProgram(dateFrom);
 
 	}
 
