@@ -35,20 +35,6 @@ public interface IStatistics {
 	public List<DetailFinalSchedule> countWorkerInOverviewFinalSchedule(String full_text_search, Integer shift_number, Integer shift_type,
 			Integer task_id, Date date_from, Date date_to, Boolean reviewshift, Integer idShip, String crane);
 
-	/**
-	 * Count worker
-	 *
-	 * @param full_text_search
-	 * @param shift_number
-	 * @param shift_type
-	 *            * @param date_from
-	 * @param date_to
-	 *
-	 * @return
-	 */
-	public Integer countWorkerInOverviewInitalSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
-			Date date_from, Date date_to);
-
 	public void createComplaint(Complaint complaint);
 
 	public void createTerminalProductivity(TerminalProductivity terminalProductivity);

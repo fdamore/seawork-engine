@@ -146,25 +146,6 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public Integer countWorkerInOverviewInitalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Integer task_id, final Date date_from, final Date date_to) {
-		MyBatisStatisticsDAO.logger.info("countWorkerInOverviewInitalSchedule..");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("my_full_text_search", full_text_search);
-		map.put("shift_number", shift_number);
-		map.put("shift_type", shift_type);
-		map.put("task_id", task_id);
-
-		if ((date_from != null) && (date_to != null)) {
-			map.put("date_from", DateUtils.truncate(date_from, Calendar.DATE));
-			map.put("date_to", DateUtils.truncate(date_to, Calendar.DATE));
-		}
-
-		return this.getSqlSession().selectOne("statistics.countWorkerInOverviewInitalSchedule", map);
-	}
-
-	@Override
 	public void createComplaint(final Complaint complaint) {
 		MyBatisStatisticsDAO.logger.info("createComplaint..");
 
