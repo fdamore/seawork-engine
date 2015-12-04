@@ -277,22 +277,6 @@ public class StatProceduresImpl implements IStatProcedure {
 	}
 
 	@Override
-	public UserStatistics getUserStatistics(final Person person, final boolean ext_info) {
-
-		// get info for the begin of current year
-		final Calendar calendar_first_day = Calendar.getInstance();
-		calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
-		final Date date_first_day_year = DateUtils.truncate(calendar_first_day, Calendar.DATE).getTime();
-
-		// get current day
-		final Calendar current_calednar = Calendar.getInstance();
-		final Date current_day = DateUtils.truncate(current_calednar.getTime(), Calendar.DATE);
-
-		return this.getUserStatistics(person, date_first_day_year, current_day, ext_info);
-
-	}
-
-	@Override
 	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to, final boolean ext_info) {
 		final UserStatistics userStatistics = new UserStatistics();
 
@@ -370,20 +354,20 @@ public class StatProceduresImpl implements IStatProcedure {
 
 				if (sunday_work != 0) {
 					if (av.getShift() == 1) {
-						userStatistics.setShift_perc_1(
-						        userStatistics.getShift_perc_1() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 2) {
-						userStatistics.setShift_perc_2(
-						        userStatistics.getShift_perc_2() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 3) {
-						userStatistics.setShift_perc_3(
-						        userStatistics.getShift_perc_3() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 					if (av.getShift() == 4) {
-						userStatistics.setShift_perc_4(
-						        userStatistics.getShift_perc_4() + " (" + Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " ("
+								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
 					}
 				} else {
 					if (av.getShift() == 1) {
@@ -458,25 +442,25 @@ public class StatProceduresImpl implements IStatProcedure {
 			}
 			userStatistics.setWorking_series(message);
 
-			// set saturation month label
-			final Calendar cal_saturation_month = DateUtils.toCalendar(date_to);
+			// set saturation month label - current month
+			final Calendar cal_saturation_month = Calendar.getInstance();
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+			Date date_to_on_month = cal_saturation_month.getTime();
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMinimum(Calendar.DAY_OF_MONTH));
+			Date date_from_on_month = cal_saturation_month.getTime();
+
+			final Double sat_curr_month = this.calculeHourSaturation(person, date_from_on_month, date_to_on_month);
+			userStatistics.setSaturation_month(sat_curr_month);
+
+			// set saturation month label - prec month
 			cal_saturation_month.add(Calendar.MONTH, -1);
 			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+			date_to_on_month = cal_saturation_month.getTime();
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMinimum(Calendar.DAY_OF_MONTH));
+			date_from_on_month = cal_saturation_month.getTime();
 
-			final Date date_to_on_month = cal_saturation_month.getTime();
-			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getMinimum(Calendar.DAY_OF_MONTH));
-			final Date date_from_on_month = cal_saturation_month.getTime();
-
-			final Double sat_month = this.calculeHourSaturation(person, date_from_on_month, date_to_on_month);
-
-			// TODO: WHY I DO THIS???
-			// get month count
-			// final int month_count = cal_saturation_month.get(Calendar.MONTH);
-			// if (sat_month != null) {
-			// sat_month = sat_month / month_count;
-			// }
-
-			userStatistics.setSaturation_month(sat_month);
+			final Double sat_prec_month = this.calculeHourSaturation(person, date_from_on_month, date_to_on_month);
+			userStatistics.setSaturation_prec_month(sat_prec_month);
 
 		} else {
 
@@ -910,29 +894,29 @@ public class StatProceduresImpl implements IStatProcedure {
 				// set period
 				switch (my_no_shift) {
 
-					case 1:
+				case 1:
 
-						item.setTime_from(new Timestamp(cal_shift_1_time_from.getTimeInMillis()));
-						item.setTime_to(new Timestamp(cal_shift_1_time_to.getTimeInMillis()));
-						break;
+					item.setTime_from(new Timestamp(cal_shift_1_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_1_time_to.getTimeInMillis()));
+					break;
 
-					case 2:
+				case 2:
 
-						item.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
-						item.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
-						break;
+					item.setTime_from(new Timestamp(cal_shift_2_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_2_time_to.getTimeInMillis()));
+					break;
 
-					case 3:
+				case 3:
 
-						item.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
-						item.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
-						break;
+					item.setTime_from(new Timestamp(cal_shift_3_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_3_time_to.getTimeInMillis()));
+					break;
 
-					case 4:
+				case 4:
 
-						item.setTime_from(new Timestamp(cal_shift_4_time_from.getTimeInMillis()));
-						item.setTime_to(new Timestamp(cal_shift_4_time_to.getTimeInMillis()));
-						break;
+					item.setTime_from(new Timestamp(cal_shift_4_time_from.getTimeInMillis()));
+					item.setTime_to(new Timestamp(cal_shift_4_time_to.getTimeInMillis()));
+					break;
 
 				}
 

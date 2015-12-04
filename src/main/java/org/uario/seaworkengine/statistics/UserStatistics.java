@@ -13,20 +13,24 @@ public class UserStatistics implements Comparable<UserStatistics> {
 	private Double	saturation;
 
 	private Double	saturation_month;
+
+	private Double	saturation_prec_month;
+
 	private String	shift_perc_1;
+
 	private String	shift_perc_2;
+
 	private String	shift_perc_3;
 	private String	shift_perc_4;
 	private String	userRoles;
 	private String	work_current;
+
 	private String	work_current_month;
 
 	private String	work_current_week;
-
 	private String	work_current_year;
 	private String	work_holiday_perc;
 	private String	work_sunday_perc;
-
 	private String	working_series;
 
 	@Override
@@ -69,6 +73,10 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	public Double getSaturation_month() {
 		return this.saturation_month;
+	}
+
+	public Double getSaturation_prec_month() {
+		return this.saturation_prec_month;
 	}
 
 	public String getShift_perc_1() {
@@ -137,6 +145,10 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	public void setSaturation_month(final Double saturation_month) {
 		this.saturation_month = saturation_month;
+	}
+
+	public void setSaturation_prec_month(final Double saturation_prec_month) {
+		this.saturation_prec_month = saturation_prec_month;
 	}
 
 	public void setShift_perc_1(final String shift_perc_1) {

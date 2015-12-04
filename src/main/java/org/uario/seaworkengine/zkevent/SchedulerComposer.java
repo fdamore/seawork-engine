@@ -915,7 +915,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label						saturation;
 
 	@Wire
-	private Label						saturation_month;
+	private Label						saturation_current_month;
+
+	@Wire
+	private Label						saturation_prec_month;
 
 	@Wire
 	private Button						save_program_item;
@@ -2080,17 +2083,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.defineReviewByProgramProcedure();
+					SchedulerComposer.this.defineReviewByProgramProcedure();
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-						}
-					}
-				}, params);
+				}
+			}
+		}, params);
 
 		return;
 
@@ -4285,6 +4288,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void refreshUserStatistics(final String text, final String department) {
 
+		// select date period
+		Date date_from = this.date_from_overview.getValue();
+		Date date_to = this.date_to_overview.getValue();
+
+		// data checking
+		if ((date_from == null) || (date_to == null)) {
+			return;
+		}
+		if (date_from.after(date_to)) {
+			return;
+		}
+
+		// truncate
+		date_from = DateUtils.truncate(date_from, Calendar.DATE);
+		date_to = DateUtils.truncate(date_to, Calendar.DATE);
+
 		String department_select = null;
 		if ((department != null) && !department.equals(SchedulerComposer.ALL_ITEM) && !department.equals("")) {
 			department_select = department;
@@ -4301,57 +4320,35 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// init list
 		this.listUserStatistics = new ListModelList<UserStatistics>();
 
-		// select date period
-		Date date_from = this.date_from_overview.getValue();
-		Date date_to = this.date_to_overview.getValue();
+		final Date date_to_stat = new Date(date_to.getTime());
 
-		if ((date_from != null) && (date_to != null)) {
-			boolean use_date = false;
-			if (!date_from.after(date_to) && !DateUtils.isSameDay(date_from, date_to)) {
-				use_date = true;
+		for (final Person person : users_schedule) {
 
-				// truncate
-				date_from = DateUtils.truncate(date_from, Calendar.DATE);
-				date_to = DateUtils.truncate(date_to, Calendar.DATE);
-			}
+			UserStatistics user = null;
 
-			final Date date_to_stat = new Date(date_to.getTime());
+			user = this.statProcedure.getUserStatistics(person, date_from, date_to_stat, false);
 
-			for (final Person person : users_schedule) {
+			user.setPerson(person);
 
-				UserStatistics user = null;
-
-				if (use_date) {
-					user = this.statProcedure.getUserStatistics(person, date_from, date_to_stat, false);
-				} else {
-					user = this.statProcedure.getUserStatistics(person, false);
-				}
-
-				user.setPerson(person);
-				this.listUserStatistics.add(user);
-			}
-
-			Collections.sort(this.listUserStatistics);
-
-			this.list_statistics.setModel(new ListModelList<UserStatistics>(this.listUserStatistics));
-
-			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
-				this.list_statistics.setPageSize(this.shows_rows.getValue());
-			}
-
-			final Calendar cal = Calendar.getInstance();
-
-			final String tstamp = Utility.convertToDateAndTime(cal.getTime());
-			if (!use_date) {
-				this.updateStatisticTime.setValue("Statistica aggiornata a: " + tstamp);
-			} else {
-
-				final String msg = "Statistica aggiornata a: " + tstamp + " riferito al periodo " + Utility.getDataAsString_it(date_from) + " - "
-						+ Utility.getDataAsString_it(date_to);
-
-				this.updateStatisticTime.setValue(msg);
-			}
+			this.listUserStatistics.add(user);
 		}
+
+		Collections.sort(this.listUserStatistics);
+
+		this.list_statistics.setModel(new ListModelList<UserStatistics>(this.listUserStatistics));
+
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+			this.list_statistics.setPageSize(this.shows_rows.getValue());
+		}
+
+		final Calendar cal = Calendar.getInstance();
+
+		final String tstamp = Utility.convertToDateAndTime(cal.getTime());
+
+		final String msg = "Statistica aggiornata a: " + tstamp + " riferito al periodo " + Utility.getDataAsString_it(date_from) + " - "
+				+ Utility.getDataAsString_it(date_to);
+
+		this.updateStatisticTime.setValue(msg);
 
 	}
 
@@ -4765,17 +4762,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-							@Override
-							public void onEvent(final ClickEvent e) {
-								if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-									return;
-								}
-							}
-						}, params);
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							return;
+						}
+					}
+				}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -7457,7 +7454,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final Person user = this.personDAO.loadPerson(id_user);
 
-		final UserStatistics userStatistics = this.statProcedure.getUserStatistics(user, true);
+		// select date period
+		final Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_YEAR, cal.getActualMinimum(Calendar.DAY_OF_YEAR));
+		final Date date_from = cal.getTime();
+
+		cal.set(Calendar.DAY_OF_YEAR, cal.getActualMaximum(Calendar.DAY_OF_YEAR));
+		final Date date_to = cal.getTime();
+
+		final UserStatistics userStatistics = this.statProcedure.getUserStatistics(user, date_from, date_to, true);
 
 		this.userRoles.setValue("");
 
@@ -7486,19 +7491,33 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.saturation.setValue("OT " + Utility.roundTwo(sat));
 		}
 
+		// set saturation current month style
 		final Double sat_month = userStatistics.getSaturation_month();
-
-		// set saturation month style
 		if (sat_month == null) {
-			this.saturation_month.setValue(" ");
+			this.saturation_current_month.setValue(" ");
 		} else {
 
 			if (sat_month < 0) {
-				this.saturation_month.setStyle("color:red");
-				this.saturation_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_month)));
+				this.saturation_current_month.setStyle("color:red");
+				this.saturation_current_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_month)));
 			} else {
-				this.saturation_month.setStyle("color:green");
-				this.saturation_month.setValue("OT " + Utility.roundTwo(sat_month));
+				this.saturation_current_month.setStyle("color:green");
+				this.saturation_current_month.setValue("OT " + Utility.roundTwo(sat_month));
+			}
+		}
+
+		// set saturation prec month style
+		final Double sat_prec = userStatistics.getSaturation_prec_month();
+		if (sat_prec == null) {
+			this.saturation_prec_month.setValue(" ");
+		} else {
+
+			if (sat_prec < 0) {
+				this.saturation_prec_month.setStyle("color:red");
+				this.saturation_prec_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_prec)));
+			} else {
+				this.saturation_prec_month.setStyle("color:green");
+				this.saturation_prec_month.setValue("OT " + Utility.roundTwo(sat_prec));
 			}
 		}
 

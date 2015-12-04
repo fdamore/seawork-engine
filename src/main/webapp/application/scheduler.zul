@@ -399,14 +399,20 @@
 									</row>
 
 									<row>
-										<label value="Saturazione: " />
+										<label value="Saturazione Annuale: " />
 										<label id="saturation" />
 									</row>
 
 									<row>
 										<label
-											value="Saturazione (Mese Precedente): " />
-										<label id="saturation_month" />
+											value="Saturazione Mese Precedente: " />
+										<label id="saturation_prec_month" />
+									</row>
+									
+									<row>
+										<label
+											value="Saturazione Mese Corrente: " />
+										<label id="saturation_current_month" />
 									</row>
 
 
