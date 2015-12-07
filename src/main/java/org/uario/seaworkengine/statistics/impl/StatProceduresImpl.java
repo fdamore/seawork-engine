@@ -51,7 +51,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date date_to = DateUtils.truncate(date_to_arg, Calendar.DATE);
 		final Date date_from = DateUtils.truncate(date_from_arg, Calendar.DATE);
 
-		// current day work
+		// hours working
 		final Double hour_current_work_count = this.statisticDAO.getTimeWorkCountByUser(user.getId(), date_from, date_to);
 
 		// validate date
@@ -465,13 +465,11 @@ public class StatProceduresImpl implements IStatProcedure {
 		} else {
 
 			// adding current_work on period
-			Double year_current = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
-			if (year_current == null) {
-				year_current = 0.0;
-			}
-			year_current = Utility.roundTwo(year_current);
+			Double hours_working = this.statisticDAO.getTimeWorked(person.getId(), date_from, date_to);
 
-			userStatistics.setWork_current("" + year_current);
+			hours_working = Utility.roundTwo(hours_working);
+
+			userStatistics.setWork_current("" + hours_working);
 
 		}
 

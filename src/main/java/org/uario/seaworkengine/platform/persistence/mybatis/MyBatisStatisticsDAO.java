@@ -421,11 +421,10 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 
 		final Double ret = this.getSqlSession().selectOne("statistics.timeWorkedReviewd", map);
 
-		if (ret != null) {
-			return ret;
+		if (ret == null) {
+			return 0.0;
 		} else {
-
-			return this.getSqlSession().selectOne("statistics.timeWorkedProgram", map);
+			return ret;
 		}
 
 	}

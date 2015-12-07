@@ -4,6 +4,47 @@
 <mapper namespace="statistics">
 
 	<cache-ref namespace="schedule" />
+	
+	
+	<select id="getWorkTimeCountByUser" resultType="double"
+		parameterType="map">
+		
+				SELECT 
+    sum(if(isnull(time), 0, time) + if(isnull(time_vacation),
+        0,
+        time_vacation))
+FROM
+    detailfinalschedule dfs,
+    schedule s,
+    usertask ut
+WHERE
+    dfs.id_schedule = s.id
+        and (ut.isabsence = 0 or ut.recorded = 1)
+        and dfs.task = ut.id
+        and s.user = #{id_user}
+        and date(s.date_schedule) <![CDATA[>=]]>
+		date(#{date_from}) and
+		date(s.date_schedule) <![CDATA[<=]]>
+		date(#{date_to})
+	</select>
+	
+
+	<select id="timeWorkedReviewd" resultType="double"
+		parameterType="map">
+		select
+		sum(d_1.time)
+		from
+		schedule s_1,
+		detailfinalschedule d_1
+		where
+		s_1.user = #{id_user}
+		and s_1.id =
+		d_1.id_schedule
+		and s_1.date_schedule <![CDATA[<=]]>
+		#{date_schedule_to}
+		and s_1.date_schedule <![CDATA[>=]]>
+		#{date_schedule_from}
+	</select>
 
 
 	<select id="daysToRemoveFromSaturation" resultType="int">
@@ -248,30 +289,7 @@
 
 
 
-	<select id="getWorkTimeCountByUser" resultType="double"
-		parameterType="map">
-		
-				SELECT 
-    sum(if(isnull(time), 0, time) + if(isnull(time_vacation),
-        0,
-        time_vacation))
-FROM
-    detailfinalschedule dfs,
-    schedule s,
-    usertask ut
-WHERE
-    dfs.id_schedule = s.id
-        and (ut.isabsence = 0 or ut.recorded = 1)
-        and dfs.task = ut.id
-        and s.user = #{id_user}
-        and date(s.date_schedule) <![CDATA[>=]]>
-		date(#{date_from}) and
-		date(s.date_schedule) <![CDATA[<=]]>
-		date(#{date_to})
-
-		
-
-	</select>
+	
 
 
 
@@ -694,42 +712,6 @@ WHERE
 		and d.shift = s.id and
 		d.id_user = #{id_user}
 	</select>
-
-
-	<select id="timeWorkedProgram" resultType="double"
-		parameterType="map">
-		select
-		sum(d_1.time)
-		from
-		schedule s_1,
-		detailinitialschedule d_1
-		where
-		s_1.user = #{id_user}
-		and s_1.id =
-		d_1.id_schedule
-		and s_1.date_schedule <![CDATA[<=]]>
-		#{date_schedule_to}
-		and s_1.date_schedule <![CDATA[>=]]>
-		#{date_schedule_from}
-	</select>
-
-	<select id="timeWorkedReviewd" resultType="double"
-		parameterType="map">
-		select
-		sum(d_1.time)
-		from
-		schedule s_1,
-		detailfinalschedule d_1
-		where
-		s_1.user = #{id_user}
-		and s_1.id =
-		d_1.id_schedule
-		and s_1.date_schedule <![CDATA[<=]]>
-		#{date_schedule_to}
-		and s_1.date_schedule <![CDATA[>=]]>
-		#{date_schedule_from}
-	</select>
-
 
 	<select id="dateAtWork" resultType="java.util.Date"
 		parameterType="map">
