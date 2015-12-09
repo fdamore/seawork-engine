@@ -112,7 +112,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		private final UserShift			shift;
 
 		private BreakInWeekManagement(final UserShift shift, final List<Schedule> scheduleListInWeek, final RowDaySchedule row_item,
-				final Date date_scheduled) {
+		        final Date date_scheduled) {
 			this.shift = shift;
 			this.scheduleListInWeek = scheduleListInWeek;
 			this.row_item = row_item;
@@ -149,8 +149,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		public void onEvent(final ClickEvent e) {
 			if (Messagebox.ON_OK.equals(e.getName())) {
 
-				final Integer max_shift = SchedulerComposer.this.statProcedure.getMaximumShift(
-						SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
+				final Integer max_shift = SchedulerComposer.this.statProcedure
+				        .getMaximumShift(SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
 
 				// save program... finalize
 				SchedulerComposer.this.saveProgramFinalStep();
@@ -231,7 +231,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 				SchedulerComposer.this.statProcedure.workAssignProcedure(SchedulerComposer.this.shift_cache.getBreakShift(), date_break,
-						this.row_item.getUser(), person_logged.getId());
+				        this.row_item.getUser(), person_logged.getId());
 
 				SchedulerComposer.this.setupGlobalSchedulerGridForDay();
 
@@ -260,7 +260,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				next_cal.add(Calendar.DAY_OF_YEAR, 1);
 
 				final Schedule next_schedule = SchedulerComposer.this.scheduleDAO.loadSchedule(next_cal.getTime(),
-						SchedulerComposer.this.currentSchedule.getUser());
+				        SchedulerComposer.this.currentSchedule.getUser());
 
 				SchedulerComposer.this.statProcedure.reAssignShift(next_schedule, person_logged.getId());
 
@@ -1336,8 +1336,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					}
 
 					if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
-							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
-							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+					        || ((new_item.getTime_to().compareTo(item.getTime_from()) > 0)
+					                && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
+					        || ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+					                && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 						this.errorMessageAddProgramItem.setValue("Attenzione, orario in sovrapposizione.");
 						return false;
 					}
@@ -1510,9 +1512,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return false;
 				}
 
-				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0)) || ((new_item
-						.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
-						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
+				        || ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
+				        || ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+				                && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 					this.errorMessageAddItem.setValue("Attenzione, orario in sovrapposizione.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
@@ -1572,7 +1575,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param note
 	 */
 	private void assignShiftForDaySchedule(final UserShift shift, Date current_date_scheduled, final Integer user, final Schedule schedule,
-			final Person editor, final String note) {
+	        final Person editor, final String note) {
 
 		// truncate current date
 		current_date_scheduled = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
@@ -1660,7 +1663,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (!(this.shift_period_combo.getSelectedItem().getValue() instanceof UserShift)
-				|| (this.shift_period_combo.getSelectedItem().getValue() == null)) {
+		        || (this.shift_period_combo.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
@@ -1676,7 +1679,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox.show("Non puoi fare assegnazioni multiple che partono prima del giorno attuale.", "INFO", buttons, null,
-					Messagebox.EXCLAMATION, null, null, params);
+			        Messagebox.EXCLAMATION, null, null, params);
 
 			return;
 		}
@@ -1695,7 +1698,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox.show("Non puoi usare il turno ti riposo o riposo atteso per assegnazioni multiple.", "INFO", buttons, null,
-					Messagebox.EXCLAMATION, null, null, params);
+			        Messagebox.EXCLAMATION, null, null, params);
 
 			return;
 		}
@@ -1872,7 +1875,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
 				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
-						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				        + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -1882,6 +1885,30 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Check for command availability in pre processing
+	 *
+	 * @param current_day
+	 * @return
+	 */
+	private boolean checkForPreprocessingCommand(final Date current_day) {
+		// set command enabling
+		final Calendar today = Calendar.getInstance();
+		final Calendar last_day_modify = DateUtils.truncate(today, Calendar.DATE);
+
+		// before 3 days, you can not use some command
+		last_day_modify.add(Calendar.DAY_OF_YEAR, -3);
+
+		// disable preprocessing
+		if (current_day.before(last_day_modify.getTime())) {
+
+			return false;
+
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -1927,19 +1954,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						this.switchButton.setLabel(this.switchButtonValueClose);
 						this.disableWriteCancelButtons(false);
 						this.loggerUserOnTable.setValue(this.messageTableLock + user.getFirstname() + " " + user.getLastname() + " - "
-								+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(lockTable.getTime_start()));
+						        + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(lockTable.getTime_start()));
 						return;
 					}
 
 					this.loggerUserOnTable.setValue(this.messageTableLock + user.getFirstname() + " " + user.getLastname() + " - "
-							+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(lockTable.getTime_start()));
+					        + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(lockTable.getTime_start()));
 					return;
 				} else if (this.person_logged.isAdministrator()) {
 					// another user has lock table, can unlock because is
 					// administrator
 					final Person user = this.personDAO.loadPerson(lockTable.getId_user());
 					this.loggerUserOnTable.setValue(this.messageTableLock + user.getFirstname() + " " + user.getLastname() + " - "
-							+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(lockTable.getTime_start()));
+					        + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(lockTable.getTime_start()));
 					this.switchButton.setLabel(this.switchButtonValueClose);
 					this.switchButton.setVisible(true);
 					this.disableWriteCancelButtons(false);
@@ -1966,7 +1993,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.personLock = null;
 		if (!this.person_logged.isAdministrator()
-				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId())) || (this.userLockTable == null)))) {
+		        && ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId()))
+		                || (this.userLockTable == null)))) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
 				this.personLock = this.personDAO.loadPerson(this.userLockTable.getId_user());
@@ -2082,18 +2110,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
-				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+		        Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
+			        @Override
+			        public void onEvent(final ClickEvent e) {
+				        if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+					        SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+				        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+				        }
+			        }
+		        }, params);
 
 		return;
 
@@ -2105,7 +2133,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private void defineReviewByProgramProcedure() {
 
 		if ((this.grid_scheduler_review == null) || (this.grid_scheduler_review.getSelectedItems() == null)
-				|| (this.grid_scheduler_review.getSelectedItems().size() == 0)) {
+		        || (this.grid_scheduler_review.getSelectedItems().size() == 0)) {
 			return;
 		}
 
@@ -2526,7 +2554,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.sw_link_edit_review.setDisabled(isDisabled);
 
 		this.setVisibilityDownloadReportButton();
-	}
+	};
 
 	@Override
 	public void doFinally() throws Exception {
@@ -3106,7 +3134,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			SchedulerComposer.this.mainSchedulerView(SchedulerComposer.PRINT_PROGRAM);
 		}
 
-	};
+	}
 
 	@Listen("onClick = #overview_download")
 	public void downdoadOverviewCSV() {
@@ -3114,13 +3142,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (this.overview_review.isSelected() && (this.listDetailRevision != null)) {
 
 			final StringBuilder builder = UtilityCSV.downloadCSVReview(this.listDetailRevision, this.taskDAO, this.shift_cache, this.ship_cache,
-					this.scheduleDAO, this.person_logged.isAdministrator());
+			        this.scheduleDAO, this.person_logged.isAdministrator());
 
 			Filedownload.save(builder.toString(), "application/text", "revision.csv");
 		} else if (this.overview_program.isSelected() && (this.listDetailProgram != null)) {
 
 			final StringBuilder builder = UtilityCSV.downloadCSVProgram(this.listDetailProgram, this.taskDAO, this.shift_cache, this.scheduleDAO,
-					this.person_logged.isAdministrator());
+			        this.person_logged.isAdministrator());
 
 			Filedownload.save(builder.toString(), "application/text", "program.csv");
 
@@ -3186,7 +3214,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final Date tomorrowDate = DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
 			final List<DetailScheduleShip> list_DetailScheduleShip = this.shipSchedulerDao.searchDetailScheduleShipByDateshit(tomorrowDate, null,
-					null, null, null, null, null, null);
+			        null, null, null, null, null, null);
 
 			ProgramReportBuilder.createReport(final_list, list_DetailScheduleShip, tomorrowDate).toPdf(stream);
 
@@ -3375,7 +3403,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param schedule
 	 */
 	private final ItemRowSchedule getItemRowSchedule(final RowSchedule currentRow, final Integer day_on_current_calendar, final Schedule schedule,
-			final boolean program) {
+	        final boolean program) {
 
 		ItemRowSchedule itemsRow = null;
 
@@ -3881,11 +3909,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set label
 		if (this.personDAO.loadPerson(this.selectedUser).getPart_time()) {
 			this.scheduler_label.setLabel(row_scheduler.getName_user() + " " + this.partTimeMessage + ". Giorno: "
-					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+			        + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		} else {
 			this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
-					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+			        + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 		}
 
 		// show programmer and controller
@@ -3945,7 +3973,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set initial program and revision
 			this.list_details_program = this.scheduleDAO.loadDetailInitialScheduleByIdScheduleAndShift(this.currentSchedule.getId(),
-					this.selectedShift);
+			        this.selectedShift);
 
 		} else {
 			// if we haven't information about schedule
@@ -4111,11 +4139,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set label
 		if (this.personDAO.loadPerson(this.selectedUser).getPart_time()) {
 			this.scheduler_label_review.setLabel(row_scheduler.getName_user() + " " + this.partTimeMessage + ". Giorno: "
-					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+			        + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 
 		} else {
 			this.scheduler_label_review.setLabel(row_scheduler.getName_user() + ". Giorno: "
-					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+			        + SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
 		}
 
 		// set label current shift
@@ -4345,7 +4373,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Calendar cal = Calendar.getInstance();
 		final String tstamp = Utility.convertToDateAndTime(cal.getTime());
 		final String msg = "Statistica aggiornata a: " + tstamp + " riferito al periodo " + Utility.getDataAsString_it(date_from) + " - "
-				+ Utility.getDataAsString_it(date_to);
+		        + Utility.getDataAsString_it(date_to);
 		this.updateStatisticTime.setValue(msg);
 
 		// defining counter
@@ -4446,9 +4474,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show(
+				        "Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+				        "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4496,20 +4524,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					// get local variable
 					final Date date_schedule = current_schedule.getDate_schedule();
 
-					final List<Schedule> list_sch = this.statProcedure.searchBreakInCurrentWeek(date_schedule, current_schedule.getUser());
+					// check if the command is available
+					final boolean check = this.checkForPreprocessingCommand(date_schedule);
+					if (check) {
 
-					if (list_sch == null) {
+						final List<Schedule> list_sch = this.statProcedure.searchBreakInCurrentWeek(date_schedule, current_schedule.getUser());
 
-						final Map<String, String> params = new HashMap<String, String>();
-						params.put("sclass", "mybutton Button");
-						final Messagebox.Button[] buttons = new Messagebox.Button[2];
-						buttons[0] = Messagebox.Button.OK;
-						buttons[1] = Messagebox.Button.NO;
+						if (list_sch == null) {
 
-						final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_schedule,
-								row_item), params);
+							final Map<String, String> params = new HashMap<String, String>();
+							params.put("sclass", "mybutton Button");
+							final Messagebox.Button[] buttons = new Messagebox.Button[2];
+							buttons[0] = Messagebox.Button.OK;
+							buttons[1] = Messagebox.Button.NO;
 
+							final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
+							Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
+							        new ReassignBreakEvent(date_schedule, row_item), params);
+
+						}
 					}
 
 				}
@@ -4763,7 +4796,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final RowDaySchedule row_item = this.grid_scheduler_day.getSelectedItem().getValue();
 
 		if (!(this.shifts_combo_select.getSelectedItem().getValue() instanceof UserShift)
-				|| (this.shifts_combo_select.getSelectedItem().getValue() == null)) {
+		        || (this.shifts_combo_select.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
@@ -4792,19 +4825,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[1] = Messagebox.Button.CANCEL;
 
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
-						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
+				        buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+					        @Override
+					        public void onEvent(final ClickEvent e) {
+						        if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+							        SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+						        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							        return;
+						        }
+					        }
+				        }, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -4825,7 +4858,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param scheduleListInWeek
 	 */
 	private void saveDayShiftProcedure(final UserShift shift, final RowDaySchedule row_item, final Date date_scheduled,
-			final List<Schedule> scheduleListInWeek) {
+	        final List<Schedule> scheduleListInWeek) {
 
 		if ((scheduleListInWeek != null) && (this.shift_cache.getDailyShift() != null) && (this.shift_cache.getStandardWorkShift() != null)) {
 
@@ -4874,7 +4907,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox.show("Non puoi usare il turno di riposo programmato o atteso per assegnazioni multiple.", "ERROR", buttons, null,
-						Messagebox.EXCLAMATION, null, null, params);
+				        Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
 
@@ -4901,7 +4934,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox.show("Non puoi programmare oltre i limiti della griglia corrente. Usa Imposta Speciale ", "ERROR", buttons, null,
-						Messagebox.EXCLAMATION, null, null, params);
+				        Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4965,7 +4998,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// assign shift ---- FORCE
 			final UserShift my_shift = this.force_shift_combo.getSelectedItem().getValue();
 			this.statProcedure.shiftAssign(my_shift, this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser(),
-					this.currentSchedule.getEditor());
+			        this.currentSchedule.getEditor());
 
 			// refresh current schedule
 			this.currentSchedule = this.scheduleDAO.loadSchedule(this.currentSchedule.getDate_schedule(), this.currentSchedule.getUser());
@@ -4987,8 +5020,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// check max 12 h in a day
-			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule
-					.getId());
+			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO
+			        .loadDetailInitialScheduleByIdSchedule(this.currentSchedule.getId());
 
 			Double count = sum;
 			for (final DetailInitialSchedule dt : list_detail_schedule) {
@@ -5009,7 +5042,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox.show("Non si possono assegnare più di 12 ore al giorno", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null,
-						params);
+				        params);
 
 				return;
 
@@ -5027,16 +5060,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				if (!check_12_different_day) {
 					// check in same day
 					final Integer minShiftInDay = this.statProcedure.getFirstShiftInDay(this.currentSchedule.getDate_schedule(),
-							this.currentSchedule.getUser());
+					        this.currentSchedule.getUser());
 					final Integer maxShiftInDay = this.statProcedure.getLastShiftInDay(this.currentSchedule.getDate_schedule(),
-							this.currentSchedule.getUser());
+					        this.currentSchedule.getUser());
 					if ((minShiftInDay != null) && (maxShiftInDay != null) && !minShiftInDay.equals(this.selectedShift)
-							&& !maxShiftInDay.equals(this.selectedShift)) {
+					        && !maxShiftInDay.equals(this.selectedShift)) {
 						if (!((this.selectedShift.equals(1) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay.equals(1))
-								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
-								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
-								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+						        || (this.selectedShift.equals(2) && minShiftInDay.equals(3))
+						        || (this.selectedShift.equals(3) && minShiftInDay.equals(2))
+						        || (this.selectedShift.equals(3) && minShiftInDay.equals(4))
+						        || (this.selectedShift.equals(4) && minShiftInDay.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -5053,7 +5086,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					final String msg = "Stai assegnando un turno prima di 12 ore di stacco. Sei sicuro di voler continuare?";
 					Messagebox.show(msg, "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new CheckOnDoubleShiftBreaEvent(),
-							params);
+					        params);
 
 					return;
 
@@ -5189,7 +5222,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox.show("Non si possono assegnare più di 12 ore al giorno", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			        params);
 			return;
 
 		}
@@ -5251,20 +5284,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// check if break shift are setting
 		if (shift.getBreak_shift() || shift.getWaitbreak_shift() || shift.getDisease_shift() || shift.getAccident_shift()) {
 
-			final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
+			// check if the command is available
+			final boolean check = this.checkForPreprocessingCommand(date_scheduled);
+			if (check) {
 
-			if ((scheduleListInWeek != null) && (scheduleListInWeek.size() > 0)) {
-				final Map<String, String> params = new HashMap<String, String>();
-				params.put("sclass", "mybutton Button");
+				final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
 
-				final Messagebox.Button[] buttons = new Messagebox.Button[3];
-				buttons[0] = Messagebox.Button.OK;
-				buttons[1] = Messagebox.Button.NO;
-				buttons[2] = Messagebox.Button.CANCEL;
+				if ((scheduleListInWeek != null) && (scheduleListInWeek.size() > 0)) {
+					final Map<String, String> params = new HashMap<String, String>();
+					params.put("sclass", "mybutton Button");
 
-				Messagebox.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro?",
-						"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new BreakInWeekManagement(shift,
-								scheduleListInWeek, row_item, date_scheduled), params);
+					final Messagebox.Button[] buttons = new Messagebox.Button[3];
+					buttons[0] = Messagebox.Button.OK;
+					buttons[1] = Messagebox.Button.NO;
+					buttons[2] = Messagebox.Button.CANCEL;
+
+					Messagebox.show(
+					        "Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro? \nATTENZIONE: Non verranno modificati i giorni precedenti.",
+					        "CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null,
+					        new BreakInWeekManagement(shift, scheduleListInWeek, row_item, date_scheduled), params);
+				} else {
+					this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
+				}
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 			}
@@ -5274,21 +5315,27 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// save not break shift
 			this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 
-			// check if in this week there is a break
-			final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
-			if (scheduleListInWeek == null) {
+			// check if the command is available
+			final boolean check = this.checkForPreprocessingCommand(date_scheduled);
+			if (check) {
 
-				final Map<String, String> params = new HashMap<String, String>();
-				params.put("sclass", "mybutton Button");
+				// check if in this week there is a break
+				final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
 
-				final Messagebox.Button[] buttons = new Messagebox.Button[2];
-				buttons[0] = Messagebox.Button.OK;
-				buttons[1] = Messagebox.Button.NO;
+				if (scheduleListInWeek == null) {
 
-				final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-				Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
-						new ReassignBreakEvent(date_scheduled, row_item), params);
+					final Map<String, String> params = new HashMap<String, String>();
+					params.put("sclass", "mybutton Button");
 
+					final Messagebox.Button[] buttons = new Messagebox.Button[2];
+					buttons[0] = Messagebox.Button.OK;
+					buttons[1] = Messagebox.Button.NO;
+
+					final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
+					Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
+					        new ReassignBreakEvent(date_scheduled, row_item), params);
+
+				}
 			}
 		}
 	}
@@ -5641,24 +5688,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		int from = 0;
 
 		switch (shift) {
-		case 1:
-			to = 1;
-			from = 7;
-			break;
-		case 2:
-			to = 7;
-			from = 13;
-			break;
-		case 3:
-			to = 13;
-			from = 19;
-			break;
-		case 4:
-			to = 19;
-			from = 1;
-			break;
-		default:
-			break;
+			case 1:
+				to = 1;
+				from = 7;
+				break;
+			case 2:
+				to = 7;
+				from = 13;
+				break;
+			case 3:
+				to = 13;
+				from = 19;
+				break;
+			case 4:
+				to = 19;
+				from = 1;
+				break;
+			default:
+				break;
 		}
 
 		cal.set(Calendar.HOUR_OF_DAY, to);
@@ -6076,8 +6123,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (person != null) {
 
-			this.lastProgrammer.setValue(person.getFirstname() + " " + person.getLastname() + " "
-					+ SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
+			this.lastProgrammer.setValue(
+			        person.getFirstname() + " " + person.getLastname() + " " + SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
 		}
 
 	}
@@ -6180,7 +6227,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Integer shift_type = null;
 
 		if ((this.select_shifttype_overview.getSelectedItem() != null)
-				&& (this.select_shifttype_overview.getSelectedItem().getValue() instanceof UserShift)) {
+		        && (this.select_shifttype_overview.getSelectedItem().getValue() instanceof UserShift)) {
 			final UserShift shift = this.select_shifttype_overview.getSelectedItem().getValue();
 			if (shift != null) {
 				shift_type = shift.getId();
@@ -6226,10 +6273,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				idCrane = null;
 			}
 
-			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
-					date_from, date_to, reviewshift, idShip, idCrane);
+			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask, date_from,
+			        date_to, reviewshift, idShip, idCrane);
 			List<DetailFinalSchedule> countWorkerList = this.statisticDAO.countWorkerInOverviewFinalSchedule(full_text_search, shift_number,
-					shift_type, idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane);
+			        shift_type, idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane);
 
 			if (this.dayWorking_filter.getSelectedIndex() == 1) {
 				this.listDetailRevision = this.filterDetailFinalScheduleByWorkingDay(true);
@@ -6298,7 +6345,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
-					date_from, date_to);
+			        date_from, date_to);
 
 			double count_h = 0;
 			double count_h_c = 0;
@@ -6640,7 +6687,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			text_search_person = this.full_text_search.getValue();
 		}
 		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program,
-				text_search_person);
+		        text_search_person);
 
 		this.list_rows_program = new ArrayList<RowSchedule>();
 		RowSchedule currentRow = null;
@@ -6717,7 +6764,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// get info
 		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(this.firstDateInGrid, initial_date_program,
-				text_search_person);
+		        text_search_person);
 
 		// under revision
 		for (int i = 0; i < list_revision.size(); i++) {
@@ -6778,7 +6825,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				if (((itemrow_count.getItem_1().getAnchorValue1() != 0) || (itemrow_count.getItem_1().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0))) {
+				        || (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0))) {
 					count_Day_Users[0]++;
 				}
 
@@ -6804,7 +6851,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				if (((itemrow_count.getItem_2().getAnchorValue1() != 0) || (itemrow_count.getItem_2().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0))) {
+				        || (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0))) {
 					count_Day_Users[1]++;
 				}
 
@@ -6830,7 +6877,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				if (((itemrow_count.getItem_3().getAnchorValue1() != 0) || (itemrow_count.getItem_3().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_3().getAnchorValue3() != 0) || (itemrow_count.getItem_3().getAnchorValue4() != 0))) {
+				        || (itemrow_count.getItem_3().getAnchorValue3() != 0) || (itemrow_count.getItem_3().getAnchorValue4() != 0))) {
 					count_Day_Users[2]++;
 				}
 
@@ -6856,7 +6903,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				if (((itemrow_count.getItem_4().getAnchorValue1() != 0) || (itemrow_count.getItem_4().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_4().getAnchorValue3() != 0) || (itemrow_count.getItem_4().getAnchorValue4() != 0))) {
+				        || (itemrow_count.getItem_4().getAnchorValue3() != 0) || (itemrow_count.getItem_4().getAnchorValue4() != 0))) {
 					count_Day_Users[3]++;
 				}
 
@@ -6882,7 +6929,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				if (((itemrow_count.getItem_5().getAnchorValue1() != 0) || (itemrow_count.getItem_5().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_5().getAnchorValue3() != 0) || (itemrow_count.getItem_5().getAnchorValue4() != 0))) {
+				        || (itemrow_count.getItem_5().getAnchorValue3() != 0) || (itemrow_count.getItem_5().getAnchorValue4() != 0))) {
 					count_Day_Users[4]++;
 				}
 
@@ -7107,7 +7154,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				if ((itemrow_count.getItem_2().getAnchorValue1() != 0) || (itemrow_count.getItem_2().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
+				        || (itemrow_count.getItem_2().getAnchorValue3() != 0) || (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
 					countUsersTot++;
 				}
 
@@ -7204,7 +7251,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 
 				if ((itemrow_count.getItem_1().getAnchorValue1() != 0) || (itemrow_count.getItem_1().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
+				        || (itemrow_count.getItem_1().getAnchorValue3() != 0) || (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
 					countUsersTot++;
 				}
 
@@ -7320,7 +7367,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			if (this.userLockTable != null) {
 				this.loggerUserOnTable.setValue(this.messageTableLock + this.personLock.getFirstname() + " " + this.personLock.getLastname() + " - "
-						+ this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
+				        + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(this.userLockTable.getTime_start()));
 				this.switchButton.setLabel(this.switchButtonValueClose);
 
 			} else {
@@ -7332,18 +7379,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (!this.person_logged.isAdministrator()) {
 
-			// set command enabling
-			final Calendar today = Calendar.getInstance();
-			final Calendar last_day_modify = DateUtils.truncate(today, Calendar.DATE);
+			final boolean check = this.checkForPreprocessingCommand(current_day);
 
-			last_day_modify.add(Calendar.DAY_OF_YEAR, -3);
-
-			// disable preprocessing
-			if (current_day.before(last_day_modify.getTime())) {
+			if (!check) {
 
 				this.cancel_day_definition.setDisabled(true);
 				this.ok_day_shift.setDisabled(true);
-
 			}
 
 		} else {
@@ -7725,7 +7766,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				myLockTable.setId_user(this.person_logged.getId());
 				myLockTable.setTime_start(new Timestamp(Calendar.getInstance().getTime().getTime()));
 				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
-						+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(myLockTable.getTime_start()));
+				        + " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(myLockTable.getTime_start()));
 				if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
 					myLockTable.setTable_type(TableTag.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
