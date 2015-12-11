@@ -238,9 +238,10 @@
 							readonly="true" id="select_typeShip"
 							onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
 							<comboitem value="activityh"
-								label="Attività H" />
+								label="ATTIVITÀ H" />
 							<comboitem value="nowork"
-								label="Non Lavoro" />
+								label="NON LAVORO" />
+							<comboitem value="noone" label="NESSUNO DEI DUE" />
 						</combobox>
 
 						<a label="Annulla filtro"
@@ -1160,7 +1161,7 @@
 						id="avgVolmueShipProgram" />
 				</hbox>
 
-			</hbox>		
+			</hbox>
 
 			<hbox align="center">
 
@@ -1292,7 +1293,7 @@
 			<a label="Dettaglio Giornaliero" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 			<separator></separator>
-	
+
 			<separator />
 			<label value="" style="color:blue; font-size:10pt;"
 				id="infoDetailShipProgram" />
@@ -1464,14 +1465,14 @@
 
 							<label style="color:blue; font-size:10pt;"
 								value="" id="menworkReview" />
-								
+
 							<label style="color:blue; font-size:10pt;"
 								value=" - Numero ore: " />
 
 							<label style="color:blue; font-size:10pt;"
 								value="" id="hourReview" />
 						</hbox>
-						
+
 						<hbox>
 							<label style="color:blue; font-size:10pt;"
 								value="Tipo di Servizio: " />
@@ -1527,19 +1528,22 @@
 										<radio id="workedYes" label="Si"
 											radiogroup="workedGroup" selected="true" />
 										<space />
-										<radio id="workedNo" label="No" radiogroup="workedGroup" />
+										<radio id="workedNo" label="No"
+											radiogroup="workedGroup" />
 									</radiogroup>
 								</row>
-								
+
 								<row>
-									<label value="Giorno Disagio Vento:"></label>
+									<label
+										value="Giorno Disagio Vento:">
+									</label>
 
 									<radiogroup id="windydayGroup">
-										<radio id="windydayYes" label="Si"
-											radiogroup="windydayGroup" selected="true" />
+										<radio id="windydayYes"
+											label="Si" radiogroup="windydayGroup" selected="true" />
 										<space />
-										<radio id="windydayNo" label="No"
-											radiogroup="windydayGroup" />
+										<radio id="windydayNo"
+											label="No" radiogroup="windydayGroup" />
 									</radiogroup>
 								</row>
 
@@ -1934,7 +1938,7 @@
 								sort="auto(rif_mct)" />
 							<listheader label="Periodo di Fatturazione"
 								sort="auto(invoicing_cycle)" />
-								
+
 							<listheader label="Gru" sort="auto(crane)" />
 
 							<listheader label="Volumi Netti"
@@ -2026,9 +2030,9 @@
 			<separator></separator>
 
 			<vbox>
-										
-				<div  visible="true">
-				
+
+				<div visible="true">
+
 					<hbox>
 
 						<hbox align="center">
@@ -2162,8 +2166,8 @@
 									<listheader label="Rif Cliente"
 										hflex="1" />
 									<listheader label="Gru" hflex="1" />
-									<listheader label="Tempo Netto Lavorato"
-										hflex="1" />
+									<listheader
+										label="Tempo Netto Lavorato" hflex="1" />
 									<listheader label="Volumi Netti"
 										hflex="1" />
 									<listheader
@@ -2171,8 +2175,8 @@
 									<listheader
 										label="Volumi Netti Rizz. da Bordo (x SWS):" hflex="1" />
 
-									<listheader label="Volumi Netti TW MCT"
-										hflex="1" />
+									<listheader
+										label="Volumi Netti TW MCT" hflex="1" />
 									<listheader label="Note" hflex="2" />
 
 								</listhead>
@@ -2267,10 +2271,10 @@
 									<listheader label="Rif Cliente"
 										hflex="1" />
 
-									<listheader label="Tempo Netto Lavorato"
-										hflex="1" />
-									<listheader label="Volumi Netti" hflex="1"
-										id="volumeStatisticColumn" />
+									<listheader
+										label="Tempo Netto Lavorato" hflex="1" />
+									<listheader label="Volumi Netti"
+										hflex="1" id="volumeStatisticColumn" />
 									<listheader label="Produttività Gru"
 										hflex="1" />
 
@@ -2279,8 +2283,8 @@
 									<listheader
 										label="Volumi Netti Rizz. da Bordo (x SWS):" hflex="1" />
 
-									<listheader label="Volumi Netti TW MCT"
-										hflex="1" />
+									<listheader
+										label="Volumi Netti TW MCT" hflex="1" />
 
 
 
@@ -2389,33 +2393,35 @@
 			<a label="Report Lavorazione Navi" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
 			<separator></separator>
-			
-			<hbox align = "center">
+
+			<hbox align="center">
 				<a label="Calcola su Periodo di " />
-				<radiogroup id="byInvoce" >
-					<radio id="twYes" label="Fatturazione" radiogroup="byInvoce"
-						selected="true" />
+				<radiogroup id="byInvoce">
+					<radio id="twYes" label="Fatturazione"
+						radiogroup="byInvoce" selected="true" />
 					<space />
-					<radio id="twNo" label="Lavorazione" radiogroup="byInvoce" />
+					<radio id="twNo" label="Lavorazione"
+						radiogroup="byInvoce" />
 				</radiogroup>
 			</hbox>
 
-			<separator/><separator/>
+			<separator />
+			<separator />
 
 			<panel border="normal" width="100%">
 
-				<panelchildren>		
-														
+				<panelchildren>
+
 					<listbox sclass="domain" mold="paging" pageSize="10"
 						sizedByContent="false" width="100%" pagingPosition="both"
 						id="terminalProductivy">
-						
+
 						<listhead sizable="true">
-							<listheader label="" width="200px"/>
+							<listheader label="" width="200px" />
 							<listheader label="Gennaio" />
-							<listheader label="Febbraio"  />
+							<listheader label="Febbraio" />
 							<listheader label="Marzo" />
-							<listheader label="Aprile"  />
+							<listheader label="Aprile" />
 							<listheader label="Maggio" />
 							<listheader label="Giugno" />
 							<listheader label="Luglio" />
@@ -2427,58 +2433,69 @@
 							<listheader label="" />
 							<listheader label="" />
 						</listhead>
-						
+
 						<listitem>
 							<listcell sclass="myBottonCell">
-								<label value="Edita Prod. Terminal"/>
+								<label value="Edita Prod. Terminal" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_gen" constraint="no negative" />
+								<doublebox width="100%" id="tp_gen"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_feb" constraint="no negative"/>
+								<doublebox width="100%" id="tp_feb"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_mar" constraint="no negative"/>
+								<doublebox width="100%" id="tp_mar"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_apr" constraint="no negative"/>
+								<doublebox width="100%" id="tp_apr"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_may" constraint="no negative"/>
+								<doublebox width="100%" id="tp_may"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_jun" constraint="no negative"/>
+								<doublebox width="100%" id="tp_jun"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_jul" constraint="no negative"/>
+								<doublebox width="100%" id="tp_jul"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_aug" constraint="no negative"/>
+								<doublebox width="100%" id="tp_aug"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_sep" constraint="no negative"/>
+								<doublebox width="100%" id="tp_sep"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_oct" constraint="no negative"/>
+								<doublebox width="100%" id="tp_oct"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_nov" constraint="no negative"/>
+								<doublebox width="100%" id="tp_nov"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<doublebox width="100%" id="tp_dec" constraint="no negative"/>
+								<doublebox width="100%" id="tp_dec"
+									constraint="no negative" />
 							</listcell>
-							
-							<listcell sclass="myBottonCell">								
-							</listcell>
-							<listcell sclass="myBottonCell">								
-							</listcell>
-														
-						</listitem>		
-						
+
+							<listcell sclass="myBottonCell"></listcell>
+							<listcell sclass="myBottonCell"></listcell>
+
+						</listitem>
+
 						<listitem>
-							<listcell sclass="myBottonCell" >
-								<label value="Edita Numero Reclami per Cliente:" />
+							<listcell sclass="myBottonCell">
+								<label
+									value="Edita Numero Reclami per Cliente:" />
 								<combobox id="selectCustomer"
 									placeholder="Seleziona Cliente..." readonly="true">
 									<comboitem self="@{each='customer'}"
@@ -2486,64 +2503,74 @@
 								</combobox>
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_gen" constraint="no negative" />
+								<intbox width="100%" id="complaint_gen"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_feb" constraint="no negative"/>
+								<intbox width="100%" id="complaint_feb"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_mar" constraint="no negative"/>
+								<intbox width="100%" id="complaint_mar"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_apr" constraint="no negative"/>
+								<intbox width="100%" id="complaint_apr"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_may" constraint="no negative"/>
+								<intbox width="100%" id="complaint_may"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_jun" constraint="no negative"/>
+								<intbox width="100%" id="complaint_jun"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_jul" constraint="no negative"/>
+								<intbox width="100%" id="complaint_jul"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_aug" constraint="no negative"/>
+								<intbox width="100%" id="complaint_aug"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_sep" constraint="no negative"/>
+								<intbox width="100%" id="complaint_sep"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_oct" constraint="no negative"/>
+								<intbox width="100%" id="complaint_oct"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_nov" constraint="no negative"/>
+								<intbox width="100%" id="complaint_nov"
+									constraint="no negative" />
 							</listcell>
 							<listcell sclass="myBottonCell">
-								<intbox width="100%" id="complaint_dec" constraint="no negative"/>
+								<intbox width="100%" id="complaint_dec"
+									constraint="no negative" />
 							</listcell>
-							
-							<listcell sclass="myBottonCell">								
-							</listcell>
-							<listcell sclass="myBottonCell">								
-							</listcell>
-														
-						</listitem>				
-					
+
+							<listcell sclass="myBottonCell"></listcell>
+							<listcell sclass="myBottonCell"></listcell>
+
+						</listitem>
+
 					</listbox>
 
 
-<separator></separator>
+					<separator></separator>
 
-					<listbox sclass="domain" mold="paging" pageSize="100"
-						sizedByContent="false" width="100%" pagingPosition="both"
-						id="reportListboxContainer">
+					<listbox sclass="domain" mold="paging"
+						pageSize="100" sizedByContent="false" width="100%"
+						pagingPosition="both" id="reportListboxContainer">
 
 						<listhead sizable="true">
-							<listheader label="" width="200px"/>
+							<listheader label="" width="200px" />
 							<listheader label="Gennaio" />
-							<listheader label="Febbraio"  />
+							<listheader label="Febbraio" />
 							<listheader label="Marzo" />
-							<listheader label="Aprile"  />
+							<listheader label="Aprile" />
 							<listheader label="Maggio" />
 							<listheader label="Giugno" />
 							<listheader label="Luglio" />
@@ -2555,12 +2582,13 @@
 							<listheader label="Totale" />
 							<listheader label="Media" />
 						</listhead>
-						
-						
+
+
 						<listitem self="@{each='reportItem'}"
-							value="@{reportItem}" zclass="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.ReportStyleRowConverter'}">
+							value="@{reportItem}"
+							zclass="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.ReportStyleRowConverter'}">
 							<listcell sclass="myBottonCell"
-								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}" >
+								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
 								<custom-attributes tag="argument" />
 							</listcell>
 							<listcell sclass="myBottonCell"
@@ -2619,7 +2647,7 @@
 								label="@{reportItem, converter='org.uario.seaworkengine.zkevent.converter.RoundNumberReportItemConverter'}">
 								<custom-attributes tag="avg" />
 							</listcell>
-							
+
 						</listitem>
 
 
