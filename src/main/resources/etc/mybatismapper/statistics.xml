@@ -980,7 +980,7 @@ WHERE
 	
 	<select id="countShipByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select count(id) as shipnumber , invoicing_cycle as monthInvoice 
+		select count(distinct idScheduleShip) as shipnumber , invoicing_cycle as monthInvoice 
 		from reportmen
 		where shiftyear = #{year} and invoicing_cycle is not null 
 		<if test="operation!=null">
@@ -991,7 +991,7 @@ WHERE
 	
 	<select id="countShipByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select count(dis.id) as shipnumber , month(dis.shiftdate) as monthInvoice
+		select count(distinct ss.id) as shipnumber , month(dis.shiftdate) as monthInvoice
 		from
 		detailscheduleship dis, scheduleship ss  
 		where year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and ss.id_service = (select sv.id AS id from service sv where sv.isRZ=1) 
