@@ -198,11 +198,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		@Override
 		public void onEvent(final ClickEvent e) {
 
-			if (Messagebox.ON_OK.equals(e.getName())) {
+			if (this.date_scheduled == null) {
+				return;
+			}
 
-				if (this.date_scheduled == null) {
-					return;
-				}
+			if (Messagebox.ON_OK.equals(e.getName())) {
 
 				final Calendar cal_sunday = DateUtils.toCalendar(this.date_scheduled);
 
@@ -2126,17 +2126,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Stai assegnando i turni programmati al consuntivo. Sei sicuro di voler continuare?", "CONFERMA ASSEGNAZIONE", buttons, null,
 				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-					SchedulerComposer.this.defineReviewByProgramProcedure();
+							SchedulerComposer.this.defineReviewByProgramProcedure();
 
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-				}
-			}
-		}, params);
+						}
+					}
+				}, params);
 
 		return;
 
@@ -4490,8 +4490,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 
 				Messagebox
-				.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4543,19 +4543,35 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					final boolean check = this.checkForPreprocessingCommand(date_schedule);
 					if (check) {
 
-						final List<Schedule> list_sch = this.statProcedure.searchBreakInCurrentWeek(date_schedule, current_schedule.getUser());
+						final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_schedule, current_schedule.getUser());
 
-						if (list_sch == null) {
+						if (list_break == null) {
 
-							final Map<String, String> params = new HashMap<String, String>();
-							params.put("sclass", "mybutton Button");
-							final Messagebox.Button[] buttons = new Messagebox.Button[2];
-							buttons[0] = Messagebox.Button.OK;
-							buttons[1] = Messagebox.Button.NO;
+							// check for sunday
+							final Calendar check_sunday_cal = DateUtils.toCalendar(date_schedule);
+							if (DateUtils.isSameDay(Calendar.getInstance(), check_sunday_cal)
+									&& (check_sunday_cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
 
-							final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-							Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(
-									date_schedule, row_item), params);
+								final Map<String, String> params = new HashMap<String, String>();
+								params.put("sclass", "mybutton Button");
+								final Messagebox.Button[] buttons = new Messagebox.Button[1];
+								buttons[0] = Messagebox.Button.OK;
+
+								final String msg = "Non ci sono più riposi per questa settimana. Programma con attenzione la settimana successiva.";
+								Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
+							} else {
+
+								final Map<String, String> params = new HashMap<String, String>();
+								params.put("sclass", "mybutton Button");
+								final Messagebox.Button[] buttons = new Messagebox.Button[2];
+								buttons[0] = Messagebox.Button.OK;
+								buttons[1] = Messagebox.Button.NO;
+
+								final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
+								Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(
+										date_schedule, row_item), params);
+							}
 
 						}
 					}
@@ -4842,17 +4858,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				Messagebox.show("Serie lavorativa superiore a 10 giorni. Sicuro di voler assegnare un turno di lavoro?", "CONFERMA INSERIMENTO",
 						buttons, null, Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+							@Override
+							public void onEvent(final ClickEvent e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
 
-							SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
+									SchedulerComposer.this.saveShift(shift, date_scheduled, row_item);
 
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.saveShift(shift, date_scheduled, row_item);
 			}
@@ -5084,7 +5100,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-										.equals(3)))) {
+								.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -5315,9 +5331,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					buttons[2] = Messagebox.Button.CANCEL;
 
 					Messagebox
-					.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro? \nATTENZIONE: Non verranno modificati i giorni precedenti.",
-							"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new BreakInWeekManagement(
-									shift, scheduleListInWeek, row_item, date_scheduled), params);
+							.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro? \nATTENZIONE: Non verranno modificati i giorni precedenti.",
+									"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new BreakInWeekManagement(
+											shift, scheduleListInWeek, row_item, date_scheduled), params);
 				} else {
 					this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 				}
@@ -5335,20 +5351,36 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (check) {
 
 				// check if in this week there is a break
-				final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
+				final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
 
-				if (scheduleListInWeek == null) {
+				if (list_break == null) {
 
-					final Map<String, String> params = new HashMap<String, String>();
-					params.put("sclass", "mybutton Button");
+					// check for sunday
+					final Calendar check_sunday_cal = DateUtils.toCalendar(date_scheduled);
+					if (DateUtils.isSameDay(Calendar.getInstance(), check_sunday_cal)
+							&& (check_sunday_cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
 
-					final Messagebox.Button[] buttons = new Messagebox.Button[2];
-					buttons[0] = Messagebox.Button.OK;
-					buttons[1] = Messagebox.Button.NO;
+						final Map<String, String> params = new HashMap<String, String>();
+						params.put("sclass", "mybutton Button");
+						final Messagebox.Button[] buttons = new Messagebox.Button[1];
+						buttons[0] = Messagebox.Button.OK;
 
-					final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-					Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_scheduled,
-							row_item), params);
+						final String msg = "Non ci sono più riposi per questa settimana. Programma con attenzione la settimana successiva.";
+						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+
+					} else {
+
+						final Map<String, String> params = new HashMap<String, String>();
+						params.put("sclass", "mybutton Button");
+
+						final Messagebox.Button[] buttons = new Messagebox.Button[2];
+						buttons[0] = Messagebox.Button.OK;
+						buttons[1] = Messagebox.Button.NO;
+
+						final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
+						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_scheduled,
+								row_item), params);
+					}
 
 				}
 			}
