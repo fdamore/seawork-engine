@@ -221,12 +221,15 @@
 		parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature, d.first_down,
+		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature,
+		d.first_down,
 		d.worked, d.last_down,
-		s.name, d.operation, d.activity_start,
+		s.name, d.operation,
+		d.activity_start,
 		d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
-		ss.departuredate, ss.id_service as serviceId, 
+		ss.note,ss.arrivaldate, ss.rif_mct as
+		rif_mct,
+		ss.departuredate, ss.id_service as serviceId,
 		d.iduser,d.idseconduser,
 		d.handswork,
 		d.menwork,
@@ -236,13 +239,11 @@
 		d.shiftdate,
 		s.id as
 		id_ship,
-		concat(u.lastname, '
-		',
-		u.firstname) AS
+		concat(u.lastname, ' ', u.firstname) AS
 		firstOperativeName,
-		concat(us.lastname, ' ',
-		us.firstname) AS
-		secondOperativeName, (SELECT sr.name FROM service sr
+		concat(us.lastname, ' ', us.firstname) AS
+		secondOperativeName, (SELECT
+		sr.name FROM service sr
 		where
 		ss.id_service=sr.id) as serviceType
 		FROM
@@ -256,10 +257,12 @@
 		user us
 		ON
 		(d1.idseconduser = us.id),
-		ship s, scheduleship ss
+		ship
+		s, scheduleship ss
 		where
 		d.idscheduleship = ss.id and ss.idship =
-		s.id and d1.id = d.id
+		s.id
+		and d1.id = d.id
 
 		<if test="full_text_search != null">
 			and (s.name like CONCAT('%',#{full_text_search}, '%') )
@@ -332,11 +335,14 @@
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature, d.first_down,
+		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature,
+		d.first_down,
 		d.worked, d.last_down,
-		s.name, d.operation, d.activity_start,
+		s.name, d.operation,
+		d.activity_start,
 		d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct, ss.id_service as serviceId, 
+		ss.note,ss.arrivaldate, ss.rif_mct as
+		rif_mct, ss.id_service as serviceId,
 		ss.departuredate,
 		d.iduser,
 		d.idseconduser,
@@ -384,11 +390,14 @@
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 		SELECT
 		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature, d.first_down,
+		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature,
+		d.first_down,
 		d.worked, d.last_down,
-		s.name, d.operation, d.activity_start,
+		s.name, d.operation,
+		d.activity_start,
 		d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as rif_mct,
+		ss.note,ss.arrivaldate, ss.rif_mct as
+		rif_mct,
 		ss.departuredate,
 		d.iduser,
 		d.idseconduser,
@@ -472,7 +481,8 @@
 		d.shiftdate,
 		d.notedetail, d.activity_start,
 		d.activity_end, d.rain, d.wind, d.windyday, d.sky,
-		d.temperature, d.worked,
+		d.temperature,
+		d.worked,
 		d.first_down, d.last_down, d.person_down,
 		d.person_onboard,
 		concat(u.lastname, '
@@ -578,8 +588,8 @@
 		#{last_down},
 		worked = #{worked},
 		person_down = #{person_down},
-		person_onboard = #{person_onboard}, 
-		windyday = #{windyday} 
+		person_onboard = #{person_onboard},
+		windyday = #{windyday}
 		WHERE id = #{id};
 	</update>
 
@@ -592,7 +602,8 @@
 		#{handswork},
 		menwork = #{menwork},
 		rain = #{rain},
-		wind = #{wind}, sky=#{sky},
+		wind = #{wind},
+		sky=#{sky},
 		temperature = #{temperature},
 		first_down = #{first_down},
 		last_down = #{last_down},
@@ -646,7 +657,8 @@
 		df.invoicing_cycle, df.activity_start, df.activity_end,
 		df.menwork_activityh, df.id_crane, df.franchise_volume,
 		df.franchise_volumeunderboard,
-		df.franchise_volumeunderboard_sws, df.franchise_volume_tw_mct,
+		df.franchise_volumeunderboard_sws,
+		df.franchise_volume_tw_mct,
 		df.franchise_timework
 		FROM
 		detailfinalscheduleship df,
@@ -685,10 +697,14 @@
 		menwork_activityh =
 		#{menwork_activityh},
 		id_crane = #{id_crane},
-		franchise_volume = #{franchise_volume},
-		franchise_volumeunderboard = #{franchise_volumeunderboard},
-		franchise_volumeunderboard_sws = #{franchise_volumeunderboard_sws},
-		franchise_volume_tw_mct = #{franchise_volume_tw_mct},
+		franchise_volume =
+		#{franchise_volume},
+		franchise_volumeunderboard =
+		#{franchise_volumeunderboard},
+		franchise_volumeunderboard_sws =
+		#{franchise_volumeunderboard_sws},
+		franchise_volume_tw_mct =
+		#{franchise_volume_tw_mct},
 		franchise_timework = #{franchise_timework}
 		WHERE id = #{id};
 	</update>
@@ -703,13 +719,13 @@
 		df.iddetailscheduleship, df.notedetail,
 		df.volumeunderboard,df.volumeunderboard_sws,
 		df.volume_tw_mct,
-		s.rif_mct, s.id as rif_sws, df.invoicing_cycle, 
+		s.rif_mct, s.id as rif_sws, df.invoicing_cycle,
 		df.activity_start,
-		df.activity_end, 
+		df.activity_end,
 		df.menwork_activityh, df.id_crane,
 		df.franchise_volume,
 		df.franchise_volumeunderboard,
-		df.franchise_volumeunderboard_sws, 
+		df.franchise_volumeunderboard_sws,
 		df.franchise_volume_tw_mct,
 		df.franchise_timework
 		FROM

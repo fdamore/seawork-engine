@@ -1,6 +1,5 @@
 package org.uario.seaworkengine.utility;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,8 +46,6 @@ public class UtilityCSV {
 	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
 
 	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
-
-	private static final NumberFormat		number_format		= NumberFormat.getInstance(Locale.ITALIAN);
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
 	        final ICustomerDAO customerDAO) {
@@ -113,11 +110,11 @@ public class UtilityCSV {
 			}
 
 			if (item.getFirstOperativeName() != null) {
-				firstUser = item.getFirstOperativeName();
+				firstUser = Utility.dottedName(item.getFirstOperativeName());
 			}
 
 			if (item.getSecondOperativeName() != null) {
-				secondUser = item.getSecondOperativeName();
+				secondUser = Utility.dottedName(item.getSecondOperativeName());
 			}
 
 			if ((item.getWorked() != null) && item.getWorked()) {
@@ -155,6 +152,7 @@ public class UtilityCSV {
 			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate + ";" + shiftNumber + ";"
 			        + operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program
 			        + ";" + persons_review + ";" + serviceType + ";" + startDate + ";" + endDate + ";\n";
+
 			builder.append(line);
 
 		}
