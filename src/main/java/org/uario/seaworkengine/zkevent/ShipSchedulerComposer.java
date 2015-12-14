@@ -941,8 +941,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set list review
-		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao.loadDetailFinalScheduleShipByIdDetailScheduleShip(detailSelected
-				.getId());
+		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao
+		        .loadDetailFinalScheduleShipByIdDetailScheduleShip(detailSelected.getId());
 		this.list_reviewDetailScheduleShip.setModel(new ListModelList<DetailFinalScheduleShip>(final_details));
 
 	}
@@ -950,8 +950,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #addShipSchedule_command")
 	public void addScheduleShipCommand() {
 		if ((this.ship_name_schedule.getSelectedItem() == null) || (this.ship_arrival_schedule.getValue() == null)
-				|| (this.ship_departure_schedule.getValue() == null)
-				|| this.ship_arrival_schedule.getValue().after(this.ship_departure_schedule.getValue())) {
+		        || (this.ship_departure_schedule.getValue() == null)
+		        || this.ship_arrival_schedule.getValue().after(this.ship_departure_schedule.getValue())) {
 
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
@@ -1202,9 +1202,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer deltaPersons = 0;
 
 		this.infoDetailShipProgram.setValue("Tot. Navi lav: " + count_worked_shift + " - Tot. Navi non lav: " + count_not_worked_shift
-				+ " - Tot. Mani P: " + count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands
-				+ " - Tot. Persone P: " + count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: "
-				+ deltaPersons);
+		        + " - Tot. Mani P: " + count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands
+		        + " - Tot. Persone P: " + count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: "
+		        + deltaPersons);
 
 		if ((list == null) || (list.size() == 0)) {
 			return;
@@ -1261,9 +1261,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		deltaPersons = count_menworking_program - count_menworking_review;
 
 		this.infoDetailShipProgram.setValue("Tot. Navi lav: " + count_worked_shift + " - Tot. Navi non lav: " + count_not_worked_shift
-				+ " - Tot. Mani P: " + count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands
-				+ " - Tot. Persone P: " + count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: "
-				+ deltaPersons);
+		        + " - Tot. Mani P: " + count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands
+		        + " - Tot. Persone P: " + count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: "
+		        + deltaPersons);
 	}
 
 	/**
@@ -1374,7 +1374,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	public void changeBehaviorForShify(final Integer shift_no, final Date date_shift, final Timebox ship_from, final Timebox ship_to,
-			final Checkbox check_last_shift) {
+	        final Checkbox check_last_shift) {
 
 		check_last_shift.setVisible(false);
 
@@ -1382,73 +1382,73 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		switch (shift_no.intValue()) {
 
-		case 1: {
+			case 1: {
 
-			// prepare period
-			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+				// prepare period
+				final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_1_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_1_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_1_time_from.getTime());
-			ship_to.setValue(cal_shift_1_time_to.getTime());
+				ship_from.setValue(cal_shift_1_time_from.getTime());
+				ship_to.setValue(cal_shift_1_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 2: {
+			case 2: {
 
-			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_2_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_2_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_2_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_2_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_2_time_from.getTime());
-			ship_to.setValue(cal_shift_2_time_to.getTime());
+				ship_from.setValue(cal_shift_2_time_from.getTime());
+				ship_to.setValue(cal_shift_2_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 3: {
+			case 3: {
 
-			final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_3_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_3_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_3_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_3_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_3_time_from.getTime());
-			ship_to.setValue(cal_shift_3_time_to.getTime());
+				ship_from.setValue(cal_shift_3_time_from.getTime());
+				ship_to.setValue(cal_shift_3_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 4: {
+			case 4: {
 
-			final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_4_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_4_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
+				final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
 
-			cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_4_time_to.set(Calendar.MINUTE, 0);
+				cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_4_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_4_time_from.getTime());
-			ship_to.setValue(cal_shift_4_time_to.getTime());
+				ship_from.setValue(cal_shift_4_time_from.getTime());
+				ship_to.setValue(cal_shift_4_time_to.getTime());
 
-			check_last_shift.setVisible(true);
-			check_last_shift.setChecked(true);
-			break;
-		}
+				check_last_shift.setVisible(true);
+				check_last_shift.setChecked(true);
+				break;
+			}
 
 		}
 
@@ -1457,12 +1457,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onChange = #shiftdate")
 	public void checkShiftDate() {
 
-		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
-				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null)
+		        && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0)
+		                || (ShipSchedulerComposer.this.shiftdate.getValue()
+		                        .compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
-					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
+			        + ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
 			this.msgAlert.setValue(msg);
 
 			this.alertShiftDate.setVisible(true);
@@ -1480,12 +1481,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detailScheduleShipSelected = this.sw_list_scheduleShip.getSelectedItem().getValue();
 		}
 
-		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null))
+		        && ((ShipSchedulerComposer.this.shiftdate_Daily.getValue()
+		                .compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0)
+		                || (ShipSchedulerComposer.this.shiftdate_Daily.getValue()
+		                        .compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
-					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
+			        + ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
 
 			this.msgAlert_detail.setValue(msg);
 
@@ -1829,7 +1832,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Date last_day_month = cal_period.getTime();
 
 		final List<ScheduleShip> list_month = this.shipSchedulerDao.searchScheduleShip(first_day_month, last_day_month, null, null, null, service_id,
-				null, null, null, null);
+		        null, null, null, null);
 
 		Integer sum_current_volume_month = 0;
 
@@ -2520,7 +2523,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.scheduleShip_selected = (ScheduleShip) this.sw_list_scheduleShipProgram.getSelectedItem().getValue();
 
 		if ((this.ship_name.getSelectedItem() == null) || (this.ship_volume.getValue() == null) || (this.ship_arrival == null)
-				|| (this.ship_departure.getValue() == null) || this.ship_arrival.getValue().after(this.ship_departure.getValue())) {
+		        || (this.ship_departure.getValue() == null) || this.ship_arrival.getValue().after(this.ship_departure.getValue())) {
 			final Map<String, String> params = new HashMap<String, String>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -2809,7 +2812,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if (this.overviewBap.isSelected()) {
 
 			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, date_to, text_search, rif_sws, rif_mct, shiftNumber, invoicing,
-					idServiceSelected, this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
+			        idServiceSelected, this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.sw_list_reviewWork.setPageSize(this.shows_rows.getValue());
@@ -2824,8 +2827,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		} else if (this.overviewBapAggregate.isSelected()) {
 
 			this.list_review_work_aggregate = this.statistic_dao.loadReviewShipWorkAggregate(date_from, date_to, rif_sws, rif_mct, invoicing,
-					text_search, idServiceSelected, this.ship_type_search.getValue(), this.ship_line_search.getValue(),
-					this.ship_condition_search.getValue());
+			        text_search, idServiceSelected, this.ship_type_search.getValue(), this.ship_line_search.getValue(),
+			        this.ship_condition_search.getValue());
 
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.sw_list_reviewWorkAggregate.setPageSize(this.shows_rows.getValue());
@@ -2841,8 +2844,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		} else if (this.statisticsShipTab.isSelected()) {
 
-			this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_search, date_from, date_to,
-					this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
+			this.listShipStatistics = this.statisticDAO.overviewFinalScheduleByShip(text_search, date_from, date_to, this.ship_type_search.getValue(),
+			        this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 			this.list_ship_statistics.setModel(new ListModelList<ShipOverview>(this.listShipStatistics));
 
@@ -2929,7 +2932,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		if (((this.text_search_rifMCT.getValue() == null) || this.text_search_rifMCT.getValue().equals(""))
-				&& ((this.text_search_rifSWS.getValue() == null) || this.text_search_rifSWS.getValue().equals(""))) {
+		        && ((this.text_search_rifSWS.getValue() == null) || this.text_search_rifSWS.getValue().equals(""))) {
 
 			Integer idServiceSelected = null;
 
@@ -2940,8 +2943,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipByPeriodOrDateshift(dateFrom, dateTo,
-					this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected,
-					this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
+			        this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected,
+			        this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 
@@ -3027,8 +3030,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(dateFrom, dateTo, this.text_search_rifSWS.getValue(),
-				this.text_search_rifMCT.getValue(), id_customer, id_service, text_search, this.ship_type_search.getValue(),
-				this.ship_line_search.getValue(), this.ship_condition_search.getValue());
+		        this.text_search_rifMCT.getValue(), id_customer, id_service, text_search, this.ship_type_search.getValue(),
+		        this.ship_line_search.getValue(), this.ship_condition_search.getValue());
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_scheduleShipProgram.setPageSize(this.shows_rows.getValue());
@@ -3221,44 +3224,44 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						productivityNotNull++;
 					}
 					switch (i) {
-					case 1:
-						itemProductivity.setGen(productivity);
-						break;
-					case 2:
-						itemProductivity.setFeb(productivity);
-						break;
-					case 3:
-						itemProductivity.setMar(productivity);
-						break;
-					case 4:
-						itemProductivity.setApr(productivity);
-						break;
-					case 5:
-						itemProductivity.setMay(productivity);
-						break;
-					case 6:
-						itemProductivity.setJun(productivity);
-						break;
-					case 7:
-						itemProductivity.setJul(productivity);
-						break;
-					case 8:
-						itemProductivity.setAug(productivity);
-						break;
-					case 9:
-						itemProductivity.setSep(productivity);
-						break;
-					case 10:
-						itemProductivity.setOct(productivity);
-						break;
-					case 11:
-						itemProductivity.setNov(productivity);
-						break;
-					case 12:
-						itemProductivity.setDec(productivity);
-						break;
-					default:
-						break;
+						case 1:
+							itemProductivity.setGen(productivity);
+							break;
+						case 2:
+							itemProductivity.setFeb(productivity);
+							break;
+						case 3:
+							itemProductivity.setMar(productivity);
+							break;
+						case 4:
+							itemProductivity.setApr(productivity);
+							break;
+						case 5:
+							itemProductivity.setMay(productivity);
+							break;
+						case 6:
+							itemProductivity.setJun(productivity);
+							break;
+						case 7:
+							itemProductivity.setJul(productivity);
+							break;
+						case 8:
+							itemProductivity.setAug(productivity);
+							break;
+						case 9:
+							itemProductivity.setSep(productivity);
+							break;
+						case 10:
+							itemProductivity.setOct(productivity);
+							break;
+						case 11:
+							itemProductivity.setNov(productivity);
+							break;
+						case 12:
+							itemProductivity.setDec(productivity);
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -3361,8 +3364,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		totalHoursTask = itemTotalHoursTask.getGen() + itemTotalHoursTask.getFeb() + itemTotalHoursTask.getMar() + itemTotalHoursTask.getApr()
-				+ itemTotalHoursTask.getMay() + itemTotalHoursTask.getJun() + itemTotalHoursTask.getJul() + itemTotalHoursTask.getAug()
-				+ itemTotalHoursTask.getSep() + itemTotalHoursTask.getOct() + itemTotalHoursTask.getNov() + itemTotalHoursTask.getDec();
+		        + itemTotalHoursTask.getMay() + itemTotalHoursTask.getJun() + itemTotalHoursTask.getJul() + itemTotalHoursTask.getAug()
+		        + itemTotalHoursTask.getSep() + itemTotalHoursTask.getOct() + itemTotalHoursTask.getNov() + itemTotalHoursTask.getDec();
 
 		if (!itemTotalHoursTask.getGen().equals(0.0)) {
 			hoursTaskNotNull++;
@@ -4223,44 +4226,44 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsC_P.setArgument(ReportItemTag.HandsC_P);
 		for (int i = 1; i <= 12; i++) {
 			switch (i) {
-			case 1:
-				itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
-				break;
-			case 2:
-				itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
-				break;
-			case 3:
-				itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
-				break;
-			case 4:
-				itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
-				break;
-			case 5:
-				itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
-				break;
-			case 6:
-				itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
-				break;
-			case 7:
-				itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
-				break;
-			case 8:
-				itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
-				break;
-			case 9:
-				itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
-				break;
-			case 10:
-				itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
-				break;
-			case 11:
-				itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
-				break;
-			case 12:
-				itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
-				break;
-			default:
-				break;
+				case 1:
+					itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
+					break;
+				case 2:
+					itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
+					break;
+				case 3:
+					itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
+					break;
+				case 4:
+					itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
+					break;
+				case 5:
+					itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
+					break;
+				case 6:
+					itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
+					break;
+				case 7:
+					itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
+					break;
+				case 8:
+					itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
+					break;
+				case 9:
+					itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
+					break;
+				case 10:
+					itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
+					break;
+				case 11:
+					itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
+					break;
+				case 12:
+					itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -4663,9 +4666,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		totalServiceTimeWorks = totalServiceTimeWork.getGen() + totalServiceTimeWork.getFeb() + totalServiceTimeWork.getMar()
-				+ totalServiceTimeWork.getApr() + totalServiceTimeWork.getMay() + totalServiceTimeWork.getJun() + totalServiceTimeWork.getJul()
-				+ totalServiceTimeWork.getAug() + totalServiceTimeWork.getSep() + totalServiceTimeWork.getOct() + totalServiceTimeWork.getNov()
-				+ totalServiceTimeWork.getDec();
+		        + totalServiceTimeWork.getApr() + totalServiceTimeWork.getMay() + totalServiceTimeWork.getJun() + totalServiceTimeWork.getJul()
+		        + totalServiceTimeWork.getAug() + totalServiceTimeWork.getSep() + totalServiceTimeWork.getOct() + totalServiceTimeWork.getNov()
+		        + totalServiceTimeWork.getDec();
 
 		if (!totalServiceTimeWork.getGen().equals(0.0)) {
 			totaleServiceTimeWorkNotNull++;
@@ -4807,16 +4810,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipSchedulerComposer.this.deleteDetailship();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+		        new EventListener<ClickEvent>() {
+			        @Override
+			        public void onEvent(final ClickEvent e) {
+				        if (Messagebox.ON_OK.equals(e.getName())) {
+					        ShipSchedulerComposer.this.deleteDetailship();
+				        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					        // Cancel is clicked
+				        }
+			        }
+		        }, params);
 
 	}
 
@@ -4834,19 +4837,19 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			buttons[1] = Messagebox.Button.CANCEL;
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-					new EventListener<ClickEvent>() {
-				@Override
-				public void onEvent(final ClickEvent e) {
-					if (Messagebox.ON_OK.equals(e.getName())) {
-						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-								.getId());
+			        new EventListener<ClickEvent>() {
+				        @Override
+				        public void onEvent(final ClickEvent e) {
+					        if (Messagebox.ON_OK.equals(e.getName())) {
+						        ShipSchedulerComposer.this.shipSchedulerDao
+			                            .deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected.getId());
 
-						ShipSchedulerComposer.this.refreshProgram();
-					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						        ShipSchedulerComposer.this.refreshProgram();
+					        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-					}
-				}
-			}, params);
+					        }
+				        }
+			        }, params);
 
 		}
 	}
@@ -5011,7 +5014,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			if ((rifMCT != null) || (this.text_search_rifSWS.getValue() != null)) {
 
 				this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipRif_MCT_SWS(this.text_search_rifSWS.getValue(),
-						rifMCT);
+				        rifMCT);
 
 				this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 
@@ -5379,7 +5382,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final List<DetailFinalSchedule> countWorker = this.statisticDAO.countWorkerInOverviewFinalSchedule(null, detailSelected.getShift(), null,
-				null, detailSelected.getShiftdate(), detailSelected.getShiftdate(), reviewshift, idShip, null);
+		        null, detailSelected.getShiftdate(), detailSelected.getShiftdate(), reviewshift, idShip, null);
 		if (countWorker != null) {
 			this.menworkReview.setValue(countWorker.size() + "");
 		} else {
@@ -5387,7 +5390,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final List<DetailFinalSchedule> listDetailRevision = this.statisticDAO.listDetailFinalSchedule(null, detailSelected.getShift(), null, null,
-				detailSelected.getShiftdate(), detailSelected.getShiftdate(), reviewshift, idShip, null);
+		        detailSelected.getShiftdate(), detailSelected.getShiftdate(), reviewshift, idShip, null);
 		double count_h = 0;
 
 		for (final DetailFinalSchedule item : listDetailRevision) {
@@ -5418,8 +5421,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.handswork_Daily.setValue(detailSelected.getHandswork());
 		this.menwork_Daily.setValue(detailSelected.getMenwork());
-		this.handswork_program_Daily.setValue(detailSelected.getHandswork_program().toString());
-		this.menwork_program_Daily.setValue(detailSelected.getMenwork_program().toString());
+
+		final String hankswork_info = (detailSelected.getHandswork_program() == null) ? "" : "" + detailSelected.getHandswork_program();
+		this.handswork_program_Daily.setValue(hankswork_info);
+
+		final String menwork_info = (detailSelected.getMenwork_program() == null) ? "" : "" + detailSelected.getMenwork_program();
+		this.menwork_program_Daily.setValue(menwork_info);
 
 		// define general value
 		this.first_down_review.setValue(detailSelected.getFirst_down());
@@ -5519,7 +5526,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if (detailSelected.getShiftdate() != null) {
 
 			this.infoShipNameAndShift.setValue(detailSelected.getName() + shipActivity + " - Turno " + detailSelected.getShift() + " - Data Turno: "
-					+ this.format.format(detailSelected.getShiftdate()));
+			        + this.format.format(detailSelected.getShiftdate()));
 		} else {
 			this.infoShipNameAndShift.setValue(detailSelected.getName() + shipActivity + " - Turno " + detailSelected.getShift());
 		}
@@ -5567,8 +5574,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onOK=#complaint_gen,#complaint_feb,#complaint_mar,#complaint_apr,#complaint_may,#complaint_jun,#complaint_jul,#complaint_aug,#complaint_sep,#complaint_oct,#complaint_nov,#complaint_dec")
 	public void updateCustomerComplaint() {
-		if ((this.customerComplaint == null) || (this.select_year_detail.getSelectedItem() == null)
-				|| (this.selectCustomer.getSelectedItem() == null) || (this.selectCustomer.getSelectedItem().getValue() == null)) {
+		if ((this.customerComplaint == null) || (this.select_year_detail.getSelectedItem() == null) || (this.selectCustomer.getSelectedItem() == null)
+		        || (this.selectCustomer.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
