@@ -212,6 +212,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private ICustomerDAO									customerDAO;
 
 	@Wire
+	private Checkbox										datashift_period;
+
+	@Wire
 	private Listheader										departureDateColumn;
 
 	@Wire

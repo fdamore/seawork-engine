@@ -87,8 +87,7 @@
 			<hbox>
 
 				<hbox id="filterDateWork">
-					<a
-						label="Ricerca Navi in intervallo di Lavorazione: "
+					<a label="Cerca Navi: "
 						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 					<datebox id="searchArrivalDateShipFrom"
@@ -150,7 +149,7 @@
 					id="detailShipProgram_download" style="color:green" />
 			</hbox>
 
-			<separator />
+			<space></space>
 
 			<hbox>
 				<intbox placeholder="Cerca Rif SWS..."
@@ -194,14 +193,55 @@
 					</vbox>
 				</hbox>
 			</hbox>
-			<separator />
 
 
+			<space></space>
+
+			<!-- FILTRI TURNO e DATA TURNO -->
 			<hbox>
+
+				<hbox id="filterShipType">
+					<a label="Tipo nave " />
+					<vbox align="start">
+						<combobox placeholder="Scegli tipo nave..."
+							readonly="true" id="select_typeShip"
+							onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+							<comboitem value="activityh"
+								label="ATTIVITÀ H" />
+							<comboitem value="nowork"
+								label="NON LAVORO" />
+							<comboitem value="noone"
+								label="NESSUNO DEI DUE" />
+						</combobox>
+
+						<a label="Annulla filtro"
+							id="remove_select_typeShip" style="color:green"
+							onClick="select_typeShip.setSelectedItem(null);" />
+					</vbox>
+				</hbox>
+
+				<hbox id="filterShipWorked">
+					<a label="Lavorazione " />
+					<vbox align="start">
+
+						<combobox placeholder="Scegli se lavorate..."
+							readonly="true" id="select_workedShip"
+							onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+							<comboitem value="yes" label="Si" />
+							<comboitem value="no" label="No" />
+						</combobox>
+
+						<a label="Annulla filtro"
+							id="remove_select_workedShip" style="color:green"
+							onClick="select_workedShip.setSelectedItem(null);" />
+
+					</vbox>
+				</hbox>
+
 
 
 				<hbox id="filterShift">
-					<a label="Filtra su numero turno: " />
+					<a label="Numero turno: " />
 					<vbox>
 						<combobox placeholder="Scegli turno..."
 							readonly="true" id="select_shift"
@@ -229,50 +269,22 @@
 							id="remove_searchDateShift" style="color:green"
 							onClick="searchDateShift.setValue(null);" />
 					</vbox>
+
+
 				</hbox>
 
-				<hbox id="filterShipType">
-					<a label="Filtra per tipo nave " />
-					<vbox align="start">
-						<combobox placeholder="Scegli tipo nave..."
-							readonly="true" id="select_typeShip"
-							onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-							<comboitem value="activityh"
-								label="ATTIVITÀ H" />
-							<comboitem value="nowork"
-								label="NON LAVORO" />
-							<comboitem value="noone" label="NESSUNO DEI DUE" />
-						</combobox>
+				<hbox align="center">
 
-						<a label="Annulla filtro"
-							id="remove_select_typeShip" style="color:green"
-							onClick="select_typeShip.setSelectedItem(null);" />
-					</vbox>
-				</hbox>
+					<a label="Periodo su data turno "
+						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+					<checkbox checked="false" id="datashift_period"></checkbox>
 
-				<hbox id="filterShipWorked">
-					<a label="Filtra per lavorate " />
-					<vbox align="start">
-
-						<combobox placeholder="Scegli se lavorate..."
-							readonly="true" id="select_workedShip"
-							onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
-							<comboitem value="yes" label="Si" />
-							<comboitem value="no" label="No" />
-						</combobox>
-
-						<a label="Annulla filtro"
-							id="remove_select_workedShip" style="color:green"
-							onClick="select_workedShip.setSelectedItem(null);" />
-
-					</vbox>
 				</hbox>
 
 			</hbox>
 
-			<separator />
+			<space></space>
 
-			<separator />
 			<hbox id="filterRows">
 				<a label="Righe da visualizzare: "
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
@@ -297,7 +309,7 @@
 
 			</hbox>
 
-			<separator />
+			<space></space>
 		</div>
 
 
