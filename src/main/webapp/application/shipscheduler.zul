@@ -218,7 +218,7 @@
 				</hbox>
 
 				<hbox id="filterShip">
-					<a label="Ricerca Navi per Data Turno: "
+					<a label="Data Turno: "
 						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 					<vbox>
 						<datebox id="searchDateShift"
