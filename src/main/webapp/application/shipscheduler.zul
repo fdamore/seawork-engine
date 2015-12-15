@@ -273,7 +273,7 @@
 
 				</hbox>
 
-				<hbox align="center">
+				<hbox align="center" id="datashift_period_compo">
 
 					<a label="Periodo su data turno "
 						iconSclass="z-icon-angle-double-right" sclass="subtitle" />

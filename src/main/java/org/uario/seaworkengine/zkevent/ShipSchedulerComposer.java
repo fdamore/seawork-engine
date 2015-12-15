@@ -215,6 +215,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Checkbox										datashift_period;
 
 	@Wire
+	private Component										datashift_period_compo;
+
+	@Wire
 	private Listheader										departureDateColumn;
 
 	@Wire
@@ -304,7 +307,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Row												h_detail_period;
-
 	@Wire
 	private Row												h_program_period;
 	@Wire
@@ -327,6 +329,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Intbox											invoicing_cycle_review;
 	@Wire
 	private Intbox											invoicing_cycle_search;
+
 	@Wire
 	private Datebox											last_down_detail;
 
@@ -568,7 +571,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox										select_workedShip;
-
 	@Wire
 	public Combobox											select_year_detail;
 	@Wire
@@ -585,6 +587,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox										shift;
 	@Wire
 	public Combobox											shift_Daily;
+
 	@Wire
 	private Datebox											shiftdate;
 
@@ -730,7 +733,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											terminalProductivy;
-
 	@Wire
 	private Textbox											text_search_rifMCT;
 	@Wire
@@ -753,6 +755,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Label											TotalVolumeTWMTC;
 	@Wire
 	private Doublebox										tp_apr;
+
 	@Wire
 	private Doublebox										tp_aug;
 
@@ -1503,7 +1506,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #select_workedShip, #select_typeShip,#scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search,#ship_type_search,#ship_line_search,#ship_condition_search; onClick = #remove_select_shift, #remove_searchDateShift, #remove_select_typeShip,#remove_select_workedShip,#remove_select_customer, #removeServiceFilterDetail")
+	@Listen("onChange = #select_workedShip, #select_typeShip,#scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search,#ship_type_search,#ship_line_search,#ship_condition_search; onClick = #remove_select_shift, #remove_searchDateShift, #remove_select_typeShip,#remove_select_workedShip,#remove_select_customer, #removeServiceFilterDetail;  onCheck = #datashift_period")
 	public void defineSchedulerView() {
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
@@ -1557,6 +1560,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.text_search_rifSWS.setVisible(true);
 			this.text_search_rifMCT.setVisible(true);
 
+			// force over data shift
+			this.datashift_period_compo.setVisible(true);
+
 			String rifMCT = this.text_search_rifMCT.getValue();
 			if ((rifMCT != null) && rifMCT.equals("")) {
 				rifMCT = null;
@@ -1586,6 +1592,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.filterShip.setVisible(false);
 			this.filterShipType.setVisible(false);
 			this.filterShipWorked.setVisible(false);
+
+			// force over data shift
+			this.datashift_period_compo.setVisible(false);
 
 			if (selectedTab == this.overviewBap) {
 				this.text_search_rifSWS.setVisible(true);
@@ -2945,9 +2954,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				idServiceSelected = serviceSelected.getId();
 			}
 
-			this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipByPeriodOrDateshift(dateFrom, dateTo,
-			        this.searchDateShift.getValue(), text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected,
-			        this.ship_type_search.getValue(), this.ship_line_search.getValue(), this.ship_condition_search.getValue());
+			// extract info for search
+			final Date date_shift = this.searchDateShift.getValue();
+			final String ship_type = this.ship_type_search.getValue();
+			final String ship_line = this.ship_line_search.getValue();
+			final String ship_condition = this.ship_condition_search.getValue();
+			final Boolean period_on_dateshift = this.datashift_period.isChecked();
+
+			this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShipByPeriodOrDateshift(dateFrom, dateTo, date_shift,
+			        period_on_dateshift, text_search, no_shift, idCustomer, nowork, activityh, worked, idServiceSelected, ship_type, ship_line,
+			        ship_condition);
 
 			this.sw_list_scheduleShip.setModel(new ListModelList<DetailScheduleShip>(this.list_details_programmed_ship));
 
@@ -5036,7 +5052,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #searchArrivalDateShipFrom, #searchArrivalDateShipTo; onOK = #searchArrivalDateShipFrom, #searchArrivalDateShipTo")
+	@Listen("onChange = #searchArrivalDateShipFrom, #searchArrivalDateShipTo; onOK = #searchArrivalDateShipFrom, #searchArrivalDateShipTo; onCheck = #datashift_period")
 	public void selectDetailDatePeriod() {
 
 		// the search must to be for date period

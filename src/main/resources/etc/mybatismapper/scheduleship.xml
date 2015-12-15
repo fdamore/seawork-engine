@@ -293,17 +293,47 @@
 		</if>
 
 		<if test="datefrom !=null and dateto !=null and dateshift == null">
-		<![CDATA[ 
+
+			<if test="period_on_dateshift != null and period_on_dateshift == true">			
+			<![CDATA[ 
+		AND (d.shiftdate <= #{dateto} and d.shiftdate >= #{datefrom}) 			
+			]]>
+			</if>
+
+			<if test="period_on_dateshift == null or period_on_dateshift == false">			
+			<![CDATA[ 
 		AND (ss.arrivaldate <= #{dateto} and ss.departuredate >= #{datefrom}) 			
 			]]>
+			</if>
+
+
 		</if>
 
 		<if test="datefrom !=null and dateto == null and dateshift == null">
+
+			<if test="period_on_dateshift != null and period_on_dateshift == true">			
+			<![CDATA[ 
+		and (d.shiftdate = #{datefrom}) 			
+			]]>
+			</if>
+
+			<if test="period_on_dateshift == null or period_on_dateshift == false">			
 			<![CDATA[ and ss.arrivaldate = #{datefrom} ]]>
+			</if>
+
 		</if>
 
 		<if test="datefrom == null and dateto != null and dateshift == null">
+		
+		<if test="period_on_dateshift != null and period_on_dateshift == true">			
+			<![CDATA[ 
+		and (d.shiftdate = #{dateto}) 			
+			]]>
+			</if>
+		
+			<if test="period_on_dateshift == null or period_on_dateshift == false">
 			<![CDATA[ and ss.departuredate = #{dateto} ]]>
+			</if>
 		</if>
 
 		<if test="idCustomer != null">
@@ -590,7 +620,8 @@
 		person_down = #{person_down},
 		person_onboard = #{person_onboard},
 		windyday = #{windyday}
-		WHERE id = #{id};
+		WHERE id =
+		#{id};
 	</update>
 
 

@@ -147,7 +147,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShipByDateshit(final Date shiftdate, final String full_text_search, final Integer shift,
-			final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId) {
+	        final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId) {
 
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
 
@@ -173,8 +173,9 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShipByPeriodOrDateshift(final Date datefrom, final Date dateto, final Date dateshift,
-			final String full_text_search, final Integer shift, final Integer idCustomer, final Boolean nowork, final Boolean activityh,
-			final Boolean worked, final Integer serviceId, final String shipType, final String shipLine, final String shipCondition) {
+	        final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer, final Boolean nowork,
+	        final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType, final String shipLine,
+	        final String shipCondition) {
 
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
@@ -206,6 +207,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("shipType", shipType);
 		map.put("shipLine", shipLine);
 		map.put("shipCondition", shipCondition);
+		map.put("period_on_dateshift", period_on_dateshift);
 
 		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipByPeriodOrDateshift", map);
 
@@ -226,8 +228,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<ScheduleShip> searchScheduleShip(final Date datefrom, final Date dateto, final Integer sws, final String mct,
-			final Integer idCustomer, final Integer idService, final String textSearch, final String shipType, final String shipLine,
-			final String shipCondition) {
+	        final Integer idCustomer, final Integer idService, final String textSearch, final String shipType, final String shipLine,
+	        final String shipCondition) {
 
 		MyBatisScheduleShipDAO.logger.info("load ScheduleShip");
 

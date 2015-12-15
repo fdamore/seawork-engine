@@ -49,6 +49,7 @@ public interface IScheduleShip {
 	 * @param dateto
 	 * @param dateshift
 	 *            TODO
+	 * @param period_on_dateshift TODO
 	 * @param full_text_search
 	 * @param shift
 	 * @param idCustomer
@@ -58,9 +59,9 @@ public interface IScheduleShip {
 	 * @param serviceId
 	 * @return
 	 */
-	public List<DetailScheduleShip> searchDetailScheduleShipByPeriodOrDateshift(Date datefrom, Date dateto, Date dateshift, String full_text_search,
-			Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId, String shipType, String shipLine,
-			String shipCondition);
+	public List<DetailScheduleShip> searchDetailScheduleShipByPeriodOrDateshift(Date datefrom, Date dateto, Date dateshift, Boolean period_on_dateshift,
+			String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId, String shipType,
+			String shipLine, String shipCondition);
 
 	public List<DetailScheduleShip> searchDetailScheduleShipRif_MCT_SWS(Integer rif_sws, String rif_mct);
 
