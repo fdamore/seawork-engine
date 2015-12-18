@@ -117,9 +117,14 @@
 		</if>
 
 		<if test="idService!=null">
-			and s.id_service = #{idService}
-		</if>
+			<if test="idService == -666">
+				and s.id_service is null
+			</if>
 
+			<if test="idService != -666">
+				and s.id_service = #{idService}
+			</if>
+		</if>
 		order by
 		s.arrivaldate
 		DESC;
@@ -280,9 +285,19 @@
 			and s.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
 
-		<if test="serviceId!=null">
-			and ss.id_service = #{serviceId}
+
+		<if test="serviceId != null">
+			<if test="serviceId == -666">
+				and ss.id_service is null
+			</if>
+
+			<if test="serviceId != -666">
+				and ss.id_service = #{serviceId}
+			</if>
 		</if>
+
+
+
 
 		<if test="shift != null">
 			and d.shift = #{shift}
@@ -324,13 +339,13 @@
 		</if>
 
 		<if test="datefrom == null and dateto != null and dateshift == null">
-		
-		<if test="period_on_dateshift != null and period_on_dateshift == true">			
+
+			<if test="period_on_dateshift != null and period_on_dateshift == true">			
 			<![CDATA[ 
 		and (d.shiftdate = #{dateto}) 			
 			]]>
 			</if>
-		
+
 			<if test="period_on_dateshift == null or period_on_dateshift == false">
 			<![CDATA[ and ss.departuredate = #{dateto} ]]>
 			</if>

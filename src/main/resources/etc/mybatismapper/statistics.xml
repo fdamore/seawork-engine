@@ -4,30 +4,30 @@
 <mapper namespace="statistics">
 
 	<cache-ref namespace="schedule" />
-	
-	
+
+
 	<select id="getWorkTimeCountByUser" resultType="double"
 		parameterType="map">
-		
-				SELECT 
-    sum(if(isnull(time), 0, time) + if(isnull(time_vacation),
-        0,
-        time_vacation))
-FROM
-    detailfinalschedule dfs,
-    schedule s,
-    usertask ut
-WHERE
-    dfs.id_schedule = s.id
-        and (ut.isabsence = 0 or ut.recorded = 1)
-        and dfs.task = ut.id
-        and s.user = #{id_user}
-        and date(s.date_schedule) <![CDATA[>=]]>
+
+		SELECT
+		sum(if(isnull(time), 0, time) + if(isnull(time_vacation),
+		0,
+		time_vacation))
+		FROM
+		detailfinalschedule dfs,
+		schedule s,
+		usertask ut
+		WHERE
+		dfs.id_schedule = s.id
+		and (ut.isabsence = 0 or ut.recorded = 1)
+		and dfs.task = ut.id
+		and s.user = #{id_user}
+		and date(s.date_schedule) <![CDATA[>=]]>
 		date(#{date_from}) and
 		date(s.date_schedule) <![CDATA[<=]]>
 		date(#{date_to})
 	</select>
-	
+
 
 	<select id="timeWorkedReviewd" resultType="double"
 		parameterType="map">
@@ -58,8 +58,10 @@ WHERE
 		and s.shift = us.id
 		and (us.break_shift = 1
 		or us.waitbreak_shift = 1
-		or us.recorded = 1 or us.disease_shift = 1 or us.accident_shift = 1)
-		and (s.date_schedule <![CDATA[>=]]>
+		or
+		us.recorded = 1 or us.disease_shift = 1 or us.accident_shift = 1)
+		and
+		(s.date_schedule <![CDATA[>=]]>
 		date(#{date_from})
 		and s.date_schedule <![CDATA[<=]]>
 		date(#{date_to}))
@@ -75,27 +77,31 @@ WHERE
 		s.id as
 		id_ship,
 		dss.shift,
-		d.timework as time_work, d.franchise_timework, 
+		d.timework as time_work, d.franchise_timework,
 		(select c.number from crane
-		c where d.id_crane=c.id) as crane, d.crane_gtw,
+		c where d.id_crane=c.id) as crane,
+		d.crane_gtw,
 		dss.shiftdate as
 		date_request,
-		d.volume,d.franchise_volume, 
-		d.volumeunderboard, d.franchise_volumeunderboard, 
-		d.volumeunderboard_sws, d.franchise_volumeunderboard_sws, 
-		d.volume_tw_mct, d.franchise_volume_tw_mct,  
+		d.volume,d.franchise_volume,
+		d.volumeunderboard, d.franchise_volumeunderboard,
+		d.volumeunderboard_sws, d.franchise_volumeunderboard_sws,
+		d.volume_tw_mct, d.franchise_volume_tw_mct,
 		d.notedetail,
 		d.invoicing_cycle,
 		dss.sky, dss.rain,
-		dss.wind, dss.windyday, dss.temperature,
+		dss.wind, dss.windyday,
+		dss.temperature,
 		dss.first_down,
 		dss.last_down
 		from
 		ship s,
-		scheduleship ss,
+		scheduleship
+		ss,
 		detailscheduleship dss
 		left join
-		detailfinalscheduleship d ON (dss.id =
+		detailfinalscheduleship d ON (dss.id
+		=
 		d.iddetailscheduleship)
 		where
 		dss.idscheduleship = ss.id
@@ -156,7 +162,15 @@ WHERE
 		</if>
 
 		<if test="idService != null">
-			and ss.id_service = #{idService}
+
+			<if test="idService == -666">
+				and ss.id_service is null
+			</if>
+
+			<if test="idService != null">
+				and ss.id_service = #{idService}
+			</if>
+
 		</if>
 
 		order by date_request, s.name , dss.shift
@@ -176,7 +190,8 @@ WHERE
 		volume,
 		sum(d.volumeunderboard - d.franchise_volumeunderboard) as
 		volumeunderboard,
-		sum(d.volumeunderboard_sws - d.franchise_volumeunderboard_sws) as volumeunderboard_sws,
+		sum(d.volumeunderboard_sws -
+		d.franchise_volumeunderboard_sws) as volumeunderboard_sws,
 		sum(d.volume_tw_mct - d.franchise_volume_tw_mct) as volume_tw_mct
 		from
 		ship s,
@@ -189,7 +204,8 @@ WHERE
 		null and ss.idship is not null and
 		dss.idscheduleship = ss.id
 		and s.id =
-		ss.idship and d.iddetailscheduleship = dss.id
+		ss.idship and
+		d.iddetailscheduleship = dss.id
 
 		<if test="dt_arg_to != null and dt_arg_from != null">
 
@@ -242,7 +258,13 @@ WHERE
 		</if>
 
 		<if test="serviceId != null">
-			and ss.id_service = #{serviceId}
+			<if test="serviceId == -666">
+				and ss.id_service is null
+			</if>
+
+			<if test="serviceId != -666">
+				and ss.id_service = #{serviceId}
+			</if>
 		</if>
 
 		group by rif_sws order by s.name
@@ -289,7 +311,7 @@ WHERE
 
 
 
-	
+
 
 
 
@@ -450,10 +472,13 @@ WHERE
 
 	<select id="countWorkerInOverviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		select distinct * 
+		select distinct *
 		from
 		user u, user u1, user u2, usertask ut,
-		(select scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence from schedule scd left outer join usershift uss on (scd.shift = uss.id)) s left
+		(select
+		scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence
+		from schedule scd left outer join usershift uss on (scd.shift =
+		uss.id)) s left
 		outer join
 		detailfinalschedule dfs on
 		(dfs.id_schedule =
@@ -468,7 +493,7 @@ WHERE
 			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
 			u.employee_identification = #{my_full_text_search})
 		</if>
-		
+
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
@@ -557,8 +582,11 @@ WHERE
 		dfs.continueshift
 		from
 		user u,
-		(select scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence from schedule scd left outer join usershift uss on (scd.shift = uss.id)) s left
-		outer join 
+		(select
+		scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence
+		from schedule scd left outer join usershift uss on (scd.shift =
+		uss.id)) s left
+		outer join
 		detailfinalschedule dfs on
 		(dfs.id_schedule =
 		s.id)
@@ -574,7 +602,7 @@ WHERE
 		<if test="shift_number != null">
 			and (dfs.shift = #{shift_number})
 		</if>
-		
+
 		<if test="date_from != null and date_to != null">
 			and (s.date_schedule <![CDATA[>=]]>
 			#{date_from} and s.date_schedule
@@ -919,30 +947,48 @@ WHERE
 	<!-- CONTAINER -->
 	<select id="getTotalInvoiceContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select sum(dfs.volume - dfs.franchise_volume) as containerInvoice, sum(dfs.timework - dfs.franchise_timework) as timework,  
-		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS, count(s.id) as countService,
-		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) as containerRZ_TW_MCT,dfs.invoicing_cycle as
+		select sum(dfs.volume - dfs.franchise_volume) as
+		containerInvoice, sum(dfs.timework - dfs.franchise_timework) as
+		timework,
+		sum(dfs.volumeunderboard_sws -
+		dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS,
+		count(s.id)
+		as countService,
+		sum(dfs.volume_tw_mct -
+		dfs.franchise_volume_tw_mct) as
+		containerRZ_TW_MCT,dfs.invoicing_cycle
+		as
 		monthInvoice
-		from detailfinalscheduleship dfs, detailscheduleship dis,
+		from
+		detailfinalscheduleship dfs, detailscheduleship
+		dis,
 		scheduleship s
 		where dfs.invoicing_cycle is not null and
-		dfs.iddetailscheduleship = dis.id and s.id=dis.idscheduleship
+		dfs.iddetailscheduleship =
+		dis.id and s.id=dis.idscheduleship
 		and
-		year(dis.shiftdate)=#{year} and s.id_service=#{idService} 
+		year(dis.shiftdate)=#{year} and
+		s.id_service=#{idService}
 		group by monthInvoice;
 	</select>
 
 	<select id="getTotalInvoiceContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select sum(dfs.volume  - dfs.franchise_volume) as containerInvoice, sum(dfs.timework - dfs.franchise_timework) as timework,
-		sum(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS, count(s.id) as countService,
-		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) as containerRZ_TW_MCT,month(dis.shiftdate) as
+		select sum(dfs.volume - dfs.franchise_volume) as
+		containerInvoice, sum(dfs.timework - dfs.franchise_timework) as
+		timework,
+		sum(dfs.volumeunderboard_sws -
+		dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS, count(s.id)
+		as countService,
+		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct)
+		as containerRZ_TW_MCT,month(dis.shiftdate) as
 		monthInvoice
-		from detailfinalscheduleship dfs, detailscheduleship dis,
+		from
+		detailfinalscheduleship dfs, detailscheduleship dis,
 		scheduleship s
 		where dfs.iddetailscheduleship = dis.id and
 		year(dis.shiftdate)=#{year} and s.id=dis.idscheduleship and
-		s.id_service=#{idService} 
+		s.id_service=#{idService}
 		group by
 		monthInvoice;
 	</select>
@@ -951,53 +997,67 @@ WHERE
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 
-		select sum(handswork)as handswork, sum(handswork_program)as handswork_program,sum(menwork) as menwork, 
-		invoicing_cycle as monthInvoice, sum(windyday) as windyday 
+		select sum(handswork)as handswork, sum(handswork_program)as
+		handswork_program,sum(menwork) as menwork,
+		invoicing_cycle as
+		monthInvoice, sum(windyday) as windyday
 		from reportmen
-		where shiftyear = #{year} and invoicing_cycle is not null and idService=#{idService} 
+		where shiftyear =
+		#{year} and invoicing_cycle is not null
+		and idService=#{idService}
 		<if test="shift!=null">
 			and shift=#{shift}
-		</if> 
+		</if>
 		group by invoicing_cycle
 
 	</select>
 
 	<select id="getTotalHandsMenByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select sum(dis.handswork) as handswork, sum(dis.handswork_program)as handswork_program, sum(dis.menwork)
-		as menwork, month(dis.shiftdate) as monthInvoice, sum(dis.windyday) as windyday 
+		select sum(dis.handswork) as handswork, sum(dis.handswork_program)as
+		handswork_program, sum(dis.menwork)
+		as menwork, month(dis.shiftdate) as
+		monthInvoice, sum(dis.windyday) as windyday
 		from
-		detailscheduleship dis, scheduleship ss  
-		where year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and ss.id_service = #{idService}  
+		detailscheduleship dis,
+		scheduleship ss
+		where year(dis.shiftdate)=#{year} and
+		dis.idscheduleship = ss.id and
+		ss.id_service = #{idService}
 		<if test="shift!=null">
 			and shift=#{shift}
-		</if> 
+		</if>
 		group by
 		monthInvoice;
 	</select>
-	
+
 	<!-- SHIP NUMBER -->
-	
+
 	<select id="countShipByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select count(distinct idScheduleShip) as shipnumber , invoicing_cycle as monthInvoice 
+		select count(distinct idScheduleShip) as shipnumber , invoicing_cycle
+		as monthInvoice
 		from reportmen
-		where shiftyear = #{year} and invoicing_cycle is not null 
+		where shiftyear = #{year} and
+		invoicing_cycle is not null
 		<if test="operation!=null">
 			and operation like CONCAT('%', #{operation},'%')
-		</if>		 
+		</if>
 		group by invoicing_cycle
 	</select>
-	
+
 	<select id="countShipByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select count(distinct ss.id) as shipnumber , month(dis.shiftdate) as monthInvoice
+		select count(distinct ss.id) as shipnumber , month(dis.shiftdate) as
+		monthInvoice
 		from
-		detailscheduleship dis, scheduleship ss  
-		where year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and ss.id_service = (select sv.id AS id from service sv where sv.isRZ=1) 
+		detailscheduleship dis, scheduleship ss
+		where
+		year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and
+		ss.id_service = (select sv.id AS id from service sv where sv.isRZ=1)
 		<if test="operation!=null">
 			and dis.operation like CONCAT('%', #{operation},'%')
-		</if>	
+		</if>
 		group by monthInvoice;
 	</select>
 
@@ -1066,45 +1126,55 @@ WHERE
 
 	<!-- CUSTOMER COMPLAINTS -->
 	<insert id="createComplaint" parameterType="org.uario.seaworkengine.model.Complaint">
-		INSERT INTO complaint (year_comp,month_comp,numberofcomplaint,id_customer) 
-		VALUES (#{year_comp},#{month_comp},#{numberofcomplaint},#{id_customer});
+		INSERT INTO complaint
+		(year_comp,month_comp,numberofcomplaint,id_customer)
+		VALUES
+		(#{year_comp},#{month_comp},#{numberofcomplaint},#{id_customer});
 	</insert>
-	
+
 	<delete id="deleteComplaint" parameterType="Integer">
 		DELETE
-		FROM complaint WHERE id=#{id};
+		FROM complaint
+		WHERE id=#{id};
 	</delete>
-	
+
 	<select id="loadComplaintById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.Complaint">
 		SELECT *
 		FROM complaint
 		WHERE id=#{id};
 	</select>
-	
-	<select id="loadComplaintByYear" parameterType="Integer" resultType="org.uario.seaworkengine.model.Complaint">
+
+	<select id="loadComplaintByYear" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.Complaint">
 		SELECT *
 		FROM complaint
 		WHERE year_comp=#{year};
 	</select>
-	
-	<select id="loadComplaint" parameterType="map" resultType="org.uario.seaworkengine.model.Complaint">
+
+	<select id="loadComplaint" parameterType="map"
+		resultType="org.uario.seaworkengine.model.Complaint">
 		SELECT *
 		FROM complaint
-		WHERE id_customer = #{idCustomer} and year_comp=#{year} and month_comp=#{month};
+		WHERE id_customer = #{idCustomer} and
+		year_comp=#{year} and month_comp=#{month};
 	</select>
-	
+
 	<update id="updateComplaint" parameterType="org.uario.seaworkengine.model.Complaint">
-		UPDATE complaint 
-		SET  year_comp=#{year_comp},month_comp=#{month_comp},numberofcomplaint=#{numberofcomplaint},id_customer=#{id_customer} 
+		UPDATE complaint
+		SET
+		year_comp=#{year_comp},month_comp=#{month_comp},numberofcomplaint=#{numberofcomplaint},id_customer=#{id_customer}
 		WHERE id=#{id};
 	</update>
-	
-	<select id="countComplaintByCustomer" resultType="org.uario.seaworkengine.statistics.ShipTotal" parameterType="map">
-		select sum(numberofcomplaint) as numberofcomplaint, month_comp as month_date
-		from complaint 
-		where year_comp=#{year} and id_customer=#{id_customer} 
+
+	<select id="countComplaintByCustomer" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="map">
+		select sum(numberofcomplaint) as numberofcomplaint,
+		month_comp as month_date
+		from complaint
+		where year_comp=#{year} and
+		id_customer=#{id_customer}
 		group by month_comp;
-	</select>	
+	</select>
 
 </mapper>
