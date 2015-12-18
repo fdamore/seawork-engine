@@ -1750,7 +1750,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.servicetype.setModel(new ListModelList<Service>(serviceList));
 		this.servicetype_schedule.setModel(new ListModelList<Service>(serviceList));
 
-		this.selectServiceDetail.setModel(new ListModelList<Service>(serviceList));
+		// define info for search
+		final ArrayList<Service> services_on_search = new ArrayList<Service>();
+		final Service service_empty = new Service();
+		service_empty.setId(-666);
+		service_empty.setDescription("VUOTO");
+		service_empty.setName("VUOTO");
+		services_on_search.addAll(serviceList);
+		services_on_search.add(service_empty);
+		this.selectServiceDetail.setModel(new ListModelList<Service>(services_on_search));
 
 		this.select_year_detail.setModel(new ListModelList<String>(years));
 		this.select_year_detail.setModel(new ListModelList<String>(years));
