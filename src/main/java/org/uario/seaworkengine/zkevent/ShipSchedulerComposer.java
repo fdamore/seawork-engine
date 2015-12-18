@@ -733,6 +733,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											terminalProductivy;
+
 	@Wire
 	private Textbox											text_search_rifMCT;
 	@Wire

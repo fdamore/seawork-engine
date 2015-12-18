@@ -270,16 +270,18 @@
 							onClick="searchDateShift.setValue(null);" />
 					</vbox>
 
+					<hbox align="center" id="datashift_period_compo">
+
+						<a label="Periodo su data turno "
+							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+						<checkbox checked="false"
+							id="datashift_period">
+						</checkbox>
+
+					</hbox>
 
 				</hbox>
 
-				<hbox align="center" id="datashift_period_compo">
-
-					<a label="Periodo su data turno "
-						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-					<checkbox checked="false" id="datashift_period"></checkbox>
-
-				</hbox>
 
 			</hbox>
 
@@ -1145,8 +1147,7 @@
 						value="Tot. Navi non lav: " />
 
 					<label value="" style="color:blue; font-size:10pt;"
-						id="shipNumberProgramShip_noWorked" />
-
+						id="shipNumberProgramShip_noWorked" />					
 
 				</hbox>
 
