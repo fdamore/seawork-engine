@@ -26,11 +26,7 @@
 		apply="org.uario.seaworkengine.zkevent.ShipSchedulerComposer"
 		id="page_ship_scheduler">
 
-		<style>
 
-
-
-		</style>
 
 		<div sclass="page-header">
 			<label value="Programma Navi" />
@@ -76,12 +72,6 @@
 
 		<space />
 
-
-
-
-
-
-
 		<!--FILTRI-->
 		<div>
 			<hbox>
@@ -90,9 +80,16 @@
 					<a label="Cerca Navi: "
 						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
-					<datebox id="searchArrivalDateShipFrom"
-						placeholder="Dalla data..."
-						onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+					<vbox align="start">
+						<datebox id="searchArrivalDateShipFrom"
+							placeholder="Dalla data..."
+							onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)" />
+
+						<checkbox label="Limite iniziale"
+							id="initial_support_date">
+						</checkbox>
+
+					</vbox>
 
 					<datebox id="searchArrivalDateShipTo"
 						placeholder="Alla data..."
@@ -1147,7 +1144,7 @@
 						value="Tot. Navi non lav: " />
 
 					<label value="" style="color:blue; font-size:10pt;"
-						id="shipNumberProgramShip_noWorked" />					
+						id="shipNumberProgramShip_noWorked" />
 
 				</hbox>
 
@@ -1305,17 +1302,17 @@
 
 			<a label="Dettaglio Giornaliero" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
-			
+
 			<separator />
-			
+
 			<label value="" style="color:blue; font-size:10pt;"
 				id="summary_detail_1" />
 			<separator />
-			
+
 			<label value="" style="color:blue; font-size:10pt;"
 				id="summary_detail_2" />
 			<separator />
-			
+
 			<label value="" style="color:blue; font-size:10pt;"
 				id="summary_detail_3" />
 			<separator />

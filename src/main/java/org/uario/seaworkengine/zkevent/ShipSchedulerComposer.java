@@ -307,6 +307,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Row												h_detail_period;
+
 	@Wire
 	private Row												h_program_period;
 	@Wire
@@ -321,9 +322,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Label											hourReview;
 	@Wire
 	private Combobox										idCrane_review;
-
 	@Wire
 	private Label											infoShipNameAndShift;
+
+	@Wire
+	public Checkbox											initial_support_date;
 
 	@Wire
 	private Intbox											invoicing_cycle_review;
@@ -1534,7 +1537,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onChange = #select_workedShip, #select_typeShip,#scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search,#ship_type_search,#ship_line_search,#ship_condition_search; onClick = #remove_select_shift, #remove_searchDateShift, #remove_select_typeShip,#remove_select_workedShip,#remove_select_customer, #removeServiceFilterDetail;  onCheck = #datashift_period")
+	@Listen("onChange = #select_workedShip, #select_typeShip,#scheduler_type_selector, #searchArrivalDateShipFrom,#searchArrivalDateShipTo, #select_customer, #selectServiceDetail, #select_shift; onSelect = #bap_overview_tab; onOK=#searchArrivalDateShipFrom,#searchArrivalDateShipTo, #shows_rows, #full_text_search,#invoicing_cycle_search,#ship_type_search,#ship_line_search,#ship_condition_search; onClick = #remove_select_shift, #remove_searchDateShift, #remove_select_typeShip,#remove_select_workedShip,#remove_select_customer, #removeServiceFilterDetail;  onCheck = #datashift_period, #initial_support_date")
 	public void defineSchedulerView() {
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
@@ -1558,6 +1561,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.filterYear.setVisible(true);
 		this.filterMonth.setVisible(true);
 
+		this.initial_support_date.setVisible(false);
+
 		if (selected.equals(this.program_item)) {
 
 			this.program_div.setVisible(true);
@@ -1569,6 +1574,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.filterService.setVisible(true);
 			this.text_search_rifSWS.setVisible(true);
 			this.text_search_rifMCT.setVisible(true);
+
+			this.initial_support_date.setVisible(true);
 
 			this.refreshProgram();
 
@@ -1668,6 +1675,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	private void definingPrintableVersion() {
+
 		// set visibility print button
 		this.print_ShipScheduler.setVisible(true);
 		this.print_program_videos.setVisible(false);
@@ -1880,7 +1888,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final Date last_day_month = cal_period.getTime();
 
 		final List<ScheduleShip> list_month = this.shipSchedulerDao.searchScheduleShip(first_day_month, last_day_month, null, null, null, service_id,
-				null, null, null, null);
+				null, null, null, null, null);
 
 		Integer sum_current_volume_month = 0;
 
@@ -3094,9 +3102,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final String ship_type = this.ship_type_search.getValue();
 		final String ship_line = this.ship_line_search.getValue();
 		final String ship_condition = this.ship_condition_search.getValue();
+		final Boolean initial_support = this.initial_support_date.isChecked();
 
 		this.list_programmed_ship = this.shipSchedulerDao.searchScheduleShip(dateFrom, dateTo, rif_SWS, rif_MCT, id_customer, id_service,
-				text_search, ship_type, ship_line, ship_condition);
+				text_search, ship_type, ship_line, ship_condition, initial_support);
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_scheduleShipProgram.setPageSize(this.shows_rows.getValue());

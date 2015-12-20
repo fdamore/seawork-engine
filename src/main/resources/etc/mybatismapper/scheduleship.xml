@@ -78,6 +78,14 @@
 		AND (s.arrivaldate <= #{dateto} and s.departuredate >= #{datefrom}) 			
 			]]>
 
+			<if test="intial_support!=null and intial_support == true">
+			
+			<![CDATA[ 
+		AND (s.arrivaldate >= #{datefrom}) 			
+			]]>
+
+			</if>
+
 		</if>
 
 		<if test="datefrom !=null and dateto == null">
