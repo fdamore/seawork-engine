@@ -1305,11 +1305,19 @@
 
 			<a label="Dettaglio Giornaliero" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
-			<separator></separator>
-
+			
 			<separator />
+			
 			<label value="" style="color:blue; font-size:10pt;"
-				id="infoDetailShipProgram" />
+				id="summary_detail_1" />
+			<separator />
+			
+			<label value="" style="color:blue; font-size:10pt;"
+				id="summary_detail_2" />
+			<separator />
+			
+			<label value="" style="color:blue; font-size:10pt;"
+				id="summary_detail_3" />
 			<separator />
 
 			<listbox id="sw_list_scheduleShip" pagingPosition="both"

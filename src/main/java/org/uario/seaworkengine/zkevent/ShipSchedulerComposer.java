@@ -321,18 +321,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Label											hourReview;
 	@Wire
 	private Combobox										idCrane_review;
-	@Wire
-	private Label											infoDetailShipProgram;
+
 	@Wire
 	private Label											infoShipNameAndShift;
+
 	@Wire
 	private Intbox											invoicing_cycle_review;
+
 	@Wire
 	private Intbox											invoicing_cycle_search;
-
 	@Wire
 	private Datebox											last_down_detail;
-
 	@Wire
 	private Datebox											last_down_review;
 
@@ -571,8 +570,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox										select_workedShip;
+
 	@Wire
 	public Combobox											select_year_detail;
+
 	@Wire
 	private Combobox										selectCustomer;
 	@Wire
@@ -587,10 +588,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox										shift;
 	@Wire
 	public Combobox											shift_Daily;
-
 	@Wire
 	private Datebox											shiftdate;
-
 	@Wire
 	public Datebox											shiftdate_Daily;
 
@@ -698,6 +697,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Tab												statisticsShipTab;
 
 	@Wire
+	private Label											summary_detail_1;
+
+	@Wire
+	private Label											summary_detail_2;
+
+	@Wire
+	private Label											summary_detail_3;
+
+	@Wire
 	private Label											sumVolumeShipProgram;
 
 	@Wire
@@ -733,7 +741,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											terminalProductivy;
-
 	@Wire
 	private Textbox											text_search_rifMCT;
 	@Wire
@@ -754,6 +761,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Label											TotalVolumeOnBoard_sws;
 	@Wire
 	private Label											TotalVolumeTWMTC;
+
 	@Wire
 	private Doublebox										tp_apr;
 
@@ -1196,81 +1204,103 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void calculateSummaryShipDetails(final List<DetailScheduleShip> list) {
 
-		this.infoDetailShipProgram.setValue("");
+		this.summary_detail_1.setValue("");
+		this.summary_detail_2.setValue("");
+		this.summary_detail_3.setValue("");
 
-		Integer count_menworking_program = 0;
-		Integer count_programmed_handswork = 0;
-		Integer count_revised_handswork = 0;
-		Integer count_menworking_review = 0;
-		Integer count_worked_shift = 0;
-		Integer count_not_worked_shift = 0;
-
+		Integer menworking_program = 0;
+		Integer programmed_handswork = 0;
+		Integer revised_handswork = 0;
+		Integer menworking_review = 0;
+		Integer worked_shift = 0;
+		Integer not_worked_shift = 0;
 		Integer deltaHands = 0;
 		Integer deltaPersons = 0;
+		Integer tot_turni_nl = 0;
 
-		this.infoDetailShipProgram.setValue("Tot. Navi lav: " + count_worked_shift + " - Tot. Navi non lav: " + count_not_worked_shift
-				+ " - Tot. Mani P: " + count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands
-				+ " - Tot. Persone P: " + count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: "
-				+ deltaPersons);
+		if ((list != null) && (list.size() != 0)) {
 
-		if ((list == null) || (list.size() == 0)) {
-			return;
-		}
+			final ArrayList<Integer> count_sws_work = new ArrayList<Integer>();
+			final ArrayList<Integer> count_sws_not_work = new ArrayList<Integer>();
+			final ArrayList<String> count_nl_shift = new ArrayList<String>();
 
-		final ArrayList<Integer> count_sws_work = new ArrayList<Integer>();
-		final ArrayList<Integer> count_sws_not_work = new ArrayList<Integer>();
+			for (final DetailScheduleShip itm_details : list) {
 
-		for (final DetailScheduleShip itm_details : list) {
-
-			// MEN WORK
-			if (itm_details.getMenwork_program() != null) {
-				count_menworking_program += itm_details.getMenwork_program();
-			}
-
-			// HANDS
-			if (itm_details.getHandswork_program() != null) {
-				count_programmed_handswork += itm_details.getHandswork_program();
-			}
-
-			if (itm_details.getHandswork() != null) {
-				count_revised_handswork += itm_details.getHandswork();
-			}
-
-			// count ship
-			if (!(itm_details.getId_ship() == null)) {
-
-				final Ship ship = this.ship_cache.getShip(itm_details.getId_ship());
-
-				if (ship.getNowork()) {
-					if (!count_sws_not_work.contains(itm_details.getIdscheduleship())) {
-						count_sws_not_work.add(itm_details.getIdscheduleship());
-					}
-				} else {
-					if (!count_sws_work.contains(itm_details.getIdscheduleship())) {
-						count_sws_work.add(itm_details.getIdscheduleship());
-					}
+				// MEN WORK
+				if (itm_details.getMenwork_program() != null) {
+					menworking_program += itm_details.getMenwork_program();
 				}
 
-				if (!ship.getActivityh()) {
-					if (itm_details.getMenwork() != null) {
-						count_menworking_review += itm_details.getMenwork();
+				// HANDS
+				if (itm_details.getHandswork_program() != null) {
+					programmed_handswork += itm_details.getHandswork_program();
+				}
+
+				if (itm_details.getHandswork() != null) {
+					revised_handswork += itm_details.getHandswork();
+				}
+
+				// count ship
+				if (!(itm_details.getId_ship() == null)) {
+
+					final Ship ship = this.ship_cache.getShip(itm_details.getId_ship());
+
+					if (ship.getNowork()) {
+
+						if (!count_sws_not_work.contains(itm_details.getIdscheduleship())) {
+							count_sws_not_work.add(itm_details.getIdscheduleship());
+						}
+
+						// count shift no work
+						if ((itm_details.getWorked() != null) && itm_details.getWorked()) {
+
+							final Date dt_itm = itm_details.getShiftdate();
+							final Integer shift_itm = itm_details.getShift();
+							if ((dt_itm != null) && (shift_itm != null)) {
+
+								final String info_dt = Utility.convertToDateAndTime(dt_itm);
+								final String itm = info_dt + "@" + shift_itm.toString();
+
+								if (!count_nl_shift.contains(itm)) {
+									count_nl_shift.add(itm);
+								}
+
+							}
+
+						}
+
+					} else {
+						if (!count_sws_work.contains(itm_details.getIdscheduleship())) {
+							count_sws_work.add(itm_details.getIdscheduleship());
+						}
 					}
+
+					if (!ship.getActivityh()) {
+						if (itm_details.getMenwork() != null) {
+							menworking_review += itm_details.getMenwork();
+						}
+					}
+
 				}
 
 			}
 
+			worked_shift = count_sws_work.size();
+			not_worked_shift = count_sws_not_work.size();
+			tot_turni_nl = count_nl_shift.size();
+
+			deltaHands = programmed_handswork - revised_handswork;
+			deltaPersons = menworking_program - menworking_review;
+
 		}
 
-		count_worked_shift = count_sws_work.size();
-		count_not_worked_shift = count_sws_not_work.size();
+		final String msg_1 = "Tot. Navi lav: " + worked_shift + ";  Tot. Navi non lav: " + not_worked_shift + "; Tot Turni NL: " + tot_turni_nl;
+		final String msg_2 = "Tot. Mani P: " + programmed_handswork + ";  Tot. Mani C: " + revised_handswork + ";  Mani P-C: " + deltaHands;
+		final String msg_3 = "Tot. Persone P: " + menworking_program + ";  Tot. Persone C: " + menworking_review + ";  Persone P-C: " + deltaPersons;
 
-		deltaHands = count_programmed_handswork - count_revised_handswork;
-		deltaPersons = count_menworking_program - count_menworking_review;
-
-		this.infoDetailShipProgram.setValue("Tot. Navi lav: " + count_worked_shift + " - Tot. Navi non lav: " + count_not_worked_shift
-				+ " - Tot. Mani P: " + count_programmed_handswork + " - Tot. Mani C: " + count_revised_handswork + " - Mani P-C: " + deltaHands
-				+ " - Tot. Persone P: " + count_menworking_program + " - Tot. Persone C: " + count_menworking_review + " - Persone P-C: "
-				+ deltaPersons);
+		this.summary_detail_1.setValue(msg_1);
+		this.summary_detail_2.setValue(msg_2);
+		this.summary_detail_3.setValue(msg_3);
 	}
 
 	/**
@@ -1466,7 +1496,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if (((ShipSchedulerComposer.this.shiftdate.getValue() != null) && ((ShipSchedulerComposer.this.shiftdate.getValue().compareTo(
 				ShipSchedulerComposer.this.scheduleShip_selected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate.getValue()
-				.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
+						.compareTo(ShipSchedulerComposer.this.scheduleShip_selected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.scheduleShip_selected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.scheduleShip_selected.getDeparturedate());
@@ -1489,7 +1519,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		if ((((this.detailScheduleShipSelected != null) && (ShipSchedulerComposer.this.shiftdate_Daily.getValue() != null)) && ((ShipSchedulerComposer.this.shiftdate_Daily
 				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getArrivaldate()) < 0) || (ShipSchedulerComposer.this.shiftdate_Daily
-				.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
+						.getValue().compareTo(ShipSchedulerComposer.this.detailScheduleShipSelected.getDeparturedate()) > 0)))) {
 
 			final String msg = "Attenzione: data arrivo nave " + this.format_it_date.format(this.detailScheduleShipSelected.getArrivaldate())
 					+ ", data partenza nave " + this.format_it_date.format(this.detailScheduleShipSelected.getDeparturedate());
@@ -4846,15 +4876,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							ShipSchedulerComposer.this.deleteDetailship();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+			@Override
+			public void onEvent(final ClickEvent e) {
+				if (Messagebox.ON_OK.equals(e.getName())) {
+					ShipSchedulerComposer.this.deleteDetailship();
+				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					// Cancel is clicked
+				}
+			}
+		}, params);
 
 	}
 
@@ -4873,18 +4903,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 					new EventListener<ClickEvent>() {
-						@Override
-						public void onEvent(final ClickEvent e) {
-							if (Messagebox.ON_OK.equals(e.getName())) {
-								ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
-										.getId());
+				@Override
+				public void onEvent(final ClickEvent e) {
+					if (Messagebox.ON_OK.equals(e.getName())) {
+						ShipSchedulerComposer.this.shipSchedulerDao.deleteScheduleShip(ShipSchedulerComposer.this.scheduleShip_selected
+								.getId());
 
-								ShipSchedulerComposer.this.refreshProgram();
-							} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+						ShipSchedulerComposer.this.refreshProgram();
+					} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
 
-							}
-						}
-					}, params);
+					}
+				}
+			}, params);
 
 		}
 	}
