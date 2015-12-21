@@ -2051,7 +2051,7 @@
 
 				<div visible="true">
 
-					<hbox>
+					<vbox>
 
 						<hbox align="center">
 
@@ -2063,7 +2063,7 @@
 
 						</hbox>
 
-						<separator></separator>
+
 
 						<hbox>
 
@@ -2075,7 +2075,7 @@
 
 						</hbox>
 
-						<separator></separator>
+
 
 						<hbox align="center">
 
@@ -2086,7 +2086,7 @@
 								id="TotalVolumeOnBoard" value="0" />
 						</hbox>
 
-						<separator></separator>
+
 
 						<hbox align="center">
 
@@ -2098,7 +2098,7 @@
 
 						</hbox>
 
-						<separator></separator>
+
 
 
 						<hbox align="center">
@@ -2110,7 +2110,7 @@
 
 						</hbox>
 
-					</hbox>
+					</vbox>
 
 				</div>
 
@@ -2179,6 +2179,17 @@
 										hflex="1" />
 									<listheader label="Giorno"
 										hflex="1" />
+
+									<listheader label="Temperatura"
+										hflex="1" />
+
+									<listheader label="Vento" hflex="1" />
+
+									<listheader label="Pioggia"
+										hflex="1" />
+
+									<listheader label="Cielo" hflex="1" />
+
 									<listheader label="Rif SWS"
 										hflex="1" />
 									<listheader label="Rif Cliente"
@@ -2225,6 +2236,19 @@
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToDayOfWeek'}">
 									</listcell>
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.temperature}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.wind}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.rain}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.sky}" />
+
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.rif_sws}" />
