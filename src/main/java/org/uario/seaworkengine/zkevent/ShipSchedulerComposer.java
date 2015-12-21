@@ -1292,14 +1292,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			not_worked_shift = count_sws_not_work.size();
 			tot_turni_nl = count_nl_shift.size();
 
-			deltaHands = programmed_handswork - revised_handswork;
-			deltaPersons = menworking_program - menworking_review;
+			deltaHands = revised_handswork - programmed_handswork;
+			deltaPersons = menworking_review - menworking_program;
 
 		}
 
 		final String msg_1 = "Tot. Navi lav: " + worked_shift + ";  Tot. Navi non lav: " + not_worked_shift + "; Tot Turni NL: " + tot_turni_nl;
-		final String msg_2 = "Tot. Mani P: " + programmed_handswork + ";  Tot. Mani C: " + revised_handswork + ";  Mani P-C: " + deltaHands;
-		final String msg_3 = "Tot. Persone P: " + menworking_program + ";  Tot. Persone C: " + menworking_review + ";  Persone P-C: " + deltaPersons;
+		final String msg_2 = "Tot. Mani P: " + programmed_handswork + ";  Tot. Mani C: " + revised_handswork + ";  Mani C-P: " + deltaHands;
+		final String msg_3 = "Tot. Persone P: " + menworking_program + ";  Tot. Persone C: " + menworking_review + ";  Persone C-P: " + deltaPersons;
 
 		this.summary_detail_1.setValue(msg_1);
 		this.summary_detail_2.setValue(msg_2);
