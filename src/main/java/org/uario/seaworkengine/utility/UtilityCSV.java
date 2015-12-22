@@ -589,7 +589,7 @@ public class UtilityCSV {
 		builder.append(header);
 
 		// adding working date control
-		final HashMap<Date, Boolean> date_working_yes = new HashMap<Date, Boolean>();
+		final HashMap<String, Boolean> date_working_yes = new HashMap<String, Boolean>();
 
 		for (final DetailFinalSchedule item : listDetailRevision) {
 
@@ -749,13 +749,16 @@ public class UtilityCSV {
 
 			}
 
-			if (Utility.isWorkingDay(item)) {
+			if (Utility.isWorkingDay(item) && (item.getDate_schedule() != null)) {
 
-				final Boolean check = date_working_yes.get(item.getDate_schedule());
+				// define key
+				final String key = item.getId_user() + "@" + Utility.convertToDateAndTime(item.getDate_schedule());
+
+				final Boolean check = date_working_yes.get(key);
 				if (check == null) {
 
 					dayWorked = "Si";
-					date_working_yes.put(item.getDate_schedule(), Boolean.TRUE);
+					date_working_yes.put(key, Boolean.TRUE);
 
 				}
 
