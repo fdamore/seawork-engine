@@ -115,10 +115,20 @@
 		<if test="shipCondition!=null">
 			and sh.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
+		
+		
+		<if test="mct != null">	
 
-		<if test="mct!=null">
-			and #{mct} = s.rif_mct
+			<if test="mct == 'RIF_MCT_EMPTY'">
+				and (s.rif_mct is null || length(s.rif_mct) = 0)
+			</if>
+
+			<if test="mct != 'RIF_MCT_EMPTY'">
+				and s.rif_mct = #{mct} 
+			</if>
 		</if>
+
+		
 
 		<if test="idCustomer!=null">
 			and #{idCustomer} = c.id
@@ -425,8 +435,15 @@
 		ship s, scheduleship ss
 		where
 
-		<if test="rif_mct != null">
-			ss.rif_mct = #{rif_mct} and
+		<if test="rif_mct != null">	
+
+			<if test="rif_mct == 'RIF_MCT_EMPTY'">
+				(ss.rif_mct is null || length(ss.rif_mct) = 0) and
+			</if>
+
+			<if test="rif_mct != 'RIF_MCT_EMPTY'">
+				ss.rif_mct = #{rif_mct} and
+			</if>
 		</if>
 
 		<if test="rif_sws != null">
