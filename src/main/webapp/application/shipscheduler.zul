@@ -2181,7 +2181,7 @@
 								pageSize="10">
 								<listhead sizable="true">
 
-									<listheader label="Nome Nave"
+									<listheader label="Nave"
 										hflex="2" />
 									<listheader label="Data Turno"
 										hflex="2" />
@@ -2208,8 +2208,10 @@
 									<listheader label="Rif Cliente"
 										hflex="1" />
 									<listheader label="Gru" hflex="1" />
+									
 									<listheader
-										label="Tempo Netto Lavorato" hflex="1" />
+										label="Tempo Netto" hflex="1" />
+									
 									<listheader label="Volumi Netti"
 										hflex="1" />
 									<listheader
@@ -2219,6 +2221,12 @@
 
 									<listheader
 										label="Volumi Netti TW MCT" hflex="1" />
+
+									<listheader
+										label="Persone (H)" hflex="1" />
+										
+										<listheader
+										label="Persone(H) per Tempo Lavorato" hflex="1" />
 
 									<listheader label="Note" hflex="2" />
 
@@ -2282,10 +2290,11 @@
 
 
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
+										label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />								
+										
 
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work.time_workLessFranchise, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+										label="@{item_review_work.timeworkLessFranchise, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.volumeLessFranchise}" />
@@ -2297,6 +2306,12 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.volume_tw_mctLessFranchise}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.menwork_activityh}" />
+										
+										<listcell sclass="myBottonCell"
+										label="@{item_review_work.menwork_activityhXtimework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.notedetail}" />

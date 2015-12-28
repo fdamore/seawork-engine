@@ -35,6 +35,8 @@ public class ReviewShipWork implements Serializable {
 
 	private Date				last_down;
 
+	private Integer				menwork_activityh;
+
 	private String				notedetail;
 
 	private Date				person_down;
@@ -93,6 +95,18 @@ public class ReviewShipWork implements Serializable {
 
 	public Date getLast_down() {
 		return this.last_down;
+	}
+
+	public Integer getMenwork_activityh() {
+		return this.menwork_activityh;
+	}
+
+	public Double getMenwork_activityhXtimework() {
+		if ((this.time_work != null) && (this.menwork_activityh != null)) {
+			return this.time_work * this.menwork_activityh;
+		} else {
+			return 0.0;
+		}
 	}
 
 	public String getNotedetail() {
@@ -225,6 +239,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setLast_down(final Date last_down) {
 		this.last_down = last_down;
+	}
+
+	public void setMenwork_activityh(final Integer menwork_activityh) {
+		this.menwork_activityh = menwork_activityh;
 	}
 
 	public void setNotedetail(final String notedetail) {
