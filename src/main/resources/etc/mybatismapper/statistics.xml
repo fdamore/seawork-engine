@@ -93,7 +93,9 @@
 		dss.wind, dss.windyday,
 		dss.temperature,
 		dss.first_down,
-		dss.last_down
+		dss.last_down,
+		dss.person_down,
+		dss.person_onboard
 		from
 		ship s,
 		scheduleship

@@ -157,7 +157,7 @@
 						onChange="text_search_rifSWS.setValue(null);full_text_search.setValue(null);invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
 						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
 
-					<checkbox id="rif_customer_empty" 
+					<checkbox id="rif_customer_empty"
 						label="Cerca riferimento vuoto" checked="false"
 						onCheck="text_search_rifMCT.setValue(null); text_search_rifMCT.setDisabled(rif_customer_empty.isChecked())">
 					</checkbox>
@@ -165,8 +165,8 @@
 				</vbox>
 
 
-				<intbox placeholder="Cerca Rif SWS..." constraint="no negative"
-					id="text_search_rifSWS"
+				<intbox placeholder="Cerca Rif SWS..."
+					constraint="no negative" id="text_search_rifSWS"
 					onChange=" text_search_rifMCT.setValue(null);full_text_search.setValue(null);invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
 						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
 
@@ -1700,11 +1700,10 @@
 								<row>
 									<label value="Persone a bordo:">
 									</label>
-
-									<datebox id="person_down_review"
+									
+									<datebox id="person_onboard_review"
 										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
 										width="230px" />
-
 								</row>
 
 								<row>
@@ -1732,11 +1731,12 @@
 								<row>
 									<label value="Persone a terra:">
 									</label>
-
-									<datebox id="person_onboard_review"
+									
+									<datebox id="person_down_review"
 										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
 										width="230px" />
 
+									
 								</row>
 
 
@@ -2213,13 +2213,23 @@
 									<listheader label="Volumi Netti"
 										hflex="1" />
 									<listheader
-										label="Volumi Netti Rizz. da Bordo (x Cliente):" hflex="1" />
+										label="Volumi Netti Rizz. Bordo (x Cliente):" hflex="1" />
 									<listheader
-										label="Volumi Netti Rizz. da Bordo (x SWS):" hflex="1" />
+										label="Volumi Netti Rizz. Bordo (x SWS):" hflex="1" />
 
 									<listheader
 										label="Volumi Netti TW MCT" hflex="1" />
+
 									<listheader label="Note" hflex="2" />
+
+									<listheader label="Persone a Bordo"
+										hflex="1" />
+									<listheader
+										label="Primo Contenitore a Terra" hflex="1" />
+									<listheader
+										label="Ultimo Contenitore a Terra" hflex="1" />
+									<listheader label="Persone a Terra"
+										hflex="1" />
 
 								</listhead>
 
@@ -2290,6 +2300,18 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.notedetail}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.person_onboard}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.first_down}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.last_down}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.person_down}" />
 
 								</listitem>
 							</listbox>

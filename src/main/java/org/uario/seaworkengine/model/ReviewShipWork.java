@@ -37,6 +37,10 @@ public class ReviewShipWork implements Serializable {
 
 	private String				notedetail;
 
+	private Date				person_down;
+
+	private Date				person_onboard;
+
 	private String				rain;
 
 	private String				rif_mct;
@@ -93,6 +97,14 @@ public class ReviewShipWork implements Serializable {
 
 	public String getNotedetail() {
 		return this.notedetail;
+	}
+
+	public Date getPerson_down() {
+		return this.person_down;
+	}
+
+	public Date getPerson_onboard() {
+		return this.person_onboard;
 	}
 
 	public String getRain() {
@@ -217,6 +229,14 @@ public class ReviewShipWork implements Serializable {
 
 	public void setNotedetail(final String notedetail) {
 		this.notedetail = notedetail;
+	}
+
+	public void setPerson_down(final Date person_down) {
+		this.person_down = person_down;
+	}
+
+	public void setPerson_onboard(final Date person_onboard) {
+		this.person_onboard = person_onboard;
 	}
 
 	public void setRain(final String rain) {
