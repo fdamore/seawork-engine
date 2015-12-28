@@ -5491,12 +5491,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			reviewshift = Boolean.TRUE;
 		}
 
-		final List<DetailFinalSchedule> countWorker = this.statisticDAO.countWorkerInOverviewFinalSchedule(null, detailSelected.getShift(), null,
-		        null, detailSelected.getShiftdate(), detailSelected.getShiftdate(), reviewshift, idShip, null);
+		// count worker
+		this.menworkReview.setValue("");
+		final List<DetailFinalSchedule> countWorker = this.statisticDAO.listDetailFinalSchedule(null, detailSelected.getShift(), null, null,
+		        detailSelected.getShiftdate(), detailSelected.getShiftdate(), reviewshift, idShip, null);
+
+		final HashMap<Integer, Boolean> hash_counter = new HashMap<Integer, Boolean>();
+		for (final DetailFinalSchedule dt_itm : countWorker) {
+
+			if (hash_counter.containsKey(dt_itm.getId_user())) {
+				continue;
+			} else {
+				hash_counter.put(dt_itm.getId_user(), Boolean.TRUE);
+			}
+		}
+
 		if (countWorker != null) {
-			this.menworkReview.setValue(countWorker.size() + "");
-		} else {
-			this.menworkReview.setValue("");
+			this.menworkReview.setValue(hash_counter.size() + "");
 		}
 
 		final List<DetailFinalSchedule> listDetailRevision = this.statisticDAO.listDetailFinalSchedule(null, detailSelected.getShift(), null, null,
