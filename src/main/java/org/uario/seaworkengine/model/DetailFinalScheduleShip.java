@@ -130,6 +130,14 @@ public class DetailFinalScheduleShip implements Serializable {
 		return this.menwork_activityh;
 	}
 
+	public Double getMenwork_activityhXtimework() {
+		if ((this.getTimeworkLessFranchise() != null) && (this.menwork_activityh != null)) {
+			return this.getTimeworkLessFranchise() * this.menwork_activityh;
+		} else {
+			return 0.0;
+		}
+	}
+
 	public String getNotedetail() {
 		return this.notedetail;
 	}

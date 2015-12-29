@@ -1225,18 +1225,18 @@
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="10">
 				<listhead sizable="true">
-					<listheader label="Data inizio attività"
+					<listheader label="Data inizio"
 						sort="auto(arrivaldate)" id="arrivalDateColumn" />
-					<listheader label="Data fine attività"
+					<listheader label="Data fine"
 						sort="auto(departuredate)" id="departureDateColumn" />
 					<listheader label="Nome Nave" sort="auto(name)"
 						id="shipNameColumun" />
 					<listheader label="Cliente" id="customerColumn" />
 					<listheader label="Volume Atteso"
 						id="volumeColumnScheduleShip" sort="auto(volume)" />
-					<listheader label="Rif Cliente" sort="auto(rif_mct)"
+					<listheader label="RIF. CL." sort="auto(rif_mct)"
 						id="mctColumn" />
-					<listheader label="Rif SWS" sort="auto(id)"
+					<listheader label="RIF. SWS." sort="auto(id)"
 						id="rifSWSColumn" />
 					<listheader label="Tipo Servizio" />
 					<listheader label="Note Programmazione" />
@@ -1337,8 +1337,8 @@
 					<listheader label="Nome Nave" sort="auto(name)"
 						hflex="2" />
 					<listheader label="Cliente" hflex="1" />
-					<listheader label="Rif Cliente" hflex="1" />
-					<listheader label="Rif SWS" hflex="1" />
+					<listheader label="RIF CL." hflex="1" />
+					<listheader label="RIF SWS." hflex="1" />
 					<listheader label="Data Turno" hflex="1" />
 					<listheader label="Turno" sort="auto(shift)"
 						id="shiftNumberColumn" />
@@ -1963,33 +1963,39 @@
 						pageSize="10">
 						<listhead sizable="true">
 
-							<listheader label="Rif SWS"
+							<listheader label="RIF. SWS"
 								sort="auto(rif_sws)" />
-							<listheader label="Rif Cliente"
+							<listheader label="RIF CL."
 								sort="auto(rif_mct)" />
-							<listheader label="Periodo di Fatturazione"
+							<listheader label="Fatturazione"
 								sort="auto(invoicing_cycle)" />
 
-							<listheader label="Gru" sort="auto(crane)" />
+							<listheader label="GRU" sort="auto(crane)" />
 
-							<listheader label="Volumi Netti"
+							<listheader label="VOLUMI"
 								sort="auto(volumeLessFranchise)" id="volumeColum" />
 
 							<listheader
-								label="Volumi Netti Rizz. da Bordo (x Cliente)"
+								label="V.RZ.Bordo (x CL)"
 								sort="auto(volumeunderboardLessFranchise)" />
 
 							<listheader
-								label="Volumi Netti Rizz. da Bordo (x SWS)"
+								label="V.RZ.Bordo (x SWS)"
 								sort="auto(volumeunderboard_swsLessFranchise)" />
 
-							<listheader label="Volumi Netti TW MCT"
+							<listheader label="V. TW. (x CL)"
 								sort="auto(volume_tw_mctLessFranchise)" />
 
-							<listheader label="Tempo Netto Lavorato"
+							<listheader label="H. Lav."
 								sort="auto(timeworkLessFranchise)" />
 
+							<listheader label="N. Pers."
+								sort="auto(menwork_activityh)" />
+
+							<listheader label="Tot. (H x N. Pers.)"	/>
+
 							<listheader label="Note" />
+							
 							<listheader id="modifyColumnDetail"
 								label="" />
 						</listhead>
@@ -2026,8 +2032,19 @@
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.timeworkLessFranchise, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.menwork_activityh}" />
+
+							<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.menwork_activityhXtimework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+
+
+
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.notedetail}" />
+							
 							<listcell sclass="myBottonCell">
 
 								<toolbarbutton
