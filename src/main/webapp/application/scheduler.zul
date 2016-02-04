@@ -23,10 +23,10 @@
 <zk>
 
 	<zscript>
-	Comparator	asc	= new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(true);
-	Comparator	dsc	= new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
-	Comparator	asc_init	= new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(true);
-	Comparator	dsc_init	= new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
+	Comparator asc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(true);
+	Comparator dsc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
+	Comparator asc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(true);
+	Comparator dsc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
 </zscript>
 
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
@@ -2162,6 +2162,19 @@
 							</hbox>
 
 							<separator></separator>
+							
+							<hbox>
+								<hbox align="center">
+									<a label="Consuntiva Fascia Oraria" />
+									<checkbox checked="false"
+										id="reviewShift" />
+								</hbox>
+								<hbox align="center">
+									<a label="Continua Turno" />
+									<checkbox checked="false"
+										id="continue_shift" />
+								</hbox>
+							</hbox>
 
 							<hbox align="center"
 								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2182,25 +2195,9 @@
 									format="short" cols="10" id="time_to">
 								</timebox>
 
-								<space></space>
-
-								<vbox>
-									<hbox align="center">
-										<a
-											label="Consuntiva Fascia Oraria" />
-										<checkbox checked="false"
-											id="reviewShift" />
-									</hbox>
-									<hbox align="center">
-										<a label="Continua Turno" />
-										<checkbox checked="false"
-											id="continue_shift" />
-									</hbox>
-								</vbox>
-
-							</hbox>
-
-							<separator></separator>
+							</hbox>			
+							
+							<separator></separator>				
 
 							<hbox
 								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
