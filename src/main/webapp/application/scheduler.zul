@@ -3418,6 +3418,9 @@
 										<listheader label="Nome"
 											sort="auto(person)" hflex="1" />
 
+										<listheader label="Matricola"
+											hflex="1" />
+
 										<listheader label="Reparto" />
 
 										<listheader label="Saturazione"
@@ -3462,7 +3465,10 @@
 </attribute>
 
 											</a>
-										</listcell>
+										</listcell>									
+										
+										<listcell sclass="myBottonCell"
+											label="@{userschedule.person.employee_identification}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.department}" />
