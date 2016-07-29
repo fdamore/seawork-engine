@@ -41,6 +41,14 @@ public interface PersonDAO extends UserDetailsService {
 
 	public List<Person> listAllPersonByContractualLevel(Integer contractual_level);
 
+	/**
+	 * List all person by enabling
+	 * 
+	 * @param enable
+	 * @return
+	 */
+	public List<Person> listAllPersonByEnable(Boolean enable);
+
 	public List<Person> listAllPersonByUserStatus(String userStatus);
 
 	public List<Person> listAllPersons();

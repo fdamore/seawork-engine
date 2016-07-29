@@ -55,247 +55,250 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Component add_users_command;
+	private Component			add_users_command;
 
 	@Wire
-	private Textbox address_user;
+	private Textbox				address_user;
 
 	@Wire
-	private Checkbox admin_user;
+	private Checkbox			admin_user;
 
 	@Wire
-	private Checkbox backoffice_user;
+	private Checkbox			backoffice_user;
 
 	@Wire
-	private Datebox birth_date_user;
+	private Datebox				birth_date_user;
 
 	@Wire
-	private Combobox birth_place_user;
+	private Combobox			birth_place_user;
 
 	@Wire
-	private Combobox birth_province_user;
+	private Combobox			birth_province_user;
 
 	@Wire
-	private Button cfgenerator;
+	private Button				cfgenerator;
 
 	@Wire
-	private Textbox city_user;
+	private Textbox				city_user;
 
 	@Wire
-	private Component compensation_user_tab;
+	private Component			compensation_user_tab;
 
-	public Comboitem comuneSelected;
-
-	@Wire
-	private Component contestations_user_tab;
+	public Comboitem			comuneSelected;
 
 	@Wire
-	private Combobox contractual_level_filter;
+	private Component			contestations_user_tab;
 
 	@Wire
-	private Textbox country_user;
+	private Combobox			contractual_level_filter;
 
 	@Wire
-	private Textbox current_position_user;
+	private Textbox				country_user;
 
 	@Wire
-	private Checkbox dailyemployee;
+	private Textbox				current_position_user;
 
 	@Wire
-	private Intbox daywork_w_user;
+	private Checkbox			dailyemployee;
 
 	@Wire
-	private Combobox department_user;
-
-	List<String> departmentItems = new ArrayList<String>();
+	private Intbox				daywork_w_user;
 
 	@Wire
-	private Tab detail_user_tab;
+	private Combobox			department_user;
+
+	List<String>				departmentItems		= new ArrayList<>();
 
 	@Wire
-	private Textbox driving_license_charge_user;
+	private Tab					detail_user_tab;
 
 	@Wire
-	private Datebox driving_license_emission_user;
+	private Textbox				driving_license_charge_user;
 
 	@Wire
-	private Textbox driving_license_user;
+	private Datebox				driving_license_emission_user;
 
 	@Wire
-	private Textbox education_user;
+	private Textbox				driving_license_user;
 
 	@Wire
-	private Textbox email_editor_user;
+	private Textbox				education_user;
 
 	@Wire
-	private Textbox email_editor_user_retype;
+	private Textbox				email_editor_user;
 
 	@Wire
-	private Textbox email_user;
+	private Textbox				email_editor_user_retype;
 
 	@Wire
-	private Textbox email_user_retype;
+	private Textbox				email_user;
 
 	@Wire
-	private Textbox employee_identification_user;
+	private Textbox				email_user_retype;
 
 	@Wire
-	private Textbox family_charge_user;
+	private Textbox				employee_identification_user;
 
 	@Wire
-	private Textbox firstname_user;
+	private Textbox				family_charge_user;
 
 	@Wire
-	private Component fiscalcheck_user_tab;
+	private Textbox				firstname_user;
 
 	@Wire
-	private Textbox fiscalcode_user;
+	private Component			fiscalcheck_user_tab;
 
 	@Wire
-	private Textbox full_text_search;
+	private Textbox				fiscalcode_user;
 
 	@Wire
-	private Component grid_user_details;
+	private Textbox				full_text_search;
 
 	@Wire
-	private Intbox hourswork_w_user;
+	private Component			grid_user_details;
 
 	@Wire
-	private Component jobcost_user_tab;
+	private Intbox				hourswork_w_user;
 
 	@Wire
-	private Textbox lastname_user;
-
-	private final Logger logger = Logger.getLogger(UserDetailsComposer.class);
+	private Component			jobcost_user_tab;
 
 	@Wire
-	private Component mail_user_tab;
+	private Textbox				lastname_user;
+
+	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox mailpassword_user;
+	private Component			mail_user_tab;
 
 	@Wire
-	private Textbox marital_status_user;
+	private Textbox				mailpassword_user;
 
 	@Wire
-	private Component medicalexamination_user_tab;
+	private Textbox				marital_status_user;
 
 	@Wire
-	private Component modify_users_command;
+	private Component			medicalexamination_user_tab;
 
 	@Wire
-	private Textbox nbudje_user;
+	private Component			modify_users_command;
 
 	@Wire
-	private Textbox ncfl_user;
+	private Textbox				nbudje_user;
 
 	@Wire
-	private Textbox npass_user;
+	private Textbox				ncfl_user;
 
 	@Wire
-	private Checkbox operative_user;
+	private Textbox				npass_user;
 
 	@Wire
-	private Checkbox out_schedule_user;
+	private Checkbox			operative_user;
 
 	@Wire
-	private Checkbox partTime;
+	private Checkbox			out_schedule_user;
 
 	@Wire
-	private Textbox password_editor_user;
+	private Checkbox			partTime;
 
 	@Wire
-	private Textbox password_editor_user_retype;
+	private Textbox				password_editor_user;
 
 	@Wire
-	private Textbox password_user;
+	private Textbox				password_editor_user_retype;
 
 	@Wire
-	private Textbox password_user_retype;
+	private Textbox				password_user;
 
 	@Wire
-	private Component password_user_tab;
-
-	Person person_selected = null;
+	private Textbox				password_user_retype;
 
 	@Wire
-	private Textbox personal_code_user;
+	private Component			password_user_tab;
+
+	Person						person_selected		= null;
+
+	@Wire
+	private Textbox				personal_code_user;
 
 	// the dao used for db interaction
-	private PersonDAO personDao;
+	private PersonDAO			personDao;
 
-	private List<Person> personList = new ArrayList<Person>();
-
-	@Wire
-	private Textbox phone_user;
+	private List<Person>		personList			= new ArrayList<>();
 
 	@Wire
-	private Textbox postalCode_user;
+	private Textbox				phone_user;
 
 	@Wire
-	private Textbox provincia_user;
+	private Textbox				postalCode_user;
 
 	@Wire
-	private Component qrcode_gen;
+	private Textbox				provincia_user;
 
 	@Wire
-	private Row row_email_user_retype;
+	private Component			qrcode_gen;
 
 	@Wire
-	private Row row_password_user;
+	private Row					row_email_user_retype;
 
 	@Wire
-	private Row row_password_user_retype;
+	private Row					row_password_user;
 
 	@Wire
-	private Combobox select_specific_user;
+	private Row					row_password_user_retype;
 
 	@Wire
-	private Combobox sex_user;
+	private Combobox			select_specific_user;
 
 	@Wire
-	private Intbox shows_rows;
+	private Combobox			sex_user;
 
 	@Wire
-	private Component status_user_tab;
+	private Intbox				shows_rows;
 
 	@Wire
-	private Listbox sw_list_user;
+	private Component			status_user_tab;
 
 	@Wire
-	private Component task_user_tab;
+	private Listbox				sw_list_user;
 
 	@Wire
-	private Component tfr_user_tab;
+	private Component			task_user_tab;
 
 	@Wire
-	private Component tradeunion_user_tab;
+	private Component			tfr_user_tab;
 
 	@Wire
-	private Component training_user_tab;
+	private Component			tradeunion_user_tab;
 
 	@Wire
-	private Label user_contractual_level;
+	private Component			training_user_tab;
 
 	@Wire
-	private Checkbox user_enabled;
+	private Label				user_contractual_level;
 
 	@Wire
-	private Label user_status;
+	private Combobox			user_enable_filter;
 
 	@Wire
-	private Combobox user_status_filter;
+	private Checkbox			user_enabled;
 
 	@Wire
-	private A userName;
-
-	List<String> userStatusItems = new ArrayList<String>();
+	private Label				user_status;
 
 	@Wire
-	private Checkbox viewer_user;
+	private Combobox			user_status_filter;
+
+	@Wire
+	private A					userName;
+
+	List<String>				userStatusItems		= new ArrayList<>();
+
+	@Wire
+	private Checkbox			viewer_user;
 
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
@@ -467,8 +470,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -477,7 +480,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
 
-		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null) || (this.birth_place_user.getSelectedItem() == null)
+		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null)
+				|| (this.birth_place_user.getSelectedItem() == null)
 				|| (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
 				|| (this.sex_user.getSelectedItem() == null)) {
 			return;
@@ -556,7 +560,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
 			return;
 		}
 
@@ -572,16 +577,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// check over password
-			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), this.person_selected.getEmail());
+			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(),
+					this.person_selected.getEmail());
 
 			if (!hashing_password.equals(this.person_selected.getPassword())) {
 
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null,
+						null, params);
 
 				return;
 
@@ -589,12 +596,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			if (!this.email_editor_user.getValue().equals(this.email_editor_user_retype.getValue())) {
 
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null,
+						params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -606,12 +614,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final UserDetails check = this.personDao.loadUserByUsernameIfAny(this.email_editor_user.getValue());
 			if (check != null) {
 
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR,
+						null, null, params);
 
 				// set fields
 				this.email_editor_user.setValue("");
@@ -621,7 +630,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
+			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(),
+					this.email_editor_user.getValue());
 
 			this.person_selected.setEmail(this.email_editor_user.getValue());
 			this.sw_list_user.getSelectedItem().setValue(this.person_selected);
@@ -631,7 +641,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			this.email_user.setValue(this.person_selected.getEmail());
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -642,7 +652,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		catch (final WrongValueException e) {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -664,23 +674,25 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			// WARNING
 			if (!this.password_editor_user.getValue().equals(this.password_editor_user_retype.getValue())) {
 
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
 				return;
 			}
 
 			// change password
-			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(), this.password_editor_user.getValue());
+			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(),
+					this.password_editor_user.getValue());
 
 			// reset fields
 			this.password_editor_user.setValue("");
 			this.password_editor_user_retype.setValue("");
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -691,12 +703,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		catch (final WrongValueException e) {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null,
+					params);
 
 		}
 
@@ -834,8 +847,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		if (person_selected.getBirth_place() != null) {
 
-			this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
-			this.birth_place_user.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
+			this.birth_place_user.setModel(
+					new ListModelList<>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
+			this.birth_place_user
+					.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
 			this.birth_place_user.setValue(person_selected.getBirth_place());
 
 		}
@@ -866,8 +881,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO",
-					buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show(
+					"Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.",
+					"INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -922,15 +938,16 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// create comboitem department
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.ADMINISTRATION);
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.OPERATIVE);
-		UserDetailsComposer.this.department_user.setModel(new ListModelList<String>(UserDetailsComposer.this.departmentItems));
+		UserDetailsComposer.this.department_user
+				.setModel(new ListModelList<>(UserDetailsComposer.this.departmentItems));
 
 		// create comboitem user status
 		this.userStatusItems.add(UserStatusTag.OPEN);
 		this.userStatusItems.add(UserStatusTag.SUSPENDED);
 		this.userStatusItems.add(UserStatusTag.FIRED);
 		this.userStatusItems.add(UserStatusTag.RESIGNED);
-		
-		this.user_status_filter.setModel(new ListModelList<String>(this.userStatusItems));
+
+		this.user_status_filter.setModel(new ListModelList<>(this.userStatusItems));
 
 	}
 
@@ -975,12 +992,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onSelect=#birth_province_user")
 	public void loadComuni() {
 
-		if ((this.birth_province_user.getSelectedItem() == null) || (this.birth_province_user.getSelectedItem().getValue() == null)) {
+		if ((this.birth_province_user.getSelectedItem() == null)
+				|| (this.birth_province_user.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
-		this.birth_place_user.setModel(new ListModelList<String>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem()
-				.getValue().toString())));
+		this.birth_place_user.setModel(new ListModelList<>(this.personDao
+				.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
 	}
 
 	@Listen("onClick = #modify_users_command")
@@ -1103,6 +1121,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
 		this.contractual_level_filter.setSelectedItem(null);
+		this.user_enable_filter.setSelectedItem(null);
 
 		// set user listbox
 		this.setUserListBox();
@@ -1118,17 +1137,17 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposer.this.deleteUserCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposer.this.deleteUserCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1199,9 +1218,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final String item = this.user_status_filter.getSelectedItem().getValue().toString();
 
 			final List<Person> listAllPersonByUserStatus = this.personDao.listAllPersonByUserStatus(item);
-			final ListModelList<Person> list_person = new ListModelList<Person>(listAllPersonByUserStatus);
+			final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
 
-			this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+			this.sw_list_user.setModel(new ListModelList<>(list_person));
 			this.full_text_search.setValue(null);
 			this.select_specific_user.setSelectedItem(null);
 
@@ -1212,7 +1231,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		final List<Person> list_person = this.personDao.usersAdmin();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
 
 	}
 
@@ -1221,43 +1240,72 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
 		if (this.contractual_level_filter.getSelectedItem() != null) {
-			final ListModelList<Person> list_person = new ListModelList<Person>(this.personDao.listAllPersonByContractualLevel(Integer
-					.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
-			this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+			final ListModelList<Person> list_person = new ListModelList<>(
+					this.personDao.listAllPersonByContractualLevel(
+							Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
+			this.sw_list_user.setModel(new ListModelList<>(list_person));
 			this.full_text_search.setValue(null);
 			this.select_specific_user.setSelectedItem(null);
 		}
 	}
 
+	@Listen("onChange=#user_enable_filter")
+	public void selectByUserEnable() {
+
+		this.select_specific_user.setSelectedItem(null);
+		this.user_status_filter.setSelectedItem(null);
+
+		if (this.user_enable_filter.getSelectedItem() == null) {
+
+			return;
+
+		}
+
+		Boolean enable = Boolean.TRUE;
+		final String value = this.user_enable_filter.getSelectedItem().getValue();
+		if (value.equals("NON ATTIVO")) {
+			enable = Boolean.FALSE;
+		}
+
+		final List<Person> list = this.personDao.listAllPersonByEnable(enable);
+
+		final ListModelList<Person> list_person = new ListModelList<>(list);
+
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.full_text_search.setValue(null);
+		this.select_specific_user.setSelectedItem(null);
+
+	}
+
 	private void selectDailyEmployee() {
 		final List<Person> list_person = this.personDao.listDailyEmployee();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
 	}
 
 	private void selectOperatives() {
 		final List<Person> list_person = this.personDao.listOperativePerson();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
 	}
 
 	private void selectOutScheduleEmployee() {
 		final List<Person> list_person = this.personDao.listOutScheduleEmployee();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
 
 	}
 
 	private void selectPartTimeEmployee() {
 		final List<Person> list_person = this.personDao.listAllPartTime();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
 	}
 
 	private void selectProgrammerEmployee() {
 		final List<Person> list_person = this.personDao.listProgrammerEmployee();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
 
 	}
 
@@ -1289,7 +1337,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private void selectViewerEmployee() {
 		final List<Person> list_person = this.personDao.listViewerEmployee();
 
-		this.sw_list_user.setModel(new ListModelList<Person>(list_person));
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
 
 	}
 
@@ -1355,7 +1403,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.setUserListBox();
 
 		final List<String> loadAllProvincia = this.personDao.loadAllProvincia();
-		this.birth_province_user.setModel(new ListModelList<String>(loadAllProvincia));
+		this.birth_province_user.setModel(new ListModelList<>(loadAllProvincia));
 
 		// initial view
 		this.grid_user_details.setVisible(false);
@@ -1386,7 +1434,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.sw_list_user.setPageSize(10);
 		}
 
-		this.sw_list_user.setModel(new ListModelList<Person>(this.personList));
+		this.sw_list_user.setModel(new ListModelList<>(this.personList));
 
 	}
 

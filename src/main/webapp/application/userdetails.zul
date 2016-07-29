@@ -647,7 +647,7 @@
 			id="user_status_filter" />
 
 		<combobox id="contractual_level_filter"
-			placeholder="Seleziona per livello" readonly="true">
+			placeholder="SLivello..." readonly="true">
 			<comboitem label="1" value="1" />
 			<comboitem label="2" value="2" />
 			<comboitem label="3" value="3" />
@@ -655,6 +655,14 @@
 			<comboitem label="5" value="5" />
 			<comboitem label="6" value="6" />
 		</combobox>
+
+		<combobox id="user_enable_filter" placeholder="Abilitazione..."
+			readonly="true">
+			<comboitem label="ATTIVO" value="ATTIVO" />
+			<comboitem label="NON ATTIVO" value="NON ATTIVO" />
+
+		</combobox>
+
 
 		<button id="sw_refresh_list" sclass="btn-info"
 			label="Ricarica">
@@ -730,7 +738,7 @@
 
 			<listcell sclass="myBottonCell"
 				label="@{user_item.current_position}" />
-				
+
 			<listcell sclass="myBottonCell"
 				label="@{user_item.tasksPerson}" />
 

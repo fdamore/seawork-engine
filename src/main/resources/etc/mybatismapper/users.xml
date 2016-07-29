@@ -4,6 +4,61 @@
 <mapper namespace="person">
 
 	<cache-ref namespace="schedule" />
+	
+	
+	
+	
+	<select id="listAllPersonByEnable" resultType="org.uario.seaworkengine.model.Person">
+
+		select
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status,
+		u.personal_code,
+		u.sex,
+		u.out_schedule,
+		u.birth_province,
+		u.dailyemployee,
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w,
+		u.contractual_level,  (
+		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
+		) as tasksPerson 
+		FROM
+		user u
+		where u.enabled = #{enable}
+		order
+		by
+		u.status
+		asc
+
+	</select>
 
 	<select id="usersAdmin" resultType="org.uario.seaworkengine.model.Person">
 

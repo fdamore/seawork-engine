@@ -22,7 +22,7 @@ import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.Utility;
 
 public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO {
-	private static Logger	logger	= Logger.getLogger(MyBatisPersonDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisPersonDAO.class);
 
 	@Override
 	public void changeMail(final Integer person_id, final String password, final String new_mail) {
@@ -73,9 +73,19 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 
 	@Override
 	public List<Person> listAllPersonByContractualLevel(final Integer contractual_level) {
+
 		MyBatisPersonDAO.logger.info("listAllPersonByContractualLevel " + contractual_level);
 
 		return this.getSqlSession().selectList("person.listAllPersonByContractualLevel", contractual_level);
+	}
+
+	@Override
+	public List<Person> listAllPersonByEnable(final Boolean enable) {
+
+		MyBatisPersonDAO.logger.info("listAllPersonByEnable " + enable);
+
+		return this.getSqlSession().selectList("person.listAllPersonByEnable", enable);
+
 	}
 
 	@Override
@@ -98,10 +108,11 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	public List<Person> listAllPersons(final String full_text_search) {
 		MyBatisPersonDAO.logger.info("listAllPersons with like..");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("my_full_text_search", full_text_search);
 
-		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike", map);
+		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike",
+				map);
 		return list_person;
 	}
 
@@ -111,7 +122,7 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 
 		final Date date_scheudle = DateUtils.truncate(date, Calendar.DATE);
 
-		final HashMap<String, Date> map = new HashMap<String, Date>();
+		final HashMap<String, Date> map = new HashMap<>();
 		map.put("date_scheudle", date_scheudle);
 
 		final List<Person> list_person = this.getSqlSession().selectList("person.selectWorkerPersonForMobile", map);
@@ -159,7 +170,7 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	public List<Person> listWorkerPersons(final String full_text_search, final String department) {
 		MyBatisPersonDAO.logger.info("list all worker persons...");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("my_full_text_search", full_text_search);
 		map.put("department", department);
 
@@ -175,7 +186,7 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	@Override
 	public String loadCodComune(final String provincia, final String comune) {
 		MyBatisPersonDAO.logger.info("Get cod comune by provincia e nome comune");
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 
 		map.put("comune", comune);
 		map.put("provincia", provincia);
