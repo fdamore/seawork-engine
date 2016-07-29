@@ -928,6 +928,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.userStatusItems.add(UserStatusTag.OPEN);
 		this.userStatusItems.add(UserStatusTag.SUSPENDED);
 		this.userStatusItems.add(UserStatusTag.FIRED);
+		this.userStatusItems.add(UserStatusTag.RESIGNED);
+		
 		this.user_status_filter.setModel(new ListModelList<String>(this.userStatusItems));
 
 	}
