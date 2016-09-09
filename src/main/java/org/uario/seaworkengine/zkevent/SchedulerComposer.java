@@ -149,8 +149,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		public void onEvent(final ClickEvent e) {
 			if (Messagebox.ON_OK.equals(e.getName())) {
 
-				final Integer max_shift = SchedulerComposer.this.statProcedure.getMaximumShift(
-						SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
+				final Integer max_shift = SchedulerComposer.this.statProcedure
+						.getMaximumShift(SchedulerComposer.this.currentSchedule.getDate_schedule(), SchedulerComposer.this.currentSchedule.getUser());
 
 				// save program... finalize
 				SchedulerComposer.this.saveProgramFinalStep();
@@ -158,7 +158,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// check if reprogramming
 				if (SchedulerComposer.this.selectedShift.compareTo(max_shift) > 0) {
 
-					final Map<String, String> params = new HashMap<String, String>();
+					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 
 					final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -329,7 +329,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private static Map<Integer, Double> sortByComparator(final Map<Integer, Double> unsortMap, final boolean order) {
 
-		final List<Entry<Integer, Double>> list = new LinkedList<Entry<Integer, Double>>(unsortMap.entrySet());
+		final List<Entry<Integer, Double>> list = new LinkedList<>(unsortMap.entrySet());
 
 		// Sorting the list based on values
 		Collections.sort(list, new Comparator<Entry<Integer, Double>>() {
@@ -345,7 +345,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		});
 
 		// Maintaining insertion order with the help of LinkedList
-		final Map<Integer, Double> sortedMap = new LinkedHashMap<Integer, Double>();
+		final Map<Integer, Double> sortedMap = new LinkedHashMap<>();
 		for (final Entry<Integer, Double> entry : list) {
 			sortedMap.put(entry.getKey(), entry.getValue());
 		}
@@ -572,7 +572,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Listbox						list_overview_review;
 
-	private ArrayList<RowDaySchedule>	list_rowDaySchedule				= new ArrayList<RowDaySchedule>();
+	private ArrayList<RowDaySchedule>	list_rowDaySchedule				= new ArrayList<>();
 
 	private ArrayList<RowSchedule>		list_rows_program;
 
@@ -1355,8 +1355,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					}
 
 					if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
-							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
-							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+							|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0)
+									&& (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
+							|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+									&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 						this.errorMessageAddProgramItem.setValue("Attenzione, orario in sovrapposizione.");
 						return false;
 					}
@@ -1371,7 +1373,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// update program list
 			this.list_details_program.add(new_item);
-			final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+			final ListModelList<DetailInitialSchedule> model = new ListModelList<>(this.list_details_program);
 			model.setMultiple(true);
 			this.orderListDetailInitialScheduleByTimeFrom(model);
 			this.listbox_program.setModel(model);
@@ -1529,9 +1531,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					return false;
 				}
 
-				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0)) || ((new_item
-						.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
-						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0) && (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+				if (((((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
+						|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))))
+						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+								&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
 					this.errorMessageAddItem.setValue("Attenzione, orario in sovrapposizione.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
@@ -1548,7 +1551,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// update program list
 		this.list_details_review.add(new_item);
 
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
 		model.setMultiple(true);
 		this.orderListDetailFinalScheduleByTimeFrom(model);
 		this.listbox_review.setModel(model);
@@ -1689,7 +1692,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Calendar today = Calendar.getInstance();
 		today = DateUtils.truncate(today, Calendar.DATE);
 		if (calendar_from.before(today)) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1708,7 +1711,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (shift.getBreak_shift().booleanValue() || shift.getWaitbreak_shift().booleanValue()) {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1723,7 +1726,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		calendar_to = DateUtils.truncate(calendar_to, Calendar.DATE);
 
 		if (calendar_from.after(calendar_to)) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -1779,7 +1782,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void calculateSatOnPersons() {
 
 		// update cache
-		this.cache_sat = new HashMap<Integer, Double>();
+		this.cache_sat = new HashMap<>();
 
 		final List<Person> list_person = this.personDAO.listWorkerPersons(null, null);
 
@@ -2009,7 +2012,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 		this.personLock = null;
 		if (!this.person_logged.isAdministrator()
-				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId())) || (this.userLockTable == null)))) {
+				&& ((((this.userLockTable != null) && !this.userLockTable.getId_user().equals(this.person_logged.getId()))
+						|| (this.userLockTable == null)))) {
 			SchedulerComposer.this.disableWriteCancelButtons(true);
 			if (this.userLockTable != null) {
 				this.personLock = this.personDAO.loadPerson(this.userLockTable.getId_user());
@@ -2061,7 +2065,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final List<UserCompensation> list = this.userCompensationDAO.loadAllUserCompensationByUserId(user_id, year);
-		final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
+		final ListModelList<UserCompensation> model = new ListModelList<>(list);
 		this.sw_compensation_list.setModel(model);
 
 		this.refreshUserStatistics(this.full_text_search.getValue(), this.combo_user_dip.getValue());
@@ -2118,7 +2122,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		final Map<String, String> params = new HashMap<String, String>();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
 		buttons[0] = Messagebox.Button.OK;
@@ -2360,7 +2364,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void defineShiftPeriodPanel() {
 
 		if (this.grid_scheduler_day.getSelectedItem() == null) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -2389,7 +2393,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// define info about day scheduled - define person available
 		final List<Schedule> day_schedule_list = this.scheduleDAO.loadSchedule(date_picker);
 
-		final HashMap<Integer, String> map_status = new HashMap<Integer, String>();
+		final HashMap<Integer, String> map_status = new HashMap<>();
 		for (final Schedule day_schedule : day_schedule_list) {
 			final Integer id_user = day_schedule.getUser();
 			if (map_status.containsKey(id_user)) {
@@ -2538,7 +2542,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.userCompensationDAO.deleteUserCompensation(user_comp.getId());
 
 		final List<UserCompensation> list = this.userCompensationDAO.loadAllUserCompensationByUserId(user_id, year);
-		final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
+		final ListModelList<UserCompensation> model = new ListModelList<>(list);
 		this.sw_compensation_list.setModel(model);
 
 		this.refreshUserStatistics(this.full_text_search.getValue(), this.combo_user_dip.getValue());
@@ -2606,9 +2610,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		this.userCompensationDAO = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
 
-		final ListModelList<Ship> shipList = new ListModelList<Ship>(this.shipDAO.loadAllShip());
+		final ListModelList<Ship> shipList = new ListModelList<>(this.shipDAO.loadAllShip());
 
-		final List<UserTask> taskList = new ArrayList<UserTask>();
+		final List<UserTask> taskList = new ArrayList<>();
 
 		// add ship for "ship null" filter
 		final UserTask taskNull = new UserTask();
@@ -2650,12 +2654,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set value in board combo box
-		final List<String> boardList = new ArrayList<String>();
+		final List<String> boardList = new ArrayList<>();
 		boardList.add("--");
 		boardList.add(BoardTag.ON_BOARD);
 		boardList.add(BoardTag.UNDER_BOARD);
 
-		this.board.setModel(new ListModelList<String>(boardList));
+		this.board.setModel(new ListModelList<>(boardList));
 
 		// set visibility of download_program_report button
 		final Person personLogged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -2693,7 +2697,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set year in combobox
 		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
-		final ArrayList<String> years = new ArrayList<String>();
+		final ArrayList<String> years = new ArrayList<>();
 
 		years.add(SchedulerComposer.ALL_ITEM);
 
@@ -2701,25 +2705,25 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			years.add(i.toString());
 		}
 
-		this.select_year.setModel(new ListModelList<String>(years));
+		this.select_year.setModel(new ListModelList<>(years));
 
 		// set months in combox
-		final ArrayList<String> months = new ArrayList<String>();
+		final ArrayList<String> months = new ArrayList<>();
 		months.add(SchedulerComposer.ALL_ITEM);
 		for (Integer i = 1; i <= 12; i++) {
 			months.add(i.toString());
 		}
 
-		this.select_month.setModel(new ListModelList<String>(months));
+		this.select_month.setModel(new ListModelList<>(months));
 
 		// set months in combox
-		final ArrayList<String> weeks = new ArrayList<String>();
+		final ArrayList<String> weeks = new ArrayList<>();
 		weeks.add(SchedulerComposer.ALL_ITEM);
 		for (Integer i = 1; i <= 53; i++) {
 			weeks.add(i.toString());
 		}
 
-		this.select_week.setModel(new ListModelList<String>(weeks));
+		this.select_week.setModel(new ListModelList<>(weeks));
 
 		this.getSelf().addEventListener(ZkEventsTag.onNameCompensationClick, new EventListener<Event>() {
 
@@ -2745,7 +2749,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final int year = Calendar.getInstance().get(Calendar.YEAR);
 
 				final List<UserCompensation> list = SchedulerComposer.this.userCompensationDAO.loadAllUserCompensationByUserId(user_id, year);
-				final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
+				final ListModelList<UserCompensation> model = new ListModelList<>(list);
 				SchedulerComposer.this.sw_compensation_list.setModel(model);
 
 				// set year label
@@ -3199,7 +3203,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// create invoice..
 			stream = new ByteArrayOutputStream();
 
-			final ArrayList<RowSchedule> final_list = new ArrayList<RowSchedule>();
+			final ArrayList<RowSchedule> final_list = new ArrayList<>();
 			for (final RowSchedule item : this.list_rows_program) {
 
 				final Schedule schedule = item.getItem_3().getSchedule();
@@ -3257,7 +3261,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	private ArrayList<DetailFinalSchedule> filterDetailFinalScheduleByWorkingDay(final Boolean workingDayFilter) {
-		final ArrayList<DetailFinalSchedule> newList = new ArrayList<DetailFinalSchedule>();
+		final ArrayList<DetailFinalSchedule> newList = new ArrayList<>();
 		for (final DetailFinalSchedule item : this.listDetailRevision) {
 			if (Utility.isWorkingDay(item).equals(workingDayFilter)) {
 				newList.add(item);
@@ -3307,7 +3311,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	private ArrayList<Date> getDateByMonth(final Integer month, final Integer year) {
 
-		final ArrayList<Date> date = new ArrayList<Date>();
+		final ArrayList<Date> date = new ArrayList<>();
 
 		final Calendar cal = Calendar.getInstance();
 
@@ -3323,7 +3327,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	private ArrayList<Date> getDateByWeek(final Integer week, final Integer year) {
-		final ArrayList<Date> date = new ArrayList<Date>();
+		final ArrayList<Date> date = new ArrayList<>();
 
 		final Calendar cal = Calendar.getInstance(Locale.ITALIAN);
 
@@ -3525,7 +3529,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		final List<UserTask> list = new ArrayList<UserTask>();
+		final List<UserTask> list = new ArrayList<>();
 		list.addAll(list_task_user);
 		list.addAll(list_task_justificatory);
 		list.addAll(list_task_absence);
@@ -3759,16 +3763,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// define shift combo
 		final List<UserShift> shifts = SchedulerComposer.this.configurationDAO.loadShifts();
-		this.shifts_combo_select.setModel(new ListModelList<UserShift>(shifts));
+		this.shifts_combo_select.setModel(new ListModelList<>(shifts));
 
 		// set combo in period shift composer
-		this.shift_period_combo.setModel(new ListModelList<UserShift>(shifts));
+		this.shift_period_combo.setModel(new ListModelList<>(shifts));
 
 		// set info in force combo
-		this.force_shift_combo.setModel(new ListModelList<UserShift>(shifts));
+		this.force_shift_combo.setModel(new ListModelList<>(shifts));
 
 		// set in overview
-		this.select_shifttype_overview.setModel(new ListModelList<UserShift>(shifts));
+		this.select_shifttype_overview.setModel(new ListModelList<>(shifts));
 
 		// get the caches
 		this.shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
@@ -3882,7 +3886,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -3894,7 +3898,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// info check
 		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -3923,12 +3927,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set label
 		if (this.personDAO.loadPerson(this.selectedUser).getPart_time()) {
-			this.scheduler_label.setLabel(row_scheduler.getName_user() + " " + this.partTimeMessage + ". Giorno: "
-					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+
+			final String msg = row_scheduler.getName_user() + " " + this.partTimeMessage + ". Giorno: "
+					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift;
+
+			this.scheduler_label.setLabel(msg);
 
 		} else {
-			this.scheduler_label.setLabel(row_scheduler.getName_user() + ". Giorno: "
-					+ SchedulerComposer.formatter_scheduler_info.format(date_schedule) + ". Turno: " + SchedulerComposer.this.selectedShift);
+
+			final String msg = row_scheduler.getName_user() + ". Giorno: " + SchedulerComposer.formatter_scheduler_info.format(date_schedule)
+					+ ". Turno: " + SchedulerComposer.this.selectedShift;
+
+			this.scheduler_label.setLabel(msg);
 		}
 
 		// show programmer and controller
@@ -3996,12 +4006,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.listbox_program.getItems().clear();
 
 			// set list program and revision
-			this.list_details_program = new ArrayList<DetailInitialSchedule>();
+			this.list_details_program = new ArrayList<>();
 
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<>(this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
@@ -4083,7 +4093,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			ship.setName("--");
 			listShipInDay.add(0, ship);
 			// set model in shipInDay combobox
-			this.shipInDay.setModel(new ListModelList<Ship>(listShipInDay));
+			this.shipInDay.setModel(new ListModelList<>(listShipInDay));
 		}
 
 		this.minHoursAlert = false;
@@ -4102,7 +4112,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// for of shift --> shift_1_4
 		final String[] info = data_info.split("_");
 		if (info.length != 3) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -4115,7 +4125,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// info check
 		if (!NumberUtils.isNumber(info[1]) || !NumberUtils.isNumber(info[2])) {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -4191,12 +4201,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.listbox_review.getItems().clear();
 
 			// set list revision
-			this.list_details_review = new ArrayList<DetailFinalSchedule>();
+			this.list_details_review = new ArrayList<>();
 
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
 
@@ -4361,7 +4371,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_select, department_select);
 
 		// init list
-		this.listUserStatistics = new ListModelList<UserStatistics>();
+		this.listUserStatistics = new ListModelList<>();
 
 		final Date date_to_stat = new Date(date_to.getTime());
 
@@ -4378,7 +4388,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		Collections.sort(this.listUserStatistics);
 
-		this.list_statistics.setModel(new ListModelList<UserStatistics>(this.listUserStatistics));
+		this.list_statistics.setModel(new ListModelList<>(this.listUserStatistics));
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.list_statistics.setPageSize(this.shows_rows.getValue());
@@ -4470,7 +4480,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final Date to_day = DateUtils.truncate(dayAfterConfig, Calendar.DATE);
 
 			if (dayScheduleDate.after(to_day)) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -4484,14 +4494,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
 
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox
-						.show("Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
-								"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show(
+						"Non cancellare oltre i limiti della griglia corrente. Usa Imposta Speciale per azioni su intervalli che vanno otlre la griglia corrente.",
+						"ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
@@ -4552,7 +4562,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 							if (DateUtils.isSameDay(Calendar.getInstance(), check_sunday_cal)
 									&& (check_sunday_cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
 
-								final Map<String, String> params = new HashMap<String, String>();
+								final Map<String, String> params = new HashMap<>();
 								params.put("sclass", "mybutton Button");
 								final Messagebox.Button[] buttons = new Messagebox.Button[1];
 								buttons[0] = Messagebox.Button.OK;
@@ -4562,15 +4572,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 							} else {
 
-								final Map<String, String> params = new HashMap<String, String>();
+								final Map<String, String> params = new HashMap<>();
 								params.put("sclass", "mybutton Button");
 								final Messagebox.Button[] buttons = new Messagebox.Button[2];
 								buttons[0] = Messagebox.Button.OK;
 								buttons[1] = Messagebox.Button.NO;
 
 								final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-								Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(
-										date_schedule, row_item), params);
+								Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
+										new ReassignBreakEvent(date_schedule, row_item), params);
 							}
 
 						}
@@ -4639,7 +4649,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+		final ListModelList<DetailInitialSchedule> model = new ListModelList<>(this.list_details_program);
 		model.setMultiple(true);
 		this.listbox_program.setModel(model);
 
@@ -4705,7 +4715,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// set model list program and revision
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
 		model.setMultiple(true);
 		this.listbox_review.setModel(model);
 
@@ -4848,7 +4858,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			if (lenght == 10) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 
 				final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -4932,7 +4942,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		} else {
 
 			if (shift.getBreak_shift().booleanValue() || shift.getWaitbreak_shift().booleanValue()) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -4947,7 +4957,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final Date to_day = DateUtils.truncate(this.day_after_config.getValue(), Calendar.DATE);
 
 			if (date_scheduled.after(to_day)) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -4959,7 +4969,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final int count = (int) ((to_day.getTime() - date_scheduled.getTime()) / (1000 * 60 * 60 * 24));
 
 			if ((this.selectedDay + count) > SchedulerComposer.DAYS_IN_GRID_PREPROCESSING) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -5051,8 +5061,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// check max 12 h in a day
-			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO.loadDetailInitialScheduleByIdSchedule(this.currentSchedule
-					.getId());
+			final List<DetailInitialSchedule> list_detail_schedule = this.scheduleDAO
+					.loadDetailInitialScheduleByIdSchedule(this.currentSchedule.getId());
 
 			Double count = sum;
 			for (final DetailInitialSchedule dt : list_detail_schedule) {
@@ -5067,7 +5077,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			if (Utility.roundTwo(count) > 12) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -5099,8 +5109,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						if (!((this.selectedShift.equals(1) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay.equals(1))
 								|| (this.selectedShift.equals(2) && minShiftInDay.equals(3))
 								|| (this.selectedShift.equals(3) && minShiftInDay.equals(2))
-								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4)) || (this.selectedShift.equals(4) && minShiftInDay
-								.equals(3)))) {
+								|| (this.selectedShift.equals(3) && minShiftInDay.equals(4))
+								|| (this.selectedShift.equals(4) && minShiftInDay.equals(3)))) {
 							check_12_different_day = true;
 						}
 					}
@@ -5108,7 +5118,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				if (check_12_different_day) {
 
-					final Map<String, String> params = new HashMap<String, String>();
+					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 
 					final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -5164,7 +5174,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (!this.addProgramItem()) {
 			this.list_details_program.add(itm);
-			final ListModelList<DetailInitialSchedule> model = new ListModelList<DetailInitialSchedule>(this.list_details_program);
+			final ListModelList<DetailInitialSchedule> model = new ListModelList<>(this.list_details_program);
 			this.orderListDetailInitialScheduleByTimeFrom(model);
 			this.listbox_program.setModel(model);
 
@@ -5247,7 +5257,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (Utility.roundTwo(count) > 12) {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -5286,7 +5296,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!this.addReviewItem()) {
 
 			this.list_details_review.add(this.selectedItemReview);
-			final ListModelList<DetailFinalSchedule> model = new ListModelList<DetailFinalSchedule>(this.list_details_review);
+			final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
 			this.orderListDetailFinalScheduleByTimeFrom(model);
 			this.listbox_review.setModel(model);
 			this.listbox_review.setSelectedIndex(selectedIndex);
@@ -5322,7 +5332,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
 
 				if ((scheduleListInWeek != null) && (scheduleListInWeek.size() > 0)) {
-					final Map<String, String> params = new HashMap<String, String>();
+					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 
 					final Messagebox.Button[] buttons = new Messagebox.Button[3];
@@ -5330,10 +5340,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					buttons[1] = Messagebox.Button.NO;
 					buttons[2] = Messagebox.Button.CANCEL;
 
-					Messagebox
-							.show("Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro? \nATTENZIONE: Non verranno modificati i giorni precedenti.",
-									"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null, new BreakInWeekManagement(
-											shift, scheduleListInWeek, row_item, date_scheduled), params);
+					Messagebox.show(
+							"Sono presenti nella settimana altri turni di riposo. Sostituirli con turni di lavoro? \nATTENZIONE: Non verranno modificati i giorni precedenti.",
+							"CONFERMA CANCELLAZIONE TURNI DI RIPOSO", buttons, null, Messagebox.EXCLAMATION, null,
+							new BreakInWeekManagement(shift, scheduleListInWeek, row_item, date_scheduled), params);
 				} else {
 					this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 				}
@@ -5360,7 +5370,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					if (DateUtils.isSameDay(Calendar.getInstance(), check_sunday_cal)
 							&& (check_sunday_cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)) {
 
-						final Map<String, String> params = new HashMap<String, String>();
+						final Map<String, String> params = new HashMap<>();
 						params.put("sclass", "mybutton Button");
 						final Messagebox.Button[] buttons = new Messagebox.Button[1];
 						buttons[0] = Messagebox.Button.OK;
@@ -5370,7 +5380,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 					} else {
 
-						final Map<String, String> params = new HashMap<String, String>();
+						final Map<String, String> params = new HashMap<>();
 						params.put("sclass", "mybutton Button");
 
 						final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -5378,8 +5388,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						buttons[1] = Messagebox.Button.NO;
 
 						final String msg = "Non ci sono più riposi per questa settimana. Impostare automaticamente un riposo?";
-						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null, new ReassignBreakEvent(date_scheduled,
-								row_item), params);
+						Messagebox.show(msg, "GESTIONE RIPOSI", buttons, null, Messagebox.EXCLAMATION, null,
+								new ReassignBreakEvent(date_scheduled, row_item), params);
 					}
 
 				}
@@ -6170,8 +6180,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (person != null) {
 
-			this.lastProgrammer.setValue(person.getFirstname() + " " + person.getLastname() + " "
-					+ SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
+			this.lastProgrammer.setValue(
+					person.getFirstname() + " " + person.getLastname() + " " + SchedulerComposer.formatter_last_p.format(lockTable.getTime_to()));
 		}
 
 	}
@@ -6226,7 +6236,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			date_to = date_from;
 		}
 		if ((date_from != null) && date_from.after(date_to)) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -6320,8 +6330,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				idCrane = null;
 			}
 
-			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
-					date_from, date_to, reviewshift, idShip, idCrane);
+			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask, date_from,
+					date_to, reviewshift, idShip, idCrane);
 			List<DetailFinalSchedule> countWorkerList = this.statisticDAO.countWorkerInOverviewFinalSchedule(full_text_search, shift_number,
 					shift_type, idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane);
 
@@ -6342,7 +6352,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			double count_h = 0;
 			double count_h_c = 0;
 
-			final ArrayList<Date> count_day = new ArrayList<Date>();
+			final ArrayList<Date> count_day = new ArrayList<>();
 
 			for (final DetailFinalSchedule item : this.listDetailRevision) {
 
@@ -6373,7 +6383,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.overview_count_days.setValue("" + count_day.size());
 
 			// set number of row showed
-			this.list_overview_review.setModel(new ListModelList<DetailFinalSchedule>(this.listDetailRevision));
+			this.list_overview_review.setModel(new ListModelList<>(this.listDetailRevision));
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_review.setPageSize(this.shows_rows.getValue());
 			}
@@ -6397,7 +6407,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			double count_h = 0;
 			double count_h_c = 0;
 
-			final HashMap<Integer, Boolean> user_count = new HashMap<Integer, Boolean>();
+			final HashMap<Integer, Boolean> user_count = new HashMap<>();
 
 			for (final DetailInitialSchedule item : this.listDetailProgram) {
 
@@ -6420,7 +6430,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.overview_count_worker.setValue("" + user_count.size());
 
 			// set number of row showed
-			this.list_overview_program.setModel(new ListModelList<DetailInitialSchedule>(this.listDetailProgram));
+			this.list_overview_program.setModel(new ListModelList<>(this.listDetailProgram));
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_program.setPageSize(this.shows_rows.getValue());
 			}
@@ -6434,7 +6444,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.overview_count_worker.setValue("");
 
 			// set number of row showed
-			this.list_overview_preprocessing.setModel(new ListModelList<Schedule>(this.listSchedule));
+			this.list_overview_preprocessing.setModel(new ListModelList<>(this.listSchedule));
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_preprocessing.setPageSize(this.shows_rows.getValue());
 			}
@@ -6513,7 +6523,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			list = this.scheduleDAO.selectSchedulersForPreprocessing(this.firstDateInGrid, final_date, this.full_text_search.getValue());
 		}
 
-		this.list_rowDaySchedule = new ArrayList<RowDaySchedule>();
+		this.list_rowDaySchedule = new ArrayList<>();
 		RowDaySchedule currentRow = null;
 
 		for (int i = 0; i < list.size(); i++) {
@@ -6697,7 +6707,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.grid_scheduler_day.setPageSize(this.shows_rows.getValue());
 		}
-		this.grid_scheduler_day.setModel(new ListModelList<RowDaySchedule>(this.list_rowDaySchedule));
+		this.grid_scheduler_day.setModel(new ListModelList<>(this.list_rowDaySchedule));
 
 	}
 
@@ -6736,11 +6746,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final List<Schedule> list_program = this.scheduleDAO.selectAggregateSchedulersProgram(initial_date_program, final_date_program,
 				text_search_person);
 
-		this.list_rows_program = new ArrayList<RowSchedule>();
+		this.list_rows_program = new ArrayList<>();
 		RowSchedule currentRow = null;
 
 		// create a map for define people scheduled
-		final HashMap<Integer, RowSchedule> sign_scheduled = new HashMap<Integer, RowSchedule>();
+		final HashMap<Integer, RowSchedule> sign_scheduled = new HashMap<>();
 
 		// set variable for count
 		final Double[][] count_matrix = new Double[5][4];
@@ -7100,7 +7110,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.grid_scheduler.setPageSize(this.shows_rows.getValue());
 		}
-		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(this.list_rows_program);
+		final ListModelList<RowSchedule> model = new ListModelList<>(this.list_rows_program);
 		model.setMultiple(true);
 		this.grid_scheduler.setModel(model);
 
@@ -7122,7 +7132,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Date date_schedule = DateUtils.truncate(ret, Calendar.DATE);
 
 		// create a map for define people scheduled
-		final HashMap<Integer, RowSchedule> sign_scheduled = new HashMap<Integer, RowSchedule>();
+		final HashMap<Integer, RowSchedule> sign_scheduled = new HashMap<>();
 
 		// take info about person
 		String text_search_person = null;
@@ -7135,7 +7145,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// get info on program
 		final List<Schedule> list_revision = this.scheduleDAO.selectAggregateSchedulersRevision(date_schedule, text_search_person);
 
-		this.list_rowSchedule = new ArrayList<RowSchedule>();
+		this.list_rowSchedule = new ArrayList<>();
 		RowSchedule currentRow = null;
 
 		// count review tot
@@ -7363,7 +7373,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.grid_scheduler_review.setPageSize(this.shows_rows.getValue());
 		}
-		final ListModelList<RowSchedule> model = new ListModelList<RowSchedule>(this.list_rowSchedule);
+		final ListModelList<RowSchedule> model = new ListModelList<>(this.list_rowSchedule);
 		model.setMultiple(true);
 		this.grid_scheduler_review.setModel(model);
 
@@ -7640,7 +7650,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		SchedulerComposer.this.label_statistic_task_popup.setLabel(title);
 
 		final List<UserTask> user_tasks = this.taskDAO.loadTasksByUser(id_user);
-		this.list_task_stat.setModel(new ListModelList<UserTask>(user_tasks));
+		this.list_task_stat.setModel(new ListModelList<>(user_tasks));
 
 		SchedulerComposer.this.task_list_popup.open(anchorComponent, "after_pointer");
 
@@ -7664,7 +7674,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (selected == this.preprocessing_item) {
 
-			final ArrayList<RowDaySchedule> sortedList = new ArrayList<RowDaySchedule>();
+			final ArrayList<RowDaySchedule> sortedList = new ArrayList<>();
 			final Iterator it = cache_sat.entrySet().iterator();
 			while (it.hasNext()) {
 				final Map.Entry pair = (Map.Entry) it.next();
@@ -7679,10 +7689,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.grid_scheduler_day.setPageSize(this.shows_rows.getValue());
 			}
-			this.grid_scheduler_day.setModel(new ListModelList<RowDaySchedule>(sortedList));
+			this.grid_scheduler_day.setModel(new ListModelList<>(sortedList));
 
 		} else if (selected == this.program_item) {
-			final ArrayList<RowSchedule> sortedList = new ArrayList<RowSchedule>();
+			final ArrayList<RowSchedule> sortedList = new ArrayList<>();
 			final Iterator it = cache_sat.entrySet().iterator();
 			while (it.hasNext()) {
 				final Map.Entry pair = (Map.Entry) it.next();
@@ -7694,9 +7704,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					}
 				}
 			}
-			this.grid_scheduler.setModel(new ListModelList<RowSchedule>(sortedList));
+			this.grid_scheduler.setModel(new ListModelList<>(sortedList));
 		} else if (selected == this.review_item) {
-			final ArrayList<RowSchedule> sortedList = new ArrayList<RowSchedule>();
+			final ArrayList<RowSchedule> sortedList = new ArrayList<>();
 			final Iterator it = cache_sat.entrySet().iterator();
 			while (it.hasNext()) {
 				final Map.Entry pair = (Map.Entry) it.next();
@@ -7708,11 +7718,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					}
 				}
 			}
-			this.grid_scheduler_review.setModel(new ListModelList<RowSchedule>(sortedList));
+			this.grid_scheduler_review.setModel(new ListModelList<>(sortedList));
 
 		} else if (selected == this.overview_item) {
 			if (this.overview_review.isSelected()) {
-				final ArrayList<DetailFinalSchedule> sortedList = new ArrayList<DetailFinalSchedule>();
+				final ArrayList<DetailFinalSchedule> sortedList = new ArrayList<>();
 				final Iterator it = cache_sat.entrySet().iterator();
 				while (it.hasNext()) {
 					final Map.Entry pair = (Map.Entry) it.next();
@@ -7723,9 +7733,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						}
 					}
 				}
-				this.list_overview_review.setModel(new ListModelList<DetailFinalSchedule>(sortedList));
+				this.list_overview_review.setModel(new ListModelList<>(sortedList));
 			} else if (this.overview_program.isSelected()) {
-				final ArrayList<DetailInitialSchedule> sortedList = new ArrayList<DetailInitialSchedule>();
+				final ArrayList<DetailInitialSchedule> sortedList = new ArrayList<>();
 				final Iterator it = cache_sat.entrySet().iterator();
 				while (it.hasNext()) {
 					final Map.Entry pair = (Map.Entry) it.next();
@@ -7736,9 +7746,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						}
 					}
 				}
-				this.list_overview_program.setModel(new ListModelList<DetailInitialSchedule>(sortedList));
+				this.list_overview_program.setModel(new ListModelList<>(sortedList));
 			} else if (this.overview_preprocessing.isSelected()) {
-				final ArrayList<Schedule> sortedList = new ArrayList<Schedule>();
+				final ArrayList<Schedule> sortedList = new ArrayList<>();
 				final Iterator it = cache_sat.entrySet().iterator();
 				while (it.hasNext()) {
 					final Map.Entry pair = (Map.Entry) it.next();
@@ -7749,9 +7759,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						}
 					}
 				}
-				this.list_overview_preprocessing.setModel(new ListModelList<Schedule>(sortedList));
+				this.list_overview_preprocessing.setModel(new ListModelList<>(sortedList));
 			} else if (this.overview_statistics.isSelected()) {
-				final ArrayList<UserStatistics> sortedList = new ArrayList<UserStatistics>();
+				final ArrayList<UserStatistics> sortedList = new ArrayList<>();
 				final Iterator it = cache_sat.entrySet().iterator();
 				while (it.hasNext()) {
 					final Map.Entry pair = (Map.Entry) it.next();
@@ -7764,7 +7774,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 						}
 					}
 				}
-				this.list_statistics.setModel(new ListModelList<UserStatistics>(sortedList));
+				this.list_statistics.setModel(new ListModelList<>(sortedList));
 			}
 
 		}
