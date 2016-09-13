@@ -343,9 +343,9 @@
 							<toolbarbutton label="X"
 								style="font-weight: bold;" onClick="task_popup.close();" />
 						</div>
-						<grid width="230px">
+						<grid width="300px">
 							<columns>
-								<column width="80px"></column>
+								<column hflex="1"></column>
 								<column hflex="1"></column>
 							</columns>
 							<rows>
@@ -360,6 +360,13 @@
 										style="font-weight:bold" />
 									<label id="task_description" />
 								</row>
+
+								<row>
+									<label value="Contabilizzato: "
+										style="font-weight:bold" />
+									<label id="task_cont" />
+								</row>
+
 							</rows>
 						</grid>
 					</vbox>
@@ -2915,7 +2922,7 @@
 											hflex="1" align="center" />
 
 										<listheader label="Mansione"
-											hflex="1" align="center" />
+											hflex="1" align="center" />										
 
 										<listheader label="GG. Lav."
 											hflex="1" align="center" />
@@ -2990,6 +2997,7 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
+										
 										<listcell sclass="myBottonCell"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}">
 											<checkbox
@@ -3022,6 +3030,9 @@
 </attribute>
 											</a>
 										</listcell>
+										
+									
+										
 
 										<listcell
 											sclass="myBottonCell">
