@@ -35,8 +35,9 @@
 	<div id="grid_user_details" visible="false">
 
 
-		<a id="userName" iconSclass="z-icon-angle-double-right"
+		<a id="userName" iconSclass="z-icon-angle-double-right" style="font-size: 20px"
 			sclass="subtitle" />
+		
 		<space></space>
 
 		<button id="qrcode_gen" label="Genera QRCode" sclass="btn-info"
