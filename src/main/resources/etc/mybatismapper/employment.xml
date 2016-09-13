@@ -11,6 +11,7 @@
 		status,
 		note,
 		date_modified,
+		date_end,
 		id_user, contractual_level 
 		FROM
 		employment where
@@ -25,11 +26,13 @@
 		employment
 		(status, note,
 		date_modified,
+		date_end,
 		id_user, contractual_level)
 		VALUES
 		(#{status},
 		#{note},
 		#{date_modified},
+		#{date_end},
 		#{id_user}, 
 		#{contractual_level});
 
@@ -49,6 +52,7 @@
 		status = #{status},
 		note = #{note},
 		date_modified = #{date_modified}, 
+		date_end = #{date_end},
 		contractual_level = #{contractual_level} 
 		WHERE id = #{id}
 

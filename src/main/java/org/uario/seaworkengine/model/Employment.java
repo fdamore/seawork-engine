@@ -12,6 +12,8 @@ public class Employment implements Serializable {
 
 	private Integer				contractual_level;
 
+	private Date				date_end;
+
 	private Date				date_modified;
 
 	private Integer				id;
@@ -24,6 +26,10 @@ public class Employment implements Serializable {
 
 	public Integer getContractual_level() {
 		return this.contractual_level;
+	}
+
+	public Date getDate_end() {
+		return this.date_end;
 	}
 
 	public Date getDate_modified() {
@@ -48,6 +54,10 @@ public class Employment implements Serializable {
 
 	public void setContractual_level(final Integer contractual_level) {
 		this.contractual_level = contractual_level;
+	}
+
+	public void setDate_end(final Date date_end) {
+		this.date_end = date_end;
 	}
 
 	public void setDate_modified(final Date date_modified) {

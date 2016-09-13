@@ -43,6 +43,9 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	private Combobox			contractual_level;
 
 	@Wire
+	private Datebox				date_end;
+
+	@Wire
 	private Datebox				date_modifiled;
 
 	// DAO for access employment data
@@ -74,6 +77,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		this.status_add = true;
 		this.date_modifiled.setValue(Calendar.getInstance().getTime());
+		this.date_end.setValue(Calendar.getInstance().getTime());
 		this.note.setValue("");
 		this.status.setValue(null);
 		this.contractual_level.setValue(null);
@@ -161,6 +165,10 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	}
 
+	public Datebox getDate_end() {
+		return this.date_end;
+	}
+
 	@Listen("onClick = #sw_link_edit")
 	public void modifyItem() {
 
@@ -192,6 +200,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		}
 
 		this.date_modifiled.setValue(item.getDate_modified());
+		this.date_end.setValue(item.getDate_end());
 
 		if (item.getContractual_level() != null) {
 			this.contractual_level.setSelectedIndex(item.getContractual_level() - 1);
@@ -314,6 +323,10 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	}
 
+	public void setDate_end(final Datebox date_end) {
+		this.date_end = date_end;
+	}
+
 	@Listen("onClick = #sw_refresh_list")
 	public void setInitialView() {
 
@@ -376,11 +389,26 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Selezionare una data!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+			Messagebox.show("Selezionare una data inizio!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 			return false;
 		}
 
+		if (this.date_end.getValue() != null) {
+			if (this.date_end.getValue().before(this.date_modifiled.getValue())) {
+				final Map<String, String> params = new HashMap<String, String>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+
+				Messagebox.show("Attenzione alle date!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+				return false;
+			}
+		}
+
 		item.setDate_modified(this.date_modifiled.getValue());
+
+		item.setDate_end(this.date_end.getValue());
+
 		return true;
 	}
 
