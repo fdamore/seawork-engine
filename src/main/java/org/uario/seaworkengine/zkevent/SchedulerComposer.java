@@ -1276,7 +1276,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			if (this.currentSchedule == null) {
 				// save scheduler
-				this.saveCurrentScheduler();
+				this.saveCurrentSchedulerProgram();
 			}
 
 			final DetailInitialSchedule new_item = new DetailInitialSchedule();
@@ -1434,7 +1434,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.currentSchedule == null) {
 			// save scheduler
-			this.saveCurrentScheduler();
+			this.saveCurrentSchedulerReview();
 		}
 
 		final DetailFinalSchedule new_item = new DetailFinalSchedule();
@@ -4807,7 +4807,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Save Current scheduler updating values from grid
 	 */
-	private void saveCurrentScheduler() {
+	private void saveCurrentSchedulerProgram() {
 
 		if (this.currentSchedule == null) {
 			this.currentSchedule = new Schedule();
@@ -4820,6 +4820,32 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// set editor
 		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		this.currentSchedule.setEditor(person.getId());
+
+		// set user
+		this.currentSchedule.setUser(this.selectedUser);
+
+		// if shift not assigned, assign default one
+		if ((this.shift_cache.getStandardWorkShift() != null) && (this.currentSchedule.getShift() == null)) {
+			this.currentSchedule.setShift(this.shift_cache.getStandardWorkShift().getId());
+		}
+
+		this.scheduleDAO.saveOrUpdateSchedule(this.currentSchedule);
+
+		this.currentSchedule = this.scheduleDAO.loadSchedule(date_schedule, this.selectedUser);
+	}
+
+	/**
+	 * Save Current scheduler updating values from grid
+	 */
+	private void saveCurrentSchedulerReview() {
+
+		if (this.currentSchedule == null) {
+			this.currentSchedule = new Schedule();
+		}
+
+		// set data scheduler
+		final Date date_schedule = this.getDateScheduled(this.selectedDay);
+		this.currentSchedule.setDate_schedule(date_schedule);
 
 		// set user
 		this.currentSchedule.setUser(this.selectedUser);
@@ -5049,7 +5075,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.currentSchedule == null) {
 			// save scheduler
-			this.saveCurrentScheduler();
+			this.saveCurrentSchedulerProgram();
 		}
 
 		if (this.div_force_shift.isVisible() && (this.force_shift_combo.getSelectedItem() != null)) {
@@ -5068,7 +5094,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// save note:
 			final String note = this.note_program.getValue();
 			this.currentSchedule.setNote(note);
-			this.saveCurrentScheduler();
+			this.saveCurrentSchedulerProgram();
 
 			// check about sum of time
 			Double sum = 0.0;
@@ -5241,7 +5267,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.currentSchedule == null) {
 			// save scheduler
-			this.saveCurrentScheduler();
+			this.saveCurrentSchedulerReview();
 		}
 
 		// save note and controller:
@@ -5249,7 +5275,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final String note = this.note_review.getValue();
 		this.currentSchedule.setNote(note);
 		this.currentSchedule.setController(person.getId());
-		this.saveCurrentScheduler();
+		this.saveCurrentSchedulerReview();
 
 		// check about sum of time
 		Double sum = 0.0;
