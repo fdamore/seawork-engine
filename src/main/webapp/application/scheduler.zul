@@ -654,9 +654,20 @@
 				</panel>
 
 				<panel border="none" collapsible="false"
-					style="margin: 5px 5px 5px 5px" title="Nota Giornaliera"
-					sclass="transparent">
+					style="margin: 5px 5px 5px 5px" sclass="transparent">
+
+					<caption label="Nota Giornaliera">
+
+						<button label="Salva solo la Nota"
+							id="save_note_preprocessing" sclass="btn-info">
+						</button>
+
+					</caption>
+
 					<panelchildren>
+
+
+
 						<separator></separator>
 
 						<textbox placeholder="Inserisci nota..."
@@ -1471,7 +1482,15 @@
 						<space></space>
 
 						<panel border="none" collapsible="false"
-							title="Nota Giornaliera" sclass="transparent">
+							sclass="transparent">
+
+							<caption label="Nota Giornaliera">
+
+								<button label="Salva solo la Nota"
+									sclass="btn-info" id="save_note_program">
+								</button>
+
+							</caption>
 
 							<panelchildren>
 								<separator></separator>
@@ -2332,7 +2351,16 @@
 					<space></space>
 
 					<panel border="none" collapsible="false"
-						title="Nota Giornaliera" sclass="transparent">
+						sclass="transparent">
+
+						<caption label="Nota Giornaliera">
+
+							<button label="Salva solo la Nota"
+								sclass="btn-info" id="save_note_review">
+							</button>
+
+						</caption>
+
 						<panelchildren>
 							<separator></separator>
 
