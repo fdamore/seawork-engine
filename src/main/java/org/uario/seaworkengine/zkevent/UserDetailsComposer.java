@@ -293,9 +293,16 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Combobox			user_status_filter;
 
 	@Wire
-	private A					userName;
+	private Combobox			user_status_filter_period;
 
-	List<String>				userStatusItems		= new ArrayList<>();
+	@Wire
+	private Datebox				user_status_from;
+
+	@Wire
+	private Datebox				user_status_to;
+
+	@Wire
+	private A					userName;
 
 	@Wire
 	private Checkbox			viewer_user;
@@ -470,8 +477,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null,
-					Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
+			        params);
 
 		}
 
@@ -480,10 +487,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
 
-		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null)
-				|| (this.birth_place_user.getSelectedItem() == null)
-				|| (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
-				|| (this.sex_user.getSelectedItem() == null)) {
+		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null) || (this.birth_place_user.getSelectedItem() == null)
+		        || (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
+		        || (this.sex_user.getSelectedItem() == null)) {
 			return;
 		}
 
@@ -511,44 +517,44 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final int a = Integer.parseInt(dt.substring(6));
 			String month = "";
 			switch (m) {
-			case 1:
-				month = "Gennaio";
-				break;
-			case 2:
-				month = "Febbraio";
-				break;
-			case 3:
-				month = "Marzo";
-				break;
-			case 4:
-				month = "Aprile";
-				break;
-			case 5:
-				month = "Maggio";
-				break;
-			case 6:
-				month = "Giugno";
-				break;
-			case 7:
-				month = "Luglio";
-				break;
-			case 8:
-				month = "Agosto";
-				break;
-			case 9:
-				month = "Settembre";
-				break;
-			case 10:
-				month = "Ottobre";
-				break;
-			case 11:
-				month = "Novembre";
-				break;
-			case 12:
-				month = "Dicembre";
-				break;
-			default:
-				break;
+				case 1:
+					month = "Gennaio";
+					break;
+				case 2:
+					month = "Febbraio";
+					break;
+				case 3:
+					month = "Marzo";
+					break;
+				case 4:
+					month = "Aprile";
+					break;
+				case 5:
+					month = "Maggio";
+					break;
+				case 6:
+					month = "Giugno";
+					break;
+				case 7:
+					month = "Luglio";
+					break;
+				case 8:
+					month = "Agosto";
+					break;
+				case 9:
+					month = "Settembre";
+					break;
+				case 10:
+					month = "Ottobre";
+					break;
+				case 11:
+					month = "Novembre";
+					break;
+				case 12:
+					month = "Dicembre";
+					break;
+				default:
+					break;
 			}
 
 			final CFGenerator cfg = new CFGenerator(n, c, cc, month, a, g, s, prov);
@@ -560,8 +566,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-					null, params);
+			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
@@ -577,8 +582,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// check over password
-			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(),
-					this.person_selected.getEmail());
+			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), this.person_selected.getEmail());
 
 			if (!hashing_password.equals(this.person_selected.getPassword())) {
 
@@ -587,8 +591,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 				return;
 
@@ -601,8 +604,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null,
-						params);
+				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -619,8 +621,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR,
-						null, null, params);
+				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 				// set fields
 				this.email_editor_user.setValue("");
@@ -630,8 +631,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(),
-					this.email_editor_user.getValue());
+			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
 
 			this.person_selected.setEmail(this.email_editor_user.getValue());
 			this.sw_list_user.getSelectedItem().setValue(this.person_selected);
@@ -679,14 +679,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null,
-						null, params);
+				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
 
 			// change password
-			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(),
-					this.password_editor_user.getValue());
+			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(), this.password_editor_user.getValue());
 
 			// reset fields
 			this.password_editor_user.setValue("");
@@ -708,8 +706,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null,
-					params);
+			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 
 		}
 
@@ -732,7 +729,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_province_user.setSelectedItem(null);
 
 		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+		        || !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
 
@@ -847,10 +844,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		if (person_selected.getBirth_place() != null) {
 
-			this.birth_place_user.setModel(
-					new ListModelList<>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
-			this.birth_place_user
-					.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
+			this.birth_place_user.setModel(new ListModelList<>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
+			this.birth_place_user.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
 			this.birth_place_user.setValue(person_selected.getBirth_place());
 
 		}
@@ -881,9 +876,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show(
-					"Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.",
-					"INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO", buttons,
+			        null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -938,16 +932,18 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// create comboitem department
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.ADMINISTRATION);
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.OPERATIVE);
-		UserDetailsComposer.this.department_user
-				.setModel(new ListModelList<>(UserDetailsComposer.this.departmentItems));
+		UserDetailsComposer.this.department_user.setModel(new ListModelList<>(UserDetailsComposer.this.departmentItems));
+
+		final List<String> userStatusItems = new ArrayList<>();
 
 		// create comboitem user status
-		this.userStatusItems.add(UserStatusTag.OPEN);
-		this.userStatusItems.add(UserStatusTag.SUSPENDED);
-		this.userStatusItems.add(UserStatusTag.FIRED);
-		this.userStatusItems.add(UserStatusTag.RESIGNED);
+		userStatusItems.add(UserStatusTag.OPEN);
+		userStatusItems.add(UserStatusTag.SUSPENDED);
+		userStatusItems.add(UserStatusTag.FIRED);
+		userStatusItems.add(UserStatusTag.RESIGNED);
 
-		this.user_status_filter.setModel(new ListModelList<>(this.userStatusItems));
+		this.user_status_filter.setModel(new ListModelList<>(userStatusItems));
+		this.user_status_filter_period.setModel(new ListModelList<>(userStatusItems));
 
 	}
 
@@ -989,16 +985,19 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		return item;
 	}
 
+	public Combobox getUser_status_filter_period() {
+		return this.user_status_filter_period;
+	}
+
 	@Listen("onSelect=#birth_province_user")
 	public void loadComuni() {
 
-		if ((this.birth_province_user.getSelectedItem() == null)
-				|| (this.birth_province_user.getSelectedItem().getValue() == null)) {
+		if ((this.birth_province_user.getSelectedItem() == null) || (this.birth_province_user.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
-		this.birth_place_user.setModel(new ListModelList<>(this.personDao
-				.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
+		this.birth_place_user.setModel(
+		        new ListModelList<>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
 	}
 
 	@Listen("onClick = #modify_users_command")
@@ -1137,17 +1136,17 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
-				Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposer.this.deleteUserCommand();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+		        new EventListener() {
+			        @Override
+			        public void onEvent(final Event e) {
+				        if (Messagebox.ON_OK.equals(e.getName())) {
+					        UserDetailsComposer.this.deleteUserCommand();
+				        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					        // Cancel is clicked
+				        }
+			        }
+		        }, params);
 
 	}
 
@@ -1199,7 +1198,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.viewer_user.setChecked(Boolean.FALSE);
 		this.out_schedule_user.setChecked(Boolean.FALSE);
 
-		// set enable email (due becouse modify process)
+		// set enable email (due because modify process)
 		this.email_user.setDisabled(false);
 
 		// enable command about credential
@@ -1213,18 +1212,38 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onChange = #user_status_filter")
 	public void searchUserStatus() {
-		if (this.user_status_filter.getSelectedItem() != null) {
-
-			final String item = this.user_status_filter.getSelectedItem().getValue().toString();
-
-			final List<Person> listAllPersonByUserStatus = this.personDao.listAllPersonByUserStatus(item);
-			final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
-
-			this.sw_list_user.setModel(new ListModelList<>(list_person));
-			this.full_text_search.setValue(null);
-			this.select_specific_user.setSelectedItem(null);
-
+		if (this.user_status_filter.getSelectedItem() == null) {
+			return;
 		}
+
+		final String item = this.user_status_filter.getSelectedItem().getValue().toString();
+
+		final List<Person> listAllPersonByUserStatus = this.personDao.listAllPersonByUserStatus(item);
+		final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
+
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.full_text_search.setValue(null);
+		this.select_specific_user.setSelectedItem(null);
+
+	}
+
+	@Listen("onChange = #user_status_filter_period, #user_status_from, #user_status_to;onOK = #user_status_filter_period, #user_status_from, #user_status_to")
+	public void searchUserStatusPeriod() {
+		if (this.user_status_filter_period.getSelectedItem() == null) {
+			return;
+		}
+
+		final String item = this.user_status_filter_period.getSelectedItem().getValue().toString();
+
+		final Date from = this.user_status_from.getValue();
+		final Date to = this.user_status_to.getValue();
+		final List<Person> listAllPersonByUserStatus = this.personDao.listAllPersonByUserStatus(item, from, to);
+		final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
+
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.full_text_search.setValue(null);
+		this.select_specific_user.setSelectedItem(null);
+
 	}
 
 	private void selectAdmins() {
@@ -1240,9 +1259,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
 		if (this.contractual_level_filter.getSelectedItem() != null) {
-			final ListModelList<Person> list_person = new ListModelList<>(
-					this.personDao.listAllPersonByContractualLevel(
-							Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
+			final ListModelList<Person> list_person = new ListModelList<>(this.personDao
+			        .listAllPersonByContractualLevel(Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
 			this.sw_list_user.setModel(new ListModelList<>(list_person));
 			this.full_text_search.setValue(null);
 			this.select_specific_user.setSelectedItem(null);
@@ -1408,6 +1426,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// initial view
 		this.grid_user_details.setVisible(false);
 
+	}
+
+	public void setUser_status_filter_period(final Combobox user_status_filter_period) {
+		this.user_status_filter_period = user_status_filter_period;
 	}
 
 	/**

@@ -97,6 +97,25 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
+	public List<Person> listAllPersonByUserStatus(final String userStatus, final Date from, final Date to) {
+		MyBatisPersonDAO.logger.info("listAllPersonByUserStatus Period");
+
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("userStatus", userStatus);
+
+		if (from != null) {
+			map.put("from", DateUtils.truncate(from, Calendar.DATE));
+		}
+
+		if (to != null) {
+			map.put("to", DateUtils.truncate(to, Calendar.DATE));
+		}
+
+		final List<Person> list_person = this.getSqlSession().selectList("person.listAllPersonByUserStatusPeriod", map);
+		return list_person;
+	}
+
+	@Override
 	public List<Person> listAllPersons() {
 		MyBatisPersonDAO.logger.info("Get all person..");
 		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPerson");
@@ -111,8 +130,7 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 		final HashMap<String, String> map = new HashMap<>();
 		map.put("my_full_text_search", full_text_search);
 
-		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike",
-				map);
+		final List<Person> list_person = this.getSqlSession().selectList("person.selectAllPersonFulltextSearchLike", map);
 		return list_person;
 	}
 

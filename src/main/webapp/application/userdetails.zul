@@ -35,9 +35,9 @@
 	<div id="grid_user_details" visible="false">
 
 
-		<a id="userName" iconSclass="z-icon-angle-double-right" style="font-size: 20px"
-			sclass="subtitle" />
-		
+		<a id="userName" iconSclass="z-icon-angle-double-right"
+			style="font-size: 20px" sclass="subtitle" />
+
 		<space></space>
 
 		<button id="qrcode_gen" label="Genera QRCode" sclass="btn-info"
@@ -675,6 +675,21 @@
 		<separator></separator>
 	</div>
 
+	<div>
+
+		<a label="Storico Rapporto lavotarivo: "
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+		<combobox readonly="true" placeholder="Rapporto di Lavoro"
+			id="user_status_filter_period" />
+
+		<datebox placeholder="Da.." id="user_status_from"></datebox>
+		<datebox placeholder="A.." id="user_status_to"></datebox>
+
+		<separator></separator>
+
+	</div>
+
 	<!-- SHOW ROWS, SEARCH AND USER STATUS FILTER -->
 	<hbox>
 		<a label="Righe da visualizzare: "
@@ -684,6 +699,8 @@
 		</intbox>
 
 		<textbox placeholder="Cerca..." id="full_text_search"></textbox>
+
+
 
 
 	</hbox>

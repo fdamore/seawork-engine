@@ -43,13 +43,21 @@ public interface PersonDAO extends UserDetailsService {
 
 	/**
 	 * List all person by enabling
-	 * 
+	 *
 	 * @param enable
 	 * @return
 	 */
 	public List<Person> listAllPersonByEnable(Boolean enable);
 
 	public List<Person> listAllPersonByUserStatus(String userStatus);
+
+	/**
+	 * @param userStatus
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public List<Person> listAllPersonByUserStatus(String userStatus, Date from, Date to);
 
 	public List<Person> listAllPersons();
 

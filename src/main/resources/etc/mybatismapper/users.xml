@@ -4,10 +4,10 @@
 <mapper namespace="person">
 
 	<cache-ref namespace="schedule" />
-	
-	
-	
-	
+
+
+
+
 	<select id="listAllPersonByEnable" resultType="org.uario.seaworkengine.model.Person">
 
 		select
@@ -47,9 +47,12 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w,
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
-		) as tasksPerson 
+		u.contractual_level, (
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user u
 		where u.enabled = #{enable}
@@ -99,9 +102,12 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w,
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
-		) as tasksPerson 
+		u.contractual_level, (
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user u
 		where ( u.authority like
@@ -152,10 +158,15 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
+		u.hourswork_w,
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
-		) as tasksPerson 
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
+		u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and
+		ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user u
 		where ( u.authority like
@@ -206,8 +217,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level 
+		u.hourswork_w,
+		u.contractual_level
 		FROM
 		user
 		u
@@ -258,8 +269,11 @@
 		u.daywork_w,
 		u.hourswork_w,
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0  
-		) as tasksPerson  
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user u
 		where ( u.authority like
@@ -309,9 +323,12 @@
 		u.part_time,
 		u.daywork_w,
 		u.hourswork_w,
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0 
-		) as tasksPerson 
+		u.contractual_level, (
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user u
 		where ( u.authority like
@@ -360,10 +377,15 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson 
+		u.hourswork_w,
+		u.contractual_level, (
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
+		u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and
+		ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user
 		u
@@ -373,9 +395,18 @@
 		asc
 	</select>
 
-	<select id="listAllPersonByUserStatus" parameterType="String" resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
+
+
+
+
+	<select id="listAllPersonByUserStatusPeriod" parameterType="map"
+		resultType="org.uario.seaworkengine.model.Person">
+		
+		<![CDATA[
+		
+		
+SELECT 
+    u.id,
 		u.enabled,
 		u.email,
 		u.password,
@@ -410,21 +441,34 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0 
-		) as tasksPerson 
-		FROM
-		user
-		u
-		WHERE
-		u.status = #{userStatus} 
-		order by u.firstname
-		asc
-	
+		u.hourswork_w,
+		u.contractual_level, (
+		select GROUP_CONCAT(ut.description) FROM
+		usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and
+		u_t.id_usertask=ut.id and ut.internal=0
+		) as tasksPerson
+FROM
+    user u,
+    employment e
+where
+    e.status = #{userStatus} and e.id_user = u.id
+    ]]>
+
+		<if test="from != null">
+			<![CDATA[ and date(e.date_modified) >= #{from} ]]>
+		</if>
+
+		<if test="to != null">
+			<![CDATA[ and date(e.date_end) <= #{to} ]]>
+		</if>
+<![CDATA[ order by u.firstname asc]]>
+
 	</select>
-	
-	<select id="listAllPersonByContractualLevel" parameterType="Integer" resultType="org.uario.seaworkengine.model.Person">
+
+
+
+	<select id="listAllPersonByUserStatus" parameterType="String"
+		resultType="org.uario.seaworkengine.model.Person">
 		SELECT
 		u.id,
 		u.enabled,
@@ -461,18 +505,74 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson 
+		u.hourswork_w,
+		u.contractual_level, (
+		select GROUP_CONCAT(ut.description) FROM
+		usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and
+		u_t.id_usertask=ut.id and ut.internal=0
+		) as tasksPerson
 		FROM
 		user
 		u
 		WHERE
-		u.contractual_level = #{contractual_level} 
+		u.status = #{userStatus}
 		order by u.firstname
 		asc
-	
+
+	</select>
+
+	<select id="listAllPersonByContractualLevel" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.Person">
+		SELECT
+		u.id,
+		u.enabled,
+		u.email,
+		u.password,
+		u.authority,
+		u.firstname,
+		u.lastname,
+		u.address,
+		u.city,
+		u.zip,
+		u.phone,
+		u.country,
+		u.birth_date,
+		u.birth_place,
+		u.current_position,
+		u.department,
+		u.driving_license,
+		u.driving_license_emission,
+		u.education,
+		u.employee_identification,
+		u.family_charge,
+		u.fiscal_code,
+		u.marital_status,
+		u.nbudge,
+		u.ncfl,
+		u.npass,
+		u.provincia,
+		u.status,
+		u.personal_code,
+		u.sex,
+		u.out_schedule,
+		u.birth_province,
+		u.dailyemployee,
+		u.part_time,
+		u.daywork_w,
+		u.hourswork_w,
+		u.contractual_level, (
+		select GROUP_CONCAT(ut.description) FROM
+		usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and
+		u_t.id_usertask=ut.id and ut.internal=0
+		) as tasksPerson
+		FROM
+		user
+		u
+		WHERE
+		u.contractual_level = #{contractual_level}
+		order by u.firstname
+		asc
+
 	</select>
 
 	<select id="listAllPartTime" resultType="org.uario.seaworkengine.model.Person">
@@ -512,10 +612,15 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson 
+		u.hourswork_w,
+		u.contractual_level, (
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
+		u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and
+		ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user
 		u
@@ -563,10 +668,15 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level,  (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson 
+		u.hourswork_w,
+		u.contractual_level, (
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
+		u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and
+		ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user
 		u
@@ -615,14 +725,15 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level 
+		u.hourswork_w,
+		u.contractual_level
 		FROM
 		user
 		u
 		WHERE
 		u.email =
-		#{username} order by u.status
+		#{username} order by
+		u.status
 		asc
 	</select>
 
@@ -664,8 +775,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level 
+		u.hourswork_w,
+		u.contractual_level
 		FROM
 		user
 		u
@@ -718,10 +829,15 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
+		u.hourswork_w,
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson 
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
+		u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and
+		ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user
 		u order by
@@ -767,8 +883,8 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
-		u.contractual_level 
+		u.hourswork_w,
+		u.contractual_level
 		FROM
 		user u, schedule s, usershift us
 		WHERE
@@ -837,9 +953,9 @@
 			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
 			u.employee_identification = #{my_full_text_search})
 		</if>
-		
+
 		<if test="department != null">
-			and u.department = #{department} 
+			and u.department = #{department}
 		</if>
 
 		order by u.status asc
@@ -886,10 +1002,15 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
+		u.hourswork_w,
 		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and  u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson  
+		select
+		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
+		u_t WHERE
+		u.id = u_t.id_user and u_t.id_usertask=ut.id and
+		ut.internal=0
+		) as
+		tasksPerson
 		FROM
 		user u
 		<if test="my_full_text_search != null">
@@ -946,7 +1067,7 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
+		u.hourswork_w,
 		u.contractual_level
 		FROM
 		user
@@ -997,7 +1118,7 @@
 		u.dailyemployee,
 		u.part_time,
 		u.daywork_w,
-		u.hourswork_w, 
+		u.hourswork_w,
 		u.contractual_level
 		FROM
 		user
@@ -1039,7 +1160,7 @@
 		dailyemployee,
 		part_time,
 		daywork_w,
-		hourswork_w 
+		hourswork_w
 		)
 		VALUES
 		(#{email},
@@ -1134,7 +1255,7 @@
 		part_time =
 		#{part_time},daywork_w = #{daywork_w},
 		hourswork_w = #{hourswork_w},
-		contractual_level = #{contractual_level} 
+		contractual_level = #{contractual_level}
 		WHERE id =
 		#{id}
 	</update>
@@ -1150,7 +1271,7 @@
 	<update id="changePassword" parameterType="org.uario.seaworkengine.model.Person">
 		UPDATE user set
 		password = #{password}
-		WHERE id = #{id}		
+		WHERE id = #{id}
 	</update>
 
 	<select id="loadCodComune" parameterType="map" resultType="String">
@@ -1178,7 +1299,7 @@
 	</select>
 
 
-	
-	
+
+
 
 </mapper>
