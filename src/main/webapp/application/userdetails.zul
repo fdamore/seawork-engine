@@ -648,7 +648,7 @@
 			id="user_status_filter" />
 
 		<combobox id="contractual_level_filter"
-			placeholder="SLivello..." readonly="true">
+			placeholder="Livello..." readonly="true">
 			<comboitem label="1" value="1" />
 			<comboitem label="2" value="2" />
 			<comboitem label="3" value="3" />
