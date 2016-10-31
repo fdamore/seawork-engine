@@ -2160,6 +2160,20 @@
 								<label id="totalHours_Review"
 									value="Totale Ore Consuntivate: " />
 
+								<hbox>
+
+									<label style="color:red"
+										value="Forza vincolo sei ore: ">
+									</label>
+
+									<checkbox id="force_6h_review"
+										checked="false">
+									</checkbox>
+
+
+								</hbox>
+
+
 								<label id="infoBadge" value="" />
 
 							</vbox>
