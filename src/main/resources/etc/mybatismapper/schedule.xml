@@ -86,9 +86,7 @@
 		#{date_from} and
 		s.date_schedule <![CDATA[<]]>
 		#{date_to})
-		where u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0
+		where u.status = 'IN ORGANICO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -253,9 +251,7 @@
 		and s.date_schedule >=
 		#{date_from} and
 		s.date_schedule <![CDATA[<]]>
-		#{date_to} and u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0
+		#{date_to} and u.status = 'IN ORGANICO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%',
@@ -311,9 +307,7 @@
 		and
 		s.date_schedule  <![CDATA[<]]>
 		#{date_to}
-		and u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status  <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0
+		and u.status = 'IN ORGANICO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%',
@@ -365,9 +359,7 @@
 		=
 		s.user
 		and s.date_schedule =
-		#{date_from} and u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0
+		#{date_from} and u.status = 'IN ORGANICO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
@@ -416,9 +408,7 @@
 		s.user
 		and
 		s.date_schedule =
-		#{date_from} and u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0
+		#{date_from} and u.status = 'IN ORGANICO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%',
