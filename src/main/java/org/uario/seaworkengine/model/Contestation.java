@@ -22,6 +22,8 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	private String				note;
 
+	private String				prot;
+
 	private Boolean				recall;
 
 	private Date				stop_from;
@@ -38,54 +40,58 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 		if (!(o instanceof Contestation)) {
 			return -1;
 		}
-		if (getDate_contestation() == null) {
+		if (this.getDate_contestation() == null) {
 			return -1;
 		}
 		final Contestation item = o;
 		if (item.getDate_contestation() == null) {
 			return 1;
 		}
-		return getDate_contestation().compareTo(item.getDate_contestation());
+		return this.getDate_contestation().compareTo(item.getDate_contestation());
 	}
 
 	public Date getDate_bp() {
-		return date_bp;
+		return this.date_bp;
 	}
 
 	public Date getDate_contestation() {
-		return date_contestation;
+		return this.date_contestation;
 	}
 
 	public String getFile_name() {
-		return file_name;
+		return this.file_name;
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public int getId_user() {
-		return id_user;
+		return this.id_user;
 	}
 
 	public String getNote() {
-		return note;
+		return this.note;
+	}
+
+	public String getProt() {
+		return this.prot;
 	}
 
 	public Boolean getRecall() {
-		return recall;
+		return this.recall;
 	}
 
 	public Date getStop_from() {
-		return stop_from;
+		return this.stop_from;
 	}
 
 	public Date getStop_to() {
-		return stop_to;
+		return this.stop_to;
 	}
 
 	public String getTyp() {
-		return typ;
+		return this.typ;
 	}
 
 	public void setDate_bp(final Date date_bp) {
@@ -110,6 +116,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public void setNote(final String note) {
 		this.note = note;
+	}
+
+	public void setProt(String prot) {
+		this.prot = prot;
 	}
 
 	public void setRecall(final Boolean recall) {
