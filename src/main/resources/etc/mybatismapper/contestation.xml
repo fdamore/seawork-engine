@@ -7,9 +7,9 @@
 
 	<insert id="createContestation" parameterType="org.uario.seaworkengine.model.Contestation">
 		INSERT INTO
-		contestation (typ, date_contestation,date_penalty, id_user, note, stop_from,
+		contestation (typ, date_contestation, date_penalty, id_user, note, stop_from,
 		stop_to, file_name,recall, date_bp) VALUES (#{typ},
-		#{date_contestation},#{date_penalty}, #{id_user},
+		#{date_contestation}, #{date_penalty}, #{id_user},
 		#{note},
 		#{stop_from}, #{stop_to},
 		#{file_name},#{recall},#{date_bp});

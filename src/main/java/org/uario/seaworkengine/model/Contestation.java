@@ -24,6 +24,8 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	private String				note;
 
+	private String				prot;
+
 	private Boolean				recall;
 
 	private Date				stop_from;
@@ -56,10 +58,12 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public Date getDate_contestation() {
 		return this.date_contestation;
+
 	}
 
 	public Date getDate_penalty() {
 		return this.date_penalty;
+
 	}
 
 	public String getFile_name() {
@@ -76,6 +80,12 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public String getNote() {
 		return this.note;
+
+	}
+
+	public String getProt() {
+		return this.prot;
+
 	}
 
 	public Boolean getRecall() {
@@ -120,6 +130,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public void setNote(final String note) {
 		this.note = note;
+	}
+
+	public void setProt(final String prot) {
+		this.prot = prot;
 	}
 
 	public void setRecall(final Boolean recall) {

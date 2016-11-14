@@ -37,9 +37,25 @@
 					<rows>
 
 						<row>
-							<label value="Tipo Contestazione:"></label>
+							<label value="Data Contestazione"></label>
+							<datebox id="date_contestation"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+						<row>
+							<label value="Protocollo"></label>
+							<textbox id="prot" width="200px" />
+						</row>
+
+						<row>
+							<label value="Descrizione:"></label>
+							<textbox id="note" width="200px" rows="5" />
+						</row>
+
+						<row>
+							<label value="Tipo Sanzione"></label>
 							<combobox id="typ" readonly="true"
-								placeholder="Tipo di Contestazione">
+								placeholder="Tipo di Sanzione">
 
 								<comboitem label="NESSUNA"
 									value="NESSUNA">
@@ -68,11 +84,7 @@
 
 						</row>
 
-						<row>
-							<label value="Data Contestazione:"></label>
-							<datebox id="date_contestation"
-								placeholder="Seleziona La Data" width="200px" />
-						</row>
+
 
 						<row>
 							<label value="Mese e Anno Imputazione BP"></label>
@@ -94,10 +106,7 @@
 								placeholder="Seleziona La Data" width="200px" />
 						</row>
 
-						<row>
-							<label value="Note:"></label>
-							<textbox id="note" width="200px" rows="5" />
-						</row>
+
 
 						<row>
 							<label value="Documento:"></label>
