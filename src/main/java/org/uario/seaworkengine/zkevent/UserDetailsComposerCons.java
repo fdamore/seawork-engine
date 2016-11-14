@@ -134,6 +134,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private Datebox				date_contestation;
 
 	@Wire
+	private Datebox				date_penalty;
+
+	@Wire
 	private Button				docupload;
 
 	@Wire
@@ -182,6 +185,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.stop_from.setValue(null);
 		this.stop_to.setValue(null);
 		this.date_contestation.setValue(Calendar.getInstance().getTime());
+
+		this.date_penalty.setValue(null);
 
 		// date BP
 		this.date_bp.setValue(null);
@@ -264,7 +269,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			public void onEvent(final Event arg0) throws Exception {
 
 				// get selected person
-				if (arg0.getData() == null || !(arg0.getData() instanceof Person)) {
+				if ((arg0.getData() == null) || !(arg0.getData() instanceof Person)) {
 					return;
 				}
 				UserDetailsComposerCons.this.person_selected = (Person) arg0.getData();
@@ -329,6 +334,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 		this.note.setValue(item.getNote());
 		this.date_contestation.setValue(item.getDate_contestation());
+		this.date_penalty.setValue(item.getDate_penalty());
 		this.stop_from.setValue(item.getStop_from());
 		this.stop_to.setValue(item.getStop_to());
 		this.typ.setValue(item.getTyp());
@@ -394,7 +400,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
-				if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
+				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
 					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -469,7 +475,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
-				if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
+				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
 					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -493,7 +499,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			}
 
 			// delete existing file if any and if required
-			if (item.getFile_name() != null && this.currentDoc != null) {
+			if ((item.getFile_name() != null) && (this.currentDoc != null)) {
 				final String repo = this.paramsDAO.getParam(ParamsTag.REPO_DOC);
 				final String global_file_name = repo + item.getFile_name();
 				final File file = new File(global_file_name);
@@ -515,7 +521,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				to_day = DateUtils.truncate(to_day, Calendar.DATE);
 				final Date my_date = DateUtils.truncate(item.getDate_contestation(), Calendar.DATE);
 
-				if (item != null && my_date.compareTo(to_day) >= 0) {
+				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
 					this.onUpdateStatus();
 
@@ -623,6 +629,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private void setupItemWithValues(final Contestation item) throws IOException {
 
 		item.setDate_contestation(this.date_contestation.getValue());
+		item.setDate_penalty(this.date_penalty.getValue());
 		item.setNote(this.note.getValue());
 		item.setStop_from(this.stop_from.getValue());
 		item.setStop_to(this.stop_to.getValue());
@@ -631,9 +638,13 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		item.setProt(this.prot.getValue());
 
 		// set bp (only month and year)
-		Calendar cal_db = DateUtils.toCalendar(this.date_bp.getValue());
-		cal_db = DateUtils.truncate(cal_db, Calendar.MONTH);
-		item.setDate_bp(cal_db.getTime());
+		if (this.date_bp.getValue() != null) {
+			Calendar cal_db = DateUtils.toCalendar(this.date_bp.getValue());
+			cal_db = DateUtils.truncate(cal_db, Calendar.MONTH);
+			item.setDate_bp(cal_db.getTime());
+		} else {
+			item.setDate_bp(null);
+		}
 
 		// set file name
 		if (this.currentDoc != null) {

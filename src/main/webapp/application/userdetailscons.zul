@@ -53,6 +53,12 @@
 						</row>
 
 						<row>
+							<label value="Data Sanzione"></label>
+							<datebox id="date_penalty"
+								placeholder="Seleziona La Data" width="200px" />
+						</row>
+
+						<row>
 							<label value="Tipo Sanzione"></label>
 							<combobox id="typ" readonly="true"
 								placeholder="Tipo di Sanzione">
@@ -135,8 +141,6 @@
 
 			</div>
 
-
-
 			<a label="Lista Contestazioni Disciplinari"
 				iconSclass="z-icon-list" sclass="green lighter rcaption" />
 
@@ -182,7 +186,9 @@
 				<listhead sizable="true">
 					<listheader label="Tipo" />
 					<listheader label="Data Contestazione"
-						sort="date_contestation" />
+						sort="auto(date_contestation)" />
+					<listheader label="Data Sanzione"
+						sort="auto(date_penalty)" />
 					<listheader label="Sospeso Da" />
 					<listheader label="Fino a" />
 					<listheader label="Mese-Anno BP" />
@@ -196,6 +202,9 @@
 
 					<listcell
 						label="@{item.date_contestation, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+					<listcell
+						label="@{item.date_penalty, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
 
 					<listcell
