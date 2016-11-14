@@ -888,9 +888,8 @@ where
 		FROM
 		user u, schedule s, usershift us
 		WHERE
-		u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0 and u.dailyemployee = 0 and
+		u.status  = 'IN ORGANICO' 
+		and u.out_schedule = 0 and u.dailyemployee = 0 and
 		u.dailyemployee = 0 and s.user = u.id and s.date_schedule =
 		#{date_scheudle} and s.shift
 		= us.id and us.presence = 1 order by
@@ -943,10 +942,8 @@ where
 		FROM
 		user u
 		WHERE
-		u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0
-
+		u.status = 'IN ORGANICO' 
+		and u.out_schedule = 0
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%', #{my_full_text_search},
 			'%') or
