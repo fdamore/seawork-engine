@@ -16,6 +16,31 @@
 		#{file_name},#{recall},#{date_bp});
 	</insert>
 
+
+	<select id="loadUserContestationByYearPenalty" resultType="org.uario.seaworkengine.model.Contestation"
+		parameterType="map">
+		SELECT
+		id,
+		typ,
+		date_contestation,
+		date_penalty,
+		note,
+		id_user,
+		stop_from,
+		stop_to,
+		file_name,
+		recall,
+		date_bp
+		FROM
+		contestation
+		WHERE
+		id_user = #{id_user}
+		AND YEAR(date_penalty) = #{year}
+		ORDER BY
+		date_contestation DESC;
+	</select>
+
+
 	<select id="loadUserContestationByDatePenalty" resultType="org.uario.seaworkengine.model.Contestation"
 		parameterType="map">
 		SELECT id,

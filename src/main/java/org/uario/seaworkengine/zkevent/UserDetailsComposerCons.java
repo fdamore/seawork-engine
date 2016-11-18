@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ContestationTag;
 import org.uario.seaworkengine.utility.ParamsTag;
 import org.uario.seaworkengine.utility.UserStatusTag;
+import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -109,6 +111,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	}
 
+	private static final String	ALL_ITEM				= "ANNULLA FILTRO";
+
 	private final static String	BUTTON_FINAL_SCLASS		= "btn-danger";
 
 	private final static String	BUTTON_INITIAL_SCLASS	= "btn-success";
@@ -159,8 +163,11 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	@Wire
 	private Datebox				search_date_penalty;
 
+	@Wire
+	private Combobox			select_year;
 	// status ADD or MODIFY
 	private boolean				status_add				= false;
+
 	private Date				status_date_modified	= null;
 
 	private String				status_upload			= "";
@@ -283,6 +290,18 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			}
 		});
+
+		// set year in combobox
+		final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
+		final ArrayList<String> years = new ArrayList<>();
+
+		years.add(UserDetailsComposerCons.ALL_ITEM);
+
+		for (Integer i = 2014; i <= todayYear + 2; i++) {
+			years.add(i.toString());
+		}
+
+		this.select_year.setModel(new ListModelList<>(years));
 
 	}
 
@@ -606,11 +625,52 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			// set link to current docuemnt
 			this.current_document.setVisible(false);
 
+			this.select_year.setValue(null);
+
 		} else {
 
 			this.setInitialView();
 
 		}
+	}
+
+	@Listen("onChange =#select_year")
+	public void selectedYear() {
+
+		if (this.person_selected == null) {
+			return;
+		}
+
+		if (this.select_year.getSelectedItem() == null) {
+			return;
+		}
+
+		final String yearSelected = this.select_year.getSelectedItem().getValue();
+
+		if (!yearSelected.equals(UserDetailsComposerCons.ALL_ITEM)) {
+
+			final Integer year = Integer.parseInt(yearSelected);
+
+			final List<Contestation> list = this.contestationDAO
+					.loadUserContestationByYearPenalty(this.person_selected.getId(), year);
+			this.sw_list.setModel(new ListModelList<>(list));
+
+			this.grid_details.setVisible(false);
+
+			// set null current contestaion doc
+			this.currentDoc = null;
+
+			// set link to current docuemnt
+			this.current_document.setVisible(false);
+
+			this.search_date_penalty.setValue(null);
+
+		} else {
+
+			this.setInitialView();
+
+		}
+
 	}
 
 	/**
@@ -651,6 +711,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.current_document.setVisible(false);
 
 		this.search_date_penalty.setValue(null);
+
+		this.select_year.setValue(null);
 	}
 
 	/**

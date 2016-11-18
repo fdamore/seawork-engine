@@ -161,6 +161,9 @@
 					id="search_date_penalty">
 				</datebox>
 
+				<combobox placeholder="Anno sanzione..." readonly="true"
+					id="select_year" />
+
 				<separator></separator>
 			</div>
 

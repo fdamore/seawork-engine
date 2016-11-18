@@ -17,6 +17,8 @@ public interface IContestation {
 
 	public List<Contestation> loadUserContestationByDatePenalty(Integer id_user, Date date);
 
+	public List<Contestation> loadUserContestationByYearPenalty(Integer id_user, Integer year);
+
 	public void removeContestation(int id);
 
 	public void updateContestation(Contestation contestation);

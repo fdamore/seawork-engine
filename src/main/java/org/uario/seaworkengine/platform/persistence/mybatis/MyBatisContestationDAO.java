@@ -32,7 +32,7 @@ public class MyBatisContestationDAO extends SqlSessionDaoSupport implements ICon
 
 	@Override
 	public List<Contestation> loadUserContestationByDatePenalty(final Integer id_user, Date date) {
-		MyBatisContestationDAO.logger.info("loadContestationByUserId =" + id_user);
+		MyBatisContestationDAO.logger.info("loadUserContestationByDatePenalty =" + id_user);
 
 		final Date date_info = DateUtils.truncate(date, Calendar.DATE);
 
@@ -42,6 +42,19 @@ public class MyBatisContestationDAO extends SqlSessionDaoSupport implements ICon
 
 		final List<Contestation> list_items = this.getSqlSession()
 				.selectList("contestation.loadUserContestationByDatePenalty", map);
+		return list_items;
+	}
+
+	@Override
+	public List<Contestation> loadUserContestationByYearPenalty(final Integer id_user, Integer year) {
+		MyBatisContestationDAO.logger.info("loadUserContestationByYearPenalty =" + id_user);
+
+		final HashMap<String, Integer> map = new HashMap<>();
+		map.put("id_user", id_user);
+		map.put("year", year);
+
+		final List<Contestation> list_items = this.getSqlSession()
+				.selectList("contestation.loadUserContestationByYearPenalty", map);
 		return list_items;
 	}
 
