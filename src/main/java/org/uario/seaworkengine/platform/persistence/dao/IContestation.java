@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.model.Contestation;
@@ -13,6 +14,8 @@ public interface IContestation {
 	public void createContestation(Contestation item);
 
 	public List<Contestation> loadUserContestation(int id_user);
+
+	public List<Contestation> loadUserContestationByDatePenalty(Integer id_user, Date date);
 
 	public void removeContestation(int id);
 

@@ -19,7 +19,6 @@ import org.uario.seaworkengine.model.Contestation;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.IContestation;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
-import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ContestationTag;
 import org.uario.seaworkengine.utility.ParamsTag;
@@ -157,14 +156,15 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	@Wire
 	private Checkbox			recall;
 
-	private ISchedule			scheduleDAO;
+	@Wire
+	private Datebox				search_date_penalty;
 
 	// status ADD or MODIFY
 	private boolean				status_add				= false;
-
 	private Date				status_date_modified	= null;
 
 	private String				status_upload			= "";
+
 	@Wire
 	private Datebox				stop_from;
 
@@ -269,7 +269,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			public void onEvent(final Event arg0) throws Exception {
 
 				// get selected person
-				if ((arg0.getData() == null) || !(arg0.getData() instanceof Person)) {
+				if (arg0.getData() == null || !(arg0.getData() instanceof Person)) {
 					return;
 				}
 				UserDetailsComposerCons.this.person_selected = (Person) arg0.getData();
@@ -278,7 +278,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				UserDetailsComposerCons.this.contestationDAO = (IContestation) SpringUtil
 						.getBean(BeansTag.CONTESTATION_DAO);
 				UserDetailsComposerCons.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
-				UserDetailsComposerCons.this.scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
 				UserDetailsComposerCons.this.setInitialView();
 
@@ -400,7 +399,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
-				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
+				if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
 					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -475,7 +474,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
-				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
+				if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
 					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -499,7 +498,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			}
 
 			// delete existing file if any and if required
-			if ((item.getFile_name() != null) && (this.currentDoc != null)) {
+			if (item.getFile_name() != null && this.currentDoc != null) {
 				final String repo = this.paramsDAO.getParam(ParamsTag.REPO_DOC);
 				final String global_file_name = repo + item.getFile_name();
 				final File file = new File(global_file_name);
@@ -521,7 +520,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				to_day = DateUtils.truncate(to_day, Calendar.DATE);
 				final Date my_date = DateUtils.truncate(item.getDate_contestation(), Calendar.DATE);
 
-				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
+				if (item != null && my_date.compareTo(to_day) >= 0) {
 
 					this.onUpdateStatus();
 
@@ -582,6 +581,38 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onOK = #search_date_penalty; onChange = #search_date_penalty")
+	public void searchOnDatePenalty() {
+
+		// set info about grid
+		if (this.person_selected == null) {
+			return;
+		}
+
+		final Date date = this.search_date_penalty.getValue();
+
+		if (date != null) {
+
+			final Integer id_user = this.person_selected.getId();
+			final List<Contestation> list = this.contestationDAO.loadUserContestationByDatePenalty(id_user, date);
+
+			this.sw_list.setModel(new ListModelList<>(list));
+
+			this.grid_details.setVisible(false);
+
+			// set null current contestaion doc
+			this.currentDoc = null;
+
+			// set link to current docuemnt
+			this.current_document.setVisible(false);
+
+		} else {
+
+			this.setInitialView();
+
+		}
+	}
+
 	/**
 	 * set datebox in view
 	 */
@@ -618,6 +649,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 		// set link to current docuemnt
 		this.current_document.setVisible(false);
+
+		this.search_date_penalty.setValue(null);
 	}
 
 	/**

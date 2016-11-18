@@ -157,6 +157,10 @@
 					label="Aggiorna Lista Contestazioni">
 				</button>
 
+				<datebox placeholder="Data Sanzione..."
+					id="search_date_penalty">
+				</datebox>
+
 				<separator></separator>
 			</div>
 
