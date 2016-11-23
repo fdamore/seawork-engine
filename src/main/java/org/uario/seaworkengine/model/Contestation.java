@@ -16,6 +16,8 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	private Date				date_penalty;
 
+	private String				description;
+
 	private String				file_name;
 
 	private int					id;
@@ -66,6 +68,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	}
 
+	public String getDescription() {
+		return this.description;
+	}
+
 	public String getFile_name() {
 		return this.file_name;
 	}
@@ -114,6 +120,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public void setDate_penalty(final Date date_penalty) {
 		this.date_penalty = date_penalty;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	public void setFile_name(final String file_name) {

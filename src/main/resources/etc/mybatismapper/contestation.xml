@@ -8,10 +8,13 @@
 	<insert id="createContestation" parameterType="org.uario.seaworkengine.model.Contestation">
 		INSERT INTO
 		contestation (typ, date_contestation, date_penalty, id_user, note,
+		description,
 		stop_from,
-		stop_to, file_name,recall, date_bp) VALUES (#{typ},
+		stop_to, file_name,recall, date_bp) VALUES
+		(#{typ},
 		#{date_contestation}, #{date_penalty}, #{id_user},
 		#{note},
+		#{description},
 		#{stop_from}, #{stop_to},
 		#{file_name},#{recall},#{date_bp});
 	</insert>
@@ -25,6 +28,7 @@
 		date_contestation,
 		date_penalty,
 		note,
+		description,
 		id_user,
 		stop_from,
 		stop_to,
@@ -48,6 +52,7 @@
 		date_contestation,
 		date_penalty,
 		note,
+		description,
 		id_user,
 		stop_from,
 		stop_to,
@@ -69,6 +74,7 @@
 		date_contestation,
 		date_penalty,
 		note,
+		description,
 		id_user,
 		stop_from,
 		stop_to,
@@ -101,6 +107,7 @@
 		date_penalty = #{date_penalty},
 		id_user = #{id_user},
 		note = #{note},
+		description = #{description},
 		stop_from = #{stop_from},
 		stop_to =
 		#{stop_to},

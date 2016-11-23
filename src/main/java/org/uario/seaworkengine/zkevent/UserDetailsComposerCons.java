@@ -140,6 +140,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private Datebox				date_penalty;
 
 	@Wire
+	private Textbox				description;
+
+	@Wire
 	private Button				docupload;
 
 	@Wire
@@ -204,6 +207,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.recall.setChecked(Boolean.FALSE);
 
 		this.note.setValue("");
+		this.description.setValue("");
 
 		this.prot.setValue(null);
 
@@ -276,7 +280,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			public void onEvent(final Event arg0) throws Exception {
 
 				// get selected person
-				if (arg0.getData() == null || !(arg0.getData() instanceof Person)) {
+				if ((arg0.getData() == null) || !(arg0.getData() instanceof Person)) {
 					return;
 				}
 				UserDetailsComposerCons.this.person_selected = (Person) arg0.getData();
@@ -297,7 +301,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 		years.add(UserDetailsComposerCons.ALL_ITEM);
 
-		for (Integer i = 2014; i <= todayYear + 2; i++) {
+		for (Integer i = 2014; i <= (todayYear + 2); i++) {
 			years.add(i.toString());
 		}
 
@@ -351,6 +355,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		}
 
 		this.note.setValue(item.getNote());
+		this.description.setValue(item.getDescription());
 		this.date_contestation.setValue(item.getDate_contestation());
 		this.date_penalty.setValue(item.getDate_penalty());
 		this.stop_from.setValue(item.getStop_from());
@@ -418,7 +423,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
-				if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
+				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
 					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -493,7 +498,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			if (this.typ.getSelectedItem().getValue().equals(ContestationTag.SOSPENSIONE)) {
 
-				if (this.stop_to.getValue() == null || this.stop_from.getValue() == null) {
+				if ((this.stop_to.getValue() == null) || (this.stop_from.getValue() == null)) {
 					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -517,7 +522,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			}
 
 			// delete existing file if any and if required
-			if (item.getFile_name() != null && this.currentDoc != null) {
+			if ((item.getFile_name() != null) && (this.currentDoc != null)) {
 				final String repo = this.paramsDAO.getParam(ParamsTag.REPO_DOC);
 				final String global_file_name = repo + item.getFile_name();
 				final File file = new File(global_file_name);
@@ -539,7 +544,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				to_day = DateUtils.truncate(to_day, Calendar.DATE);
 				final Date my_date = DateUtils.truncate(item.getDate_contestation(), Calendar.DATE);
 
-				if (item != null && my_date.compareTo(to_day) >= 0) {
+				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
 
 					this.onUpdateStatus();
 
@@ -726,6 +731,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		item.setDate_contestation(this.date_contestation.getValue());
 		item.setDate_penalty(this.date_penalty.getValue());
 		item.setNote(this.note.getValue());
+		item.setDescription(this.description.getValue());
 		item.setStop_from(this.stop_from.getValue());
 		item.setStop_to(this.stop_to.getValue());
 		item.setTyp(this.typ.getValue());
