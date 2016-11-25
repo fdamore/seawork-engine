@@ -40,11 +40,11 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Double calculeHourSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
 
-		if ((date_from_arg == null) || (user == null) || (date_to_arg == null)) {
+		if (date_from_arg == null || user == null || date_to_arg == null) {
 			return null;
 		}
 
-		if ((user.getHourswork_w() == null) || (user.getDaywork_w() == null)) {
+		if (user.getHourswork_w() == null || user.getDaywork_w() == null) {
 			return null;
 		}
 
@@ -52,10 +52,11 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Date date_from = DateUtils.truncate(date_from_arg, Calendar.DATE);
 
 		// hours working
-		final Double hour_current_work_count = this.statisticDAO.getTimeWorkCountByUser(user.getId(), date_from, date_to);
+		final Double hour_current_work_count = this.statisticDAO.getTimeWorkCountByUser(user.getId(), date_from,
+				date_to);
 
 		// validate date
-		if ((hour_current_work_count == null)) {
+		if (hour_current_work_count == null) {
 			return 0.0;
 		}
 
@@ -241,13 +242,14 @@ public class StatProceduresImpl implements IStatProcedure {
 		calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
 		final Date date_first_day_year = calendar_first_day.getTime();
 
-		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
+		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled,
+				date_first_day_year);
 
 		// get a shift - 12 after last shift
 		final Integer min_shift = this.getMinimumShift(current_date_scheduled, user);
 
 		// get my shift
-		if ((averages == null) || (averages.length == 0)) {
+		if (averages == null || averages.length == 0) {
 
 			final Integer my_shift = min_shift + (int) (Math.random() * 4);
 			return my_shift;
@@ -258,9 +260,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			return averages[0].getShift();
 		}
 
-		for (int i = 0; i < averages.length; i++) {
-
-			final RateShift current_shift = averages[i];
+		for (final RateShift current_shift : averages) {
 
 			if (current_shift.getShift() >= min_shift) {
 				return current_shift.getShift();
@@ -277,7 +277,8 @@ public class StatProceduresImpl implements IStatProcedure {
 	}
 
 	@Override
-	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to, final boolean ext_info) {
+	public UserStatistics getUserStatistics(final Person person, final Date date_from, final Date date_to,
+			final boolean ext_info) {
 		final UserStatistics userStatistics = new UserStatistics();
 
 		userStatistics.setDepartment(person.getDepartment());
@@ -293,12 +294,13 @@ public class StatProceduresImpl implements IStatProcedure {
 		if (count_allsunday == 0) {
 			perc_sunday = 0.0;
 		} else {
-			perc_sunday = (100 * (double) sunday_work) / count_allsunday;
+			perc_sunday = 100 * (double) sunday_work / count_allsunday;
 		}
 		final String perc_info = "" + sunday_work + " (" + Utility.roundTwo(perc_sunday) + "%)";
 
-		// set perc
+		// set perc for sunday
 		userStatistics.setWork_sunday_perc(perc_info);
+		userStatistics.setWork_sunday(sunday_work.toString());
 
 		// SET WORK SUNDAY HOLIDAYS
 
@@ -311,12 +313,13 @@ public class StatProceduresImpl implements IStatProcedure {
 		if (count_allholiday == 0) {
 			perc_holiday = 0.0;
 		} else {
-			perc_holiday = (100 * (double) holidays_work) / count_allholiday;
+			perc_holiday = 100 * (double) holidays_work / count_allholiday;
 		}
 		final String perc_info_holiday = "" + holidays_work + " (" + Utility.roundTwo(perc_holiday) + "%)";
 
 		// set perc
 		userStatistics.setWork_holiday_perc(perc_info_holiday);
+		userStatistics.setWork_holiday(holidays_work.toString());
 
 		// get average - review base
 		RateShift[] statistic = this.statisticDAO.getAverageForShift(person.getId(), date_to, date_from);
@@ -325,16 +328,16 @@ public class StatProceduresImpl implements IStatProcedure {
 			for (final RateShift av : statistic) {
 
 				if (av.getShift() == 1) {
-					userStatistics.setShift_perc_1("" + Utility.roundTwo(av.getRate()) + "%");
+					userStatistics.setShift_perc_1_base("" + Utility.roundTwo(av.getRate()) + "%");
 				}
 				if (av.getShift() == 2) {
-					userStatistics.setShift_perc_2("" + Utility.roundTwo(av.getRate()) + "%");
+					userStatistics.setShift_perc_2_base("" + Utility.roundTwo(av.getRate()) + "%");
 				}
 				if (av.getShift() == 3) {
-					userStatistics.setShift_perc_3("" + Utility.roundTwo(av.getRate()) + "%");
+					userStatistics.setShift_perc_3_base("" + Utility.roundTwo(av.getRate()) + "%");
 				}
 				if (av.getShift() == 4) {
-					userStatistics.setShift_perc_4("" + Utility.roundTwo(av.getRate()) + "%");
+					userStatistics.setShift_perc_4_base("" + Utility.roundTwo(av.getRate()) + "%");
 				}
 			}
 		}
@@ -354,33 +357,47 @@ public class StatProceduresImpl implements IStatProcedure {
 
 				if (sunday_work != 0) {
 					if (av.getShift() == 1) {
-						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+
+						final String shift_perc_1 = userStatistics.getShift_perc_1_base() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+
+						userStatistics.setShift_perc_1(shift_perc_1);
 					}
+
 					if (av.getShift() == 2) {
-						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+
+						final String shift_perc_2 = userStatistics.getShift_perc_2_base() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+
+						userStatistics.setShift_perc_2(shift_perc_2);
 					}
 					if (av.getShift() == 3) {
-						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+
+						final String shift_perc_3 = userStatistics.getShift_perc_3_base() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+
+						userStatistics.setShift_perc_3(shift_perc_3);
 					}
 					if (av.getShift() == 4) {
-						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " ("
-								+ Utility.roundTwo((av.getRate() / sunday_work_count) * 100) + "%)");
+
+						final String shift_perc_4 = userStatistics.getShift_perc_4_base() + " ("
+								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+
+						userStatistics.setShift_perc_4(shift_perc_4);
+
 					}
 				} else {
 					if (av.getShift() == 1) {
-						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1() + " (0%)");
+						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1_base() + " (0%)");
 					}
 					if (av.getShift() == 2) {
-						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2() + " (0%)");
+						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2_base() + " (0%)");
 					}
 					if (av.getShift() == 3) {
-						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3() + " (0%)");
+						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3_base() + " (0%)");
 					}
 					if (av.getShift() == 4) {
-						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4() + " (0%)");
+						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4_base() + " (0%)");
 					}
 				}
 
@@ -444,9 +461,11 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			// set saturation month label - current month
 			final Calendar cal_saturation_month = Calendar.getInstance();
-			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH,
+					cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
 			Date date_to_on_month = cal_saturation_month.getTime();
-			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMinimum(Calendar.DAY_OF_MONTH));
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH,
+					cal_saturation_month.getActualMinimum(Calendar.DAY_OF_MONTH));
 			Date date_from_on_month = cal_saturation_month.getTime();
 
 			final Double sat_curr_month = this.calculeHourSaturation(person, date_from_on_month, date_to_on_month);
@@ -454,9 +473,11 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			// set saturation month label - prec month
 			cal_saturation_month.add(Calendar.MONTH, -1);
-			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH,
+					cal_saturation_month.getActualMaximum(Calendar.DAY_OF_MONTH));
 			date_to_on_month = cal_saturation_month.getTime();
-			cal_saturation_month.set(Calendar.DAY_OF_MONTH, cal_saturation_month.getActualMinimum(Calendar.DAY_OF_MONTH));
+			cal_saturation_month.set(Calendar.DAY_OF_MONTH,
+					cal_saturation_month.getActualMinimum(Calendar.DAY_OF_MONTH));
 			date_from_on_month = cal_saturation_month.getTime();
 
 			final Double sat_prec_month = this.calculeHourSaturation(person, date_from_on_month, date_to_on_month);
@@ -494,7 +515,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Integer getWorkingSeries(final Date date, final Integer user) {
 
-		if ((date == null) || (user == null)) {
+		if (date == null || user == null) {
 			return 0;
 		}
 
@@ -645,9 +666,10 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Calendar last = (Calendar) first.clone();
 		last.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
-		final List<Schedule> scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id, first.getTime(), last.getTime());
+		final List<Schedule> scheduleListInWeek = this.myScheduleDAO.selectScheduleInIntervalDateByUserId(user_id,
+				first.getTime(), last.getTime());
 
-		final ArrayList<Schedule> ret = new ArrayList<Schedule>();
+		final ArrayList<Schedule> ret = new ArrayList<>();
 
 		for (final Schedule schedule : scheduleListInWeek) {
 
@@ -657,7 +679,8 @@ public class StatProceduresImpl implements IStatProcedure {
 			}
 
 			if (!date_scheduled.equals(schedule.getDate_schedule())) {
-				if ((shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift() || shiftType.getAccident_shift())) {
+				if (shiftType.getBreak_shift() || shiftType.getWaitbreak_shift() || shiftType.getDisease_shift()
+						|| shiftType.getAccident_shift()) {
 					ret.add(schedule);
 				}
 			}
@@ -711,7 +734,8 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * java.lang.Integer)
 	 */
 	@Override
-	public void shiftAssign(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
+	public void shiftAssign(final UserShift shift, final Date current_date_scheduled, final Integer user,
+			final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 
@@ -749,7 +773,8 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * java.lang.Integer)
 	 */
 	@Override
-	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user, final Integer editor) {
+	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user,
+			final Integer editor) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 

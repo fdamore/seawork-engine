@@ -47,8 +47,8 @@ public class UtilityCSV {
 
 	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
-	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
-	        final ICustomerDAO customerDAO) {
+	public static StringBuilder downloadCSV_DetailProgramShip(
+			final List<DetailScheduleShip> modelListDetailScheduleShip, final ICustomerDAO customerDAO) {
 		if (modelListDetailScheduleShip == null) {
 			return null;
 		}
@@ -117,7 +117,7 @@ public class UtilityCSV {
 				secondUser = Utility.dottedName(item.getSecondOperativeName());
 			}
 
-			if ((item.getWorked() != null) && item.getWorked()) {
+			if (item.getWorked() != null && item.getWorked()) {
 				worked = "SI";
 			}
 
@@ -149,9 +149,10 @@ public class UtilityCSV {
 				endDate = Utility.getDataAsString_it(item.getDeparturedate());
 			}
 
-			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate + ";" + shiftNumber + ";"
-			        + operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program
-			        + ";" + persons_review + ";" + serviceType + ";" + startDate + ";" + endDate + ";\n";
+			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate
+					+ ";" + shiftNumber + ";" + operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";"
+					+ hands_program + ";" + hands_review + ";" + persons_program + ";" + persons_review + ";"
+					+ serviceType + ";" + startDate + ";" + endDate + ";\n";
 
 			builder.append(line);
 
@@ -198,7 +199,7 @@ public class UtilityCSV {
 				enabled = UserEnableConverter.converterValue(item.isEnabled());
 			}
 
-			if ((item.getFirstname() != null) && (item.getLastname() != null)) {
+			if (item.getFirstname() != null && item.getLastname() != null) {
 				name = item.getLastname() + " " + item.getFirstname();
 			}
 
@@ -218,8 +219,8 @@ public class UtilityCSV {
 				currentPosition = item.getCurrent_position();
 			}
 
-			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";" + role
-			        + ";" + currentPosition + ";\n";
+			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";"
+					+ city + ";" + tel + ";" + role + ";" + currentPosition + ";\n";
 			builder.append(line);
 
 		}
@@ -266,7 +267,8 @@ public class UtilityCSV {
 
 	}
 
-	public static StringBuilder downloadCSV_ScheduleProgramShip(final List<ScheduleShip> modelListScheduleShip, final ICustomerDAO customerDAO) {
+	public static StringBuilder downloadCSV_ScheduleProgramShip(final List<ScheduleShip> modelListScheduleShip,
+			final ICustomerDAO customerDAO) {
 		if (modelListScheduleShip == null) {
 			return null;
 		}
@@ -326,8 +328,8 @@ public class UtilityCSV {
 				note = note.replace("\n", " ");
 			}
 
-			final String line = "" + startDate + ";" + endDate + ";" + shipName + ";" + customerName + ";" + volume + ";" + mct + ";" + sws + ";"
-			        + serviceType + ";" + note + ";\n";
+			final String line = "" + startDate + ";" + endDate + ";" + shipName + ";" + customerName + ";" + volume
+					+ ";" + mct + ";" + sws + ";" + serviceType + ";" + note + ";\n";
 			builder.append(line);
 
 		}
@@ -336,7 +338,8 @@ public class UtilityCSV {
 
 	}
 
-	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {
+	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule,
+			final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
 		final String header = "anno;mese;settimana;giorno;nome;matricola;data;turno;\n";
 		builder.append(header);
@@ -348,7 +351,7 @@ public class UtilityCSV {
 			String day = "";
 			String mouth = "";
 			if (item.getDate_schedule() != null) {
-				weekDate = (Utility.getWeekNumber(item.getDate_schedule())).toString();
+				weekDate = Utility.getWeekNumber(item.getDate_schedule()).toString();
 				date = UtilityCSV.formatDateOverview.format(item.getDate_schedule());
 				day = UtilityCSV.dayFormat.format(item.getDate_schedule());
 				mouth = Utility.getMonthNumber(item.getDate_schedule()).toString();
@@ -362,19 +365,20 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
+			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
 				employee_identification = item.getEmployee_identification();
 			}
 
-			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
-			        + date + ";" + code_shift + ";\n";
+			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";"
+					+ employee_identification + ";" + date + ";" + code_shift + ";\n";
 			builder.append(line);
 		}
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram, final TasksDAO taskDao,
-	        final IShiftCache shift_cache, final ISchedule scheduleDAO, final Boolean administrator) {
+	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram,
+			final TasksDAO taskDao, final IShiftCache shift_cache, final ISchedule scheduleDAO,
+			final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
 		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota\n";
 
@@ -395,7 +399,7 @@ public class UtilityCSV {
 			String mouth = "";
 			String day = "";
 			if (item.getDate_schedule() != null) {
-				weekDate = (Utility.getWeekNumber(item.getDate_schedule())).toString();
+				weekDate = Utility.getWeekNumber(item.getDate_schedule()).toString();
 				date = UtilityCSV.formatDateOverview.format(item.getDate_schedule());
 				day = UtilityCSV.dayFormat.format(item.getDate_schedule());
 				mouth = Utility.getMonthNumber(item.getDate_schedule()).toString();
@@ -436,7 +440,8 @@ public class UtilityCSV {
 			String code_task = "";
 			final UserTask task = taskDao.loadTask(item.getTask());
 
-			final List<DetailInitialSchedule> listDetail = scheduleDAO.loadDetailInitialScheduleByIdSchedule(item.getId_schedule());
+			final List<DetailInitialSchedule> listDetail = scheduleDAO
+					.loadDetailInitialScheduleByIdSchedule(item.getId_schedule());
 
 			if (task != null) {
 				code_task = task.getCode();
@@ -449,7 +454,8 @@ public class UtilityCSV {
 					for (int i = 0; i < listDetail.size(); i++) {
 						final Integer idItemTask = listDetail.get(i).getTask();
 						final UserTask itemtask = taskDao.loadTask(idItemTask);
-						if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+						if (!item.getId().equals(listDetail.get(i).getId())
+								&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 							Long t;
 
@@ -461,7 +467,7 @@ public class UtilityCSV {
 								t = item.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
 							}
 
-							if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
+							if (time == null && t >= 0 || t >= 0 && t < time) {
 								minTimeIndex = i;
 								time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 							}
@@ -482,11 +488,13 @@ public class UtilityCSV {
 						for (int i = 0; i < listDetail.size(); i++) {
 							final Integer idItemTask = listDetail.get(i).getTask();
 							final UserTask itemtask = taskDao.loadTask(idItemTask);
-							if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+							if (!item.getId().equals(listDetail.get(i).getId())
+									&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 								Long t;
 
-								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from()
+										.getTime())
 
 								{
 									t = listDetail.get(i).getTime_from().getTime() - item.getTime_to().getTime();
@@ -494,7 +502,7 @@ public class UtilityCSV {
 									t = listDetail.get(i).getTime_to().getTime() - item.getTime_to().getTime();
 								}
 
-								if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
+								if (time == null && t >= 0 || t >= 0 && t < time) {
 									minTimeIndex = i;
 									time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 								}
@@ -532,18 +540,20 @@ public class UtilityCSV {
 
 			String time_info = "00:00";
 			String time_vacation_info = "00:00";
-			if ((item.getDateTo() != null) && (item.getDateFrom() != null)) {
+			if (item.getDateTo() != null && item.getDateFrom() != null) {
 
 				final Long milliseconds = item.getDateTo().getTime() - item.getDateFrom().getTime();
 
 				if (!task.getIsabsence()) {
 
 					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-					        TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-					        TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				}
 			}
 
@@ -554,18 +564,19 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
+			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
 				employee_identification = item.getEmployee_identification();
 			}
 
-			String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date
-			        + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";"
-			        + time_to + ";" + nota + ";\n";
+			String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";"
+					+ employee_identification + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task
+					+ ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to + ";" + nota + ";\n";
 
 			if (administrator) {
-				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
-				        + holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";"
-				        + time_from + ";" + time_to + ";" + nota + ";" + programmer + ";" + controller + ";\n";
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";"
+						+ employee_identification + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info
+						+ ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to
+						+ ";" + nota + ";" + programmer + ";" + controller + ";\n";
 			}
 
 			builder.append(line);
@@ -573,8 +584,9 @@ public class UtilityCSV {
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final TasksDAO taskDao,
-	        final IShiftCache shift_cache, final IShipCache ship_cache, final ISchedule scheduleDAO, final Boolean administrator) {
+	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision,
+			final TasksDAO taskDao, final IShiftCache shift_cache, final IShipCache ship_cache,
+			final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
 
 		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;ingresso;uscita;consuntiva fascia oraria;nota\n";
@@ -589,7 +601,7 @@ public class UtilityCSV {
 		builder.append(header);
 
 		// adding working date control
-		final HashMap<String, Boolean> date_working_yes = new HashMap<String, Boolean>();
+		final HashMap<String, Boolean> date_working_yes = new HashMap<>();
 
 		for (final DetailFinalSchedule item : listDetailRevision) {
 
@@ -601,11 +613,11 @@ public class UtilityCSV {
 			String dayWorked = "";
 
 			if (item.getDate_schedule() != null) {
-				weekDate = (Utility.getWeekNumber(item.getDate_schedule())).toString();
+				weekDate = Utility.getWeekNumber(item.getDate_schedule()).toString();
 				date = UtilityCSV.formatDateOverview.format(item.getDate_schedule());
 				day = UtilityCSV.dayFormat.format(item.getDate_schedule());
 				mouth = Utility.getMonthNumber(item.getDate_schedule()).toString();
-				year = (Utility.getYear(item.getDate_schedule()).toString());
+				year = Utility.getYear(item.getDate_schedule()).toString();
 			}
 
 			String time_from = "";
@@ -642,7 +654,8 @@ public class UtilityCSV {
 			String code_task = "";
 			final UserTask task = taskDao.loadTask(item.getTask());
 
-			final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(item.getId_schedule());
+			final List<DetailFinalSchedule> listDetail = scheduleDAO
+					.loadDetailFinalScheduleByIdSchedule(item.getId_schedule());
 
 			if (task != null) {
 				code_task = task.getCode();
@@ -655,7 +668,8 @@ public class UtilityCSV {
 					for (int i = 0; i < listDetail.size(); i++) {
 						final Integer idItemTask = listDetail.get(i).getTask();
 						final UserTask itemtask = taskDao.loadTask(idItemTask);
-						if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+						if (!item.getId().equals(listDetail.get(i).getId())
+								&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 							Long t;
 
@@ -667,7 +681,7 @@ public class UtilityCSV {
 								t = item.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
 							}
 
-							if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
+							if (time == null && t >= 0 || t >= 0 && t < time) {
 								minTimeIndex = i;
 								time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 							}
@@ -688,11 +702,13 @@ public class UtilityCSV {
 						for (int i = 0; i < listDetail.size(); i++) {
 							final Integer idItemTask = listDetail.get(i).getTask();
 							final UserTask itemtask = taskDao.loadTask(idItemTask);
-							if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+							if (!item.getId().equals(listDetail.get(i).getId())
+									&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 								Long t;
 
-								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
+								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from()
+										.getTime())
 
 								{
 									t = listDetail.get(i).getTime_from().getTime() - item.getTime_to().getTime();
@@ -700,7 +716,7 @@ public class UtilityCSV {
 									t = listDetail.get(i).getTime_to().getTime() - item.getTime_to().getTime();
 								}
 
-								if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
+								if (time == null && t >= 0 || t >= 0 && t < time) {
 									minTimeIndex = i;
 									time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 								}
@@ -749,7 +765,7 @@ public class UtilityCSV {
 
 			}
 
-			if (Utility.isWorkingDay(item) && (item.getDate_schedule() != null)) {
+			if (Utility.isWorkingDay(item) && item.getDate_schedule() != null) {
 
 				// define key
 				final String key = item.getId_user() + "@" + Utility.convertToDateAndTime(item.getDate_schedule());
@@ -776,7 +792,7 @@ public class UtilityCSV {
 
 			String time_info = "00:00";
 			String time_vacation_info = "00:00";
-			if ((item.getDateTo() != null) && (item.getDateFrom() != null)) {
+			if (item.getDateTo() != null && item.getDateFrom() != null) {
 
 				Long milliseconds;
 				if (item.getDateTo().getTime() > item.getDateFrom().getTime()) {
@@ -788,11 +804,13 @@ public class UtilityCSV {
 				if (!task.getIsabsence()) {
 
 					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-					        TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-					        TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
+									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				}
 			}
 
@@ -803,24 +821,26 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
+			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
 				employee_identification = item.getEmployee_identification();
 			}
 
 			String reviewshift = "No";
-			if ((item.getReviewshift() != null) && item.getReviewshift()) {
+			if (item.getReviewshift() != null && item.getReviewshift()) {
 				reviewshift = "Si";
 			}
 
-			String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date
-			        + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
-			        + nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";\n";
+			String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";"
+					+ employee_identification + ";" + date + ";" + code_shift + ";" + shift_no_info + ";" + code_task
+					+ ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane + ";"
+					+ board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";\n";
 
 			if (administrator) {
-				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
-				        + holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";"
-				        + time_vacation_info + ";" + nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";"
-				        + nota + ";" + programmer + ";" + controller + ";\n";
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";"
+						+ employee_identification + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info
+						+ ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
+						+ nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift
+						+ ";" + nota + ";" + programmer + ";" + controller + ";\n";
 			}
 
 			builder.append(line);
@@ -832,8 +852,10 @@ public class UtilityCSV {
 		final StringBuilder builder = new StringBuilder();
 
 		String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
-		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
-		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra";
+		header = header
+				+ "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
+		header = header
+				+ "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra";
 		header = header + "\n";
 
 		builder.append(header);
@@ -898,7 +920,7 @@ public class UtilityCSV {
 				shift = item.getShift().toString();
 			}
 
-			if ((item.getCrane() != null) && (item.getCrane_gtw() != null)) {
+			if (item.getCrane() != null && item.getCrane_gtw() != null) {
 				final Boolean crane_gtw = item.getCrane_gtw();
 				final String craneId = item.getCrane();
 
@@ -967,10 +989,11 @@ public class UtilityCSV {
 				menworkh = "" + item.getMenwork_activityh();
 			}
 
-			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + rif_sws + ";" + rif_mct + ";" + shift + ";" + crane + ";"
-			        + workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";"
-			        + menworkh + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";" + date_first_down
-			        + ";" + date_last_down + ";" + person_down + "\n";
+			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + rif_sws + ";" + rif_mct
+					+ ";" + shift + ";" + crane + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";"
+					+ volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";" + menworkh + ";" + sky_item + ";"
+					+ wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";" + date_first_down
+					+ ";" + date_last_down + ";" + person_down + "\n";
 			builder.append(line);
 
 		}
@@ -978,7 +1001,8 @@ public class UtilityCSV {
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVReviewShipWorkAggregate(final List<ReviewShipWorkAggregate> reviewShipWorkList) {
+	public static StringBuilder downloadCSVReviewShipWorkAggregate(
+			final List<ReviewShipWorkAggregate> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
 		final String header = "Nome Nave;Tempo Netto Lavorato;Volumi Netti;Produttività;Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;\n";
@@ -1006,7 +1030,7 @@ public class UtilityCSV {
 				volume = item.getVolume().toString();
 			}
 
-			if ((item.getTime_work() != null) && (item.getVolume() != null)) {
+			if (item.getTime_work() != null && item.getVolume() != null) {
 				productivity = ProductivityConverter.getProductivity(item);
 			}
 
@@ -1022,8 +1046,8 @@ public class UtilityCSV {
 				volumeTW = item.getVolume_tw_mct().toString();
 			}
 
-			final String line = shipName + ";" + workedTime + ";" + volume + ";" + productivity + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";"
-			        + volumeTW + ";\n";
+			final String line = shipName + ";" + workedTime + ";" + volume + ";" + productivity + ";" + volumeOnBoard
+					+ ";" + volumeOnBoard_sws + ";" + volumeTW + ";\n";
 
 			builder.append(line);
 
@@ -1060,7 +1084,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVStatistics(final List<UserStatistics> userStatisticsList) {
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome;Saturazione;Ore Lavorate;Lavoro Domenicale;Festivi;Turno 1;Turno 2;Turno 3;Turno 4;\n";
+		final String header = "Nome;Saturazione;Ore Lavorate;Lavoro Domenicale (base);Lavoro Domenicale;Festivi (base);Festivi;Turno 1 (base);Turno 1;Turno 2 (base);Turno 2;Turno 3 (base);Turno 3;Turno 4 (base);Turno 4;\n";
 		builder.append(header);
 
 		for (final UserStatistics item : userStatisticsList) {
@@ -1071,10 +1095,18 @@ public class UtilityCSV {
 
 			String work_sunday_perc = "";
 			String work_holiday_perc = "";
+			String work_sunday = "";
+			String work_holiday = "";
+
 			String shift_perc_1 = "";
 			String shift_perc_2 = "";
 			String shift_perc_3 = "";
 			String shift_perc_4 = "";
+
+			String shift_perc_1_base = "";
+			String shift_perc_2_base = "";
+			String shift_perc_3_base = "";
+			String shift_perc_4_base = "";
 
 			if (item.getPerson() != null) {
 				final Person p = item.getPerson();
@@ -1104,6 +1136,14 @@ public class UtilityCSV {
 				work_holiday_perc = item.getWork_holiday_perc();
 			}
 
+			if (item.getWork_sunday() != null) {
+				work_sunday = item.getWork_sunday();
+			}
+
+			if (item.getWork_holiday() != null) {
+				work_holiday = item.getWork_holiday();
+			}
+
 			if (item.getShift_perc_1() != null) {
 				shift_perc_1 = item.getShift_perc_1();
 			}
@@ -1120,8 +1160,26 @@ public class UtilityCSV {
 				shift_perc_4 = item.getShift_perc_4();
 			}
 
-			final String line = "" + name + ";" + saturation + ";" + work_current + ";" + work_sunday_perc + ";" + work_holiday_perc + ";"
-			        + shift_perc_1 + ";" + shift_perc_2 + ";" + shift_perc_3 + ";" + shift_perc_4 + ";\n";
+			if (item.getShift_perc_1_base() != null) {
+				shift_perc_1_base = item.getShift_perc_1_base();
+			}
+
+			if (item.getShift_perc_2_base() != null) {
+				shift_perc_2_base = item.getShift_perc_2_base();
+			}
+
+			if (item.getShift_perc_3_base() != null) {
+				shift_perc_3_base = item.getShift_perc_3_base();
+			}
+
+			if (item.getShift_perc_4_base() != null) {
+				shift_perc_4_base = item.getShift_perc_4_base();
+			}
+
+			final String line = "" + name + ";" + saturation + ";" + work_current + ";" + work_sunday + ";"
+					+ work_sunday_perc + ";" + work_holiday + ";" + work_holiday_perc + ";" + shift_perc_1_base + ";"
+					+ shift_perc_1 + ";" + shift_perc_2_base + ";" + shift_perc_2 + ";" + shift_perc_3_base + ";"
+					+ shift_perc_3 + ";" + shift_perc_4_base + ";" + shift_perc_4 + ";\n";
 
 			builder.append(line);
 
@@ -1150,7 +1208,8 @@ public class UtilityCSV {
 
 				cal1.setTime(date_item);
 
-				if ((cal.get(Calendar.DAY_OF_MONTH) == cal1.get(Calendar.DAY_OF_MONTH)) && (cal.get(Calendar.MONTH) == cal1.get(Calendar.MONTH))) {
+				if (cal.get(Calendar.DAY_OF_MONTH) == cal1.get(Calendar.DAY_OF_MONTH)
+						&& cal.get(Calendar.MONTH) == cal1.get(Calendar.MONTH)) {
 					return true;
 				}
 
