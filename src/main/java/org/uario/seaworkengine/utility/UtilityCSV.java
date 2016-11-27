@@ -117,7 +117,7 @@ public class UtilityCSV {
 				secondUser = Utility.dottedName(item.getSecondOperativeName());
 			}
 
-			if (item.getWorked() != null && item.getWorked()) {
+			if ((item.getWorked() != null) && item.getWorked()) {
 				worked = "SI";
 			}
 
@@ -199,7 +199,7 @@ public class UtilityCSV {
 				enabled = UserEnableConverter.converterValue(item.isEnabled());
 			}
 
-			if (item.getFirstname() != null && item.getLastname() != null) {
+			if ((item.getFirstname() != null) && (item.getLastname() != null)) {
 				name = item.getLastname() + " " + item.getFirstname();
 			}
 
@@ -365,7 +365,7 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
 				employee_identification = item.getEmployee_identification();
 			}
 
@@ -467,7 +467,7 @@ public class UtilityCSV {
 								t = item.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
 							}
 
-							if (time == null && t >= 0 || t >= 0 && t < time) {
+							if (((time == null) && (t >= 0)) || ((t >= 0) && (t < time))) {
 								minTimeIndex = i;
 								time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 							}
@@ -502,7 +502,7 @@ public class UtilityCSV {
 									t = listDetail.get(i).getTime_to().getTime() - item.getTime_to().getTime();
 								}
 
-								if (time == null && t >= 0 || t >= 0 && t < time) {
+								if (((time == null) && (t >= 0)) || ((t >= 0) && (t < time))) {
 									minTimeIndex = i;
 									time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 								}
@@ -540,7 +540,7 @@ public class UtilityCSV {
 
 			String time_info = "00:00";
 			String time_vacation_info = "00:00";
-			if (item.getDateTo() != null && item.getDateFrom() != null) {
+			if ((item.getDateTo() != null) && (item.getDateFrom() != null)) {
 
 				final Long milliseconds = item.getDateTo().getTime() - item.getDateFrom().getTime();
 
@@ -564,7 +564,7 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
 				employee_identification = item.getEmployee_identification();
 			}
 
@@ -681,7 +681,7 @@ public class UtilityCSV {
 								t = item.getTime_from().getTime() - listDetail.get(i).getTime_from().getTime();
 							}
 
-							if (time == null && t >= 0 || t >= 0 && t < time) {
+							if (((time == null) && (t >= 0)) || ((t >= 0) && (t < time))) {
 								minTimeIndex = i;
 								time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 							}
@@ -716,7 +716,7 @@ public class UtilityCSV {
 									t = listDetail.get(i).getTime_to().getTime() - item.getTime_to().getTime();
 								}
 
-								if (time == null && t >= 0 || t >= 0 && t < time) {
+								if (((time == null) && (t >= 0)) || ((t >= 0) && (t < time))) {
 									minTimeIndex = i;
 									time = item.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 								}
@@ -765,7 +765,7 @@ public class UtilityCSV {
 
 			}
 
-			if (Utility.isWorkingDay(item) && item.getDate_schedule() != null) {
+			if (Utility.isWorkingDay(item) && (item.getDate_schedule() != null)) {
 
 				// define key
 				final String key = item.getId_user() + "@" + Utility.convertToDateAndTime(item.getDate_schedule());
@@ -792,7 +792,7 @@ public class UtilityCSV {
 
 			String time_info = "00:00";
 			String time_vacation_info = "00:00";
-			if (item.getDateTo() != null && item.getDateFrom() != null) {
+			if ((item.getDateTo() != null) && (item.getDateFrom() != null)) {
 
 				Long milliseconds;
 				if (item.getDateTo().getTime() > item.getDateFrom().getTime()) {
@@ -821,12 +821,12 @@ public class UtilityCSV {
 			}
 
 			String employee_identification = "";
-			if (item.getEmployee_identification() != null && item.getEmployee_identification().trim() != "") {
+			if ((item.getEmployee_identification() != null) && (item.getEmployee_identification().trim() != "")) {
 				employee_identification = item.getEmployee_identification();
 			}
 
 			String reviewshift = "No";
-			if (item.getReviewshift() != null && item.getReviewshift()) {
+			if ((item.getReviewshift() != null) && item.getReviewshift()) {
 				reviewshift = "Si";
 			}
 
@@ -920,7 +920,7 @@ public class UtilityCSV {
 				shift = item.getShift().toString();
 			}
 
-			if (item.getCrane() != null && item.getCrane_gtw() != null) {
+			if ((item.getCrane() != null) && (item.getCrane_gtw() != null)) {
 				final Boolean crane_gtw = item.getCrane_gtw();
 				final String craneId = item.getCrane();
 
@@ -1030,7 +1030,7 @@ public class UtilityCSV {
 				volume = item.getVolume().toString();
 			}
 
-			if (item.getTime_work() != null && item.getVolume() != null) {
+			if ((item.getTime_work() != null) && (item.getVolume() != null)) {
 				productivity = ProductivityConverter.getProductivity(item);
 			}
 
@@ -1084,7 +1084,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVStatistics(final List<UserStatistics> userStatisticsList) {
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome;Saturazione;Ore Lavorate;Lavoro Domenicale (base);Lavoro Domenicale;Festivi (base);Festivi;Turno 1 (base);Turno 1;Turno 2 (base);Turno 2;Turno 3 (base);Turno 3;Turno 4 (base);Turno 4;\n";
+		final String header = "Nome;Saturazione;Ore Lavorate;Lavoro Domenicale (N.Lav);Lavoro Domenicale (%);Festivi (N);Festivi (%);Turno 1 (Feriale);Turno 1 (D./F.);Turno 2 (Feriale);Turno 2 (D./F.);Turno 3 (Feriale);Turno 3 (D./F.);Turno 4 (Feriale);Turno 4 (D./F.);\n";
 		builder.append(header);
 
 		for (final UserStatistics item : userStatisticsList) {
@@ -1208,8 +1208,8 @@ public class UtilityCSV {
 
 				cal1.setTime(date_item);
 
-				if (cal.get(Calendar.DAY_OF_MONTH) == cal1.get(Calendar.DAY_OF_MONTH)
-						&& cal.get(Calendar.MONTH) == cal1.get(Calendar.MONTH)) {
+				if ((cal.get(Calendar.DAY_OF_MONTH) == cal1.get(Calendar.DAY_OF_MONTH))
+						&& (cal.get(Calendar.MONTH) == cal1.get(Calendar.MONTH))) {
 					return true;
 				}
 
