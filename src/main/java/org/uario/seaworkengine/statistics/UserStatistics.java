@@ -20,25 +20,25 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	private String	shift_perc_1_base;
 
-	private String	shift_perc_1_onlyperc;
+	private String	shift_perc_1_percholiday;
 
 	private String	shift_perc_2;
 
 	private String	shift_perc_2_base;
 
-	private String	shift_perc_2_onlyperc;
+	private String	shift_perc_2_percholiday;
 
 	private String	shift_perc_3;
 
 	private String	shift_perc_3_base;
 
-	private String	shift_perc_3_onlyperc;
+	private String	shift_perc_3_percholiday;
 
 	private String	shift_perc_4;
 
 	private String	shift_perc_4_base;
 
-	private String	shift_perc_4_onlyperc;
+	private String	shift_perc_4_percholiday;
 
 	private String	userRoles;
 
@@ -52,9 +52,13 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	private String	work_holiday;
 
+	private String	work_holiday_onlyperc;
+
 	private String	work_holiday_perc;
 
 	private String	work_sunday;
+
+	private String	work_sunday_onlyperc;
 
 	private String	work_sunday_perc;
 
@@ -114,8 +118,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.shift_perc_1_base;
 	}
 
-	public String getShift_perc_1_onlyperc() {
-		return this.shift_perc_1_onlyperc;
+	public String getShift_perc_1_percholiday() {
+		return this.shift_perc_1_percholiday;
 	}
 
 	public String getShift_perc_2() {
@@ -126,8 +130,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.shift_perc_2_base;
 	}
 
-	public String getShift_perc_2_onlyperc() {
-		return this.shift_perc_2_onlyperc;
+	public String getShift_perc_2_percholiday() {
+		return this.shift_perc_2_percholiday;
 	}
 
 	public String getShift_perc_3() {
@@ -138,8 +142,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.shift_perc_3_base;
 	}
 
-	public String getShift_perc_3_onlyperc() {
-		return this.shift_perc_3_onlyperc;
+	public String getShift_perc_3_percholiday() {
+		return this.shift_perc_3_percholiday;
 	}
 
 	public String getShift_perc_4() {
@@ -150,8 +154,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.shift_perc_4_base;
 	}
 
-	public String getShift_perc_4_onlyperc() {
-		return this.shift_perc_4_onlyperc;
+	public String getShift_perc_4_percholiday() {
+		return this.shift_perc_4_percholiday;
 	}
 
 	public String getUserRoles() {
@@ -178,12 +182,20 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.work_holiday;
 	}
 
+	public String getWork_holiday_onlyperc() {
+		return this.work_holiday_onlyperc;
+	}
+
 	public String getWork_holiday_perc() {
 		return this.work_holiday_perc;
 	}
 
 	public String getWork_sunday() {
 		return this.work_sunday;
+	}
+
+	public String getWork_sunday_onlyperc() {
+		return this.work_sunday_onlyperc;
 	}
 
 	public String getWork_sunday_perc() {
@@ -226,8 +238,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.shift_perc_1_base = shift_perc_1_base;
 	}
 
-	public void setShift_perc_1_onlyperc(final String shift_perc_1_onlyperc) {
-		this.shift_perc_1_onlyperc = shift_perc_1_onlyperc;
+	public void setShift_perc_1_percholiday(final String shift_perc_1_percholiday) {
+		this.shift_perc_1_percholiday = shift_perc_1_percholiday;
 	}
 
 	public void setShift_perc_2(final String shift_perc_2) {
@@ -238,8 +250,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.shift_perc_2_base = shift_perc_2_base;
 	}
 
-	public void setShift_perc_2_onlyperc(final String shift_perc_2_onlyperc) {
-		this.shift_perc_2_onlyperc = shift_perc_2_onlyperc;
+	public void setShift_perc_2_percholiday(final String shift_perc_2_percholiday) {
+		this.shift_perc_2_percholiday = shift_perc_2_percholiday;
 	}
 
 	public void setShift_perc_3(final String shift_perc_3) {
@@ -250,8 +262,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.shift_perc_3_base = shift_perc_3_base;
 	}
 
-	public void setShift_perc_3_onlyperc(final String shift_perc_3_onlyperc) {
-		this.shift_perc_3_onlyperc = shift_perc_3_onlyperc;
+	public void setShift_perc_3_percholiday(final String shift_perc_3_percholiday) {
+		this.shift_perc_3_percholiday = shift_perc_3_percholiday;
 	}
 
 	public void setShift_perc_4(final String shift_perc_4) {
@@ -262,8 +274,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.shift_perc_4_base = shift_perc_4_base;
 	}
 
-	public void setShift_perc_4_onlyperc(final String shift_perc_4_onlyperc) {
-		this.shift_perc_4_onlyperc = shift_perc_4_onlyperc;
+	public void setShift_perc_4_percholiday(final String shift_perc_4_percholiday) {
+		this.shift_perc_4_percholiday = shift_perc_4_percholiday;
 	}
 
 	public void setUserRoles(final String userRoles) {
@@ -290,12 +302,20 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.work_holiday = work_holiday;
 	}
 
+	public void setWork_holiday_onlyperc(final String work_holiday_onlyperc) {
+		this.work_holiday_onlyperc = work_holiday_onlyperc;
+	}
+
 	public void setWork_holiday_perc(final String work_holiday_perc) {
 		this.work_holiday_perc = work_holiday_perc;
 	}
 
 	public void setWork_sunday(final String work_sunday) {
 		this.work_sunday = work_sunday;
+	}
+
+	public void setWork_sunday_onlyperc(final String work_sunday_onlyperc) {
+		this.work_sunday_onlyperc = work_sunday_onlyperc;
 	}
 
 	public void setWork_sunday_perc(final String work_sunday_perc) {

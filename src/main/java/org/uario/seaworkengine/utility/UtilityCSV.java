@@ -1084,13 +1084,15 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVStatistics(final List<UserStatistics> userStatisticsList) {
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Nome;Saturazione;Ore Lavorate;Lavoro Domenicale (N.Lav);Lavoro Domenicale (%);Festivi (N);Festivi (%);Turno 1 (Feriale);Turno 1 (D./F.);Turno 2 (Feriale);Turno 2 (D./F.);Turno 3 (Feriale);Turno 3 (D./F.);Turno 4 (Feriale);Turno 4 (D./F.);\n";
+		final String header = "Nome;MATR;Tipo;Saturazione;Ore Lavorate;Lavoro Domenicale (N.Lav);Lavoro Domenicale (%);Festivi (N);Festivi (%);Turno 1 (Feriale);Turno 1 (D./F.);Turno 2 (Feriale);Turno 2 (D./F.);Turno 3 (Feriale);Turno 3 (D./F.);Turno 4 (Feriale);Turno 4 (D./F.);\n";
 		builder.append(header);
 
 		for (final UserStatistics item : userStatisticsList) {
 
 			String name = "";
+			String matr = "";
 			String saturation = "";
+			String type_sat = "";
 			String work_current = "";
 
 			String work_sunday_perc = "";
@@ -1113,14 +1115,21 @@ public class UtilityCSV {
 				name = p.getLastname() + " " + p.getFirstname();
 			}
 
+			if (item.getPerson() != null) {
+				final Person p = item.getPerson();
+				matr = p.getEmployee_identification();
+			}
+
 			if (item.getSaturation() != null) {
 				final Double sat = Utility.roundTwo(item.getSaturation());
 
 				if (sat < 0) {
-					saturation = "REC " + Utility.roundTwo(Math.abs(sat));
+					saturation = "" + Utility.roundTwo(Math.abs(sat));
+					type_sat = "REC";
 
 				} else {
-					saturation = "OT " + Utility.roundTwo(sat);
+					saturation = "" + Utility.roundTwo(sat);
+					type_sat = "OT";
 				}
 			}
 
@@ -1128,36 +1137,36 @@ public class UtilityCSV {
 				work_current = item.getWork_current();
 			}
 
-			if (item.getWork_sunday_perc() != null) {
-				work_sunday_perc = item.getWork_sunday_perc();
-			}
-
-			if (item.getWork_holiday_perc() != null) {
-				work_holiday_perc = item.getWork_holiday_perc();
-			}
-
 			if (item.getWork_sunday() != null) {
 				work_sunday = item.getWork_sunday();
+			}
+
+			if (item.getWork_sunday_perc() != null) {
+				work_sunday_perc = item.getWork_sunday_onlyperc();
 			}
 
 			if (item.getWork_holiday() != null) {
 				work_holiday = item.getWork_holiday();
 			}
 
+			if (item.getWork_holiday_perc() != null) {
+				work_holiday_perc = item.getWork_holiday_onlyperc();
+			}
+
 			if (item.getShift_perc_1() != null) {
-				shift_perc_1 = item.getShift_perc_1();
+				shift_perc_1 = item.getShift_perc_1_percholiday();
 			}
 
 			if (item.getShift_perc_2() != null) {
-				shift_perc_2 = item.getShift_perc_2();
+				shift_perc_2 = item.getShift_perc_2_percholiday();
 			}
 
 			if (item.getShift_perc_3() != null) {
-				shift_perc_3 = item.getShift_perc_3();
+				shift_perc_3 = item.getShift_perc_3_percholiday();
 			}
 
 			if (item.getShift_perc_4() != null) {
-				shift_perc_4 = item.getShift_perc_4();
+				shift_perc_4 = item.getShift_perc_4_percholiday();
 			}
 
 			if (item.getShift_perc_1_base() != null) {
@@ -1176,10 +1185,10 @@ public class UtilityCSV {
 				shift_perc_4_base = item.getShift_perc_4_base();
 			}
 
-			final String line = "" + name + ";" + saturation + ";" + work_current + ";" + work_sunday + ";"
-					+ work_sunday_perc + ";" + work_holiday + ";" + work_holiday_perc + ";" + shift_perc_1_base + ";"
-					+ shift_perc_1 + ";" + shift_perc_2_base + ";" + shift_perc_2 + ";" + shift_perc_3_base + ";"
-					+ shift_perc_3 + ";" + shift_perc_4_base + ";" + shift_perc_4 + ";\n";
+			final String line = "" + name + ";" + matr + ";" + type_sat + ";" + saturation + ";" + work_current + ";"
+					+ work_sunday + ";" + work_sunday_perc + ";" + work_holiday + ";" + work_holiday_perc + ";"
+					+ shift_perc_1_base + ";" + shift_perc_1 + ";" + shift_perc_2_base + ";" + shift_perc_2 + ";"
+					+ shift_perc_3_base + ";" + shift_perc_3 + ";" + shift_perc_4_base + ";" + shift_perc_4 + ";\n";
 
 			builder.append(line);
 

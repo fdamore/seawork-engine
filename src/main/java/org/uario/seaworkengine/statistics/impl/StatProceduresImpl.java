@@ -296,11 +296,13 @@ public class StatProceduresImpl implements IStatProcedure {
 		} else {
 			perc_sunday = (100 * (double) sunday_work) / count_allsunday;
 		}
-		final String perc_info = "" + sunday_work + " (" + Utility.roundTwo(perc_sunday) + "%)";
+		double pc_sunday = Utility.roundTwo(perc_sunday);
+		final String perc_info = "" + sunday_work + " (" + pc_sunday + "%)";
 
 		// set perc for sunday
 		userStatistics.setWork_sunday_perc(perc_info);
 		userStatistics.setWork_sunday(sunday_work.toString());
+		userStatistics.setWork_sunday_onlyperc(pc_sunday + "%");
 
 		// SET WORK SUNDAY HOLIDAYS
 
@@ -315,11 +317,13 @@ public class StatProceduresImpl implements IStatProcedure {
 		} else {
 			perc_holiday = (100 * (double) holidays_work) / count_allholiday;
 		}
-		final String perc_info_holiday = "" + holidays_work + " (" + Utility.roundTwo(perc_holiday) + "%)";
+		double pc_holiday = Utility.roundTwo(perc_holiday);
+		final String perc_info_holiday = "" + holidays_work + " (" + pc_holiday + "%)";
 
 		// set perc
 		userStatistics.setWork_holiday_perc(perc_info_holiday);
 		userStatistics.setWork_holiday(holidays_work.toString());
+		userStatistics.setWork_holiday_onlyperc(pc_holiday + "%");
 
 		// get average - review base
 		RateShift[] statistic = this.statisticDAO.getAverageForShift(person.getId(), date_to, date_from);
@@ -342,7 +346,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			}
 		}
 
-		// get average - set sunady work percentage
+		// get average - set Sunday work percentage
 		statistic = this.statisticDAO.getCountSundayForShift(person.getId(), date_to, date_from);
 
 		// define sunday count for stat average.
@@ -364,6 +368,7 @@ public class StatProceduresImpl implements IStatProcedure {
 						final String info = base + " (" + perc + "%)";
 
 						userStatistics.setShift_perc_1(info);
+						userStatistics.setShift_perc_1_percholiday("" + perc + "%");
 					}
 
 					if (av.getShift() == 2) {
@@ -373,6 +378,7 @@ public class StatProceduresImpl implements IStatProcedure {
 						final String info = base + " (" + perc + "%)";
 
 						userStatistics.setShift_perc_2(info);
+						userStatistics.setShift_perc_2_percholiday("" + perc + "%");
 					}
 					if (av.getShift() == 3) {
 
@@ -381,6 +387,7 @@ public class StatProceduresImpl implements IStatProcedure {
 						final String info = base + " (" + perc + "%)";
 
 						userStatistics.setShift_perc_3(info);
+						userStatistics.setShift_perc_3_percholiday("" + perc + "%");
 					}
 					if (av.getShift() == 4) {
 
@@ -389,24 +396,29 @@ public class StatProceduresImpl implements IStatProcedure {
 						final String info = base + " (" + perc + "%)";
 
 						userStatistics.setShift_perc_4(info);
+						userStatistics.setShift_perc_4_percholiday("" + perc + "%");
 
 					}
 				} else {
 					if (av.getShift() == 1) {
 						final String base = userStatistics.getShift_perc_1_base();
 						userStatistics.setShift_perc_1(base + " (0%)");
+						userStatistics.setShift_perc_1_percholiday("0%");
 					}
 					if (av.getShift() == 2) {
 						final String base = userStatistics.getShift_perc_2_base();
 						userStatistics.setShift_perc_2(base + " (0%)");
+						userStatistics.setShift_perc_2_percholiday("0%");
 					}
 					if (av.getShift() == 3) {
 						final String base = userStatistics.getShift_perc_3_base();
 						userStatistics.setShift_perc_3(base + " (0%)");
+						userStatistics.setShift_perc_3_percholiday("0%");
 					}
 					if (av.getShift() == 4) {
 						final String base = userStatistics.getShift_perc_4_base();
 						userStatistics.setShift_perc_4(base + " (0%)");
+						userStatistics.setShift_perc_4_percholiday("0%");
 					}
 				}
 
