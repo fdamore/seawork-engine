@@ -40,11 +40,11 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Double calculeHourSaturation(final Person user, final Date date_from_arg, final Date date_to_arg) {
 
-		if (date_from_arg == null || user == null || date_to_arg == null) {
+		if ((date_from_arg == null) || (user == null) || (date_to_arg == null)) {
 			return null;
 		}
 
-		if (user.getHourswork_w() == null || user.getDaywork_w() == null) {
+		if ((user.getHourswork_w() == null) || (user.getDaywork_w() == null)) {
 			return null;
 		}
 
@@ -249,7 +249,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		final Integer min_shift = this.getMinimumShift(current_date_scheduled, user);
 
 		// get my shift
-		if (averages == null || averages.length == 0) {
+		if ((averages == null) || (averages.length == 0)) {
 
 			final Integer my_shift = min_shift + (int) (Math.random() * 4);
 			return my_shift;
@@ -294,7 +294,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		if (count_allsunday == 0) {
 			perc_sunday = 0.0;
 		} else {
-			perc_sunday = 100 * (double) sunday_work / count_allsunday;
+			perc_sunday = (100 * (double) sunday_work) / count_allsunday;
 		}
 		final String perc_info = "" + sunday_work + " (" + Utility.roundTwo(perc_sunday) + "%)";
 
@@ -313,7 +313,7 @@ public class StatProceduresImpl implements IStatProcedure {
 		if (count_allholiday == 0) {
 			perc_holiday = 0.0;
 		} else {
-			perc_holiday = 100 * (double) holidays_work / count_allholiday;
+			perc_holiday = (100 * (double) holidays_work) / count_allholiday;
 		}
 		final String perc_info_holiday = "" + holidays_work + " (" + Utility.roundTwo(perc_holiday) + "%)";
 
@@ -356,48 +356,57 @@ public class StatProceduresImpl implements IStatProcedure {
 			for (final RateShift av : statistic) {
 
 				if (sunday_work != 0) {
+
 					if (av.getShift() == 1) {
 
-						final String shift_perc_1 = userStatistics.getShift_perc_1_base() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+						final String base = userStatistics.getShift_perc_1_base();
+						final double perc = Utility.roundTwo((av.getRate() / sunday_work_count) * 100);
+						final String info = base + " (" + perc + "%)";
 
-						userStatistics.setShift_perc_1(shift_perc_1);
+						userStatistics.setShift_perc_1(info);
 					}
 
 					if (av.getShift() == 2) {
 
-						final String shift_perc_2 = userStatistics.getShift_perc_2_base() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+						final String base = userStatistics.getShift_perc_2_base();
+						final double perc = Utility.roundTwo((av.getRate() / sunday_work_count) * 100);
+						final String info = base + " (" + perc + "%)";
 
-						userStatistics.setShift_perc_2(shift_perc_2);
+						userStatistics.setShift_perc_2(info);
 					}
 					if (av.getShift() == 3) {
 
-						final String shift_perc_3 = userStatistics.getShift_perc_3_base() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+						final String base = userStatistics.getShift_perc_3_base();
+						final double perc = Utility.roundTwo((av.getRate() / sunday_work_count) * 100);
+						final String info = base + " (" + perc + "%)";
 
-						userStatistics.setShift_perc_3(shift_perc_3);
+						userStatistics.setShift_perc_3(info);
 					}
 					if (av.getShift() == 4) {
 
-						final String shift_perc_4 = userStatistics.getShift_perc_4_base() + " ("
-								+ Utility.roundTwo(av.getRate() / sunday_work_count * 100) + "%)";
+						final String base = userStatistics.getShift_perc_4_base();
+						final double perc = Utility.roundTwo((av.getRate() / sunday_work_count) * 100);
+						final String info = base + " (" + perc + "%)";
 
-						userStatistics.setShift_perc_4(shift_perc_4);
+						userStatistics.setShift_perc_4(info);
 
 					}
 				} else {
 					if (av.getShift() == 1) {
-						userStatistics.setShift_perc_1(userStatistics.getShift_perc_1_base() + " (0%)");
+						final String base = userStatistics.getShift_perc_1_base();
+						userStatistics.setShift_perc_1(base + " (0%)");
 					}
 					if (av.getShift() == 2) {
-						userStatistics.setShift_perc_2(userStatistics.getShift_perc_2_base() + " (0%)");
+						final String base = userStatistics.getShift_perc_2_base();
+						userStatistics.setShift_perc_2(base + " (0%)");
 					}
 					if (av.getShift() == 3) {
-						userStatistics.setShift_perc_3(userStatistics.getShift_perc_3_base() + " (0%)");
+						final String base = userStatistics.getShift_perc_3_base();
+						userStatistics.setShift_perc_3(base + " (0%)");
 					}
 					if (av.getShift() == 4) {
-						userStatistics.setShift_perc_4(userStatistics.getShift_perc_4_base() + " (0%)");
+						final String base = userStatistics.getShift_perc_4_base();
+						userStatistics.setShift_perc_4(base + " (0%)");
 					}
 				}
 
@@ -515,7 +524,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	@Override
 	public Integer getWorkingSeries(final Date date, final Integer user) {
 
-		if (date == null || user == null) {
+		if ((date == null) || (user == null)) {
 			return 0;
 		}
 

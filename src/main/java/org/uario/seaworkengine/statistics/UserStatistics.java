@@ -20,17 +20,25 @@ public class UserStatistics implements Comparable<UserStatistics> {
 
 	private String	shift_perc_1_base;
 
+	private String	shift_perc_1_onlyperc;
+
 	private String	shift_perc_2;
 
 	private String	shift_perc_2_base;
+
+	private String	shift_perc_2_onlyperc;
 
 	private String	shift_perc_3;
 
 	private String	shift_perc_3_base;
 
+	private String	shift_perc_3_onlyperc;
+
 	private String	shift_perc_4;
 
 	private String	shift_perc_4_base;
+
+	private String	shift_perc_4_onlyperc;
 
 	private String	userRoles;
 
@@ -106,12 +114,20 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.shift_perc_1_base;
 	}
 
+	public String getShift_perc_1_onlyperc() {
+		return this.shift_perc_1_onlyperc;
+	}
+
 	public String getShift_perc_2() {
 		return this.shift_perc_2;
 	}
 
 	public String getShift_perc_2_base() {
 		return this.shift_perc_2_base;
+	}
+
+	public String getShift_perc_2_onlyperc() {
+		return this.shift_perc_2_onlyperc;
 	}
 
 	public String getShift_perc_3() {
@@ -122,12 +138,20 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		return this.shift_perc_3_base;
 	}
 
+	public String getShift_perc_3_onlyperc() {
+		return this.shift_perc_3_onlyperc;
+	}
+
 	public String getShift_perc_4() {
 		return this.shift_perc_4;
 	}
 
 	public String getShift_perc_4_base() {
 		return this.shift_perc_4_base;
+	}
+
+	public String getShift_perc_4_onlyperc() {
+		return this.shift_perc_4_onlyperc;
 	}
 
 	public String getUserRoles() {
@@ -198,32 +222,48 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.shift_perc_1 = shift_perc_1;
 	}
 
-	public void setShift_perc_1_base(String shift_perc_1_base) {
+	public void setShift_perc_1_base(final String shift_perc_1_base) {
 		this.shift_perc_1_base = shift_perc_1_base;
+	}
+
+	public void setShift_perc_1_onlyperc(final String shift_perc_1_onlyperc) {
+		this.shift_perc_1_onlyperc = shift_perc_1_onlyperc;
 	}
 
 	public void setShift_perc_2(final String shift_perc_2) {
 		this.shift_perc_2 = shift_perc_2;
 	}
 
-	public void setShift_perc_2_base(String shift_perc_2_base) {
+	public void setShift_perc_2_base(final String shift_perc_2_base) {
 		this.shift_perc_2_base = shift_perc_2_base;
+	}
+
+	public void setShift_perc_2_onlyperc(final String shift_perc_2_onlyperc) {
+		this.shift_perc_2_onlyperc = shift_perc_2_onlyperc;
 	}
 
 	public void setShift_perc_3(final String shift_perc_3) {
 		this.shift_perc_3 = shift_perc_3;
 	}
 
-	public void setShift_perc_3_base(String shift_perc_3_base) {
+	public void setShift_perc_3_base(final String shift_perc_3_base) {
 		this.shift_perc_3_base = shift_perc_3_base;
+	}
+
+	public void setShift_perc_3_onlyperc(final String shift_perc_3_onlyperc) {
+		this.shift_perc_3_onlyperc = shift_perc_3_onlyperc;
 	}
 
 	public void setShift_perc_4(final String shift_perc_4) {
 		this.shift_perc_4 = shift_perc_4;
 	}
 
-	public void setShift_perc_4_base(String shift_perc_4_base) {
+	public void setShift_perc_4_base(final String shift_perc_4_base) {
 		this.shift_perc_4_base = shift_perc_4_base;
+	}
+
+	public void setShift_perc_4_onlyperc(final String shift_perc_4_onlyperc) {
+		this.shift_perc_4_onlyperc = shift_perc_4_onlyperc;
 	}
 
 	public void setUserRoles(final String userRoles) {
@@ -246,7 +286,7 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.work_current_year = work_current_year;
 	}
 
-	public void setWork_holiday(String work_holiday) {
+	public void setWork_holiday(final String work_holiday) {
 		this.work_holiday = work_holiday;
 	}
 
@@ -254,7 +294,7 @@ public class UserStatistics implements Comparable<UserStatistics> {
 		this.work_holiday_perc = work_holiday_perc;
 	}
 
-	public void setWork_sunday(String work_sunday) {
+	public void setWork_sunday(final String work_sunday) {
 		this.work_sunday = work_sunday;
 	}
 
