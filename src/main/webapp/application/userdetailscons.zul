@@ -207,8 +207,14 @@
 					<listheader label="Tipo" />
 					<listheader label="Data Contestazione"
 						sort="auto(date_contestation)" />
+
+					<listheader label="Protocollo Contestazione" />
+
 					<listheader label="Data Sanzione"
 						sort="auto(date_penalty)" />
+
+					<listheader label="Protocollo Sanzione" />
+
 					<listheader label="Sospeso Da" />
 					<listheader label="Fino a" />
 					<listheader label="Mese-Anno BP" />
@@ -223,8 +229,13 @@
 					<listcell
 						label="@{item.date_contestation, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
+					<listcell label="@{item.prot}" />
+
 					<listcell
 						label="@{item.date_penalty, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+					<listcell label="@{item.prot_penalty}" />
+
 
 
 					<listcell
