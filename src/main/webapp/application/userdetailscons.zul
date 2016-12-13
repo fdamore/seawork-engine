@@ -43,7 +43,7 @@
 						</row>
 
 						<row>
-							<label value="Protocollo"></label>
+							<label value="Protocollo Contestazione"></label>
 							<textbox id="prot" width="200px" />
 						</row>
 
@@ -58,6 +58,12 @@
 							<datebox id="date_penalty"
 								placeholder="Seleziona La Data" width="200px" />
 						</row>
+
+						<row>
+							<label value="Protocollo Sanzione"></label>
+							<textbox id="prot_penalty" width="200px" />
+						</row>
+
 
 						<row>
 							<label value="Tipo Sanzione"></label>

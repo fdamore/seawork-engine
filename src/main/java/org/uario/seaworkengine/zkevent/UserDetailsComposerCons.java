@@ -161,6 +161,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 	private Textbox				prot;
 
 	@Wire
+	private Textbox				prot_penalty;
+
+	@Wire
 	private Checkbox			recall;
 
 	@Wire
@@ -210,6 +213,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.description.setValue("");
 
 		this.prot.setValue(null);
+		this.prot_penalty.setValue(null);
 
 		this.status_add = true;
 
@@ -286,8 +290,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				UserDetailsComposerCons.this.person_selected = (Person) arg0.getData();
 
 				// get the dao
-				UserDetailsComposerCons.this.contestationDAO = (IContestation) SpringUtil
-						.getBean(BeansTag.CONTESTATION_DAO);
+				UserDetailsComposerCons.this.contestationDAO = (IContestation) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
 				UserDetailsComposerCons.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
 
 				UserDetailsComposerCons.this.setInitialView();
@@ -323,8 +326,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Nessun documento associato", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Nessun documento associato", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
@@ -364,6 +366,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.recall.setChecked(item.getRecall());
 		this.date_bp.setValue(item.getDate_bp());
 		this.prot.setValue(item.getProt());
+		this.prot_penalty.setValue(item.getProt_penalty());
 
 		// set null current contestaion doc
 		this.currentDoc = null;
@@ -405,8 +408,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
@@ -416,8 +418,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
@@ -429,8 +430,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null,
-							Messagebox.ERROR, null, null, params);
+					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 
@@ -440,8 +440,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR,
-							null, null, params);
+					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 			}
@@ -460,8 +459,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Contestazione aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null,
-					null, params);
+			Messagebox.show("Contestazione aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		} else {
 
@@ -473,8 +471,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 
 				return;
 			}
@@ -491,8 +488,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
@@ -504,8 +500,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null,
-							Messagebox.ERROR, null, null, params);
+					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 
@@ -515,8 +510,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR,
-							null, null, params);
+					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 			}
@@ -536,8 +530,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		}
 
 		if (item.getTyp() != null) {
-			if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)
-					|| item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
+			if (item.getTyp().equals(ContestationTag.LICENZIAMENTO) || item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
 
 				// ask user for update current status
 				Date to_day = Calendar.getInstance().getTime();
@@ -591,17 +584,17 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
-				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerCons.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+		        new EventListener<ClickEvent>() {
+			        @Override
+			        public void onEvent(final ClickEvent e) {
+				        if (Messagebox.ON_OK.equals(e.getName())) {
+					        UserDetailsComposerCons.this.deleteItemToUser();
+				        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+					        // Cancel is clicked
+				        }
+			        }
+		        }, params);
 
 	}
 
@@ -656,8 +649,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			final Integer year = Integer.parseInt(yearSelected);
 
-			final List<Contestation> list = this.contestationDAO
-					.loadUserContestationByYearPenalty(this.person_selected.getId(), year);
+			final List<Contestation> list = this.contestationDAO.loadUserContestationByYearPenalty(this.person_selected.getId(), year);
 			this.sw_list.setModel(new ListModelList<>(list));
 
 			this.grid_details.setVisible(false);
@@ -737,6 +729,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		item.setTyp(this.typ.getValue());
 		item.setRecall(this.recall.isChecked());
 		item.setProt(this.prot.getValue());
+		item.setProt_penalty(this.prot_penalty.getValue());
 
 		// set bp (only month and year)
 		if (this.date_bp.getValue() != null) {

@@ -10,13 +10,15 @@
 		contestation (typ, date_contestation, date_penalty, id_user, note,
 		description,
 		stop_from,
-		stop_to, file_name,recall, date_bp) VALUES
+		stop_to, file_name,recall, date_bp, prot,
+		prot_penalty) VALUES
 		(#{typ},
-		#{date_contestation}, #{date_penalty}, #{id_user},
+		#{date_contestation}, #{date_penalty},
+		#{id_user},
 		#{note},
 		#{description},
 		#{stop_from}, #{stop_to},
-		#{file_name},#{recall},#{date_bp});
+		#{file_name},#{recall},#{date_bp},#{prot},#{prot_penalty});
 	</insert>
 
 
@@ -34,12 +36,15 @@
 		stop_to,
 		file_name,
 		recall,
-		date_bp
+		date_bp,
+		prot,
+		prot_penalty
 		FROM
 		contestation
 		WHERE
 		id_user = #{id_user}
-		AND YEAR(date_penalty) = #{year}
+		AND
+		YEAR(date_penalty) = #{year}
 		ORDER BY
 		date_contestation DESC;
 	</select>
@@ -58,11 +63,14 @@
 		stop_to,
 		file_name,
 		recall,
-		date_bp
+		date_bp,
+		prot,
+		prot_penalty
 		FROM
 		contestation
 		where
-		id_user = #{id_user} and date(date_penalty) = #{date_penalty}
+		id_user = #{id_user} and
+		date(date_penalty) = #{date_penalty}
 		order by
 		date_contestation desc;
 	</select>
@@ -80,7 +88,9 @@
 		stop_to,
 		file_name,
 		recall,
-		date_bp
+		date_bp,
+		prot,
+		prot_penalty
 		FROM
 		contestation
 		where
@@ -113,7 +123,10 @@
 		#{stop_to},
 		file_name = #{file_name},
 		recall = #{recall},
-		date_bp = #{date_bp}
+		date_bp =
+		#{date_bp},
+		prot = #{prot},
+		prot_penalty = #{prot_penalty}
 		WHERE id =
 		#{id};
 	</update>

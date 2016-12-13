@@ -28,6 +28,8 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	private String				prot;
 
+	private String				prot_penalty;
+
 	private Boolean				recall;
 
 	private Date				stop_from;
@@ -94,6 +96,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	}
 
+	public String getProt_penalty() {
+		return this.prot_penalty;
+	}
+
 	public Boolean getRecall() {
 		return this.recall;
 	}
@@ -144,6 +150,10 @@ public class Contestation implements Comparable<Contestation>, Serializable {
 
 	public void setProt(final String prot) {
 		this.prot = prot;
+	}
+
+	public void setProt_penalty(final String prot_penalty) {
+		this.prot_penalty = prot_penalty;
 	}
 
 	public void setRecall(final Boolean recall) {
