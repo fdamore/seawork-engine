@@ -641,6 +641,13 @@
 
 							</div>
 
+							<hbox align="center">
+								<label value="Eccezione su Riposo" style="color:red"></label>
+								<checkbox id="break_ex"
+									checked="false">
+								</checkbox>
+							</hbox>
+
 
 							<datebox placeholder="Fino a..."
 								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
