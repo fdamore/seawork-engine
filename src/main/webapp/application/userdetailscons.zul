@@ -205,6 +205,7 @@
 				pageSize="20">
 				<listhead sizable="true">
 					<listheader label="Tipo" />
+					<listheader label="Ricorso" />
 					<listheader label="Data Contestazione"
 						sort="auto(date_contestation)" />
 
@@ -225,6 +226,14 @@
 				<listitem self="@{each='item'}" value="@{item}">
 
 					<listcell label="@{item.typ}" />
+
+					<listcell>
+
+						<checkbox disabled="true"
+							checked="@{item.recall}">
+						</checkbox>
+
+					</listcell>
 
 					<listcell
 						label="@{item.date_contestation, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
