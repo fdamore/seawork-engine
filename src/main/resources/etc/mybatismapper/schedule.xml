@@ -16,7 +16,8 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4  
+		sync_mobile_4,
+		break_ex
 		FROM
 		schedule
 		WHERE
@@ -30,7 +31,8 @@
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4  
+		sync_mobile_4,
+		break_ex
 		FROM
 		schedule
 		WHERE id =
@@ -48,7 +50,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
+		break_ex,
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -75,7 +78,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,  
+		s.sync_mobile_4,
+		break_ex,
 		concat(u.lastname, '
 		', u.firstname) AS name_user
 		from
@@ -107,7 +111,8 @@
 		schedule
 		(date_schedule, user, editor, controller, note,shift)
 		VALUES
-		(#{date_schedule}, #{user}, #{editor}, #{controller},#{note}, #{shift});
+		(#{date_schedule}, #{user}, #{editor}, #{controller},#{note},
+		#{shift});
 	</insert>
 
 
@@ -123,7 +128,7 @@
 		#{editor},
 		controller = #{controller},
 		note = #{note},
-		shift = #{shift}  
+		shift = #{shift}
 		WHERE id = #{id};
 	</update>
 
@@ -173,13 +178,14 @@
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-		SELECT s.id, s.date_schedule, s.user, s.editor, 
+		SELECT s.id, s.date_schedule, s.user, s.editor,
 		s.controller,
 		s.shift,s.note,
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4
+		s.sync_mobile_4,
+		break_ex
 		FROM schedule s
 		WHERE s.user =
 		#{id_user}
@@ -200,12 +206,13 @@
 
 	<select id="selectScheduleInIntervalDateByUserId" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller,  
+		SELECT id, date_schedule, user, note, editor, controller,
 		shift,
 		sync_mobile_1,
 		sync_mobile_2,
 		sync_mobile_3,
-		sync_mobile_4
+		sync_mobile_4,
+		break_ex
 		FROM
 		schedule
 		WHERE
@@ -225,8 +232,9 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,  
-		ds.shift as no_shift, 
+		s.sync_mobile_4,
+		break_ex,
+		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
 		s.date_schedule,
@@ -278,7 +286,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,  
+		s.sync_mobile_4,
+		break_ex,
 		ds.shift as no_shift,
 		sum(ds.time) as
 		revision_time,
@@ -335,7 +344,8 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4, 
+		s.sync_mobile_4,
+		break_ex,
 		ds.shift as no_shift,
 		sum(ds.time) as
 		program_time,
@@ -385,8 +395,9 @@
 		s.sync_mobile_1,
 		s.sync_mobile_2,
 		s.sync_mobile_3,
-		s.sync_mobile_4,  
-		ds.shift as no_shift,ds.continueshift, 
+		s.sync_mobile_4,
+		break_ex,
+		ds.shift as no_shift,ds.continueshift,
 		sum(ds.time) as
 		revision_time,
 		s.date_schedule,
@@ -408,7 +419,8 @@
 		s.user
 		and
 		s.date_schedule =
-		#{date_from} and u.status = 'IN ORGANICO' and u.out_schedule = 0
+		#{date_from} and u.status = 'IN
+		ORGANICO' and u.out_schedule = 0
 
 		<if test="my_full_text_search != null">
 			and (u.firstname like CONCAT('%',
@@ -435,16 +447,19 @@
 		task,time,time_from,time_to, time_vacation,continueshift)
 		VALUES
 		(#{id_schedule},
-		#{shift},#{task}, #{time}, #{time_from},#{time_to},#{time_vacation},#{continueshift});
+		#{shift},#{task}, #{time},
+		#{time_from},#{time_to},#{time_vacation},#{continueshift});
 	</insert>
 
 	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task, time, time_from,
-		time_to, time_vacation, id_ship, crane, board, reviewshift,continueshift)
+		time_to, time_vacation, id_ship, crane, board,
+		reviewshift,continueshift)
 		VALUES
 		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to},
-		#{time_vacation}, #{id_ship}, #{crane}, #{board}, #{reviewshift},#{continueshift});
+		#{time_vacation}, #{id_ship}, #{crane}, #{board},
+		#{reviewshift},#{continueshift});
 	</insert>
 
 
@@ -453,7 +468,7 @@
 		resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
 		parameterType="map">
 		SELECT id, id_schedule, shift, task, time, time_from,
-		time_to, time_vacation, continueshift 
+		time_to, time_vacation, continueshift
 		FROM
 		detailinitialschedule
 		WHERE id_schedule =
@@ -468,7 +483,8 @@
 		SELECT df.id, df.id_schedule, df.shift, df.task,
 		df.time, df.time_from,
 		df.time_to, df.time_vacation, df.id_ship,
-		df.crane, s.name as nameShip, df.board, df.reviewshift,df.continueshift 
+		df.crane, s.name as nameShip, df.board,
+		df.reviewshift,df.continueshift
 		FROM detailfinalschedule df LEFT
 		JOIN ship
 		s ON df.id_ship = s.id
@@ -476,7 +492,8 @@
 		df.id_schedule =
 		#{id_schedule} and
 		df.shift = #{shift}
-		order by df.time_from asc;
+		order by
+		df.time_from asc;
 	</select>
 
 	<select id="loadDetailInitialScheduleByIdSchedule"
@@ -493,7 +510,8 @@
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		SELECT df.id, df.id_schedule, df.shift, df.task, df.time,
 		df.time_from,
-		df.time_to, df.time_vacation, df.id_ship, df.crane,df.continueshift, 
+		df.time_to, df.time_vacation, df.id_ship,
+		df.crane,df.continueshift,
 		df.board,
 		s.name as nameShip
 		FROM detailfinalschedule df LEFT JOIN ship
@@ -554,7 +572,7 @@
 	</delete>
 
 
-	
+
 
 
 	<!-- MOBILE -->
@@ -594,12 +612,21 @@
 		WHERE id = #{id};
 	</update>
 
+	<!-- UPDATE EXCEPTION BREAK_EX -->
+	<update id="updateBreakEx" parameterType="map">
+		UPDATE schedule
+		SET
+		break_ex = #{break_ex}
+		WHERE id = #{id};
+	</update>
+
 
 	<select id="loadDetailInitialScheduleForMobileByIdScheduleAndNoShift"
 		parameterType="map" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		SELECT d.id, d.id_schedule,
 		d.shift,
-		d.task, d.time, d.time_from, d.time_to, d.time_vacation,d.continueshift, 
+		d.task, d.time, d.time_from, d.time_to,
+		d.time_vacation,d.continueshift,
 		ut.code as
 		task_mobile_desc
 		FROM
@@ -607,8 +634,13 @@
 		WHERE
 		id_schedule =
 		#{id_schedule} and d.shift = #{no_shift}
-		and d.task = ut.id and ut.hiddentask=false and ((ut.isabsence=false and ut.justificatory = false) or (ut.endoperation=true or ut.overflow=true or ut.changeshift=true) );
+		and d.task =
+		ut.id and ut.hiddentask=false and ((ut.isabsence=false and
+		ut.justificatory = false) or (ut.endoperation=true or ut.overflow=true
+		or ut.changeshift=true) );
 	</select>
+
+
 
 	<!-- LOAD THE FINAL INFO IN INITIAL STRUCTURE -->
 	<select id="loadDetailFinalScheduleForMobileByIdScheduleAndNoShift"
@@ -616,12 +648,13 @@
 		SELECT d.id, d.id_schedule,
 		d.shift,
 		d.task,
-		d.time, d.time_from, d.time_to, d.time_vacation,d.continueshift, 
+		d.time, d.time_from, d.time_to,
+		d.time_vacation,d.continueshift,
 		ut.code as
 		task_mobile_desc,
 		d.id_ship as field_mobile_id_ship,
 		d.board as
-		field_mobile_board, 
+		field_mobile_board,
 		s.name as field_mobile_nameShip,
 		d.crane as
 		field_mobile_crane
@@ -630,7 +663,10 @@
 		detailfinalschedule d LEFT JOIN ship
 		s ON d.id_ship = s.id
 		WHERE
-		id_schedule = #{id_schedule} and d.shift = #{no_shift} and d.task = ut.id and ut.hiddentask=false and ((ut.isabsence=false and ut.justificatory = false) or (ut.endoperation=true or ut.overflow=true or ut.changeshift=true) );
+		id_schedule = #{id_schedule} and d.shift = #{no_shift} and d.task =
+		ut.id and ut.hiddentask=false and ((ut.isabsence=false and
+		ut.justificatory = false) or (ut.endoperation=true or ut.overflow=true
+		or ut.changeshift=true) );
 	</select>
 
 	<insert id="createBadge">
@@ -643,7 +679,8 @@
 		resultType="org.uario.seaworkengine.web.services.handler.Badge">
 		SELECT id, eventTime, eventType, idschedule
 		FROM badge
-		WHERE idschedule = #{id_schedule};
+		WHERE
+		idschedule = #{id_schedule};
 	</select>
 
 	<delete id="deleteBadge" parameterType="Integer">

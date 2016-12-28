@@ -54,7 +54,8 @@
 		schedule s,
 		usershift us
 		where
-		s.user = #{user_id}
+		s.break_ex = 0 
+		and s.user = #{user_id}
 		and s.shift = us.id
 		and (us.break_shift = 1
 		or us.waitbreak_shift = 1

@@ -17,6 +17,9 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	@XmlTransient
+	private Boolean				break_ex;
+
 	private Integer				controller;
 
 	private Date				date_schedule;
@@ -95,6 +98,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 			return 1;
 		}
 		return this.getDate_schedule().compareTo(item.getDate_schedule());
+	}
+
+	public Boolean getBreak_ex() {
+		return this.break_ex;
 	}
 
 	public Integer getController() {
@@ -179,6 +186,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public Integer getUser() {
 		return this.user;
+	}
+
+	public void setBreak_ex(final Boolean break_ex) {
+		this.break_ex = break_ex;
 	}
 
 	public void setController(final Integer controller) {
