@@ -11,94 +11,109 @@
 
 	<select id="loadScheduleByDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller,
-		shift,
-		sync_mobile_1,
-		sync_mobile_2,
-		sync_mobile_3,
-		sync_mobile_4,
-		break_ex
-		FROM
-		schedule
-		WHERE
-		date_schedule = #{dt_arg};
+		<![CDATA[
+SELECT 
+    id,
+    date_schedule,
+    user,
+    note,
+    editor,
+    controller,
+    shift,
+    sync_mobile_1,
+    sync_mobile_2,
+    sync_mobile_3,
+    sync_mobile_4,
+    break_ex
+FROM
+    schedule
+WHERE
+    date_schedule = #{dt_arg};
+    ]]>	
 	</select>
 
 	<select id="loadScheduleById" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller,
-		shift,
-		sync_mobile_1,
-		sync_mobile_2,
-		sync_mobile_3,
-		sync_mobile_4,
-		break_ex
-		FROM
-		schedule
-		WHERE id =
-		#{id};
+<![CDATA[		
+SELECT 
+    id,
+    date_schedule,
+    user,
+    note,
+    editor,
+    controller,
+    shift,
+    sync_mobile_1,
+    sync_mobile_2,
+    sync_mobile_3,
+    sync_mobile_4,
+    break_ex
+FROM
+    schedule
+WHERE
+    id = #{id}
+]]>		
 	</select>
 
 
 	<select id="selectSchedulersForPreprocessingOnUserId"
 		resultType="org.uario.seaworkengine.model.Schedule" parameterType="map">
-
-		select s.id,
-		u.id as user,
-		s.shift,
-		s.date_schedule,
-		s.sync_mobile_1,
-		s.sync_mobile_2,
-		s.sync_mobile_3,
-		s.sync_mobile_4,
-		break_ex,
-		concat(u.lastname, '
-		', u.firstname) AS name_user
-		from
-		user u left join
-		schedule s ON (u.id
-		=
-		s.user and s.date_schedule <![CDATA[>=]]>
-		#{date_from} and
-		s.date_schedule <![CDATA[<]]>
-		#{date_to})
-		where u.id = #{userid}
-		order by u.lastname asc
-
+	<![CDATA[	
+select 
+    s.id,
+    u.id as user,
+    s.shift,
+    s.date_schedule,
+    s.sync_mobile_1,
+    s.sync_mobile_2,
+    s.sync_mobile_3,
+    s.sync_mobile_4,
+    break_ex,
+    concat(u.lastname, ' ', u.firstname) AS name_user
+from
+    user u
+        left join
+    schedule s ON (u.id = s.user
+        and s.date_schedule >= #{date_from}
+        and s.date_schedule < #{date_to})
+where
+    u.id = #{userid}
+order by u.lastname asc
+]]>
 	</select>
 
 
 	<select id="selectSchedulersForPreprocessing" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-
-		select s.id,
-		u.id as user,
-		s.shift,
-		s.date_schedule,
-		s.sync_mobile_1,
-		s.sync_mobile_2,
-		s.sync_mobile_3,
-		s.sync_mobile_4,
-		break_ex,
-		concat(u.lastname, '
-		', u.firstname) AS name_user
-		from
-		user u left join
-		schedule s ON (u.id
-		=
-		s.user and s.date_schedule <![CDATA[>=]]>
-		#{date_from} and
-		s.date_schedule <![CDATA[<]]>
-		#{date_to})
-		where u.status = 'IN ORGANICO' and u.out_schedule = 0
+<![CDATA[
+select 
+    s.id,
+    u.id as user,
+    s.shift,
+    s.date_schedule,
+    s.sync_mobile_1,
+    s.sync_mobile_2,
+    s.sync_mobile_3,
+    s.sync_mobile_4,
+    break_ex,
+    concat(u.lastname, ' ', u.firstname) AS name_user
+from
+    user u
+        left join
+    schedule s ON (u.id = s.user
+        and s.date_schedule >= #{date_from}
+        and s.date_schedule < #{date_to})
+where
+    u.status = 'IN ORGANICO'
+        and u.out_schedule = 0
+]]>        
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%', #{my_full_text_search},
-			'%') or
-			u.lastname
-			like
-			CONCAT('%', #{my_full_text_search},'%') or
+		<![CDATA[
+			and (u.firstname like CONCAT('%', #{my_full_text_search},'%') or
+			u.lastname like CONCAT('%', #{my_full_text_search},'%') or
 			u.employee_identification = #{my_full_text_search})
+		]]>   	
 		</if>
 
 		order by u.lastname asc
@@ -136,22 +151,34 @@
 
 
 	<select id="getLastShiftProgram" parameterType="map" resultType="int">
-		select max(dfs.shift)
-		from detailinitialschedule dfs, schedule s
-		where
-		s.user = #{id_user} and
-		s.id = dfs.id_schedule and s.date_schedule =
-		#{date_schedule}
+	<![CDATA[
+select 
+    max(dfs.shift)
+from
+    detailinitialschedule dfs,
+    schedule s
+where
+    s.user = #{id_user}
+        and s.id = dfs.id_schedule
+        and s.date_schedule = #{date_schedule}
+	]]> 
+		
 	</select>
 
 	<select id="getLastShiftRevision" parameterType="map"
 		resultType="int">
-		select
-		max(dfs.shift)
-		from detailfinalschedule dfs, schedule
-		s
-		where s.user = #{id_user} and s.id = dfs.id_schedule and
-		s.date_schedule = #{date_schedule}
+		<![CDATA[
+select 
+    max(dfs.shift)
+from
+    detailfinalschedule dfs,
+    schedule s
+where
+    s.user = #{id_user}
+        and s.id = dfs.id_schedule
+        and s.date_schedule = #{date_schedule}
+       ]]>        
+		
 	</select>
 
 	<select id="getFirstShiftProgram" parameterType="map"
@@ -225,51 +252,42 @@
 
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-
-		select
-		s.id,
-		s.shift,
-		s.sync_mobile_1,
-		s.sync_mobile_2,
-		s.sync_mobile_3,
-		s.sync_mobile_4,
-		break_ex,
-		ds.shift as no_shift,
-		sum(ds.time) as
-		program_time,
-		s.date_schedule,
-		s.note,
-		s.editor,
-		s.controller,
-		u.id as
-		user,
-		concat(u.lastname, ' ', u.firstname)
-		AS
-		name_user
-		from
-		user u,
-		schedule s
-		left join
-		detailinitialschedule ds ON
-		(s.id = ds.id_schedule)
-		where
-		u.id
-		=
-		s.user
-		and s.date_schedule >=
-		#{date_from} and
-		s.date_schedule <![CDATA[<]]>
-		#{date_to} and u.status = 'IN ORGANICO' and u.out_schedule = 0
+<![CDATA[		
+select 
+    s.id,
+    s.shift,
+    s.sync_mobile_1,
+    s.sync_mobile_2,
+    s.sync_mobile_3,
+    s.sync_mobile_4,
+    break_ex,
+    ds.shift as no_shift,
+    sum(ds.time) as program_time,
+    s.date_schedule,
+    s.note,
+    s.editor,
+    s.controller,
+    u.id as user,
+    concat(u.lastname, ' ', u.firstname) AS name_user
+from
+    user u,
+    schedule s
+        left join
+    detailinitialschedule ds ON (s.id = ds.id_schedule)
+where
+    u.id = s.user
+        and s.date_schedule >= #{date_from}
+        and s.date_schedule < #{date_to}
+        and u.status = 'IN ORGANICO'
+        and u.out_schedule = 0
+  ]]>
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%',
-			#{my_full_text_search},'%') or
-			u.lastname
-			like
-			CONCAT('%',
-			#{my_full_text_search}, '%') or
-			u.employee_identification =
-			#{my_full_text_search})
+			<![CDATA[
+			and (u.firstname like CONCAT('%',#{my_full_text_search},'%') 
+			or u.lastname like CONCAT('%', #{my_full_text_search}, '%') 
+			or u.employee_identification = #{my_full_text_search})
+			]]>
 		</if>
 
 		group by user , s.id , no_shift
@@ -279,54 +297,42 @@
 
 	<select id="selectAggregateScheduleRevision" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-
-		select
-		s.id,
-		s.shift,
-		s.sync_mobile_1,
-		s.sync_mobile_2,
-		s.sync_mobile_3,
-		s.sync_mobile_4,
-		break_ex,
-		ds.shift as no_shift,
-		sum(ds.time) as
-		revision_time,
-		s.date_schedule,
-		s.note,
-		s.editor,
-		s.controller, ds.continueshift,
-		u.id as
-		user,
-		concat(u.lastname, ' ', u.firstname)
-		AS
-		name_user
-		from
-		user u,
-		schedule s
-		left join
-		detailfinalschedule ds ON
-		(s.id
-		= ds.id_schedule)
-		where
-		u.id =
-		s.user
-		and
-		s.date_schedule >=
-		#{date_from}
-		and
-		s.date_schedule  <![CDATA[<]]>
-		#{date_to}
-		and u.status = 'IN ORGANICO' and u.out_schedule = 0
-
+<![CDATA[
+select 
+    s.id,
+    s.shift,
+    s.sync_mobile_1,
+    s.sync_mobile_2,
+    s.sync_mobile_3,
+    s.sync_mobile_4,
+    break_ex,
+    ds.shift as no_shift,
+    sum(ds.time) as revision_time,
+    s.date_schedule,
+    s.note,
+    s.editor,
+    s.controller,
+    ds.continueshift,
+    u.id as user,
+    concat(u.lastname, ' ', u.firstname) AS name_user
+from
+    user u,
+    schedule s
+        left join
+    detailfinalschedule ds ON (s.id = ds.id_schedule)
+where
+    u.id = s.user
+        and s.date_schedule >= #{date_from}
+        and s.date_schedule < #{date_to}
+        and u.status = 'IN ORGANICO'
+        and u.out_schedule = 0
+]]>
 		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%',
-			#{my_full_text_search},'%') or
-			u.lastname
-			like
-			CONCAT('%',
-			#{my_full_text_search},'%') or
-			u.employee_identification =
-			#{my_full_text_search})
+		<![CDATA[
+			and (u.firstname like CONCAT('%', #{my_full_text_search},'%') or
+			u.lastname like CONCAT('%',#{my_full_text_search},'%') 
+			or u.employee_identification = #{my_full_text_search})
+			]]>
 		</if>
 
 		group by user , s.id , no_shift
@@ -337,105 +343,90 @@
 
 	<select id="selectAggregateScheduleByDateProgram" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-
-		select
-		s.id,
-		s.shift,
-		s.sync_mobile_1,
-		s.sync_mobile_2,
-		s.sync_mobile_3,
-		s.sync_mobile_4,
-		break_ex,
-		ds.shift as no_shift,
-		sum(ds.time) as
-		program_time,
-		s.date_schedule,
-		s.note,
-		s.editor,
-		s.controller,
-		u.id as
-		user,
-		concat(u.lastname, ' ', u.firstname)
-		AS
-		name_user
-		from
-		user u,
-		schedule s
-		left join
-		detailinitialschedule ds ON
-		(s.id = ds.id_schedule)
-		where
-		u.id
-		=
-		s.user
-		and s.date_schedule =
-		#{date_from} and u.status = 'IN ORGANICO' and u.out_schedule = 0
-
+<![CDATA[
+select 
+    s.id,
+    s.shift,
+    s.sync_mobile_1,
+    s.sync_mobile_2,
+    s.sync_mobile_3,
+    s.sync_mobile_4,
+    break_ex,
+    ds.shift as no_shift,
+    sum(ds.time) as program_time,
+    s.date_schedule,
+    s.note,
+    s.editor,
+    s.controller,
+    u.id as user,
+    concat(u.lastname, ' ', u.firstname) AS name_user
+from
+    user u,
+    schedule s
+        left join
+    detailinitialschedule ds ON (s.id = ds.id_schedule)
+where
+    u.id = s.user
+        and s.date_schedule = #{date_from}
+        and u.status = 'IN ORGANICO'
+        and u.out_schedule = 0
+]]>
 		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%', #{my_full_text_search},
-			'%') or
-			u.lastname
-			like
-			CONCAT('%', #{my_full_text_search}, '%') or
-			u.employee_identification = #{my_full_text_search})
+		<![CDATA[
+			and (u.firstname like CONCAT('%', #{my_full_text_search},'%')
+			or u.lastname like CONCAT('%', #{my_full_text_search}, '%') 
+			or u.employee_identification = #{my_full_text_search})
+			]]>
 		</if>
 
-
+<![CDATA[
 		group by user , s.id , no_shift
 		order by user, s.date_schedule asc
-
+]]>
 	</select>
 
 	<select id="selectAggregateScheduleByDateRevision" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-
-		select
-		s.id,
-		s.shift,
-		s.sync_mobile_1,
-		s.sync_mobile_2,
-		s.sync_mobile_3,
-		s.sync_mobile_4,
-		break_ex,
-		ds.shift as no_shift,ds.continueshift,
-		sum(ds.time) as
-		revision_time,
-		s.date_schedule,
-		s.note,
-		s.editor,
-		s.controller,
-		u.id as
-		user,
-		concat(u.lastname, ' ', u.firstname)
-		AS name_user
-		from
-		user u,
-		schedule s
-		left join
-		detailfinalschedule ds ON
-		(s.id = ds.id_schedule)
-		where
-		u.id =
-		s.user
-		and
-		s.date_schedule =
-		#{date_from} and u.status = 'IN
-		ORGANICO' and u.out_schedule = 0
-
-		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%',
-			#{my_full_text_search},'%') or
-			u.lastname
-			like
-			CONCAT('%',
-			#{my_full_text_search}, '%') or
-			u.employee_identification =
-			#{my_full_text_search})
+		
+		<![CDATA[			
+select 
+    s.id,
+    s.shift,
+    s.sync_mobile_1,
+    s.sync_mobile_2,
+    s.sync_mobile_3,
+    s.sync_mobile_4,
+    break_ex,
+    ds.shift as no_shift,
+    ds.continueshift,
+    sum(ds.time) as revision_time,
+    s.date_schedule,
+    s.note,
+    s.editor,
+    s.controller,
+    u.id as user,
+    concat(u.lastname, ' ', u.firstname) AS name_user
+from
+    user u,
+    schedule s
+        left join
+    detailfinalschedule ds ON (s.id = ds.id_schedule)
+where
+    u.id = s.user
+        and s.date_schedule = '2016-12-28'
+        and u.status = 'IN ORGANICO'
+        and u.out_schedule = 0
+        ]]>
+       
+       <if test="my_full_text_search != null">
+			<![CDATA[
+		and (u.firstname like CONCAT('%',#{my_full_text_search},'%') 
+		or u.lastname like CONCAT('%',#{my_full_text_search},'%')
+		or u.employee_identification = #{my_full_text_search})
+			]]>
 		</if>
-
-
-		group by user , s.id , no_shift
-		order by user, s.date_schedule asc
+group by user , s.id , no_shift
+order by user , s.date_schedule asc
 
 	</select>
 
