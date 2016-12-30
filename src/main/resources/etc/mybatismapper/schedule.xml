@@ -413,7 +413,7 @@ from
     detailfinalschedule ds ON (s.id = ds.id_schedule)
 where
     u.id = s.user
-        and s.date_schedule = '2016-12-28'
+        and s.date_schedule = #{date_from}
         and u.status = 'IN ORGANICO'
         and u.out_schedule = 0
         ]]>
