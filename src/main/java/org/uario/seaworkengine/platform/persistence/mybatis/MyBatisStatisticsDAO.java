@@ -104,7 +104,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public HashMap<Integer, ShipTotal> countComplaintByCustomer(final Integer year, final Integer id_customer) {
 		MyBatisStatisticsDAO.logger.info("countComplaintByCustomer..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("year", year);
 		map.put("id_customer", id_customer);
 
@@ -114,35 +114,12 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			return null;
 		}
 
-		final HashMap<Integer, ShipTotal> shipTotal = new HashMap<Integer, ShipTotal>();
+		final HashMap<Integer, ShipTotal> shipTotal = new HashMap<>();
 		for (final ShipTotal sT : list) {
 			shipTotal.put(sT.getMonth_date(), sT);
 		}
 
 		return shipTotal;
-	}
-
-	@Override
-	public List<DetailFinalSchedule> countWorkerInOverviewFinalSchedule(final String full_text_search, final Integer shift_number,
-			final Integer shift_type, final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift,
-			final Integer idShip, final String craneId) {
-		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
-
-		final HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("my_full_text_search", full_text_search);
-		map.put("shift_number", shift_number);
-		map.put("shift_type", shift_type);
-		map.put("task_id", task_id);
-		map.put("reviewshift", reviewshift);
-		map.put("idShip", idShip);
-		map.put("craneId", craneId);
-
-		if ((date_from != null) && (date_to != null)) {
-			map.put("date_from", DateUtils.truncate(date_from, Calendar.DATE));
-			map.put("date_to", DateUtils.truncate(date_to, Calendar.DATE));
-		}
-
-		return this.getSqlSession().selectList("statistics.countWorkerInOverviewFinalSchedule", map);
 	}
 
 	@Override
@@ -168,7 +145,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	@Override
 	public Integer daysToRemoveFromSaturation(final Integer user_id, final Date date_from, final Date date_to) {
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("user_id", user_id);
 		map.put("date_from", date_from);
 		map.put("date_to", date_to);
@@ -203,7 +180,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		final Date date_truncate = DateUtils.truncate(date, Calendar.DATE);
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", user);
 		map.put("date_schedule", date_truncate);
 		map.put("date_from", date_from_truncate);
@@ -227,7 +204,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		final Date date_truncate = DateUtils.truncate(date, Calendar.DATE);
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", user);
 		map.put("date_schedule", date_truncate);
 		map.put("date_from", date_from_truncate);
@@ -252,7 +229,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		final Date date_to_truncate = DateUtils.truncate(date, Calendar.DATE);
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", user);
 		map.put("date_from", date_from_truncate);
 		map.put("date_to", date_to_truncate);
@@ -271,7 +248,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<Date> getDateAtWork(final Integer id_user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", id_user);
 		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
 		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
@@ -286,7 +263,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public Date getDatesBreak(final Integer id_user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("getDatesBreak");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", id_user);
 		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
 		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
@@ -321,7 +298,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			}
 		}
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", id_user);
 		map.put("date_from", date_from_truncate);
 		map.put("date_to", date_to_truncate);
@@ -344,7 +321,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		final Calendar date_to_cal = DateUtils.toCalendar(date_from);
 		date_to_cal.add(Calendar.DATE, 1);
 
-		final HashMap<String, Date> map = new HashMap<String, Date>();
+		final HashMap<String, Date> map = new HashMap<>();
 		map.put("date_from", date_from);
 		map.put("date_to", date_to_cal.getTime());
 
@@ -358,9 +335,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<ShipTotal> getShipNumber(final String operation, final Integer year, final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
 
-		final List<ShipTotal> list = new ArrayList<ShipTotal>();
+		final List<ShipTotal> list = new ArrayList<>();
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("year", year);
 		map.put("operation", operation);
 
@@ -378,7 +355,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		final Date date_from_truncate = DateUtils.truncate(date_from, Calendar.DATE);
 		final Date date_to_truncate = DateUtils.truncate(date_to, Calendar.DATE);
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", id_user);
 		map.put("date_from", date_from_truncate);
 		map.put("date_to", date_to_truncate);
@@ -397,7 +374,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public Double getTimeWorkCountByUser(final Integer user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("getWorkCountByUser..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", user);
 		map.put("date_from", date_from);
 		map.put("date_to", date_to);
@@ -414,7 +391,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public Double getTimeWorked(final Integer id_user, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("loadTFRByUser..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id_user", id_user);
 		map.put("date_schedule_from", DateUtils.truncate(date_from, Calendar.DATE));
 		map.put("date_schedule_to", DateUtils.truncate(date_to, Calendar.DATE));
@@ -433,7 +410,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<ShipTotal> getTotalHandsMen(final Integer year, final Integer shift, final Integer idService, final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalHandsMen...");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("year", year);
 		map.put("shift", shift);
 		map.put("idService", idService);
@@ -456,7 +433,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<ShipTotal> getTotalInvoiceContainer(final Integer year, final Integer idService, final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("year", year);
 		map.put("idService", idService);
 
@@ -473,7 +450,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift, final Integer idShip, final String craneId) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("my_full_text_search", full_text_search);
 		map.put("shift_number", shift_number);
 		map.put("shift_type", shift_type);
@@ -495,7 +472,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			final Integer task_id, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("my_full_text_search", full_text_search);
 		map.put("shift_number", shift_number);
 		map.put("shift_type", shift_type);
@@ -513,7 +490,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<Schedule> listSchedule(final String full_text_search, final Integer shift, final Date date_from, final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listSchedule..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("my_full_text_search", full_text_search);
 		map.put("shift_number", shift);
 
@@ -529,7 +506,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public Complaint loadComplaint(final Integer idCustomer, final Integer year, final Integer month) {
 		MyBatisStatisticsDAO.logger.info("listSchedule..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("idCustomer", idCustomer);
 		map.put("year", year);
 		map.put("month", month);
@@ -579,7 +556,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			searchText = null;
 		}
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("dt_arg_from", dt_arg_from);
 		map.put("dt_arg_to", dt_arg_to);
 		map.put("searchText", searchText);
@@ -617,7 +594,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			searchText = null;
 		}
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("dt_arg_from", dt_arg_from);
 		map.put("dt_arg_to", dt_arg_to);
 		map.put("searchText", searchText);
@@ -649,7 +626,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 			final String shipLine, final String shipCondition) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
-		final HashMap<String, Object> map = new HashMap<String, Object>();
+		final HashMap<String, Object> map = new HashMap<>();
 		map.put("shipname", text_search);
 
 		if ((date_from != null) && (date_to != null)) {
