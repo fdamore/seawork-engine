@@ -97,6 +97,9 @@
 								label="Modifica Utente" style="color: blue" visible="false">
 							</toolbarbutton>
 
+							<a label="Scarica dati in CSV"
+								id="user_info_csv" style="color:green" />
+
 						</caption>
 
 						<panelchildren>
@@ -647,8 +650,8 @@
 		<combobox readonly="true" placeholder="Rapporto di Lavoro"
 			id="user_status_filter" />
 
-		<combobox id="contractual_level_filter"
-			placeholder="Livello..." readonly="true">
+		<combobox id="contractual_level_filter" placeholder="Livello..."
+			readonly="true">
 			<comboitem label="1" value="1" />
 			<comboitem label="2" value="2" />
 			<comboitem label="3" value="3" />

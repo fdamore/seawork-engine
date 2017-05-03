@@ -478,7 +478,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
-			        params);
+					params);
 
 		}
 
@@ -488,8 +488,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void calculateFiscalCode() {
 
 		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null) || (this.birth_place_user.getSelectedItem() == null)
-		        || (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
-		        || (this.sex_user.getSelectedItem() == null)) {
+				|| (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
+				|| (this.sex_user.getSelectedItem() == null)) {
 			return;
 		}
 
@@ -517,44 +517,44 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final int a = Integer.parseInt(dt.substring(6));
 			String month = "";
 			switch (m) {
-				case 1:
-					month = "Gennaio";
-					break;
-				case 2:
-					month = "Febbraio";
-					break;
-				case 3:
-					month = "Marzo";
-					break;
-				case 4:
-					month = "Aprile";
-					break;
-				case 5:
-					month = "Maggio";
-					break;
-				case 6:
-					month = "Giugno";
-					break;
-				case 7:
-					month = "Luglio";
-					break;
-				case 8:
-					month = "Agosto";
-					break;
-				case 9:
-					month = "Settembre";
-					break;
-				case 10:
-					month = "Ottobre";
-					break;
-				case 11:
-					month = "Novembre";
-					break;
-				case 12:
-					month = "Dicembre";
-					break;
-				default:
-					break;
+			case 1:
+				month = "Gennaio";
+				break;
+			case 2:
+				month = "Febbraio";
+				break;
+			case 3:
+				month = "Marzo";
+				break;
+			case 4:
+				month = "Aprile";
+				break;
+			case 5:
+				month = "Maggio";
+				break;
+			case 6:
+				month = "Giugno";
+				break;
+			case 7:
+				month = "Luglio";
+				break;
+			case 8:
+				month = "Agosto";
+				break;
+			case 9:
+				month = "Settembre";
+				break;
+			case 10:
+				month = "Ottobre";
+				break;
+			case 11:
+				month = "Novembre";
+				break;
+			case 12:
+				month = "Dicembre";
+				break;
+			default:
+				break;
 			}
 
 			final CFGenerator cfg = new CFGenerator(n, c, cc, month, a, g, s, prov);
@@ -729,7 +729,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_province_user.setSelectedItem(null);
 
 		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
-		        || !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
+				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
 
@@ -877,7 +877,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 
 			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO", buttons,
-			        null, Messagebox.EXCLAMATION, null, null, params);
+					null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -958,6 +958,19 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #user_info_csv")
+	public void downloadCSV_userinfo() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final StringBuilder builder = UtilityCSV.downloadCSV_userinfo(this.person_selected);
+
+		Filedownload.save(builder.toString(), "application/text", "info_utente.csv");
+
+	}
+
 	@Listen("onClick = #qrcode_gen")
 	public void generateQrCode() {
 
@@ -997,7 +1010,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		}
 
 		this.birth_place_user.setModel(
-		        new ListModelList<>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
+				new ListModelList<>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
 	}
 
 	@Listen("onClick = #modify_users_command")
@@ -1137,16 +1150,16 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-		        new EventListener() {
-			        @Override
-			        public void onEvent(final Event e) {
-				        if (Messagebox.ON_OK.equals(e.getName())) {
-					        UserDetailsComposer.this.deleteUserCommand();
-				        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					        // Cancel is clicked
-				        }
-			        }
-		        }, params);
+				new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposer.this.deleteUserCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -1260,7 +1273,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.user_status_filter.setSelectedItem(null);
 		if (this.contractual_level_filter.getSelectedItem() != null) {
 			final ListModelList<Person> list_person = new ListModelList<>(this.personDao
-			        .listAllPersonByContractualLevel(Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
+					.listAllPersonByContractualLevel(Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
 			this.sw_list_user.setModel(new ListModelList<>(list_person));
 			this.full_text_search.setValue(null);
 			this.select_specific_user.setSelectedItem(null);
