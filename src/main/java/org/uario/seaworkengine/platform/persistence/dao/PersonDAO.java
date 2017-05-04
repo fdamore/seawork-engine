@@ -42,6 +42,14 @@ public interface PersonDAO extends UserDetailsService {
 	public List<Person> listAllPersonByContractualLevel(Integer contractual_level);
 
 	/**
+	 * Current Position
+	 *
+	 * @param current_position
+	 * @return
+	 */
+	public List<Person> listAllPersonByCurrentPosition(String current_position);
+
+	/**
 	 * List all person by enabling
 	 *
 	 * @param enable
@@ -49,6 +57,10 @@ public interface PersonDAO extends UserDetailsService {
 	 */
 	public List<Person> listAllPersonByEnable(Boolean enable);
 
+	/**
+	 * @param userStatus
+	 * @return
+	 */
 	public List<Person> listAllPersonByUserStatus(String userStatus);
 
 	/**
@@ -58,6 +70,12 @@ public interface PersonDAO extends UserDetailsService {
 	 * @return
 	 */
 	public List<Person> listAllPersonByUserStatus(String userStatus, Date from, Date to);
+
+	/**
+	 * @param item
+	 * @return
+	 */
+	public List<Person> listAllPersonByUserTask(String item);
 
 	public List<Person> listAllPersons();
 
@@ -71,7 +89,7 @@ public interface PersonDAO extends UserDetailsService {
 
 	/**
 	 * @param date
-	 *            TODO
+	 *
 	 * @return
 	 */
 	public List<Person> listAllPersonsForMobile(Date date);
@@ -99,7 +117,7 @@ public interface PersonDAO extends UserDetailsService {
 	 * List all worker persons
 	 *
 	 * @param full_text_search
-	 *            TODO
+	 * 
 	 *
 	 * @return Return a list of worker persons
 	 */

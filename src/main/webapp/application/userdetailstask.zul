@@ -50,7 +50,7 @@
 						<row>
 							<label value="Codice Mansione:"></label>
 							<combobox id="user_task_code"
-								placeholder="Seleziona Mansione" />
+								readonly="true" placeholder="Seleziona Mansione" />
 						</row>
 
 					</rows>

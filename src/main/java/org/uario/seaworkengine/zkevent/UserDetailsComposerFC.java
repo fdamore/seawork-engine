@@ -208,7 +208,7 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 
 			this.fcDAO.createFCForUser(this.person_selected.getId(), item);
 
-			final Map<String, String> params = new HashMap();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -237,7 +237,7 @@ public class UserDetailsComposerFC extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
 
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];

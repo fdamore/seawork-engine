@@ -13,11 +13,14 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
+import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.excpetions.UserNameJustPresentExcpetion;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.CFGenerator;
 import org.uario.seaworkengine.utility.DepartmentTag;
+import org.uario.seaworkengine.utility.TaskColor;
 import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.UserTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -251,6 +254,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Row					row_password_user_retype;
 
 	@Wire
+	private Textbox				search_qualifica;
+
+	@Wire
 	private Combobox			select_specific_user;
 
 	@Wire
@@ -300,6 +306,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox				user_status_to;
+
+	@Wire
+	private Combobox			user_task_code;
 
 	@Wire
 	private A					userName;
@@ -998,6 +1007,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		return item;
 	}
 
+	public Textbox getSearch_qualifica() {
+		return this.search_qualifica;
+	}
+
 	public Combobox getUser_status_filter_period() {
 		return this.user_status_filter_period;
 	}
@@ -1134,6 +1147,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.user_status_filter.setSelectedItem(null);
 		this.contractual_level_filter.setSelectedItem(null);
 		this.user_enable_filter.setSelectedItem(null);
+		this.search_qualifica.setValue(null);
+		this.user_task_code.setValue(null);
 
 		// set user listbox
 		this.setUserListBox();
@@ -1223,6 +1238,42 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.hourswork_w_user.setValue(null);
 	}
 
+	@Listen("onChange = #user_task_code")
+	public void searchByUserTask() {
+		if (this.user_task_code.getSelectedItem() == null) {
+			return;
+		}
+
+		final String item = this.user_task_code.getSelectedItem().getValue().toString();
+
+		final List<Person> list = this.personDao.listAllPersonByUserTask(item);
+		final ListModelList<Person> list_person = new ListModelList<>(list);
+
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
+
+		this.full_text_search.setValue(null);
+		this.select_specific_user.setSelectedItem(null);
+
+	}
+
+	@Listen("onOK = #search_qualifica")
+	public void searchCurrentPosition() {
+
+		final String item = this.search_qualifica.getValue();
+		if ((item == null) || item.isEmpty()) {
+			this.search_qualifica.setValue(null);
+			this.setUserListBox();
+		}
+
+		final List<Person> list = this.personDao.listAllPersonByCurrentPosition(item);
+		final ListModelList<Person> list_person = new ListModelList<>(list);
+		this.sw_list_user.setModel(new ListModelList<>(list_person));
+
+		this.full_text_search.setValue(null);
+		this.select_specific_user.setSelectedItem(null);
+
+	}
+
 	@Listen("onChange = #user_status_filter")
 	public void searchUserStatus() {
 		if (this.user_status_filter.getSelectedItem() == null) {
@@ -1235,6 +1286,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
 
@@ -1430,6 +1482,30 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		this.select_specific_user.setSelectedItem(null);
 
+		// select combo task
+		final ConfigurationDAO configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		final List<UserTask> list_task_user = configurationDAO.listAllStandardTask();
+		final List<UserTask> list_task_absence = configurationDAO.listAllAbsenceTask();
+		final List<UserTask> list_task_justificatory = configurationDAO.listAllJustificatoryTask();
+
+		final List<UserTask> list = new ArrayList<>();
+		list.addAll(list_task_user);
+		list.addAll(list_task_justificatory);
+		list.addAll(list_task_absence);
+
+		for (final UserTask task_item : list) {
+			final Comboitem combo_item = new Comboitem();
+			combo_item.setValue(task_item);
+			combo_item.setLabel(task_item.toString());
+			if (task_item.getIsabsence()) {
+				combo_item.setStyle("color: " + TaskColor.ANBSENCE_COLOR);
+			} else if (task_item.getJustificatory()) {
+				combo_item.setStyle("color: " + TaskColor.JUSTIFICATORY_COLOR);
+			}
+			this.user_task_code.appendChild(combo_item);
+
+		}
+
 		// set user listbox
 		this.setUserListBox();
 
@@ -1439,6 +1515,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// initial view
 		this.grid_user_details.setVisible(false);
 
+	}
+
+	public void setSearch_qualifica(final Textbox search_qualifica) {
+		this.search_qualifica = search_qualifica;
 	}
 
 	public void setUser_status_filter_period(final Combobox user_status_filter_period) {

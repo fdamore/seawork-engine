@@ -80,6 +80,13 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 	}
 
 	@Override
+	public List<Person> listAllPersonByCurrentPosition(final String current_position) {
+		MyBatisPersonDAO.logger.info("listAllPersonByCurrentPosition " + current_position);
+
+		return this.getSqlSession().selectList("person.listAllPersonByCurrentPosition", current_position);
+	}
+
+	@Override
 	public List<Person> listAllPersonByEnable(final Boolean enable) {
 
 		MyBatisPersonDAO.logger.info("listAllPersonByEnable " + enable);
@@ -112,6 +119,13 @@ public class MyBatisPersonDAO extends SqlSessionDaoSupport implements PersonDAO 
 		}
 
 		final List<Person> list_person = this.getSqlSession().selectList("person.listAllPersonByUserStatusPeriod", map);
+		return list_person;
+	}
+
+	@Override
+	public List<Person> listAllPersonByUserTask(final String item) {
+		MyBatisPersonDAO.logger.info("listAllPersonByUserTask");
+		final List<Person> list_person = this.getSqlSession().selectList("person.listAllPersonByUserTask");
 		return list_person;
 	}
 

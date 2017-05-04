@@ -46,8 +46,8 @@
 		<button label="Chiudi Anagrafica" sclass="btn-danger"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">
 		</button>
-		
-			
+
+
 
 		<separator></separator>
 
@@ -89,6 +89,8 @@
 
 
 
+
+
 							<toolbarbutton id="add_users_command"
 								label="Aggiungi Utente" style="color: blue" visible="false">
 							</toolbarbutton>
@@ -101,6 +103,10 @@
 
 							<a label="Scarica dati in CSV"
 								id="user_info_csv" style="color:green" />
+
+
+
+
 
 						</caption>
 
@@ -677,8 +683,26 @@
 		<a label="Scarica dati in CSV" id="personList_download"
 			style="color:green" />
 
-		<separator></separator>
+
 	</div>
+
+	<separator></separator>
+
+	<div>
+
+		<a label="Ricerche per Qualifica e Mansione: "
+			iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+		<textbox id="search_qualifica"
+			placeholder="Cerca per Qualifica..." mold="rounded" />
+
+		<combobox id="user_task_code" readonly="true"
+			placeholder="Seleziona Mansione..." />
+
+
+	</div>
+
+	<separator></separator>
 
 	<div>
 
@@ -691,9 +715,11 @@
 		<datebox placeholder="Da.." id="user_status_from"></datebox>
 		<datebox placeholder="A.." id="user_status_to"></datebox>
 
-		<separator></separator>
+
 
 	</div>
+
+	<separator></separator>
 
 	<!-- SHOW ROWS, SEARCH AND USER STATUS FILTER -->
 	<hbox>
