@@ -251,7 +251,7 @@
 
 
 				<hbox id="filterShift">
-					<a label="Numero turno: " />
+					<a label="Turno di Lavoro: " />
 					<vbox>
 						<combobox placeholder="Scegli turno..."
 							readonly="true" id="select_shift"
