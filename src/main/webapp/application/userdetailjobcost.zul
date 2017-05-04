@@ -145,6 +145,9 @@
 					onClick="grid_details.setVisible(false)" sclass="btn-info"
 					label="Aggiorna Lista Costi Orari">
 				</button>
+				
+				<a label="Scarica dati in CSV" id="user_cost"
+					style="color:green" />
 
 				<separator></separator>
 			</div>

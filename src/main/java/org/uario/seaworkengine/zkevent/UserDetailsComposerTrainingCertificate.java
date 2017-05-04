@@ -9,6 +9,7 @@ import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.TrainingCertificate;
 import org.uario.seaworkengine.platform.persistence.dao.TrainingCertificateDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -18,6 +19,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -28,53 +30,53 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long		serialVersionUID	= 1L;
 
 	@Wire
-	private Datebox certificate_date;
+	private Datebox					certificate_date;
 
 	@Wire
-	private Textbox description;
+	private Textbox					description;
 
 	@Wire
-	private Datebox expiration_date;
+	private Datebox					expiration_date;
 
 	@Wire
-	private Textbox full_text_search;
+	private Textbox					full_text_search;
 
 	@Wire
-	private Component grid_details;
+	private Component				grid_details;
 
-	private final Logger logger = Logger.getLogger(UserDetailsComposerTrainingCertificate.class);
+	private final Logger			logger				= Logger.getLogger(UserDetailsComposerTrainingCertificate.class);
 
 	@Wire
-	private Textbox note;
+	private Textbox					note;
 
-	private Person person_selected;
+	private Person					person_selected;
 
 	// status ADD or MODIFY
-	private boolean status_add = false;
+	private boolean					status_add			= false;
 
 	@Wire
-	private Listbox sw_list;
+	private Listbox					sw_list;
 
 	@Wire
-	private Textbox title;
+	private Textbox					title;
 
 	@Wire
-	private Textbox trainer;
+	private Textbox					trainer;
 
 	@Wire
-	private Textbox trainer_type;
+	private Textbox					trainer_type;
 
 	@Wire
-	private Textbox training_level;
+	private Textbox					training_level;
 
 	@Wire
-	private Textbox training_task;
+	private Textbox					training_task;
 
 	// dao interface
-	private TrainingCertificateDAO trainingCertificateDAO;
+	private TrainingCertificateDAO	trainingCertificateDAO;
 
 	@Listen("onClick = #sw_add")
 	public void addItem() {
@@ -134,6 +136,19 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 			}
 		});
+
+	}
+
+	@Listen("onClick = #user_csv")
+	public void downloadCSV_user_csv() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, null, null, this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_formazione(list);
+		Filedownload.save(builder.toString(), "application/text", "info_formazione.csv");
 
 	}
 
@@ -250,7 +265,7 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), null,
 				this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}
@@ -266,7 +281,7 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), null,
 				this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}
@@ -302,7 +317,7 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), false,
 				this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}
@@ -316,7 +331,7 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 
 		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), true,
 				this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<TrainingCertificate>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}

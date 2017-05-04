@@ -95,6 +95,9 @@
 					onClick="grid_details.setVisible(false)" sclass="btn-info"
 					label="Aggiorna Lista Visite Mediche">
 				</button>
+				
+				<a label="Scarica dati in CSV" id="user_csv"
+					style="color:green" />
 
 				<separator></separator>
 			</div>

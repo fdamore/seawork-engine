@@ -10,6 +10,7 @@ import org.uario.seaworkengine.model.MedicalExamination;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.MedicalExaminationDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -19,6 +20,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -30,41 +32,41 @@ public class UserDetailsComposerMedicalExamination extends SelectorComposer<Comp
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long		serialVersionUID	= 1L;
 
 	@Wire
-	private Datebox date_examination;
+	private Datebox					date_examination;
 
 	@Wire
-	private Component grid_details;
+	private Component				grid_details;
 
 	@Wire
-	private Label infoMedicalExamination;
+	private Label					infoMedicalExamination;
 
-	private final Logger logger = Logger.getLogger(UserDetailsComposerMedicalExamination.class);
+	private final Logger			logger				= Logger.getLogger(UserDetailsComposerMedicalExamination.class);
 
 	// dao interface
-	private MedicalExaminationDAO medicalExaminationDAO;
+	private MedicalExaminationDAO	medicalExaminationDAO;
 
 	@Wire
-	private Datebox next_date_examination;
+	private Datebox					next_date_examination;
 
 	@Wire
-	private Textbox note_examination;
+	private Textbox					note_examination;
 
-	private Person person_selected;
-
-	@Wire
-	private Textbox prescriptions;
+	private Person					person_selected;
 
 	@Wire
-	private Textbox result_examination;
+	private Textbox					prescriptions;
+
+	@Wire
+	private Textbox					result_examination;
 
 	// status ADD or MODIFY
-	private boolean status_add = false;
+	private boolean					status_add			= false;
 
 	@Wire
-	private Listbox sw_list;
+	private Listbox					sw_list;
 
 	@Listen("onClick = #sw_add")
 	public void addItem() {
@@ -121,6 +123,19 @@ public class UserDetailsComposerMedicalExamination extends SelectorComposer<Comp
 
 			}
 		});
+
+	}
+
+	@Listen("onClick = #user_csv")
+	public void downloadCSV_user_csv() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<MedicalExamination> list = this.medicalExaminationDAO.loadMedicalExaminationByUserId(this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_medical(list);
+		Filedownload.save(builder.toString(), "application/text", "info_visite_mediche.csv");
 
 	}
 
@@ -198,15 +213,15 @@ public class UserDetailsComposerMedicalExamination extends SelectorComposer<Comp
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerMedicalExamination.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerMedicalExamination.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -218,7 +233,7 @@ public class UserDetailsComposerMedicalExamination extends SelectorComposer<Comp
 		}
 
 		final List<MedicalExamination> list = this.medicalExaminationDAO.loadMedicalExaminationByUserId(this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<MedicalExamination>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}

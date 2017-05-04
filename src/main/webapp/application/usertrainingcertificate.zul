@@ -19,8 +19,7 @@
 
 				<space></space>
 
-				<button id="ok_command" label="OK"
-					sclass="btn-info">
+				<button id="ok_command" label="OK" sclass="btn-info">
 				</button>
 				<button label="Chiudi"
 					onClick="grid_details.setVisible(false);" sclass="btn-info"
@@ -35,47 +34,49 @@
 						<column label="Informazioni" />
 					</columns>
 					<rows>
-					
+
 						<row>
 							<label value="Titolo:"></label>
-							<textbox id="title" width="200px" rows="1"/>
+							<textbox id="title" width="200px" rows="1" />
 						</row>
 
 						<row>
 							<label value="Descrizione:"></label>
-							<textbox id="description" width="200px" rows="3"/>
+							<textbox id="description" width="200px"
+								rows="3" />
 						</row>
-						
+
 						<row>
 							<label value="Interna/Esterna:"></label>
 							<combobox readonly="true" id="trainer_type"
 								width="200px">
-								<comboitem label="INTERNA"
-									value="IN" id="inTrainingItem"/>
-								<comboitem label="ESTERNA"
-									value="OUT" id="outTrainginItem"/>
-								<comboitem label="--" value="NULL" id="noItem"/>
+								<comboitem label="INTERNA" value="IN"
+									id="inTrainingItem" />
+								<comboitem label="ESTERNA" value="OUT"
+									id="outTrainginItem" />
+								<comboitem label="--" value="NULL"
+									id="noItem" />
 							</combobox>
 						</row>
-						
+
 						<row>
 							<label value="Ente Formatore"></label>
 							<textbox id="trainer" width="200px" />
 						</row>
-						
+
 						<row>
 							<label value="Mansione"></label>
 							<textbox id="training_task" width="200px" />
 						</row>
-						
+
 						<row>
 							<label value="Livello"></label>
-							<textbox id="training_level" width="200px"/>
+							<textbox id="training_level" width="200px" />
 						</row>
-						
+
 						<row>
 							<label value="Note"></label>
-							<textbox id="note" width="200px" rows="3"/>
+							<textbox id="note" width="200px" rows="3" />
 						</row>
 
 						<row>
@@ -85,10 +86,9 @@
 							<datebox id="certificate_date"
 								placeholder="Seleziona data" width="200px" />
 						</row>
-						
+
 						<row>
-							<label
-								value="Data scadenza Certificato:">
+							<label value="Data scadenza Certificato:">
 							</label>
 							<datebox id="expiration_date"
 								placeholder="Seleziona data" width="200px" />
@@ -109,38 +109,39 @@
 
 			<div>
 				<separator></separator>
-				
+
 				<button id="sw_add" sclass="btn-info"
 					label="Aggiungi Certificato"
 					onClick="grid_details.setVisible(true);">
 				</button>
-				
-				<textbox placeholder="Cerca..." id="full_text_search"/>
-				
+
+				<textbox placeholder="Cerca..." id="full_text_search" />
+
 				<button id="sw_refresh_list"
 					onClick="grid_details.setVisible(false)" sclass="btn-info"
 					label="Ricarica Lista">
 				</button>
-								
+
 				<button id="show_expirated"
 					onClick="grid_details.setVisible(false)" sclass="btn-danger"
 					label="Certificati Scaduti">
 				</button>
-				
+
 				<button id="show_valid"
 					onClick="grid_details.setVisible(false)" sclass="btn-success"
 					label="Certificati Validi">
 				</button>
 
-				
-				
-				
+				<a label="Scarica dati in CSV" id="user_csv"
+					style="color:green" />
+
+
 
 				<separator></separator>
 			</div>
 
 
-			
+
 			<listbox id="sw_list" pagingPosition="both" mold="paging"
 				onSelect="grid_details.setVisible(false)"
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
@@ -148,13 +149,15 @@
 				<listhead sizable="true">
 					<listheader label="Titolo" />
 					<listheader label="Descrizione" />
-					<listheader label="Interna/Esterna"/>
-					<listheader label="Ente Formatore"/>
-					<listheader label="Mansione"/>
-					<listheader label="Livello"/>
-					<listheader label="Note"/>
-					<listheader label="Data Conseguimento Certificato" sort="auto(certificate_date)"/>
-					<listheader label="Data Scadenza Certificato" sort="auto(expiration_date)"/>
+					<listheader label="Interna/Esterna" />
+					<listheader label="Ente Formatore" />
+					<listheader label="Mansione" />
+					<listheader label="Livello" />
+					<listheader label="Note" />
+					<listheader label="Data Conseguimento Certificato"
+						sort="auto(certificate_date)" />
+					<listheader label="Data Scadenza Certificato"
+						sort="auto(expiration_date)" />
 					<listheader label="" />
 				</listhead>
 
@@ -166,10 +169,12 @@
 					<listcell label="@{item.trainer}" />
 					<listcell label="@{item.training_task}" />
 					<listcell label="@{item.training_level}" />
-					<listcell label="@{item.note}" />					
-					<listcell label="@{item.certificate_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-					<listcell label="@{item.expiration_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-					
+					<listcell label="@{item.note}" />
+					<listcell
+						label="@{item.certificate_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+					<listcell
+						label="@{item.expiration_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
 					<listcell>
 
 						<toolbarbutton id="sw_link_delete"

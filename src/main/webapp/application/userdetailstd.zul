@@ -12,12 +12,6 @@
 
 
 
-
-
-
-
-
-
 		</caption>
 
 
@@ -92,11 +86,14 @@
 					label="Aggiorna Lista Sindacato">
 				</button>
 
+				<a label="Scarica dati in CSV" id="user_csv"
+					style="color:green" />
+
 				<separator></separator>
 			</div>
 
 
-			
+
 
 			<listbox id="sw_list" pagingPosition="both" mold="paging"
 				onSelect="grid_details.setVisible(false)"

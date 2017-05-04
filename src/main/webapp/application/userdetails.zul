@@ -46,6 +46,8 @@
 		<button label="Chiudi Anagrafica" sclass="btn-danger"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">
 		</button>
+		
+			
 
 		<separator></separator>
 

@@ -9,15 +9,24 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.uario.seaworkengine.model.Contestation;
 import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
+import org.uario.seaworkengine.model.Employment;
+import org.uario.seaworkengine.model.FiscalControl;
+import org.uario.seaworkengine.model.JobCost;
+import org.uario.seaworkengine.model.MedicalExamination;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.ReviewShipWork;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.ScheduleShip;
 import org.uario.seaworkengine.model.Ship;
+import org.uario.seaworkengine.model.TfrUser;
+import org.uario.seaworkengine.model.TradeUnion;
+import org.uario.seaworkengine.model.TrainingCertificate;
+import org.uario.seaworkengine.model.UserCompensation;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
@@ -44,6 +53,8 @@ public class UtilityCSV {
 	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
 	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
+
+	private static final SimpleDateFormat	formatMonthOverview	= new SimpleDateFormat("MM/yyyy");
 
 	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -337,6 +348,290 @@ public class UtilityCSV {
 	}
 
 	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_compensazioni(final List<UserCompensation> list) {
+		final StringBuilder builder = new StringBuilder();
+		final String header = "Data;OreAssegnate;Note\n";
+		builder.append(header);
+
+		for (final UserCompensation itm : list) {
+			final String data = "" + UtilityCSV.returnItalianDate(itm.getDate_submit());
+			final String ore_assegnate = "" + itm.getTime_comp();
+			final String note = "" + itm.getNote();
+
+			final String line = data + ";" + ore_assegnate + ";" + note + ";\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_contestazioni(final List<Contestation> list) {
+		final StringBuilder builder = new StringBuilder();
+		final String header = "Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Note\n";
+		builder.append(header);
+
+		for (final Contestation itm : list) {
+			final String tipo = "" + itm.getTyp();
+			final String ricorso = "" + itm.getRecall();
+			final String data_contestazione = "" + UtilityCSV.returnItalianDate(itm.getDate_contestation());
+			final String protocollo = "" + itm.getProt();
+			final String data_sazione = "" + UtilityCSV.returnItalianDate(itm.getDate_penalty());
+			final String protocollo_sanzione = "" + itm.getProt_penalty();
+			final String sospeso_da = "" + UtilityCSV.returnItalianDate(itm.getStop_from());
+			final String sospeso_a = "" + UtilityCSV.returnItalianDate(itm.getStop_to());
+			final String mese_anno_bp = "" + UtilityCSV.returnItalianMonth(itm.getDate_bp());
+			final String note = "" + itm.getNote();
+
+			final String line = tipo + ";" + ricorso + ";" + data_contestazione + ";" + protocollo + ";" + data_sazione + ";" + protocollo_sanzione
+					+ ";" + sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + note + ";\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_cost(final List<JobCost> list) {
+		final StringBuilder builder = new StringBuilder();
+		final String header = "CentroDiCosto;DataInizio;DataFine;CostoOrarioAzienda;CostoOrarioEffettivo;LivelloContrattuale;Pagabase;Contingenza;Scatti;EDR;Totale;Premi;Note"
+				+ "\n";
+		builder.append(header);
+
+		for (final JobCost itm : list) {
+			final String centro_costo = "" + itm.getBillcenterDescription();
+			final String data_inizio = "" + UtilityCSV.returnItalianDate(itm.getDate_from());
+			final String data_fine = "" + UtilityCSV.returnItalianDate(itm.getDate_to());
+			final String costo_azienda = "" + itm.getBusiness_job_cost();
+			final String costo_effettivo = "" + itm.getFinal_job_cost();
+			final String livello_contrattuale = "" + itm.getContractual_level();
+			final String pagabase = "" + itm.getBasicsalary();
+			final String contigenza = "" + itm.getContingency();
+			final String scatti = "" + itm.getShots();
+			final String edr = "" + itm.getEdr();
+			final String totale = "" + itm.getTotal();
+			final String premi = "" + itm.getAwards();
+			final String note = "" + itm.getNote();
+
+			final String line = centro_costo + ";" + data_inizio + ";" + data_fine + ";" + costo_azienda + ";" + costo_effettivo + ";"
+					+ livello_contrattuale + ";" + pagabase + ";" + contigenza + ";" + scatti + ";" + edr + ";" + totale + ";" + premi + ";" + note
+					+ "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_fiscalvisit(final List<FiscalControl> list) {
+
+		final StringBuilder builder = new StringBuilder();
+		final String header = "Richiesta;Controllo;SedeInps;Risultato;Comunicazione;MalattiaDa;MalattiaA;Note\n";
+		builder.append(header);
+
+		for (final FiscalControl itm : list) {
+
+			final String richiesta = "" + UtilityCSV.returnItalianDate(itm.getRequest_date());
+			final String controllo = "" + UtilityCSV.returnItalianDate(itm.getControl_date());
+			final String sede_inps = "" + itm.getSede_inps();
+			final String risultato = "" + itm.getResult();
+			final String comunicazione = "" + itm.getResult_comunication_type();
+			final String malattia_da = "" + UtilityCSV.returnItalianDate(itm.getSikness_from());
+			final String malattia_a = "" + UtilityCSV.returnItalianDate(itm.getSikness_to());
+			final String note = "" + itm.getNote();
+
+			final String line = richiesta + ";" + controllo + ";" + sede_inps + ";" + risultato + ";" + comunicazione + ";" + malattia_da + ";"
+					+ malattia_a + ";" + note + "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_formazione(final List<TrainingCertificate> list) {
+		final StringBuilder builder = new StringBuilder();
+		final String header = "Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Note\n";
+		builder.append(header);
+
+		for (final TrainingCertificate itm : list) {
+
+			final String titolo = "" + itm.getTitle();
+			final String descrizione = "" + itm.getDescription();
+			final String interna_esterna = "" + itm.getTrainer_type();
+			final String ente_formatore = "" + itm.getTrainer();
+			final String mansione = "" + itm.getTraining_task();
+			final String livello = "" + itm.getTraining_level();
+			final String data_conseguimento = "" + UtilityCSV.returnItalianDate(itm.getCertificate_date());
+			final String data_scadenza = "" + UtilityCSV.returnItalianDate(itm.getExpiration_date());
+			final String note = "" + itm.getNote();
+
+			final String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione + ";" + livello + ";"
+					+ data_conseguimento + ";" + data_scadenza + ";" + note + "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_medical(final List<MedicalExamination> list) {
+		final StringBuilder builder = new StringBuilder();
+		final String header = "DatVisita;DataProssimaVisita;Esito;Prescrizioni;Note\n";
+		builder.append(header);
+
+		for (final MedicalExamination itm : list) {
+
+			final String data_visita = "" + UtilityCSV.returnItalianDate(itm.getDate_examination());
+			final String data_prossima_visita = "" + UtilityCSV.returnItalianDate(itm.getNext_date_examination());
+			final String esito = "" + itm.getResult_examination();
+			final String prescrizioni = "" + itm.getPrescriptions();
+			final String note = "" + itm.getNote_examination();
+
+			final String line = data_visita + ";" + data_prossima_visita + ";" + esito + ";" + prescrizioni + ";" + note + "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_raporto(final List<Employment> list) {
+
+		final StringBuilder builder = new StringBuilder();
+		final String header = "LivelloContrattuale;DataFine;DataModifica;Status;Note;\n";
+		builder.append(header);
+
+		for (final Employment itm : list) {
+
+			final String contractual_level = "" + itm.getContractual_level();
+			final String date_end = "" + UtilityCSV.returnItalianDate(itm.getDate_end());
+			final String date_modified = "" + UtilityCSV.returnItalianDate(itm.getDate_modified());
+			final String note = "" + itm.getNote();
+			final String status = "" + itm.getStatus();
+
+			final String line = contractual_level + ";" + date_end + ";" + date_modified + ";" + status + ";" + note + "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+
+	}
+
+	/**
+	 * Task
+	 *
+	 * @param list_mytask
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_task(final List<UserTask> list) {
+
+		final StringBuilder builder = new StringBuilder();
+		final String header = "Codice;Descrizione;Predefinito;\n";
+		builder.append(header);
+
+		for (final UserTask itm : list) {
+
+			final String code = "" + itm.getCode();
+			final String description = "" + itm.getDescription();
+			final String default_task = "" + itm.getTask_default();
+
+			final String line = code + ";" + description + ";" + default_task + "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_tfr(final List<TfrUser> list) {
+		final StringBuilder builder = new StringBuilder();
+		final String header = "DestinazioneTfr;DataScelta\n";
+		builder.append(header);
+
+		for (final TfrUser itm : list) {
+
+			final String destinazione = "" + itm.getTfr_destination();
+			final String scelta = "" + UtilityCSV.returnItalianDate(itm.getTfr_selection_date());
+
+			final String line = destinazione + ";" + scelta + "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+
+	}
+
+	/**
+	 * @param list
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_user_tradeunion(final List<TradeUnion> list) {
+
+		final StringBuilder builder = new StringBuilder();
+		final String header = "Nome;Iscrizione;Cancellazione;Note;\n";
+		builder.append(header);
+
+		for (final TradeUnion itm : list) {
+
+			final String nome = "" + itm.getName();
+			final String iscrizione = "" + UtilityCSV.returnItalianDate(itm.getRegistration());
+			final String cancellazione = "" + UtilityCSV.returnItalianDate(itm.getCancellation());
+			final String note = "" + itm.getNote();
+
+			final String line = nome + ";" + iscrizione + ";" + cancellazione + ";" + note + "\n";
+
+			builder.append(line);
+
+		}
+
+		return builder;
+
+	}
+
+	/**
 	 * Download info about single user
 	 *
 	 * @param person
@@ -354,7 +649,7 @@ public class UtilityCSV {
 		final String row_4 = "DipendenteGiornaliero;" + person.getDailyemployee() + "\n";
 		final String row_5 = "Nome;" + person.getFirstname() + "\n";
 		final String row_6 = "Cognome;" + person.getLastname() + "\n";
-		final String row_7 = "DataNascita;" + person.getBirth_date() + "\n";
+		final String row_7 = "DataNascita;" + UtilityCSV.returnItalianDate(person.getBirth_date()) + "\n";
 		final String row_8 = "ProvinciaNascita;" + person.getBirth_province() + "\n";
 		final String row_9 = "LuogoNascita;" + person.getBirth_place() + "\n";
 		final String row_10 = "Sesso;" + person.getSex() + "\n";
@@ -376,7 +671,7 @@ public class UtilityCSV {
 		final String row_26 = "StatoCivile;" + person.getMarital_status() + "\n";
 		final String row_27 = "CarichiFamiliari;" + person.getFamily_charge() + "\n";
 		final String row_28 = "TipoPatenti;" + person.getDriving_license() + "\n";
-		final String row_29 = "DataPatente;" + person.getDriving_license_emission() + "\n";
+		final String row_29 = "DataPatente;" + UtilityCSV.returnItalianDate(person.getDriving_license_emission()) + "\n";
 		final String row_30 = "GGSettimana;" + person.getDaywork_w() + "\n";
 		final String row_31 = "HHSettimana;" + person.getHourswork_w() + "\n";
 		final String row_32 = "PartTime;" + person.getPart_time() + "\n";
@@ -1289,6 +1584,22 @@ public class UtilityCSV {
 		}
 
 		return false;
+	}
+
+	private static String returnItalianDate(final Date itm) {
+		if (itm == null) {
+			return "";
+		}
+
+		return UtilityCSV.formatDateOverview.format(itm);
+	}
+
+	private static String returnItalianMonth(final Date itm) {
+		if (itm == null) {
+			return "";
+		}
+
+		return UtilityCSV.formatMonthOverview.format(itm);
 	}
 
 }

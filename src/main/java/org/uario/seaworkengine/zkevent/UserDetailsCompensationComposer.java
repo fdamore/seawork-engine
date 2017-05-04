@@ -9,6 +9,7 @@ import org.uario.seaworkengine.model.UserCompensation;
 import org.uario.seaworkengine.platform.persistence.dao.UserCompensationDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.Utility;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -21,6 +22,7 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -69,24 +71,24 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	@Listen("onClick = #closeModifyCompensation")
 	public void closeModifyCompensation() {
-		grid_details.setVisible(false);
-		saveCompensation.setVisible(false);
-		closeModifyCompensation.setVisible(false);
-		addCompensation.setVisible(true);
+		this.grid_details.setVisible(false);
+		this.saveCompensation.setVisible(false);
+		this.closeModifyCompensation.setVisible(false);
+		this.addCompensation.setVisible(true);
 
-		date_submitUser.setValue(Calendar.getInstance().getTime());
-		time_compUser.setValue(null);
-		note_compUser.setValue(null);
+		this.date_submitUser.setValue(Calendar.getInstance().getTime());
+		this.time_compUser.setValue(null);
+		this.note_compUser.setValue(null);
 
-		userCompensationInUpdate = null;
+		this.userCompensationInUpdate = null;
 	}
 
 	@Listen("onClick = #sw_link_delete")
 	public void deleteCompensation() {
-		if (sw_list.getSelectedItem() != null) {
-			final UserCompensation userCompensation = sw_list.getSelectedItem().getValue();
-			userCompensationDAO.deleteUserCompensation(userCompensation.getId());
-			setInitialView();
+		if (this.sw_list.getSelectedItem() != null) {
+			final UserCompensation userCompensation = this.sw_list.getSelectedItem().getValue();
+			this.userCompensationDAO.deleteUserCompensation(userCompensation.getId());
+			this.setInitialView();
 
 		}
 	}
@@ -94,7 +96,7 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 	@Override
 	public void doFinally() throws Exception {
 
-		getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
+		this.getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
 
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
@@ -103,14 +105,14 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 				if ((arg0.getData() == null) || !(arg0.getData() instanceof Person)) {
 					return;
 				}
-				person_selected = (Person) arg0.getData();
+				UserDetailsCompensationComposer.this.person_selected = (Person) arg0.getData();
 
 				// get the dao
-				userCompensationDAO = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
+				UserDetailsCompensationComposer.this.userCompensationDAO = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
 
 				// set year in combobox
 				final Integer todayYear = Utility.getYear(Calendar.getInstance().getTime());
-				final ArrayList<String> years = new ArrayList<String>();
+				final ArrayList<String> years = new ArrayList<>();
 
 				years.add("TUTTI");
 
@@ -118,7 +120,7 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 					years.add(i.toString());
 				}
 
-				select_year.setModel(new ListModelList<String>(years));
+				UserDetailsCompensationComposer.this.select_year.setModel(new ListModelList<>(years));
 
 				UserDetailsCompensationComposer.this.setInitialView();
 
@@ -127,41 +129,54 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	}
 
+	@Listen("onClick = #user_csv")
+	public void downloadCSV_user_csv() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<UserCompensation> list = this.userCompensationDAO.loadAllUserCompensationByUserId(this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_compensazioni(list);
+		Filedownload.save(builder.toString(), "application/text", "info_compensazioni.csv");
+
+	}
+
 	@Listen("onClick = #sw_link_edit")
 	public void modifyCompensation() {
-		if (sw_list.getSelectedItem() != null) {
-			userCompensationInUpdate = sw_list.getSelectedItem().getValue();
-			date_submitUser.setValue(userCompensationInUpdate.getDate_submit());
-			time_compUser.setValue(userCompensationInUpdate.getTime_comp());
-			note_compUser.setValue(userCompensationInUpdate.getNote());
+		if (this.sw_list.getSelectedItem() != null) {
+			this.userCompensationInUpdate = this.sw_list.getSelectedItem().getValue();
+			this.date_submitUser.setValue(this.userCompensationInUpdate.getDate_submit());
+			this.time_compUser.setValue(this.userCompensationInUpdate.getTime_comp());
+			this.note_compUser.setValue(this.userCompensationInUpdate.getNote());
 
-			saveCompensation.setVisible(true);
-			closeModifyCompensation.setVisible(true);
+			this.saveCompensation.setVisible(true);
+			this.closeModifyCompensation.setVisible(true);
 
 		}
 	}
 
 	@Listen("onClick= #saveCompensation")
 	public void saveCompensation() {
-		if ((person_selected != null) && (date_submitUser.getValue() != null) && (time_compUser.getValue() != null)) {
+		if ((this.person_selected != null) && (this.date_submitUser.getValue() != null) && (this.time_compUser.getValue() != null)) {
 
-			if (userCompensationInUpdate == null) {
+			if (this.userCompensationInUpdate == null) {
 
 				final UserCompensation userCompensation = new UserCompensation();
-				userCompensation.setDate_submit(date_submitUser.getValue());
-				userCompensation.setTime_comp(time_compUser.getValue());
-				userCompensation.setId_user(person_selected.getId());
-				userCompensation.setNote(note_compUser.getValue());
+				userCompensation.setDate_submit(this.date_submitUser.getValue());
+				userCompensation.setTime_comp(this.time_compUser.getValue());
+				userCompensation.setId_user(this.person_selected.getId());
+				userCompensation.setNote(this.note_compUser.getValue());
 
-				userCompensationDAO.createUserCompensation(userCompensation);
+				this.userCompensationDAO.createUserCompensation(userCompensation);
 
 			} else {
-				userCompensationInUpdate.setDate_submit(date_submitUser.getValue());
-				userCompensationInUpdate.setTime_comp(time_compUser.getValue());
-				userCompensationDAO.updateUserCompensation(userCompensationInUpdate);
+				this.userCompensationInUpdate.setDate_submit(this.date_submitUser.getValue());
+				this.userCompensationInUpdate.setTime_comp(this.time_compUser.getValue());
+				this.userCompensationDAO.updateUserCompensation(this.userCompensationInUpdate);
 			}
 
-			setInitialView();
+			this.setInitialView();
 
 		} else {
 			Messagebox.show("Verificare valori inseriti.", "Errore", Messagebox.OK, Messagebox.EXCLAMATION);
@@ -170,49 +185,48 @@ public class UserDetailsCompensationComposer extends SelectorComposer<Component>
 
 	@Listen("onChange =#select_year")
 	public void selectedYear() {
-		if (select_year.getSelectedItem() != null) {
+		if (this.select_year.getSelectedItem() != null) {
 
-			final String yearSelected = select_year.getSelectedItem().getValue();
+			final String yearSelected = this.select_year.getSelectedItem().getValue();
 
 			if (!yearSelected.equals("TUTTI")) {
 
 				final Integer year = Integer.parseInt(yearSelected);
 
-				final List<UserCompensation> list = userCompensationDAO.loadAllUserCompensationByUserId(person_selected.getId(),
-						year);
+				final List<UserCompensation> list = this.userCompensationDAO.loadAllUserCompensationByUserId(this.person_selected.getId(), year);
 
 				if (list != null) {
-					final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
+					final ListModelList<UserCompensation> model = new ListModelList<>(list);
 
-					sw_list.setModel(model);
+					this.sw_list.setModel(model);
 				}
 
 			} else {
-				setInitialView();
+				this.setInitialView();
 			}
 		}
 	}
 
 	protected void setInitialView() {
-		grid_details.setVisible(false);
-		saveCompensation.setVisible(false);
-		addCompensation.setVisible(true);
-		closeModifyCompensation.setVisible(false);
+		this.grid_details.setVisible(false);
+		this.saveCompensation.setVisible(false);
+		this.addCompensation.setVisible(true);
+		this.closeModifyCompensation.setVisible(false);
 
-		date_submitUser.setValue(Calendar.getInstance().getTime());
-		time_compUser.setValue(null);
-		note_compUser.setValue(null);
+		this.date_submitUser.setValue(Calendar.getInstance().getTime());
+		this.time_compUser.setValue(null);
+		this.note_compUser.setValue(null);
 
-		userCompensationInUpdate = null;
+		this.userCompensationInUpdate = null;
 
-		select_year.setSelectedItem(null);
+		this.select_year.setSelectedItem(null);
 
-		final List<UserCompensation> list = userCompensationDAO.loadAllUserCompensationByUserId(person_selected.getId());
+		final List<UserCompensation> list = this.userCompensationDAO.loadAllUserCompensationByUserId(this.person_selected.getId());
 
 		if (list != null) {
-			final ListModelList<UserCompensation> model = new ListModelList<UserCompensation>(list);
+			final ListModelList<UserCompensation> model = new ListModelList<>(list);
 
-			sw_list.setModel(model);
+			this.sw_list.setModel(model);
 		}
 
 	}

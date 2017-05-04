@@ -81,6 +81,9 @@
 				sclass="btn-info" id="addCompensation" visible="true" />
 
 
+			<a label="Scarica dati in CSV" id="user_csv"
+				style="color:green" />
+
 
 			<separator />
 

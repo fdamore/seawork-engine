@@ -25,6 +25,7 @@ import org.uario.seaworkengine.utility.ContestationTag;
 import org.uario.seaworkengine.utility.ParamsTag;
 import org.uario.seaworkengine.utility.UserStatusTag;
 import org.uario.seaworkengine.utility.Utility;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -171,9 +172,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	@Wire
 	private Combobox			select_year;
+
 	// status ADD or MODIFY
 	private boolean				status_add				= false;
-
 	private Date				status_date_modified	= null;
 
 	private String				status_upload			= "";
@@ -290,8 +291,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				UserDetailsComposerCons.this.person_selected = (Person) arg0.getData();
 
 				// get the dao
-				UserDetailsComposerCons.this.contestationDAO = (IContestation) SpringUtil
-						.getBean(BeansTag.CONTESTATION_DAO);
+				UserDetailsComposerCons.this.contestationDAO = (IContestation) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
 				UserDetailsComposerCons.this.paramsDAO = (IParams) SpringUtil.getBean(BeansTag.PARAMS_DAO);
 
 				UserDetailsComposerCons.this.setInitialView();
@@ -313,6 +313,19 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #user_csv")
+	public void downloadCSV_user_csv() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<Contestation> list = this.contestationDAO.loadUserContestation(this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_contestazioni(list);
+		Filedownload.save(builder.toString(), "application/text", "info_contestazioni.csv");
+
+	}
+
 	@Listen("onClick = #sw_download_list, #current_document")
 	public void downloadDocProcedure() throws FileNotFoundException {
 		if (this.sw_list.getSelectedItem() == null) {
@@ -327,8 +340,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Nessun documento associato", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Nessun documento associato", "ERROR", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
 
@@ -410,8 +422,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
@@ -421,8 +432,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
@@ -434,8 +444,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null,
-							Messagebox.ERROR, null, null, params);
+					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 
@@ -445,8 +454,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR,
-							null, null, params);
+					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 			}
@@ -465,8 +473,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Contestazione aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null,
-					null, params);
+			Messagebox.show("Contestazione aggiunta all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
 
 		} else {
 
@@ -478,8 +485,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Inserire un tipo di contestazione!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 
 				return;
 			}
@@ -496,8 +502,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null,
-						null, params);
+				Messagebox.show("Data della contestazione mancante!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 
@@ -509,8 +514,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null,
-							Messagebox.ERROR, null, null, params);
+					Messagebox.show("Intervallo date sospensione non completo!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 
@@ -520,8 +524,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[1];
 					buttons[0] = Messagebox.Button.OK;
 
-					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR,
-							null, null, params);
+					Messagebox.show("Intervallo date sospensione errato!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 					return;
 				}
 			}
@@ -541,8 +544,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		}
 
 		if (item.getTyp() != null) {
-			if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)
-					|| item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
+			if (item.getTyp().equals(ContestationTag.LICENZIAMENTO) || item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
 
 				// ask user for update current status
 				Date to_day = Calendar.getInstance().getTime();
@@ -596,8 +598,8 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
-				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+				new EventListener<ClickEvent>() {
 					@Override
 					public void onEvent(final ClickEvent e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -661,8 +663,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 			final Integer year = Integer.parseInt(yearSelected);
 
-			final List<Contestation> list = this.contestationDAO
-					.loadUserContestationByYearPenalty(this.person_selected.getId(), year);
+			final List<Contestation> list = this.contestationDAO.loadUserContestationByYearPenalty(this.person_selected.getId(), year);
 			this.sw_list.setModel(new ListModelList<>(list));
 
 			this.grid_details.setVisible(false);

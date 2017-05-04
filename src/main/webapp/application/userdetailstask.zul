@@ -79,11 +79,15 @@
 					label="Aggiorna Lista Mansioni">
 				</button>
 
+				<a label="Scarica dati in CSV" id="user_task"
+					style="color:green" />
+
+
 				<separator></separator>
 			</div>
 
 
-			
+
 
 
 			<listbox id="sw_list_task" pagingPosition="both"

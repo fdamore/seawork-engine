@@ -9,6 +9,7 @@ import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.TradeUnion;
 import org.uario.seaworkengine.platform.persistence.dao.TradeUnionDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -18,6 +19,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -115,6 +117,19 @@ public class UserDetailsComposerTD extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #user_csv")
+	public void downloadCSV_user_csv() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<TradeUnion> list = this.tradeUnionDAO.loadTradeUnionsByUser(this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_tradeunion(list);
+		Filedownload.save(builder.toString(), "application/text", "info_sindacati.csv");
+
+	}
+
 	@Listen("onClick = #sw_link_edit")
 	public void modifyItem() {
 
@@ -192,15 +207,15 @@ public class UserDetailsComposerTD extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerTD.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerTD.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -212,7 +227,7 @@ public class UserDetailsComposerTD extends SelectorComposer<Component> {
 		}
 
 		final List<TradeUnion> list = this.tradeUnionDAO.loadTradeUnionsByUser(this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<TradeUnion>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}

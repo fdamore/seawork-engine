@@ -9,6 +9,7 @@ import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.TfrUser;
 import org.uario.seaworkengine.platform.persistence.dao.TfrDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -18,6 +19,7 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -62,7 +64,7 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 		this.tfrDao.createTGRForUser(this.person_selected.getId(), item);
 
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
@@ -88,7 +90,7 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 		this.tfrDao.removeTFR(item.getId());
 
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
@@ -124,10 +126,23 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #user_tfr_csv")
+	public void downloadCSV_user_tfr_csv() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<TfrUser> list = this.tfrDao.loadTFRByUser(this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_tfr(list);
+		Filedownload.save(builder.toString(), "application/text", "info_tfr.csv");
+
+	}
+
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
 
-		final Map<String, String> params = new HashMap();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -136,15 +151,15 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
-			@Override
-			public void onEvent(final Event e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					UserDetailsComposerTFR.this.deleteItemToUser();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerTFR.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -156,7 +171,7 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 		}
 
 		final List<TfrUser> list = this.tfrDao.loadTFRByUser(this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<TfrUser>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}

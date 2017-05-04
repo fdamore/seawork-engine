@@ -11,8 +11,8 @@ import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.JobCost;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.IJobCost;
-import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -25,6 +25,7 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Doublebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -36,62 +37,60 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Doublebox awards;
+	private Doublebox			awards;
 
 	@Wire
-	private Doublebox basicsalary;
+	private Doublebox			basicsalary;
 
 	@Wire
-	private Combobox bill_center;
+	private Combobox			bill_center;
 
 	@Wire
-	private Doublebox business_job_cost;
+	private Doublebox			business_job_cost;
 
 	@Wire
-	private Doublebox contingency;
+	private Doublebox			contingency;
 
 	@Wire
-	private Combobox contractual_level;
-	@Wire
-	private Datebox date_from;
-	@Wire
-	private Datebox date_to;
+	private Combobox			contractual_level;
 
 	@Wire
-	private Doublebox edr;
+	private Datebox				date_from;
+	@Wire
+	private Datebox				date_to;
+	@Wire
+	private Doublebox			edr;
 
 	@Wire
-	private Doublebox final_job_cost;
+	private Doublebox			final_job_cost;
 
-	private final NumberFormat format = NumberFormat.getNumberInstance(Locale.ITALY);
+	private final NumberFormat	format				= NumberFormat.getNumberInstance(Locale.ITALY);
 
 	@Wire
-	private Component grid_details;
+	private Component			grid_details;
 
 	// dao interface
-	private IJobCost jobCostDAO;
+	private IJobCost			jobCostDAO;
 
 	@Wire
-	private Textbox note;
+	private Textbox				note;
 
-	private Person person_selected;
-
-	private PersonDAO personDao;
+	private Person				person_selected;
 
 	@Wire
-	private Doublebox shots;
+	private Doublebox			shots;
 
 	// status ADD or MODIFY
-	private boolean status_add = false;
+	private boolean				status_add			= false;
 
 	@Wire
-	private Listbox sw_list;
+	private Listbox				sw_list;
 
 	@Wire
-	private Label total;
+	private Label				total;
 
 	@Listen("onClick = #sw_add")
 	public void addItem() {
@@ -204,13 +203,23 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 
 				// get the dao
 				UserDetailsComposerJobCost.this.jobCostDAO = (IJobCost) SpringUtil.getBean(BeansTag.JOB_COST_DAO);
-
-				UserDetailsComposerJobCost.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
-
 				UserDetailsComposerJobCost.this.setInitialView();
 
 			}
 		});
+
+	}
+
+	@Listen("onClick = #user_cost")
+	public void downloadCSV_user_cost() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<JobCost> list = this.jobCostDAO.loadJobCostByUser(this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_cost(list);
+		Filedownload.save(builder.toString(), "application/text", "info_cost.csv");
 
 	}
 
@@ -380,11 +389,11 @@ public class UserDetailsComposerJobCost extends SelectorComposer<Component> {
 		}
 
 		final List<JobCost> list = this.jobCostDAO.loadJobCostByUser(this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<JobCost>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		final List<BillCenter> billCenterList = this.jobCostDAO.listAllBillCenter(null);
 		if (billCenterList != null) {
-			this.bill_center.setModel(new ListModelList<BillCenter>(billCenterList));
+			this.bill_center.setModel(new ListModelList<>(billCenterList));
 		}
 
 		this.grid_details.setVisible(false);

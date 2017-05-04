@@ -12,6 +12,7 @@ import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.zkevent.UserDetailsComposerCons.ContestationMessage;
 import org.zkoss.spring.SpringUtil;
@@ -25,6 +26,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -98,7 +100,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		this.employmentDao.removeEmployment(item.getId());
 
-		final Map<String, String> params = new HashMap<String, String>();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
@@ -162,6 +164,19 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			}
 		});
+
+	}
+
+	@Listen("onClick = #user_status_csv")
+	public void downloadCSV_user_raporto() {
+
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+			return;
+		}
+
+		final List<Employment> list = this.employmentDao.loadEmploymentByUser(this.person_selected.getId());
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_raporto(list);
+		Filedownload.save(builder.toString(), "application/text", "info_raporto.csv");
 
 	}
 
@@ -231,7 +246,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			this.employmentDao.createEmploymentForUser(this.person_selected.getId(), item);
 			item.setId_user(this.person_selected.getId());
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -283,7 +298,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
-		final Map<String, String> params = new HashMap<String, String>();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
@@ -291,16 +306,16 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-		        new EventListener() {
-			        @Override
-			        public void onEvent(final Event e) {
-				        if (Messagebox.ON_OK.equals(e.getName())) {
-					        UserDetailsComposerStatus.this.deleteItemToUser();
-				        } else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					        // Cancel is clicked
-				        }
-			        }
-		        }, params);
+				new EventListener() {
+					@Override
+					public void onEvent(final Event e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							UserDetailsComposerStatus.this.deleteItemToUser();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -314,7 +329,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
 
-		final Map<String, String> params = new HashMap<String, String>();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
@@ -335,7 +350,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		}
 
 		final List<Employment> list = this.employmentDao.loadEmploymentByUser(this.person_selected.getId());
-		this.sw_list.setModel(new ListModelList<Employment>(list));
+		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
 	}
@@ -373,7 +388,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			final String status_val = this.status.getSelectedItem().getLabel();
 			item.setStatus(status_val);
 		} else {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -384,7 +399,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		}
 
 		if (this.date_modifiled.getValue() == null) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
@@ -395,7 +410,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		if (this.date_end.getValue() != null) {
 			if (this.date_end.getValue().before(this.date_modifiled.getValue())) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
