@@ -40,7 +40,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Div					add_customer_div;
-
+	
 	@Wire
 	private Component			add_ships_command;
 
@@ -70,6 +70,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox				monitor_date;
+
+	@Wire
+	private Textbox				note;
 
 	@Wire
 	private Checkbox			ship_activity;
@@ -126,26 +129,28 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #add_ships_command")
 	public void addShipCommand() {
 
-		if ((this.ship_name.getValue() == null) || this.ship_name.getValue().equals("")) {
+		if (this.ship_name.getValue() == null || this.ship_name.getValue().equals("")) {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Devi inserire un nome nave", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Devi inserire un nome nave", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
 			return;
 
 		}
 
 		if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue(), null)) {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
 			return;
 
 		}
@@ -158,6 +163,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		ship.setTwtype(this.ship_twtype.getValue());
 		ship.setNowork(this.ship_nowork.isChecked());
 		ship.setActivityh(this.ship_activity.isChecked());
+		ship.setNote(this.note.getValue());
 
 		if (!ship.getNowork()) {
 			this.createShip(ship);
@@ -168,15 +174,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			if (noWorkShip == null) {
 				this.createShip(ship);
 			} else {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 
 				final Messagebox.Button[] buttons = new Messagebox.Button[2];
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show("Nave No Lavoro già presente, proseguire?", "CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null,
-						new EventListener<ClickEvent>() {
+				Messagebox.show("Nave No Lavoro già presente, proseguire?", "CONFERMA INSERIMENTO", buttons, null,
+						Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
 							@Override
 							public void onEvent(final ClickEvent e) {
@@ -200,16 +206,17 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	public void checkPresence() {
 		if (this.ship_name.getValue() != null) {
 			Integer shipId = null;
-			if (this.isInModify && (this.ship_selected != null)) {
+			if (this.isInModify && this.ship_selected != null) {
 				shipId = this.ship_selected.getId();
 			}
 			if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue(), shipId)) {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Nave già presente in anagrafica!", "INFO", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
 
 				this.ship_name.setValue("");
 			}
@@ -244,7 +251,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		this.isInModify = true;
 
-		if ((this.sw_list_ship.getSelectedItem() == null) || (this.sw_list_ship.getSelectedItem().getValue() == null)
+		if (this.sw_list_ship.getSelectedItem() == null || this.sw_list_ship.getSelectedItem().getValue() == null
 				|| !(this.sw_list_ship.getSelectedItem().getValue() instanceof Ship)) {
 			return;
 		}
@@ -278,13 +285,15 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		this.ship_twtype.setValue(ship_selected.getTwtype());
 		this.ship_activity.setChecked(ship_selected.getActivityh());
 		this.ship_nowork.setChecked(ship_selected.getNowork());
+		this.note.setValue(ship_selected.getNote());
 
 	}
 
 	@Listen("onClick = #sw_link_modifycustomer")
 	public void deleteCustomerCommand() {
 
-		if ((this.sw_list_customer.getSelectedItem() == null) || (this.sw_list_customer.getSelectedItem().getValue() == null)) {
+		if (this.sw_list_customer.getSelectedItem() == null
+				|| this.sw_list_customer.getSelectedItem().getValue() == null) {
 			return;
 		}
 
@@ -313,13 +322,14 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 			this.logger.error("Error removing ship. " + e.getMessage());
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Non è possibile eliminare questa nave.\nControlla che non ci siano azioni legate a questa anagrafica.", "ATTENZIONE",
-					buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show(
+					"Non è possibile eliminare questa nave.\nControlla che non ci siano azioni legate a questa anagrafica.",
+					"ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -355,15 +365,16 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			return;
 		}
 
-		if ((this.ship_name.getValue() == "") || (this.ship_line.getValue() == "") || (this.ship_type.getValue() == "")
-				|| (this.ship_condition.getValue() == "") || (this.ship_twtype.getValue() == "")) {
+		if (this.ship_name.getValue() == "" || this.ship_line.getValue() == "" || this.ship_type.getValue() == ""
+				|| this.ship_condition.getValue() == "" || this.ship_twtype.getValue() == "") {
 
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare i valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Controllare i valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
 
 			this.isInModify = true;
 
@@ -376,6 +387,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			this.ship_selected.setTwtype(this.ship_twtype.getValue());
 			this.ship_selected.setActivityh(this.ship_activity.isChecked());
 			this.ship_selected.setNowork(this.ship_nowork.isChecked());
+			this.ship_selected.setNote(this.note.getValue());
 
 			if (!this.ship_nowork.isChecked() && !this.ship_activity.isChecked()) {
 				this.shipDao.updateShip(this.ship_selected);
@@ -385,26 +397,27 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			} else if (this.ship_nowork.isChecked()) {
 
 				final Ship noWorkShip = this.shipDao.getNoWorkShip();
-				if ((noWorkShip == null) || (noWorkShip.getId() == this.ship_selected.getId())) {
+				if (noWorkShip == null || noWorkShip.getId() == this.ship_selected.getId()) {
 					this.shipDao.updateShip(this.ship_selected);
 					this.showOkMessageBox();
 				} else {
-					final Map<String, String> params = new HashMap<String, String>();
+					final Map<String, String> params = new HashMap<>();
 					params.put("sclass", "mybutton Button");
 
 					final Messagebox.Button[] buttons = new Messagebox.Button[2];
 					buttons[0] = Messagebox.Button.OK;
 					buttons[1] = Messagebox.Button.CANCEL;
 
-					Messagebox.show("Nave No Lavoro già presente, proseguire?", "CONFERMA INSERIMENTO", buttons, null, Messagebox.EXCLAMATION, null,
-							new EventListener<ClickEvent>() {
+					Messagebox.show("Nave No Lavoro già presente, proseguire?", "CONFERMA INSERIMENTO", buttons, null,
+							Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
 
 								@Override
 								public void onEvent(final ClickEvent e) {
 									if (Messagebox.ON_OK.equals(e.getName())) {
 
 										ShipDetailsComposer.this.shipDao.removeShipNoWork();
-										ShipDetailsComposer.this.shipDao.updateShip(ShipDetailsComposer.this.ship_selected);
+										ShipDetailsComposer.this.shipDao
+												.updateShip(ShipDetailsComposer.this.ship_selected);
 
 										ShipDetailsComposer.this.showOkMessageBox();
 
@@ -433,24 +446,24 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_deleteship")
 	public void removeItem() {
-		final Map<String, String> params = new HashMap<String, String>();
+		final Map<String, String> params = new HashMap<>();
 		params.put("sclass", "mybutton Button");
 
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener<ClickEvent>() {
-			@Override
-			public void onEvent(final ClickEvent e) {
-				if (Messagebox.ON_OK.equals(e.getName())) {
-					ShipDetailsComposer.this.deleteShipCommand();
-				} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-					// Cancel is clicked
-				}
-			}
-		}, params);
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener<ClickEvent>() {
+					@Override
+					public void onEvent(final ClickEvent e) {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							ShipDetailsComposer.this.deleteShipCommand();
+						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+							// Cancel is clicked
+						}
+					}
+				}, params);
 
 	}
 
@@ -473,7 +486,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		final List<Customer> list_ship = this.customerDAO.listAllCustomers();
 
-		this.sw_list_customer.setModel(new ListModelList<Customer>(list_ship));
+		this.sw_list_customer.setModel(new ListModelList<>(list_ship));
 	}
 
 	/**
@@ -502,19 +515,19 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		List<Ship> list_ship = null;
 
-		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
+		if (this.full_text_search.getValue() != null && !this.full_text_search.getValue().equals("")) {
 			list_ship = this.shipDao.listAllShip(this.full_text_search.getValue());
 		} else {
 			list_ship = this.shipDao.loadAllShip();
 		}
 
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+		if (this.shows_rows.getValue() != null && this.shows_rows.getValue() != 0) {
 			this.sw_list_ship.setPageSize(this.shows_rows.getValue());
 		} else {
 			this.sw_list_ship.setPageSize(10);
 		}
 
-		this.sw_list_ship.setModel(new ListModelList<Ship>(list_ship));
+		this.sw_list_ship.setModel(new ListModelList<>(list_ship));
 	}
 
 	@Listen("onClick = #getActvityHShip")
@@ -522,7 +535,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		final List<Ship> list_ship = this.shipDao.getActivityHShip();
 
-		this.sw_list_ship.setModel(new ListModelList<Ship>(list_ship));
+		this.sw_list_ship.setModel(new ListModelList<>(list_ship));
 	}
 
 	@Listen("onClick = #sw_addcustomer")
@@ -554,7 +567,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #getNoWorkShip")
 	public void showNoWorkShip() {
-		final ListModelList<Ship> list_ship = new ListModelList<Ship>();
+		final ListModelList<Ship> list_ship = new ListModelList<>();
 
 		final Ship ship = this.shipDao.getNoWorkShip();
 
@@ -562,7 +575,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			list_ship.add(ship);
 		}
 
-		this.sw_list_ship.setModel(new ListModelList<Ship>(list_ship));
+		this.sw_list_ship.setModel(new ListModelList<>(list_ship));
 	}
 
 	private void showOkMessageBox() {
@@ -586,7 +599,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		final IStatistics statistics = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
 		final List<MonitorData> list = statistics.getMonitorData(this.monitor_date.getValue());
 
-		this.list_monitor.setModel(new ListModelList<MonitorData>(list));
+		this.list_monitor.setModel(new ListModelList<>(list));
 	}
 
 }

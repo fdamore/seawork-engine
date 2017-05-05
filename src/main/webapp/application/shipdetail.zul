@@ -73,7 +73,7 @@
 											iconSclass="z-icon-star orange" label="Dettagli navi">
 
 											<toolbarbutton
-												id="add_ships_command" label="Aggiungi Nave" 
+												id="add_ships_command" label="Aggiungi Nave"
 												style="color:blue" visible="false">
 											</toolbarbutton>
 
@@ -153,6 +153,14 @@
 														<checkbox
 															id="ship_activity"
 															onCheck="ship_nowork.setChecked(false)" />
+													</row>
+
+													<row>
+														<label
+															value="Note:">
+														</label>
+														<textbox
+															id="note" width="200px" rows="5" />
 													</row>
 
 												</rows>

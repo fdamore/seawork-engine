@@ -6,91 +6,144 @@
 	<cache />
 
 	<insert id="createShip" parameterType="org.uario.seaworkengine.model.Ship">
-		INSERT INTO ship (name, line, shiptype, shipcondition, twtype, nowork, activityh)
+		INSERT INTO ship (name,
+		line, shiptype, shipcondition, twtype, nowork, activityh, note)
 		VALUES
-		(#{name}, #{line}, #{shiptype}, #{shipcondition}, #{twtype} , #{nowork}, #{activityh});
+		(#{name}, #{line}, #{shiptype}, #{shipcondition}, #{twtype} ,
+		#{nowork}, #{activityh},#{note});
 	</insert>
-	
+
 	<delete id="deleteShip" parameterType="Integer">
 		delete from
 		ship
 		where
-		id = #{id_ship}
+		id =
+		#{id_ship}
 	</delete>
-	
-	<select id="loadShip" parameterType="Integer" resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
-		FROM
-		ship where
-		id = #{id_ship};		
+
+	<select id="loadShip" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.Ship">
+<![CDATA[
+SELECT 
+    id,
+    name,
+    line,
+    shiptype,
+    shipcondition,
+    twtype,
+    nowork,
+    activityh,
+    note
+FROM
+    ship
+WHERE
+    id = #{id_ship};	
+]]>
 	</select>
-	
+
 	<select id="listAllNameShip" resultType="String">
 		SELECT DISTINCT name
 		FROM ship
 		order by name;
 	</select>
-	
-	
-	
+
+
+
 	<select id="loadAllShip" resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
-		FROM ship
-		order by name;		
+<![CDATA[
+SELECT 
+    id,
+    name,
+    line,
+    shiptype,
+    shipcondition,
+    twtype,
+    nowork,
+    activityh,
+    note
+FROM
+    ship
+ORDER BY name	
+]]>
 	</select>
-	
+
 	<select id="selectAllShipFulltextSearchLike" parameterType="String"
 		resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
-		FROM
-		ship
+<![CDATA[		
+SELECT 
+    id,
+    name,
+    line,
+    shiptype,
+    shipcondition,
+    twtype,
+    nowork,
+    activityh,
+    note
+FROM
+    ship
+]]>
 		<if test="my_full_text_search != null">
-			WHERE (
-			name like CONCAT('%', #{my_full_text_search}, '%') or
-			line like CONCAT('%', #{my_full_text_search}, '%') or
-			shiptype like CONCAT('%', #{my_full_text_search}, '%') or
-			shipcondition like CONCAT('%', #{my_full_text_search}, '%') or
-			twtype like CONCAT('%',	#{my_full_text_search}, '%')
-			)
+<![CDATA[
+WHERE
+    (name LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR line LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR shiptype LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR shipcondition LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR twtype LIKE CONCAT('%', #{my_full_text_search}, '%'))
+]]>
 		</if>
-		order by name;
+<![CDATA[
+		ORDER BY name;
+]]>
+
+
 	</select>
-	
-	<update id="updateShip" parameterType="org.uario.seaworkengine.model.Ship" >
+
+	<update id="updateShip" parameterType="org.uario.seaworkengine.model.Ship">
 		UPDATE ship SET
-		name = #{name},
+		name =
+		#{name},
 		line = #{line},
 		shiptype = #{shiptype},
-		shipcondition = #{shipcondition},
+		shipcondition =
+		#{shipcondition},
 		twtype = #{twtype},
-		nowork = #{nowork}, 
-		activityh = #{activityh}  
+		nowork =
+		#{nowork},
+		activityh =
+		#{activityh},
+		note = #{note}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="setShipAsNoWork" parameterType="org.uario.seaworkengine.model.Ship">
 		UPDATE ship SET
-		nowork = 1 
+		nowork = 1
 		where id = #{id};
 	</update>
-		
+
 	<update id="setShipAsActivityH" parameterType="org.uario.seaworkengine.model.Ship">
 		UPDATE ship SET
-		activityh = 1 
+		activityh = 1
 		where id = #{id};
 	</update>
-	
+
 	<select id="getNoWorkShip" resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
-		from ship 
-		where nowork = 1;
+		SELECT id, name, line,
+		shiptype, shipcondition, twtype, nowork, activityh, note
+		from ship
+		where
+		nowork = 1;
 	</select>
-	
+
 	<select id="getActivityHShip" resultType="org.uario.seaworkengine.model.Ship">
-		SELECT id, name, line, shiptype, shipcondition, twtype, nowork, activityh
-		from ship 
-		where activityh = 1;
+		SELECT id, name, line,
+		shiptype, shipcondition, twtype, nowork, activityh, note
+		from ship
+		where
+		activityh = 1;
 	</select>
-	
-	
+
+
 </mapper>

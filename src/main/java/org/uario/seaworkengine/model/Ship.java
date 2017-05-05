@@ -18,24 +18,26 @@ public class Ship implements Serializable {
 		return Ship.serialVersionUID;
 	}
 
-	private Boolean activityh;
+	private Boolean	activityh;
 
-	private Integer id;
+	private Integer	id;
 
-	private String line;
+	private String	line;
+	
+	private String	name;
 
-	private String name;
+	private String	note;
 
-	private Boolean nowork;
-
+	private Boolean	nowork;
+	
 	// using for mobile app
-	private Integer rifSWS;
+	private Integer	rifSWS;
+	
+	private String	shipcondition;
 
-	private String shipcondition;
+	private String	shiptype;
 
-	private String shiptype;
-
-	private String twtype;
+	private String	twtype;
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -75,6 +77,10 @@ public class Ship implements Serializable {
 
 	}
 
+	public String getNote() {
+		return this.note;
+	}
+
 	public Boolean getNowork() {
 		return this.nowork;
 	}
@@ -111,6 +117,10 @@ public class Ship implements Serializable {
 		this.name = name;
 	}
 
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 	public void setNowork(final Boolean nowork) {
 		this.nowork = nowork;
 	}
@@ -133,7 +143,7 @@ public class Ship implements Serializable {
 
 	@Override
 	public String toString() {
-		if ((this.activityh != null) && (this.nowork != null)) {
+		if (this.activityh != null && this.nowork != null) {
 			if (this.activityh || this.nowork) {
 				return this.name + "*";
 			} else {
