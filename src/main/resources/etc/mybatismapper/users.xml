@@ -9,58 +9,60 @@
 
 
 	<select id="listAllPersonByEnable" resultType="org.uario.seaworkengine.model.Person">
-
-		select
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user u
-		where u.enabled = #{enable}
-		order
-		by
-		u.status
-		asc
-
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    u.enabled = #{enable}
+ORDER BY u.status ASC
+]]>
 	</select>
 
 	<select id="listAllPersonByUserTask" resultType="org.uario.seaworkengine.model.Person">
@@ -123,403 +125,399 @@ WHERE
 
 	<select id="listAllPersonByCurrentPosition" resultType="org.uario.seaworkengine.model.Person">
 <![CDATA[
-	
-	select
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (		
-			select GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t 
-				WHERE 
-				u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0 ) as tasksPerson
-	FROM
-		user u
-	WHERE
-		u.current_position like CONCAT('%', #{current_position},'%')
-	ORDER BY u.status asc
-		
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    u.current_position LIKE CONCAT('%', #{current_position}, '%')
+ORDER BY u.status ASC		
 		]]>
-
 	</select>
 
-
-
-
 	<select id="usersAdmin" resultType="org.uario.seaworkengine.model.Person">
-
-		select
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user u
-		where ( u.authority like
-		CONCAT('%',
-		'ROLE_SUPERVISOR', '%') )
-		order
-		by
-		u.status
-		asc
-
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    (u.authority LIKE CONCAT('%', 'ROLE_SUPERVISOR', '%'))
+ORDER BY u.status ASC
+]]>
 	</select>
 
 	<select id="usersOperative" resultType="org.uario.seaworkengine.model.Person">
-
-		select
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
-		u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and
-		ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user u
-		where ( u.authority like
-		CONCAT('%',
-		'ROLE_OPERATIVE', '%') )
-		order
-		by
-		u.status
-		asc
-
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    (u.authority LIKE CONCAT('%', 'ROLE_OPERATIVE', '%'))
+ORDER BY u.status ASC
+]]>
 	</select>
 
 
 	<select id="listPersonInSchedule" resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level
-		FROM
-		user
-		u
-		WHERE
-		u.out_schedule = 0
-		order
-		by u.firstname
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level
+FROM
+    user u
+WHERE
+    u.out_schedule = 0
+ORDER BY u.firstname ASC
+]]>
 	</select>
 
 
 	<select id="listViewerEmployee" resultType="org.uario.seaworkengine.model.Person">
-		select
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user u
-		where ( u.authority like
-		CONCAT('%',
-		'ROLE_VIEWER', '%') )
-		order
-		by
-		u.status
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    (u.authority LIKE CONCAT('%', 'ROLE_VIEWER', '%'))
+ORDER BY u.status ASC
+]]>
 	</select>
 
 	<select id="listProgrammerEmployee" resultType="org.uario.seaworkengine.model.Person">
-		select
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user u
-		where ( u.authority like
-		CONCAT('%',
-		'ROLE_BACKOFFICE', '%') )
-		order
-		by
-		u.status
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    (u.authority LIKE CONCAT('%', 'ROLE_BACKOFFICE', '%'))
+ORDER BY u.status ASC
+]]>
 	</select>
 
 	<select id="listOutScheduleEmployee" resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
-		u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and
-		ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user
-		u
-		WHERE
-		u.out_schedule = 1
-		order by u.firstname
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    u.out_schedule = 1
+ORDER BY u.firstname ASC
+]]>
 	</select>
 
-
-
-
-
 	<select id="listAllPersonByUserStatusPeriod" parameterType="map"
-		resultType="org.uario.seaworkengine.model.Person">
-		
-		<![CDATA[
-		
-		
+		resultType="org.uario.seaworkengine.model.Person">		
+	<![CDATA[		
 SELECT 
     u.id,
 		u.enabled,
@@ -584,323 +582,335 @@ where
 
 	<select id="listAllPersonByUserStatus" parameterType="String"
 		resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM
-		usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and
-		u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson
-		FROM
-		user
-		u
-		WHERE
-		u.status = #{userStatus}
-		order by u.firstname
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    u.status = #{userStatus}
+ORDER BY u.firstname ASC
+]]>
 
 	</select>
 
 	<select id="listAllPersonByContractualLevel" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select GROUP_CONCAT(ut.description) FROM
-		usertask ut, user_usertask u_t WHERE u.id = u_t.id_user and
-		u_t.id_usertask=ut.id and ut.internal=0
-		) as tasksPerson
-		FROM
-		user
-		u
-		WHERE
-		u.contractual_level = #{contractual_level}
-		order by u.firstname
-		asc
+<![CDATA[
+		SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    u.contractual_level = #{contractual_level}
+ORDER BY u.firstname ASC
+]]>
 
 	</select>
 
 	<select id="listAllPartTime" resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
-		u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and
-		ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user
-		u
-		WHERE
-		u.part_time = 1
-		order by u.firstname
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    u.part_time = 1
+ORDER BY u.firstname ASC
+]]>
 	</select>
 
 
 	<select id="listDailyEmployee" resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
-		u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and
-		ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user
-		u
-		WHERE
-		u.dailyemployee = 1
-		order by u.firstname
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+WHERE
+    u.dailyemployee = 1
+ORDER BY u.firstname ASC
+]]>
 	</select>
 
 
 	<select id="selectUsersByUsername" parameterType="string"
 		resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level
-		FROM
-		user
-		u
-		WHERE
-		u.email =
-		#{username} order by
-		u.status
-		asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level
+FROM
+    user u
+WHERE
+    u.email = #{username}
+ORDER BY u.status ASC
+]]>
 	</select>
 
 	<select id="selectUsersByUsernameAndPassword" parameterType="string"
 		resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level
-		FROM
-		user
-		u
-		WHERE
-		u.email =
-		#{username} and u.password =
-		#{password} order
-		by
-		u.status asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level
+FROM
+    user u
+WHERE
+    u.email = #{username}
+        AND u.password = #{password}
+ORDER BY u.status ASC
+]]>
 	</select>
 
 
@@ -908,288 +918,302 @@ where
 
 
 	<select id="selectAllPerson" resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
-		u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and
-		ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user
-		u order by
-		u.status asc
+<![CDATA[
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+ORDER BY u.status ASC
+]]>
 	</select>
 
 	<select id="selectWorkerPersonForMobile" resultType="org.uario.seaworkengine.model.Person"
 		parameterType="map">
+<![CDATA[		
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level
+FROM
+    user u,
+    schedule s,
+    usershift us
+WHERE
+    u.status <> 'LICENZIATO'
+        AND u.status <> 'SOSPESO'
+        AND u.out_schedule = 0
+        AND u.dailyemployee = 0
+        AND u.dailyemployee = 0
+        AND s.user = u.id
+        AND s.date_schedule = #{date_scheudle}
+        AND s.shift = us.id
+        AND us.presence = 1
+ORDER BY u.lastname ASC
+]]>
 
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level
-		FROM
-		user u, schedule s, usershift us
-		WHERE
-		u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0 and u.dailyemployee = 0 and
-		u.dailyemployee = 0 and s.user = u.id and s.date_schedule =
-		#{date_scheudle} and s.shift
-		= us.id and us.presence = 1 order by
-		u.lastname asc
 
 
 	</select>
 
 	<select id="selectWorkerPerson" resultType="org.uario.seaworkengine.model.Person"
 		parameterType="map">
-
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level
-		FROM
-		user u
-		WHERE
-		u.status <![CDATA[<>]]>
-		'LICENZIATO' and u.status <![CDATA[<>]]>
-		'SOSPESO' and u.out_schedule = 0
-
-		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%', #{my_full_text_search},
-			'%') or
-			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
-			u.employee_identification = #{my_full_text_search})
-		</if>
-
-		<if test="department != null">
-			and u.department = #{department}
-		</if>
-
-		order by u.status asc
-
-
+		
+<![CDATA[		
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level
+FROM
+    user u
+WHERE
+    u.status <> 'LICENZIATO'
+        AND u.status <> 'SOSPESO'
+        AND u.out_schedule = 0
+]]>	        
+        <if test="my_full_text_search != null">
+        <![CDATA[
+        AND (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR u.employee_identification = #{my_full_text_search})
+        ]]>
+        </if>
+        
+        <if test="department != null">
+         <![CDATA[
+        AND u.department = #{department}
+        ]]>
+        </if>
+<![CDATA[        
+ORDER BY u.status ASC
+]]>
 	</select>
 
 
 	<select id="selectAllPersonFulltextSearchLike" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level, (
-		select
-		GROUP_CONCAT(ut.description) FROM usertask ut, user_usertask
-		u_t WHERE
-		u.id = u_t.id_user and u_t.id_usertask=ut.id and
-		ut.internal=0
-		) as
-		tasksPerson
-		FROM
-		user u
-		<if test="my_full_text_search != null">
-			WHERE (u.firstname like CONCAT('%',
-			#{my_full_text_search}, '%') or
-			u.lastname like CONCAT('%',
-			#{my_full_text_search}, '%') or u.employee_identification =
-			#{my_full_text_search})
-		</if>
-		order by u.status asc
+<![CDATA[  
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level,
+    (SELECT 
+            GROUP_CONCAT(ut.description)
+        FROM
+            usertask ut,
+            user_usertask u_t
+        WHERE
+            u.id = u_t.id_user
+                AND u_t.id_usertask = ut.id
+                AND ut.internal = 0) AS tasksPerson
+FROM
+    user u
+]]>
+<if test="my_full_text_search != null">
+<![CDATA[  
+WHERE
+    (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
+        OR u.employee_identification = #{my_full_text_search})
+]]>	
+</if>
+<![CDATA[ 
+ORDER BY u.status ASC
+]]>	
 	</select>
-
-
-
-
-
-
 
 	<select id="selectSuspendedUsers" parameterType="string"
 		resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level
-		FROM
-		user
-		u
-		WHERE
-		u.status =
-		#{idSuspended}
+<![CDATA[ 
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level
+FROM
+    user u
+WHERE
+    u.status = #{idSuspended}
+]]>	
 	</select>
 
 
@@ -1197,49 +1221,50 @@ where
 
 	<select id="selectUserById" parameterType="int"
 		resultType="org.uario.seaworkengine.model.Person">
-		SELECT
-		u.id,
-		u.enabled,
-		u.email,
-		u.password,
-		u.authority,
-		u.firstname,
-		u.lastname,
-		u.address,
-		u.city,
-		u.zip,
-		u.phone,
-		u.country,
-		u.birth_date,
-		u.birth_place,
-		u.current_position,
-		u.department,
-		u.driving_license,
-		u.driving_license_emission,
-		u.education,
-		u.employee_identification,
-		u.family_charge,
-		u.fiscal_code,
-		u.marital_status,
-		u.nbudge,
-		u.ncfl,
-		u.npass,
-		u.provincia,
-		u.status,
-		u.personal_code,
-		u.sex,
-		u.out_schedule,
-		u.birth_province,
-		u.dailyemployee,
-		u.part_time,
-		u.daywork_w,
-		u.hourswork_w,
-		u.contractual_level
-		FROM
-		user
-		u
-		WHERE
-		u.id = #{id}
+<![CDATA[ 
+SELECT 
+    u.id,
+    u.enabled,
+    u.email,
+    u.password,
+    u.authority,
+    u.firstname,
+    u.lastname,
+    u.address,
+    u.city,
+    u.zip,
+    u.phone,
+    u.country,
+    u.birth_date,
+    u.birth_place,
+    u.current_position,
+    u.department,
+    u.driving_license,
+    u.driving_license_emission,
+    u.education,
+    u.employee_identification,
+    u.family_charge,
+    u.fiscal_code,
+    u.marital_status,
+    u.nbudge,
+    u.ncfl,
+    u.npass,
+    u.provincia,
+    u.status,
+    u.personal_code,
+    u.sex,
+    u.out_schedule,
+    u.birth_province,
+    u.dailyemployee,
+    u.part_time,
+    u.daywork_w,
+    u.hourswork_w,
+    u.contractual_level
+FROM
+    user u
+WHERE
+    u.id = #{id}
+]]>
 	</select>
 
 	<insert id="insertPerson" parameterType="org.uario.seaworkengine.model.Person">
