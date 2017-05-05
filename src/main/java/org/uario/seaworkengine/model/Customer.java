@@ -12,6 +12,8 @@ public class Customer implements Serializable {
 	private Integer				id;
 
 	private String				name;
+	
+	private String				note;
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -32,9 +34,13 @@ public class Customer implements Serializable {
 	public Integer getId() {
 		return this.id;
 	}
-
+	
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getNote() {
+		return this.note;
 	}
 
 	public void setId(final Integer id) {
@@ -43,6 +49,10 @@ public class Customer implements Serializable {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	@Override

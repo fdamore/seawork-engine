@@ -7,13 +7,13 @@
 
 
 	<select id="selectAllCustomers" resultType="org.uario.seaworkengine.model.Customer">
-		SELECT id, name
+		SELECT *
 		FROM
 		customer
 	</select>
 
 	<select id="selectCustomerById" resultType="org.uario.seaworkengine.model.Customer">
-		SELECT id, name
+		SELECT *
 		FROM
 		customer
 		where id = #{id}
@@ -24,9 +24,9 @@
 	<insert id="createCustomer" parameterType="org.uario.seaworkengine.model.Customer">
 		INSERT INTO customer
 		(id,
-		name)
+		name, note)
 		VALUES
-		(#{id}, #{name})
+		(#{id}, #{name},#{note})
 	</insert>
 
 	<delete id="deleteCustomer" parameterType="int">
@@ -38,7 +38,8 @@
 	<update id="updateCustomer" parameterType="org.uario.seaworkengine.model.Customer">
 		UPDATE customer
 		SET
-		name = #{name}
+		name = #{name},
+		note = #{note}
 		WHERE id = #{id};
 	</update>
 

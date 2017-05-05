@@ -363,20 +363,41 @@
 
 					<div id="add_customer_div" visible="false">
 
-						<hbox align="center">
-							<label value="Nome Utente: "></label>
-							<textbox placeholder="Nome Utente..."
-								id="customer_name">
-							</textbox>
-						</hbox>
+						<vbox>
 
-						<separator></separator>
+							<hbox align="center">
 
-						<button id="sw_addcustomer_ok" sclass="btn-info"
-							label="OK">
-						</button>
+								<a label="Dati CLiente"
+									iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 
+								<button id="sw_addcustomer_ok"
+									sclass="btn-info" label="OK">
+								</button>
+
+								<button sclass="btn-danger"
+									label="CHIUDI" onClick="add_customer_div.setVisible(false)">
+								</button>
+							</hbox>
+
+							<hbox align="center">
+								<label value="Nome Utente: "></label>
+								<textbox placeholder="Nome Utente..."
+									id="customer_name">
+								</textbox>
+							</hbox>
+
+							<hbox align="center">
+								<label value="Note:"></label>
+								<textbox id="customer_note"
+									width="200px" rows="5" />
+							</hbox>
+
+							<separator></separator>
+
+
+
+						</vbox>
 					</div>
 
 					<space></space>
@@ -407,6 +428,7 @@
 						<listhead sizable="true">
 
 							<listheader label="Nome" sort="auto(name)" />
+							<listheader label="Note" sort="auto(note)" />
 							<listheader label="" />
 						</listhead>
 
@@ -417,11 +439,21 @@
 							<listcell sclass="myBottonCell"
 								label="@{customer_item.name}" />
 
+							<listcell sclass="myBottonCell"
+								label="@{customer_item.note}" />
+
 							<listcell sclass="myBottonCell">
+
 								<toolbarbutton
 									id="sw_link_modifycustomer" style="color:blue"
 									onClick="sw_list_customer.setSelectedItem((Listitem)self.getParent().getParent());"
 									label="Cancella">
+								</toolbarbutton>
+
+								<toolbarbutton id="show_modifycustomer"
+									style="color:blue"
+									onClick="sw_list_customer.setSelectedItem((Listitem)self.getParent().getParent());"
+									label="Visualizza e Modifica">
 								</toolbarbutton>
 							</listcell>
 
