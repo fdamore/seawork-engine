@@ -6,13 +6,14 @@ import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.model.WorkerStatus;
 
 public interface ConfigurationDAO {
 
 	public void addService(Service service);
 
-	public void addStatus(String status);
-
+	public void addStatus(String status, String note);
+	
 	public List<Service> checkServiceExist(String name);
 
 	public void createCrane(Crane crane);
@@ -73,6 +74,8 @@ public interface ConfigurationDAO {
 
 	public List<UserTask> loadTasks();
 
+	public void updateStatus(WorkerStatus itm);
+
 	public void removeAllAccidentShift();
 
 	public void removeAllBreakShift();
@@ -103,7 +106,7 @@ public interface ConfigurationDAO {
 
 	public void removeTask(Integer id);
 
-	public List<String> selectAllStatus();
+	public List<WorkerStatus> selectAllStatus();
 
 	public List<Service> selectService(Integer id, String name, String description);
 

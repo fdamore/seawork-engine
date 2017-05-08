@@ -142,12 +142,13 @@
 	<tabbox>
 
 		<tabs>
-			<tab label="Mansioni e Giustificativi" id="task" selected="true" />
+			<tab label="Mansioni e Giustificativi" id="task"
+				selected="true" />
 			<tab label="Turni" id="shift" />
 			<tab label="Centri di Costo" id="billcenter" />
-			<tab label="Tipo Rapporto di Lavoro" id="status" />
-			<tab label="Tipo Servizio" id="serviceType" />
-			<tab label="Gru" id="crane"/>
+			<tab label="Rapporto di Lavoro" id="status" />
+			<tab label="Servizio" id="serviceType" />
+			<tab label="Gru" id="crane" />
 		</tabs>
 
 		<tabpanels>
@@ -164,8 +165,8 @@
 						<!-- TASK -->
 						<div>
 
-							<a label="Mansioni e Giustificativi" iconSclass="z-icon-list"
-								sclass="green lighter rcaption" />
+							<a label="Mansioni e Giustificativi"
+								iconSclass="z-icon-list" sclass="green lighter rcaption" />
 
 							<!-- TASK EDITOR -->
 							<div id="grid_task_details"
@@ -174,7 +175,8 @@
 								<panel border="normal"
 									collapsible="false" sclass="transparent">
 									<caption
-										iconSclass="z-icon-star orange" label="Dettagli Mansione o Giustificativo">
+										iconSclass="z-icon-star orange"
+										label="Dettagli Mansione o Giustificativo">
 
 										<toolbarbutton label="Chiudi"
 											style="color: blue"
@@ -228,16 +230,18 @@
 														value="Assenza:">
 													</label>
 													<checkbox
-														id="isabsence_task" onClick="justificatory_task.setChecked(false);"/>
+														id="isabsence_task"
+														onClick="justificatory_task.setChecked(false);" />
 												</row>
-												
+
 												<row
 													id="row_justificatory_task">
 													<label
 														value="Giustificativo:">
 													</label>
 													<checkbox
-														id="justificatory_task" onClick="isabsence_task.setChecked(false);"/>
+														id="justificatory_task"
+														onClick="isabsence_task.setChecked(false);" />
 												</row>
 
 												<row
@@ -248,71 +252,80 @@
 													<checkbox
 														id="recorded_task" />
 												</row>
-												
+
 												<row
 													id="row_changeshift_task">
 													<label
 														value="Cambio Turno (per Applicazione Mobile)">
 													</label>
 													<checkbox
-														id="changeshift_task" onCheck="endoperation_task.setChecked(false);overflow_task.setChecked(false);delayoperation_task.setChecked(false);"/>
+														id="changeshift_task"
+														onCheck="endoperation_task.setChecked(false);overflow_task.setChecked(false);delayoperation_task.setChecked(false);" />
 												</row>
-																							
+
 												<row
 													id="row_endoperation_task">
 													<label
 														value="Fine Operazione (per Applicazione Mobile)">
 													</label>
 													<checkbox
-														id="endoperation_task" onCheck="changeshift_task.setChecked(false);overflow_task.setChecked(false);delayoperation_task.setChecked(false);"/>
+														id="endoperation_task"
+														onCheck="changeshift_task.setChecked(false);overflow_task.setChecked(false);delayoperation_task.setChecked(false);" />
 												</row>
-												
+
 												<row
 													id="row_overflow_task">
 													<label
 														value="Esubero (per Applicazione Mobile):">
 													</label>
 													<checkbox
-														id="overflow_task" onCheck="changeshift_task.setChecked(false);endoperation_task.setChecked(false);delayoperation_task.setChecked(false);"/>
+														id="overflow_task"
+														onCheck="changeshift_task.setChecked(false);endoperation_task.setChecked(false);delayoperation_task.setChecked(false);" />
 												</row>
-												
+
 												<row
 													id="row_delayoperation_task">
 													<label
 														value="Ritardo (per Applicazione Mobile):">
 													</label>
 													<checkbox
-														id="delayoperation_task" onCheck="changeshift_task.setChecked(false);overflow_task.setChecked(false);endoperation_task.setChecked(false);"/>
+														id="delayoperation_task"
+														onCheck="changeshift_task.setChecked(false);overflow_task.setChecked(false);endoperation_task.setChecked(false);" />
 												</row>
-												
+
 												<row
 													id="row_isRZ_task">
 													<label
 														value="Mansione di Rizzaggio:">
 													</label>
 													<checkbox
-														id="isRZ_task" onCheck="isPP_task.setChecked(false);"/>
+														id="isRZ_task" onCheck="isPP_task.setChecked(false);" />
 												</row>
-												
+
 												<row
 													id="row_isPP_task">
 													<label
 														value="Mansione di Preposto Piazzale:">
 													</label>
 													<checkbox
-														id="isPP_task" onCheck="isRZ_task.setChecked(false);"/>
+														id="isPP_task" onCheck="isRZ_task.setChecked(false);" />
 												</row>
-												
-												<row id="row_hidden_task">
-													<label value="Nascosto al preposto (non visibile in App e Stampa Preposto): ">
+
+												<row
+													id="row_hidden_task">
+													<label
+														value="Nascosto al preposto (non visibile in App e Stampa Preposto): ">
 													</label>
-													<checkbox id="hidden_task" />
+													<checkbox
+														id="hidden_task" />
 												</row>
-												
+
 												<row id="row_task">
-													<label value="Interna: ">
+													<label
+														value="Interna: ">
 													</label>
-													<checkbox id="internal_task" />
+													<checkbox
+														id="internal_task" />
 												</row>
 
 
@@ -339,38 +352,40 @@
 								</button>
 
 								<button id="sw_refresh_tasklist"
-									sclass="btn-primary" label="Ricarica Lista Mansioni e Giustificativi">
+									sclass="btn-primary"
+									label="Ricarica Lista Mansioni e Giustificativi">
 								</button>
 
-								<separator/>
+								<separator />
 								<button id="sw_return_defaulttask"
 									sclass="btn-info" label="Mansioni di Assenza">
 								</button>
-								
+
 								<button id="sw_return_justificatorytask"
 									sclass="btn-info" label="Giustificativi">
 								</button>
-								
+
 								<button id="sw_return_mobiletask"
-									sclass="btn-info" label="Mansioni usate in Applicazione Mobile">
+									sclass="btn-info"
+									label="Mansioni usate in Applicazione Mobile">
 								</button>
-																
+
 								<button id="sw_return_RZ_PP"
 									sclass="btn-info" label="Mansioni RZ e PP">
 								</button>
-								
+
 								<button id="sw_return_hiddentask"
 									sclass="btn-info" label="Mansioni nascoste al preposto">
 								</button>
-								
+
 								<button id="sw_return_internaltask"
 									sclass="btn-info" label="Mansioni Interne">
 								</button>
-								
+
 								<button id="sw_return_recorded"
 									sclass="btn-info" label="Mansioni Contabilizzate">
 								</button>
-															
+
 
 								<separator></separator>
 
@@ -392,21 +407,34 @@
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="10">
 								<listhead sizable="true">
-									<listheader label="Codice" sort="auto(code)"/>
+									<listheader label="Codice"
+										sort="auto(code)" />
 									<listheader label="Descrizione"
 										sort="auto(description)" />
-									<listheader label="Assenza" sort="auto(isabsence)" />
-									<listheader label="Giustificativo" sort="auto(justificatory)" />
-									<listheader label="Contabilizzato" sort="auto(recorded)" />
-									
-									<listheader label="Cambio Turno (App Mobile)" sort="auto(changeshift)" />
-									<listheader label="Fine Operazione (App Mobile)" sort="auto(endoperation)" />
-									<listheader label="Esubero (App Mobile)" sort="auto(overflow)" />
-									<listheader label="Ritardo (App Mobile)" sort="auto(delayoperation)" />
-									<listheader label="Rizzaggio" sort="auto(isRZ)" />
-									<listheader label="Preposto" sort="auto(isPP)" />
-									<listheader label="Nascosto al preposto" sort="auto(hiddentask)"/>
-									<listheader label="Interna" sort="auto(internal)"/>
+									<listheader label="Assenza"
+										sort="auto(isabsence)" />
+									<listheader label="Giustificativo"
+										sort="auto(justificatory)" />
+									<listheader label="Contabilizzato"
+										sort="auto(recorded)" />
+
+									<listheader
+										label="Cambio Turno (App Mobile)" sort="auto(changeshift)" />
+									<listheader
+										label="Fine Operazione (App Mobile)"
+										sort="auto(endoperation)" />
+									<listheader
+										label="Esubero (App Mobile)" sort="auto(overflow)" />
+									<listheader
+										label="Ritardo (App Mobile)" sort="auto(delayoperation)" />
+									<listheader label="Rizzaggio"
+										sort="auto(isRZ)" />
+									<listheader label="Preposto"
+										sort="auto(isPP)" />
+									<listheader
+										label="Nascosto al preposto" sort="auto(hiddentask)" />
+									<listheader label="Interna"
+										sort="auto(internal)" />
 									<listheader label="" />
 
 								</listhead>
@@ -422,69 +450,80 @@
 									<listcell sclass="myBottonCell"
 										label="@{task_item.description}" />
 
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{task_item.isabsence, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{task_item.justificatory, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
 
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.changeshift, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.endoperation, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.overflow, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.delayoperation, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.isRZ, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.isPP, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 
 										<image
 											src="@{task_item.hiddentask, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{task_item.internal, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
+
 									<listcell sclass="myBottonCell">
 
 										<toolbarbutton
@@ -648,7 +687,7 @@
 														value="Contabilizzato:">
 													</label>
 													<checkbox
-														id="recorded_shift" disabled="true"/>
+														id="recorded_shift" disabled="true" />
 												</row>
 
 
@@ -679,7 +718,7 @@
 								<button id="sw_return_defaultshift"
 									sclass="btn-info" label="Visualizza Turni Default">
 								</button>
-								
+
 								<button id="sw_return_recordedshift"
 									sclass="btn-info" label="Turni Contabilizzati">
 								</button>
@@ -707,8 +746,10 @@
 									<listheader label="Descrizione"
 										sort="auto(description)" />
 									<listheader label="Tipo di Turno" />
-									<listheader label="Forzabile" sort="auto(forceable)"/>
-									<listheader label="Contabilizzato" sort="auto(recorded)"/>
+									<listheader label="Forzabile"
+										sort="auto(forceable)" />
+									<listheader label="Contabilizzato"
+										sort="auto(recorded)" />
 									<listheader
 										label="Riposo Programmato" />
 									<listheader
@@ -727,36 +768,47 @@
 										label="@{shift_item.code}" />
 									<listcell sclass="myBottonCell"
 										label="@{shift_item.description}" />
-									<listcell style="text-align: center" sclass="myBottonCell"
+									<listcell style="text-align: center"
+										sclass="myBottonCell"
 										label="@{shift_item.presence, converter='org.uario.seaworkengine.zkevent.converter.ShiftTypeConverter'}" />
-									<listcell style="text-align: center"  sclass="myBottonCell">
-										<image src="@{shift_item.forceable, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
+										<image
+											src="@{shift_item.forceable, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									<listcell style="text-align: center" sclass="myBottonCell">
-										<image src="@{shift_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />									
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
+										<image
+											src="@{shift_item.recorded, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{shift_item.break_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
 
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{shift_item.accident_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{shift_item.disease_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{shift_item.waitbreak_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{shift_item.standard_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
-									<listcell style="text-align: center" sclass="myBottonCell">
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{shift_item.daily_shift, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 									</listcell>
@@ -807,8 +859,8 @@
 						<!-- BILL CENTER -->
 						<div>
 
-							<a label="Centri di Costo" iconSclass="z-icon-list"
-								sclass="green lighter rcaption" />
+							<a label="Centri di Costo"
+								iconSclass="z-icon-list" sclass="green lighter rcaption" />
 
 							<!-- BILL CENTER EDITOR -->
 							<div id="grid_billcenter_details"
@@ -817,16 +869,17 @@
 								<panel border="normal"
 									collapsible="false" sclass="transparent">
 									<caption
-										iconSclass="z-icon-star orange" label="Dettagli Mansione o Giustificativo">
+										iconSclass="z-icon-star orange"
+										label="Dettagli Mansione o Giustificativo">
 
-										<toolbarbutton label="Chiudi" id="closeBillCenterDetail"
-											style="color: blue"
+										<toolbarbutton label="Chiudi"
+											id="closeBillCenterDetail" style="color: blue"
 											onClick="grid_billcenter_details.setVisible(false);add_billcenter_command.setVisible(false);modify_billcenter_command.setVisible(false);">
 										</toolbarbutton>
 
 										<toolbarbutton
-											id="add_billcenter_command" label="Aggiungi" style="color: blue"
-											visible="false">
+											id="add_billcenter_command" label="Aggiungi"
+											style="color: blue" visible="false">
 										</toolbarbutton>
 
 										<toolbarbutton
@@ -878,7 +931,7 @@
 									sclass="btn-primary" label="Ricarica">
 								</button>
 
-								
+
 								<separator></separator>
 
 								<a label="Righe da visualizzare: "
@@ -887,9 +940,10 @@
 									constraint="no negative, no zero" value="10">
 								</intbox>
 
-								<textbox placeholder="Cerca..." id="full_text_search_BillCenter">
+								<textbox placeholder="Cerca..."
+									id="full_text_search_BillCenter">
 								</textbox>
-								
+
 								<separator></separator>
 
 
@@ -900,14 +954,15 @@
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="10">
 								<listhead sizable="true">
-									<listheader label="Descrizione" sort="auto(description)" />
-									
+									<listheader label="Descrizione"
+										sort="auto(description)" />
+
 									<listheader label="" />
 
 								</listhead>
 
-								<listitem self="@{each='billcenter_item'}"
-									value="@{billcenter_item}">
+								<listitem
+									self="@{each='billcenter_item'}" value="@{billcenter_item}">
 
 									<listcell sclass="myBottonCell"
 										label="@{billcenter_item.description}" />
@@ -967,8 +1022,7 @@
 											onClick="grid_status_details.setVisible(false);">
 										</toolbarbutton>
 										<toolbarbutton
-											id="add_status_command" label="Aggiungi" style="color: blue"
-											visible="false">
+											id="status_command" label="OK" style="color: blue">
 										</toolbarbutton>
 									</caption>
 									<panelchildren>
@@ -987,6 +1041,14 @@
 													<textbox
 														id="description_status" mold="rounded" />
 												</row>
+
+												<row>
+													<label
+														value="Note:">
+													</label>
+													<textbox
+														id="note_status" mold="rounded" />
+												</row>
 											</rows>
 										</grid>
 									</panelchildren>
@@ -997,8 +1059,8 @@
 								<separator></separator>
 
 								<button id="sw_addstatus"
-									sclass="btn-success" label="Aggiungi Tipo Rapporto di Lavoro"
-									onClick="add_status_command.setVisible(true);grid_status_details.setVisible(true)">
+									sclass="btn-success" label="Aggiungi Rapporto di Lavoro"
+									onClick="grid_status_details.setVisible(true)">
 								</button>
 
 								<button id="sw_refresh_status_list"
@@ -1012,13 +1074,16 @@
 
 
 							<listbox id="sw_list_status"
-								pagingPosition="both" mold="paging"
+								pagingPosition="both" mold="paging" 
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="20">
 								<listhead sizable="true">
 
 									<listheader label="Descrizione"
-										sort="auto" />
+										sort="auto(description)" />
+
+									<listheader label="Note"
+										sort="auto(note)" />
 
 									<listheader label="" />
 								</listhead>
@@ -1027,14 +1092,20 @@
 									value="@{status_item}">
 
 
-
-
-
 									<listcell sclass="myBottonCell"
 										label="@{status_item.description}" />
 
+									<listcell sclass="myBottonCell"
+										label="@{status_item.note}" />
+
 
 									<listcell sclass="myBottonCell">
+
+										<toolbarbutton
+											id="sw_link_modifystatus" style="color:blue"
+											onClick="sw_list_status.setSelectedItem((Listitem)self.getParent().getParent());"
+											label="Modifica">
+										</toolbarbutton>
 
 										<toolbarbutton
 											id="sw_link_deletestatus" style="color:blue"
@@ -1098,14 +1169,14 @@
 													fr_volume.setValue(0.0);fr_volumeunderboard.setValue(0.0);fr_volumeunderboard_sws.setValue(0.0);fr_volume_tw_mct.setValue(0.0)">
 										</toolbarbutton>
 										<toolbarbutton
-											id="add_service_command" label="Aggiungi" style="color: blue" 
+											id="add_service_command" label="Aggiungi" style="color: blue"
 											visible="false">
 										</toolbarbutton>
 										<toolbarbutton
-											id="modify_service_command" label="Modifica" style="color: blue"
-											visible="false">
+											id="modify_service_command" label="Modifica"
+											style="color: blue" visible="false">
 										</toolbarbutton>
-										
+
 									</caption>
 									<panelchildren>
 										<grid sclass="domain">
@@ -1138,24 +1209,39 @@
 													<checkbox id="isRZ" />
 												</row>
 												<row>
-													<label 	value="Franchigia Tempo Lavorato:"/>
-													<doublebox id="fr_timework" value="0.0" constraint="no negative,no empty"/>
+													<label
+														value="Franchigia Tempo Lavorato:" />
+													<doublebox
+														id="fr_timework" value="0.0"
+														constraint="no negative,no empty" />
 												</row>
 												<row>
-													<label 	value="Franchigia Volume:"/>
-													<doublebox id="fr_volume" value="0.0"  constraint="no negative,no empty" />
+													<label
+														value="Franchigia Volume:" />
+													<doublebox
+														id="fr_volume" value="0.0"
+														constraint="no negative,no empty" />
 												</row>
 												<row>
-													<label 	value="Franchigia Volume Rizz. da Bordo (x Cliente):"/>
-													<doublebox id="fr_volumeunderboard" value="0.0"  constraint="no negative,no empty"/>
+													<label
+														value="Franchigia Volume Rizz. da Bordo (x Cliente):" />
+													<doublebox
+														id="fr_volumeunderboard" value="0.0"
+														constraint="no negative,no empty" />
 												</row>
 												<row>
-													<label 	value="Franchigia Volume Rizz. da Bordo (x SWS):"/>
-													<doublebox id="fr_volumeunderboard_sws" value="0.0"  constraint="no negative,no empty"/>
+													<label
+														value="Franchigia Volume Rizz. da Bordo (x SWS):" />
+													<doublebox
+														id="fr_volumeunderboard_sws" value="0.0"
+														constraint="no negative,no empty" />
 												</row>
 												<row>
-													<label 	value="Franchigia Volume TW MCT:"/>
-													<doublebox id="fr_volume_tw_mct" value="0.0"  constraint="no negative,no empty"/>
+													<label
+														value="Franchigia Volume TW MCT:" />
+													<doublebox
+														id="fr_volume_tw_mct" value="0.0"
+														constraint="no negative,no empty" />
 												</row>
 											</rows>
 										</grid>
@@ -1174,9 +1260,9 @@
 								<button id="sw_refresh_service_list"
 									sclass="btn-primary" label="Ricarica Lista">
 								</button>
-								
-								<button id="selectRZ"
-									sclass="btn-info" label="Servizio Rizzaggio">
+
+								<button id="selectRZ" sclass="btn-info"
+									label="Servizio Rizzaggio">
 								</button>
 
 								<separator></separator>
@@ -1187,7 +1273,8 @@
 									constraint="no negative, no zero" value="10">
 								</intbox>
 
-								<textbox placeholder="Cerca per codice..."
+								<textbox
+									placeholder="Cerca per codice..."
 									id="full_text_search_Service">
 								</textbox>
 
@@ -1208,24 +1295,25 @@
 
 									<listheader label="Descrizione"
 										sort="auto" />
-									
+
 									<listheader label="Rizzaggio"
 										sort="auto" />
-									
-									<listheader label="Franchigia Tempo Lavorato"
+
+									<listheader
+										label="Franchigia Tempo Lavorato" sort="auto" />
+
+									<listheader
+										label="Franchigia Volume" sort="auto" />
+
+									<listheader
+										label="Franchigia Volume Rizz. da Bordo (x Cliente)"
 										sort="auto" />
-										
-									<listheader label="Franchigia Volume"
-										sort="auto" />
-										
-									<listheader label="Franchigia Volume Rizz. da Bordo (x Cliente)"
-										sort="auto" />
-									
-									<listheader label="Franchigia Volume Rizz. da Bordo (x SWS)"
-										sort="auto" />
-										
-									<listheader label="Franchigia Volume TW MCT"  
-										sort="auto" />
+
+									<listheader
+										label="Franchigia Volume Rizz. da Bordo (x SWS)" sort="auto" />
+
+									<listheader
+										label="Franchigia Volume TW MCT" sort="auto" />
 
 									<listheader label="" />
 								</listhead>
@@ -1238,24 +1326,25 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{service_item.description}" />
-										
-									<listcell style="text-align: center" sclass="myBottonCell">
+
+									<listcell style="text-align: center"
+										sclass="myBottonCell">
 										<image
 											src="@{service_item.isRZ, converter='org.uario.seaworkengine.zkevent.converter.TaskAbsenceConverter'}" />
 									</listcell>
-									
+
 									<listcell sclass="myBottonCell"
 										label="@{service_item.franchise_timework}" />
-										
+
 									<listcell sclass="myBottonCell"
 										label="@{service_item.franchise_volume}" />
-										
+
 									<listcell sclass="myBottonCell"
 										label="@{service_item.franchise_volumeunderboard}" />
-										
+
 									<listcell sclass="myBottonCell"
 										label="@{service_item.franchise_volumeunderboard_sws}" />
-										
+
 									<listcell sclass="myBottonCell"
 										label="@{service_item.franchise_volume_tw_mct}" />
 
@@ -1266,13 +1355,13 @@
 											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());"
 											label="Cancella">
 										</toolbarbutton>
-																														
+
 										<toolbarbutton
 											id="sw_link_modifyservice" style="color:blue"
 											onClick="sw_list_service.setSelectedItem((Listitem)self.getParent().getParent());add_service_command.setVisible(false);modify_service_command.setVisible(true);grid_service_details.setVisible(true);"
 											label="Modifica">
-										</toolbarbutton>							
-										
+										</toolbarbutton>
+
 
 									</listcell>
 
@@ -1286,7 +1375,7 @@
 
 				</panel>
 			</tabpanel>
-			
+
 			<tabpanel>
 				<panel id="panel_crane" border="normal"
 					collapsible="false" sclass="transparent">
@@ -1297,8 +1386,8 @@
 					<panelchildren>
 						<!-- CRANE -->
 						<div>
-							<a label="Gru"
-								iconSclass="z-icon-list" sclass="green lighter rcaption" />
+							<a label="Gru" iconSclass="z-icon-list"
+								sclass="green lighter rcaption" />
 
 							<!-- CRANE EDITOR -->
 							<div id="grid_crane_details"
@@ -1316,8 +1405,8 @@
 											id="add_crane_command" label="Aggiungi" style="color: blue"
 											visible="false">
 										</toolbarbutton>
-										<toolbarbutton label="Modifica" id="modify_crane_command" 
-											style="color: blue"
+										<toolbarbutton label="Modifica"
+											id="modify_crane_command" style="color: blue"
 											onClick="grid_crane_details.setVisible(true);">
 										</toolbarbutton>
 									</caption>
@@ -1335,7 +1424,7 @@
 														value="Numero">
 													</label>
 													<intbox
-														id="number_crane" constraint="no negative"  mold="rounded" />
+														id="number_crane" constraint="no negative" mold="rounded" />
 												</row>
 												<row
 													id="row_name_crane">
@@ -1350,9 +1439,10 @@
 													<label
 														value="Descrizione:">
 													</label>
-													<textbox id="description_crane" mold="rounded" />
+													<textbox
+														id="description_crane" mold="rounded" />
 												</row>
-												
+
 											</rows>
 										</grid>
 									</panelchildren>
@@ -1362,12 +1452,14 @@
 							<div>
 								<separator></separator>
 
-								<button sclass="btn-success" label="Aggiungi Gru"
+								<button sclass="btn-success"
+									label="Aggiungi Gru"
 									onClick="modify_crane_command.setVisible(false);add_crane_command.setVisible(true);grid_crane_details.setVisible(true);description_crane.setValue(null);name_crane.setValue(null);number_crane.setValue(null);">
 								</button>
 
 								<button id="sw_refresh_crane_list"
-									sclass="btn-primary" label="Ricarica" onClick="full_text_search_Crane.setValue(null);shows_rows_crane.setValue(null)">
+									sclass="btn-primary" label="Ricarica"
+									onClick="full_text_search_Crane.setValue(null);shows_rows_crane.setValue(null)">
 								</button>
 
 								<separator></separator>
@@ -1378,8 +1470,9 @@
 									constraint="no negative, no zero" value="10">
 								</intbox>
 
-								<intbox placeholder="Cerca Numero Gru..."
-									id="full_text_search_Crane" width="180px">
+								<intbox
+									placeholder="Cerca Numero Gru..." id="full_text_search_Crane"
+									width="180px">
 								</intbox>
 
 								<separator></separator>
@@ -1395,9 +1488,9 @@
 								<listhead sizable="true">
 
 									<listheader label="Numero" />
-									
-									<listheader label="Nome"  />
-										
+
+									<listheader label="Nome" />
+
 									<listheader label="Descrizione" />
 
 									<listheader label="" />
@@ -1405,13 +1498,13 @@
 
 								<listitem self="@{each='crane_item'}"
 									value="@{crane_item}">
-									
+
 									<listcell sclass="myBottonCell"
 										label="@{crane_item.number}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{crane_item.name}" />
-										
+
 									<listcell sclass="myBottonCell"
 										label="@{crane_item.description}" />
 
@@ -1422,10 +1515,10 @@
 											onClick="sw_list_crane.setSelectedItem((Listitem)self.getParent().getParent());"
 											label="Cancella">
 										</toolbarbutton>
-										
+
 										<toolbarbutton
-											id="sw_link_modifycrane" label="Modifica" 
-											onClick="sw_list_crane.setSelectedItem((Listitem)self.getParent().getParent());grid_crane_details.setVisible(true);add_crane_command.setVisible(false);modify_crane_command.setVisible(true);" 
+											id="sw_link_modifycrane" label="Modifica"
+											onClick="sw_list_crane.setSelectedItem((Listitem)self.getParent().getParent());grid_crane_details.setVisible(true);add_crane_command.setVisible(false);modify_crane_command.setVisible(true);"
 											style="color: blue">
 										</toolbarbutton>
 

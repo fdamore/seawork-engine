@@ -17,21 +17,25 @@
 		code,
 		description, isabsence, recorded,
 		overflow, endoperation,
-		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP, internal  
+		delayoperation, changeshift, hiddentask,
+		justificatory, isRZ, isPP, internal
 		FROM usertask
-		WHERE id=#{id} order by code asc;
+		WHERE id=#{id} order
+		by code asc;
 	</select>
-	
+
 	<select id="loadRZTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT *
-		FROM usertask 
-		WHERE isRZ=1;
+		FROM usertask
+		WHERE
+		isRZ=1;
 	</select>
-	
+
 	<select id="loadPPTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT *
-		FROM usertask 
-		WHERE isPP=1;
+		FROM usertask
+		WHERE
+		isPP=1;
 	</select>
 
 	<select id="loadAllShiftCode" resultType="String">
@@ -39,9 +43,10 @@
 		FROM
 		usershift s
 	</select>
-	
+
 	<select id="loadRecordedTask" resultType="org.uario.seaworkengine.model.UserTask">
-		select * from usertask where recorded=1 order by code asc;
+		select * from usertask
+		where recorded=1 order by code asc;
 	</select>
 
 
@@ -52,7 +57,7 @@
 		FROM usershift
 		WHERE id=#{id};
 	</select>
-	
+
 	<select id="listAllHiddenTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
 		t.code,
@@ -62,22 +67,23 @@
 		t.endoperation,
 		t.overflow,
 		t.changeshift,
-		t.delayoperation, 
-		t.hiddentask, 
-		t.justificatory, 
-		t.isRZ, 
-		t.isPP, t.internal    
+		t.delayoperation,
+		t.hiddentask,
+		t.justificatory,
+		t.isRZ,
+		t.isPP, t.internal
 		FROM usertask t
-		WHERE t.hiddentask = 1 order by t.code asc;
+		WHERE t.hiddentask = 1 order by
+		t.code asc;
 	</select>
-		
+
 	<select id="listRecordedShift" resultType="org.uario.seaworkengine.model.UserShift">
-		SELECT *		   
-		FROM usershift 
+		SELECT *
+		FROM usershift
 		WHERE recorded = 1 order by code asc;
 	</select>
-	
-	
+
+
 	<select id="listAllStandardTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
 		t.code,
@@ -87,15 +93,17 @@
 		t.endoperation,
 		t.overflow,
 		t.changeshift,
-		t.delayoperation, 
-		t.hiddentask, 
+		t.delayoperation,
+		t.hiddentask,
 		t.justificatory,
-		t.isRZ, 
-		t.isPP, t.internal     
+		t.isRZ,
+		t.isPP, t.internal
 		FROM usertask t
-		WHERE t.isabsence = 0 and t.justificatory = 0 order by t.code asc;
+		WHERE t.isabsence = 0 and
+		t.justificatory = 0 order by
+		t.code asc;
 	</select>
-	
+
 	<select id="listAllJustificatoryTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT t.id,
 		t.code,
@@ -105,13 +113,14 @@
 		t.endoperation,
 		t.overflow,
 		t.changeshift,
-		t.delayoperation, 
-		t.hiddentask, 
+		t.delayoperation,
+		t.hiddentask,
 		t.justificatory,
-		t.isRZ, 
-		t.isPP, t.internal    
+		t.isRZ,
+		t.isPP, t.internal
 		FROM usertask t
-		WHERE t.justificatory = 1 
+		WHERE
+		t.justificatory = 1
 		order by t.code asc;
 	</select>
 
@@ -124,14 +133,15 @@
 		t.endoperation,
 		t.overflow,
 		t.changeshift,
-		t.delayoperation, 
-		t.hiddentask, 
+		t.delayoperation,
+		t.hiddentask,
 		t.justificatory,
-		t.isRZ, 
-		t.isPP, t.internal    
+		t.isRZ,
+		t.isPP, t.internal
 		FROM usertask t
-		WHERE t.isabsence = 1 
-		order by t.code asc;
+		WHERE t.isabsence = 1
+		order by t.code
+		asc;
 
 	</select>
 
@@ -140,7 +150,9 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask , justificatory, isRZ, isPP, internal   
+		overflow,
+		delayoperation, changeshift, hiddentask , justificatory, isRZ, isPP,
+		internal
 		FROM usertask
 		order by description;
 
@@ -151,7 +163,8 @@
 		SELECT id,
 		code,
 		description, isabsence, recorded, endoperation,
-		overflow, delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP, internal    
+		overflow, delayoperation, changeshift, hiddentask, justificatory,
+		isRZ, isPP, internal
 		FROM
 		usertask
 		<if test="my_full_text_search != null">
@@ -214,12 +227,15 @@
 		INSERT INTO usertask
 		(code,
 		description, isabsence, recorded, endoperation, overflow,
-		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP, internal)
+		delayoperation, changeshift, hiddentask, justificatory, isRZ, isPP,
+		internal)
 		VALUES
 		(#{code},#{description},
 		#{isabsence},
-		#{recorded}, #{endoperation}, #{overflow},
-		#{delayoperation}, #{changeshift}, #{hiddentask}, #{justificatory}, #{isRZ}, #{isPP}, #{internal});
+		#{recorded},
+		#{endoperation}, #{overflow},
+		#{delayoperation}, #{changeshift},
+		#{hiddentask}, #{justificatory}, #{isRZ}, #{isPP}, #{internal});
 
 	</insert>
 
@@ -242,22 +258,37 @@
 		UPDATE
 		usertask
 		SET
-		id = #{id},
-		code = #{code}, 
-		description = #{description}, 
-		isabsence = #{isabsence},
+		id =
+		#{id},
+		code = #{code},
+		description = #{description},
+		isabsence =
+		#{isabsence},
 		recorded = #{recorded},
 		endoperation = #{endoperation},
 		overflow = #{overflow},
 		delayoperation = #{delayoperation},
-		changeshift = #{changeshift}, 
-		hiddentask = #{hiddentask}, 
-		justificatory = #{justificatory}, 
-		isRZ = #{isRZ}, 
-		isPP = #{isPP}, 
-		internal = #{internal}  
+		changeshift
+		= #{changeshift},
+		hiddentask = #{hiddentask},
+		justificatory =
+		#{justificatory},
+		isRZ = #{isRZ},
+		isPP = #{isPP},
+		internal = #{internal}
 		WHERE id = #{id};
 	</update>
+
+	<update id="updateStatus" parameterType="org.uario.seaworkengine.model.WorkerStatus">
+		UPDATE
+		status
+		SET
+		description = #{description},
+		note = #{note}
+		WHERE id = #{id}
+	</update>
+
+
 
 	<update id="updateShift" parameterType="org.uario.seaworkengine.model.UserShift">
 		UPDATE
@@ -274,9 +305,10 @@
 		disease_shift = #{disease_shift},
 		accident_shift = #{accident_shift},
 		waitbreak_shift = #{waitbreak_shift},
-		standard_shift = #{standard_shift},
+		standard_shift =
+		#{standard_shift},
 		daily_shift = #{daily_shift},
-		recorded = #{recorded} 
+		recorded = #{recorded}
 		WHERE id = #{id};
 
 
@@ -284,84 +316,91 @@
 
 	<insert id="addStatus" parameterType="String">
 		INSERT INTO status
-		(description)
-		VALUES (#{description});
+		(description, note)
+		VALUES (#{description},#{note});
 	</insert>
-	
+
 	<insert id="addService" parameterType="org.uario.seaworkengine.model.Service">
 		INSERT INTO service
 		(name,description,isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework)
-		VALUES (#{name},#{description},#{isRZ},#{franchise_volume},#{franchise_volume_tw_mct},#{franchise_volumeunderboard},#{franchise_volumeunderboard_sws},#{franchise_timework});
+		VALUES
+		(#{name},#{description},#{isRZ},#{franchise_volume},#{franchise_volume_tw_mct},#{franchise_volumeunderboard},#{franchise_volumeunderboard_sws},#{franchise_timework});
 	</insert>
 
 	<delete id="removeStatus">
 		DELETE FROM status
 		WHERE description=#{description};
 	</delete>
-	
+
 	<delete id="removeService" parameterType="Integer">
 		DELETE FROM service
 		WHERE id=#{id};
 	</delete>
-	
-	<select id="loadRZService" resultType="org.uario.seaworkengine.model.Service"> 
-		SELECT id,name,description,isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework 
-		FROM service 
+
+	<select id="loadRZService" resultType="org.uario.seaworkengine.model.Service">
+		SELECT
+		id,name,description,isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework
+		FROM service
 		WHERE isRZ=1;
 	</select>
-	
-	<select id="loadService" resultType="org.uario.seaworkengine.model.Service" parameterType="Integer">
+
+	<select id="loadService" resultType="org.uario.seaworkengine.model.Service"
+		parameterType="Integer">
 		SELECT *
-		FROM service 
+		FROM service
 		WHERE id=#{id};
 	</select>
-	
-	
-	<select id="selectAllStatus" resultType="String">
-		SELECT description
+
+
+	<select id="selectAllStatus" resultType="org.uario.seaworkengine.model.WorkerStatus">
+		SELECT id, description, note
 		FROM
 		status;
 	</select>
-	
-	<select id="selectService" parameterType="map" resultType="org.uario.seaworkengine.model.Service">
-		SELECT id, name, description, isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework 
+
+	<select id="selectService" parameterType="map"
+		resultType="org.uario.seaworkengine.model.Service">
+		SELECT id, name, description,
+		isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework
 		FROM service
-		WHERE id is not null  
+		WHERE id is not null
 		<if test="id != null">
-			and id=#{id} 
+			and id=#{id}
 		</if>
 		<if test="name != null">
-			and name like CONCAT('%',#{name}, '%') 
+			and name like CONCAT('%',#{name}, '%')
 		</if>
 		<if test="description != null">
-			and description like CONCAT('%',#{description}, '%') 
+			and description like CONCAT('%',#{description}, '%')
 		</if>
 		order by name asc;
 	</select>
-	
-	<select id="checkServiceExist" parameterType="String" resultType="org.uario.seaworkengine.model.Service">
-		SELECT id, name, description, isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework
-		FROM service 
+
+	<select id="checkServiceExist" parameterType="String"
+		resultType="org.uario.seaworkengine.model.Service">
+		SELECT id, name, description,
+		isRZ,franchise_volume,franchise_volume_tw_mct,franchise_volumeunderboard,franchise_volumeunderboard_sws,franchise_timework
+		FROM service
 		WHERE name=#{name};
 	</select>
 
-	<update id="updateStatus" parameterType="String">
-		UPDATE status
-		SET
-		description = #{description}
-		WHERE d
-	</update>
-	
+
+
 	<update id="updateService" parameterType="org.uario.seaworkengine.model.Service">
-		UPDATE service 
-		SET name = #{name}, description = #{description}, isRZ = #{isRZ},
+		UPDATE service
+		SET name
+		= #{name}, description = #{description}, isRZ = #{isRZ},
 		franchise_volume = #{franchise_volume},
-		franchise_volume_tw_mct = #{franchise_volume_tw_mct},
-		franchise_volumeunderboard = #{franchise_volumeunderboard},
-		franchise_volumeunderboard_sws = #{franchise_volumeunderboard_sws},
-		franchise_timework = #{franchise_timework} 
+		franchise_volume_tw_mct =
+		#{franchise_volume_tw_mct},
+		franchise_volumeunderboard =
+		#{franchise_volumeunderboard},
+		franchise_volumeunderboard_sws =
+		#{franchise_volumeunderboard_sws},
+		franchise_timework =
+		#{franchise_timework}
 		WHERE id = #{id};
-	</update>	
+	</update>
 
 	<update id="removeAllBreakShift">
 		UPDATE usershift
@@ -499,7 +538,7 @@
 		usertask
 		WHERE delayoperation=1;
 	</select>
-	
+
 	<select id="loadInternalTask" resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT *
 		FROM usertask
@@ -527,46 +566,50 @@
 		#{idTask};
 	</update>
 
-	<!-- CRANE -->	
+	<!-- CRANE -->
 	<insert id="createCrane" parameterType="org.uario.seaworkengine.model.Crane">
 		INSERT INTO crane
 		(name,number,description)
 		VALUES
 		(#{name},#{number},#{description});
 	</insert>
-	
-	<select id="getCrane" parameterType="map" resultType="org.uario.seaworkengine.model.Crane">
-	  	SELECT id, name, description, number 
-	  	FROM crane 
-	  	WHERE id is not null 
-	  	
-	  	<if test="name!=null">
-			and name like CONCAT('%',#{name},'%')  
+
+	<select id="getCrane" parameterType="map"
+		resultType="org.uario.seaworkengine.model.Crane">
+		SELECT id, name, description, number
+		FROM crane
+		WHERE id is not null
+
+		<if test="name!=null">
+			and name like CONCAT('%',#{name},'%')
 		</if>
-		
+
 		<if test="description!=null">
-			and description like CONCAT('%',#{description},'%')  
+			and description like CONCAT('%',#{description},'%')
 		</if>
-		
+
 		<if test="number!=null">
-			and number = #{number} 
+			and number = #{number}
 		</if>
-		
+
 		<if test="id!=null">
-			and id = #{id}   
+			and id = #{id}
 		</if>
-		
+
 		ORDER BY number;
-			  		
+
 	</select>
-	
+
 	<delete id="removeCrane" parameterType="Integer">
-		delete from crane 
-		where id = #{id};
+		delete from crane
+		where id
+		= #{id};
 	</delete>
-	
+
 	<update id="updateCrane" parameterType="org.uario.seaworkengine.model.Crane">
-		update crane set name=#{name}, description=#{description}, number=#{number} where id=#{id}; 
+		update crane set
+		name=#{name}, description=#{description}, number=#{number} where
+		id=#{id};
 	</update>
 
 

@@ -11,6 +11,7 @@ import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.model.WorkerStatus;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IJobCost;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
@@ -44,222 +45,292 @@ public class Preferences extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	@Wire
-	private Component add_billcenter_command;
+	private Component			add_billcenter_command;
 
 	@Wire
-	private Component add_service_command;
+	private Component			add_service_command;
 
-	private IBankHolidays bank_holiday;
+	private IBankHolidays		bank_holiday;
 
-	private BillCenter billCenterSelected;
-
-	@Wire
-	private Checkbox changeshift_task;
+	private BillCenter			billCenterSelected;
 
 	@Wire
-	private Textbox code_shift;
+	private Checkbox			changeshift_task;
 
 	@Wire
-	private Textbox code_status;
+	private Textbox				code_shift;
 
 	@Wire
-	private Textbox code_task;
-
-	private ConfigurationDAO configurationDao;
+	private Textbox				code_status;
 
 	@Wire
-	private Checkbox delayoperation_task;
+	private Textbox				code_task;
+
+	private ConfigurationDAO	configurationDao;
 
 	@Wire
-	private Textbox description_billcenter;
+	private Checkbox			delayoperation_task;
 
 	@Wire
-	private Textbox description_crane;
+	private Textbox				description_billcenter;
 
 	@Wire
-	private Textbox description_service;
+	private Textbox				description_crane;
 
 	@Wire
-	private Textbox description_shift;
+	private Textbox				description_service;
 
 	@Wire
-	private Textbox description_status;
+	private Textbox				description_shift;
 
 	@Wire
-	private Textbox description_task;
+	private Textbox				description_status;
+	
+	@Wire
+	private Textbox				description_task;
 
 	@Wire
-	private Textbox docrepo;
+	private Textbox				docrepo;
 
 	@Wire
-	private Checkbox endoperation_task;
+	private Checkbox			endoperation_task;
 
 	@Wire
-	private Checkbox forceable;
+	private Checkbox			forceable;
 
 	@Wire
-	private Doublebox fr_timework;
+	private Doublebox			fr_timework;
 
 	@Wire
-	private Doublebox fr_volume;
+	private Doublebox			fr_volume;
 
 	@Wire
-	private Doublebox fr_volume_tw_mct;
+	private Doublebox			fr_volume_tw_mct;
 
 	@Wire
-	private Doublebox fr_volumeunderboard;
+	private Doublebox			fr_volumeunderboard;
 
 	@Wire
-	private Doublebox fr_volumeunderboard_sws;
+	private Doublebox			fr_volumeunderboard_sws;
 
 	@Wire
-	private Textbox full_text_search_BillCenter;
+	private Textbox				full_text_search_BillCenter;
 
 	@Wire
-	private Intbox full_text_search_Crane;
+	private Intbox				full_text_search_Crane;
 
 	@Wire
-	private Textbox full_text_search_Service;
+	private Textbox				full_text_search_Service;
 
 	@Wire
-	private Textbox full_text_searchShift;
+	private Textbox				full_text_searchShift;
 
 	@Wire
-	private Textbox full_text_searchTask;
+	private Textbox				full_text_searchTask;
 
 	@Wire
-	private Component grid_billcenter_details;
+	private Component			grid_billcenter_details;
 
 	@Wire
-	private Div grid_crane_details;
+	private Div					grid_crane_details;
 
 	@Wire
-	private Div grid_service_details;
+	private Div					grid_service_details;
 
 	@Wire
-	private Div grid_shift_details;
+	private Div					grid_shift_details;
 
 	@Wire
-	private Div grid_status_details;
+	private Div					grid_status_details;
 
 	@Wire
-	private Div grid_task_details;
+	private Div					grid_task_details;
 
 	@Wire
-	private Checkbox hidden_task;
+	private Checkbox			hidden_task;
 
 	@Wire
-	private Checkbox internal_task;
+	private Checkbox			internal_task;
 
 	@Wire
-	private Checkbox isabsence_task;
+	private Checkbox			isabsence_task;
 
 	@Wire
-	private Checkbox isPP_task;
+	private Checkbox			isPP_task;
 
 	@Wire
-	private Checkbox isRZ;
+	private Checkbox			isRZ;
 
 	@Wire
-	private Checkbox isRZ_task;
+	private Checkbox			isRZ_task;
 
-	private IJobCost jobCostDao;
-
-	@Wire
-	private Checkbox justificatory_task;
+	private IJobCost			jobCostDao;
 
 	@Wire
-	private Label label_allocated_meomry;
+	private Checkbox			justificatory_task;
 
 	@Wire
-	private Label label_free_meomry;
+	private Label				label_allocated_meomry;
 
 	@Wire
-	private Label label_max_meomry;
+	private Label				label_free_meomry;
 
 	@Wire
-	private Listbox list_bankholiday;
+	private Label				label_max_meomry;
 
 	@Wire
-	private Component modify_billcenter_command;
+	private Listbox				list_bankholiday;
 
 	@Wire
-	private Component modify_service_command;
+	private Component			modify_billcenter_command;
 
 	@Wire
-	private Textbox name_crane;
+	private Component			modify_service_command;
 
 	@Wire
-	private Textbox name_service;
+	private Textbox				name_crane;
 
 	@Wire
-	private Intbox number_crane;
-
-	private final NumberFormat numberFormat = NumberFormat.getInstance();
+	private Textbox				name_service;
 
 	@Wire
-	private Checkbox overflow_task;
-
-	private IParams paramsDAO;
+	private Textbox				note_status;
 
 	@Wire
-	public Checkbox recorded_shift;
+	private Intbox				number_crane;
+
+	private final NumberFormat	numberFormat		= NumberFormat.getInstance();
 
 	@Wire
-	private Checkbox recorded_task;
+	private Checkbox			overflow_task;
 
-	private final Runtime runtime = Runtime.getRuntime();
-
-	private int selectedOptionMobileTask;
-
-	private Service serviceSelected;
+	private IParams				paramsDAO;
 
 	@Wire
-	private Intbox shows_rows;
+	public Checkbox				recorded_shift;
 
 	@Wire
-	private Intbox shows_rows_crane;
+	private Checkbox			recorded_task;
+
+	private final Runtime		runtime				= Runtime.getRuntime();
+
+	private int					selectedOptionMobileTask;
+
+	private Service				serviceSelected;
 
 	@Wire
-	private Intbox shows_rowsShift;
+	private Intbox				shows_rows;
 
 	@Wire
-	private Intbox shows_rowsTask;
+	private Intbox				shows_rows_crane;
 
 	@Wire
-	private Listbox sw_list_billcenter;
+	private Intbox				shows_rowsShift;
 
 	@Wire
-	private Listbox sw_list_crane;
+	private Intbox				shows_rowsTask;
+
+	private boolean				status_add			= true;
 
 	@Wire
-	private Listbox sw_list_service;
+	private Listbox				sw_list_billcenter;
 
 	@Wire
-	private Listbox sw_list_shift;
+	private Listbox				sw_list_crane;
 
 	@Wire
-	private Listbox sw_list_status;
+	private Listbox				sw_list_service;
 
 	@Wire
-	private Listbox sw_list_task;
-
-	private UserTask taskAdded;
-
-	private UserTask taskUpdated;
+	private Listbox				sw_list_shift;
 
 	@Wire
-	private Combobox type_shift;
+	private Listbox				sw_list_status;
 
 	@Wire
-	private Combobox typeofbreak;
+	private Listbox				sw_list_task;
+
+	private UserTask			taskAdded;
+
+	private UserTask			taskUpdated;
+
+	@Wire
+	private Combobox			type_shift;
+
+	@Wire
+	private Combobox			typeofbreak;
+
+	@Listen("onClick = #status_command")
+	public void actionStatus() {
+		
+		final String status = this.description_status.getValue().toString();
+		final String note = this.note_status.getValue().toString();
+		
+		if (status == "") {
+			final Map<String, String> params = new HashMap<>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+			
+			Messagebox.show("Inserire uno status", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
+			return;
+		}
+		
+		if (this.status_add) {
+
+			if (this.configurationDao.selectAllStatus().contains(new WorkerStatus(status))) {
+				final Map<String, String> params = new HashMap<>();
+				params.put("sclass", "mybutton Button");
+				final Messagebox.Button[] buttons = new Messagebox.Button[1];
+				buttons[0] = Messagebox.Button.OK;
+				
+				Messagebox.show("Status già presente!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
+				return;
+			}
+
+			this.configurationDao.addStatus(status, note);
+		} else {
+			if (this.sw_list_status.getSelectedItem() == null
+					|| this.sw_list_status.getSelectedItem().getValue() == null) {
+				return;
+			}
+			
+			final WorkerStatus itm = this.sw_list_status.getSelectedItem().getValue();
+			
+			// check if you change the description
+			if (!itm.getDescription().equals(status)) {
+				if (this.configurationDao.selectAllStatus().contains(new WorkerStatus(status))) {
+					final Map<String, String> params = new HashMap<>();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
+					
+					Messagebox.show("Status già presente!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+							null, params);
+					return;
+				}
+			}
+
+			itm.setDescription(status);
+			itm.setNote(note);
+			this.configurationDao.updateStatus(itm);
+		}
+		
+		this.refreshStatusList();
+		this.resetStatusInfo();
+		
+		this.grid_status_details.setVisible(false);
+		
+	}
 
 	@Listen("onClick = #add_billcenter_command")
 	public void addBillCenterCommand() {
-		if ((this.description_billcenter.getValue() != null) && (this.description_billcenter.getValue().trim() != "")) {
+		if (this.description_billcenter.getValue() != null && this.description_billcenter.getValue().trim() != "") {
 			final BillCenter billCenter = new BillCenter();
 			billCenter.setDescription(this.description_billcenter.getValue());
 			this.jobCostDao.createBillCenter(billCenter);
@@ -283,12 +354,13 @@ public class Preferences extends SelectorComposer<Component> {
 
 			this.resetCraneInfo();
 		} else {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Numero gru già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Numero gru già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 		}
 
 	}
@@ -308,8 +380,9 @@ public class Preferences extends SelectorComposer<Component> {
 					final Messagebox.Button[] buttons = new Messagebox.Button[2];
 					buttons[0] = Messagebox.Button.OK;
 					buttons[1] = Messagebox.Button.CANCEL;
-					Messagebox.show("Il servizio Rizzaggio è già presente, procedere?", "CONFERMA ASSEGNAZIONE RIZZAGGIO", buttons, null,
-							Messagebox.EXCLAMATION, null, new EventListener() {
+					Messagebox.show("Il servizio Rizzaggio è già presente, procedere?",
+							"CONFERMA ASSEGNAZIONE RIZZAGGIO", buttons, null, Messagebox.EXCLAMATION, null,
+							new EventListener() {
 								@Override
 								public void onEvent(final Event e) {
 									if (Messagebox.ON_OK.equals(e.getName())) {
@@ -322,9 +395,12 @@ public class Preferences extends SelectorComposer<Component> {
 										service.setIsRZ(true);
 										service.setFranchise_timework(Preferences.this.fr_timework.getValue());
 										service.setFranchise_volume(Preferences.this.fr_volume.getValue());
-										service.setFranchise_volume_tw_mct(Preferences.this.fr_volume_tw_mct.getValue());
-										service.setFranchise_volumeunderboard(Preferences.this.fr_volumeunderboard.getValue());
-										service.setFranchise_volumeunderboard_sws(Preferences.this.fr_volumeunderboard_sws.getValue());
+										service.setFranchise_volume_tw_mct(
+												Preferences.this.fr_volume_tw_mct.getValue());
+										service.setFranchise_volumeunderboard(
+												Preferences.this.fr_volumeunderboard.getValue());
+										service.setFranchise_volumeunderboard_sws(
+												Preferences.this.fr_volumeunderboard_sws.getValue());
 										Preferences.this.configurationDao.addService(service);
 										Preferences.this.refreshServiceList();
 										Preferences.this.resetServiceInfo();
@@ -350,12 +426,13 @@ public class Preferences extends SelectorComposer<Component> {
 			}
 
 		} else {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Nome tipo di servizio già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Nome tipo di servizio già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
 		}
 
 	}
@@ -368,13 +445,15 @@ public class Preferences extends SelectorComposer<Component> {
 			us_type = this.type_shift.getSelectedItem().getValue();
 		}
 
-		if (this.checkIfUserCodeIsPresent(this.configurationDao.loadAllShiftCode(), this.code_shift.getValue().toUpperCase())) {
-			final Map<String, String> params = new HashMap<String, String>();
+		if (this.checkIfUserCodeIsPresent(this.configurationDao.loadAllShiftCode(),
+				this.code_shift.getValue().toUpperCase())) {
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Codice turno già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Codice turno già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 		} else {
 
 			final UserShift shift = new UserShift();
@@ -387,7 +466,8 @@ public class Preferences extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Selezionare tipo di turno", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Selezionare tipo di turno", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
 
 				return;
 			}
@@ -446,49 +526,19 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 
 	}
-
+	
 	@Listen("onClick = #sw_addshift")
 	public void addShiftDefine() {
 		this.resetShiftInfo();
 	}
-
-	@Listen("onClick = #add_status_command")
-	public void addStatus() {
-
-		final String status = this.description_status.getValue().toString();
-
-		if (status == "") {
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
-
-			Messagebox.show("Inserire uno status", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
-			return;
-		}
-
-		if (this.configurationDao.selectAllStatus().contains(status)) {
-			final Map<String, String> params = new HashMap();
-			params.put("sclass", "mybutton Button");
-			final Messagebox.Button[] buttons = new Messagebox.Button[1];
-			buttons[0] = Messagebox.Button.OK;
-
-			Messagebox.show("Status già presente!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
-			return;
-		}
-
-		this.configurationDao.addStatus(status);
-
-		this.refreshStatusList();
-		this.resetStatusInfo();
-
-		this.grid_status_details.setVisible(false);
-
-	}
-
+	
 	@Listen("onClick = #sw_addstatus")
 	public void addStatusDefine() {
 		this.resetStatusInfo();
+		
+		// status add
+		this.status_add = true;
+		
 	}
 
 	@Listen("onClick = #add_tasks_command")
@@ -497,13 +547,15 @@ public class Preferences extends SelectorComposer<Component> {
 		this.taskAdded = new UserTask();
 
 		// check if user code is present in table
-		if (this.checkIfUserCodeIsPresent(this.configurationDao.loadAllTaskCode(), this.code_task.getValue().toUpperCase())) {
-			final Map<String, String> params = new HashMap<String, String>();
+		if (this.checkIfUserCodeIsPresent(this.configurationDao.loadAllTaskCode(),
+				this.code_task.getValue().toUpperCase())) {
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 		} else {
 
 			String alertMessage = null;
@@ -514,22 +566,22 @@ public class Preferences extends SelectorComposer<Component> {
 			final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
 			final UserTask actualChangeshiftTask = this.configurationDao.getChangeshiftTask();
 
-			if (this.overflow_task.isChecked() && (actualOverFlowTask != null)) {
+			if (this.overflow_task.isChecked() && actualOverFlowTask != null) {
 				alertMessage = "Mansione di Esubero per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 1;
 			}
 
-			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null)) {
+			if (this.endoperation_task.isChecked() && actualEndOperationTask != null) {
 				alertMessage = "Mansione di Fine operazione per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 2;
 			}
 
-			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)) {
+			if (this.delayoperation_task.isChecked() && actualDelayOperationTask != null) {
 				alertMessage = "Mansione di Ritado per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 3;
 			}
 
-			if (this.changeshift_task.isChecked() && (actualChangeshiftTask != null)) {
+			if (this.changeshift_task.isChecked() && actualChangeshiftTask != null) {
 				alertMessage = "Mansione di Cambio Turno per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 4;
 			}
@@ -542,17 +594,18 @@ public class Preferences extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show(alertMessage, "CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.checkRZ_PPTask_add();
-							return;
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+				Messagebox.show(alertMessage, "CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+						new EventListener() {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									Preferences.this.checkRZ_PPTask_add();
+									return;
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.checkRZ_PPTask_add();
 				return;
@@ -597,8 +650,8 @@ public class Preferences extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show("La mansione di Rizzaggio è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
-						Messagebox.EXCLAMATION, null, new EventListener() {
+				Messagebox.show("La mansione di Rizzaggio è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE",
+						buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 							@Override
 							public void onEvent(final Event e) {
 								if (Messagebox.ON_OK.equals(e.getName())) {
@@ -653,8 +706,8 @@ public class Preferences extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show("La mansione di Preposto Piazzale è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
-						Messagebox.EXCLAMATION, null, new EventListener() {
+				Messagebox.show("La mansione di Preposto Piazzale è già presente, riassegnare?",
+						"CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 							@Override
 							public void onEvent(final Event e) {
 								if (Messagebox.ON_OK.equals(e.getName())) {
@@ -723,18 +776,18 @@ public class Preferences extends SelectorComposer<Component> {
 		if (this.isRZ_task.isChecked()) {
 			userTask = this.configurationDao.loadRZTask();
 
-			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId()) && this.taskUpdated.getIsPP()) {
-				final Map<String, String> params = new HashMap<String, String>();
+			if (userTask != null && !userTask.getId().equals(this.taskUpdated.getId()) && this.taskUpdated.getIsPP()) {
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons, null, Messagebox.EXCLAMATION,
-						null, null, params);
+				Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons,
+						null, Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
 
-			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId())) {
+			if (userTask != null && !userTask.getId().equals(this.taskUpdated.getId())) {
 				final Map<String, String> params = new HashMap();
 				params.put("sclass", "mybutton Button");
 
@@ -742,8 +795,8 @@ public class Preferences extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show("La mansione di Rizzaggio è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
-						Messagebox.EXCLAMATION, null, new EventListener() {
+				Messagebox.show("La mansione di Rizzaggio è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE",
+						buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 							@Override
 							public void onEvent(final Event e) {
 								if (Messagebox.ON_OK.equals(e.getName())) {
@@ -798,33 +851,34 @@ public class Preferences extends SelectorComposer<Component> {
 				return;
 			}
 
-		} else if (!this.isRZ_task.isChecked() && (userTaskRZ != null) && userTaskRZ.getId().equals(this.taskUpdated.getId())) {
-			final Map<String, String> params = new HashMap<String, String>();
+		} else if (!this.isRZ_task.isChecked() && userTaskRZ != null
+				&& userTaskRZ.getId().equals(this.taskUpdated.getId())) {
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Impossibile procedere, riassegnare mansione di rizzaggio.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Impossibile procedere, riassegnare mansione di rizzaggio.", "Error", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
 			this.isRZ_task.setChecked(true);
 			this.isPP_task.setChecked(false);
 			return;
 		} else if (this.isPP_task.isChecked()) {
 			userTask = this.configurationDao.loadPPTask();
 
-			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId()) && this.taskUpdated.getIsRZ()) {
-				final Map<String, String> params = new HashMap<String, String>();
+			if (userTask != null && !userTask.getId().equals(this.taskUpdated.getId()) && this.taskUpdated.getIsRZ()) {
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Impossibile procedere, riassegnare mansione di rizzaggio.", "Error", buttons, null, Messagebox.EXCLAMATION, null,
-						null, params);
+				Messagebox.show("Impossibile procedere, riassegnare mansione di rizzaggio.", "Error", buttons, null,
+						Messagebox.EXCLAMATION, null, null, params);
 
 				return;
 			}
 
-			if ((userTask != null) && !userTask.getId().equals(this.taskUpdated.getId())) {
+			if (userTask != null && !userTask.getId().equals(this.taskUpdated.getId())) {
 				final Map<String, String> params = new HashMap();
 				params.put("sclass", "mybutton Button");
 
@@ -832,8 +886,8 @@ public class Preferences extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show("La mansione di Preposto Piazzale è già presente, riassegnare?", "CONFERMA ASSEGNAZIONE", buttons, null,
-						Messagebox.EXCLAMATION, null, new EventListener() {
+				Messagebox.show("La mansione di Preposto Piazzale è già presente, riassegnare?",
+						"CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 							@Override
 							public void onEvent(final Event e) {
 								if (Messagebox.ON_OK.equals(e.getName())) {
@@ -877,14 +931,15 @@ public class Preferences extends SelectorComposer<Component> {
 				this.updateTask(this.taskUpdated);
 				return;
 			}
-		} else if (!this.isPP_task.isChecked() && (userTaskPP != null) && userTaskPP.getId().equals(this.taskUpdated.getId())) {
-			final Map<String, String> params = new HashMap<String, String>();
+		} else if (!this.isPP_task.isChecked() && userTaskPP != null
+				&& userTaskPP.getId().equals(this.taskUpdated.getId())) {
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons, null, Messagebox.EXCLAMATION,
-					null, null, params);
+			Messagebox.show("Impossibile procedere, riassegnare mansione di preposto piazzale.", "Error", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
 			this.isPP_task.setChecked(true);
 			this.isRZ_task.setChecked(false);
 			return;
@@ -965,8 +1020,8 @@ public class Preferences extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-						new EventListener() {
+				Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+						Messagebox.EXCLAMATION, null, new EventListener() {
 							@Override
 							public void onEvent(final Event e) {
 								if (Messagebox.ON_OK.equals(e.getName())) {
@@ -978,13 +1033,13 @@ public class Preferences extends SelectorComposer<Component> {
 							}
 						}, params);
 			} else {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox
-				.show("Impossibile cancellare il servizio di Rizzaggio", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Impossibile cancellare il servizio di Rizzaggio", "Error", buttons, null,
+						Messagebox.EXCLAMATION, null, null, params);
 			}
 
 		}
@@ -1098,7 +1153,7 @@ public class Preferences extends SelectorComposer<Component> {
 	public void getMobileTask() {
 		final List<UserTask> list_MobileUsertask = this.configurationDao.listSpecialTaskMobile();
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_MobileUsertask));
+		this.sw_list_task.setModel(new ListModelList<>(list_MobileUsertask));
 	}
 
 	@Listen("onClick = #sw_return_RZ_PP")
@@ -1110,7 +1165,7 @@ public class Preferences extends SelectorComposer<Component> {
 		list.add(rz);
 		list.add(pp);
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list));
+		this.sw_list_task.setModel(new ListModelList<>(list));
 	}
 
 	@Listen("onClick = #sw_link_modifyBillCenter")
@@ -1125,8 +1180,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onClick = #modify_billcenter_command")
 	public void modifyBillCenterCommand() {
-		if ((this.billCenterSelected != null) && (this.description_billcenter.getValue() != null)
-				&& (this.description_billcenter.getValue().trim() != "")) {
+		if (this.billCenterSelected != null && this.description_billcenter.getValue() != null
+				&& this.description_billcenter.getValue().trim() != "") {
 			this.billCenterSelected.setDescription(this.description_billcenter.getValue());
 			this.jobCostDao.updateBillCenter(this.billCenterSelected);
 
@@ -1140,7 +1195,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onClick = #modify_crane_command")
 	public void modifyCraneCommand() {
-		if ((this.sw_list_crane.getSelectedItem() == null) || (this.number_crane.getValue() == null)) {
+		if (this.sw_list_crane.getSelectedItem() == null || this.number_crane.getValue() == null) {
 			return;
 		}
 
@@ -1154,12 +1209,13 @@ public class Preferences extends SelectorComposer<Component> {
 
 			if (crane.getId() != craneSelected.getId()) {
 
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Numero gru già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Numero gru già presente", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+						params);
 
 				return;
 			}
@@ -1206,28 +1262,33 @@ public class Preferences extends SelectorComposer<Component> {
 
 		final Service service = this.configurationDao.loadRZService();
 
-		if (this.isRZ.isChecked() && (service != null) && !service.getId().equals(this.serviceSelected.getId())) {
+		if (this.isRZ.isChecked() && service != null && !service.getId().equals(this.serviceSelected.getId())) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[2];
 			buttons[0] = Messagebox.Button.OK;
 			buttons[1] = Messagebox.Button.CANCEL;
-			Messagebox.show("Il servizio Rizzaggio è già presente, procedere?", "CONFERMA ASSEGNAZIONE RIZZAGGIO", buttons, null,
-					Messagebox.EXCLAMATION, null, new EventListener() {
+			Messagebox.show("Il servizio Rizzaggio è già presente, procedere?", "CONFERMA ASSEGNAZIONE RIZZAGGIO",
+					buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
 						@Override
 						public void onEvent(final Event e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
 								final Service rzService = Preferences.this.configurationDao.loadRZService();
 								rzService.setIsRZ(false);
 								Preferences.this.configurationDao.updateService(rzService);
-								Preferences.this.serviceSelected.setDescription(Preferences.this.description_service.getValue());
+								Preferences.this.serviceSelected
+										.setDescription(Preferences.this.description_service.getValue());
 								Preferences.this.serviceSelected.setName(Preferences.this.name_service.getValue());
-								Preferences.this.serviceSelected.setFranchise_timework(Preferences.this.fr_timework.getValue());
-								Preferences.this.serviceSelected.setFranchise_volume(Preferences.this.fr_volume.getValue());
-								Preferences.this.serviceSelected.setFranchise_volume_tw_mct(Preferences.this.fr_volume_tw_mct.getValue());
-								Preferences.this.serviceSelected.setFranchise_volumeunderboard(Preferences.this.fr_volumeunderboard.getValue());
-								Preferences.this.serviceSelected.setFranchise_volumeunderboard_sws(Preferences.this.fr_volumeunderboard_sws
-								.getValue());
+								Preferences.this.serviceSelected
+										.setFranchise_timework(Preferences.this.fr_timework.getValue());
+								Preferences.this.serviceSelected
+										.setFranchise_volume(Preferences.this.fr_volume.getValue());
+								Preferences.this.serviceSelected
+										.setFranchise_volume_tw_mct(Preferences.this.fr_volume_tw_mct.getValue());
+								Preferences.this.serviceSelected
+										.setFranchise_volumeunderboard(Preferences.this.fr_volumeunderboard.getValue());
+								Preferences.this.serviceSelected.setFranchise_volumeunderboard_sws(
+										Preferences.this.fr_volumeunderboard_sws.getValue());
 								Preferences.this.serviceSelected.setIsRZ(Preferences.this.isRZ.isChecked());
 								Preferences.this.configurationDao.updateService(Preferences.this.serviceSelected);
 								Preferences.this.resetServiceInfo();
@@ -1237,13 +1298,14 @@ public class Preferences extends SelectorComposer<Component> {
 							}
 						}
 					}, params);
-		} else if (!this.isRZ.isChecked() && (service != null) && service.getId().equals(this.serviceSelected.getId())) {
+		} else if (!this.isRZ.isChecked() && service != null && service.getId().equals(this.serviceSelected.getId())) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Riassegnare il servizio di rizzaggio!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Riassegnare il servizio di rizzaggio!", "ATTENZIONE", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
 
 			this.isRZ.setChecked(true);
 
@@ -1326,7 +1388,7 @@ public class Preferences extends SelectorComposer<Component> {
 			}
 		}
 
-		if ((shft == null) || shft.equals("")) {
+		if (shft == null || shft.equals("")) {
 			this.type_shift.setSelectedItem(null);
 		} else {
 			final List<Comboitem> lists = this.type_shift.getItems();
@@ -1359,12 +1421,13 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 
 		if (this.checkIfUserCodeIsPresent(listShiftCode, this.code_shift.getValue().toUpperCase())) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Codice turno già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Codice turno già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 		} else {
 
 			shift.setCode(this.code_shift.getValue());
@@ -1385,8 +1448,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 			// if shift is a default shift, user cannot modify shift as a non
 			// default shift
-			if (((isDefault && (this.typeofbreak.getSelectedItem() != null) && !(this.typeofbreak.getSelectedItem().getValue().equals("Non definito"))))
-					|| (!isDefault)) {
+			if (isDefault && this.typeofbreak.getSelectedItem() != null
+					&& !this.typeofbreak.getSelectedItem().getValue().equals("Non definito") || !isDefault) {
 				shift.setBreak_shift(false);
 				shift.setDisease_shift(false);
 				shift.setAccident_shift(false);
@@ -1428,7 +1491,7 @@ public class Preferences extends SelectorComposer<Component> {
 				this.grid_shift_details.setVisible(false);
 
 			} else {
-				final Map<String, String> params = new HashMap<String, String>();
+				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
@@ -1439,6 +1502,38 @@ public class Preferences extends SelectorComposer<Component> {
 			}
 
 		}
+
+	}
+
+	@Listen("onClick = #sw_link_modifystatus")
+	public void modifyStatus() {
+
+		if (this.sw_list_status.getSelectedItem() == null) {
+			return;
+		}
+		
+		final WorkerStatus itm = this.sw_list_status.getSelectedItem().getValue();
+		final String status = itm.getDescription();
+
+		if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED)
+				|| status.equals(UserStatusTag.OPEN)) {
+			final Map<String, String> params = new HashMap<>();
+			params.put("sclass", "mybutton Button");
+			final Messagebox.Button[] buttons = new Messagebox.Button[1];
+			buttons[0] = Messagebox.Button.OK;
+
+			Messagebox.show("Status di sistema, impossibile modificare!", "ATTENZIONE", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
+
+			this.grid_status_details.setVisible(false);
+			return;
+		}
+		
+		this.description_status.setValue(itm.getDescription());
+		this.note_status.setValue(itm.getNote());
+
+		this.status_add = false;
+		this.grid_status_details.setVisible(true);
 
 	}
 
@@ -1481,12 +1576,13 @@ public class Preferences extends SelectorComposer<Component> {
 		}
 
 		if (this.checkIfUserCodeIsPresent(listTaskCode, this.code_task.getValue().toUpperCase())) {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Codice mansione già presente.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 		} else {
 
 			String alertMessage = null;
@@ -1498,25 +1594,26 @@ public class Preferences extends SelectorComposer<Component> {
 			final UserTask actualDelayOperationTask = this.configurationDao.getDelayOperationTask();
 			final UserTask actualChangeshiftTask = this.configurationDao.getChangeshiftTask();
 
-			if (this.overflow_task.isChecked() && (actualOverFlowTask != null) && (!actualOverFlowTask.getId().equals(this.taskUpdated.getId()))) {
+			if (this.overflow_task.isChecked() && actualOverFlowTask != null
+					&& !actualOverFlowTask.getId().equals(this.taskUpdated.getId())) {
 				alertMessage = "Mansione di Esubero per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 1;
 			}
 
-			if (this.endoperation_task.isChecked() && (actualEndOperationTask != null)
-					&& (!actualEndOperationTask.getId().equals(this.taskUpdated.getId()))) {
+			if (this.endoperation_task.isChecked() && actualEndOperationTask != null
+					&& !actualEndOperationTask.getId().equals(this.taskUpdated.getId())) {
 				alertMessage = "Mansione di Fine operazione per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 2;
 			}
 
-			if (this.delayoperation_task.isChecked() && (actualDelayOperationTask != null)
-					&& (!actualDelayOperationTask.getId().equals(this.taskUpdated.getId()))) {
+			if (this.delayoperation_task.isChecked() && actualDelayOperationTask != null
+					&& !actualDelayOperationTask.getId().equals(this.taskUpdated.getId())) {
 				alertMessage = "Mansione di Ritado per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 3;
 			}
 
-			if (this.changeshift_task.isChecked() && (actualChangeshiftTask != null)
-					&& (!actualChangeshiftTask.getId().equals(this.taskUpdated.getId()))) {
+			if (this.changeshift_task.isChecked() && actualChangeshiftTask != null
+					&& !actualChangeshiftTask.getId().equals(this.taskUpdated.getId())) {
 				alertMessage = "Mansione di Cambio Turno per app mobile già presente, continuare?";
 				this.selectedOptionMobileTask = 4;
 			}
@@ -1529,17 +1626,18 @@ public class Preferences extends SelectorComposer<Component> {
 				buttons[0] = Messagebox.Button.OK;
 				buttons[1] = Messagebox.Button.CANCEL;
 
-				Messagebox.show(alertMessage, "CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null, new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							Preferences.this.checkRZ_PPTask_modify();
-							return;
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							return;
-						}
-					}
-				}, params);
+				Messagebox.show(alertMessage, "CONFERMA ASSEGNAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+						new EventListener() {
+							@Override
+							public void onEvent(final Event e) {
+								if (Messagebox.ON_OK.equals(e.getName())) {
+									Preferences.this.checkRZ_PPTask_modify();
+									return;
+								} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+									return;
+								}
+							}
+						}, params);
 			} else {
 				this.checkRZ_PPTask_modify();
 			}
@@ -1558,7 +1656,7 @@ public class Preferences extends SelectorComposer<Component> {
 		final List<BillCenter> listBillCenter = this.jobCostDao.listAllBillCenter(null);
 
 		if (listBillCenter != null) {
-			this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));
+			this.sw_list_billcenter.setModel(new ListModelList<>(listBillCenter));
 		}
 
 	}
@@ -1567,9 +1665,9 @@ public class Preferences extends SelectorComposer<Component> {
 	public void refreshCraneList() {
 
 		final List<Crane> list = this.configurationDao.getCrane(null, null, null, null);
-		Preferences.this.sw_list_crane.setModel(new ListModelList<Crane>(list));
+		Preferences.this.sw_list_crane.setModel(new ListModelList<>(list));
 
-		if ((this.shows_rows_crane.getValue() != null) && (this.shows_rows_crane.getValue() != 0)) {
+		if (this.shows_rows_crane.getValue() != null && this.shows_rows_crane.getValue() != 0) {
 			this.sw_list_crane.setPageSize(this.shows_rows_crane.getValue());
 		} else {
 			this.sw_list_crane.setPageSize(10);
@@ -1584,7 +1682,7 @@ public class Preferences extends SelectorComposer<Component> {
 		this.full_text_search_Service.setValue(null);
 
 		final List<Service> list = this.configurationDao.selectService(null, null, null);
-		Preferences.this.sw_list_service.setModel(new ListModelList<Service>(list));
+		Preferences.this.sw_list_service.setModel(new ListModelList<>(list));
 
 	}
 
@@ -1600,7 +1698,7 @@ public class Preferences extends SelectorComposer<Component> {
 	private void refreshShiftList() {
 		// set info about task
 		final List<UserShift> list = this.configurationDao.loadShifts();
-		Preferences.this.sw_list_shift.setModel(new ListModelList<UserShift>(list));
+		Preferences.this.sw_list_shift.setModel(new ListModelList<>(list));
 
 		this.full_text_searchShift.setValue(null);
 
@@ -1608,8 +1706,8 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_refresh_status_list")
 	public void refreshStatusList() {
-		final List<String> list = this.configurationDao.selectAllStatus();
-		Preferences.this.sw_list_status.setModel(new ListModelList<String>(list));
+		final List<WorkerStatus> list = this.configurationDao.selectAllStatus();
+		Preferences.this.sw_list_status.setModel(new ListModelList<>(list));
 
 	}
 
@@ -1625,11 +1723,11 @@ public class Preferences extends SelectorComposer<Component> {
 	private void refreshTaskList() {
 		// set info about task
 		final List<UserTask> list = Preferences.this.configurationDao.loadTasks();
-		Preferences.this.sw_list_task.setModel(new ListModelList<UserTask>(list));
+		Preferences.this.sw_list_task.setModel(new ListModelList<>(list));
 
 		this.full_text_searchTask.setValue(null);
 	}
-
+	
 	@Listen("onClick = #sw_link_deleteshift")
 	public void removeShift() {
 
@@ -1648,8 +1746,8 @@ public class Preferences extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 			buttons[1] = Messagebox.Button.CANCEL;
 
-			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-					new EventListener() {
+			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+					Messagebox.EXCLAMATION, null, new EventListener() {
 						@Override
 						public void onEvent(final Event e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
@@ -1666,8 +1764,8 @@ public class Preferences extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Prima di rimuovere il turno, assegnare la specificità ad un altro turno.", "ATTENZIONE", buttons, null,
-					Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Prima di rimuovere il turno, assegnare la specificità ad un altro turno.", "ATTENZIONE",
+					buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -1676,13 +1774,15 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_deletestatus")
 	public void removeStatus() {
 		final String status = this.sw_list_status.getSelectedItem().getValue().toString();
-		if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED) || status.equals(UserStatusTag.OPEN)) {
-			final Map<String, String> params = new HashMap();
+		if (status.equals(UserStatusTag.FIRED) || status.equals(UserStatusTag.SUSPENDED)
+				|| status.equals(UserStatusTag.OPEN)) {
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Status di sistema, impossibile eliminare!", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Status di sistema, impossibile eliminare!", "ATTENZIONE", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
 
 			return;
 		}
@@ -1694,8 +1794,8 @@ public class Preferences extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -1725,8 +1825,8 @@ public class Preferences extends SelectorComposer<Component> {
 			buttons[0] = Messagebox.Button.OK;
 			buttons[1] = Messagebox.Button.CANCEL;
 
-			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-					new EventListener() {
+			Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+					Messagebox.EXCLAMATION, null, new EventListener() {
 						@Override
 						public void onEvent(final Event e) {
 							if (Messagebox.ON_OK.equals(e.getName())) {
@@ -1737,12 +1837,13 @@ public class Preferences extends SelectorComposer<Component> {
 						}
 					}, params);
 		} else {
-			final Map<String, String> params = new HashMap<String, String>();
+			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Impossibile procedere, mansione speciale.", "Error", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Impossibile procedere, mansione speciale.", "Error", buttons, null, Messagebox.EXCLAMATION,
+					null, null, params);
 			return;
 		}
 	}
@@ -1775,7 +1876,8 @@ public class Preferences extends SelectorComposer<Component> {
 	}
 
 	private void resetStatusInfo() {
-		this.description_status.setValue("");
+		this.description_status.setValue(null);
+		this.note_status.setValue(null);
 
 	}
 
@@ -1799,10 +1901,11 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onChange = #full_text_search_BillCenter; onOK = #full_text_search_BillCenter")
 	public void searchBillCenterText() {
 		if (this.full_text_search_BillCenter.getValue() != null) {
-			final List<BillCenter> listBillCenter = this.jobCostDao.listAllBillCenter(this.full_text_search_BillCenter.getValue());
+			final List<BillCenter> listBillCenter = this.jobCostDao
+					.listAllBillCenter(this.full_text_search_BillCenter.getValue());
 
 			if (listBillCenter != null) {
-				this.sw_list_billcenter.setModel(new ListModelList<BillCenter>(listBillCenter));
+				this.sw_list_billcenter.setModel(new ListModelList<>(listBillCenter));
 			}
 		}
 	}
@@ -1810,10 +1913,11 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onChange = #full_text_search_Crane; onOK = #full_text_search_Crane")
 	public void searchCrane() {
 		if (this.full_text_search_Crane.getValue() != null) {
-			final List<Crane> list = this.configurationDao.getCrane(null, this.full_text_search_Crane.getValue(), null, null);
+			final List<Crane> list = this.configurationDao.getCrane(null, this.full_text_search_Crane.getValue(), null,
+					null);
 
 			if (list != null) {
-				this.sw_list_crane.setModel(new ListModelList<Crane>(list));
+				this.sw_list_crane.setModel(new ListModelList<>(list));
 			}
 		} else {
 			this.refreshCraneList();
@@ -1823,10 +1927,11 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onChange = #full_text_search_Service; onOK = #full_text_search_Service")
 	public void searchService() {
 		if (this.full_text_search_Service.getValue() != null) {
-			final List<Service> list = this.configurationDao.selectService(null, this.full_text_search_Service.getValue(), null);
+			final List<Service> list = this.configurationDao.selectService(null,
+					this.full_text_search_Service.getValue(), null);
 
 			if (list != null) {
-				this.sw_list_service.setModel(new ListModelList<Service>(list));
+				this.sw_list_service.setModel(new ListModelList<>(list));
 			}
 		}
 	}
@@ -1839,7 +1944,7 @@ public class Preferences extends SelectorComposer<Component> {
 		final Service service = this.configurationDao.loadRZService();
 		list.add(service);
 
-		Preferences.this.sw_list_service.setModel(new ListModelList<Service>(list));
+		Preferences.this.sw_list_service.setModel(new ListModelList<>(list));
 	}
 
 	@Listen("onSelect = #typeofbreak")
@@ -1896,7 +2001,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 	@Listen("onClick = #sw_link_modifycrane")
 	public void setModifyCranePanel() {
-		if ((this.sw_list_crane.getSelectedItem() == null)) {
+		if (this.sw_list_crane.getSelectedItem() == null) {
 			return;
 		}
 
@@ -1926,38 +2031,38 @@ public class Preferences extends SelectorComposer<Component> {
 	public void setShiftListBox() {
 		List<UserShift> list_usershift = null;
 
-		if ((this.full_text_searchShift.getValue() != null) && !this.full_text_searchShift.getValue().equals("")) {
+		if (this.full_text_searchShift.getValue() != null && !this.full_text_searchShift.getValue().equals("")) {
 			list_usershift = this.configurationDao.listAllShifts(this.full_text_searchShift.getValue());
 		} else {
 			list_usershift = this.configurationDao.loadShifts();
 		}
 
-		if ((this.shows_rowsShift.getValue() != null) && (this.shows_rowsShift.getValue() != 0)) {
+		if (this.shows_rowsShift.getValue() != null && this.shows_rowsShift.getValue() != 0) {
 			this.sw_list_shift.setPageSize(this.shows_rowsShift.getValue());
 		} else {
 			this.sw_list_shift.setPageSize(10);
 		}
 
-		this.sw_list_shift.setModel(new ListModelList<UserShift>(list_usershift));
+		this.sw_list_shift.setModel(new ListModelList<>(list_usershift));
 	}
 
 	@Listen("onOK = #shows_rowsTask, #full_text_searchTask")
 	public void setTaskListBox() {
 		List<UserTask> list_usertask = null;
 
-		if ((this.full_text_searchTask.getValue() != null) && !this.full_text_searchTask.getValue().equals("")) {
+		if (this.full_text_searchTask.getValue() != null && !this.full_text_searchTask.getValue().equals("")) {
 			list_usertask = this.configurationDao.listAllTasks(this.full_text_searchTask.getValue());
 		} else {
 			list_usertask = this.configurationDao.loadTasks();
 		}
 
-		if ((this.shows_rowsTask.getValue() != null) && (this.shows_rowsTask.getValue() != 0)) {
+		if (this.shows_rowsTask.getValue() != null && this.shows_rowsTask.getValue() != 0) {
 			this.sw_list_task.setPageSize(this.shows_rowsTask.getValue());
 		} else {
 			this.sw_list_task.setPageSize(10);
 		}
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
+		this.sw_list_task.setModel(new ListModelList<>(list_usertask));
 	}
 
 	@Listen("onClick = #sw_return_defaulttask")
@@ -1966,7 +2071,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 		list_usertask = this.configurationDao.listAllAbsenceTask();
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
+		this.sw_list_task.setModel(new ListModelList<>(list_usertask));
 	}
 
 	/**
@@ -1974,7 +2079,7 @@ public class Preferences extends SelectorComposer<Component> {
 	 */
 	private void showBankHolidays() {
 		final List<String> list_bnk = Preferences.this.bank_holiday.getDays();
-		Preferences.this.list_bankholiday.setModel(new ListModelList<String>(list_bnk));
+		Preferences.this.list_bankholiday.setModel(new ListModelList<>(list_bnk));
 
 	}
 
@@ -1984,28 +2089,28 @@ public class Preferences extends SelectorComposer<Component> {
 
 		list_usershift = this.configurationDao.listAllDefaultShift();
 
-		this.sw_list_shift.setModel(new ListModelList<UserShift>(list_usershift));
+		this.sw_list_shift.setModel(new ListModelList<>(list_usershift));
 	}
 
 	@Listen("onClick = #sw_return_hiddentask")
 	public void showHiddenTask() {
 		final List<UserTask> list_MobileUsertask = this.configurationDao.listAllHiddenTask();
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_MobileUsertask));
+		this.sw_list_task.setModel(new ListModelList<>(list_MobileUsertask));
 	}
 
 	@Listen("onClick = #sw_return_internaltask")
 	public void showInternalTask() {
 		final List<UserTask> list_InternalUsertask = this.configurationDao.loadInternalTask();
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_InternalUsertask));
+		this.sw_list_task.setModel(new ListModelList<>(list_InternalUsertask));
 	}
 
 	@Listen("onClick=#sw_return_recorded")
 	public void showInvoiceTask() {
 		final List<UserTask> list_InternalUsertask = this.configurationDao.loadRecordedTask();
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_InternalUsertask));
+		this.sw_list_task.setModel(new ListModelList<>(list_InternalUsertask));
 	}
 
 	@Listen("onClick = #sw_return_justificatorytask")
@@ -2014,7 +2119,7 @@ public class Preferences extends SelectorComposer<Component> {
 
 		list_usertask = this.configurationDao.listAllJustificatoryTask();
 
-		this.sw_list_task.setModel(new ListModelList<UserTask>(list_usertask));
+		this.sw_list_task.setModel(new ListModelList<>(list_usertask));
 	}
 
 	/**
@@ -2038,19 +2143,19 @@ public class Preferences extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_return_recordedshift")
 	public void showRecordedShift() {
 
-		this.sw_list_shift.setModel(new ListModelList<UserShift>(this.configurationDao.listRecordedShift()));
+		this.sw_list_shift.setModel(new ListModelList<>(this.configurationDao.listRecordedShift()));
 	}
 
 	@Listen("onChange = #shows_rows; onOK = #shows_rows")
 	public void showRows() {
-		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
+		if (this.shows_rows.getValue() != null && this.shows_rows.getValue() != 0) {
 			this.sw_list_billcenter.setPageSize(this.shows_rows.getValue());
 		}
 	}
 
 	@Listen("onOK=#shows_rows_crane")
 	public void showRowsCraneList() {
-		if ((this.shows_rows_crane.getValue() != null) && (this.shows_rows_crane.getValue() != 0)) {
+		if (this.shows_rows_crane.getValue() != null && this.shows_rows_crane.getValue() != 0) {
 			this.sw_list_crane.setPageSize(this.shows_rows_crane.getValue());
 		} else {
 			this.sw_list_crane.setPageSize(10);
@@ -2067,7 +2172,8 @@ public class Preferences extends SelectorComposer<Component> {
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
 
-		Messagebox.show("Doc Repository Aggiornato con successo", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+		Messagebox.show("Doc Repository Aggiornato con successo", "INFO", buttons, null, Messagebox.INFORMATION, null,
+				null, params);
 
 	}
 

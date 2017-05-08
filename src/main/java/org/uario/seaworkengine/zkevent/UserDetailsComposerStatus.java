@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang3.time.DateUtils;
 import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
+import org.uario.seaworkengine.model.WorkerStatus;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -69,8 +70,6 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	private String				status_upload		= "";
 
-	private List<String>		statusList;
-
 	@Wire
 	private Listbox				sw_list;
 
@@ -119,14 +118,16 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			public void onEvent(final Event arg0) throws Exception {
 
 				// get selected person
-				if ((arg0.getData() == null) || !(arg0.getData() instanceof Person)) {
+				if (arg0.getData() == null || !(arg0.getData() instanceof Person)) {
 					return;
 				}
 				UserDetailsComposerStatus.this.person_selected = (Person) arg0.getData();
 
 				// get DAO
-				UserDetailsComposerStatus.this.employmentDao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
-				UserDetailsComposerStatus.this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+				UserDetailsComposerStatus.this.employmentDao = (EmploymentDAO) SpringUtil
+						.getBean(BeansTag.EMPLOYMENT_DAO);
+				UserDetailsComposerStatus.this.configurationDao = (ConfigurationDAO) SpringUtil
+						.getBean(BeansTag.CONFIGURATION_DAO);
 
 				UserDetailsComposerStatus.this.setStatusComboBox();
 
@@ -158,7 +159,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 				item.setDate_modified(data.getDate_modified());
 				item.setId_user(UserDetailsComposerStatus.this.person_selected.getId());
 
-				UserDetailsComposerStatus.this.employmentDao.createEmploymentForUser(UserDetailsComposerStatus.this.person_selected.getId(), item);
+				UserDetailsComposerStatus.this.employmentDao
+						.createEmploymentForUser(UserDetailsComposerStatus.this.person_selected.getId(), item);
 
 				UserDetailsComposerStatus.this.setInitialView();
 
@@ -170,7 +172,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	@Listen("onClick = #user_status_csv")
 	public void downloadCSV_user_raporto() {
 
-		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
+		if (this.person_selected == null || this.person_selected.getId() == null) {
 			return;
 		}
 
@@ -205,14 +207,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 		// set status
 		final String status_info = item.getStatus();
-		int i = 0;
-		for (i = 0; i < this.statusList.size(); i++) {
-			if (this.statusList.get(i).equals(status_info)) {
-				this.status.setSelectedIndex(i);
-				break;
-
-			}
-		}
+		this.status.setValue(status_info);
 
 		this.date_modifiled.setValue(item.getDate_modified());
 		this.date_end.setValue(item.getDate_end());
@@ -251,7 +246,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Status aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+			Messagebox.show("Status aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null,
+					params);
 
 		} else {
 
@@ -278,7 +274,7 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		to_day = DateUtils.truncate(to_day, Calendar.DATE);
 		final Date my_date = DateUtils.truncate(item.getDate_modified(), Calendar.DATE);
 
-		if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
+		if (item != null && my_date.compareTo(to_day) >= 0) {
 
 			// send event to show user task
 			final Component comp = Path.getComponent("//user/page_user_detail");
@@ -305,8 +301,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -356,22 +352,13 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	}
 
 	private void setStatusComboBox() {
-
-		if (this.statusList != null) {
-			this.statusList.clear();
-
-		}
-
+		
 		this.status.getItems().clear();
-
-		this.statusList = this.configurationDao.selectAllStatus();
-
-		for (int i = 0; i < this.statusList.size(); i++) {
-			this.status.appendItem(this.statusList.get(i));
-		}
-
-		// this.status.setModel(new ListModelList<String>(this.statusList));
-
+		
+		final List<WorkerStatus> statusList = this.configurationDao.selectAllStatus();
+		
+		this.status.setModel(new ListModelList<>(statusList));
+		
 	}
 
 	private Boolean setupItemWithValues(final Employment item) {
@@ -404,7 +391,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Selezionare una data inizio!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+			Messagebox.show("Selezionare una data inizio!", "INFO", buttons, null, Messagebox.ERROR, null, null,
+					params);
 			return false;
 		}
 
