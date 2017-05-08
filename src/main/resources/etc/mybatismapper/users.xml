@@ -117,7 +117,7 @@ FROM
 WHERE
     u.id = u_ut.id_user
         AND u_ut.id_usertask = ut.id
-        AND u_ut.id = #{id_usertask}
+        AND ut.id = #{id_usertask}
 		
 		]]>
 
