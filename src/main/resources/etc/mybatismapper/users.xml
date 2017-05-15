@@ -1018,8 +1018,7 @@ FROM
     schedule s,
     usershift us
 WHERE
-    u.status <> 'LICENZIATO'
-        AND u.status <> 'SOSPESO'
+   		u.status = 'IN ORGANICO'
         AND u.out_schedule = 0
         AND u.dailyemployee = 0
         AND u.dailyemployee = 0
@@ -1079,8 +1078,7 @@ SELECT
 FROM
     user u
 WHERE
-    u.status <> 'LICENZIATO'
-        AND u.status <> 'SOSPESO'
+   		u.status = 'IN ORGANICO'
         AND u.out_schedule = 0
 ]]>	        
         <if test="my_full_text_search != null">
