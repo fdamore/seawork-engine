@@ -322,7 +322,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// check info mail
 		String mail = this.email_user.getValue();
 
-		if (mail != null && !mail.equals("")) {
+		if ((mail != null) && !mail.equals("")) {
 
 			final String retype_mail = this.email_user_retype.getValue();
 			if (!retype_mail.equals(mail)) {
@@ -341,7 +341,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		// check mail single....
 		final Object ob = this.personDao.loadUserByUsernameIfAny(mail);
-		if (ob != null && ob instanceof Person) {
+		if ((ob != null) && (ob instanceof Person)) {
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
@@ -353,7 +353,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		final String password = this.password_user.getValue();
 
-		if (password != null && !password.equals("")) {
+		if ((password != null) && !password.equals("")) {
 			// check info password
 			final String retype_password = this.password_user_retype.getValue();
 
@@ -368,7 +368,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		if (!(this.email_user.getValue() == null || this.password_user.getValue() == null)) {
+		if (!((this.email_user.getValue() == null) || (this.password_user.getValue() == null))) {
 			final Person person = new Person();
 			person.setAddress(this.address_user.getValue());
 			person.setCity(this.city_user.getValue());
@@ -496,9 +496,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
 
-		if (this.firstname_user.getValue() == null || this.lastname_user.getValue() == null
-				|| this.birth_place_user.getSelectedItem() == null || this.birth_province_user.getSelectedItem() == null
-				|| this.birth_date_user.getValue() == null || this.sex_user.getSelectedItem() == null) {
+		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null)
+				|| (this.birth_place_user.getSelectedItem() == null)
+				|| (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
+				|| (this.sex_user.getSelectedItem() == null)) {
 			return;
 		}
 
@@ -526,44 +527,44 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final int a = Integer.parseInt(dt.substring(6));
 			String month = "";
 			switch (m) {
-				case 1:
-					month = "Gennaio";
-					break;
-				case 2:
-					month = "Febbraio";
-					break;
-				case 3:
-					month = "Marzo";
-					break;
-				case 4:
-					month = "Aprile";
-					break;
-				case 5:
-					month = "Maggio";
-					break;
-				case 6:
-					month = "Giugno";
-					break;
-				case 7:
-					month = "Luglio";
-					break;
-				case 8:
-					month = "Agosto";
-					break;
-				case 9:
-					month = "Settembre";
-					break;
-				case 10:
-					month = "Ottobre";
-					break;
-				case 11:
-					month = "Novembre";
-					break;
-				case 12:
-					month = "Dicembre";
-					break;
-				default:
-					break;
+			case 1:
+				month = "Gennaio";
+				break;
+			case 2:
+				month = "Febbraio";
+				break;
+			case 3:
+				month = "Marzo";
+				break;
+			case 4:
+				month = "Aprile";
+				break;
+			case 5:
+				month = "Maggio";
+				break;
+			case 6:
+				month = "Giugno";
+				break;
+			case 7:
+				month = "Luglio";
+				break;
+			case 8:
+				month = "Agosto";
+				break;
+			case 9:
+				month = "Settembre";
+				break;
+			case 10:
+				month = "Ottobre";
+				break;
+			case 11:
+				month = "Novembre";
+				break;
+			case 12:
+				month = "Dicembre";
+				break;
+			default:
+				break;
 			}
 
 			final CFGenerator cfg = new CFGenerator(n, c, cc, month, a, g, s, prov);
@@ -746,7 +747,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_place_user.setValue("");
 		this.birth_province_user.setSelectedItem(null);
 
-		if (this.sw_list_user.getSelectedItem() == null || this.sw_list_user.getSelectedItem().getValue() == null
+		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
 				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
@@ -983,7 +984,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #user_info_csv")
 	public void downloadCSV_userinfo() {
 
-		if (this.person_selected == null || this.person_selected.getId() == null) {
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
 			return;
 		}
 
@@ -996,7 +997,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #qrcode_gen")
 	public void generateQrCode() {
 
-		if (this.person_selected == null || this.person_selected.getId() == null) {
+		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
 			return;
 		}
 
@@ -1031,8 +1032,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onSelect=#birth_province_user")
 	public void loadComuni() {
 
-		if (this.birth_province_user.getSelectedItem() == null
-				|| this.birth_province_user.getSelectedItem().getValue() == null) {
+		if ((this.birth_province_user.getSelectedItem() == null)
+				|| (this.birth_province_user.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
@@ -1164,6 +1165,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.search_qualifica.setValue(null);
 		this.user_task_code.setValue(null);
 
+		this.user_status_filter_period.setValue(null);
+		this.user_status_from.setValue(null);
+		this.user_status_to.setValue(null);
+
 		// set user listbox
 		this.setUserListBox();
 	}
@@ -1274,7 +1279,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	public void searchCurrentPosition() {
 
 		final String item = this.search_qualifica.getValue();
-		if (item == null || item.isEmpty()) {
+		if ((item == null) || item.isEmpty()) {
 			this.search_qualifica.setValue(null);
 			this.setUserListBox();
 		}
@@ -1552,13 +1557,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		this.personList = null;
 
-		if (this.full_text_search.getValue() != null && !this.full_text_search.getValue().equals("")) {
+		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
 			this.personList = this.personDao.listAllPersons(this.full_text_search.getValue());
 		} else {
 			this.personList = this.personDao.listAllPersons();
 		}
 
-		if (this.shows_rows.getValue() != null && this.shows_rows.getValue() != 0) {
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_user.setPageSize(this.shows_rows.getValue());
 		} else {
 			this.sw_list_user.setPageSize(10);
