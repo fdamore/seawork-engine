@@ -63,7 +63,7 @@ WHERE
         ]]>
 		</if>
 
-		<if test="expired != null and expired == true">
+		<if test="expired != null and expired == false">
         <![CDATA[
         AND (CURDATE() <= t.expiration_date
         OR t.expiration_date IS NULL) 
@@ -72,7 +72,7 @@ WHERE
 
 		<if test="expired != null and expired == true">
         <![CDATA[
-        AND CURDATE() >= t.certificate_date 
+        AND (CURDATE() >= t.expiration_date AND t.expiration_date IS NOT NULL)  
         ]]>
 		</if>
 	</select>

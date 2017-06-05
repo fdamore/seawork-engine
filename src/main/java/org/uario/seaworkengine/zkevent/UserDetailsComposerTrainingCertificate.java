@@ -47,7 +47,8 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 	@Wire
 	private Component				grid_details;
 
-	private final Logger			logger				= Logger.getLogger(UserDetailsComposerTrainingCertificate.class);
+	private final Logger			logger				= Logger
+			.getLogger(UserDetailsComposerTrainingCertificate.class);
 
 	@Wire
 	private Textbox					note;
@@ -146,7 +147,8 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 			return;
 		}
 
-		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, null, null, this.person_selected.getId());
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, null, null,
+				this.person_selected.getId());
 		final StringBuilder builder = UtilityCSV.downloadCSV_user_formazione(list);
 		Filedownload.save(builder.toString(), "application/text", "info_formazione.csv");
 
@@ -243,8 +245,8 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -263,8 +265,8 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 			return;
 		}
 
-		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), null,
-				this.person_selected.getId());
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null,
+				this.full_text_search.getValue(), null, this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
@@ -279,8 +281,8 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 			return;
 		}
 
-		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), null,
-				this.person_selected.getId());
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null,
+				this.full_text_search.getValue(), null, this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
@@ -315,8 +317,8 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 			return;
 		}
 
-		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), false,
-				this.person_selected.getId());
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null,
+				this.full_text_search.getValue(), true, this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
@@ -329,8 +331,8 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 			return;
 		}
 
-		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, this.full_text_search.getValue(), true,
-				this.person_selected.getId());
+		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null,
+				this.full_text_search.getValue(), false, this.person_selected.getId());
 		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
