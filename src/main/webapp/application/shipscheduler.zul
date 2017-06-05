@@ -832,6 +832,7 @@
 										sort="auto(handswork_program)" />
 									<listheader label="Persone P"
 										sort="auto(menwork_program)" />
+									<listheader label="Note" />
 
 									<listheader label="" />
 								</listhead>
@@ -854,6 +855,8 @@
 										label="@{detailscheduleship_item.handswork_program}" />
 									<listcell sclass="myBottonCell"
 										label="@{detailscheduleship_item.menwork_program}" />
+									<listcell sclass="myBottonCell"
+										label="@{detailscheduleship_item.note}" />
 
 									<listcell sclass="myBottonCell">
 
