@@ -1368,6 +1368,8 @@
 					<listheader label="Data fine"
 						sort="auto(departuredate)" hflex="1" />
 
+					<listheader label="Note" hflex="1" />
+
 					<listheader id="modifyColumnScheduleShip" label="" />
 				</listhead>
 
@@ -1426,6 +1428,11 @@
 						label="@{detailscheduleship_item.arrivaldate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.departuredate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+
+					<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.note}" />
+
 
 
 					<listcell sclass="myBottonCell">
