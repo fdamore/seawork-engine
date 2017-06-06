@@ -50,6 +50,9 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Wire
 	private Textbox				customer_note;
 	
+	@Wire
+	private Textbox				customer_piva;
+	
 	private Customer			customer_selected	= null;
 	
 	private ICustomerDAO		customerDAO;
@@ -69,10 +72,10 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	private Listbox				list_monitor;
 	
 	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
-	
+
 	@Wire
 	private Component			modify_ships_command;
-
+	
 	@Wire
 	private Datebox				monitor_date;
 	
@@ -127,11 +130,13 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			final Customer customer = new Customer();
 			customer.setName(this.customer_name.getValue());
 			customer.setNote(this.customer_note.getValue());
+			customer.setPiva(this.customer_piva.getValue());
 			this.customerDAO.createCustomer(customer);
 		} else {
 			if (this.customer_selected != null) {
 				this.customer_selected.setName(this.customer_name.getValue());
 				this.customer_selected.setNote(this.customer_note.getValue());
+				this.customer_selected.setPiva(this.customer_piva.getValue());
 				this.customerDAO.updateCustomer(this.customer_selected);
 			}
 		}
@@ -145,7 +150,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #add_ships_command")
 	public void addShipCommand() {
 		
-		if (this.ship_name.getValue() == null || this.ship_name.getValue().equals("")) {
+		if ((this.ship_name.getValue() == null) || this.ship_name.getValue().equals("")) {
 			
 			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
@@ -222,7 +227,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	public void checkPresence() {
 		if (this.ship_name.getValue() != null) {
 			Integer shipId = null;
-			if (this.isInModify && this.ship_selected != null) {
+			if (this.isInModify && (this.ship_selected != null)) {
 				shipId = this.ship_selected.getId();
 			}
 			if (this.shipDao.verifyIfShipExistByName(this.ship_name.getValue(), shipId)) {
@@ -267,7 +272,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		
 		this.isInModify = true;
 		
-		if (this.sw_list_ship.getSelectedItem() == null || this.sw_list_ship.getSelectedItem().getValue() == null
+		if ((this.sw_list_ship.getSelectedItem() == null) || (this.sw_list_ship.getSelectedItem().getValue() == null)
 				|| !(this.sw_list_ship.getSelectedItem().getValue() instanceof Ship)) {
 			return;
 		}
@@ -308,8 +313,8 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #sw_link_modifycustomer")
 	public void deleteCustomerCommand() {
 		
-		if (this.sw_list_customer.getSelectedItem() == null
-				|| this.sw_list_customer.getSelectedItem().getValue() == null) {
+		if ((this.sw_list_customer.getSelectedItem() == null)
+				|| (this.sw_list_customer.getSelectedItem().getValue() == null)) {
 			return;
 		}
 		
@@ -381,8 +386,8 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			return;
 		}
 		
-		if (this.ship_name.getValue() == "" || this.ship_line.getValue() == "" || this.ship_type.getValue() == ""
-				|| this.ship_condition.getValue() == "" || this.ship_twtype.getValue() == "") {
+		if ((this.ship_name.getValue() == "") || (this.ship_line.getValue() == "") || (this.ship_type.getValue() == "")
+				|| (this.ship_condition.getValue() == "") || (this.ship_twtype.getValue() == "")) {
 			
 			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
@@ -413,7 +418,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			} else if (this.ship_nowork.isChecked()) {
 				
 				final Ship noWorkShip = this.shipDao.getNoWorkShip();
-				if (noWorkShip == null || noWorkShip.getId() == this.ship_selected.getId()) {
+				if ((noWorkShip == null) || (noWorkShip.getId() == this.ship_selected.getId())) {
 					this.shipDao.updateShip(this.ship_selected);
 					this.showOkMessageBox();
 				} else {
@@ -531,13 +536,13 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		
 		List<Ship> list_ship = null;
 		
-		if (this.full_text_search.getValue() != null && !this.full_text_search.getValue().equals("")) {
+		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
 			list_ship = this.shipDao.listAllShip(this.full_text_search.getValue());
 		} else {
 			list_ship = this.shipDao.loadAllShip();
 		}
 		
-		if (this.shows_rows.getValue() != null && this.shows_rows.getValue() != 0) {
+		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_ship.setPageSize(this.shows_rows.getValue());
 		} else {
 			this.sw_list_ship.setPageSize(10);
@@ -549,8 +554,8 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #show_modifycustomer")
 	public void show_modifycustomer() {
 		
-		if (this.sw_list_customer.getSelectedItem() == null
-				|| this.sw_list_customer.getSelectedItem().getValue() == null) {
+		if ((this.sw_list_customer.getSelectedItem() == null)
+				|| (this.sw_list_customer.getSelectedItem().getValue() == null)) {
 			return;
 		}
 		
@@ -558,6 +563,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		this.customer_name.setValue(customer.getName());
 		this.customer_note.setValue(customer.getNote());
+		this.customer_piva.setValue(customer.getPiva());
 
 		this.customer_selected = customer;
 
@@ -579,6 +585,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		
 		this.customer_name.setValue(null);
 		this.customer_note.setValue(null);
+		this.customer_piva.setValue(null);
 		
 		this.status_modify = Boolean.FALSE;
 		this.add_customer_div.setVisible(true);

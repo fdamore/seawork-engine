@@ -14,6 +14,8 @@ public class Customer implements Serializable {
 	private String				name;
 	
 	private String				note;
+	
+	private String				piva;
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -30,7 +32,7 @@ public class Customer implements Serializable {
 		return this.getId().equals(custo_itm.getId());
 
 	}
-
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -38,11 +40,15 @@ public class Customer implements Serializable {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public String getNote() {
 		return this.note;
 	}
-
+	
+	public String getPiva() {
+		return this.piva;
+	}
+	
 	public void setId(final Integer id) {
 		this.id = id;
 	}
@@ -53,6 +59,10 @@ public class Customer implements Serializable {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public void setPiva(String piva) {
+		this.piva = piva;
 	}
 
 	@Override

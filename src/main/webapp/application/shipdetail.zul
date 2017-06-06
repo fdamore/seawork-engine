@@ -386,6 +386,13 @@
 									id="customer_name">
 								</textbox>
 							</hbox>
+							
+							<hbox align="center">
+								<label value="Partita IVA: "></label>
+								<textbox placeholder="Partita IVA..."
+									id="customer_piva">
+								</textbox>
+							</hbox>
 
 							<hbox align="center">
 								<label value="Note:"></label>
@@ -428,6 +435,7 @@
 						<listhead sizable="true">
 
 							<listheader label="Nome" sort="auto(name)" />
+							<listheader label="PIVA" sort="auto(piva)" />
 							<listheader label="Note" sort="auto(note)" />
 							<listheader label="" />
 						</listhead>
@@ -438,6 +446,9 @@
 
 							<listcell sclass="myBottonCell"
 								label="@{customer_item.name}" />
+
+							<listcell sclass="myBottonCell"
+								label="@{customer_item.piva}" />
 
 							<listcell sclass="myBottonCell"
 								label="@{customer_item.note}" />

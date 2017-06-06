@@ -24,9 +24,9 @@
 	<insert id="createCustomer" parameterType="org.uario.seaworkengine.model.Customer">
 		INSERT INTO customer
 		(id,
-		name, note)
+		name, note,piva)
 		VALUES
-		(#{id}, #{name},#{note})
+		(#{id}, #{name},#{note}, #{piva})
 	</insert>
 
 	<delete id="deleteCustomer" parameterType="int">
@@ -39,7 +39,8 @@
 		UPDATE customer
 		SET
 		name = #{name},
-		note = #{note}
+		note = #{note},
+		piva = #{piva}
 		WHERE id = #{id};
 	</update>
 
