@@ -245,6 +245,7 @@
 							<listheader label="Tipo Twist" />
 							<listheader label="Non Lavoro" />
 							<listheader label="Attività H" />
+							<listheader label="Note" />
 
 							<listheader label="" />
 						</listhead>
@@ -276,7 +277,8 @@
 									src="@{ship_item.activityh, converter='org.uario.seaworkengine.zkevent.converter.ShiftBreakConverter'}" />
 							</listcell>
 
-
+							<listcell sclass="myBottonCell"
+								label="@{ship_item.note}" />
 
 
 							<listcell sclass="myBottonCell">
@@ -386,7 +388,7 @@
 									id="customer_name">
 								</textbox>
 							</hbox>
-							
+
 							<hbox align="center">
 								<label value="Partita IVA: "></label>
 								<textbox placeholder="Partita IVA..."
