@@ -103,6 +103,7 @@
 					<listheader label="Nome" />
 					<listheader label="Iscrizione" />
 					<listheader label="Cancellazione" />
+					<listheader label="Note" />
 					<listheader label="" />
 				</listhead>
 
@@ -115,6 +116,8 @@
 						label="@{item.registration, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell
 						label="@{item.cancellation, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+					<listcell label="@{item.note}" />
 
 
 					<listcell>
