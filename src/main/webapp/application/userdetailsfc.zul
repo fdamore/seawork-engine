@@ -144,6 +144,7 @@
 					<listheader label="Comunicazione" />
 					<listheader label="Malattia da" />
 					<listheader label="Malattia a" />
+					<listheader label="Note" />
 
 
 					<listheader label="" />
@@ -165,6 +166,8 @@
 					<listcell
 						label="@{item.sikness_to, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
+					<listcell label="@{item.note}" />
+					
 					<listcell>
 
 						<toolbarbutton id="sw_link_delete"
