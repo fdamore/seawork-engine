@@ -222,6 +222,7 @@
 					<listheader label="Sospeso Da" />
 					<listheader label="Fino a" />
 					<listheader label="Mese-Anno BP" />
+					<listheader label="Note" />
 					<listheader label="" />
 					<listheader label="" />
 				</listhead>
@@ -260,6 +261,7 @@
 					<listcell
 						label="@{item.date_bp, converter='org.uario.seaworkengine.zkevent.converter.DateConverterMMYY'}" />
 
+					<listcell label="@{item.note}" />
 
 					<listcell>
 
