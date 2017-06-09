@@ -55,7 +55,8 @@
 		usershift us
 		where
 		s.break_ex = 0
-		and s.user = #{user_id}
+		and
+		s.user = #{user_id}
 		and s.shift = us.id
 		and (us.break_shift = 1
 		or
@@ -978,21 +979,29 @@ GROUP BY invoicing_cycle
 
 	<select id="getTotalHandsMenByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select sum(dis.handswork) as handswork, sum(dis.handswork_program)as
-		handswork_program, sum(dis.menwork)
-		as menwork, month(dis.shiftdate) as
-		monthInvoice, sum(dis.windyday) as windyday
-		from
-		detailscheduleship dis,
-		scheduleship ss
-		where year(dis.shiftdate)=#{year} and
-		dis.idscheduleship = ss.id and
-		ss.id_service = #{idService}
+		
+	<![CDATA[	
+SELECT 
+    SUM(dis.handswork) AS handswork,
+    SUM(dis.handswork_program) AS handswork_program,
+    SUM(dis.menwork) AS menwork,
+    MONTH(dis.shiftdate) AS monthInvoice,
+    SUM(dis.windyday) AS windyday
+FROM
+    detailscheduleship dis,
+    scheduleship ss
+WHERE
+    YEAR(dis.shiftdate) = #{year}
+        AND dis.idscheduleship = ss.id
+        AND ss.id_service = #{idService}
+        ]]>
 		<if test="shift!=null">
 			and shift=#{shift}
 		</if>
-		group by
-		monthInvoice;
+<![CDATA[		
+GROUP BY monthInvoice;
+	]]>
+
 	</select>
 
 	<!-- SHIP NUMBER -->
