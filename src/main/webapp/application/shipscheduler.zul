@@ -2516,10 +2516,10 @@
 			<hbox align="center">
 				<a label="Calcola su Periodo di " />
 				<radiogroup id="byInvoce">
-					<radio id="twYes" label="Fatturazione"
+					<radio id="invoice_yes" label="Fatturazione"
 						radiogroup="byInvoce" selected="true" />
 					<space />
-					<radio id="twNo" label="Lavorazione"
+					<radio id="invoice_no" label="Lavorazione"
 						radiogroup="byInvoce" />
 				</radiogroup>
 			</hbox>

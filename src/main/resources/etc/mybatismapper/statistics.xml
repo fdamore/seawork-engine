@@ -54,13 +54,15 @@
 		schedule s,
 		usershift us
 		where
-		s.break_ex = 0 
+		s.break_ex = 0
 		and s.user = #{user_id}
 		and s.shift = us.id
 		and (us.break_shift = 1
-		or us.waitbreak_shift = 1
 		or
-		us.recorded = 1 or us.disease_shift = 1 or us.accident_shift = 1)
+		us.waitbreak_shift = 1
+		or
+		us.recorded = 1 or us.disease_shift = 1 or
+		us.accident_shift = 1)
 		and
 		(s.date_schedule <![CDATA[>=]]>
 		date(#{date_from})
@@ -152,17 +154,17 @@
 		<if test="rifSWS != null">
 			and ss.id = #{rifSWS}
 		</if>
-		
-		<if test="rifMCT != null">	
+
+		<if test="rifMCT != null">
 
 			<if test="rifMCT == 'RIF_MCT_EMPTY'">
 				and (ss.rif_mct is null || length(ss.rif_mct) = 0)
 			</if>
 
 			<if test="rifMCT != 'RIF_MCT_EMPTY'">
-				and ss.rif_mct = #{rifMCT} 
+				and ss.rif_mct = #{rifMCT}
 			</if>
-		</if>		
+		</if>
 
 		<if test="shift != null">
 			and dss.shift = #{shift}
@@ -259,21 +261,21 @@
 		<if test="rifSWS != null">
 			and ss.id = #{rifSWS}
 		</if>
-		
-		
-		<if test="rifMCT != null">	
+
+
+		<if test="rifMCT != null">
 
 			<if test="rifMCT == 'RIF_MCT_EMPTY'">
 				and (ss.rif_mct is null || length(ss.rif_mct) = 0)
 			</if>
 
 			<if test="rifMCT != 'RIF_MCT_EMPTY'">
-				and ss.rif_mct = #{rifMCT} 
+				and ss.rif_mct = #{rifMCT}
 			</if>
-		</if>		
-		
+		</if>
 
-		
+
+
 
 		<if test="invoicing_cycle != null">
 			and d.invoicing_cycle = #{invoicing_cycle}
@@ -949,19 +951,28 @@
 	<!-- HAND - MEN -->
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-
-		select sum(handswork)as handswork, sum(handswork_program)as
-		handswork_program,sum(menwork) as menwork,
-		invoicing_cycle as
-		monthInvoice, sum(windyday) as windyday
-		from reportmen
-		where shiftyear =
-		#{year} and invoicing_cycle is not null
-		and idService=#{idService}
+		
+	<![CDATA[	
+SELECT 
+    SUM(handswork) AS handswork,
+    SUM(handswork_program) AS handswork_program,
+    SUM(menwork) AS menwork,
+    invoicing_cycle AS monthInvoice,
+    SUM(windyday) AS windyday
+FROM
+    reportmen
+WHERE
+    shiftyear = #{year}
+        AND invoicing_cycle IS NOT NULL
+        AND idService = #{idService}
+ ]]>
 		<if test="shift!=null">
 			and shift=#{shift}
 		</if>
-		group by invoicing_cycle
+<![CDATA[		
+GROUP BY invoicing_cycle
+]]>
+
 
 	</select>
 
