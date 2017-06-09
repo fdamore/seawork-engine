@@ -952,26 +952,32 @@
 	<!-- HAND - MEN -->
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		
-	<![CDATA[	
+<![CDATA[		
 SELECT 
-    SUM(handswork) AS handswork,
-    SUM(handswork_program) AS handswork_program,
-    SUM(menwork) AS menwork,
-    invoicing_cycle AS monthInvoice,
-    SUM(windyday) AS windyday
+    SUM(dis.handswork) AS handswork,
+    SUM(dis.handswork_program) AS handswork_program,
+    SUM(dis.menwork) AS menwork,
+    MONTH(dis.shiftdate) AS monthInvoice,
+    SUM(dis.windyday) AS windyday
 FROM
-    reportmen
+    detailscheduleship dis,
+    scheduleship ss
 WHERE
-    shiftyear = #{year}
-        AND invoicing_cycle IS NOT NULL
-        AND idService = #{idService}
+    YEAR(dis.shiftdate) = #{year}
+        AND dis.idscheduleship = ss.id
+        AND ss.id_service = #{idService} 
+        AND dis.id IN (SELECT 
+            dfs.iddetailscheduleship            
+        FROM
+            detailfinalscheduleship dfs
+        WHERE
+            dfs.invoicing_cycle = MONTH(dis.shiftdate))
  ]]>
 		<if test="shift!=null">
 			and shift=#{shift}
 		</if>
 <![CDATA[		
-GROUP BY invoicing_cycle
+GROUP BY monthInvoice
 ]]>
 
 
@@ -1008,30 +1014,73 @@ GROUP BY monthInvoice;
 
 	<select id="countShipByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select count(distinct idScheduleShip) as shipnumber , invoicing_cycle
-		as monthInvoice
-		from reportmen
-		where shiftyear = #{year} and
-		invoicing_cycle is not null
+<![CDATA[		
+SELECT 
+    COUNT(DISTINCT ss.id) AS shipnumber,
+    MONTH(dis.shiftdate) AS monthInvoice
+FROM
+    detailscheduleship dis,
+    scheduleship ss
+WHERE
+    YEAR(dis.shiftdate) = #{year}
+        AND dis.idscheduleship = ss.id
+        AND ss.id_service = (SELECT 
+            sv.id AS id
+        FROM
+            service sv
+        WHERE
+            sv.isRZ = 1)
+        ]]>
+
 		<if test="operation!=null">
-			and operation like CONCAT('%', #{operation},'%')
+        <![CDATA[
+			AND dis.operation like CONCAT('%', #{operation},'%')]]>
 		</if>
-		group by invoicing_cycle
+<![CDATA[ 
+		AND dis.id IN (SELECT 
+            dfs.iddetailscheduleship            
+        FROM
+            detailfinalscheduleship dfs
+        WHERE
+            dfs.invoicing_cycle = MONTH(dis.shiftdate))
+		
+         
+GROUP BY monthInvoice;
+ ]]>
+
+
 	</select>
 
 	<select id="countShipByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select count(distinct ss.id) as shipnumber , month(dis.shiftdate) as
-		monthInvoice
-		from
-		detailscheduleship dis, scheduleship ss
-		where
-		year(dis.shiftdate)=#{year} and dis.idscheduleship = ss.id and
-		ss.id_service = (select sv.id AS id from service sv where sv.isRZ=1)
+<![CDATA[		
+SELECT 
+    COUNT(DISTINCT ss.id) AS shipnumber,
+    MONTH(dis.shiftdate) AS monthInvoice
+FROM
+    detailscheduleship dis,
+    scheduleship ss
+WHERE
+    YEAR(dis.shiftdate) = #{year}
+        AND dis.idscheduleship = ss.id
+        AND ss.id_service = (SELECT 
+            sv.id AS id
+        FROM
+            service sv
+        WHERE
+            sv.isRZ = 1)
+        ]]>
+
 		<if test="operation!=null">
-			and dis.operation like CONCAT('%', #{operation},'%')
+        <![CDATA[
+			AND dis.operation like CONCAT('%', #{operation},'%')]]>
 		</if>
-		group by monthInvoice;
+		
+<![CDATA[          
+GROUP BY monthInvoice;
+ ]]>
+
+
 	</select>
 
 	<!-- HOURS BY TASK -->

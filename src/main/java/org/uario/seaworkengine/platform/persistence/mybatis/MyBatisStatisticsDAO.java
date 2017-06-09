@@ -4,7 +4,6 @@
  */
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -335,8 +334,6 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	public List<ShipTotal> getShipNumber(final String operation, final Integer year, final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
 
-		final List<ShipTotal> list = new ArrayList<>();
-
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("year", year);
 		map.put("operation", operation);
@@ -407,7 +404,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipTotal> getTotalHandsMen(final Integer year, final Integer shift, final Integer idService, final Boolean by_invoice) {
+	public List<ShipTotal> getTotalHandsMen(final Integer year, final Integer shift, final Integer idService,
+			final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalHandsMen...");
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -430,7 +428,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipTotal> getTotalInvoiceContainer(final Integer year, final Integer idService, final Boolean by_invoice) {
+	public List<ShipTotal> getTotalInvoiceContainer(final Integer year, final Integer idService,
+			final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -446,8 +445,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Integer task_id, final Date date_from, final Date date_to, final Boolean reviewshift, final Integer idShip, final String craneId) {
+	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number,
+			final Integer shift_type, final Integer task_id, final Date date_from, final Date date_to,
+			final Boolean reviewshift, final Integer idShip, final String craneId) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -468,8 +468,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search, final Integer shift_number, final Integer shift_type,
-			final Integer task_id, final Date date_from, final Date date_to) {
+	public List<DetailInitialSchedule> listDetailInitialSchedule(final String full_text_search,
+			final Integer shift_number, final Integer shift_type, final Integer task_id, final Date date_from,
+			final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -487,7 +488,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<Schedule> listSchedule(final String full_text_search, final Integer shift, final Date date_from, final Date date_to) {
+	public List<Schedule> listSchedule(final String full_text_search, final Integer shift, final Date date_from,
+			final Date date_to) {
 		MyBatisStatisticsDAO.logger.info("listSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -527,9 +529,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText, final Integer rifSWS,
-			final String rifMCT, final Integer shift, final Integer invoicing_cycle, final Integer idService, final String shipType,
-			final String shipLine, final String shipCondition) {
+	public List<ReviewShipWork> loadReviewShipWork(final Date date_from, final Date date_to, String searchText,
+			final Integer rifSWS, final String rifMCT, final Integer shift, final Integer invoicing_cycle,
+			final Integer idService, final String shipType, final String shipLine, final String shipCondition) {
 
 		MyBatisStatisticsDAO.logger.info("loadReviewShipWork");
 
@@ -574,9 +576,9 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(final Date date_from, final Date date_to, final Integer rifSWS,
-			final String rifMCT, final Integer working_cycle, String searchText, final Integer serviceId, final String shipType,
-			final String shipLine, final String shipCondition) {
+	public List<ReviewShipWorkAggregate> loadReviewShipWorkAggregate(final Date date_from, final Date date_to,
+			final Integer rifSWS, final String rifMCT, final Integer working_cycle, String searchText,
+			final Integer serviceId, final String shipType, final String shipLine, final String shipCondition) {
 
 		MyBatisStatisticsDAO.logger.info("loadReviewShipWorkAggregate by date");
 
@@ -622,8 +624,8 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipOverview> overviewFinalScheduleByShip(final String text_search, final Date date_from, final Date date_to, final String shipType,
-			final String shipLine, final String shipCondition) {
+	public List<ShipOverview> overviewFinalScheduleByShip(final String text_search, final Date date_from,
+			final Date date_to, final String shipType, final String shipLine, final String shipCondition) {
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<>();
