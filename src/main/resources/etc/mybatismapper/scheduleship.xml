@@ -242,51 +242,63 @@
 
 	<select id="searchDetailScheduleShipByPeriodOrDateshift"
 		parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT
-		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature,
-		d.first_down,
-		d.worked, d.last_down,
-		s.name, d.operation,
-		d.activity_start,
-		d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as
-		rif_mct,
-		ss.departuredate, ss.id_service as serviceId,
-		d.iduser,d.idseconduser,
-		d.handswork,
-		d.menwork,
-		d.handswork_program,
-		d.menwork_program, d.person_down,
-		d.person_onboard,
-		d.shiftdate,
-		s.id as
-		id_ship,
-		concat(u.lastname, ' ', u.firstname) AS
-		firstOperativeName,
-		concat(us.lastname, ' ', us.firstname) AS
-		secondOperativeName, (SELECT
-		sr.name FROM service sr
-		where
-		ss.id_service=sr.id) as serviceType
-		FROM
-		detailscheduleship d
-		left
-		join
-		user u ON
-		(d.iduser = u.id),
-		detailscheduleship d1
-		left join
-		user us
-		ON
-		(d1.idseconduser = us.id),
-		ship
-		s, scheduleship ss
-		where
-		d.idscheduleship = ss.id and ss.idship =
-		s.id
-		and d1.id = d.id
-
+<![CDATA[
+SELECT 
+    d.shift,
+    d.id,
+    d.notedetail,
+    d.idscheduleship,
+    ss.customer_id,
+    d.notedetail,
+    d.rain,
+    d.wind,
+    d.windyday,
+    d.sky,
+    d.temperature,
+    d.first_down,
+    d.worked,
+    d.last_down,
+    s.name,
+    d.operation,
+    d.activity_start,
+    d.activity_end,
+    ss.note,
+    ss.arrivaldate,
+    ss.rif_mct AS rif_mct,
+    ss.departuredate,
+    ss.id_service AS serviceId,
+    d.iduser,
+    d.idseconduser,
+    d.handswork,
+    d.menwork,
+    d.handswork_program,
+    d.menwork_program,
+    d.person_down,
+    d.person_onboard,
+    d.shiftdate,
+    s.id AS id_ship,
+    CONCAT(u.lastname, ' ', u.firstname) AS firstOperativeName,
+    CONCAT(us.lastname, ' ', us.firstname) AS secondOperativeName,
+    (SELECT 
+            sr.name
+        FROM
+            service sr
+        WHERE
+            ss.id_service = sr.id) AS serviceType
+FROM
+    detailscheduleship d
+        LEFT JOIN
+    user u ON (d.iduser = u.id),
+    detailscheduleship d1
+        LEFT JOIN
+    user us ON (d1.idseconduser = us.id),
+    ship s,
+    scheduleship ss
+WHERE
+    d.idscheduleship = ss.id
+        AND ss.idship = s.id
+        AND d1.id = d.id
+]]>
 		<if test="full_text_search != null">
 			and (s.name like CONCAT('%',#{full_text_search}, '%') )
 		</if>
@@ -384,13 +396,20 @@
 		<if test="worked != null">
 			and #{worked}=d.worked
 		</if>
+		
+		<if test="no_invoice != null and no_invoice == true">
+		<![CDATA[
+		AND d.id NOT IN (SELECT 
+            df_1.iddetailscheduleship
+        FROM
+            detailfinalscheduleship df_1
+        WHERE
+            invoicing_cycle IS NOT NULL)
+            ]]>
+		</if>	
 
 		order by
 		d.shiftdate, d.shift, s.name asc
-
-
-
-
 
 	</select>
 
