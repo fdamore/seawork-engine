@@ -60,6 +60,7 @@ import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
@@ -142,6 +143,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabbox											bap_overview_tab;
+
+	@Wire
+	private Hbox											box_invoice;
 
 	@Wire
 	private Caption											captionDetailProgramShip;
@@ -420,6 +424,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Label											msgAlert_detail;
 
 	@Wire
+	private Checkbox										no_invoice;
+
+	@Wire
 	private Textbox											note;
 
 	@Wire
@@ -576,7 +583,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Combobox											select_month_detail;
-
 	@Wire
 	public Combobox											select_shift;
 	@Wire
@@ -593,6 +599,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox										servicetype;
 	@Wire
 	private Combobox										servicetype_schedule;
+
 	@Wire
 	private Label											serviceTypeDescriprion;
 
@@ -743,8 +750,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											sw_list_scheduleShipProgram;
-
 	private TasksDAO										taskDAO;
+
 	@Wire
 	private Combobox										temperature_detail;
 
@@ -1585,6 +1592,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.filterService.setVisible(false);
 		this.text_search_rifSWS.setVisible(false);
 		this.text_search_rifMCT.setVisible(false);
+		this.box_invoice.setVisible(false);
 
 		this.filterDateWork.setVisible(true);
 		this.remove_select_year_detail.setVisible(true);
@@ -1619,7 +1627,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detail_div.setVisible(true);
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(false);
-
 			this.filterShift.setVisible(true);
 			this.filterShip.setVisible(true);
 			this.filterShipType.setVisible(true);
@@ -1628,6 +1635,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.filterService.setVisible(true);
 			this.text_search_rifSWS.setVisible(true);
 			this.text_search_rifMCT.setVisible(true);
+			this.box_invoice.setVisible(true);
 
 			// force over data shift
 			this.datashift_period_compo.setVisible(true);
@@ -1648,7 +1656,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			if ((rifMCT != null) || (rif_sws != null)) {
 				this.searchRifSWS_MCT();
 			} else {
-				this.refreshDetail(false);
+				this.refreshDetail();
 			}
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
@@ -1789,7 +1797,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.shipSchedulerDao.deleteDetailScheduleShip(this.detailScheduleShipSelected.getId());
 
-		this.refreshDetail(false);
+		this.refreshDetail();
 	}
 
 	@Listen("onClick = #sw_link_deleteDetailship")
@@ -2716,6 +2724,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onCheck=#no_invoice")
+	public void onChangeNOINVOCE() {
+		this.refreshDetail();
+
+	}
+
 	@Listen("onChange = #ship_name_schedule")
 	public void onChangeShipOnAddShipProgram() {
 
@@ -3027,58 +3041,58 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Search info for detail
 	 */
-	public void refreshDetail(final boolean no_invoce) {
-
-		final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
-		final Date dateTo = this.searchArrivalDateShipTo.getValue();
-
-		if ((dateFrom != null) && (dateTo != null) && dateFrom.after(dateTo)) {
-			return;
-		}
-
-		// get text
-		String text_search = this.full_text_search.getValue();
-		if ((text_search != null) && text_search.equals("")) {
-			text_search = null;
-		}
-
-		final Integer no_shift = this.getSelectedShift();
-
-		Integer idCustomer = null;
-		if (this.select_customer.getSelectedItem() != null) {
-			final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
-			idCustomer = customerSelected.getId();
-		}
-
-		// set ship type filter
-		Boolean nowork = null;
-		Boolean activityh = null;
-		if (this.select_typeShip.getSelectedItem() != null) {
-			final String selected = this.select_typeShip.getSelectedItem().getValue();
-			if (selected.equals("activityh")) {
-				activityh = true;
-			} else if (selected.equals("nowork")) {
-				nowork = true;
-			} else if (selected.equals("noone")) {
-				activityh = false;
-				nowork = false;
-
-			}
-		}
-
-		// set worked filter
-		Boolean worked = null;
-		if (this.select_workedShip.getSelectedItem() != null) {
-			if (this.select_workedShip.getSelectedItem().getValue().equals(ShipSchedulerComposer.SHIP_WORKED_YES)) {
-				worked = true;
-			} else if (this.select_workedShip.getSelectedItem().getValue()
-					.equals(ShipSchedulerComposer.SHIP_WORKED_NO)) {
-				worked = false;
-			}
-		}
+	private void refreshDetail() {
 
 		if (((this.text_search_rifMCT.getValue() == null) || this.text_search_rifMCT.getValue().equals(""))
 				&& ((this.text_search_rifSWS.getValue() == null) || this.text_search_rifSWS.getValue().equals(""))) {
+
+			final Date dateFrom = this.searchArrivalDateShipFrom.getValue();
+			final Date dateTo = this.searchArrivalDateShipTo.getValue();
+
+			if ((dateFrom != null) && (dateTo != null) && dateFrom.after(dateTo)) {
+				return;
+			}
+
+			// get text
+			String text_search = this.full_text_search.getValue();
+			if ((text_search != null) && text_search.equals("")) {
+				text_search = null;
+			}
+
+			final Integer no_shift = this.getSelectedShift();
+
+			Integer idCustomer = null;
+			if (this.select_customer.getSelectedItem() != null) {
+				final Customer customerSelected = this.select_customer.getSelectedItem().getValue();
+				idCustomer = customerSelected.getId();
+			}
+
+			// set ship type filter
+			Boolean nowork = null;
+			Boolean activityh = null;
+			if (this.select_typeShip.getSelectedItem() != null) {
+				final String selected = this.select_typeShip.getSelectedItem().getValue();
+				if (selected.equals("activityh")) {
+					activityh = true;
+				} else if (selected.equals("nowork")) {
+					nowork = true;
+				} else if (selected.equals("noone")) {
+					activityh = false;
+					nowork = false;
+
+				}
+			}
+
+			// set worked filter
+			Boolean worked = null;
+			if (this.select_workedShip.getSelectedItem() != null) {
+				if (this.select_workedShip.getSelectedItem().getValue().equals(ShipSchedulerComposer.SHIP_WORKED_YES)) {
+					worked = true;
+				} else if (this.select_workedShip.getSelectedItem().getValue()
+						.equals(ShipSchedulerComposer.SHIP_WORKED_NO)) {
+					worked = false;
+				}
+			}
 
 			Integer idServiceSelected = null;
 
@@ -3095,7 +3109,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final String ship_condition = this.ship_condition_search.getValue();
 			final Boolean period_on_dateshift = this.datashift_period.isChecked();
 
-			if (!no_invoce) {
+			if (!this.no_invoice.isChecked()) {
 				this.list_details_programmed_ship = this.shipSchedulerDao.searchDetailScheduleShip(dateFrom, dateTo,
 						date_shift, period_on_dateshift, text_search, no_shift, idCustomer, nowork, activityh, worked,
 						idServiceSelected, ship_type, ship_line, ship_condition);
@@ -3151,7 +3165,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.full_text_search.setValue(null);
 
-		this.refreshDetail(false);
+		this.refreshDetail();
 
 	}
 
@@ -4969,7 +4983,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(false);
 
-			this.refreshDetail(false);
+			this.refreshDetail();
 
 		} else if (selected.equals(this.verify_review_ship_item)) {
 
@@ -5124,7 +5138,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 
 		// reset view
-		this.refreshDetail(false);
+		this.refreshDetail();
 		this.alertShiftDate_detail.setVisible(false);
 		this.popup_detail_Daily.close();
 
@@ -5193,7 +5207,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.shipSchedulerDao.updateDetailScheduleShip(this.detailScheduleShipSelected);
 
 		// reset view
-		this.refreshDetail(false);
+		this.refreshDetail();
 
 		this.popup_review_detail.close();
 
@@ -5201,6 +5215,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onOK = #text_search_rifSWS, #text_search_rifMCT; onCheck = #rif_customer_empty")
 	public void searchRifSWS_MCT() {
+
+		// this filter no act on this param
+		this.no_invoice.setChecked(Boolean.FALSE);
 
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
 
@@ -5250,7 +5267,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// the search must to be for date period
 		this.searchDateShift.setValue(null);
 
-		this.refreshDetail(false);
+		this.refreshDetail();
 	}
 
 	@Listen("onChange = #searchDateShift; onOK = #searchDateShift")
@@ -5994,7 +6011,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		this.refreshDetail(false);
+		this.refreshDetail();
 
 	}
 

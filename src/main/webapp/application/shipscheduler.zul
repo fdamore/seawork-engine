@@ -74,10 +74,20 @@
 
 		<!--FILTRI-->
 		<div>
+
+			<hbox align="center" visible="false" id="box_invoice">
+				<a label="Restituisci solo NON Fatturati: "
+					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
+
+				<checkbox id="no_invoice"></checkbox>
+			</hbox>
+
+			<separator></separator>
+
 			<hbox>
 
 				<hbox id="filterDateWork">
-					<a label="Cerca Navi: "
+					<a label="Periodo di Ricerca: "
 						iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 					<vbox align="start">
