@@ -966,12 +966,13 @@ WHERE
     YEAR(dis.shiftdate) = #{year}
         AND dis.idscheduleship = ss.id
         AND ss.id_service = #{idService} 
-        AND dis.id IN (SELECT 
-            dfs.iddetailscheduleship            
+        AND EXISTS(SELECT 
+            *
         FROM
             detailfinalscheduleship dfs
         WHERE
-            dfs.invoicing_cycle = MONTH(dis.shiftdate))
+            dfs.invoicing_cycle IS NOT NULL
+                AND iddetailscheduleship = dis.id)
  ]]>
 		<if test="shift!=null">
 			and shift=#{shift}
@@ -1037,14 +1038,13 @@ WHERE
 			AND dis.operation like CONCAT('%', #{operation},'%')]]>
 		</if>
 <![CDATA[ 
-		AND dis.id IN (SELECT 
-            dfs.iddetailscheduleship            
+		AND EXISTS(SELECT 
+            *
         FROM
             detailfinalscheduleship dfs
         WHERE
-            dfs.invoicing_cycle = MONTH(dis.shiftdate))
-		
-         
+            dfs.invoicing_cycle IS NOT NULL
+                AND iddetailscheduleship = dis.id)         
 GROUP BY monthInvoice;
  ]]>
 
