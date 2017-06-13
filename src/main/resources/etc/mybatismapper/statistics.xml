@@ -903,50 +903,50 @@
 	<!-- CONTAINER -->
 	<select id="getTotalInvoiceContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select sum(dfs.volume - dfs.franchise_volume) as
-		containerInvoice, sum(dfs.timework - dfs.franchise_timework) as
-		timework,
-		sum(dfs.volumeunderboard_sws -
-		dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS,
-		count(s.id)
-		as countService,
-		sum(dfs.volume_tw_mct -
-		dfs.franchise_volume_tw_mct) as
-		containerRZ_TW_MCT,dfs.invoicing_cycle
-		as
-		monthInvoice
-		from
-		detailfinalscheduleship dfs, detailscheduleship
-		dis,
-		scheduleship s
-		where dfs.invoicing_cycle is not null and
-		dfs.iddetailscheduleship =
-		dis.id and s.id=dis.idscheduleship
-		and
-		year(dis.shiftdate)=#{year} and
-		s.id_service=#{idService}
-		group by monthInvoice;
+<![CDATA[	
+SELECT 
+    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
+    SUM(dfs.timework - dfs.franchise_timework) AS timework,
+    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
+    COUNT(s.id) AS countService,
+    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
+    dfs.invoicing_cycle AS monthInvoice
+FROM
+    detailfinalscheduleship dfs,
+    detailscheduleship dis,
+    scheduleship s
+WHERE
+    dfs.invoicing_cycle IS NOT NULL
+        AND dfs.iddetailscheduleship = dis.id
+        AND s.id = dis.idscheduleship
+        AND YEAR(dis.shiftdate) = #{year}
+        AND s.id_service = #{idService}
+GROUP BY monthInvoice;
+]]>
 	</select>
 
 	<select id="getTotalInvoiceContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-		select sum(dfs.volume - dfs.franchise_volume) as
-		containerInvoice, sum(dfs.timework - dfs.franchise_timework) as
-		timework,
-		sum(dfs.volumeunderboard_sws -
-		dfs.franchise_volumeunderboard_sws) as containerRZ_TW_SWS, count(s.id)
-		as countService,
-		sum(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct)
-		as containerRZ_TW_MCT,month(dis.shiftdate) as
-		monthInvoice
-		from
-		detailfinalscheduleship dfs, detailscheduleship dis,
-		scheduleship s
-		where dfs.iddetailscheduleship = dis.id and
-		year(dis.shiftdate)=#{year} and s.id=dis.idscheduleship and
-		s.id_service=#{idService}
-		group by
-		monthInvoice;
+<![CDATA[	
+SELECT 
+    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
+    SUM(dfs.timework - dfs.franchise_timework) AS timework,
+    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
+    COUNT(s.id) AS countService,
+    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
+    MONTH(dis.shiftdate) AS monthInvoice
+FROM
+    detailfinalscheduleship dfs,
+    detailscheduleship dis,
+    scheduleship s
+WHERE
+    dfs.iddetailscheduleship = dis.id
+        AND YEAR(dis.shiftdate) = #{year}
+        AND s.id = dis.idscheduleship
+        AND s.id_service = #{idService}
+GROUP BY monthInvoice;
+]]>
+
 	</select>
 
 	<!-- HAND - MEN -->
