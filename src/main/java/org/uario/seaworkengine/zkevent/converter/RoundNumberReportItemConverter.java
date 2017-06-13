@@ -40,7 +40,7 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 				|| source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.Productivity)
 				|| source.getArgument().equals(ReportItemTag.ContainerOnHours) || source.getArgument().equals(ReportItemTag.ContainerOnHours)
 				|| source.getArgument().equals(ReportItemTag.ContainersOnHours) || source.getIsTaskROW()
-				|| source.getArgument().equals(ReportItemTag.TaskTotalHours)) {
+				|| source.getArgument().equals(ReportItemTag.TaskTotalHours) || source.getArgument().equals(ReportItemTag.TaskTotalHoursRZ_PP)) {
 			Double value = 0.0;
 
 			if (tag.equals("argument")) {

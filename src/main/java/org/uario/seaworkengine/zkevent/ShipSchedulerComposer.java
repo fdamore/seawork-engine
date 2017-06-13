@@ -3441,8 +3441,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final UserTask taskPP = this.configurationDao.loadPPTask();
 		ReportItem itemRZ = new ReportItem();
 		ReportItem itemPP = new ReportItem();
+
 		final ReportItem itemTotalHoursTask = new ReportItem();
 		itemTotalHoursTask.setArgument(ReportItemTag.TaskTotalHours);
+
+		final ReportItem itemTotalHoursTaskRZ_PP = new ReportItem();
+		itemTotalHoursTaskRZ_PP.setArgument(ReportItemTag.TaskTotalHoursRZ_PP);
+
 		double totalHoursTask = 0.0;
 		int hoursTaskNotNull = 0;
 		final int indexTotalHoursTask = this.reportList.size();
@@ -3627,6 +3632,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						totalMenOnHand += itemMenOnHand.getGen();
 						if ((itemContainer.getGen() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getGen();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setGen(sumHourRZ_PP);
+
 							itemContainerOnMen.setGen(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getGen();
 							containerOnMenNotNull++;
@@ -3673,7 +3682,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setFeb(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						totalMenOnHand += itemMenOnHand.getFeb();
 						if ((itemContainer.getFeb() != null) && (sumHourRZ_PP != 0)) {
+
 							final double num = itemContainer.getFeb();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setFeb(sumHourRZ_PP);
+
 							itemContainerOnMen.setFeb(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getFeb();
 							containerOnMenNotNull++;
@@ -3720,6 +3734,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						totalMenOnHand += itemMenOnHand.getMar();
 						if ((itemContainer.getMar() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getMar();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setMar(sumHourRZ_PP);
+
 							itemContainerOnMen.setMar(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getMar();
 							containerOnMenNotNull++;
@@ -3765,7 +3783,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setApr(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						totalMenOnHand += itemMenOnHand.getApr();
 						if ((itemContainer.getApr() != null) && (sumHourRZ_PP != 0)) {
+
 							final double num = itemContainer.getApr();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setApr(sumHourRZ_PP);
+
 							itemContainerOnMen.setApr(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getApr();
 							containerOnMenNotNull++;
@@ -3810,7 +3833,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setMay(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						totalMenOnHand += itemMenOnHand.getMay();
 						if ((itemContainer.getMay() != null) && (sumHourRZ_PP != 0)) {
+
 							final double num = itemContainer.getMay();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setMay(sumHourRZ_PP);
+
 							itemContainerOnMen.setMay(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getMay();
 							containerOnMenNotNull++;
@@ -3855,7 +3883,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setJun(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						totalMenOnHand += itemMenOnHand.getJun();
 						if ((itemContainer.getJun() != null) && (sumHourRZ_PP != 0)) {
+
 							final double num = itemContainer.getJun();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setJun(sumHourRZ_PP);
+
 							itemContainerOnMen.setJun(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getJun();
 							containerOnMenNotNull++;
@@ -3900,7 +3933,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setJul(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						totalMenOnHand += itemMenOnHand.getJul();
 						if ((itemContainer.getJul() != null) && (sumHourRZ_PP != 0)) {
+
 							final double num = itemContainer.getJul();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setJul(sumHourRZ_PP);
+
 							itemContainerOnMen.setJul(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getJul();
 							containerOnMenNotNull++;
@@ -3946,6 +3984,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						totalMenOnHand += itemMenOnHand.getAug();
 						if ((itemContainer.getAug() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getAug();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setAug(sumHourRZ_PP);
+
 							itemContainerOnMen.setAug(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getAug();
 							containerOnMenNotNull++;
@@ -3989,7 +4031,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						itemMenOnHand.setSep(sumHourRZ_PP / shipTotal.getHandswork() / 6);
 						totalMenOnHand += itemMenOnHand.getSep();
 						if ((itemContainer.getSep() != null) && (sumHourRZ_PP != 0)) {
+
 							final double num = itemContainer.getSep();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setSep(sumHourRZ_PP);
+
 							itemContainerOnMen.setSep(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getSep();
 							containerOnMenNotNull++;
@@ -4035,6 +4082,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						totalMenOnHand += itemMenOnHand.getOct();
 						if ((itemContainer.getOct() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getOct();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setOct(sumHourRZ_PP);
+
 							itemContainerOnMen.setOct(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getOct();
 							containerOnMenNotNull++;
@@ -4080,6 +4131,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						totalMenOnHand += itemMenOnHand.getNov();
 						if ((itemContainer.getNov() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getNov();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setNov(sumHourRZ_PP);
+
 							itemContainerOnMen.setNov(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getNov();
 							containerOnMenNotNull++;
@@ -4125,6 +4180,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 						totalMenOnHand += itemMenOnHand.getDec();
 						if ((itemContainer.getDec() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getDec();
+
+							// sum RZ PP
+							itemTotalHoursTaskRZ_PP.setDec(sumHourRZ_PP);
+
 							itemContainerOnMen.setDec(num / sumHourRZ_PP);
 							totalContainerOnMen += itemContainerOnMen.getDec();
 							containerOnMenNotNull++;
@@ -4151,6 +4210,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				totalHoursRZ_PP_task.setDec(sumHourRZ_PP);
 			}
 		}
+
+		// total hors RZ PP
+		this.reportList.add(indexTotalHoursTask + 1, itemTotalHoursTaskRZ_PP);
 
 		itemHands.setTot(totalHands);
 		itemHands.setAvg(totalHands / numberOfHandsNotNull);

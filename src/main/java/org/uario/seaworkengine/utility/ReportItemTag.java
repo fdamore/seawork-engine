@@ -25,6 +25,7 @@ public interface ReportItemTag {
 	public static String	ShipNumberTwist			= "Numero navi - TW";
 	public static String	TaskHours				= "Ore lavorate per mansione";
 	public static String	TaskTotalHours			= "Totale ore Lavorate per mansioni";
+	public static String	TaskTotalHoursRZ_PP		= "Totale ore RZ-PP";
 	public static String	WindyDay				= "Giorni disagio vento";
 
 }

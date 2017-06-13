@@ -28,7 +28,7 @@ public class ReportStyleRowConverter implements TypeConverter {
 		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_SWS)
 				|| source.getArgument().equals(ReportItemTag.ContainerRZ_TW_MCT)) {
 			return "containerStyleReport";
-		} else if (source.getArgument().equals(ReportItemTag.TaskTotalHours)) {
+		} else if (source.getArgument().equals(ReportItemTag.TaskTotalHours) || source.getArgument().equals(ReportItemTag.TaskTotalHoursRZ_PP)) {
 			return "taskTotalHoursStyleReport";
 		} else if (source.getArgument().equals(ReportItemTag.Hands)) {
 			return "handsStyleReport";
