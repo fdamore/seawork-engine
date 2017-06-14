@@ -1579,6 +1579,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.filterService.setVisible(false);
 		this.text_search_rifSWS.setVisible(false);
 		this.text_search_rifMCT.setVisible(false);
+		this.rif_customer_empty.setVisible(false);
 		this.box_invoice.setVisible(false);
 
 		this.filterDateWork.setVisible(true);
@@ -1603,7 +1604,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.filterService.setVisible(true);
 			this.text_search_rifSWS.setVisible(true);
 			this.text_search_rifMCT.setVisible(true);
-
+			this.rif_customer_empty.setVisible(true);
 			this.initial_support_date.setVisible(true);
 
 			this.refreshProgram();
@@ -1622,6 +1623,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.filterService.setVisible(true);
 			this.text_search_rifSWS.setVisible(true);
 			this.text_search_rifMCT.setVisible(true);
+			this.rif_customer_empty.setVisible(true);
 			this.box_invoice.setVisible(true);
 
 			// force over data shift
@@ -1657,6 +1659,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.text_search_rifSWS.setVisible(false);
 			this.text_search_rifMCT.setVisible(false);
+			this.rif_customer_empty.setVisible(false);
 			this.invoicing_cycle_search.setVisible(false);
 			this.filterCustomer.setVisible(false);
 			this.filterService.setVisible(false);
@@ -1671,6 +1674,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			if (selectedTab == this.overviewBap) {
 				this.text_search_rifSWS.setVisible(true);
 				this.text_search_rifMCT.setVisible(true);
+				this.rif_customer_empty.setVisible(true);
 				this.invoicing_cycle_search.setVisible(true);
 				this.filterService.setVisible(true);
 				this.filterShift.setVisible(true);
@@ -1678,6 +1682,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			} else if (selectedTab == this.overviewBapAggregate) {
 				this.text_search_rifSWS.setVisible(true);
 				this.text_search_rifMCT.setVisible(true);
+				this.rif_customer_empty.setVisible(true);
 				this.invoicing_cycle_search.setVisible(true);
 				this.filterService.setVisible(true);
 			}
@@ -1690,10 +1695,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detail_div.setVisible(false);
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(true);
-
 			this.filterRows.setVisible(false);
 			this.text_search_rifSWS.setVisible(false);
 			this.text_search_rifMCT.setVisible(false);
+			this.rif_customer_empty.setVisible(false);
 			this.invoicing_cycle_search.setVisible(false);
 			this.filterCustomer.setVisible(false);
 			this.filterService.setVisible(false);
