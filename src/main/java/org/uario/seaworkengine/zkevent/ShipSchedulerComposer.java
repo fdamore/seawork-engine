@@ -3458,6 +3458,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final int indexTotalHoursTask = this.reportList.size();
 
 		for (final UserTask userTask : tasks) {
+
+			// Abbsence is not reported
+			if (userTask.getIsabsence()) {
+				continue;
+			}
+
 			final ReportItem itemTaskHour = new ReportItem();
 			itemTaskHour.setIsTaskROW(true);
 

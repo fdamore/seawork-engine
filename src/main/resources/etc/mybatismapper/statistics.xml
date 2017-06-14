@@ -1087,25 +1087,23 @@ GROUP BY monthInvoice;
 
 	<select id="getTotalHoursByTask" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="Integer">
-		SELECT
-		dtf.task as task_id,
-		concat(t.code,' -
-		',t.description)as task_code,
-		month(s.date_schedule) as month_date,
-		sum(dtf.time) as task_hour
-		FROM
-		detailfinalschedule dtf,
-		schedule s,
-		usertask t
-		where
-		t.id = dtf.task
-		and s.id = dtf.id_schedule
-		and
-		year(s.date_schedule) = #{year}
-		group by
-		task_id , month_date
-		order by
-		task_id , month_date
+		<![CDATA[
+SELECT 
+    dtf.task AS task_id,
+    CONCAT(t.code, ' - ', t.description) AS task_code,
+    MONTH(s.date_schedule) AS month_date,
+    SUM(dtf.time) AS task_hour
+FROM
+    detailfinalschedule dtf,
+    schedule s,
+    usertask t
+WHERE
+    t.id = dtf.task
+        AND s.id = dtf.id_schedule
+        AND YEAR(s.date_schedule) = #{year}
+GROUP BY task_id , month_date
+ORDER BY task_id , month_date
+]]>
 	</select>
 
 	<!-- TERMINAL PRODUCTIVITY -->
