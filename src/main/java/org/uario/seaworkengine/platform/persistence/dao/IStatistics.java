@@ -152,7 +152,7 @@ public interface IStatistics {
 	
 	public List<ShipTotal> getTotalHoursByTask(final Integer year);
 	
-	public List<ShipTotal> getTotalInvoiceContainer(Integer year, Integer idService, Boolean by_invoice);
+	public List<ShipTotal> getTotalContainer(Integer year, Integer idService, Boolean by_invoice);
 	
 	/**
 	 * List detail initial schedule

@@ -428,7 +428,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipTotal> getTotalInvoiceContainer(final Integer year, final Integer idService,
+	public List<ShipTotal> getTotalContainer(final Integer year, final Integer idService,
 			final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
 
