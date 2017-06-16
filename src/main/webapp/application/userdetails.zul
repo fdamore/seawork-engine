@@ -19,8 +19,8 @@
 
 	<zscript>
 	Comparator asc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(true);
-	Comparator dsc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(false);
-</zscript>
+		Comparator dsc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(false);
+	</zscript>
 
 
 
@@ -42,6 +42,9 @@
 
 		<button id="qrcode_gen" label="Genera QRCode" sclass="btn-info"
 			visible="false" />
+
+		<button id="user_csv" label="Scarica CSV Globale"
+			visible="false" sclass="btn-info" />
 
 		<button label="Chiudi Anagrafica" sclass="btn-danger"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">

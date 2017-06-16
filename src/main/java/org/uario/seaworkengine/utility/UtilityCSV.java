@@ -57,7 +57,7 @@ public class UtilityCSV {
 	private static final SimpleDateFormat	formatMonthOverview	= new SimpleDateFormat("MM/yyyy");
 
 	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
+	
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
 			final ICustomerDAO customerDAO) {
 		if (modelListDetailScheduleShip == null) {
@@ -710,6 +710,39 @@ public class UtilityCSV {
 		builder.append(row_32);
 
 		return builder;
+	}
+
+	/**
+	 * return total CSV
+	 *
+	 * @param person_info
+	 * @param list_emply
+	 * @param list_task
+	 * @param list_job_cost
+	 * @param list_tfr
+	 * @param list_medical
+	 * @param list_trade
+	 * @param list_contestation
+	 * @param list_compensation
+	 * @return
+	 */
+	public static StringBuilder downloadCSV_UserTotal(Person person_info, List<Employment> list_emply, List<UserTask> list_task,
+			List<JobCost> list_job_cost, List<TfrUser> list_tfr, List<MedicalExamination> list_medical, List<TradeUnion> list_trade,
+			List<Contestation> list_contestation, List<UserCompensation> list_compensation, List<TrainingCertificate> list_training) {
+
+		final StringBuilder builder = new StringBuilder();
+
+		final UserTotalCSV item_csv = new UserTotalCSV();
+
+		item_csv.setUser_address(person_info.getAddress());
+		item_csv.setUser_authority(person_info.getAuthority());
+		item_csv.setUser_birth_date(person_info.getBirth_date());
+		item_csv.setUser_birth_place(person_info.getBirth_place());
+		item_csv.setUser_birth_province(person_info.getBirth_province());
+		item_csv.setUser_city(person_info.getCity());
+		
+		return builder;
+		
 	}
 
 	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {
