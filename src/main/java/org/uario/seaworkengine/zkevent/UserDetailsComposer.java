@@ -70,294 +70,294 @@ import org.zkoss.zul.Tab;
 import org.zkoss.zul.Textbox;
 
 public class UserDetailsComposer extends SelectorComposer<Component> {
-	
+
 	/**
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
-
+	
 	@Wire
 	private Component			add_users_command;
-
+	
 	@Wire
 	private Textbox				address_user;
-
+	
 	@Wire
 	private Checkbox			admin_user;
-
+	
 	@Wire
 	private Checkbox			backoffice_user;
-
+	
 	@Wire
 	private Datebox				birth_date_user;
-
+	
 	@Wire
 	private Combobox			birth_place_user;
-
+	
 	@Wire
 	private Combobox			birth_province_user;
-
+	
 	@Wire
 	private Button				cfgenerator;
-
+	
 	@Wire
 	private Textbox				city_user;
-
+	
 	@Wire
 	private Component			compensation_user_tab;
-
+	
 	public Comboitem			comuneSelected;
-
+	
 	@Wire
 	private Component			contestations_user_tab;
-
+	
 	@Wire
 	private Combobox			contractual_level_filter;
-
+	
 	@Wire
 	private Textbox				country_user;
-
+	
 	@Wire
 	private Textbox				current_position_user;
-
+	
 	@Wire
 	private Checkbox			dailyemployee;
-
+	
 	@Wire
 	private Intbox				daywork_w_user;
-
+	
 	@Wire
 	private Combobox			department_user;
-
+	
 	List<String>				departmentItems		= new ArrayList<>();
-
+	
 	@Wire
 	private Tab					detail_user_tab;
-
+	
 	@Wire
 	private Textbox				driving_license_charge_user;
-
+	
 	@Wire
 	private Datebox				driving_license_emission_user;
-
+	
 	@Wire
 	private Textbox				driving_license_user;
-
+	
 	@Wire
 	private Textbox				education_user;
-
+	
 	@Wire
 	private Textbox				email_editor_user;
-
+	
 	@Wire
 	private Textbox				email_editor_user_retype;
-
+	
 	@Wire
 	private Textbox				email_user;
-
+	
 	@Wire
 	private Textbox				email_user_retype;
-
+	
 	@Wire
 	private Textbox				employee_identification_user;
-
+	
 	@Wire
 	private Textbox				family_charge_user;
-
+	
 	@Wire
 	private Textbox				firstname_user;
-
+	
 	@Wire
 	private Component			fiscalcheck_user_tab;
-
+	
 	@Wire
 	private Textbox				fiscalcode_user;
-
+	
 	@Wire
 	private Textbox				full_text_search;
-
+	
 	@Wire
 	private Component			grid_user_details;
-
+	
 	@Wire
 	private Intbox				hourswork_w_user;
-
+	
 	@Wire
 	private Component			jobcost_user_tab;
-
+	
 	@Wire
 	private Textbox				lastname_user;
-
+	
 	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
-
+	
 	@Wire
 	private Component			mail_user_tab;
-
+	
 	@Wire
 	private Textbox				mailpassword_user;
-
+	
 	@Wire
 	private Textbox				marital_status_user;
-
+	
 	@Wire
 	private Component			medicalexamination_user_tab;
-
+	
 	@Wire
 	private Component			modify_users_command;
-
+	
 	@Wire
 	private Textbox				nbudje_user;
-
+	
 	@Wire
 	private Textbox				ncfl_user;
-
+	
 	@Wire
 	private Textbox				npass_user;
-
+	
 	@Wire
 	private Checkbox			operative_user;
-
+	
 	@Wire
 	private Checkbox			out_schedule_user;
-
+	
 	@Wire
 	private Checkbox			partTime;
-
+	
 	@Wire
 	private Textbox				password_editor_user;
-
+	
 	@Wire
 	private Textbox				password_editor_user_retype;
-
+	
 	@Wire
 	private Textbox				password_user;
-
+	
 	@Wire
 	private Textbox				password_user_retype;
-
+	
 	@Wire
 	private Component			password_user_tab;
-
+	
 	Person						person_selected		= null;
-
+	
 	@Wire
 	private Textbox				personal_code_user;
-
+	
 	// the dao used for db interaction
 	private PersonDAO			personDao;
-
+	
 	private List<Person>		personList			= new ArrayList<>();
-
+	
 	@Wire
 	private Textbox				phone_user;
-
+	
 	@Wire
 	private Textbox				postalCode_user;
-
+	
 	@Wire
 	private Textbox				provincia_user;
-
+	
 	@Wire
 	private Component			qrcode_gen;
-
+	
 	@Wire
 	private Row					row_email_user_retype;
-
+	
 	@Wire
 	private Row					row_password_user;
-
+	
 	@Wire
 	private Row					row_password_user_retype;
-
+	
 	@Wire
 	private Textbox				search_qualifica;
-
+	
 	@Wire
 	private Combobox			select_specific_user;
-
+	
 	@Wire
 	private Combobox			sex_user;
-
+	
 	@Wire
 	private Intbox				shows_rows;
-
+	
 	@Wire
 	private Component			status_user_tab;
-
+	
 	@Wire
 	private Listbox				sw_list_user;
-
+	
 	@Wire
 	private Component			task_user_tab;
-
+	
 	@Wire
 	private Component			tfr_user_tab;
-
+	
 	@Wire
 	private Component			tradeunion_user_tab;
-
+	
 	@Wire
 	private Component			training_user_tab;
-
+	
 	@Wire
 	private Label				user_contractual_level;
-
+	
 	@Wire
 	private Button				user_csv;
-
+	
 	@Wire
 	private Combobox			user_enable_filter;
-
+	
 	@Wire
 	private Checkbox			user_enabled;
-
+	
 	@Wire
 	private Label				user_status;
-
+	
 	@Wire
 	private Combobox			user_status_filter;
-
+	
 	@Wire
 	private Combobox			user_status_filter_period;
-
+	
 	@Wire
 	private Datebox				user_status_from;
-
+	
 	@Wire
 	private Datebox				user_status_to;
-
+	
 	@Wire
 	private Combobox			user_task_code;
-
+	
 	@Wire
 	private A					userName;
-
+	
 	@Wire
 	private Checkbox			viewer_user;
-
+	
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
-
+		
 		// check info mail
 		String mail = this.email_user.getValue();
-
+		
 		if ((mail != null) && !mail.equals("")) {
-
+			
 			final String retype_mail = this.email_user_retype.getValue();
 			if (!retype_mail.equals(mail)) {
-
+				
 				final Map<String, String> params = new HashMap();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
-
+				
 				Messagebox.show("Ridigita Username!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 		} else {
 			mail = "" + Calendar.getInstance().getTimeInMillis();
 		}
-
+		
 		// check mail single....
 		final Object ob = this.personDao.loadUserByUsernameIfAny(mail);
 		if ((ob != null) && (ob instanceof Person)) {
@@ -365,28 +365,28 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Mail già presente!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 			return;
 		}
-
+		
 		final String password = this.password_user.getValue();
-
+		
 		if ((password != null) && !password.equals("")) {
 			// check info password
 			final String retype_password = this.password_user_retype.getValue();
-
+			
 			if (retype_password.equals("") || !retype_password.equals(password)) {
 				final Map<String, String> params = new HashMap();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
-
+				
 				Messagebox.show("Ridigita la password!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
 				return;
 			}
 		}
-
+		
 		if (!((this.email_user.getValue() == null) || (this.password_user.getValue() == null))) {
 			final Person person = new Person();
 			person.setAddress(this.address_user.getValue());
@@ -421,14 +421,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			person.setDriving_license_emission(this.driving_license_emission_user.getValue());
 			person.setDaywork_w(this.daywork_w_user.getValue());
 			person.setHourswork_w(this.hourswork_w_user.getValue());
-
+			
 			if (this.birth_place_user.getSelectedItem() != null) {
 				person.setBirth_place(this.birth_place_user.getSelectedItem().getValue().toString());
 			}
 			if (this.birth_province_user.getSelectedItem() != null) {
 				person.setBirth_province(this.birth_province_user.getSelectedItem().getValue().toString());
 			}
-
+			
 			if (this.sex_user.getSelectedItem() != null) {
 				if (this.sex_user.getSelectedItem().toString() == "M") {
 					person.setSex(true);
@@ -438,36 +438,36 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			} else {
 				person.setSex(true);
 			}
-
+			
 			person.setOut_schedule(this.out_schedule_user.isChecked());
-
+			
 			// add initial status
 			person.setStatus(UserStatusTag.OPEN);
-
+			
 			// set authority
 			String auth = UserTag.ROLE_USER;
 			if (this.admin_user.isChecked()) {
 				auth = UserTag.ROLE_SUPERVISOR;
 			}
-
+			
 			if (this.operative_user.isChecked()) {
 				if (!auth.equals(UserTag.ROLE_USER)) {
 					auth = auth + "," + UserTag.ROLE_OPERATIVE;
 				} else {
 					auth = UserTag.ROLE_OPERATIVE;
 				}
-
+				
 			}
-
+			
 			if (this.backoffice_user.isChecked()) {
 				if (!auth.equals(UserTag.ROLE_USER)) {
 					auth = auth + "," + UserTag.ROLE_BACKOFFICE;
 				} else {
 					auth = UserTag.ROLE_BACKOFFICE;
 				}
-
+				
 			}
-
+			
 			if (this.viewer_user.isChecked()) {
 				if (!auth.equals(UserTag.ROLE_USER)) {
 					auth = auth + "," + UserTag.ROLE_VIEWER;
@@ -475,27 +475,27 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 					auth = UserTag.ROLE_VIEWER;
 				}
 			}
-
+			
 			person.setAuthority(auth);
-
+			
 			// set enable true by default
 			person.setEnabled(Boolean.TRUE);
-
+			
 			this.personDao.savePerson(person);
-
+			
 			// reset data info
 			this.resetDataInfo();
-
+			
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Aggiunto elemento", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
-
+			
 			// set user ListBox
 			this.setUserListBox();
-
+			
 			this.grid_user_details.setVisible(false);
 			this.add_users_command.setVisible(false);
 			this.modify_users_command.setVisible(false);
@@ -504,39 +504,39 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
 					params);
-
+			
 		}
-
+		
 	}
-
+	
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
-
+		
 		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null) || (this.birth_place_user.getSelectedItem() == null)
 				|| (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
 				|| (this.sex_user.getSelectedItem() == null)) {
 			return;
 		}
-
+		
 		final String n = this.firstname_user.getValue().toString();
 		final String c = this.lastname_user.getValue().toString();
 		String cc = "";
-
+		
 		cc = this.birth_place_user.getSelectedItem().getValue().toString();
 		final String prov = this.birth_province_user.getSelectedItem().getValue().toString();
-
+		
 		final Date data = this.birth_date_user.getValue();
-
+		
 		String s = null;
 		if (this.sex_user.getSelectedIndex() == 0) {
 			s = "M";
 		} else {
 			s = "F";
 		}
-
+		
 		try {
 			final SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
 			final String dt = sd.format(data);
@@ -584,7 +584,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				default:
 					break;
 			}
-
+			
 			final CFGenerator cfg = new CFGenerator(n, c, cc, month, a, g, s, prov);
 			final String cf = cfg.getCodiceFiscale();
 			this.fiscalcode_user.setValue(cf);
@@ -593,188 +593,188 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 			return;
 		}
-
+		
 	}
-
+	
 	@Listen("onClick = #modify_mail_user")
 	public void changeMailActionUser(final Event evt) {
-
+		
 		try {
-
+			
 			if (this.person_selected == null) {
 				return;
 			}
-
+			
 			// check over password
 			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), this.person_selected.getEmail());
-
+			
 			if (!hashing_password.equals(this.person_selected.getPassword())) {
-
+				
 				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
-
+				
 				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
-
+				
 				return;
-
+				
 			}
-
+			
 			if (!this.email_editor_user.getValue().equals(this.email_editor_user_retype.getValue())) {
-
+				
 				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
-
+				
 				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
-
+				
 				// set fields
 				this.mailpassword_user.setValue("");
-
+				
 				return;
 			}
-
+			
 			// control about mail
 			final UserDetails check = this.personDao.loadUserByUsernameIfAny(this.email_editor_user.getValue());
 			if (check != null) {
-
+				
 				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
-
+				
 				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
-
+				
 				// set fields
 				this.email_editor_user.setValue("");
-
+				
 				return;
-
+				
 			}
-
+			
 			// change password
 			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
-
+			
 			this.person_selected.setEmail(this.email_editor_user.getValue());
 			this.sw_list_user.getSelectedItem().setValue(this.person_selected);
-
+			
 			// set fields
 			this.mailpassword_user.setValue("");
-
+			
 			this.email_user.setValue(this.person_selected.getEmail());
-
+			
 			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Mail cambiata ", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
-
+			
 		}
-
+		
 		catch (final WrongValueException e) {
-
+			
 			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Dati digitati non corretti!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
-
+			
 		}
-
+		
 	}
-
+	
 	@Listen("onClick = #modify_mail_password")
 	public void changePassword(final Event evt) {
 		try {
-
+			
 			if (this.person_selected == null) {
 				return;
 			}
-
+			
 			// WARNING
 			if (!this.password_editor_user.getValue().equals(this.password_editor_user_retype.getValue())) {
-
+				
 				final Map<String, String> params = new HashMap<>();
 				params.put("sclass", "mybutton Button");
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
-
+				
 				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 				return;
 			}
-
+			
 			// change password
 			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(), this.password_editor_user.getValue());
-
+			
 			// reset fields
 			this.password_editor_user.setValue("");
 			this.password_editor_user_retype.setValue("");
-
+			
 			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Password Aggiornata ", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
-
+			
 		}
-
+		
 		catch (final WrongValueException e) {
-
+			
 			final Map<String, String> params = new HashMap<>();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
-
+			
 		}
-
+		
 	}
-
+	
 	@Listen("onClick = #sw_link_deleteuser")
 	public void defineDeleteView() {
-
+		
 		// take person
 		this.person_selected = this.sw_list_user.getSelectedItem().getValue();
-
+		
 	}
-
+	
 	@Listen("onClick = #sw_link_modifyeuser")
 	public void defineModifyView() {
-
+		
 		this.birth_place_user.setSelectedItem(null);
 		this.birth_place_user.setModel(new ListModelList<String>());
 		this.birth_place_user.setValue("");
 		this.birth_province_user.setSelectedItem(null);
-
+		
 		if ((this.sw_list_user.getSelectedItem() == null) || (this.sw_list_user.getSelectedItem().getValue() == null)
 				|| !(this.sw_list_user.getSelectedItem().getValue() instanceof Person)) {
 			return;
 		}
-
+		
 		// take person
 		this.person_selected = this.sw_list_user.getSelectedItem().getValue();
-
+		
 		// get the last person from database
 		this.person_selected = this.personDao.loadPerson(this.person_selected.getId());
-
+		
 		// general details
 		this.defineUserDetailsView(this.person_selected);
-
+		
 		this.userName.setLabel(this.firstname_user.getValue() + " " + this.lastname_user.getValue());
 		this.userName.setVisible(true);
-
+		
 	}
-
+	
 	/**
 	 * define user details view for modify
 	 *
@@ -783,12 +783,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private void defineUserDetailsView(final Person person_selected) {
 		this.email_user.setValue(person_selected.getEmail());
 		this.email_user.setDisabled(true);
-
+		
 		// disable command about credential
 		this.row_email_user_retype.setVisible(false);
 		this.row_password_user.setVisible(false);
 		this.row_password_user_retype.setVisible(false);
-
+		
 		this.firstname_user.setValue(person_selected.getFirstname());
 		this.personal_code_user.setValue(person_selected.getPersonal_code());
 		this.lastname_user.setValue(person_selected.getLastname());
@@ -804,55 +804,55 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.birth_date_user.setValue(person_selected.getBirth_date());
 		this.dailyemployee.setChecked(person_selected.getDailyemployee());
 		this.partTime.setChecked(person_selected.getPart_time());
-
+		
 		this.education_user.setValue(person_selected.getEducation());
 		this.ncfl_user.setValue(person_selected.getNcfl());
-
+		
 		final ListModel<String> items = this.department_user.getModel();
 		for (int i = 0; i < items.getSize(); i++) {
 			if (items.getElementAt(i).toString().equals(person_selected.getDepartment())) {
 				this.department_user.setSelectedItem(this.department_user.getItemAtIndex(i));
 			}
 		}
-
+		
 		this.current_position_user.setValue(person_selected.getCurrent_position());
-
+		
 		this.nbudje_user.setValue(person_selected.getNbudge());
 		this.npass_user.setValue(person_selected.getNpass());
 		this.marital_status_user.setValue(person_selected.getMarital_status());
 		this.family_charge_user.setValue(person_selected.getFamily_charge());
 		this.driving_license_user.setValue(person_selected.getDriving_license());
 		this.driving_license_emission_user.setValue(person_selected.getDriving_license_emission());
-
+		
 		// set status
 		this.user_status.setValue(person_selected.getStatus());
-
+		
 		// set contractual level
 		if (person_selected.getContractual_level() != null) {
 			this.user_contractual_level.setValue(person_selected.getContractual_level().toString());
 		}
-
+		
 		// set users
 		this.admin_user.setChecked(person_selected.isAdministrator());
 		this.out_schedule_user.setChecked(person_selected.getOut_schedule());
 		this.viewer_user.setChecked(person_selected.isViewer());
 		this.backoffice_user.setChecked(person_selected.isBackoffice());
 		this.operative_user.setChecked(person_selected.isOperative());
-
+		
 		// set info about time workable
 		this.daywork_w_user.setValue(person_selected.getDaywork_w());
 		this.hourswork_w_user.setValue(person_selected.getHourswork_w());
-
+		
 		if (person_selected.getSex()) {
 			this.sex_user.setSelectedIndex(0);
 		} else {
 			this.sex_user.setSelectedIndex(1);
 		}
-
+		
 		if (person_selected.getBirth_province() != null) {
-
+			
 			Boolean checked = false;
-
+			
 			final List<Comboitem> listItem = this.birth_province_user.getItems();
 			for (final Comboitem item : listItem) {
 				if (item.getValue() instanceof String) {
@@ -867,125 +867,125 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				this.birth_province_user.setSelectedItem(null);
 				this.birth_province_user.setValue(person_selected.getBirth_province());
 			}
-
+			
 		}
-
+		
 		if (person_selected.getBirth_place() != null) {
-
+			
 			this.birth_place_user.setModel(new ListModelList<>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
 			this.birth_place_user.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
 			this.birth_place_user.setValue(person_selected.getBirth_place());
-
+			
 		}
-
+		
 		// send mail to components
 		this.sendPersonToUserComponents(person_selected);
-
+		
 	}
-
+	
 	private void deleteUserCommand() {
-
+		
 		try {
 			if (this.person_selected == null) {
 				return;
 			}
-
+			
 			this.personDao.removePerson(this.person_selected.getId());
-
+			
 			// update list
 			this.setUserListBox();
-
+			
 		} catch (final Exception e) {
-
+			
 			this.logger.error("Error removing user. " + e.getMessage());
-
+			
 			final Map<String, String> params = new HashMap();
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-
+			
 			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO", buttons,
 					null, Messagebox.EXCLAMATION, null, null, params);
-
+			
 		}
-
+		
 	}
-
+	
 	@Override
 	public void doFinally() throws Exception {
-
+		
 		this.getSelf().addEventListener(ZkEventsTag.onShowUsers, new EventListener<Event>() {
-
+			
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
-
+				
 				// get the DAOs
 				UserDetailsComposer.this.personDao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
-
+				
 				UserDetailsComposer.this.setInitialView();
-
+				
 			}
 		});
-
+		
 		this.getSelf().addEventListener(ZkEventsTag.onUpdateGeneralDetails, new EventListener<Event>() {
-
+			
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
-
+				
 				if (UserDetailsComposer.this.person_selected == null) {
 					return;
 				}
-
+				
 				final Employment item = (Employment) arg0.getData();
-
+				
 				UserDetailsComposer.this.person_selected.setStatus(item.getStatus());
 				UserDetailsComposer.this.person_selected.setContractual_level(item.getContractual_level());
-
+				
 				UserDetailsComposer.this.personDao.updatePerson(UserDetailsComposer.this.person_selected);
-
+				
 				// set status
 				UserDetailsComposer.this.user_status.setValue(item.getStatus());
-
+				
 				if (item.getContractual_level() != null) {
 					// set contratctual level
 					UserDetailsComposer.this.user_contractual_level.setValue(item.getContractual_level().toString());
 				}
-
+				
 				// set user listbox
 				UserDetailsComposer.this.setUserListBox();
-
+				
 			}
 		});
-
+		
 		// create comboitem department
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.ADMINISTRATION);
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.OPERATIVE);
 		UserDetailsComposer.this.department_user.setModel(new ListModelList<>(UserDetailsComposer.this.departmentItems));
-
+		
 		final List<String> userStatusItems = new ArrayList<>();
-
+		
 		// create comboitem user status
 		userStatusItems.add(UserStatusTag.OPEN);
 		userStatusItems.add(UserStatusTag.SUSPENDED);
 		userStatusItems.add(UserStatusTag.FIRED);
 		userStatusItems.add(UserStatusTag.RESIGNED);
-
+		
 		this.user_status_filter.setModel(new ListModelList<>(userStatusItems));
 		this.user_status_filter_period.setModel(new ListModelList<>(userStatusItems));
-
+		
 	}
-
+	
 	@Listen("onClick = #personList_download")
 	public void downloadCSV_PersonList() {
-
+		
 		if (this.personList.size() != 0) {
 			final StringBuilder builder = UtilityCSV.downloadCSV_PersonList(this.personList);
-
+			
 			Filedownload.save(builder.toString(), "application/text", "lista_utenti.csv");
 		}
-
+		
 	}
-
+	
 	/**
 	 * Download total csv
 	 */
@@ -997,13 +997,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	 */
 	@Listen("onClick = #user_csv")
 	public void downloadCSV_total() {
-
+		
 		if (this.person_selected == null) {
 			return;
 		}
-
+		
 		final Integer id_user = this.person_selected.getId();
-
+		
 		// TAKE DAO
 		final EmploymentDAO employment_dao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
 		final TasksDAO task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
@@ -1012,9 +1012,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final MedicalExaminationDAO medical_ex_dao = (MedicalExaminationDAO) SpringUtil.getBean(BeansTag.MEDICAL_EXAMINATION_DAO);
 		final TradeUnionDAO trade_union_dao = (TradeUnionDAO) SpringUtil.getBean(BeansTag.TRADE_UNION_DAO);
 		final IContestation contestation_dao = (IContestation) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
-		final UserCompensationDAO compensation_dao = (UserCompensationDAO) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
+		final UserCompensationDAO compensation_dao = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
 		final TrainingCertificateDAO training_dao = (TrainingCertificateDAO) SpringUtil.getBean(BeansTag.TRAINING_CERTIFICATE_DAO);
-
+		
 		// get info
 		final Person person_info = this.personDao.loadPerson(id_user);
 		final List<Employment> list_emply = employment_dao.loadEmploymentByUser(id_user);
@@ -1026,44 +1026,44 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<Contestation> list_contestation = contestation_dao.loadUserContestation(id_user);
 		final List<UserCompensation> list_compensation = compensation_dao.loadAllUserCompensationByUserId(id_user);
 		final List<TrainingCertificate> list_training = training_dao.loadTrainingCertificate(id_user, null, null, null);
-		
+
 		// download total
 		final StringBuilder builder = UtilityCSV.downloadCSV_UserTotal(person_info, list_emply, list_task, list_job_cost, list_tfr, list_medical,
 				list_trade, list_contestation, list_compensation, list_training);
-		
+
 		Filedownload.save(builder.toString(), "application/text", "user_total.csv");
-
+		
 	}
-
+	
 	@Listen("onClick = #user_info_csv")
 	public void downloadCSV_userinfo() {
-
+		
 		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
 			return;
 		}
-
+		
 		final StringBuilder builder = UtilityCSV.downloadCSV_userinfo(this.person_selected);
-
+		
 		Filedownload.save(builder.toString(), "application/text", "info_utente.csv");
-
+		
 	}
-
+	
 	@Listen("onClick = #qrcode_gen")
 	public void generateQrCode() {
-
+		
 		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
 			return;
 		}
-
+		
 		final ByteArrayOutputStream stream = Utility.QRCodeGen("" + this.person_selected.getId());
-
+		
 		Filedownload.save(stream.toByteArray(), "application/image", "qrcode.png");
-
+		
 	}
-
+	
 	private Comboitem getComboItem(final Combobox combo, final String value) {
 		Comboitem item = null;
-
+		
 		for (int i = 0; i < combo.getItems().size(); i++) {
 			if (combo.getItems().get(i) != null) {
 				item = combo.getItems().get(i);
@@ -1074,33 +1074,33 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		}
 		return item;
 	}
-
+	
 	public Textbox getSearch_qualifica() {
 		return this.search_qualifica;
 	}
-
+	
 	public Combobox getUser_status_filter_period() {
 		return this.user_status_filter_period;
 	}
-
+	
 	@Listen("onSelect=#birth_province_user")
 	public void loadComuni() {
-
+		
 		if ((this.birth_province_user.getSelectedItem() == null) || (this.birth_province_user.getSelectedItem().getValue() == null)) {
 			return;
 		}
-
+		
 		this.birth_place_user.setModel(
 				new ListModelList<>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
 	}
-
+	
 	@Listen("onClick = #modify_users_command")
 	public void modifyCommand() {
-
+		
 		if (this.person_selected == null) {
 			return;
 		}
-
+		
 		this.person_selected.setFirstname(this.firstname_user.getValue());
 		this.person_selected.setPersonal_code(this.personal_code_user.getValue());
 		this.person_selected.setLastname(this.lastname_user.getValue());
@@ -1131,25 +1131,25 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.person_selected.setOut_schedule(this.out_schedule_user.isChecked());
 		this.person_selected.setDaywork_w(this.daywork_w_user.getValue());
 		this.person_selected.setHourswork_w(this.hourswork_w_user.getValue());
-
+		
 		String birthPlaceUser = "";
 		if (this.birth_place_user.getSelectedItem() != null) {
 			birthPlaceUser = this.birth_place_user.getSelectedItem().getValue().toString();
 		} else if (this.birth_place_user.getValue() != null) {
 			birthPlaceUser = this.birth_place_user.getValue().toString();
 		}
-
+		
 		this.person_selected.setBirth_place(birthPlaceUser);
-
+		
 		String birthProvinceUser = "";
-
+		
 		if (this.birth_province_user.getSelectedItem() != null) {
 			birthProvinceUser = this.birth_province_user.getSelectedItem().getValue().toString();
 		} else if (this.birth_province_user.getValue() != null) {
 			birthProvinceUser = this.birth_province_user.getValue().toString();
 		}
 		this.person_selected.setBirth_province(birthProvinceUser);
-
+		
 		if (this.sex_user.getSelectedItem() != null) {
 			if (this.sex_user.getSelectedItem().getValue().toString().equals("M")) {
 				this.person_selected.setSex(true);
@@ -1157,31 +1157,31 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				this.person_selected.setSex(false);
 			}
 		}
-
+		
 		// set authority
 		String auth = UserTag.ROLE_USER;
 		if (this.admin_user.isChecked()) {
 			auth = UserTag.ROLE_SUPERVISOR;
 		}
-
+		
 		if (this.operative_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_OPERATIVE;
 			} else {
 				auth = UserTag.ROLE_OPERATIVE;
 			}
-
+			
 		}
-
+		
 		if (this.backoffice_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_BACKOFFICE;
 			} else {
 				auth = UserTag.ROLE_BACKOFFICE;
 			}
-
+			
 		}
-
+		
 		if (this.viewer_user.isChecked()) {
 			if (!auth.equals(UserTag.ROLE_USER)) {
 				auth = auth + "," + UserTag.ROLE_VIEWER;
@@ -1189,27 +1189,27 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				auth = UserTag.ROLE_VIEWER;
 			}
 		}
-
+		
 		this.person_selected.setAuthority(auth);
-
+		
 		// update
 		this.personDao.updatePerson(this.person_selected);
-
+		
 		// update list
 		this.setUserListBox();
-
+		
 		final Map<String, String> params = new HashMap();
 		params.put("sclass", "mybutton Button");
 		final Messagebox.Button[] buttons = new Messagebox.Button[1];
 		buttons[0] = Messagebox.Button.OK;
-
+		
 		Messagebox.show("Dati utente aggiornati.", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
-
+		
 	}
-
+	
 	@Listen("onClick = #sw_refresh_list;")
 	public void refreshListUser() {
-
+		
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
@@ -1217,25 +1217,25 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.user_enable_filter.setSelectedItem(null);
 		this.search_qualifica.setValue(null);
 		this.user_task_code.setValue(null);
-
+		
 		this.user_status_filter_period.setValue(null);
 		this.user_status_from.setValue(null);
 		this.user_status_to.setValue(null);
-
+		
 		// set user listbox
 		this.setUserListBox();
 	}
-
+	
 	@Listen("onClick = #sw_link_deleteuser")
 	public void removeItem() {
-
+		
 		final Map<String, String> params = new HashMap();
 		params.put("sclass", "mybutton Button");
-
+		
 		final Messagebox.Button[] buttons = new Messagebox.Button[2];
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
-
+		
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
 				new EventListener() {
 					@Override
@@ -1247,9 +1247,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 						}
 					}
 				}, params);
-
+		
 	}
-
+	
 	/**
 	 * Reset data on user grid
 	 */
@@ -1284,113 +1284,113 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.personal_code_user.setValue("");
 		this.sex_user.setSelectedItem(null);
 		this.nbudje_user.setValue("");
-
+		
 		this.npass_user.setValue("");
 		this.marital_status_user.setValue("");
 		this.family_charge_user.setValue("");
 		this.driving_license_user.setValue("");
 		this.driving_license_emission_user.setValue(null);
-
+		
 		// set roles
 		this.admin_user.setChecked(Boolean.FALSE);
 		this.operative_user.setChecked(Boolean.FALSE);
 		this.backoffice_user.setChecked(Boolean.FALSE);
 		this.viewer_user.setChecked(Boolean.FALSE);
 		this.out_schedule_user.setChecked(Boolean.FALSE);
-
+		
 		// set enable email (due because modify process)
 		this.email_user.setDisabled(false);
-
+		
 		// enable command about credential
 		this.row_email_user_retype.setVisible(true);
 		this.row_password_user.setVisible(true);
 		this.row_password_user_retype.setVisible(true);
-
+		
 		this.daywork_w_user.setValue(null);
 		this.hourswork_w_user.setValue(null);
 	}
-
+	
 	@Listen("onChange = #user_task_code")
 	public void searchByUserTask() {
 		if (this.user_task_code.getSelectedItem() == null) {
 			return;
 		}
-
+		
 		final UserTask item = this.user_task_code.getSelectedItem().getValue();
-
+		
 		final List<Person> list = this.personDao.listAllPersonByUserTask(item.getId());
 		final ListModelList<Person> list_person = new ListModelList<>(list);
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
-
+		
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
-
+		
 	}
-
+	
 	@Listen("onOK = #search_qualifica")
 	public void searchCurrentPosition() {
-
+		
 		final String item = this.search_qualifica.getValue();
 		if ((item == null) || item.isEmpty()) {
 			this.search_qualifica.setValue(null);
 			this.setUserListBox();
 		}
-
+		
 		final List<Person> list = this.personDao.listAllPersonByCurrentPosition(item);
 		final ListModelList<Person> list_person = new ListModelList<>(list);
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
-
+		
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
-
+		
 	}
-
+	
 	@Listen("onChange = #user_status_filter")
 	public void searchUserStatus() {
 		if (this.user_status_filter.getSelectedItem() == null) {
 			return;
 		}
-
+		
 		final String item = this.user_status_filter.getSelectedItem().getValue().toString();
-
+		
 		final List<Person> listAllPersonByUserStatus = this.personDao.listAllPersonByUserStatus(item);
 		final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
-
+		
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
-
+		
 	}
-
+	
 	@Listen("onChange = #user_status_filter_period, #user_status_from, #user_status_to;onOK = #user_status_filter_period, #user_status_from, #user_status_to")
 	public void searchUserStatusPeriod() {
 		if (this.user_status_filter_period.getSelectedItem() == null) {
 			return;
 		}
-
+		
 		final String item = this.user_status_filter_period.getSelectedItem().getValue().toString();
-
+		
 		final Date from = this.user_status_from.getValue();
 		final Date to = this.user_status_to.getValue();
 		final List<Person> listAllPersonByUserStatus = this.personDao.listAllPersonByUserStatus(item, from, to);
 		final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
-
+		
 	}
-
+	
 	private void selectAdmins() {
-
+		
 		final List<Person> list_person = this.personDao.usersAdmin();
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
-
+		
 	}
-
+	
 	@Listen("onChange=#contractual_level_filter")
 	public void selectByContractLevel() {
 		this.select_specific_user.setSelectedItem(null);
@@ -1403,67 +1403,67 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.select_specific_user.setSelectedItem(null);
 		}
 	}
-
+	
 	@Listen("onChange=#user_enable_filter")
 	public void selectByUserEnable() {
-
+		
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
-
+		
 		if (this.user_enable_filter.getSelectedItem() == null) {
-
+			
 			return;
-
+			
 		}
-
+		
 		Boolean enable = Boolean.TRUE;
 		final String value = this.user_enable_filter.getSelectedItem().getValue();
 		if (value.equals("NON ATTIVO")) {
 			enable = Boolean.FALSE;
 		}
-
+		
 		final List<Person> list = this.personDao.listAllPersonByEnable(enable);
-
+		
 		final ListModelList<Person> list_person = new ListModelList<>(list);
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
-
+		
 	}
-
+	
 	private void selectDailyEmployee() {
 		final List<Person> list_person = this.personDao.listDailyEmployee();
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
 	}
-
+	
 	private void selectOperatives() {
 		final List<Person> list_person = this.personDao.listOperativePerson();
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
 	}
-
+	
 	private void selectOutScheduleEmployee() {
 		final List<Person> list_person = this.personDao.listOutScheduleEmployee();
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
-
+		
 	}
-
+	
 	private void selectPartTimeEmployee() {
 		final List<Person> list_person = this.personDao.listAllPartTime();
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
 	}
-
+	
 	private void selectProgrammerEmployee() {
 		final List<Person> list_person = this.personDao.listProgrammerEmployee();
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
-
+		
 	}
-
+	
 	@Listen("onChange=#select_specific_user")
 	public void selectSpecificUser() {
 		this.full_text_search.setValue(null);
@@ -1488,83 +1488,83 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.refreshListUser();
 		}
 	}
-
+	
 	private void selectViewerEmployee() {
 		final List<Person> list_person = this.personDao.listViewerEmployee();
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
-
+		
 	}
-
+	
 	/**
 	 * Send person_selected to other component
 	 *
 	 * @param person_selected
 	 */
 	private void sendPersonToUserComponents(final Person person_selected) {
-
+		
 		// send event to show user task
 		final Component comp = Path.getComponent("//usertask/panel_task");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp, person_selected);
-
+		
 		// send event to show user task
 		final Component comp_tfr = Path.getComponent("//usertfr/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_tfr, person_selected);
-
+		
 		// send event to show user fc
 		final Component comp_fc = Path.getComponent("//userfc/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_fc, person_selected);
-
+		
 		// send event to show user fc
 		final Component comp_medicalEx = Path.getComponent("//usermedicalexamination/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_medicalEx, person_selected);
-
+		
 		// send event to show user td
 		final Component comp_td = Path.getComponent("//usertd/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_td, person_selected);
-
+		
 		// send event to show user status
 		final Component comp_status = Path.getComponent("//userstatus/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_status, person_selected);
-
+		
 		// send event to show contestations
 		final Component comp_cons = Path.getComponent("//cons/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_cons, person_selected);
-
+		
 		// send event to show job cost
 		final Component comp_jc = Path.getComponent("//userjobcost/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_jc, person_selected);
-
+		
 		// send event to show job cost
 		final Component comp_uc = Path.getComponent("//usercompensation/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_uc, person_selected);
-
+		
 		// send event to show user fc
 		final Component comp_training = Path.getComponent("//usertrainingcertificate/panel");
 		Events.sendEvent(ZkEventsTag.onShowUsers, comp_training, person_selected);
-
+		
 	}
-
+	
 	/**
 	 * Show users
 	 */
 	public void setInitialView() {
-
+		
 		this.full_text_search.setValue(null);
-
+		
 		this.select_specific_user.setSelectedItem(null);
-
+		
 		// select combo task
 		final ConfigurationDAO configurationDAO = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		final List<UserTask> list_task_user = configurationDAO.listAllStandardTask();
 		final List<UserTask> list_task_absence = configurationDAO.listAllAbsenceTask();
 		final List<UserTask> list_task_justificatory = configurationDAO.listAllJustificatoryTask();
-
+		
 		final List<UserTask> list = new ArrayList<>();
 		list.addAll(list_task_user);
 		list.addAll(list_task_justificatory);
 		list.addAll(list_task_absence);
-
+		
 		for (final UserTask task_item : list) {
 			final Comboitem combo_item = new Comboitem();
 			combo_item.setValue(task_item);
@@ -1575,63 +1575,63 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				combo_item.setStyle("color: " + TaskColor.JUSTIFICATORY_COLOR);
 			}
 			this.user_task_code.appendChild(combo_item);
-
+			
 		}
-
+		
 		// set user listbox
 		this.setUserListBox();
-
+		
 		final List<String> loadAllProvincia = this.personDao.loadAllProvincia();
 		this.birth_province_user.setModel(new ListModelList<>(loadAllProvincia));
-
+		
 		// initial view
 		this.grid_user_details.setVisible(false);
-
+		
 	}
-
+	
 	public void setSearch_qualifica(final Textbox search_qualifica) {
 		this.search_qualifica = search_qualifica;
 	}
-
+	
 	public void setUser_status_filter_period(final Combobox user_status_filter_period) {
 		this.user_status_filter_period = user_status_filter_period;
 	}
-
+	
 	/**
 	 * Set user list box with initial events
 	 */
 	@Listen("onOK = #shows_rows, #full_text_search")
 	public void setUserListBox() {
-
+		
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
 		this.contractual_level_filter.setSelectedItem(null);
-
+		
 		this.personList = null;
-
+		
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
 			this.personList = this.personDao.listAllPersons(this.full_text_search.getValue());
 		} else {
 			this.personList = this.personDao.listAllPersons();
 		}
-
+		
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 			this.sw_list_user.setPageSize(this.shows_rows.getValue());
 		} else {
 			this.sw_list_user.setPageSize(10);
 		}
-
+		
 		this.sw_list_user.setModel(new ListModelList<>(this.personList));
-
+		
 	}
-
+	
 	@Listen("onClick = #sw_adduser")
 	public void showAddUserPanel() {
-		
+
 		// command
 		this.add_users_command.setVisible(true);
 		this.modify_users_command.setVisible(false);
-		
+
 		// configure tab
 		this.grid_user_details.setVisible(true);
 		this.mail_user_tab.setVisible(false);
@@ -1647,32 +1647,32 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.userName.setVisible(false);
 		this.jobcost_user_tab.setVisible(false);
 		this.training_user_tab.setVisible(false);
-		
+
 		// generate qr code and total csv only in modify view
 		this.qrcode_gen.setVisible(false);
 		this.user_csv.setVisible(false);
-		
+
 		this.resetDataInfo();
-		
+
 		// set detail to selection
 		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
-		
-	}
 
+	}
+	
 	@Listen("onClick = #sw_adduser")
 	public void showGridAddUser() {
-
+		
 		this.resetDataInfo();
-
+		
 	}
-
+	
 	@Listen("onClick = #sw_link_modifyeuser")
 	public void showModifyUserPanel() {
-
+		
 		// command
 		this.add_users_command.setVisible(false);
 		this.modify_users_command.setVisible(true);
-
+		
 		// configure tab
 		this.grid_user_details.setVisible(true);
 		this.mail_user_tab.setVisible(true);
@@ -1687,11 +1687,11 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.jobcost_user_tab.setVisible(true);
 		this.medicalexamination_user_tab.setVisible(true);
 		this.training_user_tab.setVisible(true);
-
+		
 		// generate qr code user csv only in modify view
 		this.qrcode_gen.setVisible(true);
 		this.user_csv.setVisible(true);
-
+		
 		// set detail to selection
 		this.detail_user_tab.getTabbox().setSelectedTab(this.detail_user_tab);
 	}
