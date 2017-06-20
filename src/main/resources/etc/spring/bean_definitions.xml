@@ -319,7 +319,7 @@
 		<property name="initialDelay" value="2"></property>
 
 		<!-- PERIOD in HOURS - RATE POOL TO CHECK IF IS THE DAY TO BILL -->
-		<property name="period" value="2"></property>
+		<property name="period" value="1"></property>
 
 		<property name="params" ref="myParamDAO"></property>
 		<property name="scheduleDAO" ref="myScheduleDAO"></property>

@@ -65,6 +65,25 @@ public class EngineServiceImpl implements IEngineService {
 
 	private IStatProcedure					statProcedure;
 
+	/**
+	 * Check for legal time (after 3.15
+	 */
+	private boolean checkForDaylightSavingTime() {
+
+		final Calendar calendar = Calendar.getInstance();
+
+		final double hours = calendar.get(Calendar.HOUR_OF_DAY);
+		final int minutes = calendar.get(Calendar.MINUTE);
+		if (hours < 3) {
+			return false;
+		}
+		if ((hours == 3) && (minutes <= 15)) {
+			return false;
+		}
+
+		return true;
+	}
+
 	public IBankHolidays getBank_holiday() {
 		return this.bank_holiday;
 	}
@@ -145,6 +164,12 @@ public class EngineServiceImpl implements IEngineService {
 
 		try {
 			EngineServiceImpl.logger.info("INIT AUTOMATIC ENGINE SERIVICE");
+
+			// the process must start after the potential daylight saving split
+			final boolean check_daylight_saving = this.checkForDaylightSavingTime();
+			if (!check_daylight_saving) {
+				return;
+			}
 
 			final Calendar calendar = Calendar.getInstance();
 			final Date current_day = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
