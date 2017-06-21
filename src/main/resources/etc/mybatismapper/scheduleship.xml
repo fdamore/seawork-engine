@@ -305,6 +305,10 @@ WHERE
 
 		<if test="shipType!=null">
 			and s.shiptype like CONCAT('%',#{shipType},'%')
+		</if>		
+		
+		<if test="operation_type!=null">
+			and d.operation like CONCAT('%',#{operation_type},'%')
 		</if>
 
 		<if test="shipLine!=null">

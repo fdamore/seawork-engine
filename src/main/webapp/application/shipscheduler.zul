@@ -215,10 +215,36 @@
 			</hbox>
 
 
+
+
+
+
+
 			<space></space>
 
 			<!-- FILTRI TURNO e DATA TURNO -->
 			<hbox>
+
+				<hbox id="filter_operation_type">
+					<a label="Tipo Operazione " />
+					<vbox align="start">
+						<combobox
+							placeholder="Scegli tipo operazione..." readonly="true"
+							id="select_type_operation"
+							onChange="text_search_rifSWS.setValue(null);text_search_rifMCT.setValue(null)">
+							<comboitem label="-" value="-" />
+							<comboitem label="COMPLETA"
+								value="COMPLETA">
+							</comboitem>
+							<comboitem label="TW" value="TWISTER">
+							</comboitem>
+						</combobox>
+
+						<a label="Annulla filtro"
+							id="remove_select_operation_type" style="color:green"
+							onClick="select_type_operation.setSelectedItem(null);" />
+					</vbox>
+				</hbox>
 
 				<hbox id="filterShipType">
 					<a label="Tipo nave " />
