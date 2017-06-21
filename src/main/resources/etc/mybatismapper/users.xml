@@ -6,6 +6,182 @@
 	<cache-ref namespace="schedule" />
 
 
+	<select id="user_report" resultType="org.uario.seaworkengine.utility.UserReport">
+<![CDATA[
+SELECT 
+    lastname,
+    firstname,
+    status,
+    department,
+    ncfl,
+    birth_place,
+    birth_date,
+    address,
+    city,
+    zip,
+    provincia,
+    phone,
+    fiscal_code,
+    marital_status,
+    family_charge,
+    employee_identification,
+    npass,
+    nbudge,
+    personal_code,
+    education,
+    driving_license,
+    driving_license_emission,
+    contractual_level,
+    current_position,
+    (SELECT 
+            b.description
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) jobcost,
+    (SELECT 
+            j.date_from
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) job_date_from,
+    (SELECT 
+            j.date_to
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) job_date_to,
+    (SELECT 
+            j.basicsalary
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) job_basicsalary,
+    (SELECT 
+            j.contingency
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) job_contingency,
+    (SELECT 
+            j.shots
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) job_shots,
+    (SELECT 
+            j.edr
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) job_edr,
+    (SELECT 
+            CONCAT(t.code, ' - ', t.description)
+        FROM
+            usertask t,
+            user_usertask ut
+        WHERE
+            ut.id_user = u.id
+                AND ut.task_default = 1
+                AND ut.id_usertask = t.id
+        LIMIT 1) task_default,
+    (SELECT 
+            tfr.tfr_destination
+        FROM
+            tfruser tfr
+        WHERE
+            tfr.id_user = u.id
+                AND (tfr.tfr_selection_date IS NULL
+                OR tfr.tfr_selection_date = (SELECT 
+                    MAX(tfr1.tfr_selection_date)
+                FROM
+                    tfruser tfr1
+                WHERE
+                    tfr1.id_user = u.id))
+        LIMIT 1) tfr_destination,
+    (SELECT 
+            tfr.tfr_selection_date
+        FROM
+            tfruser tfr
+        WHERE
+            tfr.id_user = u.id
+                AND (tfr.tfr_selection_date IS NULL
+                OR tfr.tfr_selection_date = (SELECT 
+                    MAX(tfr1.tfr_selection_date)
+                FROM
+                    tfruser tfr1
+                WHERE
+                    tfr1.id_user = u.id))
+        LIMIT 1) tfr_selection_date
+FROM
+    user u
+]]>
+	</select>
+
+
 
 
 	<select id="listAllPersonByEnable" resultType="org.uario.seaworkengine.model.Person">
@@ -1080,20 +1256,20 @@ FROM
 WHERE
    		u.status = 'IN ORGANICO'
         AND u.out_schedule = 0
-]]>	        
-        <if test="my_full_text_search != null">
+]]>
+		<if test="my_full_text_search != null">
         <![CDATA[
         AND (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
         OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
         OR u.employee_identification = #{my_full_text_search})
         ]]>
-        </if>
-        
-        <if test="department != null">
+		</if>
+
+		<if test="department != null">
          <![CDATA[
         AND u.department = #{department}
         ]]>
-        </if>
+		</if>
 <![CDATA[        
 ORDER BY u.status ASC
 ]]>
@@ -1153,17 +1329,17 @@ SELECT
 FROM
     user u
 ]]>
-<if test="my_full_text_search != null">
+		<if test="my_full_text_search != null">
 <![CDATA[  
 WHERE
     (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
         OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
         OR u.employee_identification = #{my_full_text_search})
-]]>	
-</if>
+]]>
+		</if>
 <![CDATA[ 
 ORDER BY u.status ASC
-]]>	
+]]>
 	</select>
 
 	<select id="selectSuspendedUsers" parameterType="string"
@@ -1211,7 +1387,7 @@ FROM
     user u
 WHERE
     u.status = #{idSuspended}
-]]>	
+]]>
 	</select>
 
 
