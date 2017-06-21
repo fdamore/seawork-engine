@@ -112,7 +112,12 @@ public class UserReport implements Serializable {
 		final Years y = Years.yearsBetween(dt_from, dt_to);
 		final Months m = Months.monthsBetween(dt_from, dt_to);
 
-		return "" + y.getYears() + " " + m.getMonths();
+		final int m_tot = m.getMonths();
+		final int year = m_tot / 12;
+		final int month = m_tot % 12;
+
+		return "" + year + " " + month;
+
 	}
 
 	public String getEducation() {
@@ -134,10 +139,13 @@ public class UserReport implements Serializable {
 		final DateTime dt_from = new DateTime(born);
 		final DateTime dt_to = new DateTime(Calendar.getInstance().getTime());
 
-		final Years y = Years.yearsBetween(dt_from, dt_to);
 		final Months m = Months.monthsBetween(dt_from, dt_to);
 
-		return "" + y.getYears() + " " + m.getMonths();
+		final int m_tot = m.getMonths();
+		final int year = m_tot / 12;
+		final int month = m_tot % 12;
+
+		return "" + year + " " + month;
 	}
 
 	public String getFamily_charge() {
