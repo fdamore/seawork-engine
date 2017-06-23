@@ -80,6 +80,7 @@
 					iconSclass="z-icon-angle-double-right" sclass="subtitle" />
 
 				<checkbox id="no_invoice"></checkbox>
+
 			</hbox>
 
 			<separator></separator>
@@ -146,6 +147,12 @@
 							onClick="select_month_detail.setSelectedItem(null);" />
 
 					</vbox>
+
+
+
+
+
+
 				</hbox>
 
 				<button id="refreshDetailView" label="Ricarica"
@@ -163,9 +170,7 @@
 				<vbox align="start">
 
 					<textbox placeholder="Cerca Rif Cliente..."
-						id="text_search_rifMCT"
-						onChange="text_search_rifSWS.setValue(null);full_text_search.setValue(null);invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
-						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
+						id="text_search_rifMCT" />
 
 					<checkbox id="rif_customer_empty"
 						label="Cerca riferimento vuoto" checked="false"
@@ -176,9 +181,7 @@
 
 
 				<intbox placeholder="Cerca Rif SWS..."
-					constraint="no negative" id="text_search_rifSWS"
-					onChange=" text_search_rifMCT.setValue(null);full_text_search.setValue(null);invoicing_cycle_search.setValue(null);select_customer.setSelectedItem(null);
-						selectServiceDetail.setSelectedItem(null); select_shift.setSelectedItem(null); searchDateShift.setValue(null); select_typeShip.setSelectedItem(null);select_workedShip.setSelectedItem(null);" />
+					constraint="no negative" id="text_search_rifSWS" />
 
 
 
@@ -213,17 +216,38 @@
 					</vbox>
 				</hbox>
 			</hbox>
-
-
-
-
-
-
-
+			
 			<space></space>
 
-			<!-- FILTRI TURNO e DATA TURNO -->
-			<hbox>
+			<!-- DAY DETAILS -->
+			<hbox id="day_details_filter">
+
+				<hbox>
+					<a label="Filtra su Fatturazione"></a>
+					<vbox align="start">
+						<combobox
+							placeholder="Periodo di Fatturazione..." readonly="true"
+							id="invoice_search">
+							<comboitem label="1" value="1"></comboitem>
+							<comboitem label="2" value="2"></comboitem>
+							<comboitem label="3" value="3"></comboitem>
+							<comboitem label="4" value="4"></comboitem>
+							<comboitem label="5" value="5"></comboitem>
+							<comboitem label="6" value="6"></comboitem>
+							<comboitem label="7" value="7"></comboitem>
+							<comboitem label="8" value="8"></comboitem>
+							<comboitem label="9" value="9"></comboitem>
+							<comboitem label="10" value="10"></comboitem>
+							<comboitem label="11" value="11"></comboitem>
+							<comboitem label="12" value="12"></comboitem>
+						</combobox>
+
+
+						<a label="Annulla filtro"
+							id="remove_invoice_seaerch" onClick="invoice_search.setSelectedItem(null)" style="color:green" />
+					</vbox>
+
+				</hbox>
 
 				<hbox id="filter_operation_type">
 					<a label="Tipo Operazione " />
@@ -265,6 +289,14 @@
 							onClick="select_typeShip.setSelectedItem(null);" />
 					</vbox>
 				</hbox>
+
+			</hbox>
+			
+			<space></space>
+
+
+			<!-- FILTRI TURNO e DATA TURNO -->
+			<hbox>
 
 				<hbox id="filterShipWorked">
 					<a label="Lavorazione " />

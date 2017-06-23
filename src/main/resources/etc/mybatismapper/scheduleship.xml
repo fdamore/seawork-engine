@@ -408,9 +408,21 @@ WHERE
         FROM
             detailfinalscheduleship df_1
         WHERE
-            invoicing_cycle IS NOT NULL)
+            df_1.invoicing_cycle IS NOT NULL)
             ]]>
 		</if>	
+		
+		<if test="invoice_period != null">
+		<![CDATA[
+		AND exists (SELECT 
+            *
+        FROM
+            detailfinalscheduleship df_2
+        WHERE
+            df_2.invoicing_cycle = #{invoice_period} and df_2.iddetailscheduleship = d.id)
+            ]]>
+		</if>	
+		
 
 		order by
 		d.shiftdate, d.shift, s.name asc

@@ -149,7 +149,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final Date dateshift,
 			final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer, final Boolean nowork,
 			final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType, final String shipLine,
-			final String shipCondition, final String operation_type) {
+			final String shipCondition, final String operation_type, String invoice_period) {
 
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
@@ -183,6 +183,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("shipCondition", shipCondition);
 		map.put("period_on_dateshift", period_on_dateshift);
 		map.put("operation_type", operation_type);
+		map.put("invoice_period", invoice_period);
 
 		return this.getSqlSession().selectList("scheduleship.searchDetailScheduleShipByPeriodOrDateshift", map);
 
@@ -192,7 +193,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final Date dateshift,
 			final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer, final Boolean nowork,
 			final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType, final String shipLine,
-			final String shipCondition, final String operation_type, final boolean invoice) {
+			final String shipCondition, final String operation_type, String invoice_period, final boolean invoice) {
 
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
@@ -226,6 +227,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("shipCondition", shipCondition);
 		map.put("period_on_dateshift", period_on_dateshift);
 		map.put("operation_type", operation_type);
+		map.put("invoice_period", invoice_period);
 
 		// add invocie
 		map.put("no_invoice", invoice);
