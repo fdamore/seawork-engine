@@ -431,193 +431,220 @@ WHERE
 
 	<select id="searchDetailScheduleShipRif_MCT_SWS" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT
-		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature,
-		d.first_down,
-		d.worked, d.last_down,
-		s.name, d.operation,
-		d.activity_start,
-		d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as
-		rif_mct, ss.id_service as serviceId,
-		ss.departuredate,
-		d.iduser,
-		d.idseconduser,
-		d.handswork,
-		d.menwork,
-		d.handswork_program,
-		d.menwork_program, d.person_down,
-		d.person_onboard,
-		d.shiftdate, s.id as
-		id_ship,
-		concat(u.lastname,
-		' ',
-		u.firstname) AS
-		firstOperativeName,
-		concat(us.lastname, ' ',
-		us.firstname) AS
-		secondOperativeName
-		FROM
-		detailscheduleship d
-		left join
-		user u ON
-		(d.iduser = u.id),
-		detailscheduleship d1
-		left join
-		user us ON
-		(d1.idseconduser = us.id),
-		ship s, scheduleship ss
-		where
-
-		<if test="rif_mct != null">	
-
-			<if test="rif_mct == 'RIF_MCT_EMPTY'">
-				(ss.rif_mct is null || length(ss.rif_mct) = 0) and
-			</if>
-
-			<if test="rif_mct != 'RIF_MCT_EMPTY'">
-				ss.rif_mct = #{rif_mct} and
-			</if>
+<![CDATA[		
+SELECT 
+    d.shift,
+    d.id,    
+    d.idscheduleship,
+    ss.customer_id,
+    d.notedetail,
+    d.rain,
+    d.wind,
+    d.windyday,
+    d.sky,
+    d.temperature,
+    d.first_down,
+    d.worked,
+    d.last_down,
+    s.name,
+    d.operation,
+    d.activity_start,
+    d.activity_end,
+    ss.note,
+    ss.arrivaldate,
+    ss.rif_mct AS rif_mct,
+    ss.id_service AS serviceId,
+    ss.departuredate,
+    d.iduser,
+    d.idseconduser,
+    d.handswork,
+    d.menwork,
+    d.handswork_program,
+    d.menwork_program,
+    d.person_down,
+    d.person_onboard,
+    d.shiftdate,
+    s.id AS id_ship,
+    CONCAT(u.lastname, ' ', u.firstname) AS firstOperativeName,
+    CONCAT(us.lastname, ' ', us.firstname) AS secondOperativeName
+FROM
+    detailscheduleship d
+        LEFT JOIN
+    user u ON (d.iduser = u.id),
+    detailscheduleship d1
+        LEFT JOIN
+    user us ON (d1.idseconduser = us.id),
+    ship s,
+    scheduleship ss
+WHERE
+]]>
+	<if test="rif_mct != null">	
+	
+		<if test="rif_mct == 'RIF_MCT_EMPTY'">
+			(ss.rif_mct is null || length(ss.rif_mct) = 0) and
 		</if>
-
-		<if test="rif_sws != null">
-			d.idscheduleship=#{rif_sws} and
+	
+		<if test="rif_mct != 'RIF_MCT_EMPTY'">
+			ss.rif_mct = #{rif_mct} and
 		</if>
+	</if>
+	
+	<if test="rif_sws != null">
+		d.idscheduleship=#{rif_sws} and
+	</if>
 
-		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
-		order by
-		d.shiftdate, d.shift, s.name asc;
+<![CDATA[
+    d.idscheduleship = ss.id
+        AND ss.idship = s.id
+        AND d1.id = d.id
+ORDER BY d.shiftdate , d.shift , s.name ASC;
+]]>		
+		
+		
+	
 
 	</select>
 
 	<select id="searchDetailScheduleShip" parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT
-		d.shift, d.id, d.notedetail, d.idscheduleship, ss.customer_id,
-		d.notedetail, d.rain, d.wind, d.windyday, d.sky, d.temperature,
-		d.first_down,
-		d.worked, d.last_down,
-		s.name, d.operation,
-		d.activity_start,
-		d.activity_end,
-		ss.note,ss.arrivaldate, ss.rif_mct as
-		rif_mct,
-		ss.departuredate,
-		d.iduser,
-		d.idseconduser,
-		d.handswork,
-		d.menwork,
-		d.handswork_program,
-		d.menwork_program, d.person_down,
-		d.person_onboard,
-		d.shiftdate, s.id as
-		id_ship,
-		concat(u.lastname,
-		' ',
-		u.firstname) AS
-		firstOperativeName,
-		concat(us.lastname, ' ',
-		us.firstname) AS
-		secondOperativeName, (SELECT sr.name FROM service sr
-		where
-		ss.id_service=sr.id) as serviceType
-		FROM
-		detailscheduleship d
-		left
-		join
-		user u ON
-		(d.iduser = u.id),
-		detailscheduleship d1
-		left join
-		user us
-		ON
-		(d1.idseconduser = us.id),
-		ship s, scheduleship ss
-		where
+<![CDATA[		
+SELECT 
+    d.shift,
+    d.id,    
+    d.idscheduleship,
+    ss.customer_id,
+    d.notedetail,
+    d.rain,
+    d.wind,
+    d.windyday,
+    d.sky,
+    d.temperature,
+    d.first_down,
+    d.worked,
+    d.last_down,
+    s.name,
+    d.operation,
+    d.activity_start,
+    d.activity_end,
+    ss.note,
+    ss.arrivaldate,
+    ss.rif_mct AS rif_mct,
+    ss.departuredate,
+    d.iduser,
+    d.idseconduser,
+    d.handswork,
+    d.menwork,
+    d.handswork_program,
+    d.menwork_program,
+    d.person_down,
+    d.person_onboard,
+    d.shiftdate,
+    s.id AS id_ship,
+    CONCAT(u.lastname, ' ', u.firstname) AS firstOperativeName,
+    CONCAT(us.lastname, ' ', us.firstname) AS secondOperativeName,
+    (SELECT 
+            sr.name
+        FROM
+            service sr
+        WHERE
+            ss.id_service = sr.id) AS serviceType
+FROM
+    detailscheduleship d
+        LEFT JOIN
+    user u ON (d.iduser = u.id),
+    detailscheduleship d1
+        LEFT JOIN
+    user us ON (d1.idseconduser = us.id),
+    ship s,
+    scheduleship ss
+WHERE
+]]>
+	<if test="full_text_search != null">
+				(s.name like CONCAT('%',#{full_text_search},
+				'%') ) and
+	</if>
+	
+	<if test="serviceId!=null">
+		ss.id_service = #{serviceId} and
+	</if>
+	
+	<if test="shift != null">
+		d.shift = #{shift} and
+	</if>
+	
+	<if test="shiftdate != null">
+		d.shiftdate=#{shiftdate} and
+	</if>
+	
+	<if test="idCustomer != null">
+		#{idCustomer}=ss.customer_id and
+	</if>
+	
+	<if test="nowork != null">
+		#{nowork}=s.nowork and
+	</if>
+	
+	<if test="activityh != null">
+		#{activityh}=s.activityh and
+	</if>
+	
+	<if test="worked != null">
+		#{worked}=d.worked and
+	</if>
 
-		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
-		</if>
-
-		<if test="serviceId!=null">
-			ss.id_service = #{serviceId} and
-		</if>
-
-		<if test="shift != null">
-			d.shift = #{shift} and
-		</if>
-
-		<if test="shiftdate != null">
-			d.shiftdate=#{shiftdate} and
-		</if>
-
-		<if test="idCustomer != null">
-			#{idCustomer}=ss.customer_id and
-		</if>
-
-		<if test="nowork != null">
-			#{nowork}=s.nowork and
-		</if>
-
-		<if test="activityh != null">
-			#{activityh}=s.activityh and
-		</if>
-
-		<if test="worked != null">
-			#{worked}=d.worked and
-		</if>
-
-		d.idscheduleship = ss.id and ss.idship = s.id and d1.id = d.id
-		order by
-		d.shiftdate, d.shift, s.name asc;
+<![CDATA[
+    d.idscheduleship = ss.id
+        AND ss.idship = s.id
+        AND d1.id = d.id
+ORDER BY d.shiftdate , d.shift , s.name ASC;
+	]]>	
+		
+	
 	</select>
 
 
 	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
-		SELECT d.id, d.idscheduleship, d.shift,
-		d.operation,
-		d.iduser,
-		d.idseconduser,
-		d.handswork, d.menwork, d.handswork_program,
-		d.menwork_program,
-		d.shiftdate,
-		d.notedetail, d.activity_start,
-		d.activity_end, d.rain, d.wind, d.windyday, d.sky,
-		d.temperature,
-		d.worked,
-		d.first_down, d.last_down, d.person_down,
-		d.person_onboard,
-		concat(u.lastname, '
-		',
-		u.firstname) AS
-		firstOperativeName,
-		concat(us.lastname, ' ',
-		us.firstname) AS
-		secondOperativeName
-		FROM
-		detailscheduleship
-		d
-		left join
-		user u ON
-		(d.iduser
-		= u.id),
-		detailscheduleship
-		d1
-		left join
-		user us ON
-		(d1.idseconduser =
-		us.id)
-		where
-		d.idscheduleship =
-		#{id_scheduleShip} and
-		d1.id = d.id
-		order
-		by
-		d.shiftdate , d.shift
-		asc;
+<![CDATA[
+SELECT 
+    d.id,
+    d.idscheduleship,
+    d.shift,
+    d.operation,
+    d.iduser,
+    d.idseconduser,
+    d.handswork,
+    d.menwork,
+    d.handswork_program,
+    d.menwork_program,
+    d.shiftdate,
+    d.notedetail,
+    d.activity_start,
+    d.activity_end,
+    d.rain,
+    d.wind,
+    d.windyday,
+    d.sky,
+    d.temperature,
+    d.worked,
+    d.first_down,
+    d.last_down,
+    d.person_down,
+    d.person_onboard,
+    CONCAT(u.lastname,' ', u.firstname) AS firstOperativeName,
+    CONCAT(us.lastname, ' ', us.firstname) AS secondOperativeName
+FROM
+    detailscheduleship d
+        LEFT JOIN
+    user u ON (d.iduser = u.id),
+    detailscheduleship d1
+        LEFT JOIN
+    user us ON (d1.idseconduser = us.id)
+WHERE
+    d.idscheduleship = #{id_scheduleShip}
+        AND d1.id = d.id
+ORDER BY d.shiftdate , d.shift ASC;
+]]>
 	</select>
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
