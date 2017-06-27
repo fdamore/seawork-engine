@@ -216,7 +216,7 @@
 					</vbox>
 				</hbox>
 			</hbox>
-			
+
 			<space></space>
 
 			<!-- DAY DETAILS -->
@@ -244,7 +244,9 @@
 
 
 						<a label="Annulla filtro"
-							id="remove_invoice_seaerch" onClick="invoice_search.setSelectedItem(null)" style="color:green" />
+							id="remove_invoice_seaerch"
+							onClick="invoice_search.setSelectedItem(null)"
+							style="color:green" />
 					</vbox>
 
 				</hbox>
@@ -291,7 +293,7 @@
 				</hbox>
 
 			</hbox>
-			
+
 			<space></space>
 
 
@@ -1436,7 +1438,8 @@
 					<listheader label="Data fine"
 						sort="auto(departuredate)" hflex="1" />
 
-					<listheader label="Note" hflex="1" />
+					<listheader label="Note Di Programmazione" hflex="1" />
+					<listheader label="Note Di Dettaglio" hflex="1" />
 
 					<listheader id="modifyColumnScheduleShip" label="" />
 				</listhead>
@@ -1500,6 +1503,9 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{detailscheduleship_item.note}" />
+						
+						<listcell sclass="myBottonCell"
+						label="@{detailscheduleship_item.notedetail}" />
 
 
 
