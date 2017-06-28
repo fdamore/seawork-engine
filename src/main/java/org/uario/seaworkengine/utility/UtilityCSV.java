@@ -1080,7 +1080,7 @@ public class UtilityCSV {
 		String controller = "";
 
 		if (administrator) {
-			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
+			header = "anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
 		}
 		builder.append(header);
 
@@ -1303,6 +1303,11 @@ public class UtilityCSV {
 				employee_identification = item.getEmployee_identification();
 			}
 
+			String sign_info = "No";
+			if (item.getSign_user().booleanValue()) {
+				sign_info = "Si";
+			}
+
 			String reviewshift = "No";
 			if ((item.getReviewshift() != null) && item.getReviewshift()) {
 				reviewshift = "Si";
@@ -1313,10 +1318,10 @@ public class UtilityCSV {
 					+ nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";\n";
 
 			if (administrator) {
-				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
-						+ holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";"
-						+ time_vacation_info + ";" + nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift + ";"
-						+ nota + ";" + programmer + ";" + controller + ";\n";
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + sign_info
+						+ ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info
+						+ ";" + time_vacation_info + ";" + nameShip + ";" + crane + ";" + board + ";" + time_from + ";" + time_to + ";" + reviewshift
+						+ ";" + nota + ";" + programmer + ";" + controller + ";\n";
 			}
 
 			builder.append(line);
