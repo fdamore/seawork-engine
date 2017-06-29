@@ -6455,12 +6455,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			double count_h = 0;
 			double count_h_c = 0;
 			final HashMap<Integer, Boolean> user_count = new HashMap<>();
+			final HashMap<String, Boolean> user_count_work = new HashMap<>();
 			final ArrayList<Date> count_day = new ArrayList<>();
 
 			for (final DetailFinalSchedule item : this.listDetailRevision) {
 
+				// set user count
 				if (!user_count.containsKey(item.getId_user())) {
 					user_count.put(item.getId_user(), Boolean.TRUE);
+				}
+
+				// set user count work
+				final String key = "" + item.getId_user() + item.getDate_schedule().toString();
+				if (!user_count_work.containsKey(key)) {
+					user_count_work.put(key, Boolean.TRUE);
 					item.setSign_user(Boolean.TRUE);
 				}
 
