@@ -497,106 +497,121 @@
 
 	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		select
-		concat(u.lastname, ' ', u.firstname) as user,
-		u.employee_identification as employee_identification,
-		dfs.id,
-		s.id as
-		id_schedule,
-		dfs.shift,
-		dfs.id_ship, dfs.crane as crane,
-		s.shift as
-		shift_type,
-		dfs.task,
-		dfs.time,
-		dfs.time_vacation,
-		dfs.time_from,
-		dfs.time_to,
-		dfs.board, dfs.reviewshift,
-		s.date_schedule, s.note,
-		u.id as
-		id_user,
-		(select
-		concat(temp_1.lastname, ' ', temp_1.firstname)
-		from
-		user
-		temp_1
-		where
-		temp_1.id = s.editor) as editor,
-		(select
-		concat(temp_1.lastname, ' ', temp_1.firstname)
-		from
-		user temp_1
-		where
-		temp_1.id = s.controller) as controller,
-		(select t.code
-		from
-		user_usertask uut, usertask t
-		where uut.id_usertask = t.id and
-		uut.id_user = u.id and uut.task_default=1
-		) as defaultTask,
-		dfs.continueshift
-		from
-		user u,
-		(select
-		scd.id,scd.shift,scd.date_schedule,scd.note,scd.editor,scd.controller,scd.user,uss.presence
-		from schedule scd left outer join usershift uss on (scd.shift =
-		uss.id)) s left
-		outer join
-		detailfinalschedule dfs on
-		(dfs.id_schedule =
-		s.id)
-		where
-		s.user = u.id
-		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%', #{my_full_text_search},
-			'%') or
-			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
-			u.employee_identification = #{my_full_text_search})
-		</if>
+<![CDATA[	
+SELECT 
+    CONCAT(u.lastname, ' ', u.firstname) AS user,
+    u.employee_identification AS employee_identification,
+    dfs.id,
+    s.id AS id_schedule,
+    dfs.shift,
+    dfs.id_ship,
+    dfs.crane AS crane,
+    s.shift AS shift_type,
+    dfs.task,
+    dfs.time,
+    dfs.time_vacation,
+    dfs.time_from,
+    dfs.time_to,
+    dfs.board,
+    dfs.reviewshift,
+    s.date_schedule,
+    s.note,
+    u.id AS id_user,
+    (SELECT 
+            CONCAT(temp_1.lastname, ' ', temp_1.firstname)
+        FROM
+            user temp_1
+        WHERE
+            temp_1.id = s.editor) AS editor,
+    (SELECT 
+            CONCAT(temp_1.lastname, ' ', temp_1.firstname)
+        FROM
+            user temp_1
+        WHERE
+            temp_1.id = s.controller) AS controller,
+    (SELECT 
+            t.code
+        FROM
+            user_usertask uut,
+            usertask t
+        WHERE
+            uut.id_usertask = t.id
+                AND uut.id_user = u.id
+                AND uut.task_default = 1) AS defaultTask,
+    dfs.continueshift
+FROM
+    user u,
+    (SELECT 
+        scd.id,
+            scd.shift,
+            scd.date_schedule,
+            scd.note,
+            scd.editor,
+            scd.controller,
+            scd.user,
+            uss.presence
+    FROM
+        schedule scd
+    LEFT OUTER JOIN usershift uss ON (scd.shift = uss.id)) s
+        LEFT OUTER JOIN
+    detailfinalschedule dfs ON (dfs.id_schedule = s.id)
+WHERE
+    s.user = u.id
+]]>
+	<if test="my_full_text_search != null">
+		<![CDATA[
+		 AND (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
+		      OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
+		      OR u.employee_identification = #{my_full_text_search})
+		]]>	
+	</if>
 
-		<if test="shift_number != null">
-			and (dfs.shift = #{shift_number})
-		</if>
+	<if test="shift_number != null">
+		and (dfs.shift = #{shift_number})
+	</if>
 
-		<if test="date_from != null and date_to != null">
-			and (s.date_schedule <![CDATA[>=]]>
-			#{date_from} and s.date_schedule
-			<![CDATA[<=]]>
-			#{date_to})
-		</if>
+	<if test="date_from != null and date_to != null">
+	<![CDATA[
+		AND (s.date_schedule >= #{date_from} AND s.date_schedule <= #{date_to})
+	]]>			
+	</if>
 
-		<if test="shift_type != null">
-			and (s.shift = #{shift_type})
-		</if>
+	<if test="shift_type != null">
+		and (s.shift = #{shift_type})
+	</if>
 
-		<if test="task_id != null and task_id != -1">
-			and (dfs.task = #{task_id})
-		</if>
+	<if test="task_id != null and task_id != -1">
+		and (dfs.task = #{task_id})
+	</if>
 
-		<if test="task_id != null and task_id == -1">
-			and (dfs.task is null)
-		</if>
+	<if test="task_id != null and task_id == -1">
+		and (dfs.task is null)
+	</if>
 
-		<if test="reviewshift != null">
-			and (dfs.reviewshift = #{reviewshift})
-		</if>
+	<if test="reviewshift != null">
+		and (dfs.reviewshift = #{reviewshift})
+	</if>
 
-		<if test="craneId != null">
-			and (crane like CONCAT('%', #{craneId}, '%') )
-		</if>
+	<if test="craneId != null">
+		<![CDATA[
+		AND (crane like CONCAT('%', #{craneId}, '%') )
+		]]>	
+	</if>
 
-		<if test="idShip != null and idShip != -1">
-			and (dfs.id_ship = #{idShip})
-		</if>
+	<if test="idShip != null and idShip != -1">
+		and (dfs.id_ship = #{idShip})
+	</if>
 
-		<if test="idShip != null and idShip == -1">
-			and (dfs.id_ship is null)
-		</if>
+	<if test="idShip != null and idShip == -1">
+		and (dfs.id_ship is null)
+	</if>
 
-		order by u.lastname, s.date_schedule, dfs.shift, dfs.time_from asc
-
+<![CDATA[
+ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
+]]>
 	</select>
+
+
 
 	<select id="overviewInitalSchedule" resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
 		parameterType="map">
