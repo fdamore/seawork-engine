@@ -446,11 +446,11 @@ order by user , s.date_schedule asc
 		INSERT INTO
 		detailfinalschedule (id_schedule, shift, task, time, time_from,
 		time_to, time_vacation, id_ship, crane, board,
-		reviewshift,continueshift)
+		reviewshift,continueshift,rif_sws)
 		VALUES
 		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to},
 		#{time_vacation}, #{id_ship}, #{crane}, #{board},
-		#{reviewshift},#{continueshift});
+		#{reviewshift},#{continueshift},#{rif_sws});
 	</insert>
 
 

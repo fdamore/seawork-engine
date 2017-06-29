@@ -642,7 +642,9 @@
 							</div>
 
 							<hbox align="center">
-								<label value="Eccezione su Riposo" style="color:red"></label>
+								<label value="Eccezione su Riposo"
+									style="color:red">
+								</label>
 								<checkbox id="break_ex"
 									checked="false">
 								</checkbox>
@@ -2262,18 +2264,18 @@
 										style="color:green; font-size:9pt" id="selectShipNoWork" />
 								</vbox>
 
-								<combobox id="shipInDay" width="200px"
+								<combobox id="shipInDay" 
 									autodrop="true"
 									placeholder="Seleziona da navi in giornata...">
 									<comboitem self="@{each='ship'}"
 										label="@{ship.name}" value="@{ship}" />
 								</combobox>
-
-
+								<intbox id="rif_sws"
+									placeholder="Rif SWS..." />
 								<textbox id="crane"
 									placeholder="Inserisci gru..." />
-								<combobox id="board" width="150px"
-									readonly="true" placeholder="A Bordo - Sotto Bordo" />
+								<combobox id="board" readonly="true"
+									placeholder="A Bordo - Sotto Bordo" />
 
 
 

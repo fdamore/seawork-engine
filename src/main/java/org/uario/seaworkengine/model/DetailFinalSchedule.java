@@ -55,6 +55,9 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	private Boolean				reviewshift;
 
+	@XmlTransient
+	private Integer				rif_sws;
+
 	@XmlElement(name = "no_shift")
 	private Integer				shift;
 
@@ -192,6 +195,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.reviewshift;
 	}
 
+	public Integer getRif_sws() {
+		return this.rif_sws;
+	}
+
 	public Integer getShift() {
 		return this.shift;
 	}
@@ -282,6 +289,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setReviewshift(final Boolean reviewshift) {
 		this.reviewshift = reviewshift;
+	}
+
+	public void setRif_sws(final Integer rif_sws) {
+		this.rif_sws = rif_sws;
 	}
 
 	public void setShift(final Integer shift) {
