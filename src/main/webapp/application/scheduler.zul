@@ -2301,6 +2301,7 @@
 										sort="auto(time_from)" />
 									<listheader label="Fine Attività" />
 									<listheader label="Nave" />
+									<listheader label="Rif. SWS" />
 									<listheader label="Gru" />
 									<listheader label="Postazione" />
 									<listheader
@@ -2339,6 +2340,13 @@
 											value="@{itemreview.id_ship, converter='org.uario.seaworkengine.zkevent.converter.ShipNameConverter'}">
 										</label>
 									</listcell>
+									
+									<listcell>
+										<label
+											value="@{itemreview.rif_sws}">
+										</label>
+									</listcell>
+									
 									<listcell>
 										<label
 											value="@{itemreview.crane}">

@@ -1399,50 +1399,50 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	
 	@Listen("onClick= #add_review_item")
 	public Boolean addReviewItem() {
-		
+
 		this.errorMessageAddItem.setValue("");
 		this.alertMinHoursReview.setVisible(false);
-		
+
 		if (!this.checkConnection()) {
 			return false;
 		}
-		
+
 		if (this.list_details_review == null) {
 			return false;
 		}
-		
+
 		if (this.selectedShift == null) {
 			return false;
 		}
-		
+
 		if (this.review_task.getSelectedItem() == null) {
 			return false;
 		}
-		
+
 		final UserTask task = this.review_task.getSelectedItem().getValue();
 		if (task == null) {
 			return false;
 		}
-		
+
 		final Double time = this.getRevisionTime();
-		
+
 		if (time == null) {
 			this.errorMessageAddItem.setValue("Attenzione, verificare intervallo orario.");
 			this.alertMinHoursReview.setVisible(false);
 			return false;
 		}
-		
+
 		double countHours = 0;
-		
+
 		if (this.currentSchedule == null) {
 			// save scheduler
 			this.saveCurrentSchedulerReview();
 		}
-		
+
 		final DetailFinalSchedule new_item = new DetailFinalSchedule();
 		new_item.setId_schedule(this.currentSchedule.getId());
 		new_item.setShift(this.selectedShift);
-		
+
 		// set on board - under board
 		if (this.board.getSelectedItem() != null) {
 			if (this.board.getSelectedItem().getValue().equals(BoardTag.ON_BOARD)) {
@@ -1451,9 +1451,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				new_item.setBoard(BoardTag.UNDER_BOARD);
 			}
 		}
-		
+
 		final UserTask t = this.configurationDAO.loadTask(task.getId());
-		
+
 		// check if is absence task
 		if ((t != null) && t.getIsabsence()) {
 			new_item.setTime(0.0);
@@ -1462,80 +1462,80 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			new_item.setTime(time);
 			new_item.setTime_vacation(0.0);
 		}
-		
+
 		// check if review shift
 		new_item.setReviewshift(false);
 		if (this.reviewShift.isChecked()) {
 			new_item.setReviewshift(true);
 		}
-		
+
 		new_item.setContinueshift(this.continue_shift.isChecked());
-		
+
 		countHours = time;
-		
+
 		new_item.setTask(task.getId());
-		
+
 		final java.util.Date now_from = this.time_from.getValue();
 		if (now_from != null) {
-			
+
 			final Calendar current_calendar = DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
 			final Calendar from_calendar = DateUtils.toCalendar(now_from);
-			
+
 			if ((this.selectedShift == 4) && this.day_shift_over_control_init.isChecked()) {
 				current_calendar.add(Calendar.DAY_OF_YEAR, 1);
 			}
-			
+
 			current_calendar.set(Calendar.HOUR_OF_DAY, from_calendar.get(Calendar.HOUR_OF_DAY));
 			current_calendar.set(Calendar.MINUTE, from_calendar.get(Calendar.MINUTE));
 			current_calendar.set(Calendar.SECOND, from_calendar.get(Calendar.SECOND));
-			
+
 			final java.sql.Timestamp t_from = new java.sql.Timestamp(current_calendar.getTimeInMillis());
 			new_item.setTime_from(t_from);
 		}
-		
+
 		final java.util.Date now_to = this.time_to.getValue();
 		if (now_to != null) {
 			final Calendar current_calendar = DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
 			final Calendar to_calendar = DateUtils.toCalendar(now_to);
-			
+
 			if ((this.selectedShift == 4) && this.day_shift_over_control.isChecked()) {
 				current_calendar.add(Calendar.DAY_OF_YEAR, 1);
 			}
-			
+
 			current_calendar.set(Calendar.HOUR_OF_DAY, to_calendar.get(Calendar.HOUR_OF_DAY));
 			current_calendar.set(Calendar.MINUTE, to_calendar.get(Calendar.MINUTE));
 			current_calendar.set(Calendar.SECOND, to_calendar.get(Calendar.SECOND));
-			
+
 			final java.sql.Timestamp t_to = new java.sql.Timestamp(current_calendar.getTimeInMillis());
 			new_item.setTime_to(t_to);
 		}
-		
+
 		// set ship selected in new item
 		if ((this.shipSelected != null) && (this.shipSelected.getId() != -1)) {
-			
+
 			new_item.setId_ship(this.shipSelected.getId());
 		}
-		
+
 		final String craneName = this.crane.getValue();
 		if ((craneName != null) && (craneName.trim() != "")) {
 			new_item.setCrane(craneName);
 		}
-		
+
 		// check if hours interval is already present in list and if count
 		// hours is more than 12
 		final List<DetailFinalSchedule> list = (List<DetailFinalSchedule>) this.listbox_review.getModel();
 		if (list != null) {
-			
+
 			for (final DetailFinalSchedule item : list) {
-				
+
 				countHours = countHours + item.getTime() + item.getTime_vacation();
-				
+
 				if (!this.force_6h_review.isChecked() && (Utility.roundTwo(countHours) > 6.00)) {
 					this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 					this.alertMinHoursReview.setVisible(false);
 					return false;
 				}
-				
+
 				if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0) && (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
 						|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0) && (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
 						|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
@@ -1546,47 +1546,57 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 		}
-		
+
 		if (!this.force_6h_review.isChecked() && (Utility.roundTwo(countHours) > 6.00)) {
 			this.errorMessageAddItem.setValue("Attenzione, totale ore maggiore di 6.");
 			this.alertMinHoursReview.setVisible(false);
 			return false;
 		}
-		
+
+		// set rif_sws
+		if ((this.rif_sws.getSelectedItem() != null) && (this.rif_sws.getSelectedItem().getValue() != null)) {
+			final String val = this.rif_sws.getSelectedItem().getLabel();
+			final Integer rifsws_info = NumberUtils.toInt(val, -1);
+			final ScheduleShip check = this.scheduleShipDAO.loadScheduleShip(rifsws_info);
+			if (check != null) {
+				new_item.setRif_sws(rifsws_info);
+			}
+		}
+
 		// update program list
 		this.list_details_review.add(new_item);
-		
+
 		final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
 		model.setMultiple(true);
 		this.orderListDetailFinalScheduleByTimeFrom(model);
 		this.listbox_review.setModel(model);
-		
+
 		this.setLabelTotalHoursReview(model);
 		this.ship.setSelectedItem(null);
 		this.shipInDay.setSelectedItem(null);
 		this.rif_sws.setSelectedItem(null);
 		this.shipSelected = null;
 		this.crane.setValue("");
-		
+
 		// check if time programmed if <= 6 hours
-		
+
 		if (countHours >= 6) {
 			this.minHoursAlert = false;
 			this.alertMinHoursReview.setVisible(false);
 		}
-		
+
 		this.errorMessageAddItem.setValue("");
 		this.alertMinHoursReview.setVisible(false);
-		
+
 		this.ship.setSelectedItem(null);
 		this.shipInDay.setSelectedItem(null);
 		this.crane.setValue("");
 		this.board.setSelectedItem(null);
 		this.continue_shift.setChecked(false);
 		this.reviewShift.setChecked(false);
-		
+
 		return true;
-		
+
 	}
 	
 	/**
@@ -5405,8 +5415,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.add_review_item.setVisible(true);
 		this.remove_review_item.setVisible(true);
 		
+		// refresh info
 		this.removeReviewItem();
-		if (!this.addReviewItem()) {
+		final Boolean adding_check = this.addReviewItem();
+		
+		if (!adding_check) {
 			
 			this.list_details_review.add(this.selectedItemReview);
 			final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
@@ -5424,7 +5437,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.crane.setValue("");
 			this.board.setSelectedItem(null);
 		}
-		
+
 	}
 	
 	/**

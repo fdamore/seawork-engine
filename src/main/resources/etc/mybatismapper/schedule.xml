@@ -471,20 +471,33 @@ order by user , s.date_schedule asc
 	<select id="loadDetailFinalScheduleByIdScheduleAndShift"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
-		SELECT df.id, df.id_schedule, df.shift, df.task,
-		df.time, df.time_from,
-		df.time_to, df.time_vacation, df.id_ship,
-		df.crane, s.name as nameShip, df.board,
-		df.reviewshift,df.continueshift
-		FROM detailfinalschedule df LEFT
-		JOIN ship
-		s ON df.id_ship = s.id
-		WHERE
-		df.id_schedule =
-		#{id_schedule} and
-		df.shift = #{shift}
-		order by
-		df.time_from asc;
+		<![CDATA[
+SELECT 
+    df.id,
+    df.id_schedule,
+    df.shift,
+    df.task,
+    df.time,
+    df.time_from,
+    df.time_to,
+    df.time_vacation,
+    df.id_ship,
+    df.crane,
+    s.name AS nameShip,
+    df.board,
+    df.reviewshift,
+    df.continueshift,
+    df.rif_sws
+FROM
+    detailfinalschedule df
+        LEFT JOIN
+    ship s ON df.id_ship = s.id
+WHERE
+    df.id_schedule = #{id_schedule}
+        AND df.shift = #{shift}
+ORDER BY df.time_from ASC;
+ ]]>
+
 	</select>
 
 	<select id="loadDetailInitialScheduleByIdSchedule"
@@ -499,19 +512,29 @@ order by user , s.date_schedule asc
 
 	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
-		SELECT df.id, df.id_schedule, df.shift, df.task, df.time,
-		df.time_from,
-		df.time_to, df.time_vacation, df.id_ship,
-		df.crane,df.continueshift,
-		df.board,
-		s.name as nameShip
-		FROM detailfinalschedule df LEFT JOIN ship
-		s ON
-		df.id_ship
-		= s.id
-		WHERE
-		id_schedule =
-		#{id_schedule};
+<![CDATA[		
+SELECT 
+    df.id,
+    df.id_schedule,
+    df.shift,
+    df.task,
+    df.time,
+    df.time_from,
+    df.time_to,
+    df.time_vacation,
+    df.id_ship,
+    df.crane,
+    df.continueshift,
+    df.board,
+    s.name AS nameShip,
+    df.rif_sws
+FROM
+    detailfinalschedule df
+        LEFT JOIN
+    ship s ON df.id_ship = s.id
+WHERE
+    id_schedule = #{id_schedule};
+ ]]>
 	</select>
 
 
