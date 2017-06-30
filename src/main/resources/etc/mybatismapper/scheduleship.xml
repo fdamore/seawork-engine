@@ -649,17 +649,33 @@ ORDER BY d.shiftdate , d.shift ASC;
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
 		parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT s.id, s.idship, s.volume,
-		s.note,
-		s.arrivaldate, s.departuredate, s.rif_mct, s.customer_id,
-		s.idship_activity, s.id_service, (SELECT sr.name FROM service sr where
-		s.id_service=sr.id) as serviceName
-		FROM
-		scheduleship s where
-		s.idship =
-		#{idship} and
-		s.arrivaldate =
-		#{arrivaldate};
+<![CDATA[
+SELECT 
+    s.id,
+    s.idship,
+    s.volume,
+    s.note,
+    s.arrivaldate,
+    s.departuredate,
+    s.rif_mct,
+    s.customer_id,
+    s.idship_activity,
+    s.id_service,
+    (SELECT 
+            sr.name
+        FROM
+            service sr
+        WHERE
+            s.id_service = sr.id) AS serviceName
+FROM
+    scheduleship s
+WHERE
+    s.idship = #{idship}
+    AND DATE(#{arrivaldate}) >= DATE(s.arrivalDate)
+    AND DATE(s.departureDate) >= DATE(#{arrivaldate});
+        
+        
+       ]]>
 	</select>
 
 	<select id="loadScheduleShipByArrivalDate" parameterType="map"
@@ -678,15 +694,32 @@ ORDER BY d.shiftdate , d.shift ASC;
 
 	<select id="loadShipInDate" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Ship">
-		SELECT sh.id, sh.name, sh.line, sh.shiptype,
-		sh.shipcondition, sh.twtype, s.id as rifSWS, sh.nowork, sh.activityh,
-		s.id_service, (SELECT sr.name FROM service sr where
-		s.id_service=sr.id) as serviceName
-		FROM scheduleship s, ship sh
-		WHERE
-		sh.id=s.idship and date(#{shipDate}) >=
-		date(s.arrivalDate) and
-		date(s.departureDate)>=date(#{shipDate});
+<![CDATA[		
+SELECT 
+    sh.id,
+    sh.name,
+    sh.line,
+    sh.shiptype,
+    sh.shipcondition,
+    sh.twtype,
+    s.id AS rifSWS,
+    sh.nowork,
+    sh.activityh,
+    s.id_service,
+    (SELECT 
+            sr.name
+        FROM
+            service sr
+        WHERE
+            s.id_service = sr.id) AS serviceName
+FROM
+    scheduleship s,
+    ship sh
+WHERE
+    sh.id = s.idship
+        AND DATE(#{shipDate}) >= DATE(s.arrivalDate)
+        AND DATE(s.departureDate) >= DATE(#{shipDate});
+]]>
 	</select>
 
 	<update id="updateDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
