@@ -5677,12 +5677,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// count worker
 		this.menworkReview.setValue("");
-		final List<DetailFinalSchedule> countWorker = this.statisticDAO.listDetailFinalSchedule(null,
-				detailSelected.getShift(), null, null, detailSelected.getShiftdate(), detailSelected.getShiftdate(),
-				reviewshift, idShip, null, null);
+		final Integer shift_selected = detailSelected.getShift();
+		final Date selected_shiftdate = detailSelected.getShiftdate();
+
+		final List<DetailFinalSchedule> listDetailRevision = this.statisticDAO.listDetailFinalSchedule(null,
+				shift_selected, null, null, selected_shiftdate, selected_shiftdate, reviewshift, idShip, null, null);
 
 		final HashMap<Integer, Boolean> hash_counter = new HashMap<>();
-		for (final DetailFinalSchedule dt_itm : countWorker) {
+		for (final DetailFinalSchedule dt_itm : listDetailRevision) {
 
 			if (hash_counter.containsKey(dt_itm.getId_user())) {
 				continue;
@@ -5691,13 +5693,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		if (countWorker != null) {
+		if (listDetailRevision != null) {
 			this.menworkReview.setValue(hash_counter.size() + "");
 		}
 
-		final List<DetailFinalSchedule> listDetailRevision = this.statisticDAO.listDetailFinalSchedule(null,
-				detailSelected.getShift(), null, null, detailSelected.getShiftdate(), detailSelected.getShiftdate(),
-				reviewshift, idShip, null, null);
 		double count_h = 0;
 
 		for (final DetailFinalSchedule item : listDetailRevision) {
@@ -5789,8 +5788,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.check_last_shiftReview.setVisible(false);
 		this.check_last_shiftReview.setChecked(false);
 
-		final Integer shiftNumber = detailSelected.getShift();
-		final Date dateShift = detailSelected.getShiftdate();
+		final Integer shiftNumber = shift_selected;
+		final Date dateShift = selected_shiftdate;
 
 		if (scheduleShip.getIdship_activity() != null) {
 			final Ship ship_activity = this.shipDao.loadShip(scheduleShip.getIdship_activity());
@@ -5833,19 +5832,17 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// set ship name and alert
 		this.messageUpdateRifMCT.setVisible(false);
-		if (detailSelected.getShiftdate() != null) {
+		if (selected_shiftdate != null) {
 
-			this.infoShipNameAndShift
-					.setValue(detailSelected.getName() + shipActivity + " - Turno " + detailSelected.getShift()
-							+ " - Data Turno: " + this.format.format(detailSelected.getShiftdate()));
+			this.infoShipNameAndShift.setValue(detailSelected.getName() + shipActivity + " - Turno " + shift_selected
+					+ " - Data Turno: " + this.format.format(selected_shiftdate));
 		} else {
-			this.infoShipNameAndShift
-					.setValue(detailSelected.getName() + shipActivity + " - Turno " + detailSelected.getShift());
+			this.infoShipNameAndShift.setValue(detailSelected.getName() + shipActivity + " - Turno " + shift_selected);
 		}
 
 		// set working and invoicing cycle (default to same value)
-		if (detailSelected.getShiftdate() != null) {
-			final String val = this.format_month.format(detailSelected.getShiftdate());
+		if (selected_shiftdate != null) {
+			final String val = this.format_month.format(selected_shiftdate);
 			final int val_int = NumberFormat.getInstance().parse(val).intValue();
 			this.invoicing_cycle_review.setValue(val_int);
 			this.working_cycle_review.setValue(val);
