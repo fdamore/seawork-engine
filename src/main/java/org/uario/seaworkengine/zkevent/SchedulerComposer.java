@@ -515,6 +515,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Label						errorMessageAddProgramItem;
 
+	@Wire
+	private Intbox						filter_sws;
+
 	/**
 	 * First date in grid
 	 */
@@ -2247,7 +2250,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * define the view in function of the type of the view required
 	 */
-	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #hoursInterval, #shipSelector, #dayWorking_filter; onOK = #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search, #craneSelector; onSelect = #overview_tab; onClick = #calculate_sat")
+	@Listen("onChange = #scheduler_type_selector, #date_init_scheduler, #date_init_scheduler_review, #select_shift_overview,#select_shifttype_overview, #taskComboBox, #hoursInterval, #shipSelector, #dayWorking_filter; onOK = #filter_sws, #date_to_overview, #date_from_overview, #date_init_scheduler, #date_init_scheduler_review, #shows_rows, #full_text_search, #craneSelector; onSelect = #overview_tab; onClick = #calculate_sat")
 	public void defineSchedulerView() {
 
 		this.setLastProgrammerLabel();
@@ -6569,7 +6572,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number,
-					shift_type, idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane, null);
+					shift_type, idSelectedTask, date_from, date_to, reviewshift, idShip, idCrane,
+					this.filter_sws.getValue());
 
 			if (this.dayWorking_filter.getSelectedIndex() == 1) {
 				this.listDetailRevision = this.filterDetailFinalScheduleByWorkingDay(true);

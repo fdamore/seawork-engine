@@ -2818,69 +2818,72 @@
 							<space></space>
 
 
-							<hbox align="start" id="reviewShiftBox">
-								<vbox>
-									<a
-										label="Filtra su fascia oraria: " />
-									<combobox id="hoursInterval"
-										readonly="false" placeholder="Seleziona Fascia Oraria...">
-										<comboitem label="SI"
-											value="true" />
-										<comboitem label="NO"
-											value="false" />
-										<comboitem label="TUTTI"
-											value="null" />
-									</combobox>
-								</vbox>
+						</hbox>
+						
+						<space></space>
 
-								<space></space>
-
-								<vbox>
-									<a label="Filtra su nave: " />
-									<combobox id="shipSelector"
-										autodrop="true" placeholder="Seleziona nave...">
-
-										<comboitem self="@{each='ship'}"
-											label="@{ship.name}" value="@{ship}" />
-									</combobox>
-								</vbox>
-
-								<space></space>
-
-								<vbox>
-									<a label="Filtra su gru: " />
-									<textbox id="craneSelector"
-										constraint="no negative, no zero" />
-
-								</vbox>
-								<space></space>
-								<vbox>
-									<a
-										label="Filtra per Giorno Lavorativo: " />
-									<combobox id="dayWorking_filter"
-										readonly="true"
-										placeholder="Seleziona se Giorno Lavorativo...">
-
-										<comboitem label="TUTTI"
-											value="TUTTI">
-										</comboitem>
-
-										<comboitem label="Si"
-											value="yes">
-										</comboitem>
-										<comboitem label="No"
-											value="no">
-										</comboitem>
-
-									</combobox>
-								</vbox>
-							</hbox>
-
+						<hbox align="start" id="reviewShiftBox">
+							<vbox>
+								<a label="Filtra su fascia oraria: " />
+								<combobox id="hoursInterval"
+									readonly="false" placeholder="Seleziona Fascia Oraria...">
+									<comboitem label="SI" value="true" />
+									<comboitem label="NO" value="false" />
+									<comboitem label="TUTTI"
+										value="null" />
+								</combobox>
+							</vbox>
 
 							<space></space>
 
+							<vbox>
+								<a label="Filtra su nave: " />
+								<combobox id="shipSelector"
+									autodrop="true" placeholder="Seleziona nave...">
 
+									<comboitem self="@{each='ship'}"
+										label="@{ship.name}" value="@{ship}" />
+								</combobox>
+							</vbox>
+
+							<space></space>
+
+							<vbox>
+								<a label="Filtra su gru: " />
+								<textbox id="craneSelector"
+									constraint="no negative, no zero" />
+
+							</vbox>
+
+							<space></space>
+
+							<vbox>
+								<a label="Filtra su Rif. SWS " />
+								<intbox id="filter_sws" />
+
+							</vbox>
+							
+							<space></space>
+
+							<vbox>
+								<a
+									label="Filtra per Giorno Lavorativo: " />
+								<combobox id="dayWorking_filter"
+									readonly="true"
+									placeholder="Seleziona se Giorno Lavorativo...">
+
+									<comboitem label="TUTTI"
+										value="TUTTI">
+									</comboitem>
+
+									<comboitem label="Si" value="yes"></comboitem>
+									<comboitem label="No" value="no"></comboitem>
+
+								</combobox>
+							</vbox>
 						</hbox>
+						
+						<space></space>
 
 						<!-- COUNTING -->
 						<vbox align="start">
@@ -2917,7 +2920,8 @@
 
 			</hbox>
 
-			<separator></separator>
+			
+
 
 
 
