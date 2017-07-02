@@ -2303,7 +2303,7 @@
 									<listheader label="Nave" />
 									<listheader label="Rif. SWS" />
 									<listheader label="Gru" />
-									<listheader label="Postazione" />
+									<listheader label="Postazione" />									
 									<listheader
 										label="Consuntiva Fascia" />
 									<listheader label="Continua Turno" />
@@ -3002,6 +3002,8 @@
 											hflex="1" align="center" />
 										<listheader label="Postazione"
 											hflex="1" align="center" />
+											<listheader label="Rif SWS"
+											hflex="1" align="center" />
 										<listheader label="Ingresso"
 											hflex="2" align="center" />
 										<listheader label="Uscita"
@@ -3123,6 +3125,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.board}" />
+											
+											<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.rif_sws}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.time_from}" />

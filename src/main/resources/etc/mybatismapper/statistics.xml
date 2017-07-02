@@ -514,6 +514,7 @@ SELECT
     dfs.time_to,
     dfs.board,
     dfs.reviewshift,
+    dfs.rif_sws,
     s.date_schedule,
     s.note,
     u.id AS id_user,
@@ -606,6 +607,9 @@ WHERE
 
 	<if test="idShip != null and idShip == -1">
 		and (dfs.id_ship is null)
+	</if>
+	<if test="rif_sws != null">
+		and (dfs.rif_sws = #{rif_sws})
 	</if>
 
 <![CDATA[

@@ -404,6 +404,22 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
+	public List<ShipTotal> getTotalContainer(final Integer year, final Integer idService, final Boolean by_invoice) {
+		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
+
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("year", year);
+		map.put("idService", idService);
+
+		if (by_invoice) {
+			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByInvoce", map);
+		} else {
+			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByShiftDate", map);
+		}
+
+	}
+
+	@Override
 	public List<ShipTotal> getTotalHandsMen(final Integer year, final Integer shift, final Integer idService,
 			final Boolean by_invoice) {
 		MyBatisStatisticsDAO.logger.info("getTotalHandsMen...");
@@ -428,26 +444,10 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 	}
 
 	@Override
-	public List<ShipTotal> getTotalContainer(final Integer year, final Integer idService,
-			final Boolean by_invoice) {
-		MyBatisStatisticsDAO.logger.info("getTotalInvoiceContainer...");
-
-		final HashMap<String, Object> map = new HashMap<>();
-		map.put("year", year);
-		map.put("idService", idService);
-
-		if (by_invoice) {
-			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByInvoce", map);
-		} else {
-			return this.getSqlSession().selectList("statistics.getTotalInvoiceContainerByShiftDate", map);
-		}
-
-	}
-
-	@Override
 	public List<DetailFinalSchedule> listDetailFinalSchedule(final String full_text_search, final Integer shift_number,
 			final Integer shift_type, final Integer task_id, final Date date_from, final Date date_to,
-			final Boolean reviewshift, final Integer idShip, final String craneId) {
+			final Boolean reviewshift, final Integer idShip, final String craneId, final Integer rif_sws) {
+
 		MyBatisStatisticsDAO.logger.info("listDetailFinalSchedule..");
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -458,6 +458,7 @@ public class MyBatisStatisticsDAO extends SqlSessionDaoSupport implements IStati
 		map.put("reviewshift", reviewshift);
 		map.put("idShip", idShip);
 		map.put("craneId", craneId);
+		map.put("rif_sws", rif_sws);
 
 		if ((date_from != null) && (date_to != null)) {
 			map.put("date_from", DateUtils.truncate(date_from, Calendar.DATE));
