@@ -63,6 +63,15 @@ public class MyBatisCustomerDAO extends SqlSessionDaoSupport implements ICustome
 		return ret;
 	}
 
+	@Override
+	public List<Customer> selectEnabledCustomer() {
+		MyBatisCustomerDAO.logger.info("selectEnabledCustomer..");
+
+		final List<Customer> list_ret = this.getSqlSession().selectList("customer.selectEnabledCustomer");
+
+		return list_ret;
+	}
+
 	public void setCustomer_cache(final ICustomerCache customer_cache) {
 		this.customer_cache = customer_cache;
 	}

@@ -19,14 +19,20 @@
 		where id = #{id}
 	</select>
 
-
+	<select id="selectEnabledCustomer" resultType="org.uario.seaworkengine.model.Customer">
+		SELECT *
+		FROM
+		customer
+		where enabled = 1
+	</select>
 
 	<insert id="createCustomer" parameterType="org.uario.seaworkengine.model.Customer">
 		INSERT INTO customer
 		(id,
-		name, note,piva)
+		name, note,piva, enabled)
 		VALUES
-		(#{id}, #{name},#{note}, #{piva})
+		(#{id}, #{name},#{note},
+		#{piva},#{enabled})
 	</insert>
 
 	<delete id="deleteCustomer" parameterType="int">
@@ -40,7 +46,8 @@
 		SET
 		name = #{name},
 		note = #{note},
-		piva = #{piva}
+		piva = #{piva},
+		enabled = #{enabled}
 		WHERE id = #{id};
 	</update>
 

@@ -383,6 +383,11 @@
 							</hbox>
 
 							<hbox align="center">
+								<label value="Abilitato: "></label>
+								<checkbox id="customer_enabled"></checkbox>
+							</hbox>
+
+							<hbox align="center">
 								<label value="Nome Utente: "></label>
 								<textbox placeholder="Nome Utente..."
 									id="customer_name">
@@ -438,6 +443,7 @@
 
 							<listheader label="Nome" sort="auto(name)" />
 							<listheader label="PIVA" sort="auto(piva)" />
+							<listheader label="Abilitato" />
 							<listheader label="Note" sort="auto(note)" />
 							<listheader label="" />
 						</listhead>
@@ -451,6 +457,14 @@
 
 							<listcell sclass="myBottonCell"
 								label="@{customer_item.piva}" />
+
+							<listcell sclass="myBottonCell">
+
+								<checkbox disabled="true"
+									checked="@{customer_item.enabled}">
+								</checkbox>
+							</listcell>
+
 
 							<listcell sclass="myBottonCell"
 								label="@{customer_item.note}" />
