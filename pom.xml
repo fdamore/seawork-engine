@@ -67,11 +67,10 @@
 	<dependencies>
 
 
-
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-servlet-api</artifactId>
-			<version>8.0.9</version>
+			<version>8.5.16</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -329,34 +328,16 @@
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-
-					<username>damore</username>
-					<password>QuattroC#2013</password>
-
-					<!-- SERVER UARIO -->
-					<url>http://www.uario.com:8080/manager/text</url>
-					<path>/seaworkengine</path>
-
-				</configuration>
-
-			</plugin>
-
-			<!-- Compile java -->
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.6.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
-
 
 		</plugins>
 	</build>
