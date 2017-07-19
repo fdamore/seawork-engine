@@ -394,7 +394,8 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare i valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Controllare i valori inseriti: troppi valori vuoti", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null,
+					params);
 
 			this.isInModify = true;
 
@@ -409,7 +410,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			this.ship_selected.setNowork(this.ship_nowork.isChecked());
 			this.ship_selected.setNote(this.note.getValue());
 
-			if (!this.ship_nowork.isChecked() && !this.ship_activity.isChecked()) {
+			if (!this.ship_nowork.isChecked()) {
 				this.shipDao.updateShip(this.ship_selected);
 
 				this.showOkMessageBox();

@@ -192,7 +192,7 @@
 					<div>
 						<separator></separator>
 
-						<button id="sw_addship" sclass="btn-danger"
+						<button id="sw_addship" sclass="btn-info"
 							label="Aggiungi Nave">
 						</button>
 
