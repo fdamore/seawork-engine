@@ -931,6 +931,7 @@ SELECT
     SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
     COUNT(s.id) AS countService,
     SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
+    SUM(dfs.menwork_activityh) as menwork,
     dfs.invoicing_cycle AS monthInvoice
 FROM
     detailfinalscheduleship dfs,
@@ -955,6 +956,7 @@ SELECT
     SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
     COUNT(s.id) AS countService,
     SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
+    SUM(dfs.menwork_activityh) as menwork,
     MONTH(dis.shiftdate) AS monthInvoice
 FROM
     detailfinalscheduleship dfs,
