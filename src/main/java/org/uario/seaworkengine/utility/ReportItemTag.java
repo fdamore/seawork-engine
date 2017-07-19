@@ -9,10 +9,10 @@ public interface ReportItemTag {
 	public static String	ContainersOnMen			= "Container(RZ Volumi)/uomo";
 	public static String	CustomerComplaint		= "Reclami cliente ";
 	public static String	Hands					= "Totale Mani";
-	public static String	HandsC_P				= "Mani C - P ";
-	public static String	HandsC_shift			= "Mani C turno ";
+	public static String	HandsC_P				= "Mani C - P (P. LAV)";
+	public static String	HandsC_shift			= "Mani C (P. LAV). Turno  ";
 	public static String	HandsOnDays				= "Mani/Giorno";
-	public static String	HandsP_shift			= "Mani P turno ";
+	public static String	HandsP_shift			= "Mani P (P. LAV). Turno   ";
 	public static String	MenOnHands				= "Uomini/Mani";
 	public static String	Productivity			= "Prod. Terminal";
 	public static String	Service_Container		= "Totale Volumi Netti per servizio ";

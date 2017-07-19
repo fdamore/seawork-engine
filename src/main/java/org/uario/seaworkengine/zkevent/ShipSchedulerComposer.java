@@ -4266,7 +4266,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 		
 		for (int i = 1; i <= 4; i++) {
-			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, idServiceRZ, this.getInvoce());
+			// ONLY "LAVORAZIONE"
+			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, idServiceRZ, Boolean.FALSE);
 			totalHandsC = 0.0;
 			numberOfHandsNotNullC = 0;
 			
@@ -4366,7 +4367,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 		
 		for (int i = 1; i <= 4; i++) {
-			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, idServiceRZ, this.getInvoce());
+			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, idServiceRZ, Boolean.FALSE);
 			totalHandsP = 0.0;
 			numberOfHandsNotNullP = 0;
 			
