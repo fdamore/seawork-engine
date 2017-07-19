@@ -2596,10 +2596,11 @@
 					<radio id="invoice_no" label="Lavorazione"
 						radiogroup="byInvoce" />
 				</radiogroup>
+				
+				<label value="(VOLUMI SERVIZIO RZ)" ></label>
 			</hbox>
-
-			<separator />
-			<separator />
+			
+			<space></space>
 
 			<panel border="normal" width="100%">
 
