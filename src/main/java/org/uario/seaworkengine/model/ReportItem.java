@@ -158,8 +158,9 @@ public class ReportItem implements Serializable {
 	 */
 	public Double getTotalMonth() {
 
-		final Double ret = Utility.sum_double(this.getGen(), this.getFeb(), this.getMar(), this.getApr(),
-				this.getMay() + this.getJun() + this.getJul() + this.getAug(), this.getSep(), this.getOct(), this.getNov(), this.getDec());
+		final Double ret = Utility.sum_double(this.getGen(), this.getFeb(), this.getMar(), this.getApr(), this.getMay(),
+				this.getJun(), this.getJul(), this.getAug(), this.getSep(), this.getOct(), this.getNov(),
+				this.getDec());
 
 		if (ret == null) {
 			return 0.0;
