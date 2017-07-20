@@ -3431,13 +3431,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		final ReportItem itemTotalHoursTaskRZ_PP = new ReportItem();
 		itemTotalHoursTaskRZ_PP.setArgument(ReportItemTag.TaskTotalHoursRZ_PP);
 
-		double totalHoursTask = 0.0;
-		int hoursTaskNotNull = 0;
 		final int indexTotalHoursTask = this.reportList.size();
 
 		for (final UserTask userTask : tasks) {
 
-			// Abbsence is not reported
+			// Absence is not reported
 			if (userTask.getIsabsence()) {
 				continue;
 			}
@@ -3505,53 +3503,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.reportList.add(itemTaskHour);
 		}
 
-		totalHoursTask = itemTotalHoursTask.getGen() + itemTotalHoursTask.getFeb() + itemTotalHoursTask.getMar() + itemTotalHoursTask.getApr()
-				+ itemTotalHoursTask.getMay() + itemTotalHoursTask.getJun() + itemTotalHoursTask.getJul() + itemTotalHoursTask.getAug()
-				+ itemTotalHoursTask.getSep() + itemTotalHoursTask.getOct() + itemTotalHoursTask.getNov() + itemTotalHoursTask.getDec();
-
-		if (!itemTotalHoursTask.getGen().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getFeb().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getMar().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getApr().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getMay().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getJun().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getJul().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getAug().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getSep().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getOct().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getNov().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-		if (!itemTotalHoursTask.getDec().equals(0.0)) {
-			hoursTaskNotNull++;
-		}
-
-		if (hoursTaskNotNull != 0) {
-			itemTotalHoursTask.setAvg(totalHoursTask / hoursTaskNotNull);
-		} else {
-			itemTotalHoursTask.setAvg(0.0);
-		}
-		itemTotalHoursTask.setTot(totalHoursTask);
+		itemTotalHoursTask.setTot(itemTotalHoursTask.getTotalMonth());
+		itemTotalHoursTask.setAvg(itemTotalHoursTask.calculateAvg());
 
 		this.reportList.add(indexTotalHoursTask, itemTotalHoursTask);
 
