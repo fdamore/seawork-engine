@@ -466,7 +466,13 @@ SELECT
     d.shiftdate,
     s.id AS id_ship,
     CONCAT(u.lastname, ' ', u.firstname) AS firstOperativeName,
-    CONCAT(us.lastname, ' ', us.firstname) AS secondOperativeName
+    CONCAT(us.lastname, ' ', us.firstname) AS secondOperativeName,
+    (SELECT 
+            sr.name
+        FROM
+            service sr
+        WHERE
+            ss.id_service = sr.id) AS serviceType
 FROM
     detailscheduleship d
         LEFT JOIN
