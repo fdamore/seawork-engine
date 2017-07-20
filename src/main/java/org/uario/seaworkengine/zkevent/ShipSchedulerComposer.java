@@ -3364,17 +3364,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			itemRZ_TW_MCT.setAvg(0.0);
 		}
 
-		Double totalProductivity = 0.0;
-		Integer productivityNotNull = 0;
-
 		if (this.terminalProductivityList != null) {
 			for (int i = 1; i <= 12; i++) {
 				if (this.terminalProductivityList.get(i) != null) {
 					final Double productivity = this.terminalProductivityList.get(i).getProductivity();
-					if ((productivity != null) && (productivity != 0)) {
-						totalProductivity = totalProductivity + productivity;
-						productivityNotNull++;
-					}
+
 					switch (i) {
 					case 1:
 						itemProductivity.setGen(productivity);
@@ -3420,11 +3414,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		if (productivityNotNull != 0.0) {
-			itemProductivity.setAvg(totalProductivity / productivityNotNull);
-		} else {
-			itemProductivity.setAvg(0.0);
-		}
+		itemProductivity.setTot(itemProductivity.getTotalMonth());
+		itemProductivity.setAvg(itemProductivity.calculateAvg());
 
 		final List<UserTask> tasks = this.taskDAO.listAllTask();
 		final List<ShipTotal> taskHoursList = this.statisticDAO.getTotalHoursByTask(year);
@@ -3455,17 +3446,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			itemTaskHour.setIsTaskROW(true);
 
 			// TASK HOURS
-			Double totalHours = 0.0;
-			Integer numberOfHoursNotNull = 0;
 			itemTaskHour.setArgument(userTask.getCode() + " - " + userTask.getDescription());
 
 			for (final ShipTotal shipTotal : taskHoursList) {
 
 				if (shipTotal.getTask_id().equals(userTask.getId())) {
-					if ((shipTotal.getTask_hour() != null) && !shipTotal.getTask_hour().equals(0.0)) {
-						totalHours += shipTotal.getTask_hour();
-						numberOfHoursNotNull++;
-					}
 					if (shipTotal.getMonth_date() == 1) {
 						itemTaskHour.setGen(shipTotal.getTask_hour());
 						itemTotalHoursTask.setGen(Utility.sum_double(itemTotalHoursTask.getGen(), shipTotal.getTask_hour()));
@@ -3507,14 +3492,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// TASK HOURS
-			itemTaskHour.setTot(totalHours);
-
-			// MEDIA MENSILE ORE MANSIONI
-			if ((totalHours != null) && (numberOfHoursNotNull != 0)) {
-				itemTaskHour.setAvg(totalHours / numberOfHoursNotNull);
-			} else {
-				itemTaskHour.setAvg(0.0);
-			}
+			itemTaskHour.setTot(itemTaskHour.getTotalMonth());
+			itemTaskHour.setAvg(itemTaskHour.calculateAvg());
 
 			if ((taskRZ != null) && userTask.getId().equals(taskRZ.getId())) {
 				itemRZ = itemTaskHour;
@@ -3584,15 +3563,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Integer totalWindyDay = 0;
 		Integer numberOfWindyDayNotNull = 0;
 
-		Double totalMenOnHand = 0.0;
-		Integer numberMenOnHandNotNull = 0;
-
-		Double totalContainerOnMen = 0.0;
-		Integer containerOnMenNotNull = 0;
-
-		Double totalContainerOnHours = 0.0;
-		Integer containerOnHoursNotNull = 0;
-
 		for (final ShipTotal shipTotal : handMenList) {
 
 			if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
@@ -3603,10 +3573,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			if ((shipTotal.getWindyday() != null) && !shipTotal.getWindyday().equals(0.0)) {
 				totalWindyDay += shipTotal.getWindyday();
 				numberOfWindyDayNotNull++;
-			}
-
-			if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
-				numberMenOnHandNotNull++;
 			}
 
 			if (shipTotal.getMonthInvoice() == 1) {
@@ -3627,7 +3593,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					}
 					if ((sumHourRZ_PP != 0.0) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setGen(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getGen();
+
 						if ((itemContainer.getGen() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getGen();
 
@@ -3635,19 +3601,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setGen(sumHourRZ_PP);
 
 							itemContainerOnMen.setGen(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getGen();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setGen(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getGen() != null) && !itemContainerOnHours.getGen().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getGen();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
+
 							itemContainerOnMen.setGen(itemRZ_TW_SWS.getGen());
-							if ((itemRZ_TW_SWS.getGen() != null) && !itemRZ_TW_SWS.getGen().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getGen();
-								containerOnMenNotNull++;
-							}
 							itemContainerOnHours.setGen(0.0);
 						}
 					} else {
@@ -3678,7 +3637,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setFeb(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getFeb();
+
 						if ((itemContainer.getFeb() != null) && (sumHourRZ_PP != 0)) {
 
 							final double num = itemContainer.getFeb();
@@ -3687,19 +3646,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setFeb(sumHourRZ_PP);
 
 							itemContainerOnMen.setFeb(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getFeb();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setFeb(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getFeb() != null) && !itemContainerOnHours.getFeb().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getFeb();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setFeb(itemRZ_TW_SWS.getFeb());
-							if ((itemRZ_TW_SWS.getFeb() != null) && !itemRZ_TW_SWS.getFeb().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getFeb();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setFeb(0.0);
 						}
 					} else {
@@ -3729,7 +3681,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setMar(shipTotal.getHandswork() / 31);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setMar(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getMar();
+
 						if ((itemContainer.getMar() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getMar();
 
@@ -3737,19 +3689,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setMar(sumHourRZ_PP);
 
 							itemContainerOnMen.setMar(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getMar();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setMar(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getMar() != null) && !itemContainerOnHours.getMar().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getMar();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setMar(itemRZ_TW_SWS.getMar());
-							if ((itemRZ_TW_SWS.getMar() != null) && !itemRZ_TW_SWS.getMar().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getMar();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setMar(0.0);
 						}
 					} else {
@@ -3779,7 +3724,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setApr(shipTotal.getHandswork() / 30);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setApr(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getApr();
+
 						if ((itemContainer.getApr() != null) && (sumHourRZ_PP != 0)) {
 
 							final double num = itemContainer.getApr();
@@ -3788,19 +3733,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setApr(sumHourRZ_PP);
 
 							itemContainerOnMen.setApr(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getApr();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setApr(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getApr() != null) && !itemContainerOnHours.getApr().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getApr();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setApr(itemRZ_TW_SWS.getApr());
-							if ((itemRZ_TW_SWS.getApr() != null) && !itemRZ_TW_SWS.getApr().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getApr();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setApr(0.0);
 						}
 					} else {
@@ -3829,7 +3767,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setMay(shipTotal.getHandswork() / 31);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setMay(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getMay();
+
 						if ((itemContainer.getMay() != null) && (sumHourRZ_PP != 0)) {
 
 							final double num = itemContainer.getMay();
@@ -3838,19 +3776,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setMay(sumHourRZ_PP);
 
 							itemContainerOnMen.setMay(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getMay();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setMay(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getMay() != null) && !itemContainerOnHours.getMay().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getMay();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setMay(itemRZ_TW_SWS.getMay());
-							if ((itemRZ_TW_SWS.getMay() != null) && !itemRZ_TW_SWS.getMay().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getMay();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setMay(0.0);
 						}
 					} else {
@@ -3879,7 +3810,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setJun(shipTotal.getHandswork() / 30);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setJun(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getJun();
+
 						if ((itemContainer.getJun() != null) && (sumHourRZ_PP != 0)) {
 
 							final double num = itemContainer.getJun();
@@ -3888,19 +3819,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setJun(sumHourRZ_PP);
 
 							itemContainerOnMen.setJun(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getJun();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setJun(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getJun() != null) && !itemContainerOnHours.getJun().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getJun();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setJun(itemRZ_TW_SWS.getJun());
-							if ((itemRZ_TW_SWS.getJun() != null) && !itemRZ_TW_SWS.getJun().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getJun();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setJun(0.0);
 						}
 					} else {
@@ -3929,7 +3853,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setJul(shipTotal.getHandswork() / 31);
 					if ((sumHourRZ_PP != null) && (sumHourRZ_PP != 0)) {
 						itemMenOnHand.setJul(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getJul();
+
 						if ((itemContainer.getJul() != null) && (sumHourRZ_PP != 0)) {
 
 							final double num = itemContainer.getJul();
@@ -3938,19 +3862,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setJul(sumHourRZ_PP);
 
 							itemContainerOnMen.setJul(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getJul();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setJul(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getJul() != null) && !itemContainerOnHours.getJul().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getJul();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setJul(itemRZ_TW_SWS.getJul());
-							if ((itemRZ_TW_SWS.getJul() != null) && !itemRZ_TW_SWS.getJul().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getJul();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setJul(0.0);
 						}
 					} else {
@@ -3979,7 +3896,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setAug(shipTotal.getHandswork() / 31);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setAug(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getAug();
+
 						if ((itemContainer.getAug() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getAug();
 
@@ -3987,19 +3904,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setAug(sumHourRZ_PP);
 
 							itemContainerOnMen.setAug(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getAug();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setAug(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getAug() != null) && !itemContainerOnHours.getAug().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getAug();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setAug(itemRZ_TW_SWS.getAug());
-							if ((itemRZ_TW_SWS.getAug() != null) && !itemRZ_TW_SWS.getAug().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getAug();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setAug(0.0);
 						}
 					} else {
@@ -4027,7 +3937,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setSep(shipTotal.getHandswork() / 30);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setSep(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getSep();
+
 						if ((itemContainer.getSep() != null) && (sumHourRZ_PP != 0)) {
 
 							final double num = itemContainer.getSep();
@@ -4036,19 +3946,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setSep(sumHourRZ_PP);
 
 							itemContainerOnMen.setSep(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getSep();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setSep(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getSep() != null) && !itemContainerOnHours.getSep().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getSep();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setSep(itemRZ_TW_SWS.getSep());
-							if ((itemRZ_TW_SWS.getSep() != null) && !itemRZ_TW_SWS.getSep().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getSep();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setSep(0.0);
 						}
 					} else {
@@ -4077,7 +3980,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setOct(shipTotal.getHandswork() / 31);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setOct(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getOct();
+
 						if ((itemContainer.getOct() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getOct();
 
@@ -4085,19 +3988,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setOct(sumHourRZ_PP);
 
 							itemContainerOnMen.setOct(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getOct();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setOct(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getOct() != null) && !itemContainerOnHours.getOct().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getOct();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setOct(itemRZ_TW_SWS.getOct());
-							if ((itemRZ_TW_SWS.getOct() != null) && !itemRZ_TW_SWS.getOct().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getOct();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setOct(0.0);
 						}
 					} else {
@@ -4126,7 +4022,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setNov(shipTotal.getHandswork() / 31);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setNov(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getNov();
+
 						if ((itemContainer.getNov() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getNov();
 
@@ -4134,19 +4030,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setNov(sumHourRZ_PP);
 
 							itemContainerOnMen.setNov(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getNov();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setNov(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getNov() != null) && !itemContainerOnHours.getNov().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getNov();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setNov(itemRZ_TW_SWS.getNov());
-							if ((itemRZ_TW_SWS.getNov() != null) && !itemRZ_TW_SWS.getNov().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getNov();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setNov(0.0);
 						}
 					} else {
@@ -4175,7 +4064,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					itemHandsOnDays.setDec(shipTotal.getHandswork() / 31);
 					if ((sumHourRZ_PP != null) && (shipTotal.getHandswork() != 0)) {
 						itemMenOnHand.setDec(sumHourRZ_PP / shipTotal.getHandswork() / 6);
-						totalMenOnHand += itemMenOnHand.getDec();
+
 						if ((itemContainer.getDec() != null) && (sumHourRZ_PP != 0)) {
 							final double num = itemContainer.getDec();
 
@@ -4183,19 +4072,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 							itemTotalHoursTaskRZ_PP.setDec(sumHourRZ_PP);
 
 							itemContainerOnMen.setDec(num / sumHourRZ_PP);
-							totalContainerOnMen += itemContainerOnMen.getDec();
-							containerOnMenNotNull++;
+
 							itemContainerOnHours.setDec(num / shipTotal.getHandswork() / 6);
-							if ((itemContainerOnHours.getDec() != null) && !itemContainerOnHours.getDec().equals(0)) {
-								totalContainerOnHours += itemContainerOnHours.getDec();
-								containerOnHoursNotNull++;
-							}
+
 						} else {
 							itemContainerOnMen.setDec(itemRZ_TW_SWS.getDec());
-							if ((itemRZ_TW_SWS.getDec() != null) && !itemRZ_TW_SWS.getDec().equals(0)) {
-								totalContainerOnMen += itemContainerOnMen.getDec();
-								containerOnMenNotNull++;
-							}
+
 							itemContainerOnHours.setDec(0.0);
 						}
 					} else {
@@ -4210,6 +4092,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// total hors RZ PP
+		itemTotalHoursTaskRZ_PP.setTot(itemTotalHoursTaskRZ_PP.getTotalMonth());
+		itemTotalHoursTaskRZ_PP.setAvg(itemTotalHoursTaskRZ_PP.calculateAvg());
 		this.reportList.add(indexTotalHoursTask + 1, itemTotalHoursTaskRZ_PP);
 
 		itemHands.setTot(totalHands);
@@ -4218,25 +4102,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsOnDays.setTot(itemHandsOnDays.getTotalMonth());
 		itemHandsOnDays.setAvg(totalHands / 365);
 
-		if (numberMenOnHandNotNull != 0) {
-			itemMenOnHand.setAvg(totalMenOnHand / numberMenOnHandNotNull);
-		} else {
-			itemMenOnHand.setAvg(0.0);
-		}
+		itemMenOnHand.setTot(itemMenOnHand.getTotalMonth());
+		itemMenOnHand.setAvg(itemMenOnHand.calculateAvg());
 
-		if (containerOnMenNotNull != 0) {
-			itemContainerOnMen.setAvg(totalContainerOnMen / containerOnMenNotNull);
-		} else {
-			itemContainerOnMen.setAvg(0.0);
-		}
+		itemContainerOnMen.setTot(itemContainerOnMen.getTotalMonth());
+		itemContainerOnMen.setAvg(itemContainerOnMen.calculateAvg());
 
-		itemContainerOnMen.setTot(0.0);
-
-		if (containerOnHoursNotNull != 0) {
-			itemContainerOnHours.setAvg(totalContainerOnHours / containerOnHoursNotNull);
-		} else {
-			itemContainerOnHours.setAvg(0.0);
-		}
+		itemContainerOnHours.setTot(itemContainerOnHours.getTotalMonth());
+		itemContainerOnHours.setAvg(itemContainerOnHours.calculateAvg());
 
 		if (!numberOfWindyDayNotNull.equals(0)) {
 			itemWindyDay.setAvg((double) (totalWindyDay / numberOfWindyDayNotNull));
@@ -4501,7 +4374,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
-		itemHandsC_P.setTot(null);
+		itemHandsC_P.setTot(itemHandsC_P.getTotalMonth());
+		itemHandsC_P.setAvg(itemHandsC_P.calculateAvg());
+
 		this.reportList.add(indexRowHandsP, itemHandsC_P);
 
 		// RECLAMI CLIENTI

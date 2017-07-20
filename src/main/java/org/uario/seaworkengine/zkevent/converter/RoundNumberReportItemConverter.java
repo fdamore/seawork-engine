@@ -36,113 +36,6 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 
 		final String tag = (String) list.get("tag");
 
-		if (source.getIsTaskROW()) {
-			Double value = 0.0;
-
-			if (tag.equals("argument")) {
-				return source.getArgument();
-			}
-
-			if (tag.equals("gen")) {
-				if (source.getGen() != null) {
-					value = Utility.roundTwo(source.getGen());
-				} else {
-					return "0";
-				}
-
-			}
-			if (tag.equals("feb")) {
-				if (source.getFeb() != null) {
-					value = Utility.roundTwo(source.getFeb());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("mar")) {
-				if (source.getMar() != null) {
-					value = Utility.roundTwo(source.getMar());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("apr")) {
-				if (source.getApr() != null) {
-					value = Utility.roundTwo(source.getApr());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("may")) {
-				if (source.getMay() != null) {
-					value = Utility.roundTwo(source.getMay());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("jun")) {
-				if (source.getJun() != null) {
-					value = Utility.roundTwo(source.getJun());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("jul")) {
-				if (source.getJul() != null) {
-					value = Utility.roundTwo(source.getJul());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("aug")) {
-				if (source.getAug() != null) {
-					value = Utility.roundTwo(source.getAug());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("sep")) {
-				if (source.getSep() != null) {
-					value = Utility.roundTwo(source.getSep());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("oct")) {
-				if (source.getOct() != null) {
-					value = Utility.roundTwo(source.getOct());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("nov")) {
-				if (source.getNov() != null) {
-					value = Utility.roundTwo(source.getNov());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("dec")) {
-				if (source.getDec() != null) {
-					value = Utility.roundTwo(source.getDec());
-				} else {
-					return "0";
-				}
-			}
-			if (tag.equals("tot")) {
-				return "";
-			}
-
-			if (tag.equals("avg")) {
-				if (source.getAvg() != null) {
-					value = Utility.roundTwo(source.getAvg());
-				} else {
-					return "";
-				}
-			}
-
-			return value.toString();
-		}
-
 		if (source.getArgument().equals(ReportItemTag.TaskTotalHours) || source.getArgument().equals(ReportItemTag.TaskTotalHoursRZ_PP)
 				|| source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_SWS)
 				|| source.getArgument().equals(ReportItemTag.ContainerRZ_TW_MCT) || source.getArgument().equals(ReportItemTag.Hands)
@@ -257,10 +150,10 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 			return value.toString();
 		}
 
-		if (source.getArgument().equals(ReportItemTag.ContainersOnHours) || source.getArgument().equals(ReportItemTag.ContainersOnHours)
-				|| source.getArgument().equals(ReportItemTag.HandsOnDays) || source.getArgument().equals(ReportItemTag.MenOnHands)
-				|| source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.Productivity)
-				|| source.getArgument().contains(ReportItemTag.Service_TimeWork)
+		if (source.getIsTaskROW() || source.getArgument().equals(ReportItemTag.ContainersOnHours)
+				|| source.getArgument().equals(ReportItemTag.ContainersOnHours) || source.getArgument().equals(ReportItemTag.HandsOnDays)
+				|| source.getArgument().equals(ReportItemTag.MenOnHands) || source.getArgument().equals(ReportItemTag.ContainersOnMen)
+				|| source.getArgument().equals(ReportItemTag.Productivity) || source.getArgument().contains(ReportItemTag.Service_TimeWork)
 				|| source.getArgument().contains(ReportItemTag.Service_NumberOfService)
 				|| source.getArgument().contains(ReportItemTag.Service_NumberOfMan)
 				|| source.getArgument().equals(ReportItemTag.Service_TimeWorkTotal)) {
