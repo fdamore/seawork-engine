@@ -344,7 +344,7 @@ public class Utility {
 			final int size = 125;
 			final String fileType = "png";
 
-			final Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+			final Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<>();
 			hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
 			final BitMatrix byteMatrix = qrCodeWriter.encode(myCodeText, BarcodeFormat.QR_CODE, size, size, hintMap);
 
@@ -412,5 +412,49 @@ public class Utility {
 		}
 		final double temp = Math.pow(10, 2);
 		return Math.round(x.doubleValue() * temp) / temp;
+	}
+
+	/**
+	 * sum_dpouble (multiple)
+	 *
+	 * @param d
+	 * @return
+	 */
+	public static Double sum_double(final Double... d) {
+
+		Double ret = 0.0;
+
+		for (final Double element : d) {
+			if (element == null) {
+				continue;
+			} else {
+				ret += element;
+
+			}
+		}
+
+		return ret;
+
+	}
+
+	/**
+	 * sum double
+	 *
+	 * @param d1
+	 * @param d2
+	 * @return
+	 */
+	public static Double sum_double(final Double d1, final Double d2) {
+
+		if (d1 == null) {
+			return d1;
+		}
+
+		if (d2 == null) {
+			return d2;
+		}
+
+		return d1 + d2;
+
 	}
 }

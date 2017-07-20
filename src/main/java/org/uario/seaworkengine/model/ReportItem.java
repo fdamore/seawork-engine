@@ -2,6 +2,8 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 
+import org.uario.seaworkengine.utility.Utility;
+
 public class ReportItem implements Serializable {
 
 	/**
@@ -10,6 +12,7 @@ public class ReportItem implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	private Double				apr					= 0.0;
+
 	private String				argument;
 	private Double				aug					= 0.0;
 	private Double				avg;
@@ -23,12 +26,62 @@ public class ReportItem implements Serializable {
 	private Double				mar					= 0.0;
 	private Double				may					= 0.0;
 
-	private Integer				notZeroElement		= 0;
-
 	private Double				nov					= 0.0;
+
 	private Double				oct					= 0.0;
 	private Double				sep					= 0.0;
 	private Double				tot;
+
+	public Double calculateAvg() {
+
+		final Double total = this.getTotal();
+		int num_month = 0;
+
+		if ((this.getGen() != null) && !this.getGen().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getFeb() != null) && !this.getFeb().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getMar() != null) && !this.getMar().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getApr() != null) && !this.getApr().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getMay() != null) && !this.getMay().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getJun() != null) && !this.getJun().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getJul() != null) && !this.getJul().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getAug() != null) && !this.getAug().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getSep() != null) && !this.getSep().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getOct() != null) && !this.getOct().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getNov() != null) && !this.getNov().equals(0.0)) {
+			num_month++;
+		}
+		if ((this.getDec() != null) && !this.getDec().equals(0.0)) {
+			num_month++;
+		}
+
+		Double current_avg = 0.0;
+
+		if (num_month != 0) {
+			current_avg = total / num_month;
+		}
+
+		return current_avg;
+	}
 
 	public Double getApr() {
 		return this.apr;
@@ -82,10 +135,6 @@ public class ReportItem implements Serializable {
 		return this.may;
 	}
 
-	public Integer getNotZeroElement() {
-		return this.notZeroElement;
-	}
-
 	public Double getNov() {
 		return this.nov;
 	}
@@ -102,11 +151,25 @@ public class ReportItem implements Serializable {
 		return this.tot;
 	}
 
+	/**
+	 * Calculate totale
+	 *
+	 * @return
+	 */
+	public Double getTotal() {
+
+		final Double ret = Utility.sum_double(this.getGen(), this.getFeb(), this.getMar(), this.getApr(),
+				this.getMay() + this.getJun() + this.getJul() + this.getAug(), this.getSep(), this.getOct(), this.getNov(), this.getDec());
+
+		if (ret == null) {
+			return 0.0;
+		}
+		return ret;
+	}
+
 	public void setApr(final Double apr) {
 		this.apr = apr;
-		if ((apr != null) && !apr.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setArgument(final String argument) {
@@ -115,9 +178,7 @@ public class ReportItem implements Serializable {
 
 	public void setAug(final Double aug) {
 		this.aug = aug;
-		if ((aug != null) && !aug.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setAvg(final Double avg) {
@@ -126,23 +187,17 @@ public class ReportItem implements Serializable {
 
 	public void setDec(final Double dec) {
 		this.dec = dec;
-		if ((dec != null) && !dec.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setFeb(final Double feb) {
 		this.feb = feb;
-		if ((feb != null) && !feb.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setGen(final Double gen) {
 		this.gen = gen;
-		if ((gen != null) && !gen.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setIsService(final Integer isService) {
@@ -155,51 +210,37 @@ public class ReportItem implements Serializable {
 
 	public void setJul(final Double jul) {
 		this.jul = jul;
-		if ((jul != null) && !jul.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setJun(final Double jun) {
 		this.jun = jun;
-		if ((jun != null) && !jun.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setMar(final Double mar) {
 		this.mar = mar;
-		if ((mar != null) && !mar.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setMay(final Double may) {
 		this.may = may;
-		if ((may != null) && !may.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setNov(final Double nov) {
 		this.nov = nov;
-		if ((nov != null) && !nov.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setOct(final Double oct) {
 		this.oct = oct;
-		if ((oct != null) && !oct.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setSep(final Double sep) {
 		this.sep = sep;
-		if ((sep != null) && !sep.equals(0.0)) {
-			this.notZeroElement++;
-		}
+
 	}
 
 	public void setTot(final Double tot) {
