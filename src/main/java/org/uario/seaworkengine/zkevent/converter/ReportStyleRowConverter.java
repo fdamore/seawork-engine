@@ -34,7 +34,7 @@ public class ReportStyleRowConverter implements TypeConverter {
 			return "handsStyleReport";
 		} else if (source.getArgument().equals(ReportItemTag.HandsC_P)) {
 			return "handsC_PStyleReport";
-		} else if (source.getArgument().equals(ReportItemTag.TaskHours) || source.getIsTaskROW()) {
+		} else if (source.getIsTaskROW()) {
 			return "taskHoursStyleReport";
 		} else if (source.getArgument().equals(ReportItemTag.HandsOnDays) || source.getArgument().equals(ReportItemTag.MenOnHands)
 				|| source.getArgument().equals(ReportItemTag.Productivity) || source.getArgument().equals(ReportItemTag.ContainersOnHours)) {
@@ -55,7 +55,7 @@ public class ReportStyleRowConverter implements TypeConverter {
 				return "isServiceStyleReport";
 			}
 			return "isServiceStyleReportd";
-		} else if (source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.ContainerOnHours)) {
+		} else if (source.getArgument().equals(ReportItemTag.ContainersOnMen)) {
 			return "containersOnMenStyleReport";
 		} else if (source.getArgument().equals(ReportItemTag.Service_TimeWorkTotal)) {
 			return "service_TimeWorkTotalStyleReport";

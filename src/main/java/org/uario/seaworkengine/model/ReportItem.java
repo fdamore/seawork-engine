@@ -34,7 +34,7 @@ public class ReportItem implements Serializable {
 
 	public Double calculateAvg() {
 
-		final Double total = this.getTotal();
+		final Double total = this.getTotalMonth();
 		int num_month = 0;
 
 		if ((this.getGen() != null) && !this.getGen().equals(0.0)) {
@@ -156,7 +156,7 @@ public class ReportItem implements Serializable {
 	 *
 	 * @return
 	 */
-	public Double getTotal() {
+	public Double getTotalMonth() {
 
 		final Double ret = Utility.sum_double(this.getGen(), this.getFeb(), this.getMar(), this.getApr(),
 				this.getMay() + this.getJun() + this.getJul() + this.getAug(), this.getSep(), this.getOct(), this.getNov(), this.getDec());

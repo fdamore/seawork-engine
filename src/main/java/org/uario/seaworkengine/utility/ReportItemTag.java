@@ -1,7 +1,7 @@
 package org.uario.seaworkengine.utility;
 
 public interface ReportItemTag {
-	public static String	ContainerOnHours		= "Container/uomo";
+
 	public static String	ContainerRZ_TW_MCT		= "RZ TW MCT";
 	public static String	ContainerRZ_TW_SWS		= "RZ TW SWS";
 	public static String	Containers				= "RZ Volumi";
@@ -23,9 +23,8 @@ public interface ReportItemTag {
 	public static String	Service_TimeWorkTotal	= "Totale ore Nette per servizi";
 	public static String	ShipNumberComplete		= "Numero navi - Completa";
 	public static String	ShipNumberTwist			= "Numero navi - TW";
-	public static String	TaskHours				= "Ore lavorate per mansione";
 	public static String	TaskTotalHours			= "Totale ore Lavorate per mansioni";
 	public static String	TaskTotalHoursRZ_PP		= "Totale ore RZ-PP";
 	public static String	WindyDay				= "Giorni disagio vento";
-	
+
 }

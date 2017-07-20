@@ -4215,6 +4215,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHands.setTot(totalHands);
 		itemHands.setAvg(totalHands / numberOfHandsNotNull);
 
+		itemHandsOnDays.setTot(itemHandsOnDays.getTotalMonth());
 		itemHandsOnDays.setAvg(totalHands / 365);
 
 		if (numberMenOnHandNotNull != 0) {
@@ -4898,7 +4899,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		totalServiceTimeWork.setAvg(totalServiceTimeWork.calculateAvg());
-		totalServiceTimeWork.setTot(totalServiceTimeWork.getTotal());
+		totalServiceTimeWork.setTot(totalServiceTimeWork.getTotalMonth());
 
 		this.reportList.add(indexTotalServiceTimeWorkRow++, totalServiceTimeWork);
 

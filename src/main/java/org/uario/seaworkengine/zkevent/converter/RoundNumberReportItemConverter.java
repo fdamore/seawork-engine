@@ -36,11 +36,7 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 
 		final String tag = (String) list.get("tag");
 
-		if (source.getArgument().equals(ReportItemTag.HandsOnDays) || source.getArgument().equals(ReportItemTag.MenOnHands)
-				|| source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.Productivity)
-				|| source.getArgument().equals(ReportItemTag.ContainerOnHours) || source.getArgument().equals(ReportItemTag.ContainerOnHours)
-				|| source.getArgument().equals(ReportItemTag.ContainersOnHours) || source.getIsTaskROW()
-				|| source.getArgument().equals(ReportItemTag.TaskTotalHours) || source.getArgument().equals(ReportItemTag.TaskTotalHoursRZ_PP)) {
+		if (source.getIsTaskROW()) {
 			Double value = 0.0;
 
 			if (tag.equals("argument")) {
@@ -147,13 +143,14 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 			return value.toString();
 		}
 
-		if (source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_SWS)
-				|| source.getArgument().equals(ReportItemTag.TaskHours) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_MCT)
-				|| source.getArgument().equals(ReportItemTag.Hands) || source.getArgument().contains(ReportItemTag.HandsC_shift)
-				|| source.getArgument().contains(ReportItemTag.HandsP_shift) || source.getArgument().equals(ReportItemTag.HandsC_P)
-				|| source.getArgument().contains(ReportItemTag.CustomerComplaint) || source.getArgument().equals(ReportItemTag.WindyDay)
-				|| source.getArgument().equals(ReportItemTag.ShipNumberComplete) || source.getArgument().equals(ReportItemTag.ShipNumberTwist)
-				|| source.getArgument().contains(ReportItemTag.Service_Container) || source.getArgument().contains(ReportItemTag.Service_HoursMan)) {
+		if (source.getArgument().equals(ReportItemTag.TaskTotalHours) || source.getArgument().equals(ReportItemTag.TaskTotalHoursRZ_PP)
+				|| source.getArgument().equals(ReportItemTag.Containers) || source.getArgument().equals(ReportItemTag.ContainerRZ_TW_SWS)
+				|| source.getArgument().equals(ReportItemTag.ContainerRZ_TW_MCT) || source.getArgument().equals(ReportItemTag.Hands)
+				|| source.getArgument().contains(ReportItemTag.HandsC_shift) || source.getArgument().contains(ReportItemTag.HandsP_shift)
+				|| source.getArgument().equals(ReportItemTag.HandsC_P) || source.getArgument().contains(ReportItemTag.CustomerComplaint)
+				|| source.getArgument().equals(ReportItemTag.WindyDay) || source.getArgument().equals(ReportItemTag.ShipNumberComplete)
+				|| source.getArgument().equals(ReportItemTag.ShipNumberTwist) || source.getArgument().contains(ReportItemTag.Service_Container)
+				|| source.getArgument().contains(ReportItemTag.Service_HoursMan)) {
 			Integer value = 0;
 			if (tag.equals("argument")) {
 				return source.getArgument();
@@ -260,7 +257,11 @@ public class RoundNumberReportItemConverter implements TypeConverter {
 			return value.toString();
 		}
 
-		if (source.getArgument().contains(ReportItemTag.Service_TimeWork) || source.getArgument().contains(ReportItemTag.Service_NumberOfService)
+		if (source.getArgument().equals(ReportItemTag.ContainersOnHours) || source.getArgument().equals(ReportItemTag.ContainersOnHours)
+				|| source.getArgument().equals(ReportItemTag.HandsOnDays) || source.getArgument().equals(ReportItemTag.MenOnHands)
+				|| source.getArgument().equals(ReportItemTag.ContainersOnMen) || source.getArgument().equals(ReportItemTag.Productivity)
+				|| source.getArgument().contains(ReportItemTag.Service_TimeWork)
+				|| source.getArgument().contains(ReportItemTag.Service_NumberOfService)
 				|| source.getArgument().contains(ReportItemTag.Service_NumberOfMan)
 				|| source.getArgument().equals(ReportItemTag.Service_TimeWorkTotal)) {
 			Double value = 0.0;
