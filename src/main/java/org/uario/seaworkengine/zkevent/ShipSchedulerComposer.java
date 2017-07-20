@@ -1462,73 +1462,73 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		switch (shift_no.intValue()) {
 
-		case 1: {
+			case 1: {
 
-			// prepare period
-			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+				// prepare period
+				final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_1_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_1_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_1_time_from.getTime());
-			ship_to.setValue(cal_shift_1_time_to.getTime());
+				ship_from.setValue(cal_shift_1_time_from.getTime());
+				ship_to.setValue(cal_shift_1_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 2: {
+			case 2: {
 
-			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_2_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_2_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_2_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_2_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_2_time_from.getTime());
-			ship_to.setValue(cal_shift_2_time_to.getTime());
+				ship_from.setValue(cal_shift_2_time_from.getTime());
+				ship_to.setValue(cal_shift_2_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 3: {
+			case 3: {
 
-			final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_3_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_3_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_3_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_3_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_3_time_from.getTime());
-			ship_to.setValue(cal_shift_3_time_to.getTime());
+				ship_from.setValue(cal_shift_3_time_from.getTime());
+				ship_to.setValue(cal_shift_3_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 4: {
+			case 4: {
 
-			final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_4_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_4_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
+				final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
 
-			cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_4_time_to.set(Calendar.MINUTE, 0);
+				cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_4_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_4_time_from.getTime());
-			ship_to.setValue(cal_shift_4_time_to.getTime());
+				ship_from.setValue(cal_shift_4_time_from.getTime());
+				ship_to.setValue(cal_shift_4_time_to.getTime());
 
-			check_last_shift.setVisible(true);
-			check_last_shift.setChecked(true);
-			break;
-		}
+				check_last_shift.setVisible(true);
+				check_last_shift.setChecked(true);
+				break;
+			}
 
 		}
 
@@ -3257,32 +3257,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemShipNumberTW.setArgument(ReportItemTag.ShipNumberTwist);
 		final ReportItem itemShipNumberCM = new ReportItem();
 		itemShipNumberCM.setArgument(ReportItemTag.ShipNumberComplete);
-
+		
 		// CONTAINER FATTURATI
-		Double totalContainer = 0.0;
-		Integer numberOfContainerNotNull = 0;
-		Double totalContainerRZ_TW_SWS = 0.0;
-		Integer numberOfContainerRZ_TW_SWSNotNull = 0;
-		Double totalContainerRZ_TW_MCT = 0.0;
-		Integer numberOfContainerRZ_TW_MCTNotNull = 0;
-
 		for (final ShipTotal shipTotal : containerList) {
-
-			if ((shipTotal.getContainerInvoice() != null) && !shipTotal.getContainerInvoice().equals(0.0)) {
-				totalContainer += shipTotal.getContainerInvoice();
-				numberOfContainerNotNull++;
-			}
-
-			if ((shipTotal.getContainerRZ_TW_SWS() != null) && !shipTotal.getContainerRZ_TW_SWS().equals(0.0)) {
-				totalContainerRZ_TW_SWS += shipTotal.getContainerRZ_TW_SWS();
-				numberOfContainerRZ_TW_SWSNotNull++;
-			}
-
-			if ((shipTotal.getContainerRZ_TW_MCT() != null) && !shipTotal.getContainerRZ_TW_MCT().equals(0.0)) {
-				totalContainerRZ_TW_MCT += shipTotal.getContainerRZ_TW_MCT();
-				numberOfContainerRZ_TW_MCTNotNull++;
-			}
-
+			
 			if (shipTotal.getMonthInvoice() == 1) {
 				itemContainer.setGen(shipTotal.getContainerInvoice());
 				itemRZ_TW_SWS.setGen(shipTotal.getContainerRZ_TW_SWS());
@@ -3335,34 +3313,16 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		// CONTAINER
-		itemContainer.setTot(totalContainer);
-
-		// MEDIA MENSILE CONTAINER
-		if ((totalContainer != null) && (numberOfContainerNotNull != 0)) {
-			itemContainer.setAvg(totalContainer / numberOfContainerNotNull);
-		} else {
-			itemContainer.setAvg(0.0);
-		}
+		itemContainer.setTot(itemContainer.getTotalMonth());
+		itemContainer.setAvg(itemContainer.calculateAvg());
+		
+		// CONTAINER RZ_TW_SWS
+		itemRZ_TW_SWS.setTot(itemRZ_TW_SWS.getTotalMonth());
+		itemRZ_TW_SWS.setAvg(itemRZ_TW_SWS.calculateAvg());
 
 		// CONTAINER RZ_TW_SWS
-		itemRZ_TW_SWS.setTot(totalContainerRZ_TW_SWS);
-
-		// MEDIA MENSILE CONTAINER RZ_TW_SWS
-		if ((totalContainerRZ_TW_SWS != null) && (numberOfContainerRZ_TW_SWSNotNull != 0)) {
-			itemRZ_TW_SWS.setAvg(totalContainerRZ_TW_SWS / numberOfContainerRZ_TW_SWSNotNull);
-		} else {
-			itemRZ_TW_SWS.setAvg(0.0);
-		}
-
-		// CONTAINER RZ_TW_SWS
-		itemRZ_TW_MCT.setTot(totalContainerRZ_TW_MCT);
-
-		// MEDIA MENSILE CONTAINER RZ_TW_SWS
-		if ((totalContainerRZ_TW_MCT != null) && (numberOfContainerRZ_TW_MCTNotNull != 0)) {
-			itemRZ_TW_MCT.setAvg(totalContainerRZ_TW_MCT / numberOfContainerRZ_TW_MCTNotNull);
-		} else {
-			itemRZ_TW_MCT.setAvg(0.0);
-		}
+		itemRZ_TW_MCT.setTot(itemRZ_TW_MCT.getTotalMonth());
+		itemRZ_TW_MCT.setAvg(itemRZ_TW_MCT.calculateAvg());
 
 		if (this.terminalProductivityList != null) {
 			for (int i = 1; i <= 12; i++) {
@@ -3370,44 +3330,44 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					final Double productivity = this.terminalProductivityList.get(i).getProductivity();
 
 					switch (i) {
-					case 1:
-						itemProductivity.setGen(productivity);
-						break;
-					case 2:
-						itemProductivity.setFeb(productivity);
-						break;
-					case 3:
-						itemProductivity.setMar(productivity);
-						break;
-					case 4:
-						itemProductivity.setApr(productivity);
-						break;
-					case 5:
-						itemProductivity.setMay(productivity);
-						break;
-					case 6:
-						itemProductivity.setJun(productivity);
-						break;
-					case 7:
-						itemProductivity.setJul(productivity);
-						break;
-					case 8:
-						itemProductivity.setAug(productivity);
-						break;
-					case 9:
-						itemProductivity.setSep(productivity);
-						break;
-					case 10:
-						itemProductivity.setOct(productivity);
-						break;
-					case 11:
-						itemProductivity.setNov(productivity);
-						break;
-					case 12:
-						itemProductivity.setDec(productivity);
-						break;
-					default:
-						break;
+						case 1:
+							itemProductivity.setGen(productivity);
+							break;
+						case 2:
+							itemProductivity.setFeb(productivity);
+							break;
+						case 3:
+							itemProductivity.setMar(productivity);
+							break;
+						case 4:
+							itemProductivity.setApr(productivity);
+							break;
+						case 5:
+							itemProductivity.setMay(productivity);
+							break;
+						case 6:
+							itemProductivity.setJun(productivity);
+							break;
+						case 7:
+							itemProductivity.setJul(productivity);
+							break;
+						case 8:
+							itemProductivity.setAug(productivity);
+							break;
+						case 9:
+							itemProductivity.setSep(productivity);
+							break;
+						case 10:
+							itemProductivity.setOct(productivity);
+							break;
+						case 11:
+							itemProductivity.setNov(productivity);
+							break;
+						case 12:
+							itemProductivity.setDec(productivity);
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -3508,26 +3468,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		this.reportList.add(indexTotalHoursTask, itemTotalHoursTask);
 
-		// TOTALE MANI - MANI SU GIORNO - UOMINI SU MANI - CONTAINER SU UOMO -
-		// GIORNI DISAGIO VENTO
-		Double totalHands = 0.0;
-		Integer numberOfHandsNotNull = 0;
-
-		Integer totalWindyDay = 0;
-		Integer numberOfWindyDayNotNull = 0;
-
+		// MANI
 		for (final ShipTotal shipTotal : handMenList) {
-
-			if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
-				totalHands += shipTotal.getHandswork();
-				numberOfHandsNotNull++;
-			}
-
-			if ((shipTotal.getWindyday() != null) && !shipTotal.getWindyday().equals(0.0)) {
-				totalWindyDay += shipTotal.getWindyday();
-				numberOfWindyDayNotNull++;
-			}
-
+			
 			if (shipTotal.getMonthInvoice() == 1) {
 				itemHands.setGen(shipTotal.getHandswork());
 				if (shipTotal.getWindyday() != null) {
@@ -4049,11 +3992,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemTotalHoursTaskRZ_PP.setAvg(itemTotalHoursTaskRZ_PP.calculateAvg());
 		this.reportList.add(indexTotalHoursTask + 1, itemTotalHoursTaskRZ_PP);
 
-		itemHands.setTot(totalHands);
-		itemHands.setAvg(totalHands / numberOfHandsNotNull);
+		itemHands.setTot(itemHands.getTotalMonth());
+		itemHands.setAvg(itemHands.calculateAvg());
 
 		itemHandsOnDays.setTot(itemHandsOnDays.getTotalMonth());
-		itemHandsOnDays.setAvg(totalHands / 365);
+		itemHandsOnDays.setAvg(itemHands.getTotalMonth() / 365);// itemHands.getTotalMonth()
+																// IS NOT AN
+																// ERROR!!!!
 
 		itemMenOnHand.setTot(itemMenOnHand.getTotalMonth());
 		itemMenOnHand.setAvg(itemMenOnHand.calculateAvg());
@@ -4064,13 +4009,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemContainerOnHours.setTot(itemContainerOnHours.getTotalMonth());
 		itemContainerOnHours.setAvg(itemContainerOnHours.calculateAvg());
 
-		if (!numberOfWindyDayNotNull.equals(0)) {
-			itemWindyDay.setAvg((double) (totalWindyDay / numberOfWindyDayNotNull));
-		} else {
-			itemWindyDay.setAvg(0.0);
-		}
-		itemWindyDay.setTot((double) totalWindyDay);
-
+		itemWindyDay.setTot(itemWindyDay.getTotalMonth());
+		itemWindyDay.setAvg(itemWindyDay.calculateAvg());
+		
 		this.reportList.add(0, itemContainer);
 		this.reportList.add(1, itemRZ_TW_SWS);
 		this.reportList.add(2, itemRZ_TW_MCT);
@@ -4080,33 +4021,23 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.reportList.add(6, itemContainerOnMen);
 		this.reportList.add(7, itemContainerOnHours);
 		this.reportList.add(8, itemProductivity);
-
+		
 		// Mani consuntivate
-		Double totalHandsC = 0.0;
-		Integer numberOfHandsNotNullC = 0;
-
 		int indexRowHandsC = 9;
 
 		final List<Integer> handsC = new ArrayList<>();
 		for (int i = 1; i <= 12; i++) {
 			handsC.add(0);
 		}
-
+		
 		for (int i = 1; i <= 4; i++) {
 			// ONLY "LAVORAZIONE"
 			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, idServiceRZ, Boolean.FALSE);
-			totalHandsC = 0.0;
-			numberOfHandsNotNullC = 0;
-
+			
 			final ReportItem itemHandsC = new ReportItem();
 			itemHandsC.setArgument(ReportItemTag.HandsC_shift + i);
 
 			for (final ShipTotal shipTotal : list) {
-
-				if ((shipTotal.getHandswork() != null) && !shipTotal.getHandswork().equals(0.0)) {
-					totalHandsC += shipTotal.getHandswork();
-					numberOfHandsNotNullC++;
-				}
 
 				if (shipTotal.getMonthInvoice() == 1) {
 					itemHandsC.setGen(shipTotal.getHandswork());
@@ -4172,19 +4103,14 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			}
 
-			itemHandsC.setTot(totalHandsC);
-			if ((numberOfHandsNotNullC != 0) && (totalHandsC != null)) {
-				itemHandsC.setAvg(totalHandsC / numberOfHandsNotNullC);
-			} else {
-				itemHandsC.setAvg(null);
-			}
+			itemHandsC.setTot(itemHandsC.getTotalMonth());
+			itemHandsC.setAvg(itemHandsC.calculateAvg());
+
 			this.reportList.add(indexRowHandsC, itemHandsC);
 			indexRowHandsC++;
 		}
 
 		// Mani programmate
-		Double totalHandsP = 0.0;
-		Integer numberOfHandsNotNullP = 0;
 
 		int indexRowHandsP = 13;
 
@@ -4194,19 +4120,13 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		for (int i = 1; i <= 4; i++) {
+			// ONLY "LAVORAZIONE"
 			final List<ShipTotal> list = this.statisticDAO.getTotalHandsMen(year, i, idServiceRZ, Boolean.FALSE);
-			totalHandsP = 0.0;
-			numberOfHandsNotNullP = 0;
 
 			final ReportItem itemHandsP = new ReportItem();
 			itemHandsP.setArgument(ReportItemTag.HandsP_shift + i);
 
 			for (final ShipTotal shipTotal : list) {
-
-				if ((shipTotal.getHandswork_program() != null) && !shipTotal.getHandswork_program().equals(0.0)) {
-					totalHandsP += shipTotal.getHandswork_program();
-					numberOfHandsNotNullP++;
-				}
 
 				if (shipTotal.getMonthInvoice() == 1) {
 					itemHandsP.setGen(shipTotal.getHandswork_program());
@@ -4271,12 +4191,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
-			itemHandsP.setTot(totalHandsP);
-			if ((numberOfHandsNotNullP != 0) && (totalHandsP != null)) {
-				itemHandsP.setAvg(totalHandsP / numberOfHandsNotNullP);
-			} else {
-				itemHandsP.setAvg(null);
-			}
+			itemHandsP.setTot(itemHandsP.getTotalMonth());
+			itemHandsP.setAvg(itemHandsP.calculateAvg());
+			
 			this.reportList.add(indexRowHandsP, itemHandsP);
 			indexRowHandsP++;
 		}
@@ -4286,44 +4203,44 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsC_P.setArgument(ReportItemTag.HandsC_P);
 		for (int i = 1; i <= 12; i++) {
 			switch (i) {
-			case 1:
-				itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
-				break;
-			case 2:
-				itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
-				break;
-			case 3:
-				itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
-				break;
-			case 4:
-				itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
-				break;
-			case 5:
-				itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
-				break;
-			case 6:
-				itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
-				break;
-			case 7:
-				itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
-				break;
-			case 8:
-				itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
-				break;
-			case 9:
-				itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
-				break;
-			case 10:
-				itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
-				break;
-			case 11:
-				itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
-				break;
-			case 12:
-				itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
-				break;
-			default:
-				break;
+				case 1:
+					itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
+					break;
+				case 2:
+					itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
+					break;
+				case 3:
+					itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
+					break;
+				case 4:
+					itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
+					break;
+				case 5:
+					itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
+					break;
+				case 6:
+					itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
+					break;
+				case 7:
+					itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
+					break;
+				case 8:
+					itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
+					break;
+				case 9:
+					itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
+					break;
+				case 10:
+					itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
+					break;
+				case 11:
+					itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
+					break;
+				case 12:
+					itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -4335,8 +4252,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// RECLAMI CLIENTI
 		final List<Customer> customerList = this.customerDAO.selectEnabledCustomer();
 		indexRowHandsP++;
-		Integer totalComplaint = 0;
-		Integer complainNotNull = 0;
 
 		this.customerComplaint = new HashMap<>();
 
@@ -4352,97 +4267,80 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				if ((complaintList.get(1) != null) && !complaintList.get(1).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setGen((double) complaintList.get(1).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getGen());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setGen(null);
 				}
 				if ((complaintList.get(2) != null) && !complaintList.get(2).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setFeb((double) complaintList.get(2).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getFeb());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setFeb(null);
 				}
 				if ((complaintList.get(3) != null) && !complaintList.get(3).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setMar((double) complaintList.get(3).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getMar());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setMar(null);
 				}
 				if ((complaintList.get(4) != null) && !complaintList.get(4).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setApr((double) complaintList.get(4).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getApr());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setApr(null);
 				}
 				if ((complaintList.get(5) != null) && !complaintList.get(5).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setMay((double) complaintList.get(5).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getMay());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setMay(null);
 				}
 				if ((complaintList.get(6) != null) && !complaintList.get(6).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setJun((double) complaintList.get(6).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getJun());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setJun(null);
 				}
 				if ((complaintList.get(7) != null) && !complaintList.get(7).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setJul((double) complaintList.get(7).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getJul());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setJul(null);
 				}
 				if ((complaintList.get(8) != null) && !complaintList.get(8).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setAug((double) complaintList.get(8).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getAug());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setAug(null);
 				}
 				if ((complaintList.get(9) != null) && !complaintList.get(9).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setSep((double) complaintList.get(9).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getSep());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setSep(null);
 				}
 				if ((complaintList.get(10) != null) && !complaintList.get(10).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setOct((double) complaintList.get(10).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getOct());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setOct(null);
 				}
 				if ((complaintList.get(11) != null) && !complaintList.get(11).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setNov((double) complaintList.get(11).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getNov());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setNov(null);
 				}
 				if ((complaintList.get(12) != null) && !complaintList.get(12).getNumberofcomplaint().equals(0)) {
 					itemComplaint.setDec((double) complaintList.get(12).getNumberofcomplaint());
-					totalComplaint = (int) (totalComplaint + itemComplaint.getDec());
-					complainNotNull++;
+
 				} else {
 					itemComplaint.setDec(null);
 				}
 
-				itemComplaint.setTot((double) totalComplaint);
-				itemComplaint.setAvg(0.0);
-				if (!complainNotNull.equals(0)) {
-					itemComplaint.setAvg((double) totalComplaint / complainNotNull);
-				}
-				totalComplaint = 0;
-				complainNotNull = 0;
-
+				itemComplaint.setTot(itemComplaint.getTotalMonth());
+				itemComplaint.setAvg(itemComplaint.calculateAvg());
+				
 				this.customerComplaint.put(customer.getId(), new HashMap<>(complaintList));
 
 				this.reportList.add(indexRowHandsP, itemComplaint);
