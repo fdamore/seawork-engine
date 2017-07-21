@@ -4352,15 +4352,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// NUMERO NAVI
 		final List<ShipTotal> shipNumberTW = this.statistic_dao.getShipNumber("TW", year, this.getInvoce());
-		Integer totalShipNumber = 0;
-		Integer totalShipNumberNotNull = 0;
+		
 		if ((shipNumberTW != null) && (shipNumberTW.size() != 0)) {
 			for (final ShipTotal shipTotal : shipNumberTW) {
 				if (shipTotal != null) {
-					if ((shipTotal.getShipnumber() != null) && !shipTotal.getShipnumber().equals(0)) {
-						totalShipNumber = totalShipNumber + shipTotal.getShipnumber();
-						totalShipNumberNotNull++;
-					}
+					
 					if (shipTotal.getMonthInvoice().equals(1)) {
 						itemShipNumberTW.setGen((double) shipTotal.getShipnumber());
 					} else if (shipTotal.getMonthInvoice().equals(2)) {
@@ -4389,25 +4385,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 		}
-		itemShipNumberTW.setAvg(0.0);
-		itemShipNumberTW.setTot((double) totalShipNumber);
-		if (!totalShipNumberNotNull.equals(0)) {
-			itemShipNumberTW.setAvg((double) (totalShipNumber / totalShipNumberNotNull));
-		}
-
+		itemShipNumberTW.setTot(itemShipNumberTW.getTotalMonth());
+		itemShipNumberTW.setAvg(itemShipNumberTW.calculateAvg());
+		
 		indexRowHandsP++;
 		this.reportList.add(indexRowHandsP, itemShipNumberTW);
 
 		final List<ShipTotal> shipNumberComplete = this.statistic_dao.getShipNumber("COM", year, this.getInvoce());
-		totalShipNumber = 0;
-		totalShipNumberNotNull = 0;
+		
 		if ((shipNumberComplete != null) && (shipNumberComplete.size() != 0)) {
 			for (final ShipTotal shipTotal : shipNumberComplete) {
 				if (shipTotal != null) {
-					if ((shipTotal.getShipnumber() != null) && !shipTotal.getShipnumber().equals(0)) {
-						totalShipNumber = totalShipNumber + shipTotal.getShipnumber();
-						totalShipNumberNotNull++;
-					}
+					
 					if (shipTotal.getMonthInvoice().equals(1)) {
 						itemShipNumberCM.setGen((double) shipTotal.getShipnumber());
 					} else if (shipTotal.getMonthInvoice().equals(2)) {
@@ -4436,12 +4425,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 		}
-		itemShipNumberCM.setAvg(0.0);
-		itemShipNumberCM.setTot((double) totalShipNumber);
-		if (!totalShipNumberNotNull.equals(0)) {
-			itemShipNumberCM.setAvg((double) (totalShipNumber / totalShipNumberNotNull));
-		}
-
+		itemShipNumberCM.setAvg(itemShipNumberCM.calculateAvg());
+		itemShipNumberCM.setTot(itemShipNumberCM.getTotalMonth());
+		
 		indexRowHandsP++;
 		this.reportList.add(indexRowHandsP, itemShipNumberCM);
 		int i = 0;
@@ -4452,176 +4438,131 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		int indexTotalServiceTimeWorkRow = indexRowHandsP + 1;
 		final List<Service> services = this.configurationDao.selectService(null, null, null);
 
-		if ((services != null) && (services.size() != 0)) {
-			for (final Service service : services) {
-				final List<ShipTotal> listServiceTotal = this.statisticDAO.getTotalContainer(year, service.getId(), this.getInvoce());
-				final ReportItem itemServiceVolume = new ReportItem();
-				itemServiceVolume.setArgument(ReportItemTag.Service_Container + service.getName());
-				itemServiceVolume.setIsService(i);
-				double totalVolume = 0.0;
-				int volumeNotNull = 0;
-				final ReportItem itemServiceTimeWork = new ReportItem();
-				itemServiceTimeWork.setArgument(ReportItemTag.Service_TimeWork + service.getName());
-				itemServiceTimeWork.setIsService(i);
-				double totalTimeWork = 0.0;
-				int timeWorkNotNull = 0;
-				final ReportItem itemServiceCount = new ReportItem();
-				itemServiceCount.setArgument(ReportItemTag.Service_NumberOfService + service.getName());
-				itemServiceCount.setIsService(i);
-				double totalNumberOfService = 0.0;
-				int numberOfServiceWorkNotNull = 0;
-				final ReportItem itemServiceNumberOfMan = new ReportItem();
-				itemServiceNumberOfMan.setArgument(ReportItemTag.Service_NumberOfMan + service.getName());
-				itemServiceNumberOfMan.setIsService(i);
-				double totalNumberOfMan = 0.0;
-				int numberOfManNotNull = 0;
-				final ReportItem itemServiceHoursMan = new ReportItem();
-				itemServiceHoursMan.setArgument(ReportItemTag.Service_HoursMan + service.getName());
-				itemServiceHoursMan.setIsService(i);
+		for (final Service service : services) {
 
-				if ((listServiceTotal == null) || (listServiceTotal.size() == 0)) {
-					continue;
-				}
+			final List<ShipTotal> listServiceTotal = this.statisticDAO.getTotalContainer(year, service.getId(), this.getInvoce());
 
-				for (final ShipTotal shipTotal : listServiceTotal) {
-
-					if ((shipTotal.getContainerInvoice() != null) && !shipTotal.getContainerInvoice().equals(0)) {
-						totalVolume = totalVolume + shipTotal.getContainerInvoice();
-						volumeNotNull++;
-					}
-					if ((shipTotal.getTimework() != null) && !shipTotal.getTimework().equals(0)) {
-						totalTimeWork = totalTimeWork + shipTotal.getTimework();
-						timeWorkNotNull++;
-					}
-					if ((shipTotal.getCountService() != null) && !shipTotal.getCountService().equals(0)) {
-						totalNumberOfService = totalNumberOfService + shipTotal.getCountService();
-						numberOfServiceWorkNotNull++;
-					}
-					if ((shipTotal.getMenwork() != null) && !shipTotal.getMenwork().equals(0)) {
-						totalNumberOfMan = totalNumberOfMan + shipTotal.getMenwork();
-						numberOfManNotNull++;
-					}
-
-					if (shipTotal.getMonthInvoice().equals(1)) {
-						itemServiceVolume.setGen(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setGen(shipTotal.getTimework());
-						totalServiceTimeWork.setGen(Utility.sum_double(totalServiceTimeWork.getGen(), itemServiceTimeWork.getGen()));
-						itemServiceCount.setGen((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setGen(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(2)) {
-						itemServiceVolume.setFeb(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setFeb(shipTotal.getTimework());
-						totalServiceTimeWork.setFeb(Utility.sum_double(totalServiceTimeWork.getFeb(), itemServiceTimeWork.getFeb()));
-						itemServiceCount.setFeb((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setFeb(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(3)) {
-						itemServiceVolume.setMar(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setMar(shipTotal.getTimework());
-						totalServiceTimeWork.setMar(Utility.sum_double(totalServiceTimeWork.getMar(), itemServiceTimeWork.getMar()));
-						itemServiceCount.setMar((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setMar(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(4)) {
-						itemServiceVolume.setApr(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setApr(shipTotal.getTimework());
-						totalServiceTimeWork.setApr(Utility.sum_double(totalServiceTimeWork.getApr(), itemServiceTimeWork.getApr()));
-						itemServiceCount.setApr((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setApr(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(5)) {
-						itemServiceVolume.setMay(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setMay(shipTotal.getTimework());
-						totalServiceTimeWork.setMay(Utility.sum_double(totalServiceTimeWork.getMay(), itemServiceTimeWork.getMay()));
-						itemServiceCount.setMay((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setMay(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(6)) {
-						itemServiceVolume.setJun(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setJun(shipTotal.getTimework());
-						totalServiceTimeWork.setJun(Utility.sum_double(totalServiceTimeWork.getJun(), itemServiceTimeWork.getJun()));
-						itemServiceCount.setJun((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setJun(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(7)) {
-						itemServiceVolume.setJul(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setJul(shipTotal.getTimework());
-						totalServiceTimeWork.setJul(Utility.sum_double(totalServiceTimeWork.getJul(), itemServiceTimeWork.getJul()));
-						itemServiceCount.setJul((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setJul(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(8)) {
-						itemServiceVolume.setAug(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setAug(shipTotal.getTimework());
-						totalServiceTimeWork.setAug(Utility.sum_double(totalServiceTimeWork.getAug(), itemServiceTimeWork.getAug()));
-						itemServiceCount.setAug((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setAug(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(9)) {
-						itemServiceVolume.setSep(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setSep(shipTotal.getTimework());
-						totalServiceTimeWork.setSep(Utility.sum_double(totalServiceTimeWork.getSep(), itemServiceTimeWork.getSep()));
-						itemServiceCount.setSep((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setSep(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(10)) {
-						itemServiceVolume.setOct(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setOct(shipTotal.getTimework());
-						totalServiceTimeWork.setOct(Utility.sum_double(totalServiceTimeWork.getOct(), itemServiceTimeWork.getOct()));
-						itemServiceCount.setOct((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setOct(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(11)) {
-						itemServiceVolume.setNov(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setNov(shipTotal.getTimework());
-						totalServiceTimeWork.setNov(Utility.sum_double(totalServiceTimeWork.getNov(), itemServiceTimeWork.getNov()));
-						itemServiceCount.setNov((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setNov(shipTotal.getMenwork());
-					} else if (shipTotal.getMonthInvoice().equals(12)) {
-						itemServiceVolume.setDec(shipTotal.getContainerInvoice());
-						itemServiceTimeWork.setDec(shipTotal.getTimework());
-						totalServiceTimeWork.setDec(Utility.sum_double(totalServiceTimeWork.getDec(), itemServiceTimeWork.getDec()));
-						itemServiceCount.setDec((double) shipTotal.getCountService());
-						itemServiceNumberOfMan.setDec(shipTotal.getMenwork());
-					}
-				}
-				if (volumeNotNull != 0) {
-					itemServiceVolume.setAvg(totalVolume / volumeNotNull);
-				} else {
-					itemServiceVolume.setAvg(0.0);
-				}
-				itemServiceVolume.setTot(totalVolume);
-				totalVolume = 0;
-				volumeNotNull = 0;
-
-				if (timeWorkNotNull != 0) {
-					itemServiceTimeWork.setAvg(totalTimeWork / timeWorkNotNull);
-				} else {
-					itemServiceTimeWork.setAvg(0.0);
-				}
-				itemServiceTimeWork.setTot(totalTimeWork);
-				totalTimeWork = 0;
-				timeWorkNotNull = 0;
-
-				if (numberOfServiceWorkNotNull != 0) {
-					itemServiceCount.setAvg(totalNumberOfService / numberOfServiceWorkNotNull);
-				} else {
-					itemServiceCount.setAvg(0.0);
-				}
-				itemServiceCount.setTot(totalNumberOfService);
-				totalNumberOfService = 0;
-				numberOfServiceWorkNotNull = 0;
-
-				if (numberOfManNotNull != 0) {
-					itemServiceNumberOfMan.setAvg(totalNumberOfMan / numberOfManNotNull);
-				} else {
-					itemServiceNumberOfMan.setAvg(0.0);
-				}
-				itemServiceNumberOfMan.setTot(totalNumberOfMan);
-				totalNumberOfMan = 0;
-				numberOfManNotNull = 0;
-
-				indexRowHandsP++;
-				this.reportList.add(indexRowHandsP, itemServiceVolume);
-				indexRowHandsP++;
-				this.reportList.add(indexRowHandsP, itemServiceTimeWork);
-				indexRowHandsP++;
-				this.reportList.add(indexRowHandsP, itemServiceCount);
-				indexRowHandsP++;
-				this.reportList.add(indexRowHandsP, itemServiceNumberOfMan);
-				i++;
+			if ((listServiceTotal == null) || (listServiceTotal.size() == 0)) {
+				continue;
 			}
+
+			final ReportItem itemServiceVolume = new ReportItem();
+			itemServiceVolume.setArgument(ReportItemTag.Service_Container + service.getName());
+			itemServiceVolume.setIsService(i);
+
+			final ReportItem itemServiceTimeWork = new ReportItem();
+			itemServiceTimeWork.setArgument(ReportItemTag.Service_TimeWork + service.getName());
+			itemServiceTimeWork.setIsService(i);
+
+			final ReportItem itemServiceCount = new ReportItem();
+			itemServiceCount.setArgument(ReportItemTag.Service_NumberOfService + service.getName());
+			itemServiceCount.setIsService(i);
+
+			final ReportItem itemServiceNumberOfMan = new ReportItem();
+			itemServiceNumberOfMan.setArgument(ReportItemTag.Service_NumberOfMan + service.getName());
+			itemServiceNumberOfMan.setIsService(i);
+
+			final ReportItem itemServiceHoursMan = new ReportItem();
+			itemServiceHoursMan.setArgument(ReportItemTag.Service_HoursMan + service.getName());
+			itemServiceHoursMan.setIsService(i);
+			
+			for (final ShipTotal shipTotal : listServiceTotal) {
+				
+				if (shipTotal.getMonthInvoice().equals(1)) {
+					itemServiceVolume.setGen(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setGen(shipTotal.getTimework());
+					totalServiceTimeWork.setGen(Utility.sum_double(totalServiceTimeWork.getGen(), itemServiceTimeWork.getGen()));
+					itemServiceCount.setGen((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setGen(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(2)) {
+					itemServiceVolume.setFeb(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setFeb(shipTotal.getTimework());
+					totalServiceTimeWork.setFeb(Utility.sum_double(totalServiceTimeWork.getFeb(), itemServiceTimeWork.getFeb()));
+					itemServiceCount.setFeb((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setFeb(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(3)) {
+					itemServiceVolume.setMar(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setMar(shipTotal.getTimework());
+					totalServiceTimeWork.setMar(Utility.sum_double(totalServiceTimeWork.getMar(), itemServiceTimeWork.getMar()));
+					itemServiceCount.setMar((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setMar(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(4)) {
+					itemServiceVolume.setApr(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setApr(shipTotal.getTimework());
+					totalServiceTimeWork.setApr(Utility.sum_double(totalServiceTimeWork.getApr(), itemServiceTimeWork.getApr()));
+					itemServiceCount.setApr((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setApr(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(5)) {
+					itemServiceVolume.setMay(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setMay(shipTotal.getTimework());
+					totalServiceTimeWork.setMay(Utility.sum_double(totalServiceTimeWork.getMay(), itemServiceTimeWork.getMay()));
+					itemServiceCount.setMay((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setMay(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(6)) {
+					itemServiceVolume.setJun(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setJun(shipTotal.getTimework());
+					totalServiceTimeWork.setJun(Utility.sum_double(totalServiceTimeWork.getJun(), itemServiceTimeWork.getJun()));
+					itemServiceCount.setJun((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setJun(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(7)) {
+					itemServiceVolume.setJul(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setJul(shipTotal.getTimework());
+					totalServiceTimeWork.setJul(Utility.sum_double(totalServiceTimeWork.getJul(), itemServiceTimeWork.getJul()));
+					itemServiceCount.setJul((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setJul(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(8)) {
+					itemServiceVolume.setAug(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setAug(shipTotal.getTimework());
+					totalServiceTimeWork.setAug(Utility.sum_double(totalServiceTimeWork.getAug(), itemServiceTimeWork.getAug()));
+					itemServiceCount.setAug((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setAug(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(9)) {
+					itemServiceVolume.setSep(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setSep(shipTotal.getTimework());
+					totalServiceTimeWork.setSep(Utility.sum_double(totalServiceTimeWork.getSep(), itemServiceTimeWork.getSep()));
+					itemServiceCount.setSep((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setSep(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(10)) {
+					itemServiceVolume.setOct(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setOct(shipTotal.getTimework());
+					totalServiceTimeWork.setOct(Utility.sum_double(totalServiceTimeWork.getOct(), itemServiceTimeWork.getOct()));
+					itemServiceCount.setOct((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setOct(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(11)) {
+					itemServiceVolume.setNov(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setNov(shipTotal.getTimework());
+					totalServiceTimeWork.setNov(Utility.sum_double(totalServiceTimeWork.getNov(), itemServiceTimeWork.getNov()));
+					itemServiceCount.setNov((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setNov(shipTotal.getMenwork());
+				} else if (shipTotal.getMonthInvoice().equals(12)) {
+					itemServiceVolume.setDec(shipTotal.getContainerInvoice());
+					itemServiceTimeWork.setDec(shipTotal.getTimework());
+					totalServiceTimeWork.setDec(Utility.sum_double(totalServiceTimeWork.getDec(), itemServiceTimeWork.getDec()));
+					itemServiceCount.setDec((double) shipTotal.getCountService());
+					itemServiceNumberOfMan.setDec(shipTotal.getMenwork());
+				}
+			}
+			itemServiceVolume.setTot(itemServiceVolume.getTotalMonth());
+			itemServiceVolume.setAvg(itemServiceVolume.calculateAvg());
+			
+			itemServiceTimeWork.setAvg(itemServiceTimeWork.calculateAvg());
+			itemServiceTimeWork.setTot(itemServiceTimeWork.getTotalMonth());
+			
+			itemServiceCount.setAvg(itemServiceCount.calculateAvg());
+			itemServiceCount.setTot(itemServiceCount.getTotalMonth());
+			
+			itemServiceNumberOfMan.setAvg(itemServiceNumberOfMan.calculateAvg());
+			itemServiceNumberOfMan.setTot(itemServiceNumberOfMan.getTotalMonth());
+			
+			indexRowHandsP++;
+			this.reportList.add(indexRowHandsP, itemServiceVolume);
+			indexRowHandsP++;
+			this.reportList.add(indexRowHandsP, itemServiceTimeWork);
+			indexRowHandsP++;
+			this.reportList.add(indexRowHandsP, itemServiceCount);
+			indexRowHandsP++;
+			this.reportList.add(indexRowHandsP, itemServiceNumberOfMan);
+			i++;
 		}
 
 		totalServiceTimeWork.setAvg(totalServiceTimeWork.calculateAvg());
