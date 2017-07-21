@@ -2,6 +2,8 @@ package org.uario.seaworkengine.statistics;
 
 import java.io.Serializable;
 
+import org.uario.seaworkengine.utility.Utility;
+
 public class ShipTotal implements Serializable {
 
 	/**
@@ -19,24 +21,30 @@ public class ShipTotal implements Serializable {
 	private Integer				idService;
 	private Integer				invoice_month;
 
-	private Double				menwork;
+	private Double				menwork_h;
+
+	private Double				menwork_nh;
+	
 	private Integer				month_date;
+
 	private Integer				monthInvoice;
 
 	private Integer				numberofcomplaint;
+
 	private Integer				shift_month;
+
 	private Integer				shipnumber;
 	private String				task_code;
 
 	private Double				task_hour;
 	private Integer				task_id;
 	private Double				timework;
-
 	private Integer				totalProgramHands;
-	private Integer				totalProgramMen;
 
+	private Integer				totalProgramMen;
 	private Integer				totalReviewHands;
 	private Integer				totalReviewMen;
+
 	private Integer				windyday;
 
 	public Double getContainerInvoice() {
@@ -72,7 +80,15 @@ public class ShipTotal implements Serializable {
 	}
 
 	public Double getMenwork() {
-		return this.menwork;
+		return Utility.sum_double(this.menwork_h, this.menwork_nh);
+	}
+
+	public Double getMenwork_h() {
+		return this.menwork_h;
+	}
+
+	public Double getMenwork_nh() {
+		return this.menwork_nh;
 	}
 
 	public Integer getMonth_date() {
@@ -162,9 +178,13 @@ public class ShipTotal implements Serializable {
 	public void setInvoice_month(final Integer invoice_month) {
 		this.invoice_month = invoice_month;
 	}
+	
+	public void setMenwork_h(Double menwork_h) {
+		this.menwork_h = menwork_h;
+	}
 
-	public void setMenwork(final Double menwork) {
-		this.menwork = menwork;
+	public void setMenwork_nh(Double menwork_nh) {
+		this.menwork_nh = menwork_nh;
 	}
 
 	public void setMonth_date(final Integer month_date) {
