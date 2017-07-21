@@ -1951,6 +1951,15 @@
 										</combobox>
 
 									</row>
+									
+									<row>
+										<label value="Persone Gru:"></label>
+
+										<intbox
+												id="p_gru" constraint="no negative" />
+
+									</row>								
+									
 								</rows>
 							</grid>
 							<grid sclass="domain" id="volumeGrid">
@@ -2055,6 +2064,8 @@
 								sort="auto(invoicing_cycle)" />
 
 							<listheader label="GRU" sort="auto(crane)" />
+							
+							<listheader label="P. GRU"  />
 
 							<listheader label="VOLUMI"
 								sort="auto(volumeLessFranchise)" id="volumeColum" />
@@ -2099,6 +2110,9 @@
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
+								
+								<listcell sclass="myBottonCell"
+								label="@{detailfinalscheduleship_item.p_crane}" />
 
 							<listcell sclass="myBottonCell"
 								label="@{detailfinalscheduleship_item.volumeLessFranchise}" />

@@ -20,11 +20,12 @@ public class DetailFinalScheduleShip implements Serializable {
 	private Date				activity_start;
 
 	private Integer				crane;
-
+	
 	private Boolean				crane_gtw;
 
 	@XmlTransient
 	private Date				datetime;
+
 	@XmlTransient
 	private Double				franchise_timework;
 	@XmlTransient
@@ -33,7 +34,6 @@ public class DetailFinalScheduleShip implements Serializable {
 	private Double				franchise_volume_tw_mct;
 	@XmlTransient
 	private Double				franchise_volumeunderboard;
-
 	@XmlTransient
 	private Double				franchise_volumeunderboard_sws;
 
@@ -51,14 +51,16 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	private String				notedetail;
 
+	private Integer				p_crane;
+
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
 	private String				rif_mct;
-
+	
 	// using only for view, rif_mct in table scheduleship
 	@XmlTransient
 	private Integer				rif_sws;
-
+	
 	private Double				timework;
 
 	private Integer				volume;
@@ -140,6 +142,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public String getNotedetail() {
 		return this.notedetail;
+	}
+
+	public Integer getP_crane() {
+		return this.p_crane;
 	}
 
 	public String getRif_mct() {
@@ -272,6 +278,10 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setNotedetail(final String notedetail) {
 		this.notedetail = notedetail;
+	}
+
+	public void setP_crane(Integer p_crane) {
+		this.p_crane = p_crane;
 	}
 
 	public void setRif_mct(final String rif_mct) {

@@ -798,7 +798,7 @@ WHERE
 		id_crane,franchise_volume,
 		franchise_volumeunderboard,
 		franchise_volumeunderboard_sws, franchise_volume_tw_mct,
-		franchise_timework)
+		franchise_timework, p_crane)
 		VALUES
 		(#{crane_gtw},
 		#{volume}, #{timework},
@@ -809,7 +809,7 @@ WHERE
 		#{id_crane},#{franchise_volume},
 		#{franchise_volumeunderboard},
 		#{franchise_volumeunderboard_sws}, #{franchise_volume_tw_mct},
-		#{franchise_timework});
+		#{franchise_timework},#{p_crane});
 	</insert>
 
 	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
@@ -831,7 +831,7 @@ WHERE
 		df.franchise_volumeunderboard,
 		df.franchise_volumeunderboard_sws,
 		df.franchise_volume_tw_mct,
-		df.franchise_timework
+		df.franchise_timework, p_crane
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship
@@ -877,7 +877,8 @@ WHERE
 		#{franchise_volumeunderboard_sws},
 		franchise_volume_tw_mct =
 		#{franchise_volume_tw_mct},
-		franchise_timework = #{franchise_timework}
+		franchise_timework = #{franchise_timework},
+		p_crane = #{p_crane}
 		WHERE id = #{id};
 	</update>
 
@@ -899,7 +900,7 @@ WHERE
 		df.franchise_volumeunderboard,
 		df.franchise_volumeunderboard_sws,
 		df.franchise_volume_tw_mct,
-		df.franchise_timework
+		df.franchise_timework, p_crane
 		FROM
 		detailfinalscheduleship df,
 		detailscheduleship d,

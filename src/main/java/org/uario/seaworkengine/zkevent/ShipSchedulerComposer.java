@@ -464,6 +464,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Tab												overviewBapAggregate;
 
 	@Wire
+	private Intbox											p_gru;
+
+	@Wire
 	private Panel											panel_detail_program;
 
 	@Wire
@@ -581,9 +584,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox											searchDateShift;
-
 	@Wire
 	private A												selecetedShipName;
+
 	@Wire
 	private Combobox										select_customer;
 
@@ -592,7 +595,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Combobox											select_shift;
-
 	@Wire
 	private Combobox										select_type_operation;
 	@Wire
@@ -603,6 +605,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Combobox											select_year_detail;
 	@Wire
 	private Combobox										selectCustomer;
+
 	@Wire
 	private Combobox										selectServiceDetail;
 
@@ -753,9 +756,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											sw_list_reviewWorkAggregate;
-
 	@Wire
 	private Listbox											sw_list_scheduleDetailShip;
+
 	@Wire
 	private Listbox											sw_list_scheduleShip;
 
@@ -962,6 +965,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		detailFinalScheduleShip.setId_crane(crn_val);
+		detailFinalScheduleShip.setP_crane(this.p_gru.getValue());
 
 		detailFinalScheduleShip.setVolume(this.volume_review.getValue());
 		detailFinalScheduleShip.setVolume_tw_mct(this.volumeunde_tw_mct_review.getValue());
@@ -2039,6 +2043,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.idCrane_review.setSelectedItem(null);
 
 		this.volume_review.setValue(0);
+		this.p_gru.setValue(null);
 		this.volumeunderboard_review.setValue(0);
 		this.volumeunderboard_sws_review.setValue(0);
 		this.volumeunde_tw_mct_review.setValue(0);
@@ -2090,7 +2095,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 	}
-
+	
 	private void mainSchedulerView(final String version) {
 		if (ShipSchedulerComposer.this.person_logged.isViewerOnly()) {
 			// set initial item if user is a viewer only user
@@ -2180,6 +2185,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		detailFinal.setId_crane(crn_val);
+		detailFinal.setP_crane(this.p_gru.getValue());
 
 		detailFinal.setCrane_gtw(this.crane_gtw_review.isChecked());
 		detailFinal.setVolume(this.volume_review.getValue());
@@ -2272,6 +2278,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 		}
+
+		this.p_gru.setValue(detailFinal.getP_crane());
 
 		this.crane_gtw_review.setChecked(detailFinal.getCrane_gtw());
 		this.volume_review.setValue(detailFinal.getVolume());
