@@ -447,11 +447,11 @@ public class Utility {
 	public static Double sum_double(final Double d1, final Double d2) {
 
 		if (d1 == null) {
-			return d1;
+			return d2;
 		}
 
 		if (d2 == null) {
-			return d2;
+			return d1;
 		}
 
 		return d1 + d2;
