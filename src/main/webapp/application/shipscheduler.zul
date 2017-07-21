@@ -1927,7 +1927,7 @@
 
 									<row id="menwork_activityhRow">
 										<label
-											value="Persone consuntivate:" />
+											value="Persone consuntivate su servizio orario:" />
 										<intbox id="menwork_activityh"
 											constraint="no negative" />
 									</row>
