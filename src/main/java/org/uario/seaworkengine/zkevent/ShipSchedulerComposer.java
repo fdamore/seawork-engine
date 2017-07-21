@@ -2341,8 +2341,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.reviewedTime.setVisible(true);
 			this.menwork_activityhRow.setVisible(true);
-			// define for activity H (ALL A) REQUIRED BY CUSTMOER
-			// this.menwork.setVisible(false);
+			this.menwork.setVisible(false);
 
 		}
 
@@ -5395,8 +5394,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			this.reviewedTime.setVisible(true);
 			this.menwork_activityhRow.setVisible(true);
-			// REQUIRED BY CUSTOMERdefine work on ACTIVITY H . ALL A
-			// this.menwork.setVisible(false);
+			this.menwork.setVisible(false);
 		}
 
 		// set ship name and alert
