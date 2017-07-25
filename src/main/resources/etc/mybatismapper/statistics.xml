@@ -920,16 +920,60 @@ ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
 
 
 	<!-- REPORT SHIP WORK -->
-
+	
 	<!-- CONTAINER -->
-	<select id="getTotalInvoiceContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="volumeContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="map">
+<![CDATA[	
+SELECT 
+    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,    
+    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,    
+    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT, 
+    dfs.invoicing_cycle AS monthInvoice
+FROM
+    detailfinalscheduleship dfs,
+    detailscheduleship dis,
+    scheduleship s
+WHERE
+    dfs.invoicing_cycle IS NOT NULL
+        AND dfs.iddetailscheduleship = dis.id
+        AND s.id = dis.idscheduleship
+        AND YEAR(dis.shiftdate) = #{year}
+        AND s.id_service = #{idService}
+GROUP BY monthInvoice;
+]]>
+	</select>
+
+	<select id="volumeContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="map">
+<![CDATA[	
+SELECT 
+    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
+    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
+    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
+    MONTH(dis.shiftdate) AS monthInvoice
+FROM
+    detailfinalscheduleship dfs,
+    detailscheduleship dis,
+    scheduleship s
+WHERE
+    dfs.iddetailscheduleship = dis.id
+        AND YEAR(dis.shiftdate) = #{year}
+        AND s.id = dis.idscheduleship
+        AND s.id_service = #{idService}
+GROUP BY monthInvoice;
+]]>
+
+	</select>	
+
+	<!-- TOTAL -->
+	<select id="getTotalContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
     SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
     SUM(dfs.timework - dfs.franchise_timework) AS timework,
     SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
-    COUNT(s.id) AS countService,
     SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
     SUM(dfs.menwork_activityh) as menwork_h,
     SUM(dis.menwork) as menwork_nh,
@@ -948,14 +992,13 @@ GROUP BY monthInvoice;
 ]]>
 	</select>
 
-	<select id="getTotalInvoiceContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
     SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
     SUM(dfs.timework - dfs.franchise_timework) AS timework,
     SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
-    COUNT(s.id) AS countService,
     SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
     SUM(dfs.menwork_activityh) as menwork_h,
     SUM(dis.menwork) as menwork_nh,
@@ -973,6 +1016,48 @@ GROUP BY monthInvoice;
 ]]>
 
 	</select>
+	
+	
+		<!-- COUNT SERVICE -->
+	<select id="getTotalServiceByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="map">
+<![CDATA[	
+SELECT 
+    COUNT(DISTINCT s.id) AS countService,
+    dfs.invoicing_cycle AS monthInvoice
+FROM
+    detailfinalscheduleship dfs,
+    detailscheduleship dis,
+    scheduleship s
+WHERE
+    dfs.invoicing_cycle IS NOT NULL
+        AND dfs.iddetailscheduleship = dis.id
+        AND s.id = dis.idscheduleship
+        AND YEAR(dis.shiftdate) = #{year}
+        AND s.id_service = #{idService}
+GROUP BY monthInvoice;
+]]>
+	</select>
+
+<select id="getTotalServiceByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+		parameterType="map">
+<![CDATA[	
+SELECT 
+    COUNT(s.id) AS countService,
+    MONTH(dis.shiftdate) AS monthInvoice
+FROM
+    detailscheduleship dis,
+    scheduleship s
+WHERE
+    YEAR(dis.shiftdate) = #{year}
+        AND s.id = dis.idscheduleship
+        AND s.id_service = #{idService}
+GROUP BY monthInvoice;
+]]>
+
+	</select>
+	
+	
 
 	<!-- HAND - MEN -->
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"

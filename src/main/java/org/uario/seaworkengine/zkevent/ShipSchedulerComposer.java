@@ -1466,73 +1466,73 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		switch (shift_no.intValue()) {
 
-		case 1: {
+			case 1: {
 
-			// prepare period
-			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+				// prepare period
+				final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_1_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_1_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_1_time_from.getTime());
-			ship_to.setValue(cal_shift_1_time_to.getTime());
+				ship_from.setValue(cal_shift_1_time_from.getTime());
+				ship_to.setValue(cal_shift_1_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 2: {
+			case 2: {
 
-			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_2_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_2_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_2_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_2_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_2_time_from.getTime());
-			ship_to.setValue(cal_shift_2_time_to.getTime());
+				ship_from.setValue(cal_shift_2_time_from.getTime());
+				ship_to.setValue(cal_shift_2_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 3: {
+			case 3: {
 
-			final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_3_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_3_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_3_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_3_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_3_time_from.getTime());
-			ship_to.setValue(cal_shift_3_time_to.getTime());
+				ship_from.setValue(cal_shift_3_time_from.getTime());
+				ship_to.setValue(cal_shift_3_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 4: {
+			case 4: {
 
-			final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_4_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_4_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
+				final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
 
-			cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_4_time_to.set(Calendar.MINUTE, 0);
+				cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_4_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_4_time_from.getTime());
-			ship_to.setValue(cal_shift_4_time_to.getTime());
+				ship_from.setValue(cal_shift_4_time_from.getTime());
+				ship_to.setValue(cal_shift_4_time_to.getTime());
 
-			check_last_shift.setVisible(true);
-			check_last_shift.setChecked(true);
-			break;
-		}
+				check_last_shift.setVisible(true);
+				check_last_shift.setChecked(true);
+				break;
+			}
 
 		}
 
@@ -3238,7 +3238,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final List<ShipTotal> handMenList = this.statisticDAO.getTotalHandsMen(year, null, idServiceRZ, this.getInvoce());
-		final List<ShipTotal> containerList = this.statisticDAO.getTotalContainer(year, idServiceRZ, this.getInvoce());
+		final List<ShipTotal> containerList = this.statisticDAO.getTotalVolume(year, idServiceRZ, this.getInvoce());
 
 		final ReportItem itemContainer = new ReportItem();
 		itemContainer.setArgument(ReportItemTag.Containers);
@@ -3338,44 +3338,44 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 					final Double productivity = this.terminalProductivityList.get(i).getProductivity();
 
 					switch (i) {
-					case 1:
-						itemProductivity.setGen(productivity);
-						break;
-					case 2:
-						itemProductivity.setFeb(productivity);
-						break;
-					case 3:
-						itemProductivity.setMar(productivity);
-						break;
-					case 4:
-						itemProductivity.setApr(productivity);
-						break;
-					case 5:
-						itemProductivity.setMay(productivity);
-						break;
-					case 6:
-						itemProductivity.setJun(productivity);
-						break;
-					case 7:
-						itemProductivity.setJul(productivity);
-						break;
-					case 8:
-						itemProductivity.setAug(productivity);
-						break;
-					case 9:
-						itemProductivity.setSep(productivity);
-						break;
-					case 10:
-						itemProductivity.setOct(productivity);
-						break;
-					case 11:
-						itemProductivity.setNov(productivity);
-						break;
-					case 12:
-						itemProductivity.setDec(productivity);
-						break;
-					default:
-						break;
+						case 1:
+							itemProductivity.setGen(productivity);
+							break;
+						case 2:
+							itemProductivity.setFeb(productivity);
+							break;
+						case 3:
+							itemProductivity.setMar(productivity);
+							break;
+						case 4:
+							itemProductivity.setApr(productivity);
+							break;
+						case 5:
+							itemProductivity.setMay(productivity);
+							break;
+						case 6:
+							itemProductivity.setJun(productivity);
+							break;
+						case 7:
+							itemProductivity.setJul(productivity);
+							break;
+						case 8:
+							itemProductivity.setAug(productivity);
+							break;
+						case 9:
+							itemProductivity.setSep(productivity);
+							break;
+						case 10:
+							itemProductivity.setOct(productivity);
+							break;
+						case 11:
+							itemProductivity.setNov(productivity);
+							break;
+						case 12:
+							itemProductivity.setDec(productivity);
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -4211,44 +4211,44 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsC_P.setArgument(ReportItemTag.HandsC_P);
 		for (int i = 1; i <= 12; i++) {
 			switch (i) {
-			case 1:
-				itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
-				break;
-			case 2:
-				itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
-				break;
-			case 3:
-				itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
-				break;
-			case 4:
-				itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
-				break;
-			case 5:
-				itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
-				break;
-			case 6:
-				itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
-				break;
-			case 7:
-				itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
-				break;
-			case 8:
-				itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
-				break;
-			case 9:
-				itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
-				break;
-			case 10:
-				itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
-				break;
-			case 11:
-				itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
-				break;
-			case 12:
-				itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
-				break;
-			default:
-				break;
+				case 1:
+					itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
+					break;
+				case 2:
+					itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
+					break;
+				case 3:
+					itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
+					break;
+				case 4:
+					itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
+					break;
+				case 5:
+					itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
+					break;
+				case 6:
+					itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
+					break;
+				case 7:
+					itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
+					break;
+				case 8:
+					itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
+					break;
+				case 9:
+					itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
+					break;
+				case 10:
+					itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
+					break;
+				case 11:
+					itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
+					break;
+				case 12:
+					itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -4448,11 +4448,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		for (final Service service : services) {
 
-			final List<ShipTotal> listServiceTotal = this.statisticDAO.getTotalContainer(year, service.getId(), this.getInvoce());
+			final List<ShipTotal> listTotalContainer = this.statisticDAO.getTotalContainer(year, service.getId(), this.getInvoce());
 
-			if ((listServiceTotal == null) || (listServiceTotal.size() == 0)) {
+			if ((listTotalContainer == null) || (listTotalContainer.size() == 0)) {
 				continue;
 			}
+
+			// get count service
+			final List<ShipTotal> listTotalService = this.statisticDAO.getTotalService(year, service.getId(), this.getInvoce());
+			final HashMap<Integer, ShipTotal> map_service = Utility.mapShipTotal(listTotalService);
 
 			final ReportItem itemServiceVolume = new ReportItem();
 			itemServiceVolume.setArgument(ReportItemTag.Service_Container + service.getName());
@@ -4474,82 +4478,34 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			itemServiceHoursMan.setArgument(ReportItemTag.Service_HoursMan + service.getName());
 			itemServiceHoursMan.setIsService(i);
 
-			for (final ShipTotal shipTotal : listServiceTotal) {
+			for (final ShipTotal shipTotal : listTotalContainer) {
+				
+				final Integer month = shipTotal.getMonthInvoice();
 
-				if (shipTotal.getMonthInvoice().equals(1)) {
-					itemServiceVolume.setGen(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setGen(shipTotal.getTimework());
-					totalServiceTimeWork.setGen(Utility.sum_double(totalServiceTimeWork.getGen(), itemServiceTimeWork.getGen()));
-					itemServiceCount.setGen((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setGen(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(2)) {
-					itemServiceVolume.setFeb(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setFeb(shipTotal.getTimework());
-					totalServiceTimeWork.setFeb(Utility.sum_double(totalServiceTimeWork.getFeb(), itemServiceTimeWork.getFeb()));
-					itemServiceCount.setFeb((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setFeb(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(3)) {
-					itemServiceVolume.setMar(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setMar(shipTotal.getTimework());
-					totalServiceTimeWork.setMar(Utility.sum_double(totalServiceTimeWork.getMar(), itemServiceTimeWork.getMar()));
-					itemServiceCount.setMar((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setMar(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(4)) {
-					itemServiceVolume.setApr(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setApr(shipTotal.getTimework());
-					totalServiceTimeWork.setApr(Utility.sum_double(totalServiceTimeWork.getApr(), itemServiceTimeWork.getApr()));
-					itemServiceCount.setApr((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setApr(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(5)) {
-					itemServiceVolume.setMay(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setMay(shipTotal.getTimework());
-					totalServiceTimeWork.setMay(Utility.sum_double(totalServiceTimeWork.getMay(), itemServiceTimeWork.getMay()));
-					itemServiceCount.setMay((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setMay(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(6)) {
-					itemServiceVolume.setJun(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setJun(shipTotal.getTimework());
-					totalServiceTimeWork.setJun(Utility.sum_double(totalServiceTimeWork.getJun(), itemServiceTimeWork.getJun()));
-					itemServiceCount.setJun((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setJun(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(7)) {
-					itemServiceVolume.setJul(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setJul(shipTotal.getTimework());
-					totalServiceTimeWork.setJul(Utility.sum_double(totalServiceTimeWork.getJul(), itemServiceTimeWork.getJul()));
-					itemServiceCount.setJul((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setJul(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(8)) {
-					itemServiceVolume.setAug(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setAug(shipTotal.getTimework());
-					totalServiceTimeWork.setAug(Utility.sum_double(totalServiceTimeWork.getAug(), itemServiceTimeWork.getAug()));
-					itemServiceCount.setAug((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setAug(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(9)) {
-					itemServiceVolume.setSep(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setSep(shipTotal.getTimework());
-					totalServiceTimeWork.setSep(Utility.sum_double(totalServiceTimeWork.getSep(), itemServiceTimeWork.getSep()));
-					itemServiceCount.setSep((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setSep(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(10)) {
-					itemServiceVolume.setOct(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setOct(shipTotal.getTimework());
-					totalServiceTimeWork.setOct(Utility.sum_double(totalServiceTimeWork.getOct(), itemServiceTimeWork.getOct()));
-					itemServiceCount.setOct((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setOct(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(11)) {
-					itemServiceVolume.setNov(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setNov(shipTotal.getTimework());
-					totalServiceTimeWork.setNov(Utility.sum_double(totalServiceTimeWork.getNov(), itemServiceTimeWork.getNov()));
-					itemServiceCount.setNov((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setNov(shipTotal.getMenwork());
-				} else if (shipTotal.getMonthInvoice().equals(12)) {
-					itemServiceVolume.setDec(shipTotal.getContainerInvoice());
-					itemServiceTimeWork.setDec(shipTotal.getTimework());
-					totalServiceTimeWork.setDec(Utility.sum_double(totalServiceTimeWork.getDec(), itemServiceTimeWork.getDec()));
-					itemServiceCount.setDec((double) shipTotal.getCountService());
-					itemServiceNumberOfMan.setDec(shipTotal.getMenwork());
+				if (month == null) {
+					continue;
 				}
+
+				itemServiceVolume.setMonth(month, shipTotal.getContainerInvoice());
+				itemServiceTimeWork.setMonth(month, shipTotal.getTimework());
+				itemServiceNumberOfMan.setMonth(month, shipTotal.getMenwork());
+				
+				final Double sum_double = Utility.sum_double(totalServiceTimeWork.getGen(), itemServiceTimeWork.getGen());
+				totalServiceTimeWork.setMonth(month, sum_double);
+				
+				final ShipTotal service_tot = map_service.get(month);
+				if (service_tot == null) {
+					continue;
+				}
+				Integer countService = 0;
+				if (service_tot.getCountService() != null) {
+					countService = service_tot.getCountService();
+				}
+				
+				itemServiceCount.setMonth(month, (double) countService);
+				
 			}
+
 			itemServiceVolume.setTot(itemServiceVolume.getTotalMonth());
 			itemServiceVolume.setAvg(itemServiceVolume.calculateAvg());
 

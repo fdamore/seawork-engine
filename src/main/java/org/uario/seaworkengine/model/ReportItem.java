@@ -14,6 +14,7 @@ public class ReportItem implements Serializable {
 	private Double				apr					= 0.0;
 
 	private String				argument;
+
 	private Double				aug					= 0.0;
 	private Double				avg;
 	private Double				dec					= 0.0;
@@ -25,10 +26,10 @@ public class ReportItem implements Serializable {
 	private Double				jun					= 0.0;
 	private Double				mar					= 0.0;
 	private Double				may					= 0.0;
-
 	private Double				nov					= 0.0;
 
 	private Double				oct					= 0.0;
+
 	private Double				sep					= 0.0;
 	private Double				tot;
 
@@ -158,9 +159,8 @@ public class ReportItem implements Serializable {
 	 */
 	public Double getTotalMonth() {
 
-		final Double ret = Utility.sum_double(this.getGen(), this.getFeb(), this.getMar(), this.getApr(), this.getMay(),
-				this.getJun(), this.getJul(), this.getAug(), this.getSep(), this.getOct(), this.getNov(),
-				this.getDec());
+		final Double ret = Utility.sum_double(this.getGen(), this.getFeb(), this.getMar(), this.getApr(), this.getMay(), this.getJun(), this.getJul(),
+				this.getAug(), this.getSep(), this.getOct(), this.getNov(), this.getDec());
 
 		if (ret == null) {
 			return 0.0;
@@ -227,6 +227,55 @@ public class ReportItem implements Serializable {
 	public void setMay(final Double may) {
 		this.may = may;
 
+	}
+
+	/**
+	 * Set global month
+	 *
+	 * @param month
+	 * @param value
+	 */
+	public void setMonth(Integer month, Double value) {
+		
+		switch (month) {
+			case 1:
+				this.setGen(value);
+				break;
+			case 2:
+				this.setFeb(value);
+				break;
+			case 3:
+				this.setMar(value);
+				break;
+			case 4:
+				this.setApr(value);
+				break;
+			case 5:
+				this.setMay(value);
+				break;
+			case 6:
+				this.setJun(value);
+				break;
+			case 7:
+				this.setJul(value);
+				break;
+			case 8:
+				this.setAug(value);
+				break;
+			case 9:
+				this.setSep(value);
+				break;
+			case 10:
+				this.setOct(value);
+				break;
+			case 11:
+				this.setNov(value);
+				break;
+			case 12:
+				this.setDec(value);
+				break;
+		}
+		
 	}
 
 	public void setNov(final Double nov) {
