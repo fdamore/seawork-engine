@@ -1023,7 +1023,7 @@ GROUP BY monthInvoice;
 		parameterType="map">
 <![CDATA[	
 SELECT 
-    COUNT(dis.id) AS countService,
+    COUNT(distinct dis.id) AS countService,
     dfs.invoicing_cycle AS monthInvoice
 FROM
     detailfinalscheduleship dfs,
@@ -1043,7 +1043,7 @@ GROUP BY monthInvoice;
 		parameterType="map">
 <![CDATA[	
 SELECT 
-    COUNT(dis.id) AS countService,
+    COUNT(distinct dis.id) AS countService,
     MONTH(dis.shiftdate) AS monthInvoice
 FROM
     detailscheduleship dis,
