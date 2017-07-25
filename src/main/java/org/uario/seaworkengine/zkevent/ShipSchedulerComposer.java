@@ -4010,7 +4010,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 		
 		// Mani programmate
-		
 		int indexRowHandsP = 13;
 		
 		final List<Integer> handsP = new ArrayList<>();
@@ -4256,31 +4255,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			for (final ShipTotal shipTotal : shipNumberTW) {
 				if (shipTotal != null) {
 					
-					if (shipTotal.getMonthInvoice().equals(1)) {
-						itemShipNumberTW.setGen((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(2)) {
-						itemShipNumberTW.setFeb((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(3)) {
-						itemShipNumberTW.setMar((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(4)) {
-						itemShipNumberTW.setApr((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(5)) {
-						itemShipNumberTW.setMay((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(6)) {
-						itemShipNumberTW.setJun((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(7)) {
-						itemShipNumberTW.setJul((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(8)) {
-						itemShipNumberTW.setAug((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(9)) {
-						itemShipNumberTW.setSep((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(10)) {
-						itemShipNumberTW.setOct((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(11)) {
-						itemShipNumberTW.setNov((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(12)) {
-						itemShipNumberTW.setDec((double) shipTotal.getShipnumber());
-					}
+					itemShipNumberTW.setMonth(shipTotal.getMonthInvoice(), (double) shipTotal.getShipnumber());
+
 				}
 			}
 		}
@@ -4295,32 +4271,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		if ((shipNumberComplete != null) && (shipNumberComplete.size() != 0)) {
 			for (final ShipTotal shipTotal : shipNumberComplete) {
 				if (shipTotal != null) {
-					
-					if (shipTotal.getMonthInvoice().equals(1)) {
-						itemShipNumberCM.setGen((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(2)) {
-						itemShipNumberCM.setFeb((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(3)) {
-						itemShipNumberCM.setMar((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(4)) {
-						itemShipNumberCM.setApr((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(5)) {
-						itemShipNumberCM.setMay((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(6)) {
-						itemShipNumberCM.setJun((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(7)) {
-						itemShipNumberCM.setJul((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(8)) {
-						itemShipNumberCM.setAug((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(9)) {
-						itemShipNumberCM.setSep((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(10)) {
-						itemShipNumberCM.setOct((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(11)) {
-						itemShipNumberCM.setNov((double) shipTotal.getShipnumber());
-					} else if (shipTotal.getMonthInvoice().equals(12)) {
-						itemShipNumberCM.setDec((double) shipTotal.getShipnumber());
-					}
+
+					itemShipNumberCM.setMonth(shipTotal.getMonthInvoice(), (double) shipTotal.getShipnumber());
+
 				}
 			}
 		}
