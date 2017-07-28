@@ -926,9 +926,9 @@ ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
 		parameterType="map">
 <![CDATA[	
 SELECT 
-    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,    
-    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,    
-    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT, 
+    SUM(IFNULL(dfs.volume, 0) - IFNULL(dfs.franchise_volume, 0)) AS containerInvoice,
+    SUM(IFNULL(dfs.volumeunderboard_sws, 0) - IFNULL(dfs.franchise_volumeunderboard_sws, 0)) AS containerRZ_TW_SWS,
+    SUM(IFNULL(dfs.volume_tw_mct, 0) - IFNULL(dfs.franchise_volume_tw_mct, 0)) AS containerRZ_TW_MCT,
     dfs.invoicing_cycle AS monthInvoice
 FROM
     detailfinalscheduleship dfs,
@@ -948,9 +948,9 @@ GROUP BY monthInvoice;
 		parameterType="map">
 <![CDATA[	
 SELECT 
-    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
-    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
-    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
+    SUM(IFNULL(dfs.volume, 0) - IFNULL(dfs.franchise_volume, 0)) AS containerInvoice,
+    SUM(IFNULL(dfs.volumeunderboard_sws, 0) - IFNULL(dfs.franchise_volumeunderboard_sws, 0)) AS containerRZ_TW_SWS,
+    SUM(IFNULL(dfs.volume_tw_mct, 0) - IFNULL(dfs.franchise_volume_tw_mct, 0)) AS containerRZ_TW_MCT,
     MONTH(dis.shiftdate) AS monthInvoice
 FROM
     detailfinalscheduleship dfs,
@@ -971,12 +971,12 @@ GROUP BY monthInvoice;
 		parameterType="map">
 <![CDATA[	
 SELECT 
-    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
-    SUM(dfs.timework - dfs.franchise_timework) AS timework,
-    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
-    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
-    SUM(dfs.menwork_activityh) as menwork_h,
-    SUM(dis.menwork) as menwork_nh,
+    SUM(IFNULL(dfs.volume, 0) - IFNULL(dfs.franchise_volume, 0)) AS containerInvoice,
+    SUM(IFNULL(dfs.timework, 0) - IFNULL(dfs.franchise_timework, 0)) AS timework,
+    SUM(IFNULL(dfs.volumeunderboard_sws, 0) - IFNULL(dfs.franchise_volumeunderboard_sws, 0)) AS containerRZ_TW_SWS,
+    SUM(IFNULL(dfs.volume_tw_mct, 0) - IFNULL(dfs.franchise_volume_tw_mct, 0)) AS containerRZ_TW_MCT,
+    SUM(IFNULL(dfs.menwork_activityh, 0)) AS menwork_h,
+    SUM(IFNULL(dis.menwork, 0)) AS menwork_nh,
     dfs.invoicing_cycle AS monthInvoice
 FROM
     detailfinalscheduleship dfs,
@@ -996,12 +996,12 @@ GROUP BY monthInvoice;
 		parameterType="map">
 <![CDATA[	
 SELECT 
-    SUM(dfs.volume - dfs.franchise_volume) AS containerInvoice,
-    SUM(dfs.timework - dfs.franchise_timework) AS timework,
-    SUM(dfs.volumeunderboard_sws - dfs.franchise_volumeunderboard_sws) AS containerRZ_TW_SWS,
-    SUM(dfs.volume_tw_mct - dfs.franchise_volume_tw_mct) AS containerRZ_TW_MCT,
-    SUM(dfs.menwork_activityh) as menwork_h,
-    SUM(dis.menwork) as menwork_nh,
+    SUM(IFNULL(dfs.volume, 0) - IFNULL(dfs.franchise_volume, 0)) AS containerInvoice,
+    SUM(IFNULL(dfs.timework, 0) - IFNULL(dfs.franchise_timework, 0)) AS timework,
+    SUM(IFNULL(dfs.volumeunderboard_sws, 0) - IFNULL(dfs.franchise_volumeunderboard_sws, 0)) AS containerRZ_TW_SWS,
+    SUM(IFNULL(dfs.volume_tw_mct, 0) - IFNULL(dfs.franchise_volume_tw_mct, 0)) AS containerRZ_TW_MCT,
+    SUM(IFNULL(dfs.menwork_activityh, 0)) AS menwork_h,
+    SUM(IFNULL(dis.menwork, 0)) AS menwork_nh,
     MONTH(dis.shiftdate) AS monthInvoice
 FROM
     detailfinalscheduleship dfs,
@@ -1066,11 +1066,11 @@ GROUP BY monthInvoice;
 		parameterType="map">
 <![CDATA[		
 SELECT 
-    SUM(dis.handswork) AS handswork,
-    SUM(dis.handswork_program) AS handswork_program,
-    SUM(dis.menwork) AS menwork,
+    SUM(IFNULL(dis.handswork, 0)) AS handswork,
+    SUM(IFNULL(dis.handswork_program, 0)) AS handswork_program,
+    SUM(IFNULL(dis.menwork, 0)) AS menwork,
     MONTH(dis.shiftdate) AS monthInvoice,
-    SUM(dis.windyday) AS windyday
+    SUM(IFNULL(dis.windyday, 0)) AS windyday
 FROM
     detailscheduleship dis,
     scheduleship ss
@@ -1101,11 +1101,11 @@ GROUP BY monthInvoice
 		
 	<![CDATA[	
 SELECT 
-    SUM(dis.handswork) AS handswork,
-    SUM(dis.handswork_program) AS handswork_program,
-    SUM(dis.menwork) AS menwork,
+    SUM(IFNULL(dis.handswork, 0)) AS handswork,
+    SUM(IFNULL(dis.handswork_program, 0)) AS handswork_program,
+    SUM(IFNULL(dis.menwork, 0)) AS menwork,
     MONTH(dis.shiftdate) AS monthInvoice,
-    SUM(dis.windyday) AS windyday
+    SUM(IFNULL(dis.windyday, 0)) AS windyday
 FROM
     detailscheduleship dis,
     scheduleship ss
