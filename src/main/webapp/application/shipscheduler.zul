@@ -1520,7 +1520,7 @@
 						<toolbarbutton id="sw_link_reviewscheduleship"
 							style="color:blue"
 							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_review_detail.open(self,"after_pointer");saveReview.setVisible(true);panel_editor_review_details.setVisible(false);'
-							label="Consuntiva">
+							label="Consuntiva" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_OPERATIVE')}">
 						</toolbarbutton>
 
 						<toolbarbutton id="sw_link_deleteship"

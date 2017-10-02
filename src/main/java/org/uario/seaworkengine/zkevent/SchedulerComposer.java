@@ -3947,6 +3947,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 
+		if (this.person_logged.isViewerOnly()) {
+			return;
+		}
+
 		final RowSchedule row_scheduler = this.grid_scheduler.getSelectedItem().getValue();
 
 		// for of shift --> shift_1_4
@@ -5891,24 +5895,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		int from = 0;
 
 		switch (shift) {
-			case 1:
-				to = 1;
-				from = 7;
-				break;
-			case 2:
-				to = 7;
-				from = 13;
-				break;
-			case 3:
-				to = 13;
-				from = 19;
-				break;
-			case 4:
-				to = 19;
-				from = 1;
-				break;
-			default:
-				break;
+		case 1:
+			to = 1;
+			from = 7;
+			break;
+		case 2:
+			to = 7;
+			from = 13;
+			break;
+		case 3:
+			to = 13;
+			from = 19;
+			break;
+		case 4:
+			to = 19;
+			from = 1;
+			break;
+		default:
+			break;
 		}
 
 		cal.set(Calendar.HOUR_OF_DAY, to);

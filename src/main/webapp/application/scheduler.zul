@@ -284,7 +284,7 @@
 
 		</hbox>
 
-		<div id="stat_update_command">
+		<div id="stat_update_command" visible="${!sec:isAnyGranted('ROLE_VIEWER')}">
 
 			<separator></separator>
 
