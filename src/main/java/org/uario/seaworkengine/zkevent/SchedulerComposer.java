@@ -7730,6 +7730,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void showStatisticsPopup(final Integer id_user, final Component anchorComponent, final String title) {
 
+		// DO NOT OPEN IF VIEWER
+		if (this.person_logged.isViewerOnly()) {
+			return;
+		}
+
 		// reset old values
 		SchedulerComposer.this.shift_perc_1.setValue("");
 		SchedulerComposer.this.shift_perc_2.setValue("");
@@ -7833,6 +7838,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * @param title
 	 */
 	private void showStatisticsTaskPopup(final Integer id_user, final Listbox anchorComponent, final String title) {
+
+		// DO NOT OPEN IF IS VIEWER
+		if (this.person_logged.isViewerOnly()) {
+			return;
+		}
 
 		SchedulerComposer.this.label_statistic_task_popup.setLabel(title);
 
