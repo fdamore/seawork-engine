@@ -19,8 +19,8 @@
 
 	<zscript>
 	Comparator asc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(true);
-		Comparator dsc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(false);
-	</zscript>
+	Comparator dsc_id = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorPerson(false);
+</zscript>
 
 
 
@@ -742,6 +742,12 @@
 
 	<separator></separator>
 
+	<hbox>
+		<a label="Numero dipendenti in griglia: "></a>
+		<label id="count_users"></label>
+	</hbox>
+
+	<separator></separator>
 
 
 

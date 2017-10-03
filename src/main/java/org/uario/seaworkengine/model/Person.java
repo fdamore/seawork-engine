@@ -3,7 +3,6 @@ package org.uario.seaworkengine.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -195,11 +194,11 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
-		final Set<GrantedAuthority> auth = new HashSet<GrantedAuthority>();
+		final Set<GrantedAuthority> auth = new HashSet<>();
 		final String auth_string = this.getAuthority();
 		final String[] items = auth_string.split(",");
-		for (int i = 0; i < items.length; i++) {
-			final String myitem = items[i].trim();
+		for (final String item : items) {
+			final String myitem = item.trim();
 			final GrantedAuthorityImpl authority_impl = new GrantedAuthorityImpl(myitem);
 			auth.add(authority_impl);
 		}
@@ -456,8 +455,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	 */
 	public boolean isAdministrator() {
 		final Collection<GrantedAuthority> auts = this.getAuthorities();
-		for (final Iterator iterator = auts.iterator(); iterator.hasNext();) {
-			final GrantedAuthority grantedAuthority = (GrantedAuthority) iterator.next();
+		for (final Object element : auts) {
+			final GrantedAuthority grantedAuthority = (GrantedAuthority) element;
 			final String item = grantedAuthority.getAuthority();
 			if (item.equals(UserTag.ROLE_SUPERVISOR)) {
 				return true;
@@ -474,8 +473,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	 */
 	public boolean isBackoffice() {
 		final Collection<GrantedAuthority> auts = this.getAuthorities();
-		for (final Iterator iterator = auts.iterator(); iterator.hasNext();) {
-			final GrantedAuthority grantedAuthority = (GrantedAuthority) iterator.next();
+		for (final Object element : auts) {
+			final GrantedAuthority grantedAuthority = (GrantedAuthority) element;
 			final String item = grantedAuthority.getAuthority();
 			if (item.equals(UserTag.ROLE_BACKOFFICE)) {
 				return true;
@@ -507,8 +506,8 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 			return true;
 		}
 		final Collection<GrantedAuthority> auts = this.getAuthorities();
-		for (final Iterator iterator = auts.iterator(); iterator.hasNext();) {
-			final GrantedAuthority grantedAuthority = (GrantedAuthority) iterator.next();
+		for (final Object element : auts) {
+			final GrantedAuthority grantedAuthority = (GrantedAuthority) element;
 			final String item = grantedAuthority.getAuthority();
 			if (item.equals(UserTag.ROLE_BACKOFFICE) || item.equals(UserTag.ROLE_OPERATIVE)) {
 				return true;
@@ -518,14 +517,14 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	}
 
 	/**
-	 * return true if user is a supervisor..
+	 * return true if user is a supervisor.. (PREPOSTO)
 	 *
 	 * @return
 	 */
 	public boolean isOperative() {
 		final Collection<GrantedAuthority> auts = this.getAuthorities();
-		for (final Iterator iterator = auts.iterator(); iterator.hasNext();) {
-			final GrantedAuthority grantedAuthority = (GrantedAuthority) iterator.next();
+		for (final Object element : auts) {
+			final GrantedAuthority grantedAuthority = (GrantedAuthority) element;
 			final String item = grantedAuthority.getAuthority();
 			if (item.equals(UserTag.ROLE_OPERATIVE)) {
 				return true;
@@ -542,8 +541,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	 */
 	public boolean isViewer() {
 		final Collection<GrantedAuthority> auts = this.getAuthorities();
-		for (final Iterator<GrantedAuthority> iterator = auts.iterator(); iterator.hasNext();) {
-			final GrantedAuthority grantedAuthority = iterator.next();
+		for (GrantedAuthority grantedAuthority : auts) {
 			final String item = grantedAuthority.getAuthority();
 			if (item.equals(UserTag.ROLE_VIEWER)) {
 				return true;

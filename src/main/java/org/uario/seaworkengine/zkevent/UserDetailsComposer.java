@@ -116,6 +116,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	private Combobox			contractual_level_filter;
 
 	@Wire
+	private Label				count_users;
+
+	@Wire
 	private Textbox				country_user;
 
 	@Wire
@@ -246,8 +249,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	// the dao used for db interaction
 	private PersonDAO			personDao;
-
-	private List<Person>		personList			= new ArrayList<>();
 
 	@Wire
 	private Textbox				phone_user;
@@ -1323,6 +1324,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final ListModelList<Person> list_person = new ListModelList<>(list);
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
@@ -1341,6 +1343,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<Person> list = this.personDao.listAllPersonByCurrentPosition(item);
 		final ListModelList<Person> list_person = new ListModelList<>(list);
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
@@ -1359,6 +1362,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
@@ -1379,6 +1383,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final ListModelList<Person> list_person = new ListModelList<>(listAllPersonByUserStatus);
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
 
@@ -1389,6 +1394,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<Person> list_person = this.personDao.usersAdmin();
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 
 	}
 
@@ -1397,9 +1403,15 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.select_specific_user.setSelectedItem(null);
 		this.user_status_filter.setSelectedItem(null);
 		if (this.contractual_level_filter.getSelectedItem() != null) {
-			final ListModelList<Person> list_person = new ListModelList<>(this.personDao
-					.listAllPersonByContractualLevel(Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue())));
+
+			final int itm_search = Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue());
+			final List<Person> list_by_contract = this.personDao.listAllPersonByContractualLevel(itm_search);
+
+			final ListModelList<Person> list_person = new ListModelList<>(list_by_contract);
 			this.sw_list_user.setModel(new ListModelList<>(list_person));
+
+			this.count_users.setValue("" + list_person.size());
+
 			this.full_text_search.setValue(null);
 			this.select_specific_user.setSelectedItem(null);
 		}
@@ -1428,6 +1440,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final ListModelList<Person> list_person = new ListModelList<>(list);
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
+
 		this.full_text_search.setValue(null);
 		this.select_specific_user.setSelectedItem(null);
 
@@ -1437,6 +1451,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<Person> list_person = this.personDao.listDailyEmployee();
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 	}
 
 	private void selectOperatives() {
@@ -1449,6 +1464,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<Person> list_person = this.personDao.listOutScheduleEmployee();
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 
 	}
 
@@ -1456,12 +1472,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<Person> list_person = this.personDao.listAllPartTime();
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 	}
 
 	private void selectProgrammerEmployee() {
 		final List<Person> list_person = this.personDao.listProgrammerEmployee();
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 
 	}
 
@@ -1494,6 +1512,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<Person> list_person = this.personDao.listViewerEmployee();
 
 		this.sw_list_user.setModel(new ListModelList<>(list_person));
+		this.count_users.setValue("" + list_person.size());
 
 	}
 
@@ -1608,12 +1627,12 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.user_status_filter.setSelectedItem(null);
 		this.contractual_level_filter.setSelectedItem(null);
 
-		this.personList = null;
+		List<Person> personList = null;
 
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
-			this.personList = this.personDao.listAllPersons(this.full_text_search.getValue());
+			personList = this.personDao.listAllPersons(this.full_text_search.getValue());
 		} else {
-			this.personList = this.personDao.listAllPersons();
+			personList = this.personDao.listAllPersons();
 		}
 
 		if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
@@ -1622,7 +1641,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			this.sw_list_user.setPageSize(10);
 		}
 
-		this.sw_list_user.setModel(new ListModelList<>(this.personList));
+		this.sw_list_user.setModel(new ListModelList<>(personList));
+		this.count_users.setValue("" + personList.size());
 
 	}
 
