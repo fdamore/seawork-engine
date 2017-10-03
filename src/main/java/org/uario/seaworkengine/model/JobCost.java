@@ -2,60 +2,75 @@ package org.uario.seaworkengine.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
 
-public class JobCost implements Comparable<Person>, Serializable {
+public class JobCost implements Serializable {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private Double awards;
+	private Double				awards;
 
-	private Double basicsalary;
+	private Double				basicsalary;
 
-	private Integer bill_center;
+	private Integer				bill_center;
 
 	// used only in listbox
-	private String billcenterDescription;
+	private String				billcenterDescription;
 
-	private Double business_job_cost;
+	private Double				business_job_cost;
 
-	private Double contingency;
+	private Double				contingency;
 
-	private String contractual_level;
+	private String				contractual_level;
 
-	private Date date_from;
+	private Date				date_from;
 
-	private Date date_to;
+	private Date				date_to;
 
-	private Double edr;
+	private Double				edr;
 
-	private Double final_job_cost;
+	private Double				final_job_cost;
 
-	private Integer id;
+	private Integer				id;
 
-	private Integer id_user;
+	private Integer				id_user;
 
-	private String note;
+	private String				note;
 
-	private Double shots;
+	private Double				shots;
 
 	// using in listbox
-	private Double total;
-
-	@Override
-	public int compareTo(final Person arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	private Double				total;
 
 	public Double getAwards() {
 		return this.awards;
 	}
 
+	public String getAwardsITASTRING() {
+		if (this.awards == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.awards).trim();
+
+		}
+	}
+
 	public Double getBasicsalary() {
+
 		return this.basicsalary;
+	}
+
+	public String getBasicsalaryITASTRING() {
+
+		if (this.basicsalary == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.basicsalary).trim();
+
+		}
 	}
 
 	public Integer getBill_center() {
@@ -70,8 +85,27 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.business_job_cost;
 	}
 
+	public String getBusiness_job_costITASTRING() {
+		if (this.business_job_cost == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.business_job_cost).trim();
+
+		}
+	}
+
 	public Double getContingency() {
 		return this.contingency;
+	}
+
+	public String getContingencyITASTRING() {
+		if (this.contingency == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.contingency).trim();
+
+		}
+
 	}
 
 	public String getContractual_level() {
@@ -90,8 +124,26 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.edr;
 	}
 
+	public String getEdrITASTRING() {
+		if (this.edr == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.edr).trim();
+
+		}
+	}
+
 	public Double getFinal_job_cost() {
 		return this.final_job_cost;
+	}
+
+	public String getFinal_job_costITASTRING() {
+		if (this.final_job_cost == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.final_job_cost).trim();
+
+		}
 	}
 
 	public Integer getId() {
@@ -110,8 +162,26 @@ public class JobCost implements Comparable<Person>, Serializable {
 		return this.shots;
 	}
 
+	public String getShotsITASTRING() {
+		if (this.shots == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.shots).trim();
+
+		}
+	}
+
 	public Double getTotal() {
 		return this.total;
+	}
+
+	public String getTotalITASTRING() {
+		if (this.total == null) {
+			return "0";
+		} else {
+			return String.format(Locale.ITALY, "%10.2f", this.total).trim();
+
+		}
 	}
 
 	public void setAwards(final Double awards) {

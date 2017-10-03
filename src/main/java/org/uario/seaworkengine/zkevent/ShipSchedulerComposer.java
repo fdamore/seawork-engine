@@ -1908,7 +1908,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		} else if (selected.equals(this.report_review_ship_item)) {
 			if (this.reportList.size() != 0) {
-				final StringBuilder builder = UtilityCSV.downloadCSV_ReportShip(this.reportListboxContainer, this.shipDao);
+				final StringBuilder builder = UtilityCSV.downloadCSV_ReportShip(this.reportList);
 
 				Filedownload.save(builder.toString(), "application/text", "report_lavorazione_navi.csv");
 			}
