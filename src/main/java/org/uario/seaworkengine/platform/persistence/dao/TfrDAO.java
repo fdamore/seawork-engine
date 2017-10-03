@@ -12,4 +12,6 @@ public interface TfrDAO {
 
 	public void removeTFR(Integer id_tfr);
 
+	public void updateTfr(TfrUser tfr);
+
 }

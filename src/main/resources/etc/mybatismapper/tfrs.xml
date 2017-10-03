@@ -9,9 +9,10 @@
 		parameterType="map">
 		SELECT t.id,
 		t.tfr_destination,
-		t.tfr_selection_date
+		t.tfr_selection_date,
+		t.note
 		FROM
-		tfruser t where 
+		tfruser t where
 		t.id_user = #{id_user};
 
 	</select>
@@ -22,9 +23,9 @@
 		INSERT INTO
 		tfruser
 		(tfr_destination,
-		tfr_selection_date,id_user)
+		tfr_selection_date,id_user,note)
 		VALUES
-		(#{tfr_destination},#{tfr_selection_date},#{id_user});
+		(#{tfr_destination},#{tfr_selection_date},#{id_user},#{note});
 
 	</insert>
 
@@ -32,7 +33,22 @@
 		delete from
 		tfruser
 		where
-		id = #{id_tfr}
+		id =
+		#{id_tfr}
 	</delete>
+
+	<update id="udapteTfr" parameterType="org.uario.seaworkengine.model.TfrUser">
+
+		UPDATE tfruser set
+		tfr_destination = #{tfr_destination},
+		tfr_selection_date =
+		#{tfr_selection_date},
+		note = #{note}
+		WHERE id
+		= #{id}
+
+
+	</update>
+
 
 </mapper>

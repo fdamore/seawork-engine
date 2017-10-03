@@ -12,12 +12,18 @@ public class TfrUser implements Serializable {
 
 	private Integer				id;
 
+	private String				note;
+
 	private String				tfr_destination;
 
 	private Date				tfr_selection_date;
 
 	public Integer getId() {
 		return this.id;
+	}
+
+	public String getNote() {
+		return this.note;
 	}
 
 	public String getTfr_destination() {
@@ -30,6 +36,10 @@ public class TfrUser implements Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setNote(final String note) {
+		this.note = note;
 	}
 
 	public void setTfr_destination(final String tfr_destination) {

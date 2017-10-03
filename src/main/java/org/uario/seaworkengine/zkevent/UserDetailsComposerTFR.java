@@ -45,11 +45,16 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 	// dao interface
 	private TfrDAO				tfrDao;
 
+	private boolean				tsatus_add			= true;
+
 	@Wire
 	private Textbox				user_tfr;
 
 	@Wire
 	private Datebox				user_tfr_date;
+
+	@Wire
+	private Textbox				user_tfr_note;
 
 	@Listen("onClick = #add_command")
 	public void addItemToUser() {
@@ -58,18 +63,25 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 			return;
 		}
 
-		final TfrUser item = new TfrUser();
-		item.setTfr_destination(this.user_tfr.getValue());
-		item.setTfr_selection_date(this.user_tfr_date.getValue());
+		if (this.tsatus_add) {
 
-		this.tfrDao.createTGRForUser(this.person_selected.getId(), item);
+			final TfrUser item = new TfrUser();
+			item.setTfr_destination(this.user_tfr.getValue());
+			item.setTfr_selection_date(this.user_tfr_date.getValue());
+			item.setNote(this.user_tfr_note.getValue());
 
-		final Map<String, String> params = new HashMap<>();
-		params.put("sclass", "mybutton Button");
-		final Messagebox.Button[] buttons = new Messagebox.Button[1];
-		buttons[0] = Messagebox.Button.OK;
+			this.tfrDao.createTGRForUser(this.person_selected.getId(), item);
+		} else {
 
-		Messagebox.show("TFR aggiunto all'utente", "INFO", buttons, null, Messagebox.INFORMATION, null, null, params);
+			final TfrUser tfr_user = this.sw_list.getSelectedItem().getValue();
+
+			tfr_user.setNote(this.user_tfr_note.getValue());
+			tfr_user.setTfr_destination(this.user_tfr.getValue());
+			tfr_user.setTfr_selection_date(this.user_tfr_date.getValue());
+
+			this.tfrDao.updateTfr(tfr_user);
+
+		}
 
 		// Refresh list task
 		this.setInitialView();
@@ -139,6 +151,30 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 
 	}
 
+	@Listen("onClick = #sw_link_modify")
+	public void modifyItem() {
+
+		if (this.person_selected == null) {
+			return;
+		}
+
+		if (this.sw_list.getSelectedItem() == null) {
+			return;
+		}
+
+		final TfrUser tfr_user = this.sw_list.getSelectedItem().getValue();
+
+		this.user_tfr.setValue(tfr_user.getTfr_destination());
+		this.user_tfr_date.setValue(tfr_user.getTfr_selection_date());
+		this.user_tfr_note.setValue(tfr_user.getNote());
+
+		this.tsatus_add = false;
+
+		this.grid_details.setVisible(true);
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Listen("onClick = #sw_link_delete")
 	public void removeItem() {
 
@@ -174,6 +210,19 @@ public class UserDetailsComposerTFR extends SelectorComposer<Component> {
 		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
+	}
+
+	@Listen("onClick = #sw_add")
+	public void showAdd() {
+
+		this.user_tfr.setValue(null);
+		this.user_tfr_date.setValue(null);
+		this.user_tfr_note.setValue(null);
+
+		this.tsatus_add = true;
+
+		this.grid_details.setVisible(true);
+
 	}
 
 }

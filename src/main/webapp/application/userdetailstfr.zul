@@ -51,6 +51,14 @@
 								placeholder="Seleziona La Data" width="200px" />
 						</row>
 
+						<row>
+							<label value="Note:"></label>
+							<textbox id="user_tfr_note" rows="5"
+								width="200px">
+							</textbox>
+
+						</row>
+
 					</rows>
 				</grid>
 
@@ -68,7 +76,7 @@
 				<separator></separator>
 
 				<button id="sw_add" sclass="btn-info"
-					label="Aggiungi TFR" onClick="grid_details.setVisible(true);">
+					label="Aggiungi TFR">
 				</button>
 
 				<button id="sw_refresh_list"
@@ -83,13 +91,14 @@
 			</div>
 
 
-			<listbox id="sw_list" pagingPosition="both" mold="paging"
+			<listbox id="sw_list" pagingPosition="both" mold="paging" 
 				onSelect="grid_details.setVisible(false)"
 				style="border: 1px solid #CCCCCC;" checkmark="true" multiple="false"
 				pageSize="20">
 				<listhead sizable="true">
 					<listheader label="Scelta" />
 					<listheader label="Data" />
+					<listheader label="Note" />
 
 					<listheader label="" />
 				</listhead>
@@ -100,14 +109,25 @@
 					<listcell label="@{item.tfr_destination}" />
 
 					<listcell label="@{item.tfr_selection_date}" />
+					<listcell label="@{item.note}" />
 
 					<listcell>
+
+
 
 						<toolbarbutton id="sw_link_delete"
 							style="color:blue"
 							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
 							label="Cancella">
 						</toolbarbutton>
+
+						<toolbarbutton id="sw_link_modify"
+							style="color:blue"
+							onClick="sw_list.setSelectedItem((Listitem)self.getParent().getParent());"
+							label="Modifica">
+						</toolbarbutton>
+
+
 
 					</listcell>
 
