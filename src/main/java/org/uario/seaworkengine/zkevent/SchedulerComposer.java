@@ -662,6 +662,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Label						overview_count_worker;
 
 	@Wire
+	private Label						overview_count_worker_factor;
+
+	@Wire
 	private Label						overview_count_worker_stat;
 
 	@Wire
@@ -6543,6 +6546,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.overview_count_h.setValue("" + Utility.roundTwo(count_h));
 			this.overview_count_h_c.setValue("" + Utility.roundTwo(count_h_c));
 			this.overview_count_days.setValue("" + count_day.size());
+
+			final int day_b = Utility.getDayBetweenDate(date_from, date_to);
+
+			if (day_b == 0) {
+				this.overview_count_worker_factor.setValue("" + user_count.size());
+			} else {
+				final double factor = (double) user_count.size() / day_b;
+
+				this.overview_count_worker_factor.setValue("" + Utility.roundTwo(factor));
+			}
 
 			// set number of row showed
 			this.list_overview_review.setModel(new ListModelList<>(this.listDetailRevision));
