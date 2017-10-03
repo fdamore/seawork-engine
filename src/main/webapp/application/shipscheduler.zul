@@ -58,7 +58,7 @@
 				</comboitem>
 			</combobox>
 
-			<button label="Versione Stampabile" sclass="btn-danger" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_OPERATIVE')}"
+			<button label="Versione Stampabile" sclass="btn-danger" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 				id="print_program_videos"
 				xmlns:w="http://www.zkoss.org/2005/zk/client"
 				w:onClick="window.open('shipscheduler.zul?printProgram=1');" />
@@ -160,7 +160,7 @@
 					onClick="ship_line_search.setValue(null);ship_type_search.setValue(null);ship_condition_search.setValue(null);" />
 
 				<a label="Scarica dati in CSV"
-					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_OPERATIVE')}"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					id="detailShipProgram_download" style="color:green" />
 			</hbox>
 
@@ -1513,7 +1513,7 @@
 					<listcell sclass="myBottonCell">
 
 						<toolbarbutton id="sw_link_modifyscheduleship"
-							style="color:blue" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_OPERATIVE')}"
+							style="color:blue" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());alertShiftDate_detail.setVisible(false);popup_detail_Daily.open(self,"after_pointer")'
 							label="Visualizza e Modifica">
 						</toolbarbutton>
@@ -1521,7 +1521,7 @@
 						<toolbarbutton id="sw_link_reviewscheduleship"
 							style="color:blue"
 							onClick='sw_list_scheduleShip.setSelectedItem((Listitem)self.getParent().getParent());popup_review_detail.open(self,"after_pointer");saveReview.setVisible(true);panel_editor_review_details.setVisible(false);'
-							label="Consuntiva" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_OPERATIVE')}">
+							label="Consuntiva" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
 						</toolbarbutton>
 
 						<toolbarbutton id="sw_link_deleteship"
