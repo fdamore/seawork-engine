@@ -260,7 +260,7 @@ public class UtilityCSV {
 
 			for (int i = 1; i <= 12; i++) {
 
-				String info = "";
+				String info = "0";
 				final Double itm_info = itm.getMonth(i);
 				if (itm_info != null) {
 					final String adding = String.format(Locale.ITALY, "%10.2f", itm_info);
