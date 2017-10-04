@@ -431,6 +431,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private A							controller_label_review;
 
 	@Wire
+	public Component					counting;
+
+	@Wire
 	private Textbox						crane;
 
 	@Wire
@@ -485,6 +488,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component					define_program_body;
+
+	@Wire
+	private Div							div_count_day;
 
 	@Wire
 	private Component					div_force_shift;
@@ -550,12 +556,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A							label_date_shift_preprocessing;
-
 	@Wire
 	private A							label_date_shift_program;
 
 	@Wire
 	private A							label_date_shift_review;
+
 	@Wire
 	private A							label_statistic_popup;
 
@@ -663,7 +669,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label						overview_count_worker_factor;
-
 	@Wire
 	private Label						overview_count_worker_stat;
 
@@ -671,13 +676,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Div							overview_div;
 	@Wire
 	private Component					overview_download;
-
 	@Wire
 	private Comboitem					overview_item;
 	@Wire
 	private Tabpanel					overview_preprocessing;
+
 	@Wire
 	private Tabpanel					overview_program;
+
 	@Wire
 	private Tabpanel					overview_review;
 
@@ -689,23 +695,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabbox						overview_tab;
-
 	@Wire
 	private Panel						panel_shift_period;
-
 	private final String				partTimeMessage					= "Part Time";
 	private Person						person_logged					= null;
+
 	private PersonDAO					personDAO;
 	private Person						personLock;
-
 	@Wire
 	private Div							preprocessing_div;
 	@Wire
 	private Comboitem					preprocessing_item;
 	@Wire
 	private Panel						preprocessing_panel;
+
 	@Wire
 	private Component					print_program_videos;
+
 	@Wire
 	private Component					print_scheduler;
 
@@ -744,16 +750,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component					program_head_5_3;
-
 	@Wire
 	private Component					program_head_5_4;
-
 	@Wire
 	private Comboitem					program_item;
 	@Wire
 	private Panel						program_panel;
+
 	@Wire
 	private Listheader					program_panel_name;
+
 	@Wire
 	private Combobox					program_task;
 
@@ -762,19 +768,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader					program_tot_1_2;
-
 	@Wire
 	private Auxheader					program_tot_1_3;
-
 	@Wire
 	private Auxheader					program_tot_1_4;
 	@Wire
 	private Auxheader					program_tot_2_1;
+
 	@Wire
 	private Auxheader					program_tot_2_2;
 	@Wire
 	private Auxheader					program_tot_2_3;
-
 	@Wire
 	private Auxheader					program_tot_2_4;
 	@Wire
@@ -795,8 +799,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader					program_tot_4_4;
 	@Wire
 	private Auxheader					program_tot_5_1;
+
 	@Wire
 	private Auxheader					program_tot_5_2;
+
 	@Wire
 	private Auxheader					program_tot_5_3;
 
@@ -919,7 +925,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component					reviewShiftBox;
-
 	@Wire
 	private Tab							reviewTab;
 
@@ -927,13 +932,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader					reviewUser_tot_1_1;
 	@Wire
 	private Auxheader					reviewUser_tot_1_2;
-
 	@Wire
 	private Auxheader					reviewUser_tot_1_3;
 	@Wire
 	private Auxheader					reviewUser_tot_1_4;
+
 	@Wire
 	private Auxheader					reviewUser_tot_2_1;
+
 	@Wire
 	private Auxheader					reviewUser_tot_2_2;
 
@@ -3316,6 +3322,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		} else {
 			this.define_program_body.setVisible(false);
 		}
+	};
+
+	public Component getCounting() {
+		return this.counting;
 	}
 
 	private final Integer getCountWorkingDay(final List<Schedule> scheduleList) {
@@ -3358,7 +3368,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		date.add(cal.getTime());
 
 		return date;
-	};
+	}
 
 	private ArrayList<Date> getDateByWeek(final Integer week, final Integer year) {
 		final ArrayList<Date> date = new ArrayList<>();
@@ -3423,6 +3433,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		return (int) (Math.round(day_elapsed) + 1);
 
+	}
+
+	public Div getDiv_count_day() {
+		return this.div_count_day;
 	}
 
 	public Checkbox getForce_6h_review() {
@@ -5892,6 +5906,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
+	public void setCounting(final Component counting) {
+		this.counting = counting;
+	}
+
 	private void setDefaultValueTimeInPopupReview(final int shift, final Timebox timefrom, final Timebox timeto) {
 		final Calendar cal = Calendar.getInstance();
 		int to = 0;
@@ -5928,6 +5946,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		cal.set(Calendar.HOUR_OF_DAY, from);
 
 		timeto.setValue(cal.getTime());
+	}
+
+	public void setDiv_count_day(final Div div_count_day) {
+		this.div_count_day = div_count_day;
 	}
 
 	@Listen("onClick = #sw_link_edit_review")
@@ -6509,8 +6531,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			for (final DetailFinalSchedule item : this.listDetailRevision) {
 
 				// set user count
-				if (!user_count.containsKey(item.getId_user())) {
-					user_count.put(item.getId_user(), Boolean.TRUE);
+				if (item.getId() != null) {
+					if (!user_count.containsKey(item.getId_user())) {
+						user_count.put(item.getId_user(), Boolean.TRUE);
+					}
 				}
 
 				// set user count work
@@ -6542,10 +6566,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			}
 
+			this.counting.setVisible(true);
+
 			this.overview_count_worker.setValue("" + user_count.size());
 			this.overview_count_h.setValue("" + Utility.roundTwo(count_h));
 			this.overview_count_h_c.setValue("" + Utility.roundTwo(count_h_c));
 			this.overview_count_days.setValue("" + count_day.size());
+			this.div_count_day.setVisible(true);
 
 			final int day_b = Utility.getDayBetweenDate(date_from, date_to);
 
@@ -6586,8 +6613,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			for (final DetailInitialSchedule item : this.listDetailProgram) {
 
-				if (item.getTime() != null) {
-					count_h += item.getTime();
+				if (item.getId() != null) {
+					if (item.getTime() != null) {
+						count_h += item.getTime();
+					}
 				}
 
 				if (item.getTime_vacation() != null) {
@@ -6600,9 +6629,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			}
 
+			this.counting.setVisible(true);
+
 			this.overview_count_h.setValue("" + Utility.roundTwo(count_h));
 			this.overview_count_h_c.setValue("" + Utility.roundTwo(count_h_c));
-			this.overview_count_worker.setValue("" + user_count.size());
+			this.div_count_day.setVisible(false);
 
 			// set number of row showed
 			this.list_overview_program.setModel(new ListModelList<>(this.listDetailProgram));
@@ -6614,9 +6645,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			this.listSchedule = this.statisticDAO.listSchedule(full_text_search, shift_type, date_from, date_to);
 
-			this.overview_count_h.setValue("");
-			this.overview_count_h_c.setValue("");
-			this.overview_count_worker.setValue("");
+			// counting visibility false
+			this.counting.setVisible(false);
 
 			// set number of row showed
 			this.list_overview_preprocessing.setModel(new ListModelList<>(this.listSchedule));
