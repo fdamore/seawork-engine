@@ -75,9 +75,56 @@
 						</row>
 
 						<row>
-							<label value="Note"></label>
-							<textbox id="note" width="200px" rows="3" />
+							<label value="Tipo"></label>
+							<combobox placeholder="Teorica o Pratica..."
+								id="training_typ">
+								<comboitem label="TEORICA"
+									value="TEORICA">
+								</comboitem>
+								<comboitem label="PRATICA"
+									value="PRATICA">
+								</comboitem>
+							</combobox>
 						</row>
+
+						<row>
+							<label value="Tutor"></label>
+							<combobox placeholder="Interno o Esterno..." width="200px"
+								id="training_tutor">
+								<comboitem label="INTERNO"
+									value="INTERNO">
+								</comboitem>
+								<comboitem label="ESTERNO"
+									value="ESTERNO">
+								</comboitem>
+							</combobox>
+						</row>
+
+						<row>
+							<label value="Ora Inizio Corso:"></label>
+							<timebox id="training_start_class" width="150px"
+								placeholder="Ora inizio corso...">
+							</timebox>
+
+						</row>
+
+						<row>
+
+							<label value="Ora Fine Corso:"></label>
+							<hbox>
+								<timebox id="training_end_class" width="150px"
+									placeholder="Ora fine corso...">
+								</timebox>
+
+								<hbox>
+									<label value="Durata Corso: "></label>
+									<label id="training_duration"></label>
+								</hbox>
+
+							</hbox>
+
+						</row>
+
 
 						<row>
 							<label
@@ -93,6 +140,13 @@
 							<datebox id="expiration_date"
 								placeholder="Seleziona data" width="200px" />
 						</row>
+
+						<row>
+							<label value="Note"></label>
+							<textbox id="note" width="200px" rows="3" />
+						</row>
+
+
 
 					</rows>
 				</grid>
@@ -110,17 +164,18 @@
 			<div>
 				<separator></separator>
 
+				<button id="sw_refresh_list"
+					onClick="grid_details.setVisible(false)" sclass="btn-info"
+					label="Ricarica Lista">
+				</button>
+
+				<textbox placeholder="Cerca..." id="full_text_search" />
+
 				<button id="sw_add" sclass="btn-info"
 					label="Aggiungi Certificato"
 					onClick="grid_details.setVisible(true);">
 				</button>
 
-				<textbox placeholder="Cerca..." id="full_text_search" />
-
-				<button id="sw_refresh_list"
-					onClick="grid_details.setVisible(false)" sclass="btn-info"
-					label="Ricarica Lista">
-				</button>
 
 				<button id="show_expirated"
 					onClick="grid_details.setVisible(false)" sclass="btn-danger"
@@ -150,14 +205,26 @@
 					<listheader label="Titolo" />
 					<listheader label="Descrizione" />
 					<listheader label="Interna/Esterna" />
+					<listheader label="Teorica/Pratica" />
 					<listheader label="Ente Formatore" />
 					<listheader label="Mansione" />
 					<listheader label="Livello" />
-					<listheader label="Note" />
+
 					<listheader label="Data Conseguimento Certificato"
 						sort="auto(certificate_date)" />
 					<listheader label="Data Scadenza Certificato"
 						sort="auto(expiration_date)" />
+
+
+					<listheader label="Tutor" sort="auto(tutor)" />
+					<listheader label="Inizio Corso" />
+					<listheader label="Fine Corso" />
+					<listheader label="Ore Totali" />
+
+
+
+
+					<listheader label="Note" />
 					<listheader label="" />
 				</listhead>
 
@@ -166,14 +233,27 @@
 					<listcell label="@{item.title}" />
 					<listcell label="@{item.description}" />
 					<listcell label="@{item.trainer_type}" />
+					<listcell label="@{item.typ}" />
 					<listcell label="@{item.trainer}" />
 					<listcell label="@{item.training_task}" />
 					<listcell label="@{item.training_level}" />
-					<listcell label="@{item.note}" />
+
 					<listcell
 						label="@{item.certificate_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 					<listcell
 						label="@{item.expiration_date, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+
+
+					<listcell label="@{item.tutor}" />
+					<listcell
+						label="@{item.start_class, converter='org.uario.seaworkengine.zkevent.converter.DateTimeConverter'}" />
+					<listcell
+						label="@{item.end_class, converter='org.uario.seaworkengine.zkevent.converter.DateTimeConverter'}" />
+					<listcell label="@{item.hoursClass}" />
+
+
+
+					<listcell label="@{item.note}" />
 
 					<listcell>
 

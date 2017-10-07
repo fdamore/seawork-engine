@@ -53,6 +53,8 @@ public class UtilityCSV {
 
 	private static final SimpleDateFormat	formatMonthOverview	= new SimpleDateFormat("MM/yyyy");
 
+	private static final SimpleDateFormat	formatTime			= new SimpleDateFormat("HH:mm");
+	
 	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
@@ -482,7 +484,7 @@ public class UtilityCSV {
 	 */
 	public static StringBuilder downloadCSV_user_formazione(final List<TrainingCertificate> list) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Note\n";
+		final String header = "Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Note\n";
 		builder.append(header);
 
 		for (final TrainingCertificate itm : list) {
@@ -495,10 +497,15 @@ public class UtilityCSV {
 			final String livello = "" + itm.getTraining_level();
 			final String data_conseguimento = "" + UtilityCSV.returnItalianDate(itm.getCertificate_date());
 			final String data_scadenza = "" + UtilityCSV.returnItalianDate(itm.getExpiration_date());
+			final String tutor = itm.getTutor();
+			final String inizio_corso = UtilityCSV.returnTimeFormat(itm.getStart_class());
+			final String fine_corso = UtilityCSV.returnTimeFormat(itm.getEnd_class());
+			final String htot = itm.getHoursClass();
+			
 			final String note = "" + itm.getNote();
 
 			final String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione + ";" + livello + ";"
-					+ data_conseguimento + ";" + data_scadenza + ";" + note + "\n";
+					+ data_conseguimento + ";" + data_scadenza + ";" + tutor + ";" + inizio_corso + ";" + fine_corso + ";" + htot + ";" + note + "\n";
 
 			builder.append(line);
 
@@ -1745,13 +1752,21 @@ public class UtilityCSV {
 
 		return UtilityCSV.formatDateOverview.format(itm);
 	}
-
+	
 	private static String returnItalianMonth(final Date itm) {
 		if (itm == null) {
 			return "";
 		}
 
 		return UtilityCSV.formatMonthOverview.format(itm);
+	}
+
+	private static String returnTimeFormat(final Date itm) {
+		if (itm == null) {
+			return "00:00";
+		}
+
+		return UtilityCSV.formatTime.format(itm);
 	}
 
 }
