@@ -193,6 +193,21 @@ public interface IStatistics {
 	 * @param full_text_search
 	 * @param shift_number
 	 * @param shift_type
+	 *
+	 * @param date_from
+	 * @param date_to
+	 *
+	 * @return
+	 */
+	public List<DetailFinalSchedule> listDetailFinalScheduleOnly(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
+			Date date_from, Date date_to, Boolean reviewshift, Integer idShip, String crane, Integer rf_sws);
+	
+	/**
+	 * List detail initial schedule
+	 *
+	 * @param full_text_search
+	 * @param shift_number
+	 * @param shift_type
 	 *            * @param date_from
 	 * @param date_to
 	 *
@@ -200,6 +215,20 @@ public interface IStatistics {
 	 */
 	public List<DetailInitialSchedule> listDetailInitialSchedule(String full_text_search, Integer shift_number, Integer shift_type, Integer task_id,
 			Date date_from, Date date_to);
+
+	/**
+	 * List detail initial schedule
+	 *
+	 * @param full_text_search
+	 * @param shift_number
+	 * @param shift_type
+	 *            * @param date_from
+	 * @param date_to
+	 *
+	 * @return
+	 */
+	public List<DetailInitialSchedule> listDetailInitialScheduleOnly(String full_text_search, Integer shift_number, Integer shift_type,
+			Integer task_id, Date date_from, Date date_to);
 	
 	/**
 	 * List detail initial schedule

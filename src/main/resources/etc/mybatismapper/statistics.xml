@@ -561,56 +561,63 @@ FROM
 WHERE
     s.user = u.id
 ]]>
-	<if test="my_full_text_search != null">
+		<if test="my_full_text_search != null">
 		<![CDATA[
 		 AND (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
 		      OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
 		      OR u.employee_identification = #{my_full_text_search})
-		]]>	
-	</if>
+		]]>
+		</if>
 
-	<if test="shift_number != null">
-		and (dfs.shift = #{shift_number})
-	</if>
+		<if test="shift_number != null">
+			and (dfs.shift = #{shift_number})
+		</if>
 
-	<if test="date_from != null and date_to != null">
+		<if test="date_from != null and date_to != null">
 	<![CDATA[
 		AND (s.date_schedule >= #{date_from} AND s.date_schedule <= #{date_to})
-	]]>			
-	</if>
+	]]>
+		</if>
 
-	<if test="shift_type != null">
-		and (s.shift = #{shift_type})
-	</if>
+		<if test="shift_type != null">
+			and (s.shift = #{shift_type})
+		</if>
 
-	<if test="task_id != null and task_id != -1">
-		and (dfs.task = #{task_id})
-	</if>
+		<if test="task_id != null and task_id != -1">
+			and (dfs.task = #{task_id})
+		</if>
 
-	<if test="task_id != null and task_id == -1">
-		and (dfs.task is null)
-	</if>
+		<if test="task_id != null and task_id == -1">
+			and (dfs.task is null)
+		</if>
 
-	<if test="reviewshift != null">
-		and (dfs.reviewshift = #{reviewshift})
-	</if>
+		<if test="reviewshift != null">
+			and (dfs.reviewshift = #{reviewshift})
+		</if>
 
-	<if test="craneId != null">
+		<if test="craneId != null">
 		<![CDATA[
 		AND (crane like CONCAT('%', #{craneId}, '%') )
-		]]>	
-	</if>
+		]]>
+		</if>
 
-	<if test="idShip != null and idShip != -1">
-		and (dfs.id_ship = #{idShip})
-	</if>
+		<if test="idShip != null and idShip != -1">
+			and (dfs.id_ship = #{idShip})
+		</if>
 
-	<if test="idShip != null and idShip == -1">
-		and (dfs.id_ship is null)
-	</if>
-	<if test="rif_sws != null">
-		and (dfs.rif_sws = #{rif_sws})
-	</if>
+		<if test="idShip != null and idShip == -1">
+			and (dfs.id_ship is null)
+		</if>
+		<if test="rif_sws != null">
+			and (dfs.rif_sws = #{rif_sws})
+		</if>
+
+		<if test="force_only != null">
+			and (dfs.id is not null)
+		</if>
+	
+	
+	
 
 <![CDATA[
 ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
@@ -621,60 +628,64 @@ ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
 
 	<select id="overviewInitalSchedule" resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
 		parameterType="map">
-		select
-		concat(u.lastname, ' ', u.firstname) as user,
-		u.employee_identification as employee_identification,
-		u.id as id_user,
-		dfs.id,
-		s.id as id_schedule,
-		dfs.shift,
-		s.shift as shift_type,
-		dfs.task,
-		dfs.time,
-		dfs.time_vacation,
-		dfs.time_from,
-		dfs.time_to,
-		s.date_schedule,
-		s.note,
-		(select
-		concat(temp_1.lastname, ' ', temp_1.firstname)
-		from
-		user
-		temp_1
-		where
-		temp_1.id = s.editor) as editor,
-		(select
-		concat(temp_1.lastname, ' ', temp_1.firstname)
-		from
-		user temp_1
-		where
-		temp_1.id = s.controller) as controller,
-		(select t.code
-		from
-		user_usertask uut, usertask t
-		where uut.id_usertask = t.id and
-		uut.id_user = u.id and uut.task_default=1
-		) as defaultTask
-		from
-		user u,
-		schedule s left outer join
-		detailinitialschedule dfs on
-		(dfs.id_schedule = s.id)
-		where
-		s.user = u.id
-
+		<![CDATA[
+SELECT 
+    CONCAT(u.lastname, ' ', u.firstname) AS user,
+    u.employee_identification AS employee_identification,
+    u.id AS id_user,
+    dfs.id,
+    s.id AS id_schedule,
+    dfs.shift,
+    s.shift AS shift_type,
+    dfs.task,
+    dfs.time,
+    dfs.time_vacation,
+    dfs.time_from,
+    dfs.time_to,
+    s.date_schedule,
+    s.note,
+    (SELECT 
+            CONCAT(temp_1.lastname, ' ', temp_1.firstname)
+        FROM
+            user temp_1
+        WHERE
+            temp_1.id = s.editor) AS editor,
+    (SELECT 
+            CONCAT(temp_1.lastname, ' ', temp_1.firstname)
+        FROM
+            user temp_1
+        WHERE
+            temp_1.id = s.controller) AS controller,
+    (SELECT 
+            t.code
+        FROM
+            user_usertask uut,
+            usertask t
+        WHERE
+            uut.id_usertask = t.id
+                AND uut.id_user = u.id
+                AND uut.task_default = 1) AS defaultTask
+FROM
+    user u,
+    schedule s
+        LEFT OUTER JOIN
+    detailinitialschedule dfs ON (dfs.id_schedule = s.id)
+WHERE
+    s.user = u.id
+]]>
 		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%', #{my_full_text_search},
-			'%') or
-			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
-			u.employee_identification = #{my_full_text_search})
+			<![CDATA[
+			AND (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
+	        OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
+	        OR u.employee_identification = #{my_full_text_search})
+	        ]]>
 		</if>
 
 		<if test="date_from != null and date_to != null">
-			and (s.date_schedule <![CDATA[>=]]>
-			#{date_from} and s.date_schedule
-			<![CDATA[<=]]>
-			#{date_to})
+		<![CDATA[
+			 AND (s.date_schedule >= #{date_from}
+       		 AND s.date_schedule <= #{date_to})
+       		  ]]>
 		</if>
 
 		<if test="shift_number != null">
@@ -693,7 +704,13 @@ ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
 			and (dfs.task is null)
 		</if>
 
+		<if test="force_only != null">
+			and (dfs.id is not null)
+		</if>
+		
+<![CDATA[
 		order by u.lastname, s.date_schedule, dfs.shift, dfs.time_from asc
+]]>
 
 	</select>
 
@@ -920,7 +937,7 @@ ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
 
 
 	<!-- REPORT SHIP WORK -->
-	
+
 	<!-- CONTAINER -->
 	<select id="volumeContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
@@ -964,7 +981,7 @@ WHERE
 GROUP BY monthInvoice;
 ]]>
 
-	</select>	
+	</select>
 
 	<!-- TOTAL -->
 	<select id="getTotalContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
@@ -1016,9 +1033,9 @@ GROUP BY monthInvoice;
 ]]>
 
 	</select>
-	
-	
-		<!-- COUNT SERVICE -->
+
+
+	<!-- COUNT SERVICE -->
 	<select id="getTotalServiceByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
@@ -1040,7 +1057,7 @@ GROUP BY monthInvoice;
 ]]>
 	</select>
 
-<select id="getTotalServiceByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalServiceByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -1058,8 +1075,8 @@ GROUP BY monthInvoice;
 ]]>
 
 	</select>
-	
-	
+
+
 
 	<!-- HAND - MEN -->
 	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
