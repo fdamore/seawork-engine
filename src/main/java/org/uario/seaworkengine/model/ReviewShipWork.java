@@ -19,6 +19,8 @@ public class ReviewShipWork implements Serializable {
 
 	private Date				date_request;
 
+	public String				distinctSWS;
+
 	private Date				first_down;
 
 	private Double				franchise_timework;
@@ -87,6 +89,10 @@ public class ReviewShipWork implements Serializable {
 
 	public Date getDate_request() {
 		return this.date_request;
+	}
+
+	public String getDistinctSWS() {
+		return this.distinctSWS;
 	}
 
 	public Date getFirst_down() {
@@ -251,6 +257,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setDate_request(final Date date_request) {
 		this.date_request = date_request;
+	}
+
+	public void setDistinctSWS(final String distinctSWS) {
+		this.distinctSWS = distinctSWS;
 	}
 
 	public void setFirst_down(final Date first_down) {

@@ -1366,7 +1366,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "Settimana;Giorno;Data;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
+		String header = "Settimana;Giorno;Data;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;SWS Distinto;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
 		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
 		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra";
 		header = header + "\n";
@@ -1391,7 +1391,6 @@ public class UtilityCSV {
 			String volumeOnBoard_sws = "";
 			String volumeTW = "";
 			String inovoice_cycle = "";
-			String menworkh = "";
 			String sky_item = "";
 			String wind_item = "";
 			String temperature_item = "";
@@ -1401,6 +1400,7 @@ public class UtilityCSV {
 			String date_first_down = "";
 			String date_last_down = "";
 			final String worked = (item.getWorkedIT() == null) ? "" : item.getWorkedIT();
+			final String distinct_sws = (item.getDistinctSWS() == null) ? "" : item.getDistinctSWS();
 			final String customer = (item.getCustomer() == null) ? "" : item.getCustomer();
 
 			if (item.getDate_request() != null) {
@@ -1496,14 +1496,10 @@ public class UtilityCSV {
 				person_down = "" + item.getPerson_down();
 			}
 
-			if (item.getMenwork_activityh() != null) {
-				menworkh = "" + item.getMenwork_activityh();
-			}
-
 			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + customer + ";" + rif_sws + ";" + rif_mct + ";" + shift
-					+ ";" + worked + ";" + crane + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW
-					+ ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";"
-					+ date_first_down + ";" + date_last_down + ";" + person_down + "\n";
+					+ ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";"
+					+ volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";"
+					+ rain + ";" + person_onboard + ";" + date_first_down + ";" + date_last_down + ";" + person_down + "\n";
 			builder.append(line);
 
 		}

@@ -2300,16 +2300,19 @@
 								pageSize="10">
 								<listhead sizable="true">
 
-									<listheader label="Nave"
-										hflex="2" />
-										<listheader label="Cliente"
+									<listheader label="Nave" hflex="2" />
+									<listheader label="Cliente"
 										hflex="1" />
 									<listheader label="Data Turno"
 										hflex="2" />
 									<listheader label="Turno" hflex="1" />
-									
-									<listheader label="Lavorato" hflex="1" />
-									
+
+									<listheader label="Lavorato"
+										hflex="1" />
+
+									<listheader label="Rif. SWS Unici"
+										hflex="1" />
+
 									<listheader
 										label="Periodo di Fatturazione" hflex="1" />
 									<listheader label="Settimana"
@@ -2332,10 +2335,10 @@
 									<listheader label="Rif Cliente"
 										hflex="1" />
 									<listheader label="Gru" hflex="1" />
-									
-									<listheader
-										label="Tempo Netto" hflex="1" />
-									
+
+									<listheader label="Tempo Netto"
+										hflex="1" />
+
 									<listheader label="Volumi Netti"
 										hflex="1" />
 									<listheader
@@ -2346,10 +2349,10 @@
 									<listheader
 										label="Volumi Netti TW MCT" hflex="1" />
 
+									<listheader label="Persone (H)"
+										hflex="1" />
+
 									<listheader
-										label="Persone (H)" hflex="1" />
-										
-										<listheader
 										label="Persone(H) per Tempo Lavorato" hflex="1" />
 
 									<listheader label="Note" hflex="2" />
@@ -2376,7 +2379,7 @@
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.customer}">
 									</listcell>
-									
+
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
@@ -2384,9 +2387,12 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.shift}" />
-										
-										<listcell sclass="myBottonCell"
+
+									<listcell sclass="myBottonCell"
 										label="@{item_review_work.workedIT}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.distinctSWS}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.invoicing_cycle}">

@@ -2977,6 +2977,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.list_review_work = this.statistic_dao.loadReviewShipWork(date_from, date_to, text_search, rif_sws, rif_mct, shiftNumber, invoicing,
 					idServiceSelected, ship_type, ship_line, ship_condition);
 
+			// calculate distinct SWS
+			final HashMap<Integer, Boolean> map_sws = new HashMap<>();
+			for (final ReviewShipWork itm : this.list_review_work) {
+				final Integer sws = itm.getRif_sws();
+				if (map_sws.containsKey(sws)) {
+					itm.setDistinctSWS("NO");
+				} else {
+					itm.setDistinctSWS("SI");
+					map_sws.put(itm.getRif_sws(), Boolean.TRUE);
+				}
+			}
+
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.sw_list_reviewWork.setPageSize(this.shows_rows.getValue());
 			} else {
