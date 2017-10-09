@@ -15,6 +15,8 @@ public class ReviewShipWork implements Serializable {
 
 	private Boolean				crane_gtw;
 
+	public String				customer;
+
 	private Date				date_request;
 
 	private Date				first_down;
@@ -69,12 +71,18 @@ public class ReviewShipWork implements Serializable {
 
 	private String				wind;
 
+	public Boolean				worked;
+
 	public String getCrane() {
 		return this.crane;
 	}
 
 	public Boolean getCrane_gtw() {
 		return this.crane_gtw;
+	}
+
+	public String getCustomer() {
+		return this.customer;
 	}
 
 	public Date getDate_request() {
@@ -213,12 +221,32 @@ public class ReviewShipWork implements Serializable {
 		return this.wind;
 	}
 
+	public Boolean getWorked() {
+		return this.worked;
+	}
+
+	public String getWorkedIT() {
+		if (this.worked == null) {
+			return null;
+		}
+		if (this.worked.booleanValue()) {
+			return "SI";
+		} else {
+			return "NO";
+		}
+
+	}
+
 	public void setCrane(final String crane) {
 		this.crane = crane;
 	}
 
 	public void setCrane_gtw(final Boolean crane_gtw) {
 		this.crane_gtw = crane_gtw;
+	}
+
+	public void setCustomer(final String customer) {
+		this.customer = customer;
 	}
 
 	public void setDate_request(final Date date_request) {
@@ -307,6 +335,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setWind(final String wind) {
 		this.wind = wind;
+	}
+
+	public void setWorked(final Boolean worked) {
+		this.worked = worked;
 	}
 
 }

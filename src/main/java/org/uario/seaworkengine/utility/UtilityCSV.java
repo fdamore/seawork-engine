@@ -54,7 +54,7 @@ public class UtilityCSV {
 	private static final SimpleDateFormat	formatMonthOverview	= new SimpleDateFormat("MM/yyyy");
 
 	private static final SimpleDateFormat	formatTime			= new SimpleDateFormat("HH:mm");
-	
+
 	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
@@ -501,7 +501,7 @@ public class UtilityCSV {
 			final String inizio_corso = UtilityCSV.returnTimeFormat(itm.getStart_class());
 			final String fine_corso = UtilityCSV.returnTimeFormat(itm.getEnd_class());
 			final String htot = itm.getHoursClass();
-			
+
 			final String note = "" + itm.getNote();
 
 			final String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione + ";" + livello + ";"
@@ -1366,7 +1366,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "Settimana;Giorno;Data;Nome Nave;Rif SWS;Rif MCT;Turno;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
+		String header = "Settimana;Giorno;Data;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
 		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
 		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra";
 		header = header + "\n";
@@ -1391,19 +1391,17 @@ public class UtilityCSV {
 			String volumeOnBoard_sws = "";
 			String volumeTW = "";
 			String inovoice_cycle = "";
-
 			String menworkh = "";
-
 			String sky_item = "";
 			String wind_item = "";
 			String temperature_item = "";
 			String rain = "";
-
 			String person_onboard = "";
 			String person_down = "";
-
 			String date_first_down = "";
 			String date_last_down = "";
+			final String worked = (item.getWorkedIT() == null) ? "" : item.getWorkedIT();
+			final String customer = (item.getCustomer() == null) ? "" : item.getCustomer();
 
 			if (item.getDate_request() != null) {
 				week = Utility.getWeekNumber(item.getDate_request()).toString();
@@ -1502,10 +1500,10 @@ public class UtilityCSV {
 				menworkh = "" + item.getMenwork_activityh();
 			}
 
-			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + rif_sws + ";" + rif_mct + ";" + shift + ";" + crane + ";"
-					+ workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";"
-					+ menworkh + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";" + date_first_down
-					+ ";" + date_last_down + ";" + person_down + "\n";
+			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + customer + ";" + rif_sws + ";" + rif_mct + ";" + shift
+					+ ";" + worked + ";" + crane + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW
+					+ ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";"
+					+ date_first_down + ";" + date_last_down + ";" + person_down + "\n";
 			builder.append(line);
 
 		}
@@ -1752,7 +1750,7 @@ public class UtilityCSV {
 
 		return UtilityCSV.formatDateOverview.format(itm);
 	}
-	
+
 	private static String returnItalianMonth(final Date itm) {
 		if (itm == null) {
 			return "";

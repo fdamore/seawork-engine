@@ -58,7 +58,8 @@
 				</comboitem>
 			</combobox>
 
-			<button label="Versione Stampabile" sclass="btn-danger" visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
+			<button label="Versione Stampabile" sclass="btn-danger"
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 				id="print_program_videos"
 				xmlns:w="http://www.zkoss.org/2005/zk/client"
 				w:onClick="window.open('shipscheduler.zul?printProgram=1');" />
@@ -2259,6 +2260,8 @@
 										filterShipType.setVisible(false);
 										filterShipWorked.setVisible(false);">
 						</tab>
+						
+						
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO NAVE)"
 							id="overviewBapAggregate" selected="false"
@@ -2299,9 +2302,14 @@
 
 									<listheader label="Nave"
 										hflex="2" />
+										<listheader label="Cliente"
+										hflex="1" />
 									<listheader label="Data Turno"
 										hflex="2" />
 									<listheader label="Turno" hflex="1" />
+									
+									<listheader label="Lavorato" hflex="1" />
+									
 									<listheader
 										label="Periodo di Fatturazione" hflex="1" />
 									<listheader label="Settimana"
@@ -2364,6 +2372,11 @@
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.shipname}">
 									</listcell>
+									
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.customer}">
+									</listcell>
+									
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.date_request, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}">
@@ -2371,6 +2384,9 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.shift}" />
+										
+										<listcell sclass="myBottonCell"
+										label="@{item_review_work.workedIT}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.invoicing_cycle}">

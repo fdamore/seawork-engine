@@ -75,53 +75,66 @@
 	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BAP) -->
 	<select id="reviewShipWork" parameterType="map"
 		resultType="org.uario.seaworkengine.model.ReviewShipWork">
-
-		select ss.id as rif_sws, ss.rif_mct,
-		s.name as shipname,
-		s.id as
-		id_ship,
-		dss.shift,
-		d.timework as time_work, d.franchise_timework,
-		(select c.number from crane
-		c where d.id_crane=c.id) as crane,
-		d.crane_gtw,
-		dss.shiftdate as
-		date_request,
-		d.volume,d.franchise_volume,
-		d.volumeunderboard, d.franchise_volumeunderboard,
-		d.volumeunderboard_sws, d.franchise_volumeunderboard_sws,
-		d.volume_tw_mct, d.franchise_volume_tw_mct,
-		d.notedetail,
-		d.invoicing_cycle,
-		dss.sky, dss.rain,
-		dss.wind, dss.windyday,
-		dss.temperature,
-		dss.first_down,
-		dss.last_down,
-		dss.person_down,
-		dss.person_onboard,
-		d.menwork_activityh
-		from
-		ship s,
-		scheduleship
-		ss,
-		detailscheduleship dss
-		left join
-		detailfinalscheduleship d ON (dss.id
-		=
-		d.iddetailscheduleship)
-		where
-		dss.idscheduleship = ss.id
-		and s.id =
-		ss.idship
+<![CDATA[
+SELECT 
+    ss.id AS rif_sws,
+    ss.rif_mct,
+    (SELECT 
+            cc.name
+        FROM
+            customer cc
+        WHERE
+            cc.id = ss.customer_id) AS customer,
+    s.name AS shipname,
+    s.id AS id_ship,
+    dss.shift,
+    d.timework AS time_work,
+    d.franchise_timework,
+    (SELECT 
+            c.number
+        FROM
+            crane c
+        WHERE
+            d.id_crane = c.id) AS crane,
+    d.crane_gtw,
+    dss.shiftdate AS date_request,
+    d.volume,
+    d.franchise_volume,
+    d.volumeunderboard,
+    d.franchise_volumeunderboard,
+    d.volumeunderboard_sws,
+    d.franchise_volumeunderboard_sws,
+    d.volume_tw_mct,
+    d.franchise_volume_tw_mct,
+    d.notedetail,
+    d.invoicing_cycle,
+    dss.sky,
+    dss.rain,
+    dss.wind,
+    dss.windyday,
+    dss.temperature,
+    dss.first_down,
+    dss.last_down,
+    dss.person_down,
+    dss.person_onboard,
+    dss.worked,
+    d.menwork_activityh
+FROM
+    ship s,
+    scheduleship ss,
+    detailscheduleship dss
+        LEFT JOIN
+    detailfinalscheduleship d ON (dss.id = d.iddetailscheduleship)
+WHERE
+    dss.idscheduleship = ss.id
+        AND s.id = ss.idship
+]]>
 
 		<if test="dt_arg_to != null and dt_arg_from != null">
-
-			and dss.shiftdate <![CDATA[>=]]>
-			#{dt_arg_from} and
-			dss.shiftdate <![CDATA[<=]]>
-			#{dt_arg_to}
-
+			<![CDATA[
+			AND dss.shiftdate >= #{dt_arg_from}
+	        AND dss.shiftdate <= #{dt_arg_to}
+			]]>
 		</if>
 
 		<if test="dt_arg_to != null and dt_arg_from == null">
