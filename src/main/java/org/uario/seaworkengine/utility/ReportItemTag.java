@@ -21,8 +21,8 @@ public interface ReportItemTag {
 	public static String	Service_NumberOfService	= "Numero di servizi ";
 	public static String	Service_TimeWork		= "Totale ore Nette per servizio ";
 	public static String	Service_TimeWorkTotal	= "Totale ore Nette per servizi";
-	public static String	ShipNumberComplete		= "Numero navi - Completa";
-	public static String	ShipNumberTwist			= "Numero navi - TW";
+	public static String	ShipNumberComplete		= "Numero navi - Completa (RZ)";
+	public static String	ShipNumberTwist			= "Numero navi - TW (RZ)";
 	public static String	TaskTotalHours			= "Totale ore Lavorate per mansioni";
 	public static String	TaskTotalHoursRZ_PP		= "Totale ore RZ-PP";
 	public static String	WindyDay				= "Giorni disagio vento";
