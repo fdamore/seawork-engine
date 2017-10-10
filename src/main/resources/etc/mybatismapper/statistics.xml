@@ -1157,12 +1157,14 @@ GROUP BY monthInvoice;
 
 	<select id="countShipByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
-<![CDATA[		
+<![CDATA[	
 SELECT 
     COUNT(DISTINCT ss.id) AS shipnumber,
-    MONTH(dis.shiftdate) AS monthInvoice
+    dfs.invoicing_cycle AS monthInvoice
 FROM
-    detailscheduleship dis,
+    detailscheduleship dis
+        LEFT JOIN
+    detailfinalscheduleship dfs ON iddetailscheduleship = dis.id,
     scheduleship ss
 WHERE
     YEAR(dis.shiftdate) = #{year}
@@ -1173,22 +1175,16 @@ WHERE
             service sv
         WHERE
             sv.isRZ = 1)
-        ]]>
-
-		<if test="operation!=null">
-        <![CDATA[
-			AND dis.operation like CONCAT('%', #{operation},'%')]]>
-		</if>
-<![CDATA[ 
-		AND EXISTS(SELECT 
-            *
-        FROM
-            detailfinalscheduleship dfs
-        WHERE
-            dfs.invoicing_cycle IS NOT NULL
-                AND iddetailscheduleship = dis.id)         
-GROUP BY monthInvoice;
+             AND dfs.invoicing_cycle IS NOT NULL
  ]]>
+ 		<if test="operation!=null">
+       	<![CDATA[
+			AND dis.operation like CONCAT('%', #{operation},'%')
+		]]>
+		</if>
+       
+GROUP BY monthInvoice;
+
 
 
 	</select>
