@@ -3052,7 +3052,7 @@
 										value="@{itemoverviewreview}">
 
 										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.id, converter='org.uario.seaworkengine.zkevent.converter.ExistID'}" />
+											label="@{itemoverviewreview, converter='org.uario.seaworkengine.zkevent.converter.SignAsProcessed'}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
@@ -3266,7 +3266,7 @@
 										value="@{itemoverviewprogram}">
 										
 											<listcell sclass="myBottonCell"
-											label="@{itemoverviewprogram.id, converter='org.uario.seaworkengine.zkevent.converter.ExistID'}" />
+											label="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.SignAsProcessed'}" />
 										
 
 										<listcell sclass="myBottonCell"
