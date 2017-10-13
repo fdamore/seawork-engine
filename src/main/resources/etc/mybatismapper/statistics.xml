@@ -361,43 +361,44 @@ WHERE
 
 	<select id="listSchedule" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-
-		select s.id,
-		u.id as user,
-		u.employee_identification as
-		employee_identification,
-		s.shift,
-		s.date_schedule,
-		concat(u.lastname, '
-		', u.firstname) AS name_user,
-		s.editor,
-		s.controller
-		from
-		user u,
-		schedule
-		s
-		where (u.id =
-		s.user)
+<![CDATA[
+SELECT 
+    s.id,
+    u.id AS user,
+    u.employee_identification AS employee_identification,
+    s.shift,    
+    s.date_schedule,
+    CONCAT(u.lastname, '', u.firstname) AS name_user,
+    s.editor,
+    s.controller,
+    s.note
+FROM
+    user u,
+    schedule s
+WHERE
+    (u.id = s.user)
+    ]]>
 
 		<if test="date_from != null and date_to != null">
-			and (s.date_schedule <![CDATA[>=]]>
-			#{date_from} and s.date_schedule
-			<![CDATA[<=]]>
-			#{date_to})
+		<![CDATA[
+		  	AND (s.date_schedule >= #{date_from}
+        	AND s.date_schedule <= #{date_to})
+			]]>
 		</if>
 
 		<if test="my_full_text_search != null">
-			and (u.firstname like CONCAT('%', #{my_full_text_search},
-			'%') or
-			u.lastname like CONCAT('%', #{my_full_text_search}, '%') or
-			u.employee_identification = #{my_full_text_search})
+		<![CDATA[
+			AND (u.firstname LIKE CONCAT('%', #{my_full_text_search}, '%')
+	        OR u.lastname LIKE CONCAT('%', #{my_full_text_search}, '%')
+	        OR u.employee_identification = #{my_full_text_search})
+        ]]>
 		</if>
 
 		<if test="date_from != null and date_to != null">
-			and (s.date_schedule <![CDATA[>=]]>
-			#{date_from} and s.date_schedule
-			<![CDATA[<=]]>
-			#{date_to})
+		<![CDATA[
+			AND (s.date_schedule >= #{date_from}
+        	AND s.date_schedule <= #{date_to})
+			]]>
 		</if>
 
 		<if test="shift_number != null">

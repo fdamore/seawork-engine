@@ -24,10 +24,10 @@
 
 	<zscript>
 	Comparator asc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(true);
-	Comparator dsc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
-	Comparator asc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(true);
-	Comparator dsc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
-</zscript>
+		Comparator dsc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
+		Comparator asc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(true);
+		Comparator dsc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
+	</zscript>
 
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.SchedulerComposer"
@@ -3413,6 +3413,9 @@
 										<listheader label="Tipo Turno"
 											hflex="1" align="center" />
 
+										<listheader label="Note"
+											hflex="1" align="left" />
+
 									</listhead>
 
 									<listitem
@@ -3467,6 +3470,9 @@
 </attribute>
 											</a>
 										</listcell>
+										
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewpreprocessing.note}" />
 
 
 									</listitem>
