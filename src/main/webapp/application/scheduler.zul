@@ -24,10 +24,10 @@
 
 	<zscript>
 	Comparator asc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(true);
-		Comparator dsc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
-		Comparator asc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(true);
-		Comparator dsc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
-	</zscript>
+	Comparator dsc = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparator(false);
+	Comparator asc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(true);
+	Comparator dsc_init = new org.uario.seaworkengine.zkevent.comparator.IdEmployComparatorInitialSchedule(false);
+</zscript>
 
 	<vlayout sclass="page-content" xmlns:n="native" spacing="0"
 		apply="org.uario.seaworkengine.zkevent.SchedulerComposer"
@@ -2910,16 +2910,17 @@
 							</hbox>
 
 
-
-							<hbox>
-								<a
-									label="Totali Dipendenti in Organico:"
-									visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-								<label id="overview_count_worker_factor"
-									visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-							</hbox>
-
 							<div id="div_count_day">
+								<hbox>
+									<a
+										label="Totali Dipendenti in Organico:"
+										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+									<label
+										id="overview_count_worker_factor"
+										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+								</hbox>
+
+
 								<hbox>
 									<a label="Totale Giorni Lavorati:" />
 									<label id="overview_count_days" />
