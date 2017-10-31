@@ -10,11 +10,11 @@
 		INSERT INTO
 		training_certificate
 		(id,title,certificate_date,expiration_date,description,user_id,
-		trainer_type, trainer, training_task, training_level, note, typ,tutor,start_class, end_class)
+		trainer_type, trainer, training_task, training_level, note, typ,tutor,start_class, end_class, duration)
 		VALUES
 		(#{id},#{title},#{certificate_date},#{expiration_date},
 		#{description},#{user_id}, #{trainer_type}, #{trainer},
-		#{training_task}, #{training_level}, #{note}, #{typ},#{tutor},#{start_class}, #{end_class});
+		#{training_task}, #{training_level}, #{note}, #{typ},#{tutor},#{start_class}, #{end_class}, #{duration});
 
 	</insert>
 
@@ -36,7 +36,8 @@ SELECT
     t.typ,
     t.tutor,
     t.start_class,
-    t.end_class    
+    t.end_class,
+    t.duration    
 FROM
     training_certificate t,
     user u
@@ -108,7 +109,8 @@ WHERE
 		typ = #{typ},
 		tutor = #{tutor},
 		start_class = #{start_class},
-		end_class = #{end_class}		
+		end_class = #{end_class},
+		duration = #{duration}		
 		WHERE id= #{id};
 	</update>
 

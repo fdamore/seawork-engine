@@ -89,8 +89,8 @@
 
 						<row>
 							<label value="Tutor"></label>
-							<combobox placeholder="Interno o Esterno..." width="200px"
-								id="training_tutor">
+							<combobox placeholder="Interno o Esterno..."
+								width="200px" id="training_tutor">
 								<comboitem label="INTERNO"
 									value="INTERNO">
 								</comboitem>
@@ -102,9 +102,10 @@
 
 						<row>
 							<label value="Ora Inizio Corso:"></label>
-							<timebox id="training_start_class" width="150px"
+							<datebox id="training_start_class"
+								format="long+medium" width="150px"
 								placeholder="Ora inizio corso...">
-							</timebox>
+							</datebox>
 
 						</row>
 
@@ -112,19 +113,21 @@
 
 							<label value="Ora Fine Corso:"></label>
 							<hbox>
-								<timebox id="training_end_class" width="150px"
+								<datebox id="training_end_class"
+									format="long+medium" width="150px"
 									placeholder="Ora fine corso...">
-								</timebox>
-
-								<hbox>
-									<label value="Durata Corso: "></label>
-									<label id="training_duration"></label>
-								</hbox>
+								</datebox>
 
 							</hbox>
 
 						</row>
 
+						<row>
+							<label value="Durata Corso (ore): "></label>
+							<intbox id="training_duration"
+								constraint="no negative">
+							</intbox>
+						</row>
 
 						<row>
 							<label
@@ -245,11 +248,11 @@
 
 
 					<listcell label="@{item.tutor}" />
-					<listcell
-						label="@{item.start_class, converter='org.uario.seaworkengine.zkevent.converter.DateTimeConverter'}" />
-					<listcell
-						label="@{item.end_class, converter='org.uario.seaworkengine.zkevent.converter.DateTimeConverter'}" />
-					<listcell label="@{item.hoursClass}" />
+					<listcell label="@{item.start_class}" />
+					<listcell label="@{item.end_class}"></listcell>
+
+
+					<listcell label="@{item.duration}" />
 
 
 

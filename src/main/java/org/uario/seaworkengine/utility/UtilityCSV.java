@@ -503,7 +503,7 @@ public class UtilityCSV {
 			final String tutor = itm.getTutor();
 			final String inizio_corso = UtilityCSV.returnTimeFormat(itm.getStart_class());
 			final String fine_corso = UtilityCSV.returnTimeFormat(itm.getEnd_class());
-			final String htot = itm.getHoursClass();
+			final String htot = (itm.getDuration() == null) ? "" : itm.getDuration().toString();
 
 			final String note = "" + itm.getNote();
 
@@ -858,7 +858,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule,
 			final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "anno;mese;settimana;giorno;nome;matricola;data;turno;\n";
+		final String header = "anno;mese;settimana;giorno;nome;matricola;data;turno;note\n";
 		builder.append(header);
 
 		for (final Schedule item : listSchedule) {
@@ -886,8 +886,10 @@ public class UtilityCSV {
 				employee_identification = item.getEmployee_identification();
 			}
 
+			final String note = (item.getNote() == null) ? "" : item.getNote();
+
 			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";"
-					+ employee_identification + ";" + date + ";" + code_shift + ";\n";
+					+ employee_identification + ";" + date + ";" + code_shift + ";" + note + "\n";
 			builder.append(line);
 		}
 		return builder;
@@ -1398,7 +1400,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "Settimana;Giorno;Data;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;SWS Distinto;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
+		String header = "Settimana;Giorno;Data;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;CheckSWS;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
 		header = header
 				+ "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
 		header = header
