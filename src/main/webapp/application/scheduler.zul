@@ -2902,15 +2902,14 @@
 							</hbox>
 
 
-							<hbox>
-								<a label="Totale dipendenti:"
-									visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-								<label id="overview_count_worker"
-									visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-							</hbox>
-
-
 							<div id="div_count_day">
+
+								<hbox>
+									<a label="Totale dipendenti:"
+										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+									<label id="overview_count_worker"
+										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+								</hbox>
 								<hbox>
 									<a
 										label="Totali Dipendenti in Organico:"

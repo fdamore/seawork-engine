@@ -6377,22 +6377,22 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 * Overview list
 	 */
 	private void setOverviewLists(final Date date_from_overview, final Date date_to_overview) {
-		
+
 		String full_text_search = null;
 		Integer shift_number = null;
 		Date date_from = null;
 		Date date_to = null;
-		
+
 		UserTask taskSelected = null;
 		if ((this.taskComboBox.getSelectedItem() != null) && (this.taskComboBox.getSelectedItem().getValue() instanceof UserTask)) {
 			taskSelected = this.taskComboBox.getSelectedItem().getValue();
 		}
-		
+
 		// select full_text searching
 		if ((this.full_text_search.getValue() != null) && !this.full_text_search.getValue().equals("")) {
 			full_text_search = this.full_text_search.getValue();
 		}
-		
+
 		// select shift
 		if (this.select_shift_overview.getSelectedItem() != null) {
 			final String value = this.select_shift_overview.getValue();
@@ -6402,7 +6402,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 		}
-		
+
 		// select date
 		if (date_from_overview != null) {
 			date_from = date_from_overview;
@@ -6421,49 +6421,49 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			params.put("sclass", "mybutton Button");
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
-			
+
 			Messagebox.show("Controlla le date inserite", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
-			
+
 			return;
 		}
-		
+
 		// set datefrom and dateto if month filter or week filter is used
 		if ((this.select_year.getSelectedItem() != null) && !this.select_year.getSelectedItem().getValue().equals(SchedulerComposer.ALL_ITEM)) {
 			final String year = this.select_year.getSelectedItem().getValue();
-			
+
 			final Integer y = Integer.parseInt(year);
-			
+
 			ArrayList<Date> dates = null;
-			
+
 			if ((this.select_month.getSelectedItem() != null) && !this.select_month.getSelectedItem().getValue().equals(SchedulerComposer.ALL_ITEM)) {
 				final String month = this.select_month.getSelectedItem().getValue();
 				final Integer m = Integer.parseInt(month);
-				
+
 				dates = this.getDateByMonth(m, y);
-				
+
 			}
-			
+
 			if ((this.select_week.getSelectedItem() != null) && !this.select_week.getSelectedItem().getValue().equals(SchedulerComposer.ALL_ITEM)) {
 				final String week = this.select_week.getSelectedItem().getValue();
-				
+
 				final Integer w = Integer.parseInt(week);
-				
+
 				dates = this.getDateByWeek(w, y);
 			}
-			
+
 			if (dates != null) {
 				date_from = dates.get(0);
-				
+
 				this.date_from_overview.setValue(date_from);
-				
+
 				date_to = dates.get(1);
-				
+
 				this.date_to_overview.setValue(date_to);
 			}
 		}
-		
+
 		Integer shift_type = null;
-		
+
 		if ((this.select_shifttype_overview.getSelectedItem() != null)
 				&& (this.select_shifttype_overview.getSelectedItem().getValue() instanceof UserShift)) {
 			final UserShift shift = this.select_shifttype_overview.getSelectedItem().getValue();
@@ -6471,20 +6471,20 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				shift_type = shift.getId();
 			}
 		}
-		
+
 		// select list
 		if (this.overview_review.isSelected()) {
-			
+
 			Integer idSelectedTask = null;
 			if (taskSelected != null) {
 				idSelectedTask = taskSelected.getId();
-				
+
 				if (idSelectedTask == -2) {
 					// filter selected is "all ships"
 					idSelectedTask = null;
 				}
 			}
-			
+
 			Boolean reviewshift = null;
 			if (this.hoursInterval.getSelectedItem() != null) {
 				if (this.hoursInterval.getSelectedItem().getValue().equals("true")) {
@@ -6492,9 +6492,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				} else if (this.hoursInterval.getSelectedItem().getValue().equals("false")) {
 				}
 			}
-			
+
 			Integer idShip = null;
-			
+
 			if (this.shipSelector.getSelectedItem() != null) {
 				final Ship ship = this.shipSelector.getSelectedItem().getValue();
 				idShip = ship.getId();
@@ -6502,167 +6502,175 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					// filter selected is "all ships"
 					idShip = null;
 				}
-				
+
 			}
-			
+
 			// get idCrane. If idCrane is empty, set to null for mapping filter
 			String idCrane = this.craneSelector.getValue();
 			if ((idCrane != null) && idCrane.isEmpty()) {
 				idCrane = null;
 			}
-			
+
 			final Integer my_rif_sws = this.filter_sws.getValue();
-			
+
 			this.listDetailRevision = this.statisticDAO.listDetailFinalSchedule(full_text_search, shift_number, shift_type, idSelectedTask, date_from,
 					date_to, reviewshift, idShip, idCrane, my_rif_sws);
-			
+
 			if (this.dayWorking_filter.getSelectedIndex() == 1) {
 				this.listDetailRevision = this.filterDetailFinalScheduleByWorkingDay(true);
-				
+
 			} else if (this.dayWorking_filter.getSelectedIndex() == 2) {
 				this.listDetailRevision = this.filterDetailFinalScheduleByWorkingDay(false);
-				
+
 			}
-			
+
 			// counter
 			double count_h = 0;
 			double count_h_c = 0;
-			final HashMap<Integer, Boolean> user_count = new HashMap<>();
+			final HashMap<String, Boolean> user_count = new HashMap<>();
 			final HashMap<String, Boolean> user_count_work = new HashMap<>();
 			final ArrayList<Date> count_day = new ArrayList<>();
-			
+
 			for (final DetailFinalSchedule item : this.listDetailRevision) {
-				
+
 				// set user count
 				if (ZkUtility.isUserProcessed(item)) {
-					if (!user_count.containsKey(item.getId_user())) {
-						user_count.put(item.getId_user(), Boolean.TRUE);
+
+					// Create key
+					final String key = item.getId_user() + "ON" + item.getDate_schedule();
+
+					if (!user_count.containsKey(key)) {
+						user_count.put(key, Boolean.TRUE);
 					}
 				}
-				
+
 				// set user count work
 				final String key = "" + item.getId_user() + item.getDate_schedule().toString();
 				if (!user_count_work.containsKey(key)) {
 					user_count_work.put(key, Boolean.TRUE);
 					item.setSign_user(Boolean.TRUE);
 				}
-				
+
 				if (item.getTime() != null) {
 					count_h += item.getTime();
 				}
-				
+
 				if (item.getTime_vacation() != null) {
 					count_h_c += item.getTime_vacation();
 				}
-				
+
 				final Boolean is_working_day = Utility.isWorkingDay(item);
-				
+
 				// count day
 				if (is_working_day) {
-					
+
 					final Date itm_date = item.getDate_schedule();
-					
+
 					if (!count_day.contains(itm_date)) {
 						count_day.add(itm_date);
 					}
 				}
-				
+
 			}
-			
+
+			// define counting view
 			this.counting.setVisible(true);
-			
-			this.overview_count_worker.setValue("" + user_count.size());
+			this.div_count_day.setVisible(true);
+
+			// set counting
 			this.overview_count_h.setValue("" + Utility.roundTwo(count_h));
 			this.overview_count_h_c.setValue("" + Utility.roundTwo(count_h_c));
-			this.overview_count_days.setValue("" + count_day.size());
-			this.div_count_day.setVisible(true);
-			
+			this.overview_count_worker.setValue("" + user_count.size());
+
 			final int day_b = Utility.getDayBetweenDate(date_from, date_to);
-			
 			if (day_b == 0) {
 				this.overview_count_worker_factor.setValue("" + user_count.size());
 			} else {
 				final double factor = (double) user_count.size() / day_b;
-				
+
 				this.overview_count_worker_factor.setValue("" + Utility.roundTwo(factor));
 			}
-			
+
+			this.overview_count_days.setValue("" + count_day.size());
+
 			// set number of row showed
 			this.list_overview_review.setModel(new ListModelList<>(this.listDetailRevision));
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_review.setPageSize(this.shows_rows.getValue());
 			}
-			
+
 		} else if (this.overview_program.isSelected()) {
-			
+
 			Integer idSelectedTask = null;
 			if (taskSelected != null) {
 				idSelectedTask = taskSelected.getId();
-				
+
 				if (idSelectedTask == -2) {
 					// filter selected is "all ships"
 					idSelectedTask = null;
 				}
-				
+
 			}
-			
+
 			this.listDetailProgram = this.statisticDAO.listDetailInitialSchedule(full_text_search, shift_number, shift_type, idSelectedTask,
 					date_from, date_to);
-			
+
 			double count_h = 0;
 			double count_h_c = 0;
-			
+
 			final HashMap<Integer, Boolean> user_count = new HashMap<>();
-			
+
 			for (final DetailInitialSchedule item : this.listDetailProgram) {
-				
+
 				if (ZkUtility.isUserProcessed(item)) {
 					if (item.getTime() != null) {
 						count_h += item.getTime();
 					}
 				}
-				
+
 				if (item.getTime_vacation() != null) {
 					count_h_c += item.getTime_vacation();
 				}
-				
+
 				if (!user_count.containsKey(item.getId_user())) {
 					user_count.put(item.getId_user(), Boolean.TRUE);
 				}
-				
+
 			}
-			
+
+			// define counting view
 			this.counting.setVisible(true);
-			
+			this.div_count_day.setVisible(false);
+
+			// set counting
 			this.overview_count_h.setValue("" + Utility.roundTwo(count_h));
 			this.overview_count_h_c.setValue("" + Utility.roundTwo(count_h_c));
-			this.div_count_day.setVisible(false);
-			
+
 			// set number of row showed
 			this.list_overview_program.setModel(new ListModelList<>(this.listDetailProgram));
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_program.setPageSize(this.shows_rows.getValue());
 			}
-			
+
 		} else if (this.overview_preprocessing.isSelected()) {
-			
+
 			this.listSchedule = this.statisticDAO.listSchedule(full_text_search, shift_type, date_from, date_to);
-			
+
 			// counting visibility false
 			this.counting.setVisible(false);
-			
+
 			// set number of row showed
 			this.list_overview_preprocessing.setModel(new ListModelList<>(this.listSchedule));
 			if ((this.shows_rows.getValue() != null) && (this.shows_rows.getValue() != 0)) {
 				this.list_overview_preprocessing.setPageSize(this.shows_rows.getValue());
 			}
-			
+
 		} else if (this.overview_statistics.isSelected()) {
-			
+
 			this.refreshUserStatistics(full_text_search, null);
-			
+
 		}
-		
+
 	}
 
 	public void setSave_note_preprocessing(final Button save_note_preprocessing) {
