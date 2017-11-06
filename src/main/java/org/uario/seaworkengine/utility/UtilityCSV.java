@@ -1676,7 +1676,7 @@ public class UtilityCSV {
 
 				saturation = "" + sat_info;
 
-				if (sat < 0) {
+				if (sat <= 0) {
 					type_sat = "OT";
 				} else {
 					type_sat = "REC";
