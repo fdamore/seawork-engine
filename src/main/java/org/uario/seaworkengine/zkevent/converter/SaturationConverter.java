@@ -15,22 +15,15 @@ public class SaturationConverter implements TypeConverter {
 	@Override
 	public Object coerceToUi(final Object arg0, final Component arg1) {
 
-		if (!(arg0 instanceof Double && arg0 != null)) {
+		if (!((arg0 instanceof Double) && (arg0 != null))) {
 			return arg0;
 		}
 
 		final Double sat = (Double) arg0;
 
-		final String text = "";
+		final String type_sat = Utility.getTypeSaturation(sat);
 
-		// set saturation style
-		if (sat < 0) {
-
-			return text + "REC " + Utility.roundTwo(Math.abs(sat));
-
-		} else {
-			return text + "OT " + Utility.roundTwo(sat);
-		}
+		return type_sat + " " + Utility.roundTwo(Math.abs(sat));
 
 	}
 

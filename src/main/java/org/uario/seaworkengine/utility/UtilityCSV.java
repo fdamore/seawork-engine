@@ -1669,18 +1669,16 @@ public class UtilityCSV {
 				matr = p.getEmployee_identification();
 			}
 
+			// get saturation info
 			if (item.getSaturation() != null) {
-				final Double sat = Math.abs(Utility.roundTwo(item.getSaturation()));
 
+				type_sat = Utility.getTypeSaturation(item.getSaturation());
+
+				final Double sat = Math.abs(Utility.roundTwo(item.getSaturation()));
 				final String sat_info = String.format(Locale.ITALY, "%10.2f", sat);
 
 				saturation = "" + sat_info;
 
-				if (sat <= 0) {
-					type_sat = "OT";
-				} else {
-					type_sat = "REC";
-				}
 			}
 
 			if (item.getWork_current() != null) {
