@@ -1144,6 +1144,8 @@ public class UtilityCSV {
 			if (item.getNote() != null) {
 				nota = item.getNote();
 				nota = nota.replace("\n", " ");
+				nota = nota.replace("°", " ");
+
 			}
 
 			if (administrator) {
