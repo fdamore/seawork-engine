@@ -6582,13 +6582,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.overview_count_h_c.setValue("" + Utility.roundTwo(count_h_c));
 			this.overview_count_worker.setValue("" + user_count.size());
 
-			final int day_b = Utility.getDayBetweenDate(date_from, date_to);
-			if (day_b == 0) {
-				this.overview_count_worker_factor.setValue("" + user_count.size());
-			} else {
-				final double factor = (double) user_count.size() / day_b;
+			// FACTOR FOR - "TOTALE DIPENDENTI IN ORGANICO"
+			this.overview_count_worker_factor.setValue("");
+			if ((date_from != null) && (date_to != null)) {
+				final int day_b = Utility.getDayBetweenDate(date_from, date_to);
+				if (day_b == 0) {
+					this.overview_count_worker_factor.setValue("" + user_count.size());
+				} else {
+					final double factor = (double) user_count.size() / day_b;
 
-				this.overview_count_worker_factor.setValue("" + Utility.roundTwo(factor));
+					this.overview_count_worker_factor.setValue("" + Utility.roundTwo(factor));
+				}
 			}
 
 			this.overview_count_days.setValue("" + count_day.size());
