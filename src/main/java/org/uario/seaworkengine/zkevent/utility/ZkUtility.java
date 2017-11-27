@@ -45,7 +45,7 @@ public class ZkUtility {
 			return Boolean.FALSE;
 		}
 
-		if (shift.getBreak_shift() || shift.getForceable() || shift.getRecorded()) {
+		if (shift.getBreak_shift() || shift.getForceable() || shift.getRecorded() || shift.getDisease_shift()) {
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
