@@ -1102,7 +1102,7 @@ public class UtilityCSV {
 		String controller = "";
 
 		if (administrator) {
-			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
+			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
 		}
 		builder.append(header);
 
@@ -1112,12 +1112,17 @@ public class UtilityCSV {
 		for (final DetailFinalSchedule item : listDetailRevision) {
 
 			String processo = "";
+			String contabilizzato = "";
 			String date = "";
 			String year = "";
 			String mouth = "";
 			String weekDate = "";
 			String day = "";
 			String dayWorked = "";
+			String code_task = "";
+
+			// GET CURRENT TASK
+			final UserTask task = taskDao.loadTask(item.getTask());
 
 			// get rif_sws
 			final String rif_sws = (item.getRif_sws() == null) ? "" : item.getRif_sws().toString();
@@ -1169,10 +1174,13 @@ public class UtilityCSV {
 				} else {
 					processo = "";
 				}
-			}
 
-			String code_task = "";
-			final UserTask task = taskDao.loadTask(item.getTask());
+				contabilizzato = "NO";
+
+				if ((task != null) && (task.getRecorded() != null) && task.getRecorded().booleanValue()) {
+					contabilizzato = "SI";
+				}
+			}
 
 			final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(item.getId_schedule());
 
@@ -1365,9 +1373,10 @@ public class UtilityCSV {
 
 			if (administrator) {
 				line = "" + processo + ";" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification
-						+ ";" + sign_info + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info + ";" + factor_shift + ";" + code_task
-						+ ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane + ";" + board + ";" + rif_sws
-						+ ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";" + programmer + ";" + controller + ";\n";
+						+ ";" + sign_info + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info + ";" + contabilizzato + ";"
+						+ factor_shift + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane
+						+ ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";" + programmer + ";"
+						+ controller + ";\n";
 			} else {
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
 						+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
