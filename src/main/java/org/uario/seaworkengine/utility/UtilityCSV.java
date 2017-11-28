@@ -1363,7 +1363,7 @@ public class UtilityCSV {
 				final Integer den = item.getDaywork_w();
 				final Integer num = item.getHourswork_w();
 				if ((den != null) && (den != 0) && (num != null)) {
-					final double fact = num / den;
+					final double fact = num.doubleValue() / den.doubleValue();
 					final double num_factor_shift = Utility.roundTwo(fact);
 					factor_shift = String.format(Locale.ITALY, "%10.2f", num_factor_shift);
 				}
