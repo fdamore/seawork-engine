@@ -1393,9 +1393,9 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "Settimana;Giorno;Data;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;CheckSWS;Gru;Tempo Netto Lavorato;Volumi Netti Attesi;";
+		String header = "Settimana;Giorno;Data;Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;CheckSWS;Gru;Tempo Netto;Volumi Netti;";
 		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
-		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra";
+		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra;Note";
 		header = header + "\n";
 
 		builder.append(header);
@@ -1429,6 +1429,7 @@ public class UtilityCSV {
 			final String worked = (item.getWorkedIT() == null) ? "" : item.getWorkedIT();
 			final String distinct_sws = (item.getDistinctSWS() == null) ? "" : item.getDistinctSWS();
 			final String customer = (item.getCustomer() == null) ? "" : item.getCustomer();
+			final String note = (item.getNotedetail() == null) ? "" : item.getNotedetail();
 
 			if (item.getDate_request() != null) {
 				week = Utility.getWeekNumber(item.getDate_request()).toString();
@@ -1508,25 +1509,25 @@ public class UtilityCSV {
 			}
 
 			if (item.getFirst_down() != null) {
-				date_first_down = "" + item.getFirst_down();
+				date_first_down = Utility.convertToDateAndTime(item.getFirst_down());
 			}
 
 			if (item.getLast_down() != null) {
-				date_last_down = "" + item.getLast_down();
+				date_last_down = Utility.convertToDateAndTime(item.getLast_down());
 			}
 
 			if (item.getPerson_onboard() != null) {
-				person_onboard = "" + item.getPerson_onboard();
+				person_onboard = "" + Utility.convertToDateAndTime(item.getPerson_onboard());
 			}
 
 			if (item.getPerson_down() != null) {
-				person_down = "" + item.getPerson_down();
+				person_down = "" + Utility.convertToDateAndTime(item.getPerson_down());
 			}
 
 			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + customer + ";" + rif_sws + ";" + rif_mct + ";" + shift
 					+ ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";"
 					+ volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";"
-					+ rain + ";" + person_onboard + ";" + date_first_down + ";" + date_last_down + ";" + person_down + "\n";
+					+ rain + ";" + person_onboard + ";" + date_first_down + ";" + date_last_down + ";" + person_down + ";" + note + "\n";
 			builder.append(line);
 
 		}
