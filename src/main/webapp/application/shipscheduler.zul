@@ -2300,7 +2300,7 @@
 								pageSize="10">
 								<listhead sizable="true">
 
-									<listheader label="Nave" hflex="2" />
+									<listheader label="Nome Nave" hflex="2" />
 									<listheader label="Cliente"
 										hflex="1" />
 									<listheader label="Data Turno"
@@ -2310,7 +2310,7 @@
 									<listheader label="Lavorato"
 										hflex="1" />
 
-									<listheader label="Rif. SWS Unici"
+									<listheader label="Conta Rif. SWS"
 										hflex="1" />
 
 									<listheader
@@ -2336,7 +2336,7 @@
 										hflex="1" />
 									<listheader label="Gru" hflex="1" />
 
-									<listheader label="Tempo Netto"
+									<listheader label="H LAV"
 										hflex="1" />
 
 									<listheader label="Volumi Netti"
@@ -2349,11 +2349,11 @@
 									<listheader
 										label="Volumi Netti TW MCT" hflex="1" />
 
-									<listheader label="Persone (H)"
+									<listheader label="N. Persone"
 										hflex="1" />
 
 									<listheader
-										label="Persone(H) per Tempo Lavorato" hflex="1" />
+										label="Tot. (H x N. Persone)" hflex="1" />
 
 									<listheader label="Note" hflex="2" />
 
