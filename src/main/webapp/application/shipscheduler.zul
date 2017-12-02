@@ -2300,7 +2300,8 @@
 								pageSize="10">
 								<listhead sizable="true">
 
-									<listheader label="Nome Nave" hflex="2" />
+									<listheader label="Nome Nave"
+										hflex="2" />
 									<listheader label="Cliente"
 										hflex="1" />
 									<listheader label="Data Turno"
@@ -2336,8 +2337,17 @@
 										hflex="1" />
 									<listheader label="Gru" hflex="1" />
 
-									<listheader label="H LAV"
+									<listheader label="H LAV" hflex="1" />
+
+
+									<listheader label="N. Persone"
 										hflex="1" />
+
+									<listheader
+										label="Tot. (H x N. Persone)" hflex="1" />
+
+
+
 
 									<listheader label="Volumi Netti"
 										hflex="1" />
@@ -2349,11 +2359,6 @@
 									<listheader
 										label="Volumi Netti TW MCT" hflex="1" />
 
-									<listheader label="N. Persone"
-										hflex="1" />
-
-									<listheader
-										label="Tot. (H x N. Persone)" hflex="1" />
 
 									<listheader label="Note" hflex="2" />
 
@@ -2428,11 +2433,17 @@
 
 
 									<listcell sclass="myBottonCell"
-										label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />								
-										
+										label="@{item_review_work, converter='org.uario.seaworkengine.zkevent.converter.CraneTypeConverter'}" />
+
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.timeworkLessFranchise, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.menwork_activityh}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.menwork_activityhXtimework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.volumeLessFranchise}" />
@@ -2445,11 +2456,7 @@
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.volume_tw_mctLessFranchise}" />
 
-									<listcell sclass="myBottonCell"
-										label="@{item_review_work.menwork_activityh}" />
-										
-										<listcell sclass="myBottonCell"
-										label="@{item_review_work.menwork_activityhXtimework, converter='org.uario.seaworkengine.zkevent.converter.DecimalToTimeConverter'}" />
+
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.notedetail}" />

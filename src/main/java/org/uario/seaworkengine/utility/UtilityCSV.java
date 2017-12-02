@@ -1393,7 +1393,7 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "Settimana;Giorno;Data Turno;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Conta Rif. SWS;Gru;H LAV;Volumi Netti;";
+		String header = "Settimana;Giorno;Data Turno;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Conta Rif. SWS;Gru;H LAV;N.Persone;Tot. (H x N. Persone);Volumi Netti;";
 		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
 		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra;Note";
 		header = header + "\n";
@@ -1412,7 +1412,18 @@ public class UtilityCSV {
 			String rif_mct = "";
 			String shift = "";
 			String crane = "";
-			String workedTime = "";
+
+			// HLAV
+			final String workedTime = (item.getTimeworkLessFranchise() == null) ? ""
+					: String.format(Locale.ITALY, "%10.2f", item.getTimeworkLessFranchise());
+
+			// N PERSON
+			final String n_person = (item.getMenwork_activityh() == null) ? "" : item.getMenwork_activityh().toString();
+
+			// TOT
+			final String tot = (item.getMenwork_activityhXtimework() == null) ? ""
+					: String.format(Locale.ITALY, "%10.2f", item.getMenwork_activityhXtimework());
+
 			String volume = "";
 			String volumeOnBoard = "";
 			String volumeOnBoard_sws = "";
@@ -1464,12 +1475,6 @@ public class UtilityCSV {
 				final String craneId = item.getCrane();
 
 				crane = (String) craneConverter.defineCraneString(crane_gtw, craneId);
-			}
-
-			if (item.getTimeworkLessFranchise() != null) {
-
-				workedTime = Utility.decimatToTime(item.getTimeworkLessFranchise());
-
 			}
 
 			if (item.getVolumeLessFranchise() != null) {
@@ -1525,9 +1530,10 @@ public class UtilityCSV {
 			}
 
 			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + customer + ";" + rif_sws + ";" + rif_mct + ";" + shift
-					+ ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + volume + ";" + volumeOnBoard + ";"
-					+ volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";"
-					+ rain + ";" + person_onboard + ";" + date_first_down + ";" + date_last_down + ";" + person_down + ";" + note + "\n";
+					+ ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + n_person + ";" + tot + ";" + volume + ";"
+					+ volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";"
+					+ temperature_item + ";" + rain + ";" + person_onboard + ";" + date_first_down + ";" + date_last_down + ";" + person_down + ";"
+					+ note + "\n";
 			builder.append(line);
 
 		}
