@@ -1817,18 +1817,31 @@
 								<row>
 									<label value="Persone a terra:">
 									</label>
-									
+
 									<datebox id="person_down_review"
 										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
 										width="230px" />
 
-									
+
+								</row>
+
+								<row>
+									<label value="Note di Dettaglio:"></label>
+									<vbox>
+										<label id="alert_popupdetail" style="color:red"
+											value="Data/Ora dei paramentri eccedono la fine del turno. Lasciare una nota per salvare la posizione.">
+										</label>
+										<textbox id="note_popup_detail"
+											width="90%" rows="5" />
+									</vbox>
 								</row>
 
 
 
 							</rows>
 						</grid>
+						
+						
 						<separator></separator>
 
 						<button sclass="btn-danger"
