@@ -392,9 +392,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Intbox											menwork_activityh;
 
 	@Wire
-	private Component										menwork_activityhRow;
-
-	@Wire
 	public Intbox											menwork_Daily;
 
 	@Wire
@@ -549,9 +546,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component										review_div;
-
-	@Wire
-	private Component										reviewedTime;
 
 	@Wire
 	private Timebox											reviewTimeFrom;
@@ -2399,8 +2393,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.reviewTimeTo.setValue(null);
 		this.menwork_activityh.setValue(null);
 
-		this.reviewedTime.setVisible(false);
-		this.menwork_activityhRow.setVisible(false);
 		this.menwork.setVisible(true);
 		this.check_last_shiftReview.setChecked(false);
 		this.check_last_shiftReview.setVisible(false);
@@ -2437,9 +2429,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 				}
 			}
-
-			this.reviewedTime.setVisible(true);
-			this.menwork_activityhRow.setVisible(true);
 
 			this.menwork.setVisible(false);
 		}
@@ -5276,8 +5265,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// get ship activity name
 		String shipActivity = "";
 
-		this.reviewedTime.setVisible(false);
-		this.menwork_activityhRow.setVisible(false);
 		this.menwork.setVisible(true);
 
 		this.reviewTimeFrom.setValue(null);
@@ -5321,9 +5308,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 				}
 
 			}
-
-			this.reviewedTime.setVisible(true);
-			this.menwork_activityhRow.setVisible(true);
 
 			this.menwork.setVisible(false);
 		}

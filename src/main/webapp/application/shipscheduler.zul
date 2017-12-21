@@ -1899,7 +1899,7 @@
 											id="invoicing_cycle_review" constraint="no negative" />
 									</row>
 
-									<row id="reviewedTime">
+									<row>
 										<label value="Fascia Oraria:">
 										</label>
 
@@ -1940,7 +1940,7 @@
 
 									</row>
 
-									<row id="menwork_activityhRow">
+									<row>
 										<label
 											value="Persone consuntivate su servizio orario:" />
 										<intbox id="menwork_activityh"
