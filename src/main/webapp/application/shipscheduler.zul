@@ -1977,7 +1977,7 @@
 									
 								</rows>
 							</grid>
-							<grid sclass="domain" id="volumeGrid">
+							<grid sclass="domain">
 								<columns>
 									<column label="" hflex="1" />
 									<column label="" hflex="2" />
