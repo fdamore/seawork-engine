@@ -1472,73 +1472,73 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		switch (shift_no.intValue()) {
 
-		case 1: {
+			case 1: {
 
-			// prepare period
-			final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_1_time_from.set(Calendar.MINUTE, 0);
+				// prepare period
+				final Calendar cal_shift_1_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_from.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_1_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_1_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_1_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_1_time_to.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_1_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_1_time_from.getTime());
-			ship_to.setValue(cal_shift_1_time_to.getTime());
+				ship_from.setValue(cal_shift_1_time_from.getTime());
+				ship_to.setValue(cal_shift_1_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 2: {
+			case 2: {
 
-			final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
-			cal_shift_2_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_from.set(Calendar.HOUR_OF_DAY, 7);
+				cal_shift_2_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_2_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_2_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_2_time_to.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_2_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_2_time_from.getTime());
-			ship_to.setValue(cal_shift_2_time_to.getTime());
+				ship_from.setValue(cal_shift_2_time_from.getTime());
+				ship_to.setValue(cal_shift_2_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 3: {
+			case 3: {
 
-			final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
-			cal_shift_3_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_from.set(Calendar.HOUR_OF_DAY, 13);
+				cal_shift_3_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
-			cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_3_time_to.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_3_time_to = DateUtils.toCalendar(truncDate);
+				cal_shift_3_time_to.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_3_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_3_time_from.getTime());
-			ship_to.setValue(cal_shift_3_time_to.getTime());
+				ship_from.setValue(cal_shift_3_time_from.getTime());
+				ship_to.setValue(cal_shift_3_time_to.getTime());
 
-			break;
-		}
+				break;
+			}
 
-		case 4: {
+			case 4: {
 
-			final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
-			cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
-			cal_shift_4_time_from.set(Calendar.MINUTE, 0);
+				final Calendar cal_shift_4_time_from = DateUtils.toCalendar(truncDate);
+				cal_shift_4_time_from.set(Calendar.HOUR_OF_DAY, 19);
+				cal_shift_4_time_from.set(Calendar.MINUTE, 0);
 
-			final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
+				final Calendar cal_shift_4_time_to = DateUtils.toCalendar(truncDate);
 
-			cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
-			cal_shift_4_time_to.set(Calendar.MINUTE, 0);
+				cal_shift_4_time_to.set(Calendar.HOUR_OF_DAY, 1);
+				cal_shift_4_time_to.set(Calendar.MINUTE, 0);
 
-			ship_from.setValue(cal_shift_4_time_from.getTime());
-			ship_to.setValue(cal_shift_4_time_to.getTime());
+				ship_from.setValue(cal_shift_4_time_from.getTime());
+				ship_to.setValue(cal_shift_4_time_to.getTime());
 
-			check_last_shift.setVisible(true);
-			check_last_shift.setChecked(true);
-			break;
-		}
+				check_last_shift.setVisible(true);
+				check_last_shift.setChecked(true);
+				break;
+			}
 
 		}
 
@@ -1547,7 +1547,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * Notify change on owkring process
 	 */
-	@Listen("onClick = #person_onboard_review,#first_down_review,#last_down_review,#person_down_review")
+	@Listen("onClick = #person_onboard_review,#first_down_review,#last_down_review,#person_down_review;onChange = #person_onboard_review,#first_down_review,#last_down_review,#person_down_review")
 	public void changeShipWorkingProcess() {
 
 		if (this.sw_list_scheduleShip.getSelectedItem() == null) {
@@ -1565,57 +1565,80 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			return;
 		}
 		shift_date = DateUtils.truncate(shift_date, Calendar.DATE);
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(shift_date);
+		final Calendar max_date = Calendar.getInstance();
+		max_date.setTime(shift_date);
+
+		final Calendar min_date = Calendar.getInstance();
+		min_date.setTime(shift_date);
 
 		switch (shift) {
-		case 1: {
+			case 1: {
 
-			cal.add(Calendar.HOUR, 7);
+				min_date.add(Calendar.HOUR, 1);
+				max_date.add(Calendar.HOUR, 7);
 
-			break;
+				break;
+			}
+
+			case 2: {
+
+				min_date.add(Calendar.HOUR, 7);
+				max_date.add(Calendar.HOUR, 13);
+
+				break;
+			}
+
+			case 3: {
+
+				min_date.add(Calendar.HOUR, 13);
+				max_date.add(Calendar.HOUR, 19);
+
+				break;
+			}
+
+			case 4: {
+
+				min_date.add(Calendar.HOUR, 19);
+				max_date.add(Calendar.HOUR, 25);
+
+				break;
+			}
+
+			default:
+				return;
+
 		}
 
-		case 2: {
-
-			cal.add(Calendar.HOUR, 13);
-			break;
+		Date info_date = this.person_onboard_review.getValue();
+		if ((info_date != null)) {
+			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+				this.alert_popupdetail.setVisible(true);
+				return;
+			}
 		}
 
-		case 3: {
-
-			cal.add(Calendar.HOUR, 19);
-			break;
+		info_date = this.first_down_review.getValue();
+		if ((info_date != null)) {
+			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+				this.alert_popupdetail.setVisible(true);
+				return;
+			}
 		}
 
-		case 4: {
-			cal.add(Calendar.HOUR, 25);
-			break;
+		info_date = this.last_down_review.getValue();
+		if ((info_date != null)) {
+			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+				this.alert_popupdetail.setVisible(true);
+				return;
+			}
 		}
 
-		default:
-			return;
-
-		}
-
-		Date check = this.person_onboard_review.getValue();
-		if ((check != null) && check.after(cal.getTime())) {
-			this.alert_popupdetail.setVisible(true);
-		}
-
-		check = this.first_down_review.getValue();
-		if ((check != null) && check.after(cal.getTime())) {
-			this.alert_popupdetail.setVisible(true);
-		}
-
-		check = this.last_down_review.getValue();
-		if ((check != null) && check.after(cal.getTime())) {
-			this.alert_popupdetail.setVisible(true);
-		}
-
-		check = this.person_down_review.getValue();
-		if ((check != null) && check.after(cal.getTime())) {
-			this.alert_popupdetail.setVisible(true);
+		info_date = this.person_down_review.getValue();
+		if ((info_date != null)) {
+			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+				this.alert_popupdetail.setVisible(true);
+				return;
+			}
 		}
 
 	}
@@ -4202,44 +4225,44 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		itemHandsC_P.setArgument(ReportItemTag.HandsC_P);
 		for (int i = 1; i <= 12; i++) {
 			switch (i) {
-			case 1:
-				itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
-				break;
-			case 2:
-				itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
-				break;
-			case 3:
-				itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
-				break;
-			case 4:
-				itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
-				break;
-			case 5:
-				itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
-				break;
-			case 6:
-				itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
-				break;
-			case 7:
-				itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
-				break;
-			case 8:
-				itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
-				break;
-			case 9:
-				itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
-				break;
-			case 10:
-				itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
-				break;
-			case 11:
-				itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
-				break;
-			case 12:
-				itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
-				break;
-			default:
-				break;
+				case 1:
+					itemHandsC_P.setGen((double) handsC.get(0) - handsP.get(0));
+					break;
+				case 2:
+					itemHandsC_P.setFeb((double) handsC.get(1) - handsP.get(1));
+					break;
+				case 3:
+					itemHandsC_P.setMar((double) handsC.get(2) - handsP.get(2));
+					break;
+				case 4:
+					itemHandsC_P.setApr((double) handsC.get(3) - handsP.get(3));
+					break;
+				case 5:
+					itemHandsC_P.setMay((double) handsC.get(4) - handsP.get(4));
+					break;
+				case 6:
+					itemHandsC_P.setJun((double) handsC.get(5) - handsP.get(5));
+					break;
+				case 7:
+					itemHandsC_P.setJul((double) handsC.get(6) - handsP.get(6));
+					break;
+				case 8:
+					itemHandsC_P.setAug((double) handsC.get(7) - handsP.get(7));
+					break;
+				case 9:
+					itemHandsC_P.setSep((double) handsC.get(8) - handsP.get(8));
+					break;
+				case 10:
+					itemHandsC_P.setOct((double) handsC.get(9) - handsP.get(9));
+					break;
+				case 11:
+					itemHandsC_P.setNov((double) handsC.get(10) - handsP.get(10));
+					break;
+				case 12:
+					itemHandsC_P.setDec((double) handsC.get(11) - handsP.get(11));
+					break;
+				default:
+					break;
 			}
 		}
 

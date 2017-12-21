@@ -1829,7 +1829,7 @@
 									<label value="Note di Dettaglio:"></label>
 									<vbox>
 										<label id="alert_popupdetail" style="color:red"
-											value="Data/Ora dei paramentri eccedono la fine del turno. Lasciare una nota per salvare la posizione.">
+											value="Data/Ora dei paramentri eccedono il periodo di turno. Lasciare una nota per salvare la posizione.">
 										</label>
 										<textbox id="note_popup_detail"
 											width="90%" rows="5" />
