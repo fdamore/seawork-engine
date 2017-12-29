@@ -651,6 +651,15 @@
 								</checkbox>
 							</hbox>
 
+							<hbox align="center">
+								<label value="Forza come Riposo"
+									style="color:red">
+								</label>
+								<checkbox id="break_force"
+									checked="false">
+								</checkbox>
+							</hbox>
+
 
 							<datebox placeholder="Fino a..."
 								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
@@ -3413,6 +3422,14 @@
 										<listheader label="Tipo Turno"
 											hflex="1" align="center" />
 
+										<listheader
+											label="Eccezione su Riposo" sort="auto(break_ex)" hflex="1"
+											align="center" />
+
+										<listheader
+											label="Considera Riposo" sort="auto(break_force)" hflex="1"
+											align="center" />
+
 										<listheader label="Note"
 											hflex="1" align="left" />
 
@@ -3470,6 +3487,23 @@
 </attribute>
 											</a>
 										</listcell>
+										
+										<listcell
+											sclass="myBottonCell">
+											<checkbox disabled="true"
+												checked="@{itemoverviewpreprocessing.break_ex}">
+											</checkbox>
+										</listcell>
+										
+										<listcell
+											sclass="myBottonCell">
+											<checkbox disabled="true"
+												checked="@{itemoverviewpreprocessing.break_force}">
+											</checkbox>
+										</listcell>
+
+
+									
 										
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.note}" />

@@ -20,6 +20,9 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 	@XmlTransient
 	private Boolean				break_ex;
 
+	@XmlTransient
+	private Boolean				break_force;
+
 	private Integer				controller;
 
 	private Date				date_schedule;
@@ -102,6 +105,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public Boolean getBreak_ex() {
 		return this.break_ex;
+	}
+
+	public Boolean getBreak_force() {
+		return this.break_force;
 	}
 
 	public Integer getController() {
@@ -190,6 +197,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setBreak_ex(final Boolean break_ex) {
 		this.break_ex = break_ex;
+	}
+
+	public void setBreak_force(final Boolean break_force) {
+		this.break_force = break_force;
 	}
 
 	public void setController(final Integer controller) {

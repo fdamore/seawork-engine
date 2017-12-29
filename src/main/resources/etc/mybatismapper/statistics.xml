@@ -48,28 +48,35 @@
 
 
 	<select id="daysToRemoveFromSaturation" resultType="int">
-		select
-		count(s.id)
-		from
-		schedule s,
-		usershift us
-		where
-		s.break_ex = 0
-		and
-		s.user = #{user_id}
-		and s.shift = us.id
-		and (us.break_shift = 1
-		or
-		us.waitbreak_shift = 1
-		or
-		us.recorded = 1 or us.disease_shift = 1 or
-		us.accident_shift = 1)
-		and
-		(s.date_schedule <![CDATA[>=]]>
-		date(#{date_from})
-		and s.date_schedule <![CDATA[<=]]>
-		date(#{date_to}))
+	<![CDATA[
 
+SELECT 
+    COUNT(s.id)
+FROM
+    schedule s,
+    usershift us
+WHERE
+		(1 = 1)
+        AND 
+			(s.break_force = 1
+				OR (s.break_ex = 0
+					AND (us.break_shift = 1
+						OR us.waitbreak_shift = 1
+						OR us.recorded = 1
+						OR us.disease_shift = 1
+						OR us.accident_shift = 1
+						)
+					)
+			)
+        AND 
+			s.user = #{user_id}
+        AND
+			s.shift = us.id
+        AND 
+			s.date_schedule >= DATE(#{date_from})
+        AND 
+			s.date_schedule <= DATE(#{date_to})
+]]>
 	</select>
 
 	<!-- SELECT FOR VERIFY AND REVIEW SHIP (BAP) -->
@@ -371,6 +378,8 @@ SELECT
     CONCAT(u.lastname, '', u.firstname) AS name_user,
     s.editor,
     s.controller,
+    s.break_ex,
+    s.break_force,
     s.note
 FROM
     user u,

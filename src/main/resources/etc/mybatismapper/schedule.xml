@@ -24,12 +24,13 @@ SELECT
     sync_mobile_2,
     sync_mobile_3,
     sync_mobile_4,
-    break_ex
+    break_ex,
+    break_force
 FROM
     schedule
 WHERE
     date_schedule = #{dt_arg};
-    ]]>	
+    ]]>
 	</select>
 
 	<select id="loadScheduleById" parameterType="Integer"
@@ -47,12 +48,13 @@ SELECT
     sync_mobile_2,
     sync_mobile_3,
     sync_mobile_4,
-    break_ex
+    break_ex,
+    break_force
 FROM
     schedule
 WHERE
     id = #{id}
-]]>		
+]]>
 	</select>
 
 
@@ -68,7 +70,8 @@ select
     s.sync_mobile_2,
     s.sync_mobile_3,
     s.sync_mobile_4,
-    break_ex,
+    s.break_ex,
+    s.break_force,
     concat(u.lastname, ' ', u.firstname) AS name_user
 from
     user u
@@ -95,7 +98,8 @@ select
     s.sync_mobile_2,
     s.sync_mobile_3,
     s.sync_mobile_4,
-    break_ex,
+    s.break_ex,
+    s.break_force,
     concat(u.lastname, ' ', u.firstname) AS name_user
 from
     user u
@@ -106,14 +110,14 @@ from
 where
     u.status = 'IN ORGANICO'
         and u.out_schedule = 0
-]]>        
+]]>
 
 		<if test="my_full_text_search != null">
 		<![CDATA[
 			and (u.firstname like CONCAT('%', #{my_full_text_search},'%') or
 			u.lastname like CONCAT('%', #{my_full_text_search},'%') or
 			u.employee_identification = #{my_full_text_search})
-		]]>   	
+		]]>
 		</if>
 
 		order by u.lastname asc
@@ -161,8 +165,8 @@ where
     s.user = #{id_user}
         and s.id = dfs.id_schedule
         and s.date_schedule = #{date_schedule}
-	]]> 
-		
+	]]>
+
 	</select>
 
 	<select id="getLastShiftRevision" parameterType="map"
@@ -177,8 +181,8 @@ where
     s.user = #{id_user}
         and s.id = dfs.id_schedule
         and s.date_schedule = #{date_schedule}
-       ]]>        
-		
+       ]]>
+
 	</select>
 
 	<select id="getFirstShiftProgram" parameterType="map"
@@ -205,20 +209,27 @@ where
 
 	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
-		SELECT s.id, s.date_schedule, s.user, s.editor,
-		s.controller,
-		s.shift,s.note,
-		s.sync_mobile_1,
-		s.sync_mobile_2,
-		s.sync_mobile_3,
-		s.sync_mobile_4,
-		break_ex
-		FROM schedule s
-		WHERE s.user =
-		#{id_user}
-		and
-		s.date_schedule =
-		#{date_schedule};
+<![CDATA[		
+SELECT 
+    s.id,
+    s.date_schedule,
+    s.user,
+    s.editor,
+    s.controller,
+    s.shift,
+    s.note,
+    s.sync_mobile_1,
+    s.sync_mobile_2,
+    s.sync_mobile_3,
+    s.sync_mobile_4,
+    s.break_ex,
+    s.break_force
+FROM
+    schedule s
+WHERE
+    s.user = #{id_user}
+        AND s.date_schedule = #{date_schedule}
+]]>
 	</select>
 
 	<delete id="removeScheduleByDateAndUser" parameterType="map">
@@ -233,21 +244,29 @@ where
 
 	<select id="selectScheduleInIntervalDateByUserId" parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
-		SELECT id, date_schedule, user, note, editor, controller,
-		shift,
-		sync_mobile_1,
-		sync_mobile_2,
-		sync_mobile_3,
-		sync_mobile_4,
-		break_ex
-		FROM
-		schedule
-		WHERE
-		user=#{user} and date_schedule >=
-		#{date_from} and
-		#{date_to} >=
-		date_schedule order by date_schedule
-		asc;
+<![CDATA[
+SELECT 
+    id,
+    date_schedule,
+    user,
+    note,
+    editor,
+    controller,
+    shift,
+    sync_mobile_1,
+    sync_mobile_2,
+    sync_mobile_3,
+    sync_mobile_4,
+    break_ex,
+    break_force
+FROM
+    schedule
+WHERE
+    user = #{user}
+        AND date_schedule >= #{date_from}
+        AND #{date_to} >= date_schedule
+ORDER BY date_schedule ASC;	
+ ]]>
 	</select>
 
 	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
@@ -260,7 +279,8 @@ select
     s.sync_mobile_2,
     s.sync_mobile_3,
     s.sync_mobile_4,
-    break_ex,
+    s.break_ex,
+    s.break_force,
     ds.shift as no_shift,
     sum(ds.time) as program_time,
     s.date_schedule,
@@ -305,7 +325,8 @@ select
     s.sync_mobile_2,
     s.sync_mobile_3,
     s.sync_mobile_4,
-    break_ex,
+    s.break_ex,
+    s.break_force,
     ds.shift as no_shift,
     sum(ds.time) as revision_time,
     s.date_schedule,
@@ -351,7 +372,8 @@ select
     s.sync_mobile_2,
     s.sync_mobile_3,
     s.sync_mobile_4,
-    break_ex,
+    s.break_ex,
+    s.break_force,
     ds.shift as no_shift,
     sum(ds.time) as program_time,
     s.date_schedule,
@@ -396,7 +418,8 @@ select
     s.sync_mobile_2,
     s.sync_mobile_3,
     s.sync_mobile_4,
-    break_ex,
+    s.break_ex,
+    s.break_force,
     ds.shift as no_shift,
     ds.continueshift,
     sum(ds.time) as revision_time,
@@ -417,16 +440,16 @@ where
         and u.status = 'IN ORGANICO'
         and u.out_schedule = 0
         ]]>
-       
-       <if test="my_full_text_search != null">
+
+		<if test="my_full_text_search != null">
 			<![CDATA[
 		and (u.firstname like CONCAT('%',#{my_full_text_search},'%') 
 		or u.lastname like CONCAT('%',#{my_full_text_search},'%')
 		or u.employee_identification = #{my_full_text_search})
 			]]>
 		</if>
-group by user , s.id , no_shift
-order by user , s.date_schedule asc
+		group by user , s.id , no_shift
+		order by user , s.date_schedule asc
 
 	</select>
 
@@ -462,7 +485,8 @@ order by user , s.date_schedule asc
 		time_to, time_vacation, continueshift
 		FROM
 		detailinitialschedule
-		WHERE id_schedule =
+		WHERE
+		id_schedule =
 		#{id_schedule} and shift =
 		#{shift}
 		order by time_from asc;
@@ -633,6 +657,14 @@ WHERE
 		break_ex = #{break_ex}
 		WHERE id = #{id};
 	</update>
+	
+	<!-- UPDATE EXCEPTION BREAK_FORCE -->
+	<update id="updateBreakForce" parameterType="map">
+		UPDATE schedule
+		SET
+		break_force = #{break_force}
+		WHERE id = #{id};
+	</update>
 
 
 	<select id="loadDetailInitialScheduleForMobileByIdScheduleAndNoShift"
@@ -647,10 +679,13 @@ WHERE
 		detailinitialschedule d, usertask ut
 		WHERE
 		id_schedule =
-		#{id_schedule} and d.shift = #{no_shift}
+		#{id_schedule}
+		and d.shift = #{no_shift}
 		and d.task =
-		ut.id and ut.hiddentask=false and ((ut.isabsence=false and
-		ut.justificatory = false) or (ut.endoperation=true or ut.overflow=true
+		ut.id and ut.hiddentask=false and
+		((ut.isabsence=false and
+		ut.justificatory = false) or
+		(ut.endoperation=true or ut.overflow=true
 		or ut.changeshift=true) );
 	</select>
 
@@ -666,10 +701,12 @@ WHERE
 		d.time_vacation,d.continueshift,
 		ut.code as
 		task_mobile_desc,
-		d.id_ship as field_mobile_id_ship,
+		d.id_ship
+		as field_mobile_id_ship,
 		d.board as
 		field_mobile_board,
-		s.name as field_mobile_nameShip,
+		s.name as
+		field_mobile_nameShip,
 		d.crane as
 		field_mobile_crane
 		FROM

@@ -378,6 +378,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Checkbox					break_ex;
 
+	@Wire
+	private Checkbox					break_force;
+
 	// cache sat
 	private HashMap<Integer, Double>	cache_sat						= null;
 
@@ -557,12 +560,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A							label_date_shift_preprocessing;
+
 	@Wire
 	private A							label_date_shift_program;
 
 	@Wire
 	private A							label_date_shift_review;
-
 	@Wire
 	private A							label_statistic_popup;
 
@@ -670,6 +673,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label						overview_count_worker_factor;
+
 	@Wire
 	private Label						overview_count_worker_stat;
 
@@ -677,14 +681,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Div							overview_div;
 	@Wire
 	private Component					overview_download;
+
 	@Wire
 	private Comboitem					overview_item;
 	@Wire
 	private Tabpanel					overview_preprocessing;
-
 	@Wire
 	private Tabpanel					overview_program;
-
 	@Wire
 	private Tabpanel					overview_review;
 
@@ -696,23 +699,23 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Tabbox						overview_tab;
+
 	@Wire
 	private Panel						panel_shift_period;
+
 	private final String				partTimeMessage					= "Part Time";
 	private Person						person_logged					= null;
-
 	private PersonDAO					personDAO;
 	private Person						personLock;
+
 	@Wire
 	private Div							preprocessing_div;
 	@Wire
 	private Comboitem					preprocessing_item;
 	@Wire
 	private Panel						preprocessing_panel;
-
 	@Wire
 	private Component					print_program_videos;
-
 	@Wire
 	private Component					print_scheduler;
 
@@ -751,16 +754,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component					program_head_5_3;
+
 	@Wire
 	private Component					program_head_5_4;
+
 	@Wire
 	private Comboitem					program_item;
 	@Wire
 	private Panel						program_panel;
-
 	@Wire
 	private Listheader					program_panel_name;
-
 	@Wire
 	private Combobox					program_task;
 
@@ -769,17 +772,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader					program_tot_1_2;
+
 	@Wire
 	private Auxheader					program_tot_1_3;
+
 	@Wire
 	private Auxheader					program_tot_1_4;
 	@Wire
 	private Auxheader					program_tot_2_1;
-
 	@Wire
 	private Auxheader					program_tot_2_2;
 	@Wire
 	private Auxheader					program_tot_2_3;
+
 	@Wire
 	private Auxheader					program_tot_2_4;
 	@Wire
@@ -800,10 +805,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader					program_tot_4_4;
 	@Wire
 	private Auxheader					program_tot_5_1;
-
 	@Wire
 	private Auxheader					program_tot_5_2;
-
 	@Wire
 	private Auxheader					program_tot_5_3;
 
@@ -926,6 +929,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component					reviewShiftBox;
+
 	@Wire
 	private Tab							reviewTab;
 
@@ -933,14 +937,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader					reviewUser_tot_1_1;
 	@Wire
 	private Auxheader					reviewUser_tot_1_2;
+
 	@Wire
 	private Auxheader					reviewUser_tot_1_3;
 	@Wire
 	private Auxheader					reviewUser_tot_1_4;
-
 	@Wire
 	private Auxheader					reviewUser_tot_2_1;
-
 	@Wire
 	private Auxheader					reviewUser_tot_2_2;
 
@@ -3323,11 +3326,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		} else {
 			this.define_program_body.setVisible(false);
 		}
-	};
+	}
+
+	public Checkbox getBreak_force() {
+		return this.break_force;
+	}
 
 	public Component getCounting() {
 		return this.counting;
-	}
+	};
 
 	private final Integer getCountWorkingDay(final List<Schedule> scheduleList) {
 		Integer countWorkingDay = 0;
@@ -5498,19 +5505,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				} else {
 					this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 
-					// update
-					final boolean val = this.break_ex.isChecked();
-					final Schedule schedule = row_item.getSchedule(this.selectedDay);
-					this.scheduleDAO.updateBreakEx(schedule.getId(), val);
+					// update break flags
+					this.updateBreakFlags(row_item);
 
 				}
 			} else {
 				this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 
-				// update
-				final boolean val = this.break_ex.isChecked();
-				final Schedule schedule = row_item.getSchedule(this.selectedDay);
-				this.scheduleDAO.updateBreakEx(schedule.getId(), val);
+				this.updateBreakFlags(row_item);
 			}
 
 		} else {
@@ -5518,10 +5520,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			// save not break shift
 			this.saveDayShiftProcedure(shift, row_item, date_scheduled, null);
 
-			// update
-			final boolean val = this.break_ex.isChecked();
-			final Schedule schedule = row_item.getSchedule(this.selectedDay);
-			this.scheduleDAO.updateBreakEx(schedule.getId(), val);
+			this.updateBreakFlags(row_item);
 
 			// check if the command is available
 			final boolean check = this.checkForPreprocessingCommand(date_scheduled);
@@ -5905,6 +5904,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			}
 		}
+	}
+
+	public void setBreak_force(final Checkbox break_force) {
+		this.break_force = break_force;
 	}
 
 	public void setCounting(final Component counting) {
@@ -7754,6 +7757,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.editor_label_daydefinition.setLabel("");
 		this.controller_label_daydefinition.setLabel("");
 		this.break_ex.setChecked(Boolean.FALSE);
+		this.break_force.setChecked(Boolean.FALSE);
 
 		if (this.currentSchedule != null) {
 
@@ -7773,6 +7777,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// set break_ex
 			this.break_ex.setChecked(this.currentSchedule.getBreak_ex());
+			this.break_force.setChecked(this.currentSchedule.getBreak_force());
 
 		}
 
@@ -8119,6 +8124,19 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+	}
+
+	/**
+	 * Update info about break flag (force and exception)
+	 *
+	 * @param row_item
+	 */
+	private void updateBreakFlags(final RowDaySchedule row_item) {
+
+		final Schedule schedule = row_item.getSchedule(this.selectedDay);
+
+		this.scheduleDAO.updateBreakEx(schedule.getId(), this.break_ex.isChecked());
+		this.scheduleDAO.updateBreakForce(schedule.getId(), this.break_force.isChecked());
 	}
 
 	/**

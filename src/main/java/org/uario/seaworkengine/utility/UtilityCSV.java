@@ -850,7 +850,7 @@ public class UtilityCSV {
 
 	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "anno;mese;settimana;giorno;nome;matricola;data;turno;note\n";
+		final String header = "anno;mese;settimana;giorno;nome;matricola;data;turno;riposo_ex;riposo_forzatura;note\n";
 		builder.append(header);
 
 		for (final Schedule item : listSchedule) {
@@ -880,8 +880,11 @@ public class UtilityCSV {
 
 			final String note = (item.getNote() == null) ? "" : item.getNote();
 
+			final String riposo_ex = ((item.getBreak_ex() == null) || item.getBreak_ex().equals(Boolean.FALSE)) ? "NO" : "SI";
+			final String riposo_forzatura = ((item.getBreak_force() == null) || item.getBreak_force().equals(Boolean.FALSE)) ? "NO" : "SI";
+
 			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
-					+ date + ";" + code_shift + ";" + note + "\n";
+					+ date + ";" + code_shift + ";" + riposo_ex + ";" + riposo_forzatura + ";" + note + "\n";
 			builder.append(line);
 		}
 		return builder;
