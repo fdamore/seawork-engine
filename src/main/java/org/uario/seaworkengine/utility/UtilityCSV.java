@@ -878,10 +878,13 @@ public class UtilityCSV {
 				employee_identification = item.getEmployee_identification();
 			}
 
-			final String note = (item.getNote() == null) ? "" : item.getNote();
+			String note = (item.getNote() == null) ? "" : item.getNote();
+			if (note != null) {
+				note = "\"" + note + "\"";
+			}
 
-			final String riposo_ex = ((item.getBreak_ex() == null) || item.getBreak_ex().equals(Boolean.FALSE)) ? "NO" : "SI";
-			final String riposo_forzatura = ((item.getBreak_force() == null) || item.getBreak_force().equals(Boolean.FALSE)) ? "NO" : "SI";
+			final String riposo_ex = ((item.getBreak_ex() == null) || item.getBreak_ex().equals(Boolean.FALSE)) ? "" : "SI";
+			final String riposo_forzatura = ((item.getBreak_force() == null) || item.getBreak_force().equals(Boolean.FALSE)) ? "" : "SI";
 
 			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
 					+ date + ";" + code_shift + ";" + riposo_ex + ";" + riposo_forzatura + ";" + note + "\n";
