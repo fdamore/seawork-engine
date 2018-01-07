@@ -233,7 +233,7 @@ public class EngineServiceImpl implements IEngineService {
 				if (lenght_series_working >= 10) {
 
 					// remove all break in current weeks
-					final List<Schedule> list_break_day = this.statProcedure.searchBreakInCurrentWeek(date_tomorrow, person.getId());
+					final List<Schedule> list_break_day = this.statProcedure.searchBreakInCurrentWeek(date_tomorrow, person.getId(), false);
 					if (list_break_day != null) {
 						for (final Schedule itm : list_break_day) {
 
@@ -362,7 +362,7 @@ public class EngineServiceImpl implements IEngineService {
 	 * @param person
 	 * @param lenght_series_working
 	 */
-	private void sundayProcess(final Date current_sunday, final Person person) {
+	public void sundayProcess(final Date current_sunday, final Person person) {
 
 		// get break shift
 		final UserShift break_shift = this.shiftCache.getBreakShift();
@@ -384,7 +384,7 @@ public class EngineServiceImpl implements IEngineService {
 			final Calendar next_monday = (Calendar) next_sunday.clone();
 			next_monday.add(Calendar.DAY_OF_YEAR, 1);
 
-			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId());
+			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId(), true);
 
 			if (list_break_second_week == null) {
 
@@ -404,14 +404,14 @@ public class EngineServiceImpl implements IEngineService {
 			// check is some break is already setted
 			final Calendar next_monday = (Calendar) next_sunday.clone();
 			next_monday.add(Calendar.DAY_OF_YEAR, 1);
-			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId());
+			final List<Schedule> list_break_second_week = this.statProcedure.searchBreakInCurrentWeek(next_monday.getTime(), person.getId(), true);
 
 			if (list_break_second_week == null) {
 
 				final Calendar cal = DateUtils.truncate(next_sunday, Calendar.DATE);
 				cal.add(Calendar.DAY_OF_YEAR, -1);
 
-				final List<Schedule> list_break_first_week = this.statProcedure.searchBreakInCurrentWeek(cal.getTime(), person.getId());
+				final List<Schedule> list_break_first_week = this.statProcedure.searchBreakInCurrentWeek(cal.getTime(), person.getId(), true);
 
 				int max_day_to_break = 7;
 

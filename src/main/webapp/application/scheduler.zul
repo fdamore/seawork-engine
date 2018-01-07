@@ -514,6 +514,9 @@
 							id="show_setperiod" sclass="pull-right"
 							onClick="panel_shift_period.setVisible(false)">
 						</a>
+
+
+
 					</hbox>
 
 				</caption>
@@ -588,6 +591,10 @@
 					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					id="set_panel_shift_period">
 				</a>
+
+				<button id="prova" visible="false" label="PROVA"
+					sclass="btn-info">
+				</button>
 
 
 

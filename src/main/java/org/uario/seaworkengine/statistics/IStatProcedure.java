@@ -84,9 +84,10 @@ public interface IStatProcedure {
 	/**
 	 * @param date_scheduled
 	 * @param user_id
+	 * @param include_current TODO
 	 * @return
 	 */
-	public List<Schedule> searchBreakInCurrentWeek(Date date_scheduled, Integer user_id);
+	public List<Schedule> searchBreakInCurrentWeek(Date date_scheduled, Integer user_id, boolean include_current);
 
 	/**
 	 * Assign shift... remove all details

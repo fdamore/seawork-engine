@@ -47,6 +47,7 @@ import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.platform.persistence.dao.UserCompensationDAO;
+import org.uario.seaworkengine.service.impl.EngineServiceImpl;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.IStatProcedure;
 import org.uario.seaworkengine.statistics.UserStatistics;
@@ -566,9 +567,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A							label_date_shift_review;
+
 	@Wire
 	private A							label_statistic_popup;
-
 	@Wire
 	private A							label_statistic_task_popup;
 
@@ -679,18 +680,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Div							overview_div;
-	@Wire
-	private Component					overview_download;
 
 	@Wire
+	private Component					overview_download;
+	@Wire
 	private Comboitem					overview_item;
+
 	@Wire
 	private Tabpanel					overview_preprocessing;
 	@Wire
 	private Tabpanel					overview_program;
 	@Wire
 	private Tabpanel					overview_review;
-
 	@Wire
 	private Tabpanel					overview_statistics;
 
@@ -704,12 +705,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Panel						panel_shift_period;
 
 	private final String				partTimeMessage					= "Part Time";
+
 	private Person						person_logged					= null;
 	private PersonDAO					personDAO;
 	private Person						personLock;
-
 	@Wire
 	private Div							preprocessing_div;
+
 	@Wire
 	private Comboitem					preprocessing_item;
 	@Wire
@@ -718,7 +720,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Component					print_program_videos;
 	@Wire
 	private Component					print_scheduler;
-
 	@Wire
 	private Div							program_div;
 
@@ -760,13 +761,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Comboitem					program_item;
+
 	@Wire
 	private Panel						program_panel;
 	@Wire
 	private Listheader					program_panel_name;
 	@Wire
 	private Combobox					program_task;
-
 	@Wire
 	private Auxheader					program_tot_1_1;
 
@@ -778,15 +779,16 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader					program_tot_1_4;
+
 	@Wire
 	private Auxheader					program_tot_2_1;
 	@Wire
 	private Auxheader					program_tot_2_2;
 	@Wire
 	private Auxheader					program_tot_2_3;
-
 	@Wire
 	private Auxheader					program_tot_2_4;
+
 	@Wire
 	private Auxheader					program_tot_3_1;
 	@Wire
@@ -809,7 +811,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader					program_tot_5_2;
 	@Wire
 	private Auxheader					program_tot_5_3;
-
 	@Wire
 	private Auxheader					program_tot_5_4;
 
@@ -935,18 +936,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Auxheader					reviewUser_tot_1_1;
-	@Wire
-	private Auxheader					reviewUser_tot_1_2;
 
 	@Wire
+	private Auxheader					reviewUser_tot_1_2;
+	@Wire
 	private Auxheader					reviewUser_tot_1_3;
+
 	@Wire
 	private Auxheader					reviewUser_tot_1_4;
 	@Wire
 	private Auxheader					reviewUser_tot_2_1;
 	@Wire
 	private Auxheader					reviewUser_tot_2_2;
-
 	@Wire
 	private Auxheader					reviewUser_tot_2_3;
 
@@ -3334,7 +3335,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	public Component getCounting() {
 		return this.counting;
-	};
+	}
 
 	private final Integer getCountWorkingDay(final List<Schedule> scheduleList) {
 		Integer countWorkingDay = 0;
@@ -3359,7 +3360,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		countWorkingDay += 10 - scheduleList.size();
 
 		return countWorkingDay;
-	}
+	};
 
 	private ArrayList<Date> getDateByMonth(final Integer month, final Integer year) {
 
@@ -4416,6 +4417,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		});
 	}
 
+	@Listen("onClick = #prova")
+	public void prova() {
+
+		final EngineServiceImpl eng_service = (EngineServiceImpl) SpringUtil.getBean("serviceAssign");
+
+		final Date current_day = DateUtils.truncate(Calendar.getInstance().getTime(), Calendar.DATE);
+
+		final Person person = this.personDAO.loadPerson(37);
+		eng_service.sundayProcess(current_day, person);
+
+	}
+
 	@Listen("onClick = #refresh_command")
 	public void refreshCommand() {
 
@@ -4652,7 +4665,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 					final boolean check = this.checkForPreprocessingCommand(date_schedule);
 					if (check) {
 
-						final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_schedule, current_schedule.getUser());
+						final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_schedule, current_schedule.getUser(), false);
 
 						if (list_break == null) {
 
@@ -5488,7 +5501,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final boolean check = this.checkForPreprocessingCommand(date_scheduled);
 			if (check) {
 
-				final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
+				final List<Schedule> scheduleListInWeek = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser(), false);
 
 				if ((scheduleListInWeek != null) && (scheduleListInWeek.size() > 0)) {
 					final Map<String, String> params = new HashMap<>();
@@ -5527,7 +5540,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (check) {
 
 				// check if in this week there is a break
-				final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser());
+				final List<Schedule> list_break = this.statProcedure.searchBreakInCurrentWeek(date_scheduled, row_item.getUser(), false);
 
 				if (list_break == null) {
 
@@ -5920,24 +5933,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		int from = 0;
 
 		switch (shift) {
-			case 1:
-				to = 1;
-				from = 7;
-				break;
-			case 2:
-				to = 7;
-				from = 13;
-				break;
-			case 3:
-				to = 13;
-				from = 19;
-				break;
-			case 4:
-				to = 19;
-				from = 1;
-				break;
-			default:
-				break;
+		case 1:
+			to = 1;
+			from = 7;
+			break;
+		case 2:
+			to = 7;
+			from = 13;
+			break;
+		case 3:
+			to = 13;
+			from = 19;
+			break;
+		case 4:
+			to = 19;
+			from = 1;
+			break;
+		default:
+			break;
 		}
 
 		cal.set(Calendar.HOUR_OF_DAY, to);
