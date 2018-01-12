@@ -1571,6 +1571,10 @@
 						<button sclass="btn-info"
 							label="Salva Consuntivo" id="save_review" visible="true" />
 
+						<button sclass="btn-info"
+							label="Imposta valori di Default" id="set_default"
+							visible="true" />
+
 						<separator></separator>
 
 						<hbox align="center">
@@ -1786,7 +1790,7 @@
 								<row>
 									<label value="Persone a bordo:">
 									</label>
-									
+
 									<datebox id="person_onboard_review"
 										cols="12" format="d/M/yyyy kk:mm" onCreate="self.value = null"
 										width="230px" />
@@ -1828,7 +1832,8 @@
 								<row>
 									<label value="Note di Dettaglio:"></label>
 									<vbox>
-										<label id="alert_popupdetail" style="color:red"
+										<label id="alert_popupdetail"
+											style="color:red"
 											value="Data/Ora dei paramentri eccedono il periodo di turno. Lasciare una nota per salvare la posizione.">
 										</label>
 										<textbox id="note_popup_detail"
@@ -1840,8 +1845,8 @@
 
 							</rows>
 						</grid>
-						
-						
+
+
 						<separator></separator>
 
 						<button sclass="btn-danger"

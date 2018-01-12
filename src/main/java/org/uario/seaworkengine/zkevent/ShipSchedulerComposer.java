@@ -318,6 +318,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component										grid_scheduleShip_details;
+
 	@Wire
 	private Row												h_detail_period;
 	@Wire
@@ -332,7 +333,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Label											handswork_program_Daily;
 	@Wire
 	private Label											hourReview;
-
 	@Wire
 	private Combobox										idCrane_review;
 
@@ -341,11 +341,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Checkbox											initial_support_date;
+
 	@Wire
 	private Radio											invoice_no;
 	@Wire
 	private Combobox										invoice_search;
-
 	@Wire
 	private Radio											invoice_yes;
 
@@ -581,9 +581,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox											searchArrivalDateShipTo;
+
 	@Wire
 	private Datebox											searchDateShift;
-
 	@Wire
 	private A												selecetedShipName;
 
@@ -592,6 +592,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Combobox											select_month_detail;
+
 	@Wire
 	public Combobox											select_shift;
 	@Wire
@@ -602,7 +603,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Combobox										select_workedShip;
 	@Wire
 	public Combobox											select_year_detail;
-
 	@Wire
 	private Combobox										selectCustomer;
 
@@ -753,9 +753,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											sw_list_reviewWork;
+
 	@Wire
 	private Listbox											sw_list_reviewWorkAggregate;
-
 	@Wire
 	private Listbox											sw_list_scheduleDetailShip;
 
@@ -1548,61 +1548,18 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// disable popup
 		this.alert_popupdetail.setVisible(false);
 
-		final DetailScheduleShip itm = this.sw_list_scheduleShip.getSelectedItem().getValue();
+		final Date[] period = this.getPeriodForShipWorkingProcess();
 
-		Date shift_date = itm.getShiftdate();
-		final Integer shift = itm.getShift();
-		if ((shift_date == null) || (shift == null)) {
+		if (period == null) {
 			return;
 		}
-		shift_date = DateUtils.truncate(shift_date, Calendar.DATE);
-		final Calendar max_date = Calendar.getInstance();
-		max_date.setTime(shift_date);
 
-		final Calendar min_date = Calendar.getInstance();
-		min_date.setTime(shift_date);
-
-		switch (shift) {
-			case 1: {
-
-				min_date.add(Calendar.HOUR, 1);
-				max_date.add(Calendar.HOUR, 7);
-
-				break;
-			}
-
-			case 2: {
-
-				min_date.add(Calendar.HOUR, 7);
-				max_date.add(Calendar.HOUR, 13);
-
-				break;
-			}
-
-			case 3: {
-
-				min_date.add(Calendar.HOUR, 13);
-				max_date.add(Calendar.HOUR, 19);
-
-				break;
-			}
-
-			case 4: {
-
-				min_date.add(Calendar.HOUR, 19);
-				max_date.add(Calendar.HOUR, 25);
-
-				break;
-			}
-
-			default:
-				return;
-
-		}
+		final Date min_date = period[0];
+		final Date max_date = period[1];
 
 		Date info_date = this.person_onboard_review.getValue();
 		if ((info_date != null)) {
-			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+			if (info_date.after(max_date) || info_date.before(min_date)) {
 				this.alert_popupdetail.setVisible(true);
 				return;
 			}
@@ -1610,7 +1567,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		info_date = this.first_down_review.getValue();
 		if ((info_date != null)) {
-			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+			if (info_date.after(max_date) || info_date.before(min_date)) {
 				this.alert_popupdetail.setVisible(true);
 				return;
 			}
@@ -1618,7 +1575,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		info_date = this.last_down_review.getValue();
 		if ((info_date != null)) {
-			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+			if (info_date.after(max_date) || info_date.before(min_date)) {
 				this.alert_popupdetail.setVisible(true);
 				return;
 			}
@@ -1626,7 +1583,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		info_date = this.person_down_review.getValue();
 		if ((info_date != null)) {
-			if (info_date.after(max_date.getTime()) || info_date.before(min_date.getTime())) {
+			if (info_date.after(max_date) || info_date.before(min_date)) {
 				this.alert_popupdetail.setVisible(true);
 				return;
 			}
@@ -2121,6 +2078,70 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.invoice_yes.setChecked(true);
 		return true;
 
+	}
+
+	/**
+	 * @return the period with index 0 the min_date and index 1 with the max date
+	 */
+	private Date[] getPeriodForShipWorkingProcess() {
+
+		final DetailScheduleShip itm = this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		Date shift_date = itm.getShiftdate();
+		final Integer shift = itm.getShift();
+		if ((shift_date == null) || (shift == null)) {
+			return null;
+		}
+		shift_date = DateUtils.truncate(shift_date, Calendar.DATE);
+		final Calendar max_date = Calendar.getInstance();
+		max_date.setTime(shift_date);
+
+		final Calendar min_date = Calendar.getInstance();
+		min_date.setTime(shift_date);
+
+		switch (shift) {
+			case 1: {
+
+				min_date.add(Calendar.HOUR, 1);
+				max_date.add(Calendar.HOUR, 7);
+
+				break;
+			}
+
+			case 2: {
+
+				min_date.add(Calendar.HOUR, 7);
+				max_date.add(Calendar.HOUR, 13);
+
+				break;
+			}
+
+			case 3: {
+
+				min_date.add(Calendar.HOUR, 13);
+				max_date.add(Calendar.HOUR, 19);
+
+				break;
+			}
+
+			case 4: {
+
+				min_date.add(Calendar.HOUR, 19);
+				max_date.add(Calendar.HOUR, 25);
+
+				break;
+			}
+
+			default:
+				return null;
+
+		}
+
+		final Date[] ret = new Date[2];
+		ret[0] = min_date.getTime();
+		ret[1] = max_date.getTime();
+
+		return ret;
 	}
 
 	private Integer getSelectedShift() {
@@ -4993,6 +5014,32 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 		// define info
 		this.defineSchedulerView();
+
+	}
+
+	@Listen("onClick = #set_default")
+	public void setShipWorkingProcessWithDefault() {
+
+		// set with initial values
+		this.person_onboard_review.setValue(null);
+		this.first_down_review.setValue(null);
+		this.last_down_review.setValue(null);
+		this.person_down_review.setValue(null);
+
+		// get info about period
+		final Date[] period = this.getPeriodForShipWorkingProcess();
+		if (period == null) {
+			return;
+		}
+
+		final Date begin = period[0];
+		final Date end = period[1];
+
+		// set values
+		this.person_onboard_review.setValue(begin);
+		this.first_down_review.setValue(begin);
+		this.last_down_review.setValue(end);
+		this.person_down_review.setValue(end);
 
 	}
 
