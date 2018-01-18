@@ -80,6 +80,9 @@ WHERE
         AND (CURDATE() >= t.expiration_date AND t.expiration_date IS NOT NULL)  
         ]]>
 		</if>
+		
+		 <![CDATA[ order by certificate_date desc]]>
+		
 	</select>
 
 	<delete id="removeTrainingCertificate" parameterType="Integer">
