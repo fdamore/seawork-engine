@@ -103,7 +103,7 @@
 						<row>
 							<label value="Ora Inizio Corso:"></label>
 							<datebox id="training_start_class"
-								format="long+medium" width="150px"
+								format="d/M/yyyy kk:mm" width="150px"
 								placeholder="Ora inizio corso...">
 							</datebox>
 
@@ -114,7 +114,7 @@
 							<label value="Ora Fine Corso:"></label>
 							<hbox>
 								<datebox id="training_end_class"
-									format="long+medium" width="150px"
+									format="d/M/yyyy kk:mm" width="150px"
 									placeholder="Ora fine corso...">
 								</datebox>
 
@@ -124,23 +124,23 @@
 
 						<row>
 							<label value="Durata Corso (ore): "></label>
-							<intbox id="training_duration"
+							<doublebox id="training_duration"
 								constraint="no negative">
-							</intbox>
+							</doublebox>
 						</row>
 
 						<row>
 							<label
 								value="Data conseguimento Certificato:">
 							</label>
-							<datebox id="certificate_date"
+							<datebox id="certificate_date" format="d/M/yyyy"
 								placeholder="Seleziona data" width="200px" />
 						</row>
 
 						<row>
 							<label value="Data scadenza Certificato:">
 							</label>
-							<datebox id="expiration_date"
+							<datebox id="expiration_date" format="d/M/yyyy"
 								placeholder="Seleziona data" width="200px" />
 						</row>
 
