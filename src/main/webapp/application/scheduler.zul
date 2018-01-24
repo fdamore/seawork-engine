@@ -2903,7 +2903,9 @@
 						<space></space>
 
 						<!-- COUNTING -->
-						<vbox align="start" id="counting">
+						<vbox align="start"
+							visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
+							id="counting">
 
 							<hbox align="center">
 								<a label="Ore lavorate:"></a>
@@ -2911,28 +2913,22 @@
 							</hbox>
 
 							<hbox>
-								<a label="Ore a chiusura turno:"
-									visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-								<label id="overview_count_h_c"
-									visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+								<a label="Ore a chiusura turno:" />
+								<label id="overview_count_h_c" />
 							</hbox>
 
 
 							<div id="div_count_day">
 
 								<hbox>
-									<a label="Totale dipendenti:"
-										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-									<label id="overview_count_worker"
-										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+									<a label="Totale dipendenti:" />
+									<label id="overview_count_worker" />
 								</hbox>
 								<hbox>
 									<a
-										label="Totali Dipendenti in Organico:"
-										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+										label="Totali Dipendenti in Organico:" />
 									<label
-										id="overview_count_worker_factor"
-										visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+										id="overview_count_worker_factor" />
 								</hbox>
 
 
