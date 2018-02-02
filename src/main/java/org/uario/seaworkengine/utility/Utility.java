@@ -24,6 +24,7 @@ import org.joda.time.Days;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.ShipTotal;
 import org.zkoss.spring.SpringUtil;
 
@@ -45,8 +46,8 @@ public class Utility {
 	private static SimpleDateFormat			dateFormat		= new SimpleDateFormat("yyyy-MM-dd");
 
 	private static SimpleDateFormat			dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
-	private static SimpleDateFormat			dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
+	private static SimpleDateFormat			dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
 	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
@@ -308,6 +309,30 @@ public class Utility {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return cal.get(Calendar.YEAR);
+	}
+
+	/**
+	 * Return if is holiday
+	 *
+	 * @param dt
+	 * @return
+	 */
+	public static Boolean isHoliday(final Date dt) {
+
+		// check if Sunday
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(dt);
+		if (cal.get(Calendar.DAY_OF_WEEK) == 1) {
+			return true;
+		}
+
+		final SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+		final String inp_info = format.format(dt);
+
+		final IBankHolidays hld = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
+		final List<String> list_h = hld.getDays();
+		final boolean check = list_h.contains(inp_info);
+		return check;
 	}
 
 	/**

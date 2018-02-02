@@ -1,8 +1,6 @@
 package org.uario.seaworkengine.utility;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +33,6 @@ import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
-import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.UserStatistics;
@@ -850,7 +847,7 @@ public class UtilityCSV {
 
 	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "anno;mese;settimana;giorno;nome;matricola;data;turno;riposo_ex;riposo_forzatura;note\n";
+		final String header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;turno;riposo_ex;riposo_forzatura;note\n";
 		builder.append(header);
 
 		for (final Schedule item : listSchedule) {
@@ -859,12 +856,14 @@ public class UtilityCSV {
 			String weekDate = "";
 			String day = "";
 			String mouth = "";
+			String festivo = "";
 			if (item.getDate_schedule() != null) {
 				weekDate = Utility.getWeekNumber(item.getDate_schedule()).toString();
 				date = UtilityCSV.formatDateOverview.format(item.getDate_schedule());
 				day = UtilityCSV.dayFormat.format(item.getDate_schedule());
 				mouth = Utility.getMonthNumber(item.getDate_schedule()).toString();
 				year = Utility.getYear(item.getDate_schedule()).toString();
+				festivo = Utility.isHoliday(item.getDate_schedule()) ? "SI" : "NO";
 			}
 
 			String code_shift = "";
@@ -887,7 +886,7 @@ public class UtilityCSV {
 			final String riposo_forzatura = ((item.getBreak_force() == null) || item.getBreak_force().equals(Boolean.FALSE)) ? "" : "SI";
 
 			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
-					+ date + ";" + code_shift + ";" + riposo_ex + ";" + riposo_forzatura + ";" + note + "\n";
+					+ date + ";" + festivo + ";" + code_shift + ";" + riposo_ex + ";" + riposo_forzatura + ";" + note + "\n";
 			builder.append(line);
 		}
 		return builder;
@@ -930,7 +929,7 @@ public class UtilityCSV {
 
 			if (administrator) {
 				holiday = "NO";
-				if (UtilityCSV.isHoliday(item.getDate_schedule())) {
+				if (Utility.isHoliday(item.getDate_schedule())) {
 					holiday = "SI";
 				}
 
@@ -1161,7 +1160,7 @@ public class UtilityCSV {
 
 			if (administrator) {
 				holiday = "NO";
-				if (UtilityCSV.isHoliday(item.getDate_schedule())) {
+				if (Utility.isHoliday(item.getDate_schedule())) {
 					holiday = "SI";
 				}
 
@@ -1747,43 +1746,6 @@ public class UtilityCSV {
 		}
 
 		return builder;
-	}
-
-	private static Boolean isHoliday(final Date date) {
-
-		final IBankHolidays bank_holiday = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
-
-		final Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-
-		final Calendar cal1 = Calendar.getInstance();
-
-		final SimpleDateFormat format = new SimpleDateFormat("MM-dd");
-
-		// count calendar
-		for (final String item : bank_holiday.getDays()) {
-
-			try {
-
-				final Date date_item = format.parse(item);
-
-				cal1.setTime(date_item);
-
-				if ((cal.get(Calendar.DAY_OF_MONTH) == cal1.get(Calendar.DAY_OF_MONTH)) && (cal.get(Calendar.MONTH) == cal1.get(Calendar.MONTH))) {
-					return true;
-				}
-
-			} catch (final ParseException e) {
-				continue;
-			}
-
-		}
-
-		if (cal.get(Calendar.DAY_OF_WEEK) == 1) {
-			return true;
-		}
-
-		return false;
 	}
 
 	private static String returnItalianDate(final Date itm) {

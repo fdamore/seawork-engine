@@ -3106,11 +3106,8 @@
 
 										
 										<listcell sclass="myBottonCell"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}">
-											<checkbox
-												checked="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToIsHoliday'}"
-												disabled="true" />
-										</listcell>
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayFlag'}" />
+											
 
 										<listcell
 											sclass="myBottonCell">
@@ -3321,11 +3318,9 @@
 
 
 										<listcell sclass="myBottonCell"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}">
-											<checkbox
-												checked="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.ConverteDateToIsHoliday'}"
-												disabled="true" />
-										</listcell>
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
+											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayFlag'}" />
+
 
 
 										<listcell
@@ -3422,6 +3417,9 @@
 										<listheader label="Data"
 											align="center" hflex="1" />
 
+										<listheader label="Festivo"
+											align="center" hflex="1" />
+
 										<listheader label="Tipo Turno"
 											hflex="1" align="center" />
 
@@ -3478,6 +3476,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
+											
+											<listcell sclass="myBottonCell"
+											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayFlag'}" />
 
 
 										<listcell
