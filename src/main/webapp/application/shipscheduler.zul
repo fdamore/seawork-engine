@@ -1932,7 +1932,7 @@
 										</label>
 										<hbox>
 											<doublebox
-												constraint="no negative" id="time_review">
+												constraint="no negative" id="time_review" format="#,##0.##">
 											</doublebox>
 											<label value="Fr. "></label>
 											<doublebox

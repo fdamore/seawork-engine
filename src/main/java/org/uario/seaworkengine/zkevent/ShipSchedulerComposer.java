@@ -1450,7 +1450,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			time = time / (1000 * 60 * 60);
 		}
 
-		this.time_review.setValue(Utility.roundTwo(time));
+		this.time_review.setValue(time);
 
 	}
 
