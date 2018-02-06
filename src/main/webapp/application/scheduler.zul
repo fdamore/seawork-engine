@@ -3047,6 +3047,8 @@
 											hflex="2" align="center" />
 										<listheader
 											label="Fascia Oraria" hflex="2" align="center" />
+										<listheader
+											label="Continua Turno" hflex="2" align="center" />
 										<listheader label="Nota"
 											hflex="2" align="center" sort="auto(note)" />
 
@@ -3176,6 +3178,12 @@
 											sclass="myBottonCell">
 											<checkbox
 												checked="@{itemoverviewreview.reviewshift}" disabled="true" />
+										</listcell>
+										
+										<listcell
+											sclass="myBottonCell">
+											<checkbox
+												checked="@{itemoverviewreview.continueshift}" disabled="true" />
 										</listcell>
 
 										<listcell sclass="myBottonCell"
