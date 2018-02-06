@@ -384,23 +384,25 @@ public class UtilityCSV {
 	 */
 	public static StringBuilder downloadCSV_user_contestazioni(final List<Contestation> list) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Note\n";
+		final String header = "Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Descrizione;Note\n";
 		builder.append(header);
 
 		for (final Contestation itm : list) {
-			final String tipo = "" + itm.getTyp();
-			final String ricorso = "" + itm.getRecall();
+
+			final String tipo = (itm.getTyp() != null) ? itm.getTyp() : "";
+			final String ricorso = ((itm.getRecall() != null) && itm.getRecall()) ? "SI" : "";
 			final String data_contestazione = "" + UtilityCSV.returnItalianDate(itm.getDate_contestation());
-			final String protocollo = "" + itm.getProt();
+			final String protocollo = (itm.getProt() != null) ? itm.getProt() : "";
 			final String data_sazione = "" + UtilityCSV.returnItalianDate(itm.getDate_penalty());
-			final String protocollo_sanzione = "" + itm.getProt_penalty();
+			final String protocollo_sanzione = (itm.getProt_penalty() != null) ? itm.getProt_penalty() : "";
 			final String sospeso_da = "" + UtilityCSV.returnItalianDate(itm.getStop_from());
 			final String sospeso_a = "" + UtilityCSV.returnItalianDate(itm.getStop_to());
 			final String mese_anno_bp = "" + UtilityCSV.returnItalianMonth(itm.getDate_bp());
-			final String note = "" + itm.getNote();
+			final String note = (itm.getNote() != null) ? itm.getNote() : "";
+			final String description = (itm.getDescription() != null) ? itm.getDescription() : "";
 
 			final String line = tipo + ";" + ricorso + ";" + data_contestazione + ";" + protocollo + ";" + data_sazione + ";" + protocollo_sanzione
-					+ ";" + sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + note + ";\n";
+					+ ";" + sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + description + ";" + note + ";\n";
 
 			builder.append(line);
 
