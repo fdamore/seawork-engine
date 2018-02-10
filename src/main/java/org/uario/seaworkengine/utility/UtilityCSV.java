@@ -384,23 +384,25 @@ public class UtilityCSV {
 	 */
 	public static StringBuilder downloadCSV_user_contestazioni(final List<Contestation> list) {
 		final StringBuilder builder = new StringBuilder();
-		final String header = "Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Note\n";
+		final String header = "Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Descrizione;Note\n";
 		builder.append(header);
 
 		for (final Contestation itm : list) {
-			final String tipo = "" + itm.getTyp();
-			final String ricorso = "" + itm.getRecall();
+
+			final String tipo = (itm.getTyp() != null) ? itm.getTyp() : "";
+			final String ricorso = ((itm.getRecall() != null) && itm.getRecall()) ? "SI" : "";
 			final String data_contestazione = "" + UtilityCSV.returnItalianDate(itm.getDate_contestation());
-			final String protocollo = "" + itm.getProt();
+			final String protocollo = (itm.getProt() != null) ? itm.getProt() : "";
 			final String data_sazione = "" + UtilityCSV.returnItalianDate(itm.getDate_penalty());
-			final String protocollo_sanzione = "" + itm.getProt_penalty();
+			final String protocollo_sanzione = (itm.getProt_penalty() != null) ? itm.getProt_penalty() : "";
 			final String sospeso_da = "" + UtilityCSV.returnItalianDate(itm.getStop_from());
 			final String sospeso_a = "" + UtilityCSV.returnItalianDate(itm.getStop_to());
 			final String mese_anno_bp = "" + UtilityCSV.returnItalianMonth(itm.getDate_bp());
-			final String note = "" + itm.getNote();
+			final String note = (itm.getNote() != null) ? itm.getNote() : "";
+			final String description = (itm.getDescription() != null) ? itm.getDescription() : "";
 
 			final String line = tipo + ";" + ricorso + ";" + data_contestazione + ";" + protocollo + ";" + data_sazione + ";" + protocollo_sanzione
-					+ ";" + sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + note + ";\n";
+					+ ";" + sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + description + ";" + note + ";\n";
 
 			builder.append(line);
 
@@ -1100,14 +1102,14 @@ public class UtilityCSV {
 			final IShiftCache shift_cache, final IShipCache ship_cache, final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;nota\n";
+		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota\n";
 
 		String holiday = "";
 		String programmer = "";
 		String controller = "";
 
 		if (administrator) {
-			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;nota;programmatore;controllore\n";
+			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;programmatore;controllore\n";
 		}
 		builder.append(header);
 
@@ -1362,6 +1364,11 @@ public class UtilityCSV {
 				reviewshift = "Si";
 			}
 
+			String continue_shif = "";
+			if ((item.getContinueshift() != null) && item.getContinueshift()) {
+				continue_shif = "Si";
+			}
+
 			// define factor for users and shift type
 			String factor_shift = "";
 			if (shift_type.getRecorded()) {
@@ -1380,13 +1387,13 @@ public class UtilityCSV {
 				line = "" + processo + ";" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification
 						+ ";" + sign_info + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info + ";" + contabilizzato + ";"
 						+ factor_shift + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane
-						+ ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota + ";" + programmer + ";"
-						+ controller + ";\n";
+						+ ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + continue_shif + ";" + nota + ";"
+						+ programmer + ";" + controller + ";\n";
 			} else {
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
 						+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
-						+ nameShip + ";" + crane + ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + nota
-						+ ";\n";
+						+ nameShip + ";" + crane + ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";"
+						+ continue_shif + ";" + nota + ";\n";
 
 			}
 
