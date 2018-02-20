@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
@@ -13,26 +14,72 @@ import org.joda.time.Years;
 public class UserReport implements Serializable {
 
 	private static final SimpleDateFormat	date_format			= new SimpleDateFormat("dd-MM-yyyy");
+	public static final String				HEADER				= "COGNOME;NOME;STATUS;DIPARTIMENTO;NCFL;NASCITA;" + "DATA NASCITA;ETA;INDIRIZZO;"
+			+ "CITTÀ;ZIP;PROVINCIA;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATRICOLA;" + "PASS;BUDJE;IDENTIFICATIVO PERSONALE;"
+			+ "EDUCAZIONE;PATENTE DI GUIDATA;RILASCIO PATENTE DI GUIDA;TEMPO RILASCIO;POSIZIONE CORRENTE;CENTRO DI COSTO;DA;A;SALARIO BASE;"
+			+ "CONTINGENZA;MANSIONE PRINCIPALE;SCELTA TFR;DATA SCELTA TFR;DATA VISITA FISCALE;"
+			+ "CONTROLLO VISITA FISCALE;RISULTATO VISITA FISCALE;TIPO VISITA FISCALE;" + "SEDE INPS VISITA FISCALE;MALATTIA DA;MALATTIDA A;"
+			+ "DATA VISITA DI CONTROLLO;DATA SUCCESSIVA VISITA DI CONTROLLO;" + "PRESCRIZIONE VISITA DI CONTROLLO;RISULTATO VISITA DI CONTROLLO;"
+			+ "NOME SIDACATO;REGISTRAZIONE SINDACATO;CANCELLAZIONE SINDACATO;"
+			+ "DATA CONTESTAZIONE DISCIPLINARE;DATA PENALITA;DATA BP;PROTOCOLLO CONTESTAZIONE DISCIPLINARE;PROTOCOLLO PENALITA;"
+			+ "RICORSO;SOSPENSIONE DA;SOSPENSIONE A;TIPO CONTESTAZIONE DISCIPLINARE;DATA INSERIMENTO COMPENSAZIONE;ORE COMPENSAZIONE;"
+			+ "NOME CERTIFICAZIONE;DATA CERTIFICAZIONE;FINE CERTIFICAZIONE;DURATA CERTIFICATO;ORA INIZIO LEZIONE;ORA FINE LEZIONE;ISTRUTTORE;"
+			+ "TIPO ISTRUZIONE;LIVELLO ISTRUZIONE;MANSIONE;";
 
-	public static final String				HEADER				= "COGNOME;NOME;STATUS;DIPARTIMENTO;NCFL;NASCITA;DATA NASCITA;ETA;INDIRIZZO;CITTÀ;ZIP;PROVINCIA;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATRICOLA;PASS;BUDJE;IDENTIFICATIVO PERSONALE;EDUCAZIONE;PATENTE DI GUIDATA;RILASCIO PATENTE DI GUIDA;TEMPO RILASCIO;POSIZIONE CORRENTE;CENTRO DI COSTO;DA;A;SALARIO BASE;CONTINGENZA;MANSIONE PRINCIPALE;SCELTA TFR;DATA SCELTA TFR";
-
-	/**
-	 *
-	 */
 	private static final long				serialVersionUID	= 1L;
 
 	private String							address;
+
 	private Date							birth_date;
+
 	private String							birth_place;
+
 	private String							city;
+
+	private Date							con_date_contestation;
+
+	private Date							con_date_penality;
+
+	private Date							con_datebp;
+
+	private String							con_prot;
+
+	private String							con_prot_penalty;
+
+	private Boolean							con_recall;
+
+	private Date							con_stop_from;
+
+	private Date							con_stop_to;
+
+	private String							con_typ;
+
 	private String							contractual_level;
+
 	private String							current_position;
+
 	private String							department;
+
 	private String							driving_license;
+
 	private Date							driving_license_emission;
+
 	private String							education;
+
 	private String							employee_identification;
+
 	private String							family_charge;
+
+	private Date							fc_control_date;
+
+	private Date							fc_request_date;
+
+	private String							fc_result;
+
+	private String							fc_result_type;
+	private String							fc_sede_inps;
+	private Date							fc_sikness_from;
+	private Date							fc_sikness_to;
 	private String							firstname;
 	private String							fiscal_code;
 	private Double							job_basicsalary;
@@ -40,20 +87,66 @@ public class UserReport implements Serializable {
 	private Date							job_date_from;
 	private Date							job_date_to;
 	private Double							job_edr;
+
 	private Double							job_shots;
 	private String							jobcost;
+
 	private String							lastname;
 	private String							marital_status;
+	private Date							me_date_examination;
+	private Date							me_next_date_examination;
+	private String							me_prescriptions;
+	private String							me_result_examination;
 	private String							nbudge;
 	private String							ncfl;
 	private String							npass;
+
 	private String							personal_code;
+
 	private String							phone;
+
 	private String							provincia;
+
 	private String							status;
+
 	private String							task_default;
+
+	private Date							tc_certificate_date;
+
+	private Double							tc_duration;
+
+	private Date							tc_end_class;
+
+	private Date							tc_expiration_date;
+
+	private Date							tc_start_class;
+
+	private String							tc_title;
+
+	private String							tc_trainer;
+
+	private String							tc_trainer_type;
+
+	private String							tc_training_level;
+
+	private String							tc_training_task;
+
+	private String							tc_tutor;
+
+	private String							tc_typ;
+
 	private String							tfr_destination;
+
 	private Date							tfr_selection_date;
+
+	private Date							tu_cancellation;
+
+	private String							tu_name;
+
+	private Date							tu_registration;
+
+	private Date							uc_date_submit;
+	private Double							uc_time_comp;
 
 	private String							zip;
 
@@ -73,6 +166,44 @@ public class UserReport implements Serializable {
 
 	public String getCity() {
 		return StringUtils.defaultString(this.city, "");
+	}
+
+	public Date getCon_date_contestation() {
+		return this.con_date_contestation;
+	}
+
+	public Date getCon_date_penality() {
+		return this.con_date_penality;
+	}
+
+	public Date getCon_datebp() {
+		return this.con_datebp;
+	}
+
+	public String getCon_prot() {
+		return StringUtils.defaultString(this.con_prot, "");
+	}
+
+	public String getCon_prot_penalty() {
+		return StringUtils.defaultString(this.con_prot_penalty, "");
+
+	}
+
+	public Boolean getCon_recall() {
+		return BooleanUtils.toBooleanDefaultIfNull(this.con_recall, false);
+
+	}
+
+	public Date getCon_stop_from() {
+		return this.con_stop_from;
+	}
+
+	public Date getCon_stop_to() {
+		return this.con_stop_to;
+	}
+
+	public String getCon_typ() {
+		return StringUtils.defaultString(this.con_typ, "");
 	}
 
 	public String getContractual_level() {
@@ -153,6 +284,34 @@ public class UserReport implements Serializable {
 
 	}
 
+	public Date getFc_control_date() {
+		return this.fc_control_date;
+	}
+
+	public Date getFc_request_date() {
+		return this.fc_request_date;
+	}
+
+	public String getFc_result() {
+		return StringUtils.defaultString(this.fc_result, "");
+	}
+
+	public String getFc_result_type() {
+		return StringUtils.defaultString(this.fc_result_type, "");
+	}
+
+	public String getFc_sede_inps() {
+		return StringUtils.defaultString(this.fc_sede_inps, "");
+	}
+
+	public Date getFc_sikness_from() {
+		return this.fc_sikness_from;
+	}
+
+	public Date getFc_sikness_to() {
+		return this.fc_sikness_to;
+	}
+
 	public String getFirstname() {
 		return StringUtils.defaultString(this.firstname, "");
 
@@ -168,6 +327,7 @@ public class UserReport implements Serializable {
 	}
 
 	public String getJob_basicsalaryString() {
+
 		if (this.job_basicsalary == null) {
 			return "";
 		} else {
@@ -177,6 +337,7 @@ public class UserReport implements Serializable {
 	}
 
 	public Double getJob_contingency() {
+
 		return this.job_contingency;
 	}
 
@@ -220,6 +381,22 @@ public class UserReport implements Serializable {
 
 	}
 
+	public Date getMe_date_examination() {
+		return this.me_date_examination;
+	}
+
+	public Date getMe_next_date_examination() {
+		return this.me_next_date_examination;
+	}
+
+	public String getMe_prescriptions() {
+		return StringUtils.defaultString(this.me_prescriptions, "");
+	}
+
+	public String getMe_result_examination() {
+		return StringUtils.defaultString(this.me_result_examination, "");
+	}
+
 	public String getNbudge() {
 		return StringUtils.defaultString(this.nbudge, "");
 
@@ -258,12 +435,101 @@ public class UserReport implements Serializable {
 		return StringUtils.defaultString(this.task_default, "");
 	}
 
+	public Date getTc_certificate_date() {
+		return this.tc_certificate_date;
+	}
+
+	public Double getTc_duration() {
+
+		return this.tc_duration;
+	}
+
+	public String getTc_duration_string() {
+
+		if (this.tc_duration == null) {
+			return "";
+		} else {
+			return "" + this.tc_duration;
+		}
+
+	}
+
+	public Date getTc_end_class() {
+		return this.tc_end_class;
+	}
+
+	public Date getTc_expiration_date() {
+		return this.tc_expiration_date;
+	}
+
+	public Date getTc_start_class() {
+		return this.tc_start_class;
+	}
+
+	public String getTc_title() {
+		return StringUtils.defaultString(this.tc_title, "");
+	}
+
+	public String getTc_trainer() {
+		return StringUtils.defaultString(this.tc_trainer, "");
+	}
+
+	public String getTc_trainer_type() {
+		return StringUtils.defaultString(this.tc_trainer_type, "");
+	}
+
+	public String getTc_training_level() {
+		return StringUtils.defaultString(this.tc_training_level, "");
+	}
+
+	public String getTc_training_task() {
+		return StringUtils.defaultString(this.tc_training_task, "");
+	}
+
+	public String getTc_tutor() {
+		return StringUtils.defaultString(this.tc_tutor, "");
+	}
+
+	public String getTc_typ() {
+		return StringUtils.defaultString(this.tc_typ, "");
+	}
+
 	public String getTfr_destination() {
 		return StringUtils.defaultString(this.tfr_destination, "");
 	}
 
 	public Date getTfr_selection_date() {
 		return this.tfr_selection_date;
+	}
+
+	public Date getTu_cancellation() {
+		return this.tu_cancellation;
+	}
+
+	public String getTu_name() {
+		return StringUtils.defaultString(this.tu_name, "");
+	}
+
+	public Date getTu_registration() {
+		return this.tu_registration;
+	}
+
+	public Date getUc_date_submit() {
+		return this.uc_date_submit;
+	}
+
+	public Double getUc_time_comp() {
+
+		return this.uc_time_comp;
+	}
+
+	public String getUc_time_comp_string() {
+
+		if (this.uc_time_comp == null) {
+			return "";
+		} else {
+			return "" + this.uc_time_comp;
+		}
 	}
 
 	public String getZip() {
@@ -292,6 +558,42 @@ public class UserReport implements Serializable {
 
 	public void setCity(final String city) {
 		this.city = city;
+	}
+
+	public void setCon_date_contestation(final Date con_date_contestation) {
+		this.con_date_contestation = con_date_contestation;
+	}
+
+	public void setCon_date_penality(final Date con_date_penality) {
+		this.con_date_penality = con_date_penality;
+	}
+
+	public void setCon_datebp(final Date con_datebp) {
+		this.con_datebp = con_datebp;
+	}
+
+	public void setCon_prot(final String con_prot) {
+		this.con_prot = con_prot;
+	}
+
+	public void setCon_prot_penalty(final String con_prot_penalty) {
+		this.con_prot_penalty = con_prot_penalty;
+	}
+
+	public void setCon_recall(final Boolean con_recall) {
+		this.con_recall = con_recall;
+	}
+
+	public void setCon_stop_from(final Date con_stop_from) {
+		this.con_stop_from = con_stop_from;
+	}
+
+	public void setCon_stop_to(final Date con_stop_to) {
+		this.con_stop_to = con_stop_to;
+	}
+
+	public void setCon_typ(final String con_typ) {
+		this.con_typ = con_typ;
 	}
 
 	public void setContractual_level(final String contractual_level) {
@@ -324,6 +626,34 @@ public class UserReport implements Serializable {
 
 	public void setFamily_charge(final String family_charge) {
 		this.family_charge = family_charge;
+	}
+
+	public void setFc_control_date(final Date fc_control_date) {
+		this.fc_control_date = fc_control_date;
+	}
+
+	public void setFc_request_date(final Date fc_request_date) {
+		this.fc_request_date = fc_request_date;
+	}
+
+	public void setFc_result(final String fc_result) {
+		this.fc_result = fc_result;
+	}
+
+	public void setFc_result_type(final String fc_result_type) {
+		this.fc_result_type = fc_result_type;
+	}
+
+	public void setFc_sede_inps(final String fc_sede_inps) {
+		this.fc_sede_inps = fc_sede_inps;
+	}
+
+	public void setFc_sikness_from(final Date fc_sikness_from) {
+		this.fc_sikness_from = fc_sikness_from;
+	}
+
+	public void setFc_sikness_to(final Date fc_sikness_to) {
+		this.fc_sikness_to = fc_sikness_to;
 	}
 
 	public void setFirstname(final String firstname) {
@@ -370,6 +700,22 @@ public class UserReport implements Serializable {
 		this.marital_status = marital_status;
 	}
 
+	public void setMe_date_examination(final Date me_date_examination) {
+		this.me_date_examination = me_date_examination;
+	}
+
+	public void setMe_next_date_examination(final Date me_next_date_examination) {
+		this.me_next_date_examination = me_next_date_examination;
+	}
+
+	public void setMe_prescriptions(final String me_prescriptions) {
+		this.me_prescriptions = me_prescriptions;
+	}
+
+	public void setMe_result_examination(final String me_result_examination) {
+		this.me_result_examination = me_result_examination;
+	}
+
 	public void setNbudge(final String nbudge) {
 		this.nbudge = nbudge;
 	}
@@ -402,12 +748,80 @@ public class UserReport implements Serializable {
 		this.task_default = task_default;
 	}
 
+	public void setTc_certificate_date(final Date tc_certificate_date) {
+		this.tc_certificate_date = tc_certificate_date;
+	}
+
+	public void setTc_duration(final Double tc_duration) {
+		this.tc_duration = tc_duration;
+	}
+
+	public void setTc_end_class(final Date tc_end_class) {
+		this.tc_end_class = tc_end_class;
+	}
+
+	public void setTc_expiration_date(final Date tc_expiration_date) {
+		this.tc_expiration_date = tc_expiration_date;
+	}
+
+	public void setTc_start_class(final Date tc_start_class) {
+		this.tc_start_class = tc_start_class;
+	}
+
+	public void setTc_title(final String tc_title) {
+		this.tc_title = tc_title;
+	}
+
+	public void setTc_trainer(final String tc_trainer) {
+		this.tc_trainer = tc_trainer;
+	}
+
+	public void setTc_trainer_type(final String tc_trainer_type) {
+		this.tc_trainer_type = tc_trainer_type;
+	}
+
+	public void setTc_training_level(final String tc_training_level) {
+		this.tc_training_level = tc_training_level;
+	}
+
+	public void setTc_training_task(final String tc_training_task) {
+		this.tc_training_task = tc_training_task;
+	}
+
+	public void setTc_tutor(final String tc_tutor) {
+		this.tc_tutor = tc_tutor;
+	}
+
+	public void setTc_typ(final String tc_typ) {
+		this.tc_typ = tc_typ;
+	}
+
 	public void setTfr_destination(final String tfr_destination) {
 		this.tfr_destination = tfr_destination;
 	}
 
 	public void setTfr_selection_date(final Date tfr_selection_date) {
 		this.tfr_selection_date = tfr_selection_date;
+	}
+
+	public void setTu_cancellation(final Date tu_cancellation) {
+		this.tu_cancellation = tu_cancellation;
+	}
+
+	public void setTu_name(final String tu_name) {
+		this.tu_name = tu_name;
+	}
+
+	public void setTu_registration(final Date tu_registration) {
+		this.tu_registration = tu_registration;
+	}
+
+	public void setUc_date_submit(final Date uc_date_submit) {
+		this.uc_date_submit = uc_date_submit;
+	}
+
+	public void setUc_time_comp(final Double uc_time_comp) {
+		this.uc_time_comp = uc_time_comp;
 	}
 
 	public void setZip(final String zip) {
@@ -424,7 +838,19 @@ public class UserReport implements Serializable {
 				+ this.parseDate(this.getDriving_license_emission()) + ";" + this.getDrivingTimeEmission() + ";" + this.getCurrent_position() + ";"
 				+ this.getJobcost() + ";" + this.parseDate(this.getJob_date_from()) + ";" + this.parseDate(this.getJob_date_to()) + ";"
 				+ this.getJob_basicsalaryString() + ";" + this.getJob_contingencyString() + ";" + this.getTask_default() + ";"
-				+ this.getTfr_destination() + ";" + this.parseDate(this.getTfr_selection_date());
+				+ this.getTfr_destination() + ";" + this.parseDate(this.getTfr_selection_date()) + ";" + this.parseDate(this.getFc_request_date())
+				+ ";" + this.parseDate(this.getFc_control_date()) + ";" + this.getFc_result() + ";" + this.getFc_result_type() + ";"
+				+ this.getFc_sede_inps() + ";" + this.parseDate(this.getFc_sikness_from()) + ";" + this.parseDate(this.getFc_sikness_to()) + ";"
+				+ this.parseDate(this.getMe_date_examination()) + ";" + this.parseDate(this.getMe_next_date_examination()) + ";"
+				+ this.getMe_prescriptions() + ";" + this.getMe_result_examination() + ";" + this.getTu_name() + ";"
+				+ this.parseDate(this.getTu_registration()) + ";" + this.parseDate(this.getTu_cancellation()) + ";"
+				+ this.parseDate(this.getCon_date_contestation()) + ";" + this.parseDate(this.getCon_date_penality()) + ";"
+				+ this.parseDate(this.getCon_datebp()) + ";" + this.getCon_prot() + ";" + this.getCon_prot_penalty() + ";" + this.getCon_recall()
+				+ ";" + this.parseDate(this.getCon_stop_from()) + ";" + this.parseDate(this.getCon_stop_to()) + ";" + this.getCon_typ() + ";"
+				+ this.parseDate(this.getUc_date_submit()) + ";" + this.getUc_time_comp_string() + ";" + this.getTc_title() + ";"
+				+ this.parseDate(this.getTc_certificate_date()) + ";" + this.parseDate(this.getTc_expiration_date()) + ";"
+				+ this.getTc_duration_string() + ";" + this.parseDate(this.getTc_start_class()) + ";" + this.parseDate(this.getTc_end_class()) + ";"
+				+ this.getTc_trainer() + ";" + this.getTc_trainer_type() + ";" + this.getTc_training_level() + ";" + this.getTc_training_task();
 
 		return msg;
 	}

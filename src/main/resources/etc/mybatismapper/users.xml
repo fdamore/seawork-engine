@@ -7,7 +7,7 @@
 
 
 	<select id="user_report" resultType="org.uario.seaworkengine.utility.UserReport">
-<![CDATA[
+	<![CDATA[
 SELECT 
     lastname,
     firstname,
@@ -175,7 +175,501 @@ SELECT
                     tfruser tfr1
                 WHERE
                     tfr1.id_user = u.id))
-        LIMIT 1) tfr_selection_date
+        LIMIT 1) tfr_selection_date,
+    (SELECT 
+            fc.request_date
+        FROM
+            fiscalcontrol fc
+        WHERE
+            fc.id_user = u.id
+                AND (fc.request_date = (SELECT 
+                    MAX(fc1.request_date)
+                FROM
+                    fiscalcontrol fc1
+                WHERE
+                    fc1.id_user = u.id))
+        LIMIT 1) fc_request_date,
+    (SELECT 
+            fc.control_date
+        FROM
+            fiscalcontrol fc
+        WHERE
+            fc.id_user = u.id
+                AND (fc.request_date = (SELECT 
+                    MAX(fc1.request_date)
+                FROM
+                    fiscalcontrol fc1
+                WHERE
+                    fc1.id_user = u.id))
+        LIMIT 1) fc_control_date,
+    (SELECT 
+            fc.sikness_from
+        FROM
+            fiscalcontrol fc
+        WHERE
+            fc.id_user = u.id
+                AND (fc.request_date = (SELECT 
+                    MAX(fc1.request_date)
+                FROM
+                    fiscalcontrol fc1
+                WHERE
+                    fc1.id_user = u.id))
+        LIMIT 1) fc_sikness_from,
+    (SELECT 
+            fc.sikness_to
+        FROM
+            fiscalcontrol fc
+        WHERE
+            fc.id_user = u.id
+                AND (fc.request_date = (SELECT 
+                    MAX(fc1.request_date)
+                FROM
+                    fiscalcontrol fc1
+                WHERE
+                    fc1.id_user = u.id))
+        LIMIT 1) fc_sikness_to,
+    (SELECT 
+            fc.sede_inps
+        FROM
+            fiscalcontrol fc
+        WHERE
+            fc.id_user = u.id
+                AND (fc.request_date = (SELECT 
+                    MAX(fc1.request_date)
+                FROM
+                    fiscalcontrol fc1
+                WHERE
+                    fc1.id_user = u.id))
+        LIMIT 1) fc_sede_inps,
+    (SELECT 
+            fc.result
+        FROM
+            fiscalcontrol fc
+        WHERE
+            fc.id_user = u.id
+                AND (fc.request_date = (SELECT 
+                    MAX(fc1.request_date)
+                FROM
+                    fiscalcontrol fc1
+                WHERE
+                    fc1.id_user = u.id))
+        LIMIT 1) fc_result,
+    (SELECT 
+            fc.result_comunication_type
+        FROM
+            fiscalcontrol fc
+        WHERE
+            fc.id_user = u.id
+                AND (fc.request_date = (SELECT 
+                    MAX(fc1.request_date)
+                FROM
+                    fiscalcontrol fc1
+                WHERE
+                    fc1.id_user = u.id))
+        LIMIT 1) fc_result_type,
+    (SELECT 
+            me.date_examination
+        FROM
+            medicalexamination me
+        WHERE
+            me.iduser = u.id
+                AND (me.date_examination = (SELECT 
+                    MAX(me1.date_examination)
+                FROM
+                    medicalexamination me1
+                WHERE
+                    me1.iduser = u.id))
+        LIMIT 1) me_date_examination,
+    (SELECT 
+            me.next_date_examination
+        FROM
+            medicalexamination me
+        WHERE
+            me.iduser = u.id
+                AND (me.date_examination = (SELECT 
+                    MAX(me1.date_examination)
+                FROM
+                    medicalexamination me1
+                WHERE
+                    me1.iduser = u.id))
+        LIMIT 1) me_next_date_examination,
+    (SELECT 
+            me.result_examination
+        FROM
+            medicalexamination me
+        WHERE
+            me.iduser = u.id
+                AND (me.date_examination = (SELECT 
+                    MAX(me1.date_examination)
+                FROM
+                    medicalexamination me1
+                WHERE
+                    me1.iduser = u.id))
+        LIMIT 1) me_result_examination,
+    (SELECT 
+            me.prescriptions
+        FROM
+            medicalexamination me
+        WHERE
+            me.iduser = u.id
+                AND (me.date_examination = (SELECT 
+                    MAX(me1.date_examination)
+                FROM
+                    medicalexamination me1
+                WHERE
+                    me1.iduser = u.id))
+        LIMIT 1) me_prescriptions,
+    (SELECT 
+            tu.name
+        FROM
+            tradeunion tu
+        WHERE
+            tu.id_user = u.id
+                AND (tu.registration = (SELECT 
+                    MAX(tu1.registration)
+                FROM
+                    tradeunion tu1
+                WHERE
+                    tu1.id_user = u.id))
+        LIMIT 1) tu_name,
+    (SELECT 
+            tu.registration
+        FROM
+            tradeunion tu
+        WHERE
+            tu.id_user = u.id
+                AND (tu.registration = (SELECT 
+                    MAX(tu1.registration)
+                FROM
+                    tradeunion tu1
+                WHERE
+                    tu1.id_user = u.id))
+        LIMIT 1) tu_registration,
+    (SELECT 
+            tu.cancellation
+        FROM
+            tradeunion tu
+        WHERE
+            tu.id_user = u.id
+                AND (tu.registration = (SELECT 
+                    MAX(tu1.registration)
+                FROM
+                    tradeunion tu1
+                WHERE
+                    tu1.id_user = u.id))
+        LIMIT 1) tu_cancellation,
+    (SELECT 
+            con.date_contestation
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_date_contestation,
+    (SELECT 
+            con.date_penalty
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_date_penality,
+    (SELECT 
+            con.typ
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_typ,
+    (SELECT 
+            con.stop_from
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_stop_from,
+    (SELECT 
+            con.stop_to
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_stop_to,
+    (SELECT 
+            con.recall
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_recall,
+    (SELECT 
+            con.recall
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_recall,
+    (SELECT 
+            con.date_bp
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_datebp,
+    (SELECT 
+            con.prot
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_prot,
+    (SELECT 
+            con.prot_penalty
+        FROM
+            contestation con
+        WHERE
+            con.id_user = u.id
+                AND (con.date_contestation = (SELECT 
+                    MAX(con1.date_contestation)
+                FROM
+                    contestation con1
+                WHERE
+                    con1.id_user = u.id))
+        LIMIT 1) con_prot_penalty,
+    (SELECT 
+            uc.date_submit
+        FROM
+            user_compensation uc
+        WHERE
+            uc.id_user = u.id
+                AND (uc.date_submit = (SELECT 
+                    MAX(uc1.date_submit)
+                FROM
+                    user_compensation uc1
+                WHERE
+                    uc1.id_user = u.id))
+        LIMIT 1) uc_date_submit,
+    (SELECT 
+            uc.time_comp
+        FROM
+            user_compensation uc
+        WHERE
+            uc.id_user = u.id
+                AND (uc.date_submit = (SELECT 
+                    MAX(uc1.date_submit)
+                FROM
+                    user_compensation uc1
+                WHERE
+                    uc1.id_user = u.id))
+        LIMIT 1) uc_time_comp,
+    (SELECT 
+            tc.certificate_date
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_certificate_date,
+    (SELECT 
+            tc.title
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_title,
+    (SELECT 
+            tc.expiration_date
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_expiration_date,
+    (SELECT 
+            tc.trainer_type
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_trainer_type,
+    (SELECT 
+            tc.trainer
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_trainer,
+    (SELECT 
+            tc.training_task
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_training_task,
+    (SELECT 
+            tc.training_level
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_training_level,
+    (SELECT 
+            tc.typ
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_typ,
+    (SELECT 
+            tc.tutor
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_tutor,
+    (SELECT 
+            tc.start_class
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_start_class,
+    (SELECT 
+            tc.end_class
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_end_class,
+    (SELECT 
+            tc.duration
+        FROM
+            training_certificate tc
+        WHERE
+            tc.user_id = u.id
+                AND (tc.certificate_date = (SELECT 
+                    MAX(tc1.certificate_date)
+                FROM
+                    training_certificate tc1
+                WHERE
+                    tc1.user_id = u.id))
+        LIMIT 1) tc_duration
 FROM
     user u
 ]]>
