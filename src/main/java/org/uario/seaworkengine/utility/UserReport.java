@@ -394,7 +394,9 @@ public class UserReport implements Serializable {
 	}
 
 	public String getMe_result_examination() {
-		return StringUtils.defaultString(this.me_result_examination, "");
+		String ret = StringUtils.defaultString(this.me_result_examination, "");
+		ret = ret.replace("\n", " ");
+		return ret;
 	}
 
 	public String getNbudge() {
