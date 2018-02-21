@@ -401,8 +401,11 @@ public class UtilityCSV {
 			final String note = (itm.getNote() != null) ? itm.getNote() : "";
 			final String description = (itm.getDescription() != null) ? itm.getDescription() : "";
 
-			final String line = tipo + ";" + ricorso + ";" + data_contestazione + ";" + protocollo + ";" + data_sazione + ";" + protocollo_sanzione
-					+ ";" + sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + description + ";" + note + ";\n";
+			String line = tipo + ";" + ricorso + ";" + data_contestazione + ";" + protocollo + ";" + data_sazione + ";" + protocollo_sanzione + ";"
+					+ sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + description + ";" + note + ";";
+
+			line = line.replace("\n", " ");
+			line = line + "\n";
 
 			builder.append(line);
 
@@ -504,8 +507,11 @@ public class UtilityCSV {
 
 			final String note = "" + itm.getNote();
 
-			final String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione + ";" + livello + ";"
-					+ data_conseguimento + ";" + data_scadenza + ";" + tutor + ";" + inizio_corso + ";" + fine_corso + ";" + htot + ";" + note + "\n";
+			String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione + ";" + livello + ";"
+					+ data_conseguimento + ";" + data_scadenza + ";" + tutor + ";" + inizio_corso + ";" + fine_corso + ";" + htot + ";" + note;
+
+			line = line.replace("\n", " ");
+			line = line + "\n";
 
 			builder.append(line);
 
@@ -774,74 +780,74 @@ public class UtilityCSV {
 
 		final StringBuilder builder = new StringBuilder();
 
-		builder.append("INFORMAZIONI UTENTE");
+		builder.append("***INFORMAZIONI UTENTE***");
 		builder.append("\n");
 
 		final StringBuilder user_info = UtilityCSV.downloadCSV_userinfo(person_info);
 		builder.append(user_info);
 
 		builder.append("\n");
-		builder.append("RAPPORTO LAVORATIVO");
-		builder.append("\n");
-
-		final StringBuilder employ = UtilityCSV.downloadCSV_user_raporto(list_emply);
-		builder.append(employ);
-
-		builder.append("\n");
-		builder.append("MANSIONI");
-		builder.append("\n");
-
-		final StringBuilder task = UtilityCSV.downloadCSV_user_task(list_task);
-		builder.append(task);
-
-		builder.append("\n");
-		builder.append("COSTI ORARI");
-		builder.append("\n");
-
-		final StringBuilder job_cost = UtilityCSV.downloadCSV_user_cost(list_job_cost);
-		builder.append(job_cost);
-
-		builder.append("\n");
-		builder.append("TFR");
-		builder.append("\n");
-
-		final StringBuilder tfr = UtilityCSV.downloadCSV_user_tfr(list_tfr);
-		builder.append(tfr);
-
-		builder.append("\n");
-		builder.append("VISITE FISCALI");
-		builder.append("\n");
-
-		final StringBuilder medical = UtilityCSV.downloadCSV_user_medical(list_medical);
-		builder.append(medical);
-
-		builder.append("\n");
-		builder.append("SINDACATI");
-		builder.append("\n");
-
-		final StringBuilder trade = UtilityCSV.downloadCSV_user_tradeunion(list_trade);
-		builder.append(trade);
-
-		builder.append("\n");
-		builder.append("CONTESTAZIONI DISCIPLINARI");
+		builder.append("***CONTESTAZIONI DISCIPLINARI***");
 		builder.append("\n");
 
 		final StringBuilder contestation = UtilityCSV.downloadCSV_user_contestazioni(list_contestation);
 		builder.append(contestation);
 
 		builder.append("\n");
-		builder.append("COMPENSAZIONI");
-		builder.append("\n");
-
-		final StringBuilder compensation = UtilityCSV.downloadCSV_user_compensazioni(list_compensation);
-		builder.append(compensation);
-
-		builder.append("\n");
-		builder.append("COMPENSAZIONI");
+		builder.append("***FORMAZIONE***");
 		builder.append("\n");
 
 		final StringBuilder training = UtilityCSV.downloadCSV_user_formazione(list_training);
 		builder.append(training);
+
+		builder.append("\n");
+		builder.append("***MANSIONI***");
+		builder.append("\n");
+
+		final StringBuilder task = UtilityCSV.downloadCSV_user_task(list_task);
+		builder.append(task);
+
+		builder.append("\n");
+		builder.append("***RAPPORTO LAVORATIVO***");
+		builder.append("\n");
+
+		final StringBuilder employ = UtilityCSV.downloadCSV_user_raporto(list_emply);
+		builder.append(employ);
+
+		builder.append("\n");
+		builder.append("***COSTI ORARI***");
+		builder.append("\n");
+
+		final StringBuilder job_cost = UtilityCSV.downloadCSV_user_cost(list_job_cost);
+		builder.append(job_cost);
+
+		builder.append("\n");
+		builder.append("***TFR***");
+		builder.append("\n");
+
+		final StringBuilder tfr = UtilityCSV.downloadCSV_user_tfr(list_tfr);
+		builder.append(tfr);
+
+		builder.append("\n");
+		builder.append("***VISITE FISCALI***");
+		builder.append("\n");
+
+		final StringBuilder medical = UtilityCSV.downloadCSV_user_medical(list_medical);
+		builder.append(medical);
+
+		builder.append("\n");
+		builder.append("***SINDACATI***");
+		builder.append("\n");
+
+		final StringBuilder trade = UtilityCSV.downloadCSV_user_tradeunion(list_trade);
+		builder.append(trade);
+
+		builder.append("\n");
+		builder.append("***COMPENSAZIONI***");
+		builder.append("\n");
+
+		final StringBuilder compensation = UtilityCSV.downloadCSV_user_compensazioni(list_compensation);
+		builder.append(compensation);
 
 		return builder;
 

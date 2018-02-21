@@ -43,11 +43,11 @@
 		<button id="qrcode_gen" label="Genera QRCode" sclass="btn-info"
 			visible="false" />
 
-		<div visible="false">
-			<button id="user_csv" label="Scarica CSV Globale"
-				visible="false" sclass="btn-info" />
 
-		</div>
+		<button id="user_csv" label="Scarica CSV Globale"
+			visible="false" sclass="btn-info" />
+
+
 
 		<button label="Chiudi Anagrafica" sclass="btn-danger"
 			onClick="grid_user_details.setVisible(false);add_users_command.setVisible(false);modify_users_command.setVisible(false);">

@@ -14,9 +14,9 @@ import org.joda.time.Years;
 public class UserReport implements Serializable {
 
 	private static final SimpleDateFormat	date_format			= new SimpleDateFormat("dd-MM-yyyy");
-	public static final String				HEADER				= "COGNOME;NOME;STATUS;DIPARTIMENTO;NCFL;NASCITA;" + "DATA NASCITA;ETA;INDIRIZZO;"
-			+ "CITTÀ;ZIP;PROVINCIA;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATRICOLA;" + "PASS;BUDJE;IDENTIFICATIVO PERSONALE;"
-			+ "EDUCAZIONE;PATENTE DI GUIDATA;RILASCIO PATENTE DI GUIDA;TEMPO RILASCIO;POSIZIONE CORRENTE;CENTRO DI COSTO;DA;A;SALARIO BASE;"
+	public static final String				HEADER				= "COGNOME;NOME;STATUS;REPARTO;NCFL;LUOGO DI NASCITA;DATA NASCITA;ETA;INDIRIZZO;"
+			+ "CITTÀ;CAP;PROVINCIA;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATRICOLA;PASS;BADGE;IDENTIFICATIVO PERSONALE;"
+			+ "EDUCAZIONE;PATENTE DI GUIDATA;RILASCIO PATENTE DI GUIDA;TEMPO RILASCIO;QUALIFICA CORRENTE;LIVELLO CONTRATTUALE;CENTRO DI COSTO;DA;A;SALARIO BASE;"
 			+ "CONTINGENZA;MANSIONE PRINCIPALE;SCELTA TFR;DATA SCELTA TFR;DATA VISITA FISCALE;"
 			+ "CONTROLLO VISITA FISCALE;RISULTATO VISITA FISCALE;TIPO VISITA FISCALE;" + "SEDE INPS VISITA FISCALE;MALATTIA DA;MALATTIDA A;"
 			+ "DATA VISITA DI CONTROLLO;DATA SUCCESSIVA VISITA DI CONTROLLO;" + "PRESCRIZIONE VISITA DI CONTROLLO;RISULTATO VISITA DI CONTROLLO;"
@@ -832,20 +832,20 @@ public class UserReport implements Serializable {
 
 	public String toCSVLine() {
 
-		final String msg = this.getLastname() + ";" + this.getFirstname() + ";" + this.getStatus() + ";" + this.getDepartment() + ";" + this.getNcfl()
-				+ ";" + this.getBirth_place() + ";" + this.parseDate(this.getBirth_date()) + ";" + this.getEta() + ";" + this.getAddress() + ";"
+		String msg = this.getLastname() + ";" + this.getFirstname() + ";" + this.getStatus() + ";" + this.getDepartment() + ";" + this.getNcfl() + ";"
+				+ this.getBirth_place() + ";" + this.parseDate(this.getBirth_date()) + ";" + this.getEta() + ";" + this.getAddress() + ";"
 				+ this.getCity() + ";" + this.getZip() + ";" + this.getProvincia() + ";" + this.getPhone() + ";" + this.getFiscal_code() + ";"
 				+ this.getMarital_status() + ";" + this.getFamily_charge() + ";" + this.getEmployee_identification() + ";" + this.getNpass() + ";"
 				+ this.getNbudge() + ";" + this.getPersonal_code() + ";" + this.getEducation() + ";" + this.getDriving_license() + ";"
 				+ this.parseDate(this.getDriving_license_emission()) + ";" + this.getDrivingTimeEmission() + ";" + this.getCurrent_position() + ";"
-				+ this.getJobcost() + ";" + this.parseDate(this.getJob_date_from()) + ";" + this.parseDate(this.getJob_date_to()) + ";"
-				+ this.getJob_basicsalaryString() + ";" + this.getJob_contingencyString() + ";" + this.getTask_default() + ";"
-				+ this.getTfr_destination() + ";" + this.parseDate(this.getTfr_selection_date()) + ";" + this.parseDate(this.getFc_request_date())
-				+ ";" + this.parseDate(this.getFc_control_date()) + ";" + this.getFc_result() + ";" + this.getFc_result_type() + ";"
-				+ this.getFc_sede_inps() + ";" + this.parseDate(this.getFc_sikness_from()) + ";" + this.parseDate(this.getFc_sikness_to()) + ";"
-				+ this.parseDate(this.getMe_date_examination()) + ";" + this.parseDate(this.getMe_next_date_examination()) + ";"
-				+ this.getMe_prescriptions() + ";" + this.getMe_result_examination() + ";" + this.getTu_name() + ";"
-				+ this.parseDate(this.getTu_registration()) + ";" + this.parseDate(this.getTu_cancellation()) + ";"
+				+ this.getContractual_level() + ";" + this.getJobcost() + ";" + this.parseDate(this.getJob_date_from()) + ";"
+				+ this.parseDate(this.getJob_date_to()) + ";" + this.getJob_basicsalaryString() + ";" + this.getJob_contingencyString() + ";"
+				+ this.getTask_default() + ";" + this.getTfr_destination() + ";" + this.parseDate(this.getTfr_selection_date()) + ";"
+				+ this.parseDate(this.getFc_request_date()) + ";" + this.parseDate(this.getFc_control_date()) + ";" + this.getFc_result() + ";"
+				+ this.getFc_result_type() + ";" + this.getFc_sede_inps() + ";" + this.parseDate(this.getFc_sikness_from()) + ";"
+				+ this.parseDate(this.getFc_sikness_to()) + ";" + this.parseDate(this.getMe_date_examination()) + ";"
+				+ this.parseDate(this.getMe_next_date_examination()) + ";" + this.getMe_prescriptions() + ";" + this.getMe_result_examination() + ";"
+				+ this.getTu_name() + ";" + this.parseDate(this.getTu_registration()) + ";" + this.parseDate(this.getTu_cancellation()) + ";"
 				+ this.parseDate(this.getCon_date_contestation()) + ";" + this.parseDate(this.getCon_date_penality()) + ";"
 				+ this.parseDate(this.getCon_datebp()) + ";" + this.getCon_prot() + ";" + this.getCon_prot_penalty() + ";" + this.getCon_recall()
 				+ ";" + this.parseDate(this.getCon_stop_from()) + ";" + this.parseDate(this.getCon_stop_to()) + ";" + this.getCon_typ() + ";"
@@ -853,6 +853,8 @@ public class UserReport implements Serializable {
 				+ this.parseDate(this.getTc_certificate_date()) + ";" + this.parseDate(this.getTc_expiration_date()) + ";"
 				+ this.getTc_duration_string() + ";" + this.parseDate(this.getTc_start_class()) + ";" + this.parseDate(this.getTc_end_class()) + ";"
 				+ this.getTc_trainer() + ";" + this.getTc_trainer_type() + ";" + this.getTc_training_level() + ";" + this.getTc_training_task();
+
+		msg = msg.replace("\n", " ");
 
 		return msg;
 	}
