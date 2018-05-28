@@ -689,6 +689,9 @@
 		<a label="Scarica dati in CSV" id="personList_download"
 			style="color:green" />
 
+		<a label="Scarica Riepilogo in CSV"
+			id="person_review_list_download" style="color:green" />
+
 
 	</div>
 

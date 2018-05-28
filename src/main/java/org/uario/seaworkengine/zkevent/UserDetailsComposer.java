@@ -75,267 +75,267 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Component			add_users_command;
+	private Component add_users_command;
 
 	@Wire
-	private Textbox				address_user;
+	private Textbox address_user;
 
 	@Wire
-	private Checkbox			admin_user;
+	private Checkbox admin_user;
 
 	@Wire
-	private Checkbox			backoffice_user;
+	private Checkbox backoffice_user;
 
 	@Wire
-	private Datebox				birth_date_user;
+	private Datebox birth_date_user;
 
 	@Wire
-	private Combobox			birth_place_user;
+	private Combobox birth_place_user;
 
 	@Wire
-	private Combobox			birth_province_user;
+	private Combobox birth_province_user;
 
 	@Wire
-	private Button				cfgenerator;
+	private Button cfgenerator;
 
 	@Wire
-	private Textbox				city_user;
+	private Textbox city_user;
 
 	@Wire
-	private Component			compensation_user_tab;
+	private Component compensation_user_tab;
 
-	public Comboitem			comuneSelected;
-
-	@Wire
-	private Component			contestations_user_tab;
+	public Comboitem comuneSelected;
 
 	@Wire
-	private Combobox			contractual_level_filter;
+	private Component contestations_user_tab;
 
 	@Wire
-	private Label				count_users;
+	private Combobox contractual_level_filter;
 
 	@Wire
-	private Textbox				country_user;
+	private Label count_users;
 
 	@Wire
-	private Textbox				current_position_user;
+	private Textbox country_user;
 
 	@Wire
-	private Checkbox			dailyemployee;
+	private Textbox current_position_user;
 
 	@Wire
-	private Intbox				daywork_w_user;
+	private Checkbox dailyemployee;
 
 	@Wire
-	private Combobox			department_user;
-
-	List<String>				departmentItems		= new ArrayList<>();
+	private Intbox daywork_w_user;
 
 	@Wire
-	private Tab					detail_user_tab;
+	private Combobox department_user;
+
+	List<String> departmentItems = new ArrayList<>();
 
 	@Wire
-	private Textbox				driving_license_charge_user;
+	private Tab detail_user_tab;
 
 	@Wire
-	private Datebox				driving_license_emission_user;
+	private Textbox driving_license_charge_user;
 
 	@Wire
-	private Textbox				driving_license_user;
+	private Datebox driving_license_emission_user;
 
 	@Wire
-	private Textbox				education_user;
+	private Textbox driving_license_user;
 
 	@Wire
-	private Textbox				email_editor_user;
+	private Textbox education_user;
 
 	@Wire
-	private Textbox				email_editor_user_retype;
+	private Textbox email_editor_user;
 
 	@Wire
-	private Textbox				email_user;
+	private Textbox email_editor_user_retype;
 
 	@Wire
-	private Textbox				email_user_retype;
+	private Textbox email_user;
 
 	@Wire
-	private Textbox				employee_identification_user;
+	private Textbox email_user_retype;
 
 	@Wire
-	private Textbox				family_charge_user;
+	private Textbox employee_identification_user;
 
 	@Wire
-	private Textbox				firstname_user;
+	private Textbox family_charge_user;
 
 	@Wire
-	private Component			fiscalcheck_user_tab;
+	private Textbox firstname_user;
 
 	@Wire
-	private Textbox				fiscalcode_user;
+	private Component fiscalcheck_user_tab;
 
 	@Wire
-	private Textbox				full_text_search;
+	private Textbox fiscalcode_user;
 
 	@Wire
-	private Component			grid_user_details;
+	private Textbox full_text_search;
 
 	@Wire
-	private Intbox				hourswork_w_user;
+	private Component grid_user_details;
 
 	@Wire
-	private Component			jobcost_user_tab;
+	private Intbox hourswork_w_user;
 
 	@Wire
-	private Textbox				lastname_user;
-
-	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
+	private Component jobcost_user_tab;
 
 	@Wire
-	private Component			mail_user_tab;
+	private Textbox lastname_user;
+
+	private final Logger logger = Logger.getLogger(UserDetailsComposer.class);
 
 	@Wire
-	private Textbox				mailpassword_user;
+	private Component mail_user_tab;
 
 	@Wire
-	private Textbox				marital_status_user;
+	private Textbox mailpassword_user;
 
 	@Wire
-	private Component			medicalexamination_user_tab;
+	private Textbox marital_status_user;
 
 	@Wire
-	private Component			modify_users_command;
+	private Component medicalexamination_user_tab;
 
 	@Wire
-	private Textbox				nbudje_user;
+	private Component modify_users_command;
 
 	@Wire
-	private Textbox				ncfl_user;
+	private Textbox nbudje_user;
 
 	@Wire
-	private Textbox				npass_user;
+	private Textbox ncfl_user;
 
 	@Wire
-	private Checkbox			operative_user;
+	private Textbox npass_user;
 
 	@Wire
-	private Checkbox			out_schedule_user;
+	private Checkbox operative_user;
 
 	@Wire
-	private Checkbox			partTime;
+	private Checkbox out_schedule_user;
 
 	@Wire
-	private Textbox				password_editor_user;
+	private Checkbox partTime;
 
 	@Wire
-	private Textbox				password_editor_user_retype;
+	private Textbox password_editor_user;
 
 	@Wire
-	private Textbox				password_user;
+	private Textbox password_editor_user_retype;
 
 	@Wire
-	private Textbox				password_user_retype;
+	private Textbox password_user;
 
 	@Wire
-	private Component			password_user_tab;
-
-	Person						person_selected		= null;
+	private Textbox password_user_retype;
 
 	@Wire
-	private Textbox				personal_code_user;
+	private Component password_user_tab;
+
+	Person person_selected = null;
+
+	@Wire
+	private Textbox personal_code_user;
 
 	// the dao used for db interaction
-	private PersonDAO			personDao;
+	private PersonDAO personDao;
 
 	@Wire
-	private Textbox				phone_user;
+	private Textbox phone_user;
 
 	@Wire
-	private Textbox				postalCode_user;
+	private Textbox postalCode_user;
 
 	@Wire
-	private Textbox				provincia_user;
+	private Textbox provincia_user;
 
 	@Wire
-	private Component			qrcode_gen;
+	private Component qrcode_gen;
 
 	@Wire
-	private Row					row_email_user_retype;
+	private Row row_email_user_retype;
 
 	@Wire
-	private Row					row_password_user;
+	private Row row_password_user;
 
 	@Wire
-	private Row					row_password_user_retype;
+	private Row row_password_user_retype;
 
 	@Wire
-	private Textbox				search_qualifica;
+	private Textbox search_qualifica;
 
 	@Wire
-	private Combobox			select_specific_user;
+	private Combobox select_specific_user;
 
 	@Wire
-	private Combobox			sex_user;
+	private Combobox sex_user;
 
 	@Wire
-	private Intbox				shows_rows;
+	private Intbox shows_rows;
 
 	@Wire
-	private Component			status_user_tab;
+	private Component status_user_tab;
 
 	@Wire
-	private Listbox				sw_list_user;
+	private Listbox sw_list_user;
 
 	@Wire
-	private Component			task_user_tab;
+	private Component task_user_tab;
 
 	@Wire
-	private Component			tfr_user_tab;
+	private Component tfr_user_tab;
 
 	@Wire
-	private Component			tradeunion_user_tab;
+	private Component tradeunion_user_tab;
 
 	@Wire
-	private Component			training_user_tab;
+	private Component training_user_tab;
 
 	@Wire
-	private Label				user_contractual_level;
+	private Label user_contractual_level;
 
 	@Wire
-	private Button				user_csv;
+	private Button user_csv;
 
 	@Wire
-	private Combobox			user_enable_filter;
+	private Combobox user_enable_filter;
 
 	@Wire
-	private Checkbox			user_enabled;
+	private Checkbox user_enabled;
 
 	@Wire
-	private Label				user_status;
+	private Label user_status;
 
 	@Wire
-	private Combobox			user_status_filter;
+	private Combobox user_status_filter;
 
 	@Wire
-	private Combobox			user_status_filter_period;
+	private Combobox user_status_filter_period;
 
 	@Wire
-	private Datebox				user_status_from;
+	private Datebox user_status_from;
 
 	@Wire
-	private Datebox				user_status_to;
+	private Datebox user_status_to;
 
 	@Wire
-	private Combobox			user_task_code;
+	private Combobox user_task_code;
 
 	@Wire
-	private A					userName;
+	private A userName;
 
 	@Wire
-	private Checkbox			viewer_user;
+	private Checkbox viewer_user;
 
 	@Listen("onClick = #add_users_command")
 	public void addUserCommand() throws UserNameJustPresentExcpetion {
@@ -507,8 +507,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null,
-					params);
+			Messagebox.show("Controllare valori inseriti (email, password, sesso). ", "INFO", buttons, null,
+					Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -517,7 +517,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onClick=#cfgenerator")
 	public void calculateFiscalCode() {
 
-		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null) || (this.birth_place_user.getSelectedItem() == null)
+		if ((this.firstname_user.getValue() == null) || (this.lastname_user.getValue() == null)
+				|| (this.birth_place_user.getSelectedItem() == null)
 				|| (this.birth_province_user.getSelectedItem() == null) || (this.birth_date_user.getValue() == null)
 				|| (this.sex_user.getSelectedItem() == null)) {
 			return;
@@ -596,7 +597,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show("Verificare valori inseriti.", "ATTENZIONE", buttons, null, Messagebox.EXCLAMATION, null,
+					null, params);
 			return;
 		}
 
@@ -612,7 +614,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// check over password
-			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(), this.person_selected.getEmail());
+			final String hashing_password = Utility.encodeSHA256(this.mailpassword_user.getValue(),
+					this.person_selected.getEmail());
 
 			if (!hashing_password.equals(this.person_selected.getPassword())) {
 
@@ -621,7 +624,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+				Messagebox.show("La password inserita non è corretta ", "INFO", buttons, null, Messagebox.ERROR, null,
+						null, params);
 
 				return;
 
@@ -634,7 +638,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+				Messagebox.show("Le mail devono essere uguali ", "INFO", buttons, null, Messagebox.ERROR, null, null,
+						params);
 
 				// set fields
 				this.mailpassword_user.setValue("");
@@ -651,7 +656,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+				Messagebox.show("Mail già presente e usata da altro operatore", "INFO", buttons, null, Messagebox.ERROR,
+						null, null, params);
 
 				// set fields
 				this.email_editor_user.setValue("");
@@ -661,7 +667,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			}
 
 			// change password
-			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(), this.email_editor_user.getValue());
+			this.personDao.changeMail(this.person_selected.getId(), this.mailpassword_user.getValue(),
+					this.email_editor_user.getValue());
 
 			this.person_selected.setEmail(this.email_editor_user.getValue());
 			this.sw_list_user.getSelectedItem().setValue(this.person_selected);
@@ -709,12 +716,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				final Messagebox.Button[] buttons = new Messagebox.Button[1];
 				buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
+				Messagebox.show("Le password devono essere uguali", "INFO", buttons, null, Messagebox.EXCLAMATION, null,
+						null, params);
 				return;
 			}
 
 			// change password
-			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(), this.password_editor_user.getValue());
+			this.personDao.changePassword(this.person_selected.getId(), this.person_selected.getEmail(),
+					this.password_editor_user.getValue());
 
 			// reset fields
 			this.password_editor_user.setValue("");
@@ -736,7 +745,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
+			Messagebox.show("Errore nell'inserimento dei valori", "INFO", buttons, null, Messagebox.ERROR, null, null,
+					params);
 
 		}
 
@@ -874,8 +884,10 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		if (person_selected.getBirth_place() != null) {
 
-			this.birth_place_user.setModel(new ListModelList<>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
-			this.birth_place_user.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
+			this.birth_place_user.setModel(
+					new ListModelList<>(this.personDao.loadComuniByProvincia(person_selected.getBirth_province())));
+			this.birth_place_user
+					.setSelectedItem(this.getComboItem(this.birth_place_user, person_selected.getBirth_place()));
 			this.birth_place_user.setValue(person_selected.getBirth_place());
 
 		}
@@ -906,8 +918,9 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			final Messagebox.Button[] buttons = new Messagebox.Button[1];
 			buttons[0] = Messagebox.Button.OK;
 
-			Messagebox.show("Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.", "INFO", buttons,
-					null, Messagebox.EXCLAMATION, null, null, params);
+			Messagebox.show(
+					"Non è possibile eliminare questo utente.\nControlla che non ci siano azioni legate a questa angrafica.",
+					"INFO", buttons, null, Messagebox.EXCLAMATION, null, null, params);
 
 		}
 
@@ -962,7 +975,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		// create comboitem department
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.ADMINISTRATION);
 		UserDetailsComposer.this.departmentItems.add(DepartmentTag.OPERATIVE);
-		UserDetailsComposer.this.department_user.setModel(new ListModelList<>(UserDetailsComposer.this.departmentItems));
+		UserDetailsComposer.this.department_user
+				.setModel(new ListModelList<>(UserDetailsComposer.this.departmentItems));
 
 		final List<String> userStatusItems = new ArrayList<>();
 
@@ -977,14 +991,58 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 	}
 
-	@Listen("onClick = #personList_download")
-	public void downloadCSV_PersonList() {
+	@Listen("onClick = #person_review_list_download")
+	public void downloadReviewUserCSV() {
 
-		final List<UserReport> list_users = this.personDao.listUserReport();
+		// TAKE DAO
+		final EmploymentDAO employment_dao = (EmploymentDAO) SpringUtil.getBean(BeansTag.EMPLOYMENT_DAO);
+		final TasksDAO task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+		final IJobCost job_cost = (IJobCost) SpringUtil.getBean(BeansTag.JOB_COST_DAO);
+		final TfrDAO tfr_dao = (TfrDAO) SpringUtil.getBean(BeansTag.TFR_DAO);
+		final MedicalExaminationDAO medical_ex_dao = (MedicalExaminationDAO) SpringUtil
+				.getBean(BeansTag.MEDICAL_EXAMINATION_DAO);
+		final TradeUnionDAO trade_union_dao = (TradeUnionDAO) SpringUtil.getBean(BeansTag.TRADE_UNION_DAO);
+		final IContestation contestation_dao = (IContestation) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
+		final UserCompensationDAO compensation_dao = (UserCompensationDAO) SpringUtil
+				.getBean(BeansTag.USER_COMPENSATION_DAO);
+		final TrainingCertificateDAO training_dao = (TrainingCertificateDAO) SpringUtil
+				.getBean(BeansTag.TRAINING_CERTIFICATE_DAO);
 
-		final StringBuilder builder = UtilityCSV.downloadCSV_UserReport(list_users);
+		// take info
+		final List<Person> list_users = this.personDao.listAllPersons();
 
-		Filedownload.save(builder.toString(), "application/text", "lista_utenti.csv");
+		// take final builder
+		final StringBuilder final_builder = new StringBuilder();
+
+		for (final Person person : list_users) {
+
+			final Integer id_user = person.getId();
+
+			// get info
+			final Person person_info = this.personDao.loadPerson(id_user);
+			final List<Employment> list_emply = employment_dao.loadEmploymentByUser(id_user);
+			final List<UserTask> list_task = task_dao.loadTasksByUser(id_user);
+			final List<JobCost> list_job_cost = job_cost.loadJobCostByUser(id_user);
+			final List<TfrUser> list_tfr = tfr_dao.loadTFRByUser(id_user);
+			final List<MedicalExamination> list_medical = medical_ex_dao.loadMedicalExaminationByUserId(id_user);
+			final List<TradeUnion> list_trade = trade_union_dao.loadTradeUnionsByUser(id_user);
+			final List<Contestation> list_contestation = contestation_dao.loadUserContestation(id_user);
+			final List<UserCompensation> list_compensation = compensation_dao.loadAllUserCompensationByUserId(id_user);
+			final List<TrainingCertificate> list_training = training_dao.loadTrainingCertificate(id_user, null, null,
+					null);
+
+			// download total
+			final StringBuilder builder = UtilityCSV.downloadCSV_UserTotal(person_info, list_emply, list_task,
+					list_job_cost, list_tfr, list_medical, list_trade, list_contestation, list_compensation,
+					list_training);
+
+			// append info
+			final_builder.append(builder.toString());
+			final_builder.append("\n");
+
+		}
+
+		Filedownload.save(final_builder.toString(), "application/text", "lista_riepilogo_utenti.csv");
 
 	}
 
@@ -998,7 +1056,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	 *
 	 */
 	@Listen("onClick = #user_csv")
-	public void downloadCSV_total() {
+	public void downloadTotalInfoUserCSV() {
 
 		if (this.person_selected == null) {
 			return;
@@ -1011,11 +1069,14 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final TasksDAO task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 		final IJobCost job_cost = (IJobCost) SpringUtil.getBean(BeansTag.JOB_COST_DAO);
 		final TfrDAO tfr_dao = (TfrDAO) SpringUtil.getBean(BeansTag.TFR_DAO);
-		final MedicalExaminationDAO medical_ex_dao = (MedicalExaminationDAO) SpringUtil.getBean(BeansTag.MEDICAL_EXAMINATION_DAO);
+		final MedicalExaminationDAO medical_ex_dao = (MedicalExaminationDAO) SpringUtil
+				.getBean(BeansTag.MEDICAL_EXAMINATION_DAO);
 		final TradeUnionDAO trade_union_dao = (TradeUnionDAO) SpringUtil.getBean(BeansTag.TRADE_UNION_DAO);
 		final IContestation contestation_dao = (IContestation) SpringUtil.getBean(BeansTag.CONTESTATION_DAO);
-		final UserCompensationDAO compensation_dao = (UserCompensationDAO) SpringUtil.getBean(BeansTag.USER_COMPENSATION_DAO);
-		final TrainingCertificateDAO training_dao = (TrainingCertificateDAO) SpringUtil.getBean(BeansTag.TRAINING_CERTIFICATE_DAO);
+		final UserCompensationDAO compensation_dao = (UserCompensationDAO) SpringUtil
+				.getBean(BeansTag.USER_COMPENSATION_DAO);
+		final TrainingCertificateDAO training_dao = (TrainingCertificateDAO) SpringUtil
+				.getBean(BeansTag.TRAINING_CERTIFICATE_DAO);
 
 		// get info
 		final Person person_info = this.personDao.loadPerson(id_user);
@@ -1030,15 +1091,26 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		final List<TrainingCertificate> list_training = training_dao.loadTrainingCertificate(id_user, null, null, null);
 
 		// download total
-		final StringBuilder builder = UtilityCSV.downloadCSV_UserTotal(person_info, list_emply, list_task, list_job_cost, list_tfr, list_medical,
-				list_trade, list_contestation, list_compensation, list_training);
+		final StringBuilder builder = UtilityCSV.downloadCSV_UserTotal(person_info, list_emply, list_task,
+				list_job_cost, list_tfr, list_medical, list_trade, list_contestation, list_compensation, list_training);
 
 		Filedownload.save(builder.toString(), "application/text", "user_total.csv");
 
 	}
 
+	@Listen("onClick = #personList_download")
+	public void downloadUserCSV() {
+
+		final List<UserReport> list_users = this.personDao.listUserReport();
+
+		final StringBuilder builder = UtilityCSV.downloadCSV_UserReport(list_users);
+
+		Filedownload.save(builder.toString(), "application/text", "lista_utenti.csv");
+
+	}
+
 	@Listen("onClick = #user_info_csv")
-	public void downloadCSV_userinfo() {
+	public void downloadUserInfoCSV() {
 
 		if ((this.person_selected == null) || (this.person_selected.getId() == null)) {
 			return;
@@ -1088,12 +1160,13 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 	@Listen("onSelect=#birth_province_user")
 	public void loadComuni() {
 
-		if ((this.birth_province_user.getSelectedItem() == null) || (this.birth_province_user.getSelectedItem().getValue() == null)) {
+		if ((this.birth_province_user.getSelectedItem() == null)
+				|| (this.birth_province_user.getSelectedItem().getValue() == null)) {
 			return;
 		}
 
-		this.birth_place_user.setModel(
-				new ListModelList<>(this.personDao.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
+		this.birth_place_user.setModel(new ListModelList<>(this.personDao
+				.loadComuniByProvincia(this.birth_province_user.getSelectedItem().getValue().toString())));
 	}
 
 	@Listen("onClick = #modify_users_command")
@@ -1238,8 +1311,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		buttons[0] = Messagebox.Button.OK;
 		buttons[1] = Messagebox.Button.CANCEL;
 
-		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
+		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null,
+				Messagebox.EXCLAMATION, null, new EventListener() {
 					@Override
 					public void onEvent(final Event e) {
 						if (Messagebox.ON_OK.equals(e.getName())) {
@@ -1404,7 +1477,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		this.user_status_filter.setSelectedItem(null);
 		if (this.contractual_level_filter.getSelectedItem() != null) {
 
-			final int itm_search = Integer.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue());
+			final int itm_search = Integer
+					.parseInt((String) this.contractual_level_filter.getSelectedItem().getValue());
 			final List<Person> list_by_contract = this.personDao.listAllPersonByContractualLevel(itm_search);
 
 			final ListModelList<Person> list_person = new ListModelList<>(list_by_contract);
