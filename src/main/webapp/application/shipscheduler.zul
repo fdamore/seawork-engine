@@ -167,28 +167,31 @@
 
 			<space></space>
 
-			<hbox>
+			<hbox id="general_filter_box">
 
-				<vbox align="start">
+				<hbox id="text_and_invoice_box">
+					<vbox align="start">
 
-					<textbox placeholder="Cerca Rif Cliente..."
-						id="text_search_rifMCT" />
+						<textbox placeholder="Cerca Rif Cliente..."
+							id="text_search_rifMCT" />
 
-					<checkbox id="rif_customer_empty"
-						label="Cerca riferimento vuoto" checked="false"
-						onCheck="text_search_rifMCT.setValue(null); text_search_rifMCT.setDisabled(rif_customer_empty.isChecked())">
-					</checkbox>
+						<checkbox id="rif_customer_empty"
+							label="Cerca riferimento vuoto" checked="false"
+							onCheck="text_search_rifMCT.setValue(null); text_search_rifMCT.setDisabled(rif_customer_empty.isChecked())">
+						</checkbox>
 
-				</vbox>
-
-
-				<intbox placeholder="Cerca Rif SWS..."
-					constraint="no negative" id="text_search_rifSWS" />
+					</vbox>
 
 
+					<intbox placeholder="Cerca Rif SWS..."
+						constraint="no negative" id="text_search_rifSWS" />
 
-				<intbox width="150px"
-					placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
+
+
+					<intbox width="150px"
+						placeholder="Periodo Fatturazione..." id="invoicing_cycle_search" />
+
+				</hbox>
 
 				<hbox id="filterCustomer">
 					<a label="Filtra per cliente: " />
@@ -2268,44 +2271,35 @@
 					<tabs>
 						<tab label="VERIFICA LAVORO UTENTE"
 							id="overviewBap" selected="true"
-							onClick="text_search_rifSWS.setVisible(true);
-										text_search_rifMCT.setVisible(true);
-										invoicing_cycle_search.setVisible(true);
-										filterCustomer.setVisible(false);
-										filterService.setVisible(true);
-										filterShift.setVisible(true);
-										filterShip.setVisible(true);
-										filterShipType.setVisible(false);
-										filterShipWorked.setVisible(false);">
+							onClick="general_filter_box.setVisible(true);
+							text_and_invoice_box.setVisible(true);							
+							filterService.setVisible(true);
+							filterShift.setVisible(true);
+							filterShip.setVisible(true);
+							filterCustomer.setVisible(false);
+							filterShipType.setVisible(false);
+							filterShipWorked.setVisible(false);">
 						</tab>
+
 						
-						
+
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO NAVE)"
 							id="overviewBapAggregate" selected="false"
-							onClick="text_search_rifSWS.setVisible(true);
-									text_search_rifMCT.setVisible(true);
-									invoicing_cycle_search.setVisible(true);
-									filterCustomer.setVisible(false);
-									filterService.setVisible(true);
-									filterShift.setVisible(false);
-									filterShip.setVisible(false);
-									filterShipType.setVisible(false);
-									filterShipWorked.setVisible(false);">
+							onClick="general_filter_box.setVisible(true); 
+							text_and_invoice_box.setVisible(true);									
+							filterService.setVisible(true);
+							filterShift.setVisible(false);
+							filterShip.setVisible(false);									
+							filterCustomer.setVisible(false);
+							filterShipType.setVisible(false);
+							filterShipWorked.setVisible(false);">
 						</tab>
 
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO UTENTE)"
 							id="statisticsShipTab"
-							onClick="text_search_rifSWS.setVisible(false);
-									text_search_rifMCT.setVisible(false);
-									invoicing_cycle_search.setVisible(false);
-									filterCustomer.setVisible(false);
-									filterService.setVisible(false);
-									filterShift.setVisible(false);
-									filterShip.setVisible(false);
-									filterShipType.setVisible(false);
-									filterShipWorked.setVisible(false);">
+							onClick="general_filter_box.setVisible(false)">
 						</tab>
 
 					</tabs>
@@ -2398,7 +2392,7 @@
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.shipname}">
 									</listcell>
-									
+
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.customer}">
 									</listcell>
@@ -2495,6 +2489,8 @@
 							</listbox>
 						</tabpanel>
 
+
+					
 						<tabpanel>
 
 							<hbox align="center">
