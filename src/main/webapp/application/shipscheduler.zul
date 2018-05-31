@@ -75,10 +75,10 @@
 
 		</hbox>
 
-		<space />
+
 
 		<!--FILTRI-->
-		<div>
+		<div id="all_filters">
 
 			<hbox align="center" visible="false" id="box_invoice">
 				<a label="Restituisci solo NON Fatturati: "
@@ -2285,7 +2285,7 @@
 							filterShipWorked.setVisible(false);">
 						</tab>
 
-						
+
 
 						<tab
 							label="STATISTICHE NAVE (CONSUNTIVATO NAVE)"
@@ -2494,7 +2494,7 @@
 						</tabpanel>
 
 
-					
+
 						<tabpanel>
 
 							<hbox align="center">
@@ -2643,6 +2643,63 @@
 			</vbox>
 		</div>
 
+		<!-- SHIP MONITOR -->
+		<div id="monitor_div">
+
+			<a label="Navi attualmente in lavorazione."
+				iconSclass="z-icon-list" sclass="green lighter rcaption" />
+			<separator></separator>
+
+			<button class="btn-info" label="Aggiorna Dati"
+				id="update_monitor" />
+
+			<datebox id="monitor_date"
+				onCreate="self.value = new Date()">
+			</datebox>
+
+			<separator></separator>
+
+			<listbox id="list_monitor"
+				style="border: 1px solid #CCCCCC;" multiple="false">
+				<listhead sizable="true">
+					<listheader label="Turno" sort="auto(shift_no)" />
+
+					<listheader label="Nave" sort="auto(name)" />
+
+					<listheader label="CR(GRU)" />
+
+					<listheader label="A bordo" />
+					<listheader label="Sotto Bordo" />
+				</listhead>
+
+				<listitem sclass="myBottonCell" self="@{each='item'}"
+					value="@{item}">
+
+					<listcell sclass="myBottonCell"
+						label="@{item.shift_no}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.name}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.crane}" />
+
+
+
+					<listcell sclass="myBottonCell"
+						label="@{item.on_board}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.out_board}" />
+
+
+
+				</listitem>
+
+			</listbox>
+
+		</div>
+
 		<!--  REPORT WORK SHIP  -->
 		<div id="report_div">
 			<a label="Report Lavorazione Navi" iconSclass="z-icon-list"
@@ -2658,10 +2715,10 @@
 					<radio id="invoice_no" label="Lavorazione"
 						radiogroup="byInvoce" />
 				</radiogroup>
-				
-				<label value="(VOLUMI SERVIZIO RZ)" ></label>
+
+				<label value="(VOLUMI SERVIZIO RZ)"></label>
 			</hbox>
-			
+
 			<space></space>
 
 			<panel border="normal" width="100%">

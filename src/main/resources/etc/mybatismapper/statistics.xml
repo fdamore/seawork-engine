@@ -317,39 +317,40 @@ WHERE
 
 
 
-	<select id="monitorWork" resultType="org.uario.seaworkengine.statistics.impl.MonitorData"
+	<select id="monitorWork"
+		resultType="org.uario.seaworkengine.statistics.impl.MonitorData"
 		parameterType="map">
-
-		SELECT
-		d.id_ship,
-		d.shift as shift_no,
-		s.name,
-		count(d.board) as
-		out_board,(SELECT count(d1.board) FROM detailfinalschedule d1 WHERE
-		date(d1.time_from) <![CDATA[>=]]>
-		#{date_from} and
-		date(d1.time_to)  <![CDATA[<=]]>
-		#{date_to}
-		and d1.board is not null and d1.shift = d.shift and
-		d1.id_ship =
-		d.id_ship
-		and d1.board = 'A BORDO') as on_board
-		FROM
-		detailfinalschedule
-		d,
-		ship s
-		WHERE
-		d.id_ship = s.id and d.board is
-		not
-		null
-		and d.id_ship is
-		not null
-		and d.board = 'SOTTO BORDO' and
-		date(d.time_from) <![CDATA[>=]]>
-		#{date_from} and
-		date(d.time_to) <![CDATA[<=]]>
-		#{date_to}
-		group by d.id_ship, d.shift
+		
+<![CDATA[
+SELECT 
+    d.id_ship,
+    d.shift AS shift_no,
+    s.name,
+    COUNT(d.board) AS out_board,
+    (SELECT 
+            COUNT(d1.board)
+        FROM
+            detailfinalschedule d1
+        WHERE
+            DATE(d1.time_from) >= #{date_from}
+                AND DATE(d1.time_to) <= #{date_to}
+                AND d1.board IS NOT NULL
+                AND d1.shift = d.shift
+                AND d1.id_ship = d.id_ship
+                AND d1.board = 'A BORDO') AS on_board,
+    d.crane
+FROM
+    detailfinalschedule d,
+    ship s
+WHERE
+    d.id_ship = s.id AND d.board IS NOT NULL
+        AND d.id_ship IS NOT NULL
+        AND d.board = 'SOTTO BORDO'
+        AND DATE(d.time_from) >= #{date_from}
+        AND DATE(d.time_to) <= #{date_to}
+GROUP BY d.id_ship , d.shift
+ORDER BY shift_no
+]]>
 
 	</select>
 
@@ -366,7 +367,8 @@ WHERE
 
 
 
-	<select id="listSchedule" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="listSchedule"
+		resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 <![CDATA[
 SELECT 
@@ -418,7 +420,8 @@ WHERE
 	</select>
 
 
-	<select id="overviewFinalScheduleByShip" resultType="org.uario.seaworkengine.statistics.ShipOverview"
+	<select id="overviewFinalScheduleByShip"
+		resultType="org.uario.seaworkengine.statistics.ShipOverview"
 		parameterType="map">
 		select
 		dfs.id_ship, dfs.board,
@@ -473,8 +476,8 @@ WHERE
 
 	</select>
 
-	<select id="countWorkerInOverviewInitalSchedule" resultType="Integer"
-		parameterType="map">
+	<select id="countWorkerInOverviewInitalSchedule"
+		resultType="Integer" parameterType="map">
 		select count(distinct u.id)
 		from
 		user u, user u1, user u2, usertask ut,
@@ -518,7 +521,8 @@ WHERE
 
 	</select>
 
-	<select id="overviewFinalSchedule" resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
+	<select id="overviewFinalSchedule"
+		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -649,7 +653,8 @@ ORDER BY u.lastname , s.date_schedule , dfs.shift , dfs.time_from ASC
 
 
 
-	<select id="overviewInitalSchedule" resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
+	<select id="overviewInitalSchedule"
+		resultType="org.uario.seaworkengine.model.DetailInitialSchedule"
 		parameterType="map">
 		<![CDATA[
 SELECT 
@@ -785,7 +790,8 @@ WHERE
 
 
 
-	<select id="selectRateShiftByUserProgram" resultType="org.uario.seaworkengine.statistics.RateShift"
+	<select id="selectRateShiftByUserProgram"
+		resultType="org.uario.seaworkengine.statistics.RateShift"
 		parameterType="map">
 		select
 		d_1.shift,
@@ -817,7 +823,8 @@ WHERE
 
 	</select>
 
-	<select id="selectRateShiftByUserReviewd" resultType="org.uario.seaworkengine.statistics.RateShift"
+	<select id="selectRateShiftByUserReviewd"
+		resultType="org.uario.seaworkengine.statistics.RateShift"
 		parameterType="map">
 		select
 		d_1.shift,
@@ -850,7 +857,8 @@ WHERE
 
 	</select>
 
-	<select id="selectSundayWork" resultType="int" parameterType="map">
+	<select id="selectSundayWork" resultType="int"
+		parameterType="map">
 
 
 		select
@@ -876,7 +884,8 @@ WHERE
 
 	</select>
 
-	<select id="selectShiftSundayWorkCountReview" resultType="org.uario.seaworkengine.statistics.RateShift"
+	<select id="selectShiftSundayWorkCountReview"
+		resultType="org.uario.seaworkengine.statistics.RateShift"
 		parameterType="map">
 		select
 		dfs.shift as shift, count(distinct ds.date_schedule) rate
@@ -903,7 +912,8 @@ WHERE
 	</select>
 
 
-	<select id="selectShiftSundayWorkCountProgram" resultType="org.uario.seaworkengine.statistics.RateShift"
+	<select id="selectShiftSundayWorkCountProgram"
+		resultType="org.uario.seaworkengine.statistics.RateShift"
 		parameterType="map">
 		select
 		dfs.shift as shift, count(distinct ds.date_schedule) rate
@@ -962,7 +972,8 @@ WHERE
 	<!-- REPORT SHIP WORK -->
 
 	<!-- CONTAINER -->
-	<select id="volumeContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="volumeContainerByInvoce"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -984,7 +995,8 @@ GROUP BY monthInvoice;
 ]]>
 	</select>
 
-	<select id="volumeContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="volumeContainerByShiftDate"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -1007,7 +1019,8 @@ GROUP BY monthInvoice;
 	</select>
 
 	<!-- TOTAL -->
-	<select id="getTotalContainerByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalContainerByInvoce"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -1032,7 +1045,8 @@ GROUP BY monthInvoice;
 ]]>
 	</select>
 
-	<select id="getTotalContainerByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalContainerByShiftDate"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -1059,7 +1073,8 @@ GROUP BY monthInvoice;
 
 
 	<!-- COUNT SERVICE -->
-	<select id="getTotalServiceByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalServiceByInvoce"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -1080,7 +1095,8 @@ GROUP BY monthInvoice;
 ]]>
 	</select>
 
-	<select id="getTotalServiceByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalServiceByShiftDate"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -1102,7 +1118,8 @@ GROUP BY monthInvoice;
 
 
 	<!-- HAND - MEN -->
-	<select id="getTotalHandsMenByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalHandsMenByInvoce"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[		
 SELECT 
@@ -1136,7 +1153,8 @@ GROUP BY monthInvoice
 
 	</select>
 
-	<select id="getTotalHandsMenByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalHandsMenByShiftDate"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 		
 	<![CDATA[	
@@ -1165,7 +1183,8 @@ GROUP BY monthInvoice;
 
 	<!-- SHIP NUMBER -->
 
-	<select id="countShipByInvoce" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="countShipByInvoce"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[	
 SELECT 
@@ -1187,19 +1206,20 @@ WHERE
             sv.isRZ = 1)
              AND dfs.invoicing_cycle IS NOT NULL
  ]]>
- 		<if test="operation!=null">
+		<if test="operation!=null">
        	<![CDATA[
 			AND dis.operation like CONCAT('%', #{operation},'%')
 		]]>
 		</if>
-       
-GROUP BY monthInvoice;
+
+		GROUP BY monthInvoice;
 
 
 
 	</select>
 
-	<select id="countShipByShiftDate" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="countShipByShiftDate"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 <![CDATA[		
 SELECT 
@@ -1233,7 +1253,8 @@ GROUP BY monthInvoice;
 
 	<!-- HOURS BY TASK -->
 
-	<select id="getTotalHoursByTask" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="getTotalHoursByTask"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="Integer">
 		<![CDATA[
 SELECT 
@@ -1256,9 +1277,11 @@ ORDER BY task_id , month_date
 
 	<!-- TERMINAL PRODUCTIVITY -->
 
-	<insert id="createTerminalProductivity" parameterType="org.uario.seaworkengine.model.TerminalProductivity">
+	<insert id="createTerminalProductivity"
+		parameterType="org.uario.seaworkengine.model.TerminalProductivity">
 		INSERT
-		INTO terminalproductivity (year_tp,month_tp,productivity) VALUES
+		INTO terminalproductivity
+		(year_tp,month_tp,productivity) VALUES
 		(#{year_tp},#{month_tp},#{productivity});
 	</insert>
 
@@ -1275,7 +1298,8 @@ ORDER BY task_id , month_date
 		WHERE id=#{id};
 	</select>
 
-	<select id="loadTerminalProductivityYear" parameterType="Integer"
+	<select id="loadTerminalProductivityYear"
+		parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.TerminalProductivity">
 		SELECT id, year_tp, month_tp, productivity
 		FROM
@@ -1283,7 +1307,8 @@ ORDER BY task_id , month_date
 		WHERE year_tp=#{year};
 	</select>
 
-	<update id="updateTerminalProductivity" parameterType="org.uario.seaworkengine.model.TerminalProductivity">
+	<update id="updateTerminalProductivity"
+		parameterType="org.uario.seaworkengine.model.TerminalProductivity">
 		UPDATE
 		terminalproductivity
 		SET
@@ -1293,7 +1318,8 @@ ORDER BY task_id , month_date
 
 
 	<!-- CUSTOMER COMPLAINTS -->
-	<insert id="createComplaint" parameterType="org.uario.seaworkengine.model.Complaint">
+	<insert id="createComplaint"
+		parameterType="org.uario.seaworkengine.model.Complaint">
 		INSERT INTO complaint
 		(year_comp,month_comp,numberofcomplaint,id_customer)
 		VALUES
@@ -1328,14 +1354,16 @@ ORDER BY task_id , month_date
 		year_comp=#{year} and month_comp=#{month};
 	</select>
 
-	<update id="updateComplaint" parameterType="org.uario.seaworkengine.model.Complaint">
+	<update id="updateComplaint"
+		parameterType="org.uario.seaworkengine.model.Complaint">
 		UPDATE complaint
 		SET
 		year_comp=#{year_comp},month_comp=#{month_comp},numberofcomplaint=#{numberofcomplaint},id_customer=#{id_customer}
 		WHERE id=#{id};
 	</update>
 
-	<select id="countComplaintByCustomer" resultType="org.uario.seaworkengine.statistics.ShipTotal"
+	<select id="countComplaintByCustomer"
+		resultType="org.uario.seaworkengine.statistics.ShipTotal"
 		parameterType="map">
 		select sum(numberofcomplaint) as numberofcomplaint,
 		month_comp as month_date

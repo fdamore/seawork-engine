@@ -38,6 +38,7 @@ import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.ShipTotal;
+import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ReportItemTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -135,6 +136,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Row												alertShiftDate_detail;
+
+	@Wire
+	private Component										all_filters;
 
 	@Wire
 	private Listheader										arrivalDateColumn;
@@ -318,7 +322,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component										grid_scheduleShip_details;
-
 	@Wire
 	private Row												h_detail_period;
 	@Wire
@@ -333,6 +336,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Label											handswork_program_Daily;
 	@Wire
 	private Label											hourReview;
+
 	@Wire
 	private Combobox										idCrane_review;
 
@@ -341,11 +345,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Checkbox											initial_support_date;
-
 	@Wire
 	private Radio											invoice_no;
 	@Wire
 	private Combobox										invoice_search;
+
 	@Wire
 	private Radio											invoice_yes;
 
@@ -363,6 +367,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	// used to collect details about programmed ship
 	private List<DetailScheduleShip>						list_details_programmed_ship	= new ArrayList<>();
+
+	@Wire
+	private Listbox											list_monitor;
 
 	// used to collect programmed ship
 	private List<ScheduleShip>								list_programmed_ship			= new ArrayList<>();
@@ -423,6 +430,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listheader										modifyColumnScheduleShip;
+
+	@Wire
+	private Datebox											monitor_date;
+
+	@Wire
+	private Component										monitor_div;
 
 	@Wire
 	public Label											msgAlert;
@@ -578,7 +591,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox											searchArrivalDateShipFrom;
-
 	@Wire
 	private Datebox											searchArrivalDateShipTo;
 
@@ -587,25 +599,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private A												selecetedShipName;
+
 	@Wire
 	private Combobox										select_customer;
-
 	@Wire
 	public Combobox											select_month_detail;
-
 	@Wire
 	public Combobox											select_shift;
-
 	@Wire
 	private Combobox										select_type_operation;
 	@Wire
 	private Combobox										select_typeShip;
 	@Wire
 	private Combobox										select_workedShip;
+
 	@Wire
 	public Combobox											select_year_detail;
+
 	@Wire
 	private Combobox										selectCustomer;
+
 	@Wire
 	private Combobox										selectServiceDetail;
 
@@ -750,7 +763,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Button											sw_addScheduleShipProgram;
-
 	@Wire
 	private Toolbarbutton									sw_link_reviewscheduleship;
 
@@ -759,6 +771,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											sw_list_reviewWorkAggregate;
+
 	@Wire
 	private Listbox											sw_list_scheduleDetailShip;
 
@@ -1672,6 +1685,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detail_div.setVisible(false);
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(false);
+			this.monitor_div.setVisible(false);
+
+			this.all_filters.setVisible(true);
 			this.filterCustomer.setVisible(true);
 			this.filterService.setVisible(true);
 			this.text_search_rifSWS.setVisible(true);
@@ -1687,6 +1703,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detail_div.setVisible(true);
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(false);
+			this.monitor_div.setVisible(false);
+
+			this.all_filters.setVisible(true);
 			this.filterShift.setVisible(true);
 			this.filterShip.setVisible(true);
 			this.day_details_filter.setVisible(true);
@@ -1709,9 +1728,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detail_div.setVisible(false);
 			this.review_div.setVisible(true);
 			this.report_div.setVisible(false);
+			this.monitor_div.setVisible(false);
 
 			final Tab selectedTab = this.bap_overview_tab.getSelectedTab();
 
+			this.all_filters.setVisible(true);
 			this.text_search_rifSWS.setVisible(false);
 			this.text_search_rifMCT.setVisible(false);
 			this.rif_customer_empty.setVisible(false);
@@ -1750,6 +1771,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.detail_div.setVisible(false);
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(true);
+			this.monitor_div.setVisible(false);
+
+			this.all_filters.setVisible(true);
 			this.filterRows.setVisible(false);
 			this.text_search_rifSWS.setVisible(false);
 			this.text_search_rifMCT.setVisible(false);
@@ -1780,21 +1804,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(false);
 			this.filterRows.setVisible(false);
-			this.text_search_rifSWS.setVisible(false);
-			this.text_search_rifMCT.setVisible(false);
-			this.rif_customer_empty.setVisible(false);
-			this.invoicing_cycle_search.setVisible(false);
-			this.filterCustomer.setVisible(false);
-			this.filterService.setVisible(false);
-			this.filterShift.setVisible(false);
-			this.filterShip.setVisible(false);
-			this.day_details_filter.setVisible(false);
-			this.filterShipWorked.setVisible(false);
+			this.monitor_div.setVisible(true);
 
-			this.filterDateWork.setVisible(false);
-			this.remove_select_year_detail.setVisible(false);
-			this.filterYear.setVisible(false);
-			this.filterMonth.setVisible(false);
+			// disable all filter
+			this.all_filters.setVisible(false);
+
+			this.refreshShipMonitor();
 
 		}
 	}
@@ -1816,6 +1831,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.list_ship_statistics.setWidth("950px");
 		this.bap_overview_tab.setWidth("950px");
 
+		// monitor ship
+		this.list_monitor.setWidth("950px");
+
 		// ship program view
 		this.sw_list_scheduleShip.setWidth("950px");
 
@@ -1836,6 +1854,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.program_div.setVisible(false);
 		this.review_div.setVisible(false);
 		this.report_div.setVisible(false);
+		this.monitor_div.setVisible(false);
 
 		this.scheduler_type_selector.setSelectedItem(null);
 
@@ -1948,6 +1967,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * All CSV, but no ship monitor
+	 */
 	@Listen("onClick = #detailShipProgram_download")
 	public void downloadCSV() {
 		final Comboitem selected = this.scheduler_type_selector.getSelectedItem();
@@ -4596,14 +4618,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.refreshReport();
 		}
 
+		// is used another algo.... this code stay here if the algo will be modified
 		else if (selected.equals(this.ship_monitor)) {
 
 			this.program_div.setVisible(false);
 			this.detail_div.setVisible(false);
 			this.review_div.setVisible(false);
 			this.report_div.setVisible(false);
+			this.monitor_div.setVisible(true);
+
+			this.refreshShipMonitor();
 
 		}
+	}
+
+	/**
+	 * Define monitor view
+	 */
+	private void refreshShipMonitor() {
+		this.updateDataMonitor();
+
 	}
 
 	@Listen("onClick = #sw_link_deleteship")
@@ -5525,6 +5559,22 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			this.statisticDAO.updateComplaint(complaint);
 		}
 
+	}
+
+	/**
+	 * Monitor data
+	 */
+	@Listen("onClick = #update_monitor; onChange = #monitor_date")
+	public void updateDataMonitor() {
+
+		if (this.monitor_date.getValue() == null) {
+			return;
+		}
+
+		final IStatistics statistics = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
+		final List<MonitorData> list = statistics.getMonitorData(this.monitor_date.getValue());
+
+		this.list_monitor.setModel(new ListModelList<>(list));
 	}
 
 	@Listen("onClick = #modify_scheduleShipsDetail_command")

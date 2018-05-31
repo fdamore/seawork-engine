@@ -9,8 +9,6 @@ import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
-import org.uario.seaworkengine.platform.persistence.dao.IStatistics;
-import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.zkoss.spring.SpringUtil;
@@ -21,7 +19,6 @@ import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Checkbox;
-import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
@@ -40,7 +37,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Div					add_customer_div;
-	
+
 	@Wire
 	private Component			add_ships_command;
 
@@ -49,7 +46,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Textbox				customer_name;
-	
+
 	@Wire
 	private Textbox				customer_note;
 
@@ -71,16 +68,10 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	private Boolean				isInModify			= false;
 
-	@Wire
-	private Listbox				list_monitor;
-
 	private final Logger		logger				= Logger.getLogger(UserDetailsComposer.class);
-	
+
 	@Wire
 	private Component			modify_ships_command;
-
-	@Wire
-	private Datebox				monitor_date;
 
 	@Wire
 	private Textbox				note;
@@ -99,7 +90,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Checkbox			ship_nowork;
-	
+
 	private Ship				ship_selected		= null;
 
 	@Wire
@@ -129,7 +120,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		}
 
 		if (!this.status_modify.booleanValue()) {
-			
+
 			final Customer customer = new Customer();
 			customer.setName(this.customer_name.getValue());
 			customer.setNote(this.customer_note.getValue());
@@ -364,9 +355,6 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 			@Override
 			public void onEvent(final Event arg0) throws Exception {
 
-				// update data monitor
-				ShipDetailsComposer.this.updateDataMonitor();
-
 				// get the DAOs
 				ShipDetailsComposer.this.shipDao = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
 
@@ -549,7 +537,7 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 
 		this.sw_list_ship.setModel(new ListModelList<>(list_ship));
 	}
-	
+
 	@Listen("onClick = #show_modifycustomer")
 	public void show_modifycustomer() {
 
@@ -558,14 +546,14 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		}
 
 		final Customer customer = this.sw_list_customer.getSelectedItem().getValue();
-		
+
 		this.customer_name.setValue(customer.getName());
 		this.customer_note.setValue(customer.getNote());
 		this.customer_piva.setValue(customer.getPiva());
 		this.customer_enabled.setChecked(customer.getEnabled());
-		
+
 		this.customer_selected = customer;
-		
+
 		this.status_modify = Boolean.TRUE;
 		this.add_customer_div.setVisible(true);
 
@@ -632,19 +620,6 @@ public class ShipDetailsComposer extends SelectorComposer<Component> {
 		this.resetDataInfo();
 
 		this.isInModify = false;
-	}
-
-	@Listen("onClick = #update_monitor; onChange = #monitor_date")
-	public void updateDataMonitor() {
-
-		if (this.monitor_date.getValue() == null) {
-			return;
-		}
-
-		final IStatistics statistics = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
-		final List<MonitorData> list = statistics.getMonitorData(this.monitor_date.getValue());
-
-		this.list_monitor.setModel(new ListModelList<>(list));
 	}
 
 }

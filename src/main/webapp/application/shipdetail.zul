@@ -32,8 +32,7 @@
 			<tabs>
 				<tab label="Lista Navi" selected="true" />
 
-				<tab label="Monitor Navi"></tab>
-
+				
 				<tab label="Lista Clienti" />
 
 			</tabs>
@@ -306,60 +305,7 @@
 				</tabpanel>
 
 
-				<tabpanel>
-
-					<!-- MONITOR  -->
-
-
-					<div sclass="page-header">
-						<label value="Monitor" />
-						<a label="Navi attualmente in lavorazione."
-							iconSclass="z-icon-angle-double-right" sclass="subtitle" />
-					</div>
-
-
-					<button class="btn-info" label="Aggiorna Dati"
-						id="update_monitor" />
-
-					<datebox id="monitor_date"
-						onCreate="self.value = new Date()">
-					</datebox>
-
-					<separator></separator>
-
-					<listbox id="list_monitor"
-						style="border: 1px solid #CCCCCC;" multiple="false">
-						<listhead sizable="true">
-							<listheader label="Nave" sort="auto(name)" />
-							<listheader label="Turno" />
-							<listheader label="A bordo" />
-							<listheader label="Sotto Bordo" />
-						</listhead>
-
-						<listitem sclass="myBottonCell"
-							self="@{each='item'}" value="@{item}">
-
-							<listcell sclass="myBottonCell"
-								label="@{item.name}" />
-							<listcell sclass="myBottonCell"
-								label="@{item.shift_no}" />
-
-							<listcell sclass="myBottonCell"
-								label="@{item.on_board}" />
-
-							<listcell sclass="myBottonCell"
-								label="@{item.out_board}" />
-
-
-
-						</listitem>
-
-					</listbox>
-
-
-
-
-				</tabpanel>
+				
 
 				<tabpanel>
 
