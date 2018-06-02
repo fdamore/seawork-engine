@@ -2657,6 +2657,10 @@
 				onCreate="self.value = new Date()">
 			</datebox>
 
+			<a label="Scarica dati in CSV" id="monitor_date_csv"
+				style="color:green" />
+
+
 			<separator></separator>
 
 			<listbox id="list_monitor"

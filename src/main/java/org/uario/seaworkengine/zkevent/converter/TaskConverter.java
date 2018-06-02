@@ -28,6 +28,10 @@ public class TaskConverter implements TypeConverter {
 
 		final UserTask task = taskCache.getUserTask(id_task);
 
+		if (task == null) {
+			return "";
+		}
+
 		return task.getDescription();
 
 	}
