@@ -1,0 +1,59 @@
+<?page id="mobile" title="Sea Work Mobile Device"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+
+<!-- Favicon -->
+<?link rel="icon" href="/img/favicon.ico" type="image/x-icon"?>
+
+<!-- Load Bootstrap  -->
+<?link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"?>
+
+
+<!-- Unmark if we want to use fonts from google server-->
+<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
+
+
+<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+
+<!-- Required meta tags -->
+<?meta charset="utf-8"?>
+<?meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"?>
+
+<zk>
+
+	<vlayout sclass="container" xmlns:n="native" spacing="0"
+		apply="org.uario.seaworkengine.web.zkevent.MobileComposer">
+
+
+
+		<listbox id="users" pagingPosition="both" mold="paging"
+			 checkmark="true" multiple="false"
+			pageSize="50">
+			<listhead sizable="true">
+				<listheader label="NOME" hflex="1" />
+				<listheader label="COGNOME" hflex="1" />
+
+			</listhead>
+
+			<listitem self="@{each='user_item'}"
+				value="@{user_item}">
+
+				<listcell
+					label="@{user_item.person}" />
+				<listcell sclass="myBottonCell"
+					label="@{user_item.person.lastname}" />
+
+
+
+
+
+			</listitem>
+
+		</listbox>
+
+
+	</vlayout>
+
+
+
+</zk>

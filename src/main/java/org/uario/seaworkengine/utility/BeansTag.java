@@ -54,4 +54,6 @@ public interface BeansTag {
 
 	public static String USER_COMPENSATION_DAO = "myUserCompensationDAO";
 
+	public static String WEBCONTROLLER = "webcontroller";
+
 }
