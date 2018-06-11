@@ -63,7 +63,7 @@ public class WebControllerImpl implements IWebServiceController {
 	@Override
 	public List<UserStaturation> calculateUserSaturation(final Date date_request) {
 
-		final ArrayList<UserStaturation> ret = new ArrayList<UserStaturation>();
+		final ArrayList<UserStaturation> ret = new ArrayList<>();
 
 		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
@@ -322,7 +322,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
-		return new ArrayList<UserShift>(this.shiftCache.getHash().values());
+		return new ArrayList<>(this.shiftCache.getHash().values());
 
 	}
 
@@ -368,7 +368,7 @@ public class WebControllerImpl implements IWebServiceController {
 	@Override
 	public List<InitialSchedule> selectInitialSchedule(final Date date_request) {
 
-		final List<InitialSchedule> ret = new ArrayList<InitialSchedule>();
+		final List<InitialSchedule> ret = new ArrayList<>();
 
 		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
@@ -394,12 +394,12 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
-			final List<DetailInitialSchedule> merging_details = new ArrayList<DetailInitialSchedule>();
+			final List<DetailInitialSchedule> merging_details = new ArrayList<>();
 
 			// ADD SHIFT 1
 			if (!schedule.getSync_mobile_1()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 1);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						1);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -412,8 +412,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 2
 			if (!schedule.getSync_mobile_2()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 2);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						2);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -426,8 +426,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 3
 			if (!schedule.getSync_mobile_3()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 3);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						3);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}
@@ -440,8 +440,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 4
 			if (!schedule.getSync_mobile_4()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO
-						.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 4);
+				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
+						4);
 				if (itm != null) {
 					merging_details.addAll(itm);
 				}

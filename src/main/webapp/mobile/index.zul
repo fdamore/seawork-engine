@@ -1,5 +1,4 @@
 <?page id="mobile" title="Sea Work Mobile Device"?>
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 <?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 
 <!-- Favicon -->
@@ -22,32 +21,38 @@
 <zk>
 
 	<vlayout sclass="container" xmlns:n="native" spacing="0"
-		apply="org.uario.seaworkengine.web.zkevent.MobileComposer">
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
+
+		<div class="btn-group-lg btn btn-group">
+			<button sclass="btn btn-info" label="Turno 1" />
+			<button sclass="btn btn-info" label="Turno 2" />
+			<button sclass="btn btn-info" label="Turno 3" />
+			<button sclass="btn btn-info" label="Turno 4" />
+		</div>
 
 
+		<listbox pagingPosition="both" mold="paging"
+			emptyMessage="Nessun risultato..." model="@load(vm.users)"
+			checkmark="true" multiple="false" pageSize="10">
 
-		<listbox id="users" pagingPosition="both" mold="paging"
-			 checkmark="true" multiple="false"
-			pageSize="50">
 			<listhead sizable="true">
-				<listheader label="NOME" hflex="1" />
-				<listheader label="COGNOME" hflex="1" />
+
+				<listheader label="RISORSA" />
+				<listheader label="TURNO" />
+				
 
 			</listhead>
 
-			<listitem self="@{each='user_item'}"
-				value="@{user_item}">
+			<template name="model" var="item">
+				<listitem>
 
-				<listcell
-					label="@{user_item.person}" />
-				<listcell sclass="myBottonCell"
-					label="@{user_item.person.lastname}" />
+					<listcell label="@load(item.person)" />
 
+					<listcell label="@load(item.detail_schedule.shift)" />
 
-
-
-
-			</listitem>
+				</listitem>
+			</template>
 
 		</listbox>
 

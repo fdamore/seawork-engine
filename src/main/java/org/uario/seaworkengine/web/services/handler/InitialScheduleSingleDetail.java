@@ -1,26 +1,18 @@
 package org.uario.seaworkengine.web.services.handler;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 
-@XmlRootElement(namespace = "org.uario.seaworkengine.model")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class InitialSchedule {
+public class InitialScheduleSingleDetail {
 
-	private List<DetailInitialSchedule>	detail_schedule;
+	private DetailInitialSchedule	detail_schedule;
 
-	private Person						person;
+	private Person					person;
 
-	private Schedule					schedule;
+	private Schedule				schedule;
 
-	public List<DetailInitialSchedule> getDetail_schedule() {
+	public DetailInitialSchedule getDetail_schedule() {
 		return this.detail_schedule;
 	}
 
@@ -32,7 +24,7 @@ public class InitialSchedule {
 		return this.schedule;
 	}
 
-	public void setDetail_schedule(final List<DetailInitialSchedule> detail_schedule) {
+	public void setDetail_schedule(final DetailInitialSchedule detail_schedule) {
 		this.detail_schedule = detail_schedule;
 	}
 

@@ -1,37 +1,67 @@
 package org.uario.seaworkengine.web.zkevent;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.handler.InitialScheduleSingleDetail;
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.select.SelectorComposer;
-import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
 
-public class MobileComposer extends SelectorComposer<Component> {
+public class MobileComposer {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+	private IWebServiceController				service;
 
-	private IWebServiceController service;
+	private List<InitialScheduleSingleDetail>	users;
 
-	@Wire
-	private Listbox users;
+	public List<InitialScheduleSingleDetail> getUsers() {
+		return this.users;
+	}
 
-	@Override
-	public void doFinally() throws Exception {
+	@AfterCompose
+	public void init(@ContextParam(ContextType.COMPONENT) final Component component) throws Exception {
 		this.service = (IWebServiceController) SpringUtil.getBean(BeansTag.WEBCONTROLLER);
 
-		final List<InitialSchedule> model = this.service.selectInitialSchedule(Calendar.getInstance().getTime());
-		this.users.setModel(new ListModelList<>(model));
+		this.refresh();
 
+	}
+
+	@NotifyChange({ "users" })
+	public void refresh() {
+		if (this.users != null) {
+			this.users.clear();
+		} else {
+			this.users = new ArrayList<>();
+		}
+
+		final List<InitialSchedule> list = this.service.selectInitialSchedule(Calendar.getInstance().getTime());
+
+		// POST PROCESSING
+		for (final InitialSchedule insch : list) {
+			if (insch.getDetail_schedule() == null) {
+				continue;
+			}
+
+			for (final DetailInitialSchedule detail : insch.getDetail_schedule()) {
+
+				final InitialScheduleSingleDetail itm = new InitialScheduleSingleDetail();
+				itm.setDetail_schedule(detail);
+				itm.setPerson(insch.getPerson());
+				itm.setSchedule(insch.getSchedule());
+
+				this.users.add(itm);
+
+			}
+
+		}
 	}
 
 }
