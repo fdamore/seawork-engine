@@ -12,7 +12,7 @@
 <?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
 
 
-<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+
 
 <!-- Required meta tags -->
 <?meta charset="utf-8"?>
@@ -25,31 +25,55 @@
 		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
 
 		<div class="btn-group-lg btn btn-group">
-			<button sclass="btn btn-info" label="Turno 1" />
-			<button sclass="btn btn-info" label="Turno 2" />
-			<button sclass="btn btn-info" label="Turno 3" />
-			<button sclass="btn btn-info" label="Turno 4" />
+			<button sclass="btn btn-info" label="Turno 1"
+				onClick="@command('refresh', shift_no= 1)" />
+			<button sclass="btn btn-info" label="Turno 2"
+				onClick="@command('refresh', shift_no= 2)" />
+			<button sclass="btn btn-info" label="Turno 3"
+				onClick="@command('refresh', shift_no= 3)" />
+			<button sclass="btn btn-info" label="Turno 4"
+				onClick="@command('refresh', shift_no= 4)" />
+
 		</div>
 
 
 		<listbox pagingPosition="both" mold="paging"
 			emptyMessage="Nessun risultato..." model="@load(vm.users)"
-			checkmark="true" multiple="false" pageSize="10">
+			checkmark="false" multiple="false" pageSize="4">
 
 			<listhead sizable="true">
 
 				<listheader label="RISORSA" />
 				<listheader label="TURNO" />
-				
+
 
 			</listhead>
 
 			<template name="model" var="item">
 				<listitem>
 
-					<listcell label="@load(item.person)" />
+					<listcell>
+						<div class="well well-lg">
+							<n:h1>
+								<label value="@load(item.person)"
+									sclass="label label-default">
+								</label>
+							</n:h1>
+						</div>
+					</listcell>
 
-					<listcell label="@load(item.detail_schedule.shift)" />
+					<listcell>
+						<div class="well well-lg">
+							<n:h1>
+								<label
+									value="@load(item.detail_schedule.shift)"
+									sclass="label label-default">
+								</label>
+							</n:h1>
+						</div>
+					</listcell>
+
+
 
 				</listitem>
 			</template>
