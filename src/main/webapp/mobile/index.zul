@@ -24,27 +24,47 @@
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
 
-		<div class="btn-group-lg btn btn-group">
-			<button sclass="btn btn-info" label="Turno 1"
-				onClick="@command('refresh', shift_no= 1)" />
-			<button sclass="btn btn-info" label="Turno 2"
-				onClick="@command('refresh', shift_no= 2)" />
-			<button sclass="btn btn-info" label="Turno 3"
-				onClick="@command('refresh', shift_no= 3)" />
-			<button sclass="btn btn-info" label="Turno 4"
-				onClick="@command('refresh', shift_no= 4)" />
+		<hbox>
+			<div class="btn-group-lg btn btn-group">
+				<button sclass="btn btn-info" label="Turno 1"
+					onClick="@command('refresh', shift_no= 1)" />
+				<button sclass="btn btn-info" label="Turno 2"
+					onClick="@command('refresh', shift_no= 2)" />
+				<button sclass="btn btn-info" label="Turno 3"
+					onClick="@command('refresh', shift_no= 3)" />
+				<button sclass="btn btn-info" label="Turno 4"
+					onClick="@command('refresh', shift_no= 4)" />
 
-		</div>
+			</div>
+
+			<div class="btn-group-lg btn btn-group">
+				<button sclass="btn btn-info" label="Cancella" />
+				<button sclass="btn btn-info" label="Note" />
+				<button sclass="btn btn-info" label="Aggiungi" />
+
+			</div>
+
+			<div class="btn-group-lg btn btn-group">
+				<button sclass="btn btn-info" label="Navi" />
+				<button sclass="btn btn-info" label="Consuntiva" />
+				<button sclass="btn btn-info" label="Aggiorna" />
+
+			</div>
+
+		</hbox>
 
 
 		<listbox pagingPosition="both" mold="paging"
 			emptyMessage="Nessun risultato..." model="@load(vm.users)"
-			checkmark="false" multiple="false" pageSize="4">
+			checkmark="true" multiple="false" pageSize="4">
 
 			<listhead sizable="true">
 
-				<listheader label="RISORSA" />
-				<listheader label="TURNO" />
+				<listheader align="center" label="" hflex="1" />
+				<listheader align="center" label="RISORSA" hflex="3" />
+				<listheader align="center" label="TURNO" hflex="1" />
+				<listheader align="center" label="MANSIONE" hflex="3" />
+				<listheader align="center" label="ORARI" hflex="2" />
 
 
 			</listhead>
@@ -53,23 +73,54 @@
 				<listitem>
 
 					<listcell>
+						<label value="" sclass="label label-info">
+						</label>
+					</listcell>
+
+					<listcell>
 						<div class="well well-lg">
-							<n:h1>
+							<n:h3>
 								<label value="@load(item.person)"
-									sclass="label label-default">
+									sclass="label label-info">
 								</label>
-							</n:h1>
+							</n:h3>
 						</div>
 					</listcell>
 
 					<listcell>
 						<div class="well well-lg">
-							<n:h1>
+							<n:h3>
 								<label
 									value="@load(item.detail_schedule.shift)"
 									sclass="label label-default">
 								</label>
-							</n:h1>
+							</n:h3>
+						</div>
+					</listcell>
+
+					<listcell>
+						<div class="well well-lg">
+							<n:h3>
+								<label value="@load(item.user_task)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+						</div>
+					</listcell>
+
+					<listcell>
+						<div class="well well-lg">
+							<n:h3>
+								<label
+									value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
+									sclass="label label-default">
+								</label>
+
+								<label
+									value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
+									sclass="label label-default">
+								</label>
+							</n:h3>
 						</div>
 					</listcell>
 
