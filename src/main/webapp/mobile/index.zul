@@ -27,110 +27,207 @@
 		<hbox>
 			<div class="btn-group-lg btn btn-group">
 				<button sclass="btn btn-info" label="Turno 1"
+					focus="@load(vm.shift_no eq 1)"
 					onClick="@command('refresh', shift_no= 1)" />
 				<button sclass="btn btn-info" label="Turno 2"
+					focus="@load(vm.shift_no eq 2)"
 					onClick="@command('refresh', shift_no= 2)" />
 				<button sclass="btn btn-info" label="Turno 3"
+					focus="@load(vm.shift_no eq 3)"
 					onClick="@command('refresh', shift_no= 3)" />
 				<button sclass="btn btn-info" label="Turno 4"
+					focus="@load(vm.shift_no eq 4)"
 					onClick="@command('refresh', shift_no= 4)" />
 
 			</div>
 
 			<div class="btn-group-lg btn btn-group">
-				<button sclass="btn btn-info" label="Cancella" />
+
+				<button sclass="btn btn-danger" label="Cancella" />
 				<button sclass="btn btn-info" label="Note" />
-				<button sclass="btn btn-info" label="Aggiungi" />
+				<button sclass="btn btn-info" label="Aggiungi"
+					onClick="@command('addSchedule')" />
 
 			</div>
+
+
 
 			<div class="btn-group-lg btn btn-group">
 				<button sclass="btn btn-info" label="Navi" />
 				<button sclass="btn btn-info" label="Consuntiva" />
-				<button sclass="btn btn-info" label="Aggiorna" />
+				<button sclass="btn btn-success" label="Aggiorna"
+					onClick="@command('refreshDataAndCurrentShift')" />
 
 			</div>
 
 		</hbox>
 
+		<!-- ADD TO USER LIST -->
+		<div visible="@load(vm.status_view eq 2)">
 
-		<listbox pagingPosition="both" mold="paging"
-			emptyMessage="Nessun risultato..." model="@load(vm.users)"
-			checkmark="true" multiple="false" pageSize="4">
-
-			<listhead sizable="true">
-
-				<listheader align="center" label="" hflex="1" />
-				<listheader align="center" label="RISORSA" hflex="3" />
-				<listheader align="center" label="TURNO" hflex="1" />
-				<listheader align="center" label="MANSIONE" hflex="3" />
-				<listheader align="center" label="ORARI" hflex="2" />
-
-
-			</listhead>
-
-			<template name="model" var="item">
-				<listitem>
-
-					<listcell>
-						<label value="" sclass="label label-info">
-						</label>
-					</listcell>
-
-					<listcell>
+			<div class="container-fluid text-center">
+				<div class="row">
+					<div class="col-lg-6 col-lg-offset-3">
 						<div class="well well-lg">
-							<n:h3>
-								<label value="@load(item.person)"
-									sclass="label label-info">
-								</label>
-							</n:h3>
-						</div>
-					</listcell>
-
-					<listcell>
-						<div class="well well-lg">
-							<n:h3>
+							<n:h1>
 								<label
-									value="@load(item.detail_schedule.shift)"
-									sclass="label label-default">
+									value="@load(vm.schedule_selected.person)"
+									class="label label-primary">
 								</label>
-							</n:h3>
-						</div>
-					</listcell>
+							</n:h1>
 
-					<listcell>
-						<div class="well well-lg">
-							<n:h3>
-								<label value="@load(item.user_task)"
-									sclass="label label-default">
-								</label>
-							</n:h3>
-						</div>
-					</listcell>
-
-					<listcell>
-						<div class="well well-lg">
-							<n:h3>
+							<n:h2>
 								<label
-									value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
-									sclass="label label-default">
+									value="@load(vm.schedule_selected.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									class="label label-primary">
 								</label>
 
 								<label
-									value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
-									sclass="label label-default">
+									value="@load(vm.schedule_selected.detail_schedule.shift)"
+									class="label label-primary">
 								</label>
-							</n:h3>
+
+
+							</n:h2>
+
 						</div>
-					</listcell>
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-lg-6 col-lg-offset-3">
+						<div class="well well-lg">
+
+							<n:h3>
+								<label value="Seleziona una mansione"
+									class="label label-primary">
+								</label>
+
+							</n:h3>
+
+							<combobox readonly="true" width="100%"></combobox>
+
+						</div>
+					</div>
+
+				</div>
 
 
 
-				</listitem>
-			</template>
 
-		</listbox>
 
+
+				<div class="row">
+					<div class="col-lg-6 col-lg-offset-3">
+
+						<button label="CHIUDI"></button>
+
+
+					</div>
+
+
+
+
+				</div>
+
+
+
+
+			</div>
+		</div>
+
+		<!-- USER LIST -->
+		<div visible="@load(vm.status_view eq 1)">
+
+
+
+
+			<listbox pagingPosition="both" mold="paging"
+				selectedItem="@save(vm.schedule_selected)"
+				emptyMessage="Nessun risultato..." model="@load(vm.users)"
+				checkmark="true" multiple="false" pageSize="4">
+
+				<listhead sizable="true">
+
+					<listheader align="center" label="" hflex="1" />
+					<listheader align="center" label="RISORSA"
+						hflex="3" />
+					<listheader align="center" label="TURNO" hflex="1" />
+					<listheader align="center" label="MANSIONE"
+						hflex="3" />
+					<listheader align="center" label="ORARI" hflex="2" />
+
+
+				</listhead>
+
+				<template name="model" var="item">
+					<listitem>
+
+						<listcell>
+							<label value="" sclass="label label-info">
+							</label>
+						</listcell>
+
+						<listcell>
+							<div class="well well-lg">
+								<n:h3>
+									<label value="@load(item.person)"
+										sclass="label label-info">
+									</label>
+								</n:h3>
+							</div>
+						</listcell>
+
+						<listcell>
+							<div class="well well-lg">
+								<n:h3>
+									<label
+										value="@load(item.detail_schedule.shift)"
+										sclass="label label-default">
+									</label>
+								</n:h3>
+							</div>
+						</listcell>
+
+						<listcell>
+							<div class="well well-lg">
+								<n:h3>
+									<label value="@load(item.user_task)"
+										sclass="label label-default">
+									</label>
+								</n:h3>
+							</div>
+						</listcell>
+
+
+
+						<listcell>
+							<div class="well well-lg">
+								<n:h3>
+									<label
+										value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
+										sclass="label label-default">
+									</label>
+
+									<space></space>
+
+									<label
+										value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
+										sclass="label label-default">
+									</label>
+								</n:h3>
+							</div>
+						</listcell>
+
+
+
+					</listitem>
+				</template>
+
+			</listbox>
+
+		</div>
 
 	</vlayout>
 

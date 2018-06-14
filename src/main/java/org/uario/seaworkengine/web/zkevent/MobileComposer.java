@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.UserTask;
-import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
+import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
@@ -86,16 +86,43 @@ public class MobileComposer {
 	/**
 	 * Instace of converter
 	 */
-	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
+	private final MyDateFormatConverter			dateConverter		= new MyDateFormatConverter();
 
-	private IWebServiceController service;
+	private InitialScheduleSingleDetail			schedule_selected	= null;
 
-	private ITaskCache task_cask;
+	private IWebServiceController				service;
 
-	private List<InitialScheduleSingleDetail> users;
+	private Integer								shift_no;
+
+	private Integer								status_view			= 1;
+
+	private TasksDAO							task_dao;
+
+	private List<InitialScheduleSingleDetail>	users;
+
+	@Command
+	@NotifyChange({ "status_view" })
+	public void addSchedule() {
+		if (this.schedule_selected == null) {
+			return;
+		}
+		this.status_view = 2;
+	}
 
 	public MyDateFormatConverter getDateConverter() {
 		return this.dateConverter;
+	}
+
+	public InitialScheduleSingleDetail getSchedule_selected() {
+		return this.schedule_selected;
+	}
+
+	public Integer getShift_no() {
+		return this.shift_no;
+	}
+
+	public Integer getStatus_view() {
+		return this.status_view;
 	}
 
 	public List<InitialScheduleSingleDetail> getUsers() {
@@ -105,15 +132,16 @@ public class MobileComposer {
 	@AfterCompose
 	public void init(@ContextParam(ContextType.COMPONENT) final Component component) throws Exception {
 		this.service = (IWebServiceController) SpringUtil.getBean(BeansTag.WEBCONTROLLER);
-		this.task_cask = (ITaskCache) SpringUtil.getBean(BeansTag.TASK_CACHE);
+		this.task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 
-		this.refresh(null);
+		this.refreshDataAndCurrentShift();
 
 	}
 
 	@Command
-	@NotifyChange({ "users" })
+	@NotifyChange({ "users", "status_view" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
+
 		if (this.users != null) {
 			this.users.clear();
 		} else {
@@ -141,7 +169,7 @@ public class MobileComposer {
 					}
 				}
 
-				final UserTask user_task = this.task_cask.getUserTask(detail.getTask());
+				final UserTask user_task = this.task_dao.loadTask(detail.getTask());
 
 				final InitialScheduleSingleDetail itm = new InitialScheduleSingleDetail();
 				itm.setDetail_schedule(detail);
@@ -154,6 +182,57 @@ public class MobileComposer {
 			}
 
 		}
+
+		// set view to status 1
+		this.status_view = 1;
+
+	}
+
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view" })
+	public void refreshDataAndCurrentShift() {
+		this.shift_no = 1;
+		final Calendar now = Calendar.getInstance();
+
+		final Calendar h1 = Calendar.getInstance();
+		h1.set(Calendar.HOUR_OF_DAY, 1);
+		h1.set(Calendar.MINUTE, 0);
+		h1.set(Calendar.SECOND, 0);
+
+		final Calendar h7 = Calendar.getInstance();
+		h7.set(Calendar.HOUR_OF_DAY, 7);
+		h7.set(Calendar.MINUTE, 0);
+		h7.set(Calendar.SECOND, 0);
+
+		final Calendar h13 = Calendar.getInstance();
+		h13.set(Calendar.HOUR_OF_DAY, 13);
+		h13.set(Calendar.MINUTE, 0);
+		h13.set(Calendar.SECOND, 0);
+
+		final Calendar h19 = Calendar.getInstance();
+		h19.set(Calendar.HOUR_OF_DAY, 19);
+		h19.set(Calendar.MINUTE, 0);
+		h19.set(Calendar.SECOND, 0);
+
+		if ((now.getTime().compareTo(h1.getTime()) >= 0) && (now.getTime().compareTo(h7.getTime()) <= 0)) {
+			this.shift_no = 1;
+		} else if ((now.getTime().compareTo(h7.getTime()) > 0) && (now.getTime().compareTo(h13.getTime()) <= 0)) {
+			this.shift_no = 2;
+		} else if ((now.compareTo(h13) > 0) && (now.compareTo(h19) <= 0)) {
+			this.shift_no = 3;
+		} else {
+			this.shift_no = 4;
+		}
+
+		// define status view
+		this.status_view = 1;
+
+		// refresh with shift_no
+		this.refresh(this.shift_no);
+	}
+
+	public void setSchedule_selected(final InitialScheduleSingleDetail schedule_selected) {
+		this.schedule_selected = schedule_selected;
 	}
 
 }
