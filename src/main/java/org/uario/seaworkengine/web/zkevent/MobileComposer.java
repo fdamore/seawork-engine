@@ -4,10 +4,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -88,29 +91,67 @@ public class MobileComposer {
 	 */
 	private final MyDateFormatConverter			dateConverter		= new MyDateFormatConverter();
 
+	private List<UserTask>						list_task;
+
 	private InitialScheduleSingleDetail			schedule_selected	= null;
 
 	private IWebServiceController				service;
 
 	private Integer								shift_no;
 
+	private Ship								ship_selected;
+
+	private List<Ship>							ships;
+
 	private Integer								status_view			= 1;
 
 	private TasksDAO							task_dao;
 
+	private UserTask							user_task_selected;
+
 	private List<InitialScheduleSingleDetail>	users;
 
 	@Command
-	@NotifyChange({ "status_view" })
+	@NotifyChange({ "status_view", "list_task" })
 	public void addSchedule() {
 		if (this.schedule_selected == null) {
 			return;
 		}
+
+		this.list_task = this.task_dao.loadTasksByUserForMobile(this.schedule_selected.getPerson().getId());
+
+		// get default task
+		final UserTask def_task = this.task_dao.getDefault(this.schedule_selected.getPerson().getId());
+
+		if (def_task != null) {
+
+			Collections.sort(this.list_task, new Comparator<UserTask>() {
+
+				@Override
+				public int compare(final UserTask o1, final UserTask o2) {
+					if (o1.equals(def_task)) {
+						return -1;
+					}
+					if (o2.equals(def_task)) {
+						return 1;
+					} else {
+						return o1.compareTo(o2);
+					}
+
+				}
+
+			});
+		}
+
 		this.status_view = 2;
 	}
 
 	public MyDateFormatConverter getDateConverter() {
 		return this.dateConverter;
+	}
+
+	public List<UserTask> getList_task() {
+		return this.list_task;
 	}
 
 	public InitialScheduleSingleDetail getSchedule_selected() {
@@ -121,8 +162,20 @@ public class MobileComposer {
 		return this.shift_no;
 	}
 
+	public Ship getShip_selected() {
+		return this.ship_selected;
+	}
+
+	public List<Ship> getShips() {
+		return this.ships;
+	}
+
 	public Integer getStatus_view() {
 		return this.status_view;
+	}
+
+	public UserTask getUser_task_selected() {
+		return this.user_task_selected;
 	}
 
 	public List<InitialScheduleSingleDetail> getUsers() {
@@ -183,6 +236,9 @@ public class MobileComposer {
 
 		}
 
+		// refresh ship list
+		this.ships = this.service.listShip(Calendar.getInstance().getTime());
+
 		// set view to status 1
 		this.status_view = 1;
 
@@ -233,6 +289,14 @@ public class MobileComposer {
 
 	public void setSchedule_selected(final InitialScheduleSingleDetail schedule_selected) {
 		this.schedule_selected = schedule_selected;
+	}
+
+	public void setShip_selected(final Ship ship_selected) {
+		this.ship_selected = ship_selected;
+	}
+
+	public void setUser_task_selected(final UserTask user_task_selected) {
+		this.user_task_selected = user_task_selected;
 	}
 
 }

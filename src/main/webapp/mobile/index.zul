@@ -66,76 +66,246 @@
 		<div visible="@load(vm.status_view eq 2)">
 
 			<div class="container-fluid text-center">
-				<div class="row">
-					<div class="col-lg-6 col-lg-offset-3">
-						<div class="well well-lg">
-							<n:h1>
-								<label
-									value="@load(vm.schedule_selected.person)"
-									class="label label-primary">
-								</label>
-							</n:h1>
+				<div class="well well-lg">
+					<n:h1>
+						<div class="input-group">
+							<span class="input-group-addon">
+								Utente
+							</span>
+							<label
+								value="@load(vm.schedule_selected.person)"
+								class="form-control label label-primary">
+							</label>
+						</div>
 
-							<n:h2>
+
+					</n:h1>
+
+					<n:h2>
+
+						<hbox>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									Data
+								</span>
 								<label
 									value="@load(vm.schedule_selected.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-									class="label label-primary">
+									class="form-control label label-primary">
 								</label>
+							</div>
 
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									Turno
+								</span>
 								<label
 									value="@load(vm.schedule_selected.detail_schedule.shift)"
-									class="label label-primary">
+									class="form-control label label-primary">
 								</label>
+							</div>
+
+						</hbox>
 
 
-							</n:h2>
+					</n:h2>
 
-						</div>
+					<div>
+						<hbox>
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									Inizio Attività
+								</span>
+								<textbox class="form-control"
+									placeholder="Inizio Attività..." />
+								<span class="input-group-btn">
+									<button label="Imposta Ora Attuale"
+										sclass="btn btn-info">
+									</button>
+								</span>
+
+							</div>
+
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									Fine Attività
+								</span>
+								<textbox class="form-control"
+									placeholder="Fine Attività..." />
+								<span class="input-group-btn">
+									<button label="Imposta Ora Attuale"
+										sclass="btn btn-info">
+									</button>
+								</span>
+
+							</div>
+						</hbox>
+					</div>
+					
+					<space></space>
+
+					<div>
+						<hbox>
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									GRU
+								</span>
+								<textbox class="form-control"
+									placeholder="GRU..." />
+							</div>
+
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									GRU
+								</span>
+								<textbox class="form-control"
+									placeholder="GRU..." />
+							</div>
+
+						</hbox>
+					</div>
+
+
+
+				</div>
+
+
+
+				<div class="well well-sm">
+
+					<div>
+
+						<n:h3>
+							<label value="Seleziona una mansione"
+								class="label label-primary">
+							</label>
+
+						</n:h3>
+
+
+
+						<listbox pagingPosition="top" mold="paging"
+							selectedItem="@save(vm.user_task_selected)"
+							emptyMessage="Nessun risultato..." model="@load(vm.list_task)"
+							checkmark="true" multiple="false" pageSize="2">
+
+
+							<listhead sizable="true">
+
+								<listheader align="center" label=""
+									hflex="1" />
+								<listheader align="center" label=""
+									hflex="9" />
+
+
+
+							</listhead>
+
+							<template name="model" var="item">
+								<listitem>
+
+									<listcell>
+										<label value=""
+											sclass="label label-info">
+										</label>
+									</listcell>
+
+
+									<listcell>
+
+										<n:h3>
+											<label value="@load(item)"
+												sclass="label label-info">
+											</label>
+										</n:h3>
+
+									</listcell>
+
+
+								</listitem>
+							</template>
+
+						</listbox>
+
+
+
+
+					</div>
+
+					<div>
+
+						<n:h3>
+							<label value="Seleziona una nave"
+								class="label label-primary">
+							</label>
+
+						</n:h3>
+
+
+
+						<listbox pagingPosition="top" mold="paging"
+							selectedItem="@save(vm.ship_selected)"
+							emptyMessage="Nessun risultato..." model="@load(vm.ships)"
+							checkmark="true" multiple="false" pageSize="2">
+
+
+							<listhead sizable="true">
+
+								<listheader align="center" label=""
+									hflex="1" />
+								<listheader align="center" label=""
+									hflex="9" />
+
+
+
+							</listhead>
+
+							<template name="model" var="item">
+								<listitem>
+
+									<listcell>
+										<label value=""
+											sclass="label label-info">
+										</label>
+									</listcell>
+
+
+									<listcell>
+
+										<n:h3>
+											<label value="@load(item)"
+												sclass="label label-info">
+											</label>
+										</n:h3>
+
+									</listcell>
+
+
+								</listitem>
+							</template>
+
+						</listbox>
+
+
+
 					</div>
 
 				</div>
 
-				<div class="row">
-					<div class="col-lg-6 col-lg-offset-3">
-						<div class="well well-lg">
-
-							<n:h3>
-								<label value="Seleziona una mansione"
-									class="label label-primary">
-								</label>
-
-							</n:h3>
-
-							<combobox readonly="true" width="100%"></combobox>
-
-						</div>
-					</div>
-
-				</div>
-
-
-
-
-
-
-				<div class="row">
-					<div class="col-lg-6 col-lg-offset-3">
-
-						<button label="CHIUDI"></button>
-
-
-					</div>
-
-
+				<div class="well well-lg">
 
 
 				</div>
-
-
-
-
 			</div>
+
+
 		</div>
+
 
 		<!-- USER LIST -->
 		<div visible="@load(vm.status_view eq 1)">
