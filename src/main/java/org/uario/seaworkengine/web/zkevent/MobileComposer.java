@@ -89,27 +89,31 @@ public class MobileComposer {
 	/**
 	 * Instace of converter
 	 */
-	private final MyDateFormatConverter			dateConverter		= new MyDateFormatConverter();
+	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
 
-	private List<UserTask>						list_task;
+	private String end_task;
 
-	private InitialScheduleSingleDetail			schedule_selected	= null;
+	private List<UserTask> list_task;
 
-	private IWebServiceController				service;
+	private InitialScheduleSingleDetail schedule_selected = null;
 
-	private Integer								shift_no;
+	private IWebServiceController service;
 
-	private Ship								ship_selected;
+	private Integer shift_no;
 
-	private List<Ship>							ships;
+	private Ship ship_selected;
 
-	private Integer								status_view			= 1;
+	private List<Ship> ships;
 
-	private TasksDAO							task_dao;
+	private String starting_task;
 
-	private UserTask							user_task_selected;
+	private Integer status_view = 1;
 
-	private List<InitialScheduleSingleDetail>	users;
+	private TasksDAO task_dao;
+
+	private UserTask user_task_selected;
+
+	private List<InitialScheduleSingleDetail> users;
 
 	@Command
 	@NotifyChange({ "status_view", "list_task" })
@@ -150,6 +154,10 @@ public class MobileComposer {
 		return this.dateConverter;
 	}
 
+	public String getEnd_task() {
+		return this.end_task;
+	}
+
 	public List<UserTask> getList_task() {
 		return this.list_task;
 	}
@@ -168,6 +176,10 @@ public class MobileComposer {
 
 	public List<Ship> getShips() {
 		return this.ships;
+	}
+
+	public String getStarting_task() {
+		return this.starting_task;
 	}
 
 	public Integer getStatus_view() {
@@ -287,12 +299,43 @@ public class MobileComposer {
 		this.refresh(this.shift_no);
 	}
 
+	/**
+	 * @param filed
+	 *            0 for initial, 1 for final
+	 */
+	@Command
+	@NotifyChange({ "starting_task", "end_task" })
+	public void setCurrentTaskTime(@BindingParam("field") final int field) {
+
+		final Calendar now = Calendar.getInstance();
+
+		final Integer h = now.get(Calendar.HOUR_OF_DAY);
+		final Integer m = now.get(Calendar.MINUTE);
+
+		final String current = "" + h + ":" + m;
+
+		if (field == 0) {
+			this.starting_task = current;
+		} else if (field == 1) {
+			this.end_task = current;
+		}
+
+	}
+
+	public void setEnd_task(final String end_task) {
+		this.end_task = end_task;
+	}
+
 	public void setSchedule_selected(final InitialScheduleSingleDetail schedule_selected) {
 		this.schedule_selected = schedule_selected;
 	}
 
 	public void setShip_selected(final Ship ship_selected) {
 		this.ship_selected = ship_selected;
+	}
+
+	public void setStarting_task(final String starting_task) {
+		this.starting_task = starting_task;
 	}
 
 	public void setUser_task_selected(final UserTask user_task_selected) {

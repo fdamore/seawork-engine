@@ -119,9 +119,11 @@
 									Inizio Attività
 								</span>
 								<textbox class="form-control"
+									value="@bind(vm.starting_task)"
 									placeholder="Inizio Attività..." />
 								<span class="input-group-btn">
 									<button label="Imposta Ora Attuale"
+										onClick="@command('setCurrentTaskTime', field = 0)"
 										sclass="btn btn-info">
 									</button>
 								</span>
@@ -134,9 +136,10 @@
 									Fine Attività
 								</span>
 								<textbox class="form-control"
-									placeholder="Fine Attività..." />
+									value="@bind(vm.end_task)" placeholder="Fine Attività..." />
 								<span class="input-group-btn">
 									<button label="Imposta Ora Attuale"
+										onClick="@command('setCurrentTaskTime', field = 1)"
 										sclass="btn btn-info">
 									</button>
 								</span>
@@ -144,7 +147,7 @@
 							</div>
 						</hbox>
 					</div>
-					
+
 					<space></space>
 
 					<div>
@@ -298,6 +301,13 @@
 				</div>
 
 				<div class="well well-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="AGGIUNGI">
+					</button>
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
+					</button>
 
 
 				</div>
