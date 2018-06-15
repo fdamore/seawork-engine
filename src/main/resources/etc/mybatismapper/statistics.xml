@@ -326,6 +326,7 @@ SELECT
     d.id_ship,
     d.shift AS shift_no,
     s.name,
+    sc.note,
     COUNT(d.board) AS out_board,
     (SELECT 
             COUNT(d1.board)
@@ -340,10 +341,12 @@ SELECT
                 AND d1.board = 'A BORDO') AS on_board,
     d.crane
 FROM
-    detailfinalschedule d,
+    detailfinalschedule d, schedule sc,
     ship s
-WHERE
-    d.id_ship = s.id AND d.board IS NOT NULL
+WHERE 
+		d.id_schedule = sc.id
+		AND d.id_ship = s.id 
+		AND d.board IS NOT NULL
         AND d.id_ship IS NOT NULL
         AND d.board = 'SOTTO BORDO'
         AND DATE(d.time_from) >= #{date_from}

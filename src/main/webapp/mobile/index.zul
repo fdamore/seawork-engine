@@ -44,7 +44,8 @@
 			<div class="btn-group-lg btn btn-group">
 
 				<button sclass="btn btn-danger" label="Cancella" />
-				<button sclass="btn btn-info" label="Note" />
+				<button sclass="btn btn-info" label="Note"
+					onClick="@command('editNote')" />
 				<button sclass="btn btn-info" label="Aggiungi"
 					onClick="@command('addSchedule')" />
 
@@ -61,6 +62,73 @@
 			</div>
 
 		</hbox>
+
+		<!-- NOTE -->
+		<div visible="@load(vm.status_view eq 3)">
+
+			<div class="container-fluid text-center">
+				<div class="well well-lg">
+					<n:h1>
+						<div class="input-group">
+							<span class="input-group-addon">
+								Utente
+							</span>
+							<label
+								value="@load(vm.schedule_selected.person)"
+								class="form-control label label-primary">
+							</label>
+						</div>
+
+
+					</n:h1>
+
+					<n:h2>
+
+
+
+						<div class="input-group">
+							<span class="input-group-addon">Data</span>
+							<label
+								value="@load(vm.schedule_selected.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+								class="form-control label label-primary">
+							</label>
+						</div>
+
+
+
+
+
+
+
+					</n:h2>
+				</div>
+
+				<div class="well well-lg">
+
+
+					<textbox sclass="form-control textarea" rows="10"
+						value="@bind(vm.note)">
+					</textbox>
+
+				</div>
+
+				<div class="well well-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="AGGIUNGI" onClick="@command('modifyNote')">
+					</button>
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
+					</button>
+
+
+				</div>
+
+			</div>
+
+
+		</div>
+
 
 		<!-- ADD TO USER LIST -->
 		<div visible="@load(vm.status_view eq 2)">
@@ -303,7 +371,7 @@
 				<div class="well well-lg">
 
 					<button sclass="btn btn-lg btn-success"
-						label="AGGIUNGI">
+						label="AGGIUNGI" onClick="@command('addRowSingleDetail')">
 					</button>
 					<button sclass="btn btn-lg btn-danger"
 						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
@@ -386,14 +454,12 @@
 							<div class="well well-lg">
 								<n:h3>
 									<label
-										value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
+										value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='HH:MM')"
 										sclass="label label-default">
 									</label>
 
-									<space></space>
-
 									<label
-										value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='yyyy/MM/dd HH:MM')"
+										value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='HH:MM')"
 										sclass="label label-default">
 									</label>
 								</n:h3>
@@ -408,6 +474,9 @@
 			</listbox>
 
 		</div>
+
+
+
 
 	</vlayout>
 

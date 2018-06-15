@@ -95,6 +95,8 @@ public class MobileComposer {
 
 	private List<UserTask> list_task;
 
+	private String note;
+
 	private InitialScheduleSingleDetail schedule_selected = null;
 
 	private IWebServiceController service;
@@ -114,6 +116,16 @@ public class MobileComposer {
 	private UserTask user_task_selected;
 
 	private List<InitialScheduleSingleDetail> users;
+
+	/**
+	 * Add single detail
+	 */
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view" })
+	public void addRowSingleDetail() {
+
+		this.refreshDataAndCurrentShift();
+	}
 
 	@Command
 	@NotifyChange({ "status_view", "list_task" })
@@ -150,6 +162,20 @@ public class MobileComposer {
 		this.status_view = 2;
 	}
 
+	@Command
+	@NotifyChange({ "status_view", "note" })
+	public void editNote() {
+
+		if (this.schedule_selected == null) {
+			return;
+		}
+
+		this.note = this.service.getScheduleNote(this.schedule_selected.getSchedule().getId());
+
+		this.status_view = 3;
+
+	}
+
 	public MyDateFormatConverter getDateConverter() {
 		return this.dateConverter;
 	}
@@ -160,6 +186,10 @@ public class MobileComposer {
 
 	public List<UserTask> getList_task() {
 		return this.list_task;
+	}
+
+	public String getNote() {
+		return this.note;
 	}
 
 	public InitialScheduleSingleDetail getSchedule_selected() {
@@ -198,6 +228,20 @@ public class MobileComposer {
 	public void init(@ContextParam(ContextType.COMPONENT) final Component component) throws Exception {
 		this.service = (IWebServiceController) SpringUtil.getBean(BeansTag.WEBCONTROLLER);
 		this.task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+
+		this.refreshDataAndCurrentShift();
+
+	}
+
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view" })
+	public void modifyNote() {
+
+		if (this.schedule_selected == null) {
+			return;
+		}
+
+		this.service.updateScheduleNote(this.schedule_selected.getSchedule().getId(), this.note);
 
 		this.refreshDataAndCurrentShift();
 
@@ -324,6 +368,10 @@ public class MobileComposer {
 
 	public void setEnd_task(final String end_task) {
 		this.end_task = end_task;
+	}
+
+	public void setNote(final String note) {
+		this.note = note;
 	}
 
 	public void setSchedule_selected(final InitialScheduleSingleDetail schedule_selected) {

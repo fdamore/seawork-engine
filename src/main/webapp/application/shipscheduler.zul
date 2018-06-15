@@ -2674,6 +2674,7 @@
 
 					<listheader label="A bordo" />
 					<listheader label="Sotto Bordo" />
+					<listheader label="Note" />
 				</listhead>
 
 				<listitem sclass="myBottonCell" self="@{each='item'}"
@@ -2695,6 +2696,8 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item.out_board}" />
+					<listcell sclass="myBottonCell"
+						label="@{item.note}" />
 
 
 
