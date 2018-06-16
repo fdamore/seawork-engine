@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
@@ -91,7 +92,11 @@ public class MobileComposer {
 	 */
 	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
 
+	private DetailScheduleShip detail_schedule_ship_selected;
+
 	private String end_task;
+
+	private List<DetailScheduleShip> list_ship;
 
 	private List<UserTask> list_task;
 
@@ -180,8 +185,16 @@ public class MobileComposer {
 		return this.dateConverter;
 	}
 
+	public DetailScheduleShip getDetail_schedule_ship_selected() {
+		return this.detail_schedule_ship_selected;
+	}
+
 	public String getEnd_task() {
 		return this.end_task;
+	}
+
+	public List<DetailScheduleShip> getList_ship() {
+		return this.list_ship;
 	}
 
 	public List<UserTask> getList_task() {
@@ -366,6 +379,10 @@ public class MobileComposer {
 
 	}
 
+	public void setDetail_schedule_ship_selected(final DetailScheduleShip detail_schedule_ship_selected) {
+		this.detail_schedule_ship_selected = detail_schedule_ship_selected;
+	}
+
 	public void setEnd_task(final String end_task) {
 		this.end_task = end_task;
 	}
@@ -388,6 +405,22 @@ public class MobileComposer {
 
 	public void setUser_task_selected(final UserTask user_task_selected) {
 		this.user_task_selected = user_task_selected;
+	}
+
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view", "list_ship" })
+	public void switchShipShift() {
+
+		if (this.status_view == 1) {
+			this.status_view = 4;
+
+			this.list_ship = this.service.selectDetailScheduleShipByShiftDate(Calendar.getInstance().getTime());
+
+		} else {
+			this.status_view = 1;
+			this.refreshDataAndCurrentShift();
+		}
+
 	}
 
 }
