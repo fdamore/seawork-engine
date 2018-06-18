@@ -14,17 +14,16 @@ import org.joda.time.Years;
 public class UserReport implements Serializable {
 
 	private static final SimpleDateFormat	date_format			= new SimpleDateFormat("dd-MM-yyyy");
+
+	private static final SimpleDateFormat	date_format_month	= new SimpleDateFormat("MM/yyyy");
+
 	public static final String				HEADER				= "COGNOME;NOME;STATUS;REPARTO;NCFL;LUOGO DI NASCITA;DATA NASCITA;ETA;INDIRIZZO;"
-			+ "CITTÀ;CAP;PROVINCIA;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATRICOLA;PASS;BADGE;IDENTIFICATIVO PERSONALE;"
-			+ "EDUCAZIONE;PATENTE DI GUIDATA;RILASCIO PATENTE DI GUIDA;TEMPO RILASCIO;QUALIFICA CORRENTE;LIVELLO CONTRATTUALE;CENTRO DI COSTO;DA;A;SALARIO BASE;"
-			+ "CONTINGENZA;MANSIONE PRINCIPALE;SCELTA TFR;DATA SCELTA TFR;DATA VISITA FISCALE;"
-			+ "CONTROLLO VISITA FISCALE;RISULTATO VISITA FISCALE;TIPO VISITA FISCALE;" + "SEDE INPS VISITA FISCALE;MALATTIA DA;MALATTIDA A;"
-			+ "DATA VISITA DI CONTROLLO;DATA SUCCESSIVA VISITA DI CONTROLLO;" + "PRESCRIZIONE VISITA DI CONTROLLO;RISULTATO VISITA DI CONTROLLO;"
+			+ "CITTA;CAP;PROV.;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATR.;PASS DI ACCESSO;BADGE;ID PERSONALE;"
+			+ "ISTRUZIONE;TIPO PATENTE;RILASCIA IL;TEMPO RILASCIO;QUALIFICA CORRENTE;LIVELLO CORRENTE;CENTRO DI COSTO;DA;A;SALARIO BASE;"
+			+ "CONTINGENZA;MANSIONE PRINCIPALE;SCELTA TFR;DATA SCELTA TFR;RISULTATO VISITA DI CONTROLLO;"
 			+ "NOME SIDACATO;REGISTRAZIONE SINDACATO;CANCELLAZIONE SINDACATO;"
-			+ "DATA CONTESTAZIONE DISCIPLINARE;DATA PENALITA;DATA BP;PROTOCOLLO CONTESTAZIONE DISCIPLINARE;PROTOCOLLO PENALITA;"
-			+ "RICORSO;SOSPENSIONE DA;SOSPENSIONE A;TIPO CONTESTAZIONE DISCIPLINARE;DATA INSERIMENTO COMPENSAZIONE;ORE COMPENSAZIONE;"
-			+ "NOME CERTIFICAZIONE;DATA CERTIFICAZIONE;FINE CERTIFICAZIONE;DURATA CERTIFICATO;ORA INIZIO LEZIONE;ORA FINE LEZIONE;ISTRUTTORE;"
-			+ "TIPO ISTRUZIONE;LIVELLO ISTRUZIONE;MANSIONE;";
+			+ "DATA ULTIMA CONTESTAZIONE DISCIPLINARE;PROT. CONT.NE DISCIPLINARE;DATA SANZIONE;PROTOCOLLO SANZIONE;"
+			+ "RICORSO;TIPO SANZIONE;DA;A;BP DI RIF.TO";
 
 	private static final long				serialVersionUID	= 1L;
 
@@ -151,7 +150,7 @@ public class UserReport implements Serializable {
 	private String							zip;
 
 	public String getAddress() {
-		return StringUtils.defaultString(this.address, "");
+		return "\"" + StringUtils.defaultString(this.address, "") + "\"";
 
 	}
 
@@ -165,7 +164,7 @@ public class UserReport implements Serializable {
 	}
 
 	public String getCity() {
-		return StringUtils.defaultString(this.city, "");
+		return "\"" + StringUtils.defaultString(this.city, "") + "\"";
 	}
 
 	public Date getCon_date_contestation() {
@@ -535,7 +534,7 @@ public class UserReport implements Serializable {
 	}
 
 	public String getZip() {
-		return StringUtils.defaultString(this.zip, "");
+		return "\"" + StringUtils.defaultString(this.zip, "") + "\"";
 	}
 
 	private String parseDate(final Date target) {
@@ -543,6 +542,14 @@ public class UserReport implements Serializable {
 			return "";
 		} else {
 			return UserReport.date_format.format(target);
+		}
+	}
+
+	private String parseDateMonth(final Date target) {
+		if (target == null) {
+			return "";
+		} else {
+			return UserReport.date_format_month.format(target);
 		}
 	}
 
@@ -841,18 +848,10 @@ public class UserReport implements Serializable {
 				+ this.getContractual_level() + ";" + this.getJobcost() + ";" + this.parseDate(this.getJob_date_from()) + ";"
 				+ this.parseDate(this.getJob_date_to()) + ";" + this.getJob_basicsalaryString() + ";" + this.getJob_contingencyString() + ";"
 				+ this.getTask_default() + ";" + this.getTfr_destination() + ";" + this.parseDate(this.getTfr_selection_date()) + ";"
-				+ this.parseDate(this.getFc_request_date()) + ";" + this.parseDate(this.getFc_control_date()) + ";" + this.getFc_result() + ";"
-				+ this.getFc_result_type() + ";" + this.getFc_sede_inps() + ";" + this.parseDate(this.getFc_sikness_from()) + ";"
-				+ this.parseDate(this.getFc_sikness_to()) + ";" + this.parseDate(this.getMe_date_examination()) + ";"
-				+ this.parseDate(this.getMe_next_date_examination()) + ";" + this.getMe_prescriptions() + ";" + this.getMe_result_examination() + ";"
 				+ this.getTu_name() + ";" + this.parseDate(this.getTu_registration()) + ";" + this.parseDate(this.getTu_cancellation()) + ";"
-				+ this.parseDate(this.getCon_date_contestation()) + ";" + this.parseDate(this.getCon_date_penality()) + ";"
-				+ this.parseDate(this.getCon_datebp()) + ";" + this.getCon_prot() + ";" + this.getCon_prot_penalty() + ";" + this.getCon_recall()
-				+ ";" + this.parseDate(this.getCon_stop_from()) + ";" + this.parseDate(this.getCon_stop_to()) + ";" + this.getCon_typ() + ";"
-				+ this.parseDate(this.getUc_date_submit()) + ";" + this.getUc_time_comp_string() + ";" + this.getTc_title() + ";"
-				+ this.parseDate(this.getTc_certificate_date()) + ";" + this.parseDate(this.getTc_expiration_date()) + ";"
-				+ this.getTc_duration_string() + ";" + this.parseDate(this.getTc_start_class()) + ";" + this.parseDate(this.getTc_end_class()) + ";"
-				+ this.getTc_trainer() + ";" + this.getTc_trainer_type() + ";" + this.getTc_training_level() + ";" + this.getTc_training_task();
+				+ this.parseDate(this.getCon_date_contestation()) + ";" + this.getCon_prot() + ";" + this.parseDate(this.getCon_date_penality()) + ";"
+				+ this.getCon_prot_penalty() + ";" + this.getCon_recall() + ";" + this.getCon_typ() + ";" + this.parseDate(this.getCon_stop_from())
+				+ ";" + this.parseDate(this.getCon_stop_to()) + ";" + this.parseDateMonth(this.getCon_datebp());
 
 		msg = msg.replace("\n", " ");
 
