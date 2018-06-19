@@ -49,6 +49,21 @@ SELECT
                     j1.id_user = u.id))
         LIMIT 1) jobcost,
     (SELECT 
+            j.awards
+        FROM
+            job_cost j,
+            billcenter b
+        WHERE
+            j.bill_center = b.id AND id_user = u.id
+                AND (date_to IS NULL
+                OR date_to = (SELECT 
+                    MAX(date_to)
+                FROM
+                    job_cost j1
+                WHERE
+                    j1.id_user = u.id))
+        LIMIT 1) job_awards,
+       (SELECT 
             j.date_from
         FROM
             job_cost j,

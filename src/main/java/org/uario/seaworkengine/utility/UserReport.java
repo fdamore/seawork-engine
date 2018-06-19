@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
@@ -18,11 +19,11 @@ public class UserReport implements Serializable {
 	private static final SimpleDateFormat	date_format_month	= new SimpleDateFormat("MM/yyyy");
 
 	public static final String				HEADER				= "COGNOME;NOME;STATUS;REPARTO;NCFL;LUOGO DI NASCITA;DATA NASCITA;ETA;INDIRIZZO;"
-			+ "CITTA;CAP;PROV.;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATR.;PASS DI ACCESSO;BADGE;ID PERSONALE;"
-			+ "ISTRUZIONE;TIPO PATENTE;RILASCIA IL;TEMPO RILASCIO;QUALIFICA CORRENTE;LIVELLO CORRENTE;CENTRO DI COSTO;DA;A;SALARIO BASE;"
-			+ "CONTINGENZA;MANSIONE PRINCIPALE;SCELTA TFR;DATA SCELTA TFR;NOME SIDACATO;REGISTRAZIONE SINDACATO;CANCELLAZIONE SINDACATO;"
-			+ "DATA ULTIMA CONTESTAZIONE DISCIPLINARE;PROT. CONT.NE DISCIPLINARE;DATA SANZIONE;PROTOCOLLO SANZIONE;"
-			+ "RICORSO;TIPO SANZIONE;DURATA SANSIONE;DA;A;BP DI RIF.TO";
+	        + "CITTA;CAP;PROV.;TELEFONO;CODICE FISCALE;STATO CIVILE;CARICHI FAMIGLIARI;MATR.;PASS DI ACCESSO;BADGE;ID PERSONALE;"
+	        + "ISTRUZIONE;TIPO PATENTE;RILASCIA IL;TEMPO RILASCIO;QUALIFICA CORRENTE;LIVELLO CORRENTE;CENTRO DI COSTO;DA;A;TOT. RETRIB. LORDA;"
+	        + "PREMI/ALTRO;MANSIONE PRINCIPALE;SCELTA TFR;DATA SCELTA TFR;NOME SIDACATO;REGISTRAZIONE SINDACATO;CANCELLAZIONE SINDACATO;"
+	        + "DATA ULTIMA CONTESTAZIONE DISCIPLINARE;PROT. CONT.NE DISCIPLINARE;DATA SANZIONE;PROTOCOLLO SANZIONE;"
+	        + "RICORSO;TIPO SANZIONE;DURATA SANSIONE;DA;A;BP DI RIF.TO";
 
 	private static final long				serialVersionUID	= 1L;
 
@@ -81,30 +82,31 @@ public class UserReport implements Serializable {
 	private Date							fc_sikness_to;
 	private String							firstname;
 	private String							fiscal_code;
+	private Double							job_awards;
 	private Double							job_basicsalary;
+
 	private Double							job_contingency;
+
 	private Date							job_date_from;
 	private Date							job_date_to;
 	private Double							job_edr;
 	private Double							job_shots;
-
 	private String							jobcost;
 	private String							lastname;
 
 	private String							marital_status;
+
 	private Date							me_date_examination;
 	private Date							me_next_date_examination;
+
 	private String							me_prescriptions;
 	private String							me_result_examination;
 	private String							nbudge;
 	private String							ncfl;
 	private String							npass;
 	private String							personal_code;
-
 	private String							phone;
-
 	private String							provincia;
-
 	private String							status;
 
 	private String							task_default;
@@ -146,6 +148,7 @@ public class UserReport implements Serializable {
 	private Date							uc_date_submit;
 
 	private Double							uc_time_comp;
+
 	private String							zip;
 
 	public String getAddress() {
@@ -320,6 +323,19 @@ public class UserReport implements Serializable {
 
 	}
 
+	public Double getJob_awards() {
+		return this.job_awards;
+	}
+
+	public String getJob_awardsString() {
+		if (this.job_awards == null) {
+			return "";
+		} else {
+			return this.job_awards.toString();
+		}
+
+	}
+
 	public Double getJob_basicsalary() {
 		return this.job_basicsalary;
 	}
@@ -367,6 +383,15 @@ public class UserReport implements Serializable {
 	public String getJobcost() {
 		return StringUtils.defaultString(this.jobcost, "");
 
+	}
+
+	public String getJobTotal() {
+		final Double jb = ObjectUtils.defaultIfNull(this.job_basicsalary, 0.0);
+		final Double jb_con = ObjectUtils.defaultIfNull(this.job_contingency, 0.0);
+		final Double jb_shots = ObjectUtils.defaultIfNull(this.job_shots, 0.0);
+		final Double jb_edr = ObjectUtils.defaultIfNull(this.job_edr, 0.0);
+		final Double sum = jb + jb_con + jb_shots + jb_edr;
+		return sum.toString();
 	}
 
 	public String getLastname() {
@@ -697,6 +722,10 @@ public class UserReport implements Serializable {
 		this.fiscal_code = fiscal_code;
 	}
 
+	public void setJob_awards(final Double job_awards) {
+		this.job_awards = job_awards;
+	}
+
 	public void setJob_basicsalary(final Double job_basicsalary) {
 		this.job_basicsalary = job_basicsalary;
 	}
@@ -863,20 +892,24 @@ public class UserReport implements Serializable {
 
 	public String toCSVLine() {
 
-		String msg = this.getLastname() + ";" + this.getFirstname() + ";" + this.getStatus() + ";" + this.getDepartment() + ";" + this.getNcfl() + ";"
-				+ this.getBirth_place() + ";" + this.parseDate(this.getBirth_date()) + ";" + this.getEta() + ";" + this.getAddress() + ";"
-				+ this.getCity() + ";" + this.getZip() + ";" + this.getProvincia() + ";" + this.getPhone() + ";" + this.getFiscal_code() + ";"
-				+ this.getMarital_status() + ";" + this.getFamily_charge() + ";" + this.getEmployee_identification() + ";" + this.getNpass() + ";"
-				+ this.getNbudge() + ";" + this.getPersonal_code() + ";" + this.getEducation() + ";" + this.getDriving_license() + ";"
-				+ this.parseDate(this.getDriving_license_emission()) + ";" + this.getDrivingTimeEmission() + ";" + this.getCurrent_position() + ";"
-				+ this.getContractual_level() + ";" + this.getJobcost() + ";" + this.parseDate(this.getJob_date_from()) + ";"
-				+ this.parseDate(this.getJob_date_to()) + ";" + this.getJob_basicsalaryString() + ";" + this.getJob_contingencyString() + ";"
-				+ this.getTask_default() + ";" + this.getTfr_destination() + ";" + this.parseDate(this.getTfr_selection_date()) + ";"
-				+ this.getTu_name() + ";" + this.parseDate(this.getTu_registration()) + ";" + this.parseDate(this.getTu_cancellation()) + ";"
-				+ this.parseDate(this.getCon_date_contestation()) + ";" + this.getCon_prot() + ";" + this.parseDate(this.getCon_date_penality()) + ";"
-				+ this.getCon_prot_penalty() + ";" + this.infoRecall() + ";" + this.getCon_typ() + ";" + this.getStopPeriod() + ";"
-				+ this.parseDate(this.getCon_stop_from()) + ";" + this.parseDate(this.getCon_stop_to()) + ";"
-				+ this.parseDateMonth(this.getCon_datebp());
+		String msg = this.getLastname() + ";" + this.getFirstname() + ";" + this.getStatus() + ";"
+		        + this.getDepartment() + ";" + this.getNcfl() + ";" + this.getBirth_place() + ";"
+		        + this.parseDate(this.getBirth_date()) + ";" + this.getEta() + ";" + this.getAddress() + ";"
+		        + this.getCity() + ";" + this.getZip() + ";" + this.getProvincia() + ";" + this.getPhone() + ";"
+		        + this.getFiscal_code() + ";" + this.getMarital_status() + ";" + this.getFamily_charge() + ";"
+		        + this.getEmployee_identification() + ";" + this.getNpass() + ";" + this.getNbudge() + ";"
+		        + this.getPersonal_code() + ";" + this.getEducation() + ";" + this.getDriving_license() + ";"
+		        + this.parseDate(this.getDriving_license_emission()) + ";" + this.getDrivingTimeEmission() + ";"
+		        + this.getCurrent_position() + ";" + this.getContractual_level() + ";" + this.getJobcost() + ";"
+		        + this.parseDate(this.getJob_date_from()) + ";" + this.parseDate(this.getJob_date_to()) + ";"
+		        + this.getJobTotal() + ";" + this.getJob_awardsString() + ";" + this.getTask_default() + ";"
+		        + this.getTfr_destination() + ";" + this.parseDate(this.getTfr_selection_date()) + ";"
+		        + this.getTu_name() + ";" + this.parseDate(this.getTu_registration()) + ";"
+		        + this.parseDate(this.getTu_cancellation()) + ";" + this.parseDate(this.getCon_date_contestation())
+		        + ";" + this.getCon_prot() + ";" + this.parseDate(this.getCon_date_penality()) + ";"
+		        + this.getCon_prot_penalty() + ";" + this.infoRecall() + ";" + this.getCon_typ() + ";"
+		        + this.getStopPeriod() + ";" + this.parseDate(this.getCon_stop_from()) + ";"
+		        + this.parseDate(this.getCon_stop_to()) + ";" + this.parseDateMonth(this.getCon_datebp());
 
 		msg = msg.replace("\n", " ");
 
