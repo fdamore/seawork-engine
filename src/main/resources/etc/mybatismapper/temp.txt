@@ -1,0 +1,33 @@
+SELECT 
+    s.id AS id_ship,
+    d.shift AS shift_no,
+    s.name,
+    d.worked,
+    d.notedetail,
+    (SELECT 
+            COUNT(d1.board)
+        FROM
+            detailfinalschedule d1
+        WHERE
+            d1.rif_sws = sc.id
+                AND d1.board IS NOT NULL
+                AND d1.shift = d.shift
+                AND d1.id_ship = d.id_ship
+                AND d1.board = 'A BORDO') AS on_board,
+    (SELECT 
+            CONCAT(name, number)
+        FROM
+            crane
+        WHERE
+            id = df.id_crane) AS crane
+FROM
+    detailscheduleship d
+        LEFT OUTER JOIN
+    detailfinalscheduleship df ON (d.id = df.iddetailscheduleship),
+    scheduleship sc,
+    ship s
+WHERE
+    d.idscheduleship = sc.id
+        AND sc.idship = s.id
+        AND DATE(d.shiftdate) = '2018-06-16'
+ORDER BY d.shift

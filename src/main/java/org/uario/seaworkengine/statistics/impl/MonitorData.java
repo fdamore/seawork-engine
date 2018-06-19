@@ -13,21 +13,23 @@ public class MonitorData implements Serializable {
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private String crane;
+	private String				crane;
 
-	private Integer id_ship;
+	private Integer				id_ship;
 
-	private String name;
+	private String				name;
 
-	private String note;
+	private String				note;
 
-	private Integer on_board;
+	private Integer				on_board;
 
-	private Integer out_board;
+	private Integer				out_board;
 
-	private Integer shift_no;
+	private Integer				shift_no;
+
+	private Boolean				worked;
 
 	public String getCrane() {
 		return this.crane;
@@ -57,6 +59,10 @@ public class MonitorData implements Serializable {
 		return this.shift_no;
 	}
 
+	public Boolean getWorked() {
+		return this.worked;
+	}
+
 	public void setCrane(final String crane) {
 		this.crane = crane;
 	}
@@ -83,6 +89,10 @@ public class MonitorData implements Serializable {
 
 	public void setShift_no(final Integer shift_no) {
 		this.shift_no = shift_no;
+	}
+
+	public void setWorked(final Boolean worked) {
+		this.worked = worked;
 	}
 
 	@Override
