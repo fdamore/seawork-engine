@@ -69,23 +69,7 @@
 		<div visible="@load(vm.status_view eq 4)">
 
 			<div class="container-fluid text-center">
-				<div class="well well-lg">
-					<n:h1>
-						<div class="input-group">
-							<span class="input-group-addon">
-								Utente
-							</span>
-							<label
-								value="@load(vm.schedule_selected.person)"
-								class="form-control label label-primary">
-							</label>
-						</div>
-
-
-					</n:h1>
-
-				</div>
-
+				
 				<listbox pagingPosition="both" mold="paging"
 					selectedItem="@save(vm.detail_schedule_ship_selected)"
 					emptyMessage="Nessun risultato..." model="@load(vm.list_ship)"
@@ -97,15 +81,15 @@
 						<listheader align="center" label="NAVE"
 							hflex="3" />
 						<listheader align="center" label="OPERAZIONE"
-							hflex="1" />
+							hflex="2" />
 						<listheader align="center"
-							label="PRIMO PREPOSTO" hflex="3" />
+							label="PRIMO PREPOSTO" hflex="4" />
 						<listheader align="center"
-							label="SECONDO PREPOSTO" hflex="2" />
+							label="SECONDO PREPOSTO" hflex="4" />
 						<listheader align="center" label="MANI"
-							hflex="2" />
+							hflex="1" />
 						<listheader align="center" label="UOMINI"
-							hflex="2" />
+							hflex="1" />
 
 
 					</listhead>
@@ -131,12 +115,12 @@
 
 							<listcell>
 								<div class="well well-lg">
-									<n:h3>
+									<n:h4>
 										<label
 											value="@load(item.operation)"
 											sclass="label label-default">
 										</label>
-									</n:h3>
+									</n:h4>
 								</div>
 							</listcell>
 

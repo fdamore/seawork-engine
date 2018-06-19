@@ -90,37 +90,37 @@ public class MobileComposer {
 	/**
 	 * Instace of converter
 	 */
-	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
+	private final MyDateFormatConverter			dateConverter		= new MyDateFormatConverter();
 
-	private DetailScheduleShip detail_schedule_ship_selected;
+	private DetailScheduleShip					detail_schedule_ship_selected;
 
-	private String end_task;
+	private String								end_task;
 
-	private List<DetailScheduleShip> list_ship;
+	private List<DetailScheduleShip>			list_ship;
 
-	private List<UserTask> list_task;
+	private List<UserTask>						list_task;
 
-	private String note;
+	private String								note;
 
-	private InitialScheduleSingleDetail schedule_selected = null;
+	private InitialScheduleSingleDetail			schedule_selected	= null;
 
-	private IWebServiceController service;
+	private IWebServiceController				service;
 
-	private Integer shift_no;
+	private Integer								shift_no;
 
-	private Ship ship_selected;
+	private Ship								ship_selected;
 
-	private List<Ship> ships;
+	private List<Ship>							ships;
 
-	private String starting_task;
+	private String								starting_task;
 
-	private Integer status_view = 1;
+	private Integer								status_view			= 1;
 
-	private TasksDAO task_dao;
+	private TasksDAO							task_dao;
 
-	private UserTask user_task_selected;
+	private UserTask							user_task_selected;
 
-	private List<InitialScheduleSingleDetail> users;
+	private List<InitialScheduleSingleDetail>	users;
 
 	/**
 	 * Add single detail
@@ -135,49 +135,58 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "status_view", "list_task" })
 	public void addSchedule() {
-		if (this.schedule_selected == null) {
-			return;
-		}
 
-		this.list_task = this.task_dao.loadTasksByUserForMobile(this.schedule_selected.getPerson().getId());
+		if (this.status_view == 1) {
+			if (this.schedule_selected == null) {
+				return;
+			}
 
-		// get default task
-		final UserTask def_task = this.task_dao.getDefault(this.schedule_selected.getPerson().getId());
+			this.list_task = this.task_dao.loadTasksByUserForMobile(this.schedule_selected.getPerson().getId());
 
-		if (def_task != null) {
+			// get default task
+			final UserTask def_task = this.task_dao.getDefault(this.schedule_selected.getPerson().getId());
 
-			Collections.sort(this.list_task, new Comparator<UserTask>() {
+			if (def_task != null) {
 
-				@Override
-				public int compare(final UserTask o1, final UserTask o2) {
-					if (o1.equals(def_task)) {
-						return -1;
+				Collections.sort(this.list_task, new Comparator<UserTask>() {
+
+					@Override
+					public int compare(final UserTask o1, final UserTask o2) {
+						if (o1.equals(def_task)) {
+							return -1;
+						}
+						if (o2.equals(def_task)) {
+							return 1;
+						} else {
+							return o1.compareTo(o2);
+						}
+
 					}
-					if (o2.equals(def_task)) {
-						return 1;
-					} else {
-						return o1.compareTo(o2);
-					}
 
-				}
+				});
+			}
 
-			});
+			this.status_view = 2;
+
 		}
-
-		this.status_view = 2;
 	}
 
 	@Command
 	@NotifyChange({ "status_view", "note" })
 	public void editNote() {
 
-		if (this.schedule_selected == null) {
-			return;
+		// note for "TURNI"
+		if (this.status_view == 1) {
+
+			if (this.schedule_selected == null) {
+				return;
+			}
+
+			this.note = this.service.getScheduleNote(this.schedule_selected.getSchedule().getId());
+
+			this.status_view = 3;
+
 		}
-
-		this.note = this.service.getScheduleNote(this.schedule_selected.getSchedule().getId());
-
-		this.status_view = 3;
 
 	}
 
