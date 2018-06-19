@@ -331,7 +331,8 @@ public class UserReport implements Serializable {
 		if (this.job_awards == null) {
 			return "";
 		} else {
-			return this.job_awards.toString();
+
+			return new Double(Utility.roundTwo(this.job_awards)).toString();
 		}
 
 	}
@@ -390,8 +391,11 @@ public class UserReport implements Serializable {
 		final Double jb_con = ObjectUtils.defaultIfNull(this.job_contingency, 0.0);
 		final Double jb_shots = ObjectUtils.defaultIfNull(this.job_shots, 0.0);
 		final Double jb_edr = ObjectUtils.defaultIfNull(this.job_edr, 0.0);
+
 		final Double sum = jb + jb_con + jb_shots + jb_edr;
-		return sum.toString();
+
+		final Double info = Utility.roundTwo(sum);
+		return info.toString();
 	}
 
 	public String getLastname() {
