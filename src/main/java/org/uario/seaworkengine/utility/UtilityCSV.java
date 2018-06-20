@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.uario.seaworkengine.model.Contestation;
@@ -48,18 +49,18 @@ import org.zkoss.spring.SpringUtil;
 
 public class UtilityCSV {
 
-	private static final SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.ITALIAN);
+	private static final SimpleDateFormat	dayFormat			= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
-	private static final SimpleDateFormat formatDateOverview = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat	formatDateOverview	= new SimpleDateFormat("dd/MM/yyyy");
 
-	private static final SimpleDateFormat formatMonthOverview = new SimpleDateFormat("MM/yyyy");
+	private static final SimpleDateFormat	formatMonthOverview	= new SimpleDateFormat("MM/yyyy");
 
-	private static final SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+	private static final SimpleDateFormat	formatTime			= new SimpleDateFormat("HH:mm");
 
-	private static final SimpleDateFormat formatTimeOverview = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	private static final SimpleDateFormat	formatTimeOverview	= new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-	public static StringBuilder downloadCSV_DetailProgramShip(
-			final List<DetailScheduleShip> modelListDetailScheduleShip, final ICustomerDAO customerDAO) {
+	public static StringBuilder downloadCSV_DetailProgramShip(final List<DetailScheduleShip> modelListDetailScheduleShip,
+			final ICustomerDAO customerDAO) {
 		if (modelListDetailScheduleShip == null) {
 			return null;
 		}
@@ -160,10 +161,9 @@ public class UtilityCSV {
 				endDate = Utility.getDataAsString_it(item.getDeparturedate());
 			}
 
-			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate
-					+ ";" + shiftNumber + ";" + operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";"
-					+ hands_program + ";" + hands_review + ";" + persons_program + ";" + persons_review + ";"
-					+ serviceType + ";" + startDate + ";" + endDate + ";\n";
+			final String line = "" + shipName + ";" + customerName + ";" + rif_mct + ";" + rif_sws + ";" + shiftDate + ";" + shiftNumber + ";"
+					+ operation + ";" + firstUser + ";" + secondUser + ";" + worked + ";" + hands_program + ";" + hands_review + ";" + persons_program
+					+ ";" + persons_review + ";" + serviceType + ";" + startDate + ";" + endDate + ";\n";
 
 			builder.append(line);
 
@@ -192,8 +192,7 @@ public class UtilityCSV {
 			final String outboard = ObjectUtils.defaultIfNull(mnt.getOut_board(), "").toString();
 			final String note = ObjectUtils.defaultIfNull(mnt.getNote(), "").toString();
 
-			final String itm = turno + ";" + nave + ";" + crane + ";" + abordo + ";" + outboard + ";" + note + ";"
-					+ "\n";
+			final String itm = turno + ";" + nave + ";" + crane + ";" + abordo + ";" + outboard + ";" + note + ";" + "\n";
 			builder.append(itm);
 
 		}
@@ -259,8 +258,8 @@ public class UtilityCSV {
 				currentPosition = item.getCurrent_position();
 			}
 
-			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";"
-					+ city + ";" + tel + ";" + role + ";" + currentPosition + ";\n";
+			final String line = "" + idUser + ";" + status + ";" + contractualLevel + ";" + enabled + ";" + name + ";" + city + ";" + tel + ";" + role
+					+ ";" + currentPosition + ";\n";
 			builder.append(line);
 
 		}
@@ -318,8 +317,7 @@ public class UtilityCSV {
 
 	}
 
-	public static StringBuilder downloadCSV_ScheduleProgramShip(final List<ScheduleShip> modelListScheduleShip,
-			final ICustomerDAO customerDAO) {
+	public static StringBuilder downloadCSV_ScheduleProgramShip(final List<ScheduleShip> modelListScheduleShip, final ICustomerDAO customerDAO) {
 		if (modelListScheduleShip == null) {
 			return null;
 		}
@@ -379,8 +377,8 @@ public class UtilityCSV {
 				note = note.replace("\n", " ");
 			}
 
-			final String line = "" + startDate + ";" + endDate + ";" + shipName + ";" + customerName + ";" + volume
-					+ ";" + mct + ";" + sws + ";" + serviceType + ";" + note + ";\n";
+			final String line = "" + startDate + ";" + endDate + ";" + shipName + ";" + customerName + ";" + volume + ";" + mct + ";" + sws + ";"
+					+ serviceType + ";" + note + ";\n";
 			builder.append(line);
 
 		}
@@ -416,10 +414,19 @@ public class UtilityCSV {
 	 * @param list
 	 * @return
 	 */
-	public static StringBuilder downloadCSV_user_contestazioni(final List<Contestation> list) {
+	public static StringBuilder downloadCSV_user_contestazioni(final Person person, final List<Contestation> list, final boolean add_header) {
+
 		final StringBuilder builder = new StringBuilder();
-		final String header = "Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Descrizione;Note\n";
-		builder.append(header);
+
+		if (add_header) {
+			if (person == null) {
+				final String header = "Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Descrizione;Note\n";
+				builder.append(header);
+			} else {
+				final String header = "Nome;Matricola;Tipo;Ricorso;DataContestazione;Protocollo;DataSanzione;ProtocolloSanzione;SospesoDa;SospesoFinoA;MeseAnnoBP;Descrizione;Note\n";
+				builder.append(header);
+			}
+		}
 
 		for (final Contestation itm : list) {
 
@@ -435,11 +442,15 @@ public class UtilityCSV {
 			final String note = (itm.getNote() != null) ? itm.getNote() : "";
 			final String description = (itm.getDescription() != null) ? itm.getDescription() : "";
 
-			String line = tipo + ";" + ricorso + ";" + data_contestazione + ";" + protocollo + ";" + data_sazione + ";"
-					+ protocollo_sanzione + ";" + sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + description
-					+ ";" + note + ";";
+			String line = tipo + ";" + ricorso + ";" + data_contestazione + ";" + protocollo + ";" + data_sazione + ";" + protocollo_sanzione + ";"
+					+ sospeso_da + ";" + sospeso_a + ";" + mese_anno_bp + ";" + description + ";" + note + ";";
 
 			line = line.replace("\n", " ");
+
+			if (person != null) {
+				line = person.getIndividualName() + ";" + person.getEmployee_identification() + ";" + line;
+			}
+
 			line = line + "\n";
 
 			builder.append(line);
@@ -474,9 +485,9 @@ public class UtilityCSV {
 			final String premi = itm.getAwardsITASTRING();
 			final String note = "" + itm.getNote();
 
-			final String line = centro_costo + ";" + data_inizio + ";" + data_fine + ";" + costo_azienda + ";"
-					+ costo_effettivo + ";" + livello_contrattuale + ";" + pagabase + ";" + contigenza + ";" + scatti
-					+ ";" + edr + ";" + totale + ";" + premi + ";" + note + "\n";
+			final String line = centro_costo + ";" + data_inizio + ";" + data_fine + ";" + costo_azienda + ";" + costo_effettivo + ";"
+					+ livello_contrattuale + ";" + pagabase + ";" + contigenza + ";" + scatti + ";" + edr + ";" + totale + ";" + premi + ";" + note
+					+ "\n";
 
 			builder.append(line);
 
@@ -506,8 +517,8 @@ public class UtilityCSV {
 			final String malattia_a = "" + UtilityCSV.returnItalianDate(itm.getSikness_to());
 			final String note = "" + itm.getNote();
 
-			final String line = richiesta + ";" + controllo + ";" + sede_inps + ";" + risultato + ";" + comunicazione
-					+ ";" + malattia_da + ";" + malattia_a + ";" + note + "\n";
+			final String line = richiesta + ";" + controllo + ";" + sede_inps + ";" + risultato + ";" + comunicazione + ";" + malattia_da + ";"
+					+ malattia_a + ";" + note + "\n";
 
 			builder.append(line);
 
@@ -520,10 +531,19 @@ public class UtilityCSV {
 	 * @param list
 	 * @return
 	 */
-	public static StringBuilder downloadCSV_user_formazione(final List<TrainingCertificate> list) {
+	public static StringBuilder downloadCSV_user_formazione(final Person person, final List<TrainingCertificate> list, final boolean add_header) {
+
 		final StringBuilder builder = new StringBuilder();
-		final String header = "Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Note\n";
-		builder.append(header);
+
+		if (add_header) {
+			if (person == null) {
+				final String header = "Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Note\n";
+				builder.append(header);
+			} else {
+				final String header = "Nome;Matricola;Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Note\n";
+				builder.append(header);
+			}
+		}
 
 		for (final TrainingCertificate itm : list) {
 
@@ -542,11 +562,14 @@ public class UtilityCSV {
 
 			final String note = "" + itm.getNote();
 
-			String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione
-					+ ";" + livello + ";" + data_conseguimento + ";" + data_scadenza + ";" + tutor + ";" + inizio_corso
-					+ ";" + fine_corso + ";" + htot + ";" + note;
+			String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione + ";" + livello + ";"
+					+ data_conseguimento + ";" + data_scadenza + ";" + tutor + ";" + inizio_corso + ";" + fine_corso + ";" + htot + ";" + note;
 
 			line = line.replace("\n", " ");
+			if (person != null) {
+				line = person.getIndividualName() + ";" + person.getEmployee_identification() + ";" + line;
+			}
+
 			line = line + "\n";
 
 			builder.append(line);
@@ -573,8 +596,7 @@ public class UtilityCSV {
 			final String prescrizioni = "" + itm.getPrescriptions();
 			final String note = "" + itm.getNote_examination();
 
-			final String line = data_visita + ";" + data_prossima_visita + ";" + esito + ";" + prescrizioni + ";" + note
-					+ "\n";
+			final String line = data_visita + ";" + data_prossima_visita + ";" + esito + ";" + prescrizioni + ";" + note + "\n";
 
 			builder.append(line);
 
@@ -587,23 +609,35 @@ public class UtilityCSV {
 	 * @param list
 	 * @return
 	 */
-	public static StringBuilder downloadCSV_user_raporto(final List<Employment> list) {
+	public static StringBuilder downloadCSV_user_raportolavorativo(final Person person, final List<Employment> list, final boolean add_header) {
 
 		final StringBuilder builder = new StringBuilder();
-		final String header = "LivelloContrattuale;DataFine;DataModifica;Status;Note;\n";
-		builder.append(header);
+
+		if (add_header) {
+			if (person == null) {
+				final String header = "LivelloContrattuale;DataFine;DataModifica;Status;Note;\n";
+				builder.append(header);
+			} else {
+				final String header = "Nome;Matricola;LivelloContrattuale;DataFine;DataModifica;Status;Note;\n";
+				builder.append(header);
+			}
+		}
 
 		for (final Employment itm : list) {
 
-			final String contractual_level = (itm.getContractual_level() == null ? ""
-					: ("" + itm.getContractual_level()));
+			final String contractual_level = (itm.getContractual_level() == null ? "" : ("" + itm.getContractual_level()));
 			final String date_end = "" + UtilityCSV.returnItalianDate(itm.getDate_end());
 			final String date_modified = "" + UtilityCSV.returnItalianDate(itm.getDate_modified());
 			final String note = StringUtils.defaultString(itm.getNote());
 			final String status = StringUtils.defaultString(itm.getStatus());
 
-			final String line = contractual_level + ";" + date_end + ";" + date_modified + ";" + status + ";" + note
-					+ "\n";
+			String line = contractual_level + ";" + date_end + ";" + date_modified + ";" + status + ";" + note;
+
+			if (person != null) {
+				line = person.getIndividualName() + ";" + person.getEmployee_identification() + ";" + line;
+			}
+
+			line = line + "\n";
 
 			builder.append(line);
 
@@ -619,19 +653,33 @@ public class UtilityCSV {
 	 * @param list_mytask
 	 * @return
 	 */
-	public static StringBuilder downloadCSV_user_task(final List<UserTask> list) {
+	public static StringBuilder downloadCSV_user_task(final Person person, final List<UserTask> list, final boolean add_header) {
 
 		final StringBuilder builder = new StringBuilder();
-		final String header = "Codice;Descrizione;Predefinito;\n";
-		builder.append(header);
+
+		if (add_header) {
+			if (person == null) {
+				final String header = "Codice;Descrizione;Predefinito;\n";
+				builder.append(header);
+			} else {
+				final String header = "Nome;Matricola;Codice;Descrizione;Predefinito;\n";
+				builder.append(header);
+			}
+		}
 
 		for (final UserTask itm : list) {
 
 			final String code = "" + itm.getCode();
 			final String description = "" + itm.getDescription();
-			final String default_task = "" + itm.getTask_default();
+			final String default_task = (BooleanUtils.isTrue(itm.getTask_default()) ? "SI" : "NO");
 
-			final String line = code + ";" + description + ";" + default_task + "\n";
+			String line = code + ";" + description + ";" + default_task;
+
+			if (person != null) {
+				line = person.getIndividualName() + ";" + person.getEmployee_identification() + ";" + line;
+			}
+
+			line = line + "\n";
 
 			builder.append(line);
 
@@ -668,11 +716,19 @@ public class UtilityCSV {
 	 * @param list
 	 * @return
 	 */
-	public static StringBuilder downloadCSV_user_tradeunion(final List<TradeUnion> list) {
+	public static StringBuilder downloadCSV_user_tradeunion(final Person person, final List<TradeUnion> list, final boolean add_header) {
 
 		final StringBuilder builder = new StringBuilder();
-		final String header = "Nome;Iscrizione;Cancellazione;Note;\n";
-		builder.append(header);
+
+		if (add_header) {
+			if (person == null) {
+				final String header = "Nome;Iscrizione;Cancellazione;Note;\n";
+				builder.append(header);
+			} else {
+				final String header = "Nome;Matricola;Nome;Iscrizione;Cancellazione;Note;\n";
+				builder.append(header);
+			}
+		}
 
 		for (final TradeUnion itm : list) {
 
@@ -681,7 +737,13 @@ public class UtilityCSV {
 			final String cancellazione = "" + UtilityCSV.returnItalianDate(itm.getCancellation());
 			final String note = "" + itm.getNote();
 
-			final String line = nome + ";" + iscrizione + ";" + cancellazione + ";" + note + "\n";
+			String line = nome + ";" + iscrizione + ";" + cancellazione + ";" + note;
+
+			if (person != null) {
+				line = person.getIndividualName() + ";" + person.getEmployee_identification() + ";" + line;
+			}
+
+			line = line + "\n";
 
 			builder.append(line);
 
@@ -705,8 +767,7 @@ public class UtilityCSV {
 
 		final String row_1 = "Username;" + StringUtils.defaultString(person.getUsername()) + "\n";
 		final String row_2 = "RapportoLavoro;" + StringUtils.defaultString(person.getCurrent_position()) + "\n";
-		final String row_3 = "LivelloContrattuale;"
-				+ (person.getContractual_level() == null ? "" : ("" + person.getContractual_level())) + "\n";
+		final String row_3 = "LivelloContrattuale;" + (person.getContractual_level() == null ? "" : ("" + person.getContractual_level())) + "\n";
 		final String row_4 = "DipendenteGiornaliero;" + (person.getDailyemployee() ? "VERO" : ("FALSO")) + "\n";
 		final String row_5 = "Nome;" + StringUtils.defaultString(person.getFirstname()) + "\n";
 		final String row_6 = "Cognome;" + StringUtils.defaultString(person.getLastname()) + "\n";
@@ -732,8 +793,7 @@ public class UtilityCSV {
 		final String row_26 = "StatoCivile;" + person.getMarital_status() + "\n";
 		final String row_27 = "CarichiFamiliari;" + person.getFamily_charge() + "\n";
 		final String row_28 = "TipoPatenti;" + person.getDriving_license() + "\n";
-		final String row_29 = "DataPatente;" + UtilityCSV.returnItalianDate(person.getDriving_license_emission())
-				+ "\n";
+		final String row_29 = "DataPatente;" + UtilityCSV.returnItalianDate(person.getDriving_license_emission()) + "\n";
 		final String row_30 = "GGSettimana;" + person.getDaywork_w() + "\n";
 		final String row_31 = "HHSettimana;" + person.getHourswork_w() + "\n";
 		final String row_32 = "PartTime;" + (person.getPart_time() ? "VERO" : ("FALSO")) + "\n";
@@ -814,10 +874,9 @@ public class UtilityCSV {
 	 * @param list_compensation
 	 * @return
 	 */
-	public static StringBuilder downloadCSV_UserTotal(final Person person_info, final List<Employment> list_emply,
-			final List<UserTask> list_task, final List<JobCost> list_job_cost, final List<TfrUser> list_tfr,
-			final List<MedicalExamination> list_medical, final List<TradeUnion> list_trade,
-			final List<Contestation> list_contestation, final List<UserCompensation> list_compensation,
+	public static StringBuilder downloadCSV_UserTotal(final Person person_info, final List<Employment> list_emply, final List<UserTask> list_task,
+			final List<JobCost> list_job_cost, final List<TfrUser> list_tfr, final List<MedicalExamination> list_medical,
+			final List<TradeUnion> list_trade, final List<Contestation> list_contestation, final List<UserCompensation> list_compensation,
 			final List<TrainingCertificate> list_training) {
 
 		final StringBuilder builder = new StringBuilder();
@@ -832,28 +891,28 @@ public class UtilityCSV {
 		builder.append("***CONTESTAZIONI DISCIPLINARI*** " + person_info.getIndividualName());
 		builder.append("\n");
 
-		final StringBuilder contestation = UtilityCSV.downloadCSV_user_contestazioni(list_contestation);
+		final StringBuilder contestation = UtilityCSV.downloadCSV_user_contestazioni(person_info, list_contestation, true);
 		builder.append(contestation);
 
 		builder.append("\n");
 		builder.append("***FORMAZIONE*** " + person_info.getIndividualName());
 		builder.append("\n");
 
-		final StringBuilder training = UtilityCSV.downloadCSV_user_formazione(list_training);
+		final StringBuilder training = UtilityCSV.downloadCSV_user_formazione(person_info, list_training, true);
 		builder.append(training);
 
 		builder.append("\n");
 		builder.append("***MANSIONI*** " + person_info.getIndividualName());
 		builder.append("\n");
 
-		final StringBuilder task = UtilityCSV.downloadCSV_user_task(list_task);
+		final StringBuilder task = UtilityCSV.downloadCSV_user_task(person_info, list_task, true);
 		builder.append(task);
 
 		builder.append("\n");
 		builder.append("***RAPPORTO LAVORATIVO*** " + person_info.getIndividualName());
 		builder.append("\n");
 
-		final StringBuilder employ = UtilityCSV.downloadCSV_user_raporto(list_emply);
+		final StringBuilder employ = UtilityCSV.downloadCSV_user_raportolavorativo(person_info, list_emply, true);
 		builder.append(employ);
 
 		builder.append("\n");
@@ -881,7 +940,7 @@ public class UtilityCSV {
 		builder.append("***SINDACATI*** " + person_info.getIndividualName());
 		builder.append("\n");
 
-		final StringBuilder trade = UtilityCSV.downloadCSV_user_tradeunion(list_trade);
+		final StringBuilder trade = UtilityCSV.downloadCSV_user_tradeunion(person_info, list_trade, true);
 		builder.append(trade);
 
 		builder.append("\n");
@@ -895,8 +954,7 @@ public class UtilityCSV {
 
 	}
 
-	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule,
-			final IShiftCache shift_cache) {
+	public static StringBuilder downloadCSVPreprocessing(final List<Schedule> listSchedule, final IShiftCache shift_cache) {
 		final StringBuilder builder = new StringBuilder();
 		final String header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;turno;riposo_ex;riposo_forzatura;note\n";
 		builder.append(header);
@@ -933,22 +991,18 @@ public class UtilityCSV {
 				note = "\"" + note + "\"";
 			}
 
-			final String riposo_ex = ((item.getBreak_ex() == null) || item.getBreak_ex().equals(Boolean.FALSE)) ? ""
-					: "SI";
-			final String riposo_forzatura = ((item.getBreak_force() == null)
-					|| item.getBreak_force().equals(Boolean.FALSE)) ? "" : "SI";
+			final String riposo_ex = ((item.getBreak_ex() == null) || item.getBreak_ex().equals(Boolean.FALSE)) ? "" : "SI";
+			final String riposo_forzatura = ((item.getBreak_force() == null) || item.getBreak_force().equals(Boolean.FALSE)) ? "" : "SI";
 
-			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";"
-					+ employee_identification + ";" + date + ";" + festivo + ";" + code_shift + ";" + riposo_ex + ";"
-					+ riposo_forzatura + ";" + note + "\n";
+			final String line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getName_user() + ";" + employee_identification + ";"
+					+ date + ";" + festivo + ";" + code_shift + ";" + riposo_ex + ";" + riposo_forzatura + ";" + note + "\n";
 			builder.append(line);
 		}
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram,
-			final TasksDAO taskDao, final IShiftCache shift_cache, final ISchedule scheduleDAO,
-			final Boolean administrator) {
+	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram, final TasksDAO taskDao,
+			final IShiftCache shift_cache, final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
 		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota\n";
 
@@ -1010,8 +1064,7 @@ public class UtilityCSV {
 			String code_task = "";
 			final UserTask task = taskDao.loadTask(item.getTask());
 
-			final List<DetailInitialSchedule> listDetail = scheduleDAO
-					.loadDetailInitialScheduleByIdSchedule(item.getId_schedule());
+			final List<DetailInitialSchedule> listDetail = scheduleDAO.loadDetailInitialScheduleByIdSchedule(item.getId_schedule());
 
 			if (task != null) {
 				code_task = task.getCode();
@@ -1024,8 +1077,7 @@ public class UtilityCSV {
 					for (int i = 0; i < listDetail.size(); i++) {
 						final Integer idItemTask = listDetail.get(i).getTask();
 						final UserTask itemtask = taskDao.loadTask(idItemTask);
-						if (!item.getId().equals(listDetail.get(i).getId())
-								&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+						if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 							Long t;
 
@@ -1058,13 +1110,11 @@ public class UtilityCSV {
 						for (int i = 0; i < listDetail.size(); i++) {
 							final Integer idItemTask = listDetail.get(i).getTask();
 							final UserTask itemtask = taskDao.loadTask(idItemTask);
-							if (!item.getId().equals(listDetail.get(i).getId())
-									&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+							if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 								Long t;
 
-								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from()
-										.getTime())
+								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
 
 								{
 									t = listDetail.get(i).getTime_from().getTime() - item.getTime_to().getTime();
@@ -1117,13 +1167,11 @@ public class UtilityCSV {
 				if (!task.getIsabsence()) {
 
 					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				}
 			}
 
@@ -1141,16 +1189,14 @@ public class UtilityCSV {
 			String line = "";
 
 			if (administrator) {
-				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";"
-						+ employee_identification + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info
-						+ ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to
-						+ ";" + nota + ";" + programmer + ";" + controller + ";\n";
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
+						+ holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";"
+						+ time_from + ";" + time_to + ";" + nota + ";" + programmer + ";" + controller + ";\n";
 			} else {
 
-				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";"
-						+ employee_identification + ";" + date + ";" + code_shift + ";" + shift_no_info + ";"
-						+ code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";" + time_to + ";"
-						+ nota + ";\n";
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
+						+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";"
+						+ time_to + ";" + nota + ";\n";
 
 			}
 
@@ -1159,9 +1205,8 @@ public class UtilityCSV {
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision,
-			final TasksDAO taskDao, final IShiftCache shift_cache, final IShipCache ship_cache,
-			final ISchedule scheduleDAO, final Boolean administrator) {
+	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final TasksDAO taskDao,
+			final IShiftCache shift_cache, final IShipCache ship_cache, final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder builder = new StringBuilder();
 
 		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota\n";
@@ -1251,8 +1296,7 @@ public class UtilityCSV {
 				}
 			}
 
-			final List<DetailFinalSchedule> listDetail = scheduleDAO
-					.loadDetailFinalScheduleByIdSchedule(item.getId_schedule());
+			final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(item.getId_schedule());
 
 			if (task != null) {
 				code_task = task.getCode();
@@ -1265,8 +1309,7 @@ public class UtilityCSV {
 					for (int i = 0; i < listDetail.size(); i++) {
 						final Integer idItemTask = listDetail.get(i).getTask();
 						final UserTask itemtask = taskDao.loadTask(idItemTask);
-						if (!item.getId().equals(listDetail.get(i).getId())
-								&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+						if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 							Long t;
 
@@ -1299,13 +1342,11 @@ public class UtilityCSV {
 						for (int i = 0; i < listDetail.size(); i++) {
 							final Integer idItemTask = listDetail.get(i).getTask();
 							final UserTask itemtask = taskDao.loadTask(idItemTask);
-							if (!item.getId().equals(listDetail.get(i).getId())
-									&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
+							if (!item.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 								Long t;
 
-								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from()
-										.getTime())
+								if (listDetail.get(i).getTime_to().getTime() > listDetail.get(i).getTime_from().getTime())
 
 								{
 									t = listDetail.get(i).getTime_from().getTime() - item.getTime_to().getTime();
@@ -1401,13 +1442,11 @@ public class UtilityCSV {
 				if (!task.getIsabsence()) {
 
 					time_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				} else {
 
 					time_vacation_info = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(milliseconds),
-							TimeUnit.MILLISECONDS.toMinutes(milliseconds)
-									- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
+							TimeUnit.MILLISECONDS.toMinutes(milliseconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliseconds)));
 				}
 			}
 
@@ -1452,18 +1491,16 @@ public class UtilityCSV {
 			String line = "";
 
 			if (administrator) {
-				line = "" + processo + ";" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser()
-						+ ";" + employee_identification + ";" + sign_info + ";" + date + ";" + holiday + ";"
-						+ code_shift + ";" + shift_no_info + ";" + contabilizzato + ";" + factor_shift + ";" + code_task
-						+ ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane
-						+ ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";"
-						+ continue_shif + ";" + nota + ";" + programmer + ";" + controller + ";\n";
+				line = "" + processo + ";" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification
+						+ ";" + sign_info + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info + ";" + contabilizzato + ";"
+						+ factor_shift + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane
+						+ ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + continue_shif + ";" + nota + ";"
+						+ programmer + ";" + controller + ";\n";
 			} else {
-				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";"
-						+ employee_identification + ";" + date + ";" + code_shift + ";" + shift_no_info + ";"
-						+ code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip
-						+ ";" + crane + ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";"
-						+ reviewshift + ";" + continue_shif + ";" + nota + ";\n";
+				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
+						+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
+						+ nameShip + ";" + crane + ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";"
+						+ continue_shif + ";" + nota + ";\n";
 
 			}
 
@@ -1476,10 +1513,8 @@ public class UtilityCSV {
 		final StringBuilder builder = new StringBuilder();
 
 		String header = "Settimana;Giorno;Data Turno;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Conta Rif. SWS;Gru;H LAV;N.Persone;Tot. (H x N. Persone);Volumi Netti;";
-		header = header
-				+ "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
-		header = header
-				+ "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra;Note";
+		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
+		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra;Note";
 		header = header + "\n";
 
 		builder.append(header);
@@ -1613,12 +1648,11 @@ public class UtilityCSV {
 				person_down = "" + Utility.convertToDateAndTime(item.getPerson_down());
 			}
 
-			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + customer + ";" + rif_sws
-					+ ";" + rif_mct + ";" + shift + ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime
-					+ ";" + n_person + ";" + tot + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";"
-					+ volumeTW + ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";"
-					+ rain + ";" + person_onboard + ";" + date_first_down + ";" + date_last_down + ";" + person_down
-					+ ";" + note + "\n";
+			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + customer + ";" + rif_sws + ";" + rif_mct + ";" + shift
+					+ ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + n_person + ";" + tot + ";" + volume + ";"
+					+ volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";" + sky_item + ";" + wind_item + ";"
+					+ temperature_item + ";" + rain + ";" + person_onboard + ";" + date_first_down + ";" + date_last_down + ";" + person_down + ";"
+					+ note + "\n";
 			builder.append(line);
 
 		}
@@ -1626,8 +1660,7 @@ public class UtilityCSV {
 		return builder;
 	}
 
-	public static StringBuilder downloadCSVReviewShipWorkAggregate(
-			final List<ReviewShipWorkAggregate> reviewShipWorkList) {
+	public static StringBuilder downloadCSVReviewShipWorkAggregate(final List<ReviewShipWorkAggregate> reviewShipWorkList) {
 		final StringBuilder builder = new StringBuilder();
 
 		final String header = "Nome Nave;Tempo Netto Lavorato;Volumi Netti;Produttività;Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;\n";
@@ -1671,8 +1704,8 @@ public class UtilityCSV {
 				volumeTW = item.getVolume_tw_mct().toString();
 			}
 
-			final String line = shipName + ";" + workedTime + ";" + volume + ";" + productivity + ";" + volumeOnBoard
-					+ ";" + volumeOnBoard_sws + ";" + volumeTW + ";\n";
+			final String line = shipName + ";" + workedTime + ";" + volume + ";" + productivity + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";"
+					+ volumeTW + ";\n";
 
 			builder.append(line);
 
@@ -1815,10 +1848,9 @@ public class UtilityCSV {
 				shift_perc_4_base = item.getShift_perc_4_base();
 			}
 
-			String line = "" + name + ";" + matr + ";" + type_sat + ";" + saturation + ";" + work_current + ";"
-					+ work_sunday + ";" + work_sunday_perc + ";" + work_holiday + ";" + work_holiday_perc + ";"
-					+ shift_perc_1_base + ";" + shift_perc_1 + ";" + shift_perc_2_base + ";" + shift_perc_2 + ";"
-					+ shift_perc_3_base + ";" + shift_perc_3 + ";" + shift_perc_4_base + ";" + shift_perc_4 + ";\n";
+			String line = "" + name + ";" + matr + ";" + type_sat + ";" + saturation + ";" + work_current + ";" + work_sunday + ";" + work_sunday_perc
+					+ ";" + work_holiday + ";" + work_holiday_perc + ";" + shift_perc_1_base + ";" + shift_perc_1 + ";" + shift_perc_2_base + ";"
+					+ shift_perc_2 + ";" + shift_perc_3_base + ";" + shift_perc_3 + ";" + shift_perc_4_base + ";" + shift_perc_4 + ";\n";
 
 			// replace for ITALIAN STYLE in decimal definition (VERY BUD, BUT VERY FAST)
 			line = line.replace(".", ",");

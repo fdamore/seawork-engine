@@ -172,7 +172,7 @@ public class UserDetailsComposerTrainingCertificate extends SelectorComposer<Com
 		}
 
 		final List<TrainingCertificate> list = this.trainingCertificateDAO.loadTrainingCertificate(null, null, null, this.person_selected.getId());
-		final StringBuilder builder = UtilityCSV.downloadCSV_user_formazione(list);
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_formazione(null, list, true);
 		Filedownload.save(builder.toString(), "application/text", "info_formazione.csv");
 
 	}

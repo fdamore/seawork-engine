@@ -169,7 +169,7 @@ public class UserDetailsComposerTask extends SelectorComposer<Component> {
 		}
 
 		final List<UserTask> list_mytask = this.taskDAO.loadTasksByUser(this.person_selected.getId());
-		final StringBuilder builder = UtilityCSV.downloadCSV_user_task(list_mytask);
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_task(null, list_mytask, true);
 		Filedownload.save(builder.toString(), "application/text", "info_task.csv");
 
 	}

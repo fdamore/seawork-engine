@@ -125,7 +125,7 @@ public class UserDetailsComposerTD extends SelectorComposer<Component> {
 		}
 
 		final List<TradeUnion> list = this.tradeUnionDAO.loadTradeUnionsByUser(this.person_selected.getId());
-		final StringBuilder builder = UtilityCSV.downloadCSV_user_tradeunion(list);
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_tradeunion(null, list, true);
 		Filedownload.save(builder.toString(), "application/text", "info_sindacati.csv");
 
 	}

@@ -321,7 +321,7 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		}
 
 		final List<Contestation> list = this.contestationDAO.loadUserContestation(this.person_selected.getId());
-		final StringBuilder builder = UtilityCSV.downloadCSV_user_contestazioni(list);
+		final StringBuilder builder = UtilityCSV.downloadCSV_user_contestazioni(null, list, true);
 		Filedownload.save(builder.toString(), "application/text", "info_contestazioni.csv");
 
 	}
