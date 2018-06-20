@@ -1041,21 +1041,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 		}
 
-		final File download = new File("data.zip");
-
-		final File task_file = new File("mansioni.csv");
-		final File emplyment_file = new File("livelli_contratuali.csv");
-		final File tradeunion_file = new File("sindacati.csv");
-		final File contestazioni_file = new File("contestazioni.csv");
-		final File formazione_file = new File("formazione.csv");
-
-		final Collection<File> filesToArchive = new ArrayList<>();
-		filesToArchive.add(task_file);
-		filesToArchive.add(emplyment_file);
-		filesToArchive.add(tradeunion_file);
-		filesToArchive.add(contestazioni_file);
-		filesToArchive.add(formazione_file);
-
 		FileOutputStream f_task = null;
 		FileOutputStream f_emply = null;
 		FileOutputStream f_trade = null;
@@ -1063,6 +1048,22 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 		FileOutputStream f_formazione = null;
 
 		try {
+
+			final File download = Files.createTempFile("data", "").toFile();
+
+			final File task_file = Files.createTempFile("mansioni", ".csv").toFile();
+			final File emplyment_file = Files.createTempFile("livelli_contratuali", ".csv").toFile();
+			final File tradeunion_file = Files.createTempFile("sindacati", ".csv").toFile();
+			final File contestazioni_file = Files.createTempFile("contestazioni", ".csv").toFile();
+			final File formazione_file = Files.createTempFile("formazione", ".csv").toFile();
+
+			final Collection<File> filesToArchive = new ArrayList<>();
+			filesToArchive.add(task_file);
+			filesToArchive.add(emplyment_file);
+			filesToArchive.add(tradeunion_file);
+			filesToArchive.add(contestazioni_file);
+			filesToArchive.add(formazione_file);
+
 			f_task = new FileOutputStream(task_file);
 			f_emply = new FileOutputStream(emplyment_file);
 			f_trade = new FileOutputStream(tradeunion_file);
@@ -1074,6 +1075,8 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 			org.apache.commons.io.IOUtils.write(trade.toString(), f_trade, "UTF-8");
 			org.apache.commons.io.IOUtils.write(contestazioni.toString(), f_contestazioni, "UTF-8");
 			org.apache.commons.io.IOUtils.write(formazione.toString(), f_formazione, "UTF-8");
+
+			Filedownload.save(download, "application/zip");
 
 			try (final ArchiveOutputStream o = new ZipArchiveOutputStream(download)) {
 				for (final File f : filesToArchive) {
@@ -1136,12 +1139,6 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 				}
 			}
 
-		}
-
-		try {
-			Filedownload.save(download, "application/zip");
-		} catch (final FileNotFoundException e) {
-			this.logger.error("Error in create data archive. " + e.getMessage());
 		}
 
 	}
