@@ -537,10 +537,10 @@ public class UtilityCSV {
 
 		if (add_header) {
 			if (person == null) {
-				final String header = "Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Note\n";
+				final String header = "Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Tipo;Note\n";
 				builder.append(header);
 			} else {
-				final String header = "Nome;Matricola;Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Note\n";
+				final String header = "Nome;Matricola;Titolo;Descrizione;InternaEsterna;EnteFormatore;Mansione;Livello;DataConseguimento;DataScadenza;Tutor;Inizio Corso; Fine Corso; HTOT;Tipo;Note\n";
 				builder.append(header);
 			}
 		}
@@ -559,11 +559,13 @@ public class UtilityCSV {
 			final String inizio_corso = UtilityCSV.returnTimeFormat(itm.getStart_class());
 			final String fine_corso = UtilityCSV.returnTimeFormat(itm.getEnd_class());
 			final String htot = (itm.getDuration() == null) ? "" : itm.getDuration().toString();
+			final String typ_info = (itm.getTyp() == null) ? "" : itm.getTyp();
 
 			final String note = "" + itm.getNote();
 
 			String line = titolo + ";" + descrizione + ";" + interna_esterna + ";" + ente_formatore + ";" + mansione + ";" + livello + ";"
-					+ data_conseguimento + ";" + data_scadenza + ";" + tutor + ";" + inizio_corso + ";" + fine_corso + ";" + htot + ";" + note;
+					+ data_conseguimento + ";" + data_scadenza + ";" + tutor + ";" + inizio_corso + ";" + fine_corso + ";" + htot + ";" + typ_info
+					+ ";" + note;
 
 			line = line.replace("\n", " ");
 			if (person != null) {

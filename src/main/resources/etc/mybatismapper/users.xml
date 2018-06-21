@@ -34,6 +34,34 @@ SELECT
     contractual_level,
     current_position,
     (SELECT 
+            e.date_modified
+        FROM
+            employment e
+        WHERE
+            e.id_user = u.id
+                AND (e.date_end IS NULL
+                OR e.date_end = (SELECT 
+                    MAX(e1.date_end)
+                FROM
+                    employment e1
+                WHERE
+                    e1.id_user = e.id_user))
+        LIMIT 1) status_from,
+    (SELECT 
+            e.date_end
+        FROM
+            employment e
+        WHERE
+            e.id_user = u.id
+                AND (e.date_end IS NULL
+                OR e.date_end = (SELECT 
+                    MAX(e1.date_end)
+                FROM
+                    employment e1
+                WHERE
+                    e1.id_user = e.id_user))
+        LIMIT 1) status_to,
+    (SELECT 
             b.description
         FROM
             job_cost j,
@@ -63,7 +91,7 @@ SELECT
                 WHERE
                     j1.id_user = u.id))
         LIMIT 1) job_awards,
-       (SELECT 
+    (SELECT 
             j.date_from
         FROM
             job_cost j,

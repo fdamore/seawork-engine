@@ -1021,7 +1021,7 @@ public class UserDetailsComposer extends SelectorComposer<Component> {
 
 			final List<TradeUnion> list_trade = trade_union_dao.loadTradeUnionsByUser(id_user);
 			final List<Contestation> list_contestation = contestation_dao.loadUserContestation(id_user);
-			final List<TrainingCertificate> list_training = training_dao.loadTrainingCertificate(id_user, null, null, null);
+			final List<TrainingCertificate> list_training = training_dao.loadTrainingCertificate(null, null, null, id_user);
 
 			// download total
 			final StringBuilder builder = UtilityCSV.downloadCSV_user_task(person, list_task, add_header);
