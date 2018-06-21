@@ -2663,7 +2663,7 @@
 
 			<separator></separator>
 
-			<listbox id="list_monitor"
+			<listbox id="list_monitor" checkmark="true"
 				style="border: 1px solid #CCCCCC;" multiple="false">
 				<listhead sizable="true">
 					<listheader label="Turno" sort="auto(shift_no)" />
@@ -2671,10 +2671,9 @@
 					<listheader label="Nave" sort="auto(name)" />
 
 					<listheader label="CR(GRU)" />
-
-					<listheader label="A bordo" />
-					<listheader label="Sotto Bordo" />
-					<listheader label="Note" />
+					<listheader label="Posizione Uomini" />
+					<listheader label="Conteggio" />
+					
 				</listhead>
 
 				<listitem sclass="myBottonCell" self="@{each='item'}"
@@ -2692,14 +2691,11 @@
 
 
 					<listcell sclass="myBottonCell"
-						label="@{item.on_board}" />
+						label="@{item.board}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{item.out_board}" />
-					<listcell sclass="myBottonCell"
-						label="@{item.note}" />
-
-
+						label="@{item.count}" />
+					
 
 				</listitem>
 

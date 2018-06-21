@@ -15,21 +15,25 @@ public class MonitorData implements Serializable {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	private String				board;
+
+	private Integer				count;
+
 	private String				crane;
 
 	private Integer				id_ship;
 
 	private String				name;
 
-	private String				note;
-
-	private Integer				on_board;
-
-	private Integer				out_board;
-
 	private Integer				shift_no;
 
-	private Boolean				worked;
+	public String getBoard() {
+		return this.board;
+	}
+
+	public Integer getCount() {
+		return this.count;
+	}
 
 	public String getCrane() {
 		return this.crane;
@@ -43,24 +47,16 @@ public class MonitorData implements Serializable {
 		return this.name;
 	}
 
-	public String getNote() {
-		return this.note;
-	}
-
-	public Integer getOn_board() {
-		return this.on_board;
-	}
-
-	public Integer getOut_board() {
-		return this.out_board;
-	}
-
 	public Integer getShift_no() {
 		return this.shift_no;
 	}
 
-	public Boolean getWorked() {
-		return this.worked;
+	public void setBoard(final String board) {
+		this.board = board;
+	}
+
+	public void setCount(final Integer count) {
+		this.count = count;
 	}
 
 	public void setCrane(final String crane) {
@@ -75,24 +71,8 @@ public class MonitorData implements Serializable {
 		this.name = name;
 	}
 
-	public void setNote(final String note) {
-		this.note = note;
-	}
-
-	public void setOn_board(final Integer on_board) {
-		this.on_board = on_board;
-	}
-
-	public void setOut_board(final Integer out_board) {
-		this.out_board = out_board;
-	}
-
 	public void setShift_no(final Integer shift_no) {
 		this.shift_no = shift_no;
-	}
-
-	public void setWorked(final Boolean worked) {
-		this.worked = worked;
 	}
 
 	@Override

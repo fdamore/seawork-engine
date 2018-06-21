@@ -180,7 +180,7 @@ public class UtilityCSV {
 
 		final StringBuilder builder = new StringBuilder();
 
-		final String header = "Turno;Nave;CR(GRU);A Bordo;Sotto Bordo;Note;\n";
+		final String header = "Turno;Nave;CR(GRU);Posizione;Conteggio;\n";
 		builder.append(header);
 
 		for (final MonitorData mnt : list) {
@@ -188,11 +188,10 @@ public class UtilityCSV {
 			final String turno = ObjectUtils.defaultIfNull(mnt.getShift_no(), "").toString();
 			final String nave = ObjectUtils.defaultIfNull(mnt.getName(), "").toString();
 			final String crane = "\"" + ObjectUtils.defaultIfNull(mnt.getCrane(), "").toString() + "\"";
-			final String abordo = ObjectUtils.defaultIfNull(mnt.getOn_board(), "").toString();
-			final String outboard = ObjectUtils.defaultIfNull(mnt.getOut_board(), "").toString();
-			final String note = ObjectUtils.defaultIfNull(mnt.getNote(), "").toString();
+			final String abordo = ObjectUtils.defaultIfNull(mnt.getBoard(), "").toString();
+			final String outboard = ObjectUtils.defaultIfNull(mnt.getCount(), "").toString();
 
-			final String itm = turno + ";" + nave + ";" + crane + ";" + abordo + ";" + outboard + ";" + note + ";" + "\n";
+			final String itm = turno + ";" + nave + ";" + crane + ";" + abordo + ";" + outboard + "\n";
 			builder.append(itm);
 
 		}

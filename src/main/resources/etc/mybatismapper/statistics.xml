@@ -322,50 +322,29 @@ WHERE
 		parameterType="map">
 		
 <![CDATA[
-SELECT 
+
+SELECT     
     d.id_ship,
-    d.shift AS shift_no,
-    s.name,
-    sc.note,
-    COUNT(d.board) AS out_board,
-    (SELECT 
-            COUNT(d1.board)
-        FROM
-            detailfinalschedule d1
-        WHERE
-            DATE(d1.time_from) >= #{date_from}
-                AND DATE(d1.time_to) <= #{date_to}
-                AND d1.board IS NOT NULL
-                AND d1.shift = d.shift
-                AND d1.id_ship = d.id_ship
-                AND d1.board = 'A BORDO') AS on_board,
-    d.crane
+    sh.name,
+    d.shift as shift_no,
+    d.board,
+    d.crane,
+    COUNT(d.board) as count
 FROM
-    detailfinalschedule d, schedule sc,
-    ship s
-WHERE 
-		d.id_schedule = sc.id
-		AND d.id_ship = s.id 
-		AND d.board IS NOT NULL
-        AND d.id_ship IS NOT NULL
-        AND d.board = 'SOTTO BORDO'
-        AND DATE(d.time_from) >= #{date_from}
-        AND DATE(d.time_to) <= #{date_to}
-GROUP BY d.id_ship , d.shift
-ORDER BY shift_no
+    detailfinalschedule d,
+    schedule s,
+    ship sh
+WHERE
+    (1 = 1) AND d.id_ship = sh.id
+        AND s.id = d.id_schedule
+        AND d.board IS NOT NULL
+        AND s.date_schedule = #{date}
+GROUP BY d.id_ship , d.shift , d.board , d.crane
+ORDER BY d.shift
+
 ]]>
 
 	</select>
-
-
-
-
-
-
-
-
-
-
 
 
 
