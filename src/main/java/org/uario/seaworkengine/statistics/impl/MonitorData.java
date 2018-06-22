@@ -17,8 +17,6 @@ public class MonitorData implements Serializable {
 
 	private String				board;
 
-	private Integer				count;
-
 	private String				crane;
 
 	private Integer				id_ship;
@@ -29,10 +27,6 @@ public class MonitorData implements Serializable {
 
 	public String getBoard() {
 		return this.board;
-	}
-
-	public Integer getCount() {
-		return this.count;
 	}
 
 	public String getCrane() {
@@ -53,10 +47,6 @@ public class MonitorData implements Serializable {
 
 	public void setBoard(final String board) {
 		this.board = board;
-	}
-
-	public void setCount(final Integer count) {
-		this.count = count;
 	}
 
 	public void setCrane(final String crane) {

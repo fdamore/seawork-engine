@@ -2667,12 +2667,11 @@
 				style="border: 1px solid #CCCCCC;" multiple="false">
 				<listhead sizable="true">
 					<listheader label="Turno" sort="auto(shift_no)" />
-
 					<listheader label="Nave" sort="auto(name)" />
-
 					<listheader label="CR(GRU)" />
-					<listheader label="Posizione Uomini" />
-					<listheader label="Conteggio" />
+					<listheader label="A bordo" />
+					<listheader label="Sotto bordo" />
+					<listheader label="Totale" />
 					
 				</listhead>
 
@@ -2691,10 +2690,12 @@
 
 
 					<listcell sclass="myBottonCell"
-						label="@{item.board}" />
+						label="@{item.on_board}" />
 
 					<listcell sclass="myBottonCell"
-						label="@{item.count}" />
+						label="@{item.out_board}" />
+						<listcell sclass="myBottonCell"
+						label="@{item.total}" />
 					
 
 				</listitem>
