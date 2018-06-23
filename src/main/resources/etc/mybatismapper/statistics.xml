@@ -344,6 +344,79 @@ ORDER BY d.shift
 
 	</select>
 
+	<select id="monitorDetail"
+		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"
+		parameterType="map">
+<![CDATA[	
+SELECT 
+    CONCAT(u.lastname, ' ', u.firstname) AS user,
+    u.employee_identification AS employee_identification,
+    dfs.id,
+    s.id AS id_schedule,
+    dfs.shift,
+    dfs.id_ship,
+    dfs.crane AS crane,
+    s.shift AS shift_type,
+    dfs.task,
+    dfs.time,
+    dfs.time_vacation,
+    dfs.time_from,
+    dfs.time_to,
+    dfs.board,
+    dfs.reviewshift,
+    dfs.rif_sws,
+    s.date_schedule,
+    s.note,
+    u.id AS id_user,
+    u.daywork_w,
+    u.hourswork_w,
+    (SELECT 
+            CONCAT(temp_1.lastname, ' ', temp_1.firstname)
+        FROM
+            user temp_1
+        WHERE
+            temp_1.id = s.editor) AS editor,
+    (SELECT 
+            CONCAT(temp_1.lastname, ' ', temp_1.firstname)
+        FROM
+            user temp_1
+        WHERE
+            temp_1.id = s.controller) AS controller,
+    (SELECT 
+            t.code
+        FROM
+            user_usertask uut,
+            usertask t
+        WHERE
+            uut.id_usertask = t.id
+                AND uut.id_user = u.id
+                AND uut.task_default = 1) AS defaultTask,
+    dfs.continueshift
+FROM
+    detailfinalschedule dfs,
+    schedule s,
+    user u
+WHERE
+    dfs.id_schedule = s.id AND u.id = s.user
+]]>
+
+		<if test="date_schedule != null">
+			and (s.date_schedule = #{date_schedule})
+		</if>
+
+		<if test="shift_number != null">
+			and (dfs.shift = #{shift_number})
+		</if>
+
+		<if test="idShip != null">
+			and (dfs.id_ship = #{idShip})
+		</if>
+
+<![CDATA[
+ORDER BY dfs.shift ASC
+]]>
+	</select>
+
 
 
 
@@ -500,6 +573,9 @@ WHERE
 		order by u.lastname, s.date_schedule, dfs.shift asc
 
 	</select>
+
+
+
 
 	<select id="overviewFinalSchedule"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"

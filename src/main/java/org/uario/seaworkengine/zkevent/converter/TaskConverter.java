@@ -1,7 +1,7 @@
 package org.uario.seaworkengine.zkevent.converter;
 
 import org.uario.seaworkengine.model.UserTask;
-import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
+import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
@@ -22,11 +22,11 @@ public class TaskConverter implements TypeConverter {
 			return arg0;
 		}
 
-		final ITaskCache taskCache = (ITaskCache) SpringUtil.getBean(BeansTag.TASK_CACHE);
+		final TasksDAO dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 
 		final Integer id_task = (Integer) arg0;
 
-		final UserTask task = taskCache.getUserTask(id_task);
+		final UserTask task = dao.loadTask(id_task);
 
 		if (task == null) {
 			return "";

@@ -2653,6 +2653,9 @@
 			<button class="btn-info" label="Aggiorna Dati"
 				id="update_monitor" />
 
+			<button class="btn-info" label="Mostra Dettagli"
+				id="showMonitorDetail" />
+
 			<datebox id="monitor_date"
 				onCreate="self.value = new Date()">
 			</datebox>
@@ -2663,7 +2666,7 @@
 
 			<separator></separator>
 
-			<listbox id="list_monitor" checkmark="true"
+			<listbox id="list_monitor" checkmark="true" 
 				style="border: 1px solid #CCCCCC;" multiple="false">
 				<listhead sizable="true">
 					<listheader label="Turno" sort="auto(shift_no)" />
@@ -2701,6 +2704,68 @@
 				</listitem>
 
 			</listbox>
+			
+			<div id="monitor_detail" visible="false">
+			
+			<listbox id="list_monitor_detail" checkmark="false" 
+				style="border: 1px solid #CCCCCC;" multiple="false">
+				<listhead sizable="true">
+					
+					<listheader label="Operatore" />
+					<listheader label="CR(GRU)" />
+					<listheader label="Posizione" />
+					<listheader label="Mansione"></listheader>
+					<listheader label="Da"></listheader>
+					<listheader label="A"></listheader>					
+				
+					<listheader label="Controllore"></listheader>
+					<listheader label="Rif. SWS"></listheader>
+					
+					
+				</listhead>
+
+				<listitem sclass="myBottonCell" self="@{each='item'}"
+					value="@{item}">
+
+
+
+					<listcell sclass="myBottonCell"
+						label="@{item.user}" />
+
+
+					<listcell sclass="myBottonCell"
+						label="@{item.crane}" />
+
+
+
+					<listcell sclass="myBottonCell"
+						label="@{item.board}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.task, converter='org.uario.seaworkengine.zkevent.converter.TaskConverter'}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.time_from}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.time_to}" />
+
+					
+
+					<listcell sclass="myBottonCell"
+						label="@{item.controller}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.rif_sws}" />
+
+
+
+
+				</listitem>
+
+			</listbox>
+
+			</div>
 
 		</div>
 
