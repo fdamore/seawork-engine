@@ -2720,6 +2720,7 @@
 				
 					<listheader label="Controllore"></listheader>
 					<listheader label="Rif. SWS"></listheader>
+					<listheader label="Note"></listheader>
 					
 					
 				</listhead>
@@ -2750,13 +2751,14 @@
 					<listcell sclass="myBottonCell"
 						label="@{item.time_to}" />
 
-					
-
 					<listcell sclass="myBottonCell"
 						label="@{item.controller}" />
 
 					<listcell sclass="myBottonCell"
 						label="@{item.rif_sws}" />
+
+					<listcell sclass="myBottonCell"
+						label="@{item.note}" />
 
 
 
