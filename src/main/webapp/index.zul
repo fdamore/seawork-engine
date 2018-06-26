@@ -7,7 +7,8 @@
 <zk>
 
 	<!-- Load Bootstrap  -->
-	<?link href="/bs/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"?>
+	<?link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"?>
+
 
 	<!-- Google Open Sans font -->
 	<!-- Load fonts from local -->
@@ -17,7 +18,7 @@
 		<?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'?>
 	-->
 
-	<?link href="/bs/less/index.css.dsp" rel="stylesheet" type="text/css"?>
+
 
 	<style>
 		body { padding: 0 0; background-color: #EBEBEB; /* 0 padding on
@@ -27,75 +28,70 @@
 
 
 
-
-
 	<window draggable="false" mode="overlapped" position="center,center"
-		visible="true" border="none" width="600px">
+		xmlns:n="native" class="container" visible="true" border="none">
+
+
 
 		<vbox align="center">
 
-			<separator></separator>
-
-
-
-
 
 			<hbox align="center">
+				<n:h1>
+					<label class="form-control label label-primary"
+						value="Sea Work Engine">
+					</label>
 
-				<label value="Sea Work Engine" style="font-size:2em;">
-				</label>
-
-
-
-
+				</n:h1>
 
 			</hbox>
 
-			<a href="http://www.seaworkservice.it/"
-				label="Ritorna al portale Sea Work Service">
-			</a>
-
-			<separator height="30px" />
+			<n:a href="http://www.seaworkservice.it/">
+				Ritorna al portale Sea Work Service
+			</n:a>
 
 
 			<html:form id="f" name="f" action="j_spring_security_check"
 				method="POST" xmlns:html="native">
+
+
 				<grid style="border:none">
 					<rows>
 						<row>
-							<label value="User: "></label>
+							<n:h1>User:</n:h1>
 							<textbox id="u" name="j_username"
-								width="90%" />
+								sclass="form-control" />
 						</row>
 						<row>
-							<label value="Password: "></label>
-							<textbox id="p" type="password" width="90%"
-								name="j_password" />
+							<n:h1>Password:</n:h1>
+							<textbox id="p" type="password"
+								sclass="form-control" name="j_password" />
 						</row>
 						<row>
-							<hbox>
-								<button type="reset" sclass="btn-info"
-									label="Reset" />
-								<button type="submit" sclass="btn-info"
-									label="Accedi" />
-							</hbox>
+							<button type="reset"
+								sclass="btn btn-warning form-control" label="Reset" />
+							<button type="submit"
+								sclass="btn btn-info form-control" label="Accedi" />
 						</row>
 					</rows>
 				</grid>
+
+
 			</html:form>
 
-			<separator></separator>
+
 
 			<hbox align="center">
-				<label value="Powerd by " style="font-size:10px"></label>
-				<toolbarbutton label="Uario"
-					style="font-size:10px;color:blue" href="http://www.uario.com">
-				</toolbarbutton>
+				<n:h3>
+					Powered by:
+					<n:a href="http://www.uario.com">Uario</n:a>
+				</n:h3>
 			</hbox>
 
-			<separator />
+
 		</vbox>
 	</window>
+
 </zk>
 
 
