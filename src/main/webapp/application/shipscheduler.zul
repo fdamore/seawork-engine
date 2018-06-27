@@ -2656,6 +2656,9 @@
 			<button class="btn-info" label="Mostra Dettagli Turno"
 				id="showMonitorDetail" />
 
+			<button class="btn-info" label="Mostra Dettagli Navi"
+				id="showMonitorShipDetail" />
+
 			<datebox id="monitor_date"
 				onCreate="self.value = new Date()">
 			</datebox>
@@ -2666,7 +2669,7 @@
 
 			<separator></separator>
 
-			<listbox id="list_monitor" checkmark="true" 
+			<listbox id="list_monitor" checkmark="true"
 				style="border: 1px solid #CCCCCC;" multiple="false">
 				<listhead sizable="true">
 					<listheader label="Turno" sort="auto(shift_no)" />
@@ -2675,7 +2678,7 @@
 					<listheader label="A bordo" />
 					<listheader label="Sotto bordo" />
 					<listheader label="Totale" />
-					
+
 				</listhead>
 
 				<listitem sclass="myBottonCell" self="@{each='item'}"
@@ -2697,75 +2700,132 @@
 
 					<listcell sclass="myBottonCell"
 						label="@{item.out_board}" />
-						<listcell sclass="myBottonCell"
+					<listcell sclass="myBottonCell"
 						label="@{item.total}" />
-					
+
 
 				</listitem>
 
+
+
 			</listbox>
-			
+
 			<div id="monitor_detail" visible="false">
+
+				<listbox id="list_monitor_detail" checkmark="true"
+					style="border: 1px solid #CCCCCC;" multiple="false">
+					<listhead sizable="true">
+
+						<listheader label="Risorsa" hflex="2" />
+						<listheader label="CR(GRU)" hflex="2" />
+						<listheader label="Posizione" hflex="2" />
+						<listheader label="Mansione" hflex="1"></listheader>
+						<listheader label="Da" hflex="2"></listheader>
+						<listheader label="A" hflex="2"></listheader>
+
+						<listheader label="Controllore" hflex="2"></listheader>
+						<listheader label="Rif. SWS" hflex="1"></listheader>
+						<listheader label="Note Turni" hflex="2"></listheader>
+
+
+					</listhead>
+
+					<listitem sclass="myBottonCell"
+						self="@{each='item'}" value="@{item}">
+
+
+
+						<listcell sclass="myBottonCell"
+							label="@{item.user}" />
+
+
+						<listcell sclass="myBottonCell"
+							label="@{item.crane}" />
+
+
+
+						<listcell sclass="myBottonCell"
+							label="@{item.board}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.task, converter='org.uario.seaworkengine.zkevent.converter.TaskCodeConverter'}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.time_from}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.time_to}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.controller}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.rif_sws}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.note}" />
+
+
+
+
+					</listitem>
+
+				</listbox>
+
+			</div>
 			
-			<listbox id="list_monitor_detail" checkmark="false" 
-				style="border: 1px solid #CCCCCC;" multiple="false">
-				<listhead sizable="true">
+			<div id="monitor_detail_ship" visible="false">
+
+				<listbox id="list_monitor_detail_ship" checkmark="false"
+					style="border: 1px solid #CCCCCC;" multiple="false">
+					<listhead sizable="true">
 					
-					<listheader label="Operatore" hflex="2" />
-					<listheader label="CR(GRU)" hflex="2"/>
-					<listheader label="Posizione" hflex="2"/>
-					<listheader label="Mansione" hflex="1"></listheader>
-					<listheader label="Da" hflex="2"></listheader>
-					<listheader label="A" hflex="2"></listheader>					
-				
-					<listheader label="Controllore" hflex="2"></listheader>
-					<listheader label="Rif. SWS" hflex="1"></listheader>
-					<listheader label="Note Turni" hflex="2"></listheader>
-					
-					
-				</listhead>
-
-				<listitem sclass="myBottonCell" self="@{each='item'}"
-					value="@{item}">
+						<listheader label="Persone a Bordo" hflex="2" />
+						<listheader label="Persone a Terra" hflex="2" />
+						<listheader label="Operazione" hflex="2" />
+						<listheader label="Primo Operatore" hflex="2" />
+						<listheader label="Secondo Operatore" hflex="2" />
+						<listheader label="Posizione lavorata"
+							hflex="1" />
+						<listheader label="Note di Dettaglio Nave"
+							hflex="2" />
 
 
 
-					<listcell sclass="myBottonCell"
-						label="@{item.user}" />
+					</listhead>
+
+					<listitem sclass="myBottonCell"
+						self="@{each='item'}" value="@{item}">
+						
+
+						<listcell sclass="myBottonCell"
+							label="@{item.person_onboard}" />
 
 
-					<listcell sclass="myBottonCell"
-						label="@{item.crane}" />
+						<listcell sclass="myBottonCell"
+							label="@{item.person_down}" />
 
+						<listcell sclass="myBottonCell"
+							label="@{item.operation}" />
 
+						<listcell sclass="myBottonCell"
+							label="@{item.firstOperativeName}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item.board}" />
+						<listcell sclass="myBottonCell"
+							label="@{item.secondOperativeName}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item.task, converter='org.uario.seaworkengine.zkevent.converter.TaskCodeConverter'}" />
+						<listcell sclass="myBottonCell"
+							label="@{item.worked, converter='org.uario.seaworkengine.zkevent.converter.BooleanConverter'}" />
 
-					<listcell sclass="myBottonCell"
-						label="@{item.time_from}" />
-
-					<listcell sclass="myBottonCell"
-						label="@{item.time_to}" />
-
-					<listcell sclass="myBottonCell"
-						label="@{item.controller}" />
-
-					<listcell sclass="myBottonCell"
-						label="@{item.rif_sws}" />
-
-					<listcell sclass="myBottonCell"
-						label="@{item.note}" />
+						<listcell sclass="myBottonCell"
+							label="@{item.notedetail}" />
 
 
 
 
-				</listitem>
+					</listitem>
 
-			</listbox>
+				</listbox>
 
 			</div>
 

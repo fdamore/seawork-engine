@@ -342,7 +342,7 @@ ORDER BY d.shift
 
 ]]>
 
-	</select>
+	</select>	
 
 	<select id="monitorDetail"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule"

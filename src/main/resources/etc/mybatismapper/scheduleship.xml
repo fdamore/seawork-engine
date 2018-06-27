@@ -17,15 +17,18 @@
 
 	<!-- END MEN WORK MAP -->
 
-	<insert id="createScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip">
+	<insert id="createScheduleShip"
+		parameterType="org.uario.seaworkengine.model.ScheduleShip">
 		INSERT INTO
-		scheduleship (idship,idship_activity, volume, note, arrivaldate,
+		scheduleship (idship,idship_activity, volume,
+		note, arrivaldate,
 		departuredate,
 		rif_mct, customer_id, id_service)
 		VALUES
 		(#{idship},#{idship_activity}, #{volume}, #{note},
 		#{arrivaldate},
-		#{departuredate}, #{rif_mct}, #{customer_id}, #{id_service});
+		#{departuredate}, #{rif_mct}, #{customer_id},
+		#{id_service});
 	</insert>
 
 	<delete id="deleteScheduleShip" parameterType="Integer">
@@ -37,24 +40,37 @@
 
 	<select id="loadScheduleShip" parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity,
-		s.id_service,
-		(SELECT sr.name FROM service sr where s.id_service=sr.id)
-		as serviceName
-		FROM
-		scheduleship s,
-		ship sh
-		where
-		s.idship =
-		sh.id and
-		s.id =
-		#{id_scheduleShip};
+		<![CDATA[
+SELECT 
+    s.id,
+    s.idship,
+    s.volume,
+    s.note,
+    s.arrivaldate,
+    s.departuredate,
+    s.rif_mct,
+    sh.name,
+    s.customer_id,
+    s.idship_activity,
+    s.id_service,
+    (SELECT 
+            sr.name
+        FROM
+            service sr
+        WHERE
+            s.id_service = sr.id) AS serviceName
+FROM
+    scheduleship s,
+    ship sh
+WHERE
+    s.idship = sh.id AND s.id = #{id_scheduleShip}		
+		]]>
 	</select>
 
 
 
-	<select id="searchScheduleShip" resultType="org.uario.seaworkengine.model.ScheduleShip">
+	<select id="searchScheduleShip"
+		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id,
 		s.idship, s.volume, s.note, s.arrivaldate,
 		s.departuredate,
@@ -115,20 +131,20 @@
 		<if test="shipCondition!=null">
 			and sh.shipcondition like CONCAT('%',#{shipCondition},'%')
 		</if>
-		
-		
-		<if test="mct != null">	
+
+
+		<if test="mct != null">
 
 			<if test="mct == 'RIF_MCT_EMPTY'">
 				and (s.rif_mct is null || length(s.rif_mct) = 0)
 			</if>
 
 			<if test="mct != 'RIF_MCT_EMPTY'">
-				and s.rif_mct = #{mct} 
+				and s.rif_mct = #{mct}
 			</if>
 		</if>
 
-		
+
 
 		<if test="idCustomer!=null">
 			and #{idCustomer} = c.id
@@ -150,7 +166,8 @@
 
 
 	<select id="selectAllScheduleShipFulltextSearchLike"
-		parameterType="String" resultType="org.uario.seaworkengine.model.ScheduleShip">
+		parameterType="String"
+		resultType="org.uario.seaworkengine.model.ScheduleShip">
 		SELECT s.id, s.idship, s.volume, s.note, s.arrivaldate,
 		s.departuredate, s.rif_mct, sh.name, s.customer_id, s.idship_activity,
 		s.id_service, (SELECT sr.name FROM service sr where
@@ -169,12 +186,14 @@
 	</select>
 
 
-	<update id="updateScheduleShip" parameterType="org.uario.seaworkengine.model.ScheduleShip">
+	<update id="updateScheduleShip"
+		parameterType="org.uario.seaworkengine.model.ScheduleShip">
 		UPDATE
 		scheduleship
 		SET
 		idship = #{idship},
-		volume = #{volume},
+		volume =
+		#{volume},
 		note = #{note},
 		arrivaldate =
 		#{arrivaldate},
@@ -186,7 +205,8 @@
 		idship_activity =
 		#{idship_activity},
 		id_service = #{id_service}
-		WHERE id = #{id};
+		WHERE id
+		= #{id};
 	</update>
 
 	<update id="updateRifMCT" parameterType="map">
@@ -197,14 +217,19 @@
 		WHERE id = #{id};
 	</update>
 
-	<insert id="createDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
+	<insert id="createDetailScheduleShip"
+		parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		INSERT INTO
 		detailscheduleship
-		(idscheduleship, shift, operation, iduser,
-		idseconduser, handswork, menwork, handswork_program, menwork_program,
+		(idscheduleship, shift,
+		operation, iduser,
+		idseconduser, handswork, menwork, handswork_program,
+		menwork_program,
 		shiftdate, notedetail,
-		activity_start, activity_end, rain, wind, sky,
-		temperature, first_down, last_down, worked,person_down,
+		activity_start, activity_end,
+		rain, wind, sky,
+		temperature, first_down, last_down,
+		worked,person_down,
 		person_onboard,windyday)
 		VALUES
 		(#{idscheduleship},
@@ -241,7 +266,8 @@
 
 
 	<select id="searchDetailScheduleShipByPeriodOrDateshift"
-		parameterType="map" resultType="org.uario.seaworkengine.model.DetailScheduleShip">
+		parameterType="map"
+		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 <![CDATA[
 SELECT 
     d.shift,
@@ -305,8 +331,8 @@ WHERE
 
 		<if test="shipType!=null">
 			and s.shiptype like CONCAT('%',#{shipType},'%')
-		</if>		
-		
+		</if>
+
 		<if test="operation_type!=null">
 			and d.operation like CONCAT('%',#{operation_type},'%')
 		</if>
@@ -343,13 +369,15 @@ WHERE
 
 		<if test="datefrom !=null and dateto !=null and dateshift == null">
 
-			<if test="period_on_dateshift != null and period_on_dateshift == true">			
+			<if
+				test="period_on_dateshift != null and period_on_dateshift == true">			
 			<![CDATA[ 
 		AND (d.shiftdate <= #{dateto} and d.shiftdate >= #{datefrom}) 			
 			]]>
 			</if>
 
-			<if test="period_on_dateshift == null or period_on_dateshift == false">			
+			<if
+				test="period_on_dateshift == null or period_on_dateshift == false">			
 			<![CDATA[ 
 		AND (ss.arrivaldate <= #{dateto} and ss.departuredate >= #{datefrom}) 			
 			]]>
@@ -360,27 +388,32 @@ WHERE
 
 		<if test="datefrom !=null and dateto == null and dateshift == null">
 
-			<if test="period_on_dateshift != null and period_on_dateshift == true">			
+			<if
+				test="period_on_dateshift != null and period_on_dateshift == true">			
 			<![CDATA[ 
 		and (d.shiftdate = #{datefrom}) 			
 			]]>
 			</if>
 
-			<if test="period_on_dateshift == null or period_on_dateshift == false">			
+			<if
+				test="period_on_dateshift == null or period_on_dateshift == false">			
 			<![CDATA[ and ss.arrivaldate = #{datefrom} ]]>
 			</if>
 
 		</if>
 
-		<if test="datefrom == null and dateto != null and dateshift == null">
+		<if
+			test="datefrom == null and dateto != null and dateshift == null">
 
-			<if test="period_on_dateshift != null and period_on_dateshift == true">			
+			<if
+				test="period_on_dateshift != null and period_on_dateshift == true">			
 			<![CDATA[ 
 		and (d.shiftdate = #{dateto}) 			
 			]]>
 			</if>
 
-			<if test="period_on_dateshift == null or period_on_dateshift == false">
+			<if
+				test="period_on_dateshift == null or period_on_dateshift == false">
 			<![CDATA[ and ss.departuredate = #{dateto} ]]>
 			</if>
 		</if>
@@ -400,7 +433,7 @@ WHERE
 		<if test="worked != null">
 			and #{worked}=d.worked
 		</if>
-		
+
 		<if test="no_invoice != null and no_invoice == true">
 		<![CDATA[
 		AND d.id NOT IN (SELECT 
@@ -410,8 +443,8 @@ WHERE
         WHERE
             df_1.invoicing_cycle IS NOT NULL)
             ]]>
-		</if>	
-		
+		</if>
+
 		<if test="invoice_period != null">
 		<![CDATA[
 		AND exists (SELECT 
@@ -421,15 +454,16 @@ WHERE
         WHERE
             df_2.invoicing_cycle = #{invoice_period} and df_2.iddetailscheduleship = d.id)
             ]]>
-		</if>	
-		
+		</if>
+
 
 		order by
 		d.shiftdate, d.shift, s.name asc
 
 	</select>
 
-	<select id="searchDetailScheduleShipRif_MCT_SWS" parameterType="map"
+	<select id="searchDetailScheduleShipRif_MCT_SWS"
+		parameterType="map"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 <![CDATA[		
 SELECT 
@@ -484,30 +518,30 @@ FROM
     scheduleship ss
 WHERE
 ]]>
-	<if test="rif_mct != null">	
-	
-		<if test="rif_mct == 'RIF_MCT_EMPTY'">
-			(ss.rif_mct is null || length(ss.rif_mct) = 0) and
+		<if test="rif_mct != null">
+
+			<if test="rif_mct == 'RIF_MCT_EMPTY'">
+				(ss.rif_mct is null || length(ss.rif_mct) = 0) and
+			</if>
+
+			<if test="rif_mct != 'RIF_MCT_EMPTY'">
+				ss.rif_mct = #{rif_mct} and
+			</if>
 		</if>
-	
-		<if test="rif_mct != 'RIF_MCT_EMPTY'">
-			ss.rif_mct = #{rif_mct} and
+
+		<if test="rif_sws != null">
+			d.idscheduleship=#{rif_sws} and
 		</if>
-	</if>
-	
-	<if test="rif_sws != null">
-		d.idscheduleship=#{rif_sws} and
-	</if>
 
 <![CDATA[
     d.idscheduleship = ss.id
         AND ss.idship = s.id
         AND d1.id = d.id
 ORDER BY d.shiftdate , d.shift , s.name ASC;
-]]>		
-		
-		
-	
+]]>
+
+
+
 
 	</select>
 
@@ -565,51 +599,52 @@ FROM
     scheduleship ss
 WHERE
 ]]>
-	<if test="full_text_search != null">
-				(s.name like CONCAT('%',#{full_text_search},
-				'%') ) and
-	</if>
-	
-	<if test="serviceId!=null">
-		ss.id_service = #{serviceId} and
-	</if>
-	
-	<if test="shift != null">
-		d.shift = #{shift} and
-	</if>
-	
-	<if test="shiftdate != null">
-		d.shiftdate=#{shiftdate} and
-	</if>
-	
-	<if test="idCustomer != null">
-		#{idCustomer}=ss.customer_id and
-	</if>
-	
-	<if test="nowork != null">
-		#{nowork}=s.nowork and
-	</if>
-	
-	<if test="activityh != null">
-		#{activityh}=s.activityh and
-	</if>
-	
-	<if test="worked != null">
-		#{worked}=d.worked and
-	</if>
+		<if test="full_text_search != null">
+			(s.name like CONCAT('%',#{full_text_search},
+			'%') ) and
+		</if>
+
+		<if test="serviceId!=null">
+			ss.id_service = #{serviceId} and
+		</if>
+
+		<if test="shift != null">
+			d.shift = #{shift} and
+		</if>
+
+		<if test="shiftdate != null">
+			d.shiftdate=#{shiftdate} and
+		</if>
+
+		<if test="idCustomer != null">
+			#{idCustomer}=ss.customer_id and
+		</if>
+
+		<if test="nowork != null">
+			#{nowork}=s.nowork and
+		</if>
+
+		<if test="activityh != null">
+			#{activityh}=s.activityh and
+		</if>
+
+		<if test="worked != null">
+			#{worked}=d.worked and
+		</if>
 
 <![CDATA[
     d.idscheduleship = ss.id
         AND ss.idship = s.id
         AND d1.id = d.id
 ORDER BY d.shiftdate , d.shift , s.name ASC;
-	]]>	
-		
-	
+	]]>
+
+
 	</select>
 
 
-	<select id="loadDetailScheduleShipByIdSchedule" parameterType="Integer"
+	<select id="loadDetailScheduleShipByIdSchedule"
+		parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 <![CDATA[
 SELECT 
@@ -654,7 +689,8 @@ ORDER BY d.shiftdate , d.shift ASC;
 	</select>
 
 	<select id="loadScheduleShipByIdShipAndArrivalDate"
-		parameterType="map" resultType="org.uario.seaworkengine.model.ScheduleShip">
+		parameterType="map"
+		resultType="org.uario.seaworkengine.model.ScheduleShip">
 <![CDATA[
 SELECT 
     s.id,
@@ -728,14 +764,17 @@ WHERE
 ]]>
 	</select>
 
-	<update id="updateDetailScheduleShip" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
+	<update id="updateDetailScheduleShip"
+		parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		UPDATE
 		detailscheduleship SET
-		idscheduleship = #{idscheduleship},
+		idscheduleship =
+		#{idscheduleship},
 		shift =
 		#{shift},
 		operation = #{operation},
-		iduser = #{iduser},
+		iduser =
+		#{iduser},
 		idseconduser =
 		#{idseconduser},
 		handswork = #{handswork},
@@ -752,21 +791,25 @@ WHERE
 		#{activity_end},
 		rain = #{rain},
 		wind = #{wind},
-		sky = #{sky},
+		sky =
+		#{sky},
 		temperature = #{temperature},
 		first_down = #{first_down},
 		last_down =
 		#{last_down},
 		worked = #{worked},
-		person_down = #{person_down},
+		person_down =
+		#{person_down},
 		person_onboard = #{person_onboard},
-		windyday = #{windyday}
+		windyday =
+		#{windyday}
 		WHERE id =
 		#{id};
 	</update>
 
 
-	<update id="updateDetailScheduleShipForMobile" parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
+	<update id="updateDetailScheduleShipForMobile"
+		parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
 		UPDATE
 		detailscheduleship SET
 		operation = #{operation},
@@ -774,10 +817,12 @@ WHERE
 		#{handswork},
 		menwork = #{menwork},
 		rain = #{rain},
-		wind = #{wind},
+		wind =
+		#{wind},
 		sky=#{sky},
 		temperature = #{temperature},
-		first_down = #{first_down},
+		first_down =
+		#{first_down},
 		last_down = #{last_down},
 		person_down = #{person_down},
 		person_onboard =
@@ -801,7 +846,8 @@ WHERE
 		franchise_timework, p_crane)
 		VALUES
 		(#{crane_gtw},
-		#{volume}, #{timework},
+		#{volume},
+		#{timework},
 		#{iddetailscheduleship}, #{notedetail},
 		#{volumeunderboard},
 		#{volumeunderboard_sws},#{volume_tw_mct},#{invoicing_cycle},
@@ -812,14 +858,16 @@ WHERE
 		#{franchise_timework},#{p_crane});
 	</insert>
 
-	<delete id="deleteDetailFinalScheduleShipById" parameterType="Integer">
+	<delete id="deleteDetailFinalScheduleShipById"
+		parameterType="Integer">
 		delete from
 		detailfinalscheduleship
 		where
 		id = #{id}
 	</delete>
 
-	<select id="loadDetailFinalScheduleShipById" parameterType="Integer"
+	<select id="loadDetailFinalScheduleShipById"
+		parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalScheduleShip">
 		SELECT df.id, (select c.number from crane c where
 		df.id_crane=c.id) as crane, df.crane_gtw volume, df.timework,
