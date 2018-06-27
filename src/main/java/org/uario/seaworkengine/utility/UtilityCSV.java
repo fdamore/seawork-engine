@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.utility;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -563,10 +564,13 @@ public class UtilityCSV {
 			final String livello = "" + itm.getTraining_level();
 			final String data_conseguimento = "" + UtilityCSV.returnItalianDate(itm.getCertificate_date());
 			final String data_scadenza = "" + UtilityCSV.returnItalianDate(itm.getExpiration_date());
-			final String tutor = itm.getTutor();
+			final String tutor = (itm.getTutor() == null) ? "" : itm.getTutor();
 			final String inizio_corso = UtilityCSV.returnTimeFormat(itm.getStart_class());
 			final String fine_corso = UtilityCSV.returnTimeFormat(itm.getEnd_class());
-			final String htot = (itm.getDuration() == null) ? "" : itm.getDuration().toString();
+
+			final String htot = (itm.getDuration() == null) ? ""
+			        : NumberFormat.getInstance(Locale.ITALIAN).format((double) itm.getDuration());
+
 			final String typ_info = (itm.getTyp() == null) ? "" : itm.getTyp();
 
 			final String note = "" + itm.getNote();
@@ -1906,6 +1910,10 @@ public class UtilityCSV {
 		}
 
 		return builder;
+	}
+
+	public static void main(final String[] args) {
+		System.out.println(NumberFormat.getInstance(Locale.ITALIAN).format(3.5));
 	}
 
 	private static String returnItalianDate(final Date itm) {
