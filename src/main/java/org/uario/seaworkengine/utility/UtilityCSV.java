@@ -730,10 +730,10 @@ public class UtilityCSV {
 
 		if (add_header) {
 			if (person == null) {
-				final String header = "Nome;Iscrizione;Cancellazione;Note;\n";
+				final String header = "Sindacato;Iscrizione;Cancellazione;Note;\n";
 				builder.append(header);
 			} else {
-				final String header = "Nome;Matricola;Nome;Iscrizione;Cancellazione;Note;\n";
+				final String header = "Nome;Matricola;Sindacato;Iscrizione;Cancellazione;Note;\n";
 				builder.append(header);
 			}
 		}
