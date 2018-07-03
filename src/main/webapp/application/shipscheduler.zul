@@ -2669,8 +2669,8 @@
 
 			<separator></separator>
 
-			<listbox id="list_monitor" checkmark="true"
-				style="border: 1px solid #CCCCCC;" multiple="false">
+			<listbox id="list_monitor" multiple="true" checkmark="true"
+				style="border: 1px solid #CCCCCC;">
 				<listhead sizable="true">
 					<listheader label="Turno" sort="auto(shift_no)" />
 					<listheader label="Nave" sort="auto(name)" />
@@ -2716,12 +2716,16 @@
 					style="border: 1px solid #CCCCCC;" multiple="false">
 					<listhead sizable="true">
 
+						<listheader label="Turno" hflex="1" />
+
+						<listheader label="Nave" hflex="1" />
+
 						<listheader label="Risorsa" hflex="2" />
 						<listheader label="CR(GRU)" hflex="2" />
 						<listheader label="Posizione" hflex="2" />
 						<listheader label="Mansione" hflex="1"></listheader>
-						<listheader label="Da" hflex="2"></listheader>
-						<listheader label="A" hflex="2"></listheader>
+						<listheader label="Inizio Turno" hflex="2"></listheader>
+						<listheader label="Fine Turno" hflex="2"></listheader>
 
 						<listheader label="Controllore" hflex="2"></listheader>
 						<listheader label="Rif. SWS" hflex="1"></listheader>
@@ -2733,7 +2737,11 @@
 					<listitem sclass="myBottonCell"
 						self="@{each='item'}" value="@{item}">
 
+						<listcell sclass="myBottonCell"
+							label="@{item.shift}" />
 
+						<listcell sclass="myBottonCell"
+							label="@{item.id_ship, converter='org.uario.seaworkengine.zkevent.converter.ShipNameConverter'}" />
 
 						<listcell sclass="myBottonCell"
 							label="@{item.user}" />
@@ -2773,22 +2781,40 @@
 				</listbox>
 
 			</div>
-			
+
 			<div id="monitor_detail_ship" visible="false">
 
 				<listbox id="list_monitor_detail_ship" checkmark="false"
 					style="border: 1px solid #CCCCCC;" multiple="false">
 					<listhead sizable="true">
-					
+
+						<listheader label="Turno" hflex="1" />
+
+						<listheader label="Nave" hflex="1" />
+
+						<listheader label="Lavora" hflex="1" />
+
+						<listheader label="Mani" hflex="1" />
+
+						<listheader label="Tipo OP" hflex="2" />
+
 						<listheader label="Persone a Bordo" hflex="2" />
+
+						<listheader label="Primo Cont. a Terra"
+							hflex="2" />
+
+						<listheader label="Ultimo Cont. a Terra"
+							hflex="2" />
+
 						<listheader label="Persone a Terra" hflex="2" />
-						<listheader label="Operazione" hflex="2" />
-						<listheader label="Primo Operatore" hflex="2" />
-						<listheader label="Secondo Operatore" hflex="2" />
-						<listheader label="Posizione lavorata"
-							hflex="1" />
+
+						<listheader label="Primo PR" hflex="2" />
+						<listheader label="Secondo PR" hflex="2" />
+
 						<listheader label="Note di Dettaglio Nave"
 							hflex="2" />
+
+						<listheader label="Vento" hflex="2" />
 
 
 
@@ -2797,16 +2823,38 @@
 					<listitem sclass="myBottonCell"
 						self="@{each='item'}" value="@{item}">
 						
+						<listcell sclass="myBottonCell"
+							label="@{item.shift}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.id_ship, converter='org.uario.seaworkengine.zkevent.converter.ShipNameConverter'}" />
+							
+							
+
+						<listcell sclass="myBottonCell"
+							label="@{item.worked, converter='org.uario.seaworkengine.zkevent.converter.BooleanConverter'}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.menwork}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.operation}" />
+
 
 						<listcell sclass="myBottonCell"
 							label="@{item.person_onboard}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.first_down}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.last_down}" />
 
 
 						<listcell sclass="myBottonCell"
 							label="@{item.person_down}" />
 
-						<listcell sclass="myBottonCell"
-							label="@{item.operation}" />
+
 
 						<listcell sclass="myBottonCell"
 							label="@{item.firstOperativeName}" />
@@ -2814,11 +2862,13 @@
 						<listcell sclass="myBottonCell"
 							label="@{item.secondOperativeName}" />
 
-						<listcell sclass="myBottonCell"
-							label="@{item.worked, converter='org.uario.seaworkengine.zkevent.converter.BooleanConverter'}" />
+
 
 						<listcell sclass="myBottonCell"
 							label="@{item.notedetail}" />
+
+						<listcell sclass="myBottonCell"
+							label="@{item.wind}" />
 
 
 

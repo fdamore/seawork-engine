@@ -647,7 +647,9 @@ ORDER BY d.shiftdate , d.shift , s.name ASC;
 		parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
 <![CDATA[
+
 SELECT 
+    s.idship AS id_ship,
     d.id,
     d.idscheduleship,
     d.shift,
@@ -672,7 +674,7 @@ SELECT
     d.last_down,
     d.person_down,
     d.person_onboard,
-    CONCAT(u.lastname,' ', u.firstname) AS firstOperativeName,
+    CONCAT(u.lastname, ' ', u.firstname) AS firstOperativeName,
     CONCAT(us.lastname, ' ', us.firstname) AS secondOperativeName
 FROM
     detailscheduleship d
@@ -680,11 +682,13 @@ FROM
     user u ON (d.iduser = u.id),
     detailscheduleship d1
         LEFT JOIN
-    user us ON (d1.idseconduser = us.id)
+    user us ON (d1.idseconduser = us.id),
+    scheduleship s
 WHERE
-    d.idscheduleship = #{id_scheduleShip}
-        AND d1.id = d.id
+    d.idscheduleship = #{id_scheduleShip} AND d1.id = d.id
+        AND s.id = d.idscheduleship
 ORDER BY d.shiftdate , d.shift ASC;
+
 ]]>
 	</select>
 

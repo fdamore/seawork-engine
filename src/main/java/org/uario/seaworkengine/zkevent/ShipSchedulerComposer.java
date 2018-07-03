@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,6 +75,7 @@ import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Panel;
@@ -5309,21 +5312,24 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public void showMonitorDetail() {
 
 		this.monitor_detail_ship.setVisible(false);
+		this.monitor_detail.setVisible(false);
 
-		if (this.list_monitor.getSelectedItem() == null) {
-			this.monitor_detail.setVisible(false);
-
-			return;
-		}
-		final MonitorDataStructure itm = this.list_monitor.getSelectedItem().getValue();
-		if (itm == null) {
+		final Set<Listitem> list = this.list_monitor.getSelectedItems();
+		if (CollectionUtils.isEmpty(list)) {
 			return;
 		}
 
-		final List<DetailFinalSchedule> list = this.statistic_dao.getMonitorDetail(this.monitor_date.getValue(),
-		        itm.getShift_no(), itm.getId_ship());
+		final List<DetailFinalSchedule> list_details = new ArrayList<>();
 
-		this.list_monitor_detail.setModel(new ListModelList<>(list));
+		for (final Listitem itm : list) {
+			final MonitorDataStructure itm_str = itm.getValue();
+			final List<DetailFinalSchedule> list_detail = this.statistic_dao
+			        .getMonitorDetail(this.monitor_date.getValue(), itm_str.getShift_no(), itm_str.getId_ship());
+
+			list_details.addAll(list_detail);
+		}
+
+		this.list_monitor_detail.setModel(new ListModelList<>(list_details));
 
 		this.monitor_detail.setVisible(true);
 
@@ -5830,6 +5836,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Collections.sort(list_final);
 
 		this.list_monitor.setModel(new ListModelList<>(list_final));
+		this.list_monitor.setMultiple(true);
 		this.list_monitor_detail.setSelectedItem(null);
 	}
 
