@@ -3,7 +3,7 @@ package org.uario.seaworkengine.zkevent.utility;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.UserShift;
-import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.zkoss.spring.SpringUtil;
 
@@ -37,15 +37,16 @@ public class ZkUtility {
 
 		}
 
-		final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
+		final ConfigurationDAO configuration = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
-		final UserShift shift = shiftCache.getUserShift(id_shift);
+		final UserShift shift = configuration.loadShiftById(id_shift);
 
 		if (shift == null) {
 			return Boolean.FALSE;
 		}
 
-		if (shift.getBreak_shift() || shift.getForceable() || shift.getRecorded() || shift.getDisease_shift()) {
+		if (shift.getBreak_shift() || shift.getForceable() || shift.getRecorded() || shift.getDisease_shift()
+		        || shift.getWaitbreak_shift()) {
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
