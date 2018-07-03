@@ -2057,18 +2057,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 	}
 
-	@Listen("onClick = #monitor_date_csv")
-	public void downloadMonitorCSV() {
-
-		final IStatistics statistics = (IStatistics) SpringUtil.getBean(BeansTag.STATISTICS);
-		final List<MonitorData> list = statistics.getMonitorData(this.monitor_date.getValue());
-
-		final StringBuilder builder = UtilityCSV.downloadCSV_monitorShip(list);
-
-		Filedownload.save(builder.toString(), "application/text", "monitor.csv");
-
-	}
-
 	/**
 	 * Forecasting ship program
 	 *
@@ -5330,6 +5318,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		this.list_monitor_detail.setModel(new ListModelList<>(list_details));
+		this.list_monitor_detail.setMultiple(true);
 
 		this.monitor_detail.setVisible(true);
 
@@ -5337,24 +5326,45 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Listen("onClick = #showMonitorShipDetail")
 	public void showMonitorShipDetail() {
-		if (this.list_monitor_detail.getSelectedItem() == null) {
-			this.monitor_detail_ship.setVisible(false);
+
+		this.monitor_detail_ship.setVisible(false);
+
+		final Set<Listitem> list = this.list_monitor_detail.getSelectedItems();
+		if (CollectionUtils.isEmpty(list)) {
 			return;
 		}
-		final DetailFinalSchedule itm = this.list_monitor_detail.getSelectedItem().getValue();
-		if (itm == null) {
+		final Date dt = this.monitor_date.getValue();
+		if (dt == null) {
 			return;
 		}
 
-		if (itm.getRif_sws() == null) {
-			this.monitor_detail_ship.setVisible(false);
-			return;
+		final List<DetailScheduleShip> list_details = new ArrayList<>();
+
+		for (final Listitem itm : list) {
+
+			final DetailFinalSchedule itm_str = itm.getValue();
+			if (itm_str.getRif_sws() == null) {
+				continue;
+			}
+
+			final List<DetailScheduleShip> list_detail = this.shipSchedulerDao
+			        .loadDetailScheduleShipByIdSchedule(itm_str.getRif_sws());
+
+			for (final DetailScheduleShip itm_detail : list_detail) {
+				final Date shiftdate = itm_detail.getShiftdate();
+
+				if (DateUtils.isSameDay(dt, shiftdate) || shiftdate.after(dt)) {
+					list_details.add(itm_detail);
+				}
+
+			}
+
 		}
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao
-		        .loadDetailScheduleShipByIdSchedule(itm.getRif_sws());
+		// sort
+		list_details.sort(null);
 
-		this.list_monitor_detail_ship.setModel(new ListModelList<>(list));
+		this.list_monitor_detail_ship.setModel(new ListModelList<>(list_details));
 
 		this.monitor_detail_ship.setVisible(true);
 

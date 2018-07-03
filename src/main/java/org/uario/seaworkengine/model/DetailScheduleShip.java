@@ -7,9 +7,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 @XmlRootElement(namespace = "org.uario.seaworkengine.model")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DetailScheduleShip implements Comparable<Person>, Serializable {
+public class DetailScheduleShip implements Comparable<DetailScheduleShip>, Serializable {
 
 	/**
 	 *
@@ -110,9 +112,17 @@ public class DetailScheduleShip implements Comparable<Person>, Serializable {
 	private Boolean	worked;
 
 	@Override
-	public int compareTo(final Person o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(final DetailScheduleShip o) {
+
+		if (DateUtils.isSameDay(this.getShiftdate(), o.getShiftdate())) {
+			return this.shift.compareTo(o.getShift());
+		}
+
+		if (this.getShiftdate().after(o.getShiftdate())) {
+			return 1;
+		} else {
+			return -1;
+		}
 	}
 
 	public Date getActivity_end() {

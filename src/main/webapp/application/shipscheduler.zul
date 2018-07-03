@@ -2663,9 +2663,7 @@
 				onCreate="self.value = new Date()">
 			</datebox>
 
-			<a label="Scarica dati in CSV" id="monitor_date_csv"
-				style="color:green" />
-
+			
 
 			<separator></separator>
 
@@ -2713,7 +2711,7 @@
 			<div id="monitor_detail" visible="false">
 
 				<listbox id="list_monitor_detail" checkmark="true"
-					style="border: 1px solid #CCCCCC;" multiple="false">
+					style="border: 1px solid #CCCCCC;" >
 					<listhead sizable="true">
 
 						<listheader label="Turno" hflex="1" />
@@ -2789,6 +2787,8 @@
 					<listhead sizable="true">
 
 						<listheader label="Turno" hflex="1" />
+						
+						<listheader label="Data Turno" hflex="2" />
 
 						<listheader label="Nave" hflex="1" />
 
@@ -2815,6 +2815,8 @@
 							hflex="2" />
 
 						<listheader label="Vento" hflex="2" />
+						
+						
 
 
 
@@ -2825,6 +2827,9 @@
 						
 						<listcell sclass="myBottonCell"
 							label="@{item.shift}" />
+							
+							<listcell sclass="myBottonCell" 
+							label="@{item.shiftdate, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
 						<listcell sclass="myBottonCell"
 							label="@{item.id_ship, converter='org.uario.seaworkengine.zkevent.converter.ShipNameConverter'}" />
@@ -2869,6 +2874,10 @@
 
 						<listcell sclass="myBottonCell"
 							label="@{item.wind}" />
+							
+							
+							
+							
 
 
 
