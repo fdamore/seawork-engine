@@ -5783,8 +5783,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		}
 
 		final List<MonitorDataStructure> list_final = new ArrayList<>();
+		final ArrayList<Integer> map_user_id = new ArrayList<>();
 
-		// expolde map
+		// Explode map
+
 		for (final String key : map.keySet()) {
 
 			final ArrayList<MonitorData> itm_list = map.get(key);
@@ -5802,11 +5804,15 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			for (final MonitorData mnt : itm_list) {
 
-				if (StringUtils.equals(mnt.getBoard(), BoardTag.ON_BOARD)) {
-					itm_str.setOn_board(itm_str.getOn_board() + 1);
-				}
-				if (StringUtils.equals(mnt.getBoard(), BoardTag.UNDER_BOARD)) {
-					itm_str.setOut_board(itm_str.getOut_board() + 1);
+				if (!map_user_id.contains(mnt.getUser())) {
+
+					if (StringUtils.equals(mnt.getBoard(), BoardTag.ON_BOARD)) {
+						itm_str.setOn_board(itm_str.getOn_board() + 1);
+					}
+					if (StringUtils.equals(mnt.getBoard(), BoardTag.UNDER_BOARD)) {
+						itm_str.setOut_board(itm_str.getOut_board() + 1);
+					}
+					map_user_id.add(mnt.getUser());
 				}
 
 				// set crane

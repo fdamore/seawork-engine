@@ -2840,7 +2840,7 @@
 							label="@{item.worked, converter='org.uario.seaworkengine.zkevent.converter.BooleanConverter'}" />
 
 						<listcell sclass="myBottonCell"
-							label="@{item.menwork}" />
+							label="@{item.handswork}" />
 
 						<listcell sclass="myBottonCell"
 							label="@{item.operation}" />

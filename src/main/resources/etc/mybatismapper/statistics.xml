@@ -328,7 +328,10 @@ SELECT
     sh.name,
     d.shift AS shift_no,    
     d.crane,
-    d.board
+    d.board,
+    s.user,
+    d.time_from,
+    d.time_to    
 FROM
     detailfinalschedule d,
     schedule s,
@@ -338,7 +341,7 @@ WHERE
         AND s.id = d.id_schedule
         AND d.board IS NOT NULL
         AND s.date_schedule = #{date}
-ORDER BY d.shift
+        order by d.time_from desc
 
 ]]>
 

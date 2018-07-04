@@ -1,6 +1,7 @@
 package org.uario.seaworkengine.statistics.impl;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +26,12 @@ public class MonitorData implements Serializable {
 
 	private Integer				shift_no;
 
+	private Date				time_from;
+
+	private Date				time_to;
+
+	private Integer				user;
+
 	public String getBoard() {
 		return this.board;
 	}
@@ -45,6 +52,18 @@ public class MonitorData implements Serializable {
 		return this.shift_no;
 	}
 
+	public Date getTime_from() {
+		return this.time_from;
+	}
+
+	public Date getTime_to() {
+		return this.time_to;
+	}
+
+	public Integer getUser() {
+		return this.user;
+	}
+
 	public void setBoard(final String board) {
 		this.board = board;
 	}
@@ -63,6 +82,18 @@ public class MonitorData implements Serializable {
 
 	public void setShift_no(final Integer shift_no) {
 		this.shift_no = shift_no;
+	}
+
+	public void setTime_from(final Date time_from) {
+		this.time_from = time_from;
+	}
+
+	public void setTime_to(final Date time_to) {
+		this.time_to = time_to;
+	}
+
+	public void setUser(final Integer user) {
+		this.user = user;
 	}
 
 	@Override
