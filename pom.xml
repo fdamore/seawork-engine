@@ -21,8 +21,7 @@
 		<mybatis.version>3.2.7</mybatis.version>
 		<mybatis_spring.version>1.2.2</mybatis_spring.version>
 
-		<!-- <cxf.version>2.7.13</cxf.version> -->
-		<cxf.version>3.0.2</cxf.version>
+	
 
 		<org.springframework.version>4.0.5.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.4.RELEASE</org.springframework.security.version>
@@ -306,28 +305,6 @@
 			<artifactId>zkspring-security</artifactId>
 			<version>${zk.spring.version}</version>
 		</dependency>
-
-		<!-- CXF Service -->
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-security</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-
-
-
-
 
 
 

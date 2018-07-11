@@ -2,8 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:int="http://www.springframework.org/schema/integration"
 	xmlns:int-ftp="http://www.springframework.org/schema/integration/ftp"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
@@ -24,10 +26,6 @@
 
 	<aop:aspectj-autoproxy />
 
-	<import resource="cxf-definition.xml" />
-
-
-
 	<security:global-method-security
 		pre-post-annotations="enabled" />
 
@@ -37,19 +35,22 @@
 		<security:intercept-url pattern="/index.zul*"
 			access="permitAll" />
 
-		<security:intercept-url pattern="/application/**"
+		<security:intercept-url
+			pattern="/application/**"
 			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_VIEWER')" />
 
 		<security:form-login login-page='/index.zul'
 			authentication-success-handler-ref="successLoginHandler"
-			authentication-failure-url="/index.zul" always-use-default-target="true"
+			authentication-failure-url="/index.zul"
+			always-use-default-target="true"
 			default-target-url="/application/index.zul" />
 
 		<security:logout invalidate-session="true"
 			logout-success-url="/index.zul" />
 	</security:http>
 
-	<security:authentication-manager alias="dbAuthenticationManager">
+	<security:authentication-manager
+		alias="dbAuthenticationManager">
 		<security:authentication-provider
 			user-service-ref="myPersonDAO">
 			<security:password-encoder hash="sha-256">
@@ -70,10 +71,12 @@
 
 
 	<!-- BEGIN SECTION SEAWORK DATASOURCE **** SERVER *** -->
-	<bean id="local_datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+	<bean id="local_datasource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://sws.uario.com/seawork" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql://sws.uario.com/seawork" />
 		<property name="user" value="seawork"></property>
 		<property name="password" value="J3n.l0pA.zzc#44sGopla1.2bov"></property>
 		<property name="acquireIncrement" value="5" />
@@ -89,16 +92,20 @@
 	</bean>
 
 	<!-- enable the configuration of transactional behavior based on annotations -->
-	<tx:annotation-driven transaction-manager="txManager" />
+	<tx:annotation-driven
+		transaction-manager="txManager" />
 
 
 
 
 	<!-- SET DB SESSION FACTORY -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="local_datasource" />
-		<property name="mapperLocations" value="classpath*:etc/mybatismapper/*" />
-		<property name="configLocation" value="WEB-INF/mybatis_configuration.xml" />
+		<property name="mapperLocations"
+			value="classpath*:etc/mybatismapper/*" />
+		<property name="configLocation"
+			value="WEB-INF/mybatis_configuration.xml" />
 	</bean>
 
 
@@ -144,7 +151,7 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 
 	</bean>
-	
+
 	<bean id="myTrainingCertificateDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisTrainingCertificateDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
@@ -294,7 +301,8 @@
 	</bean>
 
 	<!-- Mail Wrapper -->
-	<bean id="mailWrapper" class="org.uario.seaworkengine.platform.mail.SendMailSMTP">
+	<bean id="mailWrapper"
+		class="org.uario.seaworkengine.platform.mail.SendMailSMTP">
 		<property name="mailer" value="GruppoBooking"></property>
 		<property name="from" value="commerciale@gruppobooking.it"></property>
 		<property name="mailhost" value="authsmtp.gruppobooking.it"></property>
@@ -327,6 +335,22 @@
 		<property name="personDAO" ref="myPersonDAO"></property>
 		<property name="statProcedure" ref="myStatProcedure"></property>
 		<property name="bank_holiday" ref="bank_holidays"></property>
+
+	</bean>
+
+	<!-- WEB MOBILE CONTROLLER -->
+	<bean id="webcontroller"
+		class="org.uario.seaworkengine.web.services.webcontroller.WebControllerImpl">
+		<property name="personDAO" ref="myPersonDAO"></property>
+		<property name="scheduleDAO" ref="myScheduleDAO"></property>
+		<property name="shiftCache" ref="myShiftCache"></property>
+		<property name="taskCache" ref="myTaskCache"></property>
+		<property name="ship_dao" ref="myScheduleShipDAO"></property>
+		<property name="taskDAO" ref="myTasksDAO"></property>
+		<property name="configurationDAO" ref="myConfigurationDAO"></property>
+		<property name="statistics" ref="myStatisticsDAO"></property>
+		<property name="stat_procedure" ref="myStatProcedure"></property>
+
 
 	</bean>
 
