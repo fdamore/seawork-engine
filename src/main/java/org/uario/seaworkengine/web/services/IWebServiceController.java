@@ -18,7 +18,9 @@ public interface IWebServiceController {
 
 	/**
 	 * Calculate user saturation
-	 * @param date_request TODO
+	 * 
+	 * @param date_request
+	 *            TODO
 	 *
 	 * @return
 	 */
@@ -68,6 +70,14 @@ public interface IWebServiceController {
 	 * @return
 	 */
 	public UserTask getDelayOperation();
+
+	/**
+	 * Public string get note
+	 *
+	 * @param id_schedule
+	 * @return
+	 */
+	public String getDetailScheduleShipNote(Integer id_schedule);
 
 	/**
 	 * @return

@@ -102,6 +102,8 @@ public class MobileComposer {
 
 	private String								note;
 
+	private String								note_ship;
+
 	private InitialScheduleSingleDetail			schedule_selected	= null;
 
 	private IWebServiceController				service;
@@ -172,7 +174,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "status_view", "note" })
+	@NotifyChange({ "status_view", "note", "note_ship" })
 	public void editNote() {
 
 		// note for "TURNI"
@@ -185,6 +187,19 @@ public class MobileComposer {
 			this.note = this.service.getScheduleNote(this.schedule_selected.getSchedule().getId());
 
 			this.status_view = 3;
+
+		}
+
+		// note for "TURNI"
+		if (this.status_view == 4) {
+
+			if (this.detail_schedule_ship_selected == null) {
+				return;
+			}
+
+			this.note_ship = this.service.getDetailScheduleShipNote(this.detail_schedule_ship_selected.getId());
+
+			this.status_view = 5;
 
 		}
 
@@ -212,6 +227,10 @@ public class MobileComposer {
 
 	public String getNote() {
 		return this.note;
+	}
+
+	public String getNote_ship() {
+		return this.note_ship;
 	}
 
 	public InitialScheduleSingleDetail getSchedule_selected() {
@@ -398,6 +417,10 @@ public class MobileComposer {
 
 	public void setNote(final String note) {
 		this.note = note;
+	}
+
+	public void setNote_ship(final String note_ship) {
+		this.note_ship = note_ship;
 	}
 
 	public void setSchedule_selected(final InitialScheduleSingleDetail schedule_selected) {

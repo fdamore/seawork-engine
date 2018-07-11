@@ -50,8 +50,6 @@ public class WebControllerImpl implements IWebServiceController {
 
 	private IScheduleShip		ship_dao;
 
-	private IScheduleShip		shipSchedulerDao;
-
 	private IStatProcedure		stat_procedure;
 
 	private IStatistics			statistics;
@@ -121,7 +119,7 @@ public class WebControllerImpl implements IWebServiceController {
 
 	@Override
 	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip) {
-		this.shipSchedulerDao.createDetailFinalScheduleShip(detailFinalScheduleShip);
+		this.ship_dao.createDetailFinalScheduleShip(detailFinalScheduleShip);
 
 	}
 
@@ -133,7 +131,7 @@ public class WebControllerImpl implements IWebServiceController {
 	@Override
 	public void deleteDetailFinalScheduleShipById(final Integer id_detail_final) {
 
-		this.shipSchedulerDao.deleteDetailFinalScheduleShipById(id_detail_final);
+		this.ship_dao.deleteDetailFinalScheduleShipById(id_detail_final);
 
 	}
 
@@ -262,6 +260,11 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
+	public String getDetailScheduleShipNote(final Integer id_schedule) {
+		return this.ship_dao.getDetailScheduleShipNote(id_schedule);
+	}
+
+	@Override
 	public UserTask getEndOperationTask() {
 		return this.configurationDAO.getEndOperationTask();
 
@@ -292,34 +295,6 @@ public class WebControllerImpl implements IWebServiceController {
 		return note;
 	}
 
-	public IShiftCache getShiftCache() {
-		return this.shiftCache;
-	}
-
-	public IScheduleShip getShip_dao() {
-		return this.ship_dao;
-	}
-
-	public IScheduleShip getShipSchedulerDao() {
-		return this.shipSchedulerDao;
-	}
-
-	public IStatProcedure getStat_procedure() {
-		return this.stat_procedure;
-	}
-
-	public IStatistics getStatistics() {
-		return this.statistics;
-	}
-
-	public ITaskCache getTaskCache() {
-		return this.taskCache;
-	}
-
-	public TasksDAO getTaskDAO() {
-		return this.taskDAO;
-	}
-
 	@Override
 	public List<UserShift> getUserShiftConfiguration() {
 		return new ArrayList<>(this.shiftCache.getHash().values());
@@ -337,8 +312,7 @@ public class WebControllerImpl implements IWebServiceController {
 	@Override
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
 
-		final List<DetailFinalScheduleShip> final_details = this.shipSchedulerDao
-				.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+		final List<DetailFinalScheduleShip> final_details = this.ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 
 		return final_details;
 	}
@@ -360,8 +334,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<DetailScheduleShip> list = this.shipSchedulerDao.searchDetailScheduleShipByDateshit(date_request_truncate, null, null, null, null,
-				null, null, null);
+		final List<DetailScheduleShip> list = this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, null, null, null, null,
+				null, null);
 		return list;
 	}
 
@@ -499,14 +473,6 @@ public class WebControllerImpl implements IWebServiceController {
 		this.shiftCache = shiftCache;
 	}
 
-	public void setShip_dao(final IScheduleShip ship_dao) {
-		this.ship_dao = ship_dao;
-	}
-
-	public void setShipSchedulerDao(final IScheduleShip shipSchedulerDao) {
-		this.shipSchedulerDao = shipSchedulerDao;
-	}
-
 	public void setStat_procedure(final IStatProcedure stat_procedure) {
 		this.stat_procedure = stat_procedure;
 	}
@@ -556,7 +522,7 @@ public class WebControllerImpl implements IWebServiceController {
 		sch.setPerson_down(person_down);
 		sch.setPerson_onboard(person_onboard);
 
-		this.shipSchedulerDao.updateDetailScheduleShipForMobile(sch);
+		this.ship_dao.updateDetailScheduleShipForMobile(sch);
 
 	}
 

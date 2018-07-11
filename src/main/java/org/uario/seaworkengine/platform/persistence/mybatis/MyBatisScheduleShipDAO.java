@@ -84,6 +84,14 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
+	public String getDetailScheduleShipNote(final Integer id) {
+		MyBatisScheduleShipDAO.logger.info("loadDetailFinalScheduleShipById");
+
+		return this.getSqlSession().selectOne("scheduleship.loadDetailScheduleShipNote", id);
+
+	}
+
+	@Override
 	public DetailFinalScheduleShip loadDetailFinalScheduleShipById(final Integer id) {
 		MyBatisScheduleShipDAO.logger.info("loadDetailFinalScheduleShipById");
 
@@ -126,7 +134,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	@Override
 	public List<ScheduleShip> loadScheduleShipByIdShipAndArrivalDate(final Integer idship, final Date arrivaldate) {
 		MyBatisScheduleShipDAO.logger.info("loadScheduleShipByIdShip");
-		
+
 		final Date inf_date = DateUtils.truncate(arrivaldate, Calendar.DATE);
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -151,7 +159,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final Date dateshift,
 			final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer, final Boolean nowork,
 			final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType, final String shipLine,
-			final String shipCondition, final String operation_type, String invoice_period) {
+			final String shipCondition, final String operation_type, final String invoice_period) {
 
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
@@ -195,7 +203,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final Date dateshift,
 			final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer, final Boolean nowork,
 			final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType, final String shipLine,
-			final String shipCondition, final String operation_type, String invoice_period, final boolean invoice) {
+			final String shipCondition, final String operation_type, final String invoice_period, final boolean invoice) {
 
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 

@@ -65,11 +65,83 @@
 
 		</hbox>
 
+
+
+		<!-- NOTE SHIP -->
+		<div visible="@load(vm.status_view eq 5)">
+
+			<div class="container-fluid text-center">
+				<div class="well well-lg">
+					<n:h1>
+						<div class="input-group">
+							<span class="input-group-addon">
+								Nota su Nave
+							</span>
+							<label
+								value="@load(vm.detail_schedule_ship_selected.name)"
+								class="form-control label label-primary">
+							</label>
+						</div>
+
+
+					</n:h1>
+
+					<n:h2>
+
+
+
+						<div class="input-group">
+							<span class="input-group-addon">Data di Arrivo</span>
+							<label
+								value="@load(vm.detail_schedule_ship_selected.arrivaldate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+								class="form-control label label-primary">
+							</label>
+							
+							<span class="input-group-addon">Data di Partenza</span>
+							<label
+								value="@load(vm.detail_schedule_ship_selected.departuredate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+								class="form-control label label-primary">
+							</label>
+						</div>
+
+
+					</n:h2>
+				</div>
+
+				<div class="well well-lg">
+
+
+					<textbox sclass="form-control textarea" rows="10"
+						value="@bind(vm.note_ship)">
+					</textbox>
+
+				</div>
+
+				<div class="well well-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="AGGIUNGI" onClick="@command('modifyNote')">
+					</button>
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
+					</button>
+
+
+				</div>
+
+			</div>
+
+
+		</div>
+
+
+
+
 		<!-- PROGRAMMAZINE NAVI -->
 		<div visible="@load(vm.status_view eq 4)">
 
 			<div class="container-fluid text-center">
-				
+
 				<listbox pagingPosition="both" mold="paging"
 					selectedItem="@save(vm.detail_schedule_ship_selected)"
 					emptyMessage="Nessun risultato..." model="@load(vm.list_ship)"
@@ -106,8 +178,8 @@
 							<listcell>
 								<div class="well well-lg">
 									<n:h3>
-										<label
-											value="@load(item.name)" sclass="label label-info">
+										<label value="@load(item.name)"
+											sclass="label label-info">
 										</label>
 									</n:h3>
 								</div>
@@ -117,8 +189,7 @@
 								<div class="well well-lg">
 									<n:h4>
 										<label
-											value="@load(item.operation)"
-											sclass="label label-default">
+											value="@load(item.operation)" sclass="label label-default">
 										</label>
 									</n:h4>
 								</div>
@@ -128,7 +199,8 @@
 								<div class="well well-lg">
 									<n:h3>
 										<label
-											value="@load(item.firstOperativeName)" sclass="label label-default">
+											value="@load(item.firstOperativeName)"
+											sclass="label label-default">
 										</label>
 									</n:h3>
 								</div>
@@ -140,12 +212,13 @@
 								<div class="well well-lg">
 									<n:h3>
 										<label
-											value="@load(item.secondOperativeName)" sclass="label label-default">
+											value="@load(item.secondOperativeName)"
+											sclass="label label-default">
 										</label>
 									</n:h3>
 								</div>
 							</listcell>
-							
+
 							<listcell>
 								<div class="well well-lg">
 									<n:h3>
@@ -155,7 +228,7 @@
 									</n:h3>
 								</div>
 							</listcell>
-							
+
 							<listcell>
 								<div class="well well-lg">
 									<n:h3>
@@ -181,7 +254,7 @@
 
 		</div>
 
-		<!-- NOTE -->
+		<!-- NOTE USER -->
 		<div visible="@load(vm.status_view eq 3)">
 
 			<div class="container-fluid text-center">
@@ -189,7 +262,7 @@
 					<n:h1>
 						<div class="input-group">
 							<span class="input-group-addon">
-								Utente
+								Nota su Utente
 							</span>
 							<label
 								value="@load(vm.schedule_selected.person)"

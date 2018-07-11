@@ -643,6 +643,21 @@ ORDER BY d.shiftdate , d.shift , s.name ASC;
 	</select>
 
 
+<select id="loadDetailScheduleShipNote"
+		parameterType="Integer"
+		resultType="string">
+<![CDATA[
+SELECT   
+    d.notedetail
+FROM
+    detailscheduleship d        
+WHERE
+    d.id = #{id}
+]]>
+	</select>
+
+
+
 	<select id="loadDetailScheduleShipByIdSchedule"
 		parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailScheduleShip">
