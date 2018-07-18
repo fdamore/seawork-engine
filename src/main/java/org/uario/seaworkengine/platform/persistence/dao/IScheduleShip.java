@@ -23,23 +23,17 @@ public interface IScheduleShip {
 
 	public void deleteScheduleShip(Integer id_scheduleShip);
 
-	public void deteleDetailSchedueleShipByIdSchedule(Integer id_scheduleShip);
-
 	/**
 	 * @param id_schedule
 	 * @return
 	 */
 	public String getDetailScheduleShipNote(Integer id_schedule);
 
-	public DetailFinalScheduleShip loadDetailFinalScheduleShipById(Integer id);
-
 	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
 
 	public List<DetailScheduleShip> loadDetailScheduleShipByIdSchedule(Integer id_scheduleShip);
 
 	public ScheduleShip loadScheduleShip(Integer id_scheduleShip);
-
-	public List<ScheduleShip> loadScheduleShipByArrivalDate(Timestamp arrivaldate);
 
 	public List<ScheduleShip> loadScheduleShipByIdShipAndArrivalDate(Integer idship, Date arrivaldate);
 
@@ -64,8 +58,8 @@ public interface IScheduleShip {
 	 * @return
 	 */
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, Date dateshift, Boolean period_on_dateshift,
-			String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId,
-			String shipType, String shipLine, String shipCondition, String operation, String invoice_period);
+	        String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId,
+	        String shipType, String shipLine, String shipCondition, String operation, String invoice_period);
 
 	/**
 	 * @param datefrom
@@ -86,24 +80,24 @@ public interface IScheduleShip {
 	 * @return
 	 */
 	public List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, Date dateshift, Boolean period_on_dateshift,
-			String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId,
-			String shipType, String shipLine, String shipCondition, String operation, String invoice_period, boolean invoice);
+	        String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId,
+	        String shipType, String shipLine, String shipCondition, String operation, String invoice_period, boolean invoice);
 
 	public List<DetailScheduleShip> searchDetailScheduleShipByDateshit(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
-			Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
+	        Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
 
 	public List<DetailScheduleShip> searchDetailScheduleShipRif_MCT_SWS(Integer rif_sws, String rif_mct);
 
 	public List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, String mct, Integer idCustomer, Integer idService,
-			String textSearch, String shipType, String shipLine, String shipCondition, Boolean intial_support);
-
-	public List<ScheduleShip> selectAllScheduleShipFulltextSearchLike(String full_text_search);
+	        String textSearch, String shipType, String shipLine, String shipCondition, Boolean intial_support);
 
 	public void updateDetailFinalScheduleShip(DetailFinalScheduleShip detailFinalScheduleShip);
 
 	public void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);
 
 	public void updateDetailScheduleShipForMobile(DetailScheduleShip sch);
+
+	public void updateDetailScheduleShipNote(Integer id_schedule, String note);
 
 	public void updateRifMCT(Integer id, String rif_mct);
 

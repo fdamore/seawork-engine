@@ -120,10 +120,10 @@
 				<div class="well well-lg">
 
 					<button sclass="btn btn-lg btn-success"
-						label="AGGIUNGI" onClick="@command('modifyNote')">
+						label="AGGIUNGI" onClick="@command('modifyShipNote')">
 					</button>
 					<button sclass="btn btn-lg btn-danger"
-						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
+						label="CHIUDI" onClick="@command('refreshShipDataAndCurrentShift')">
 					</button>
 
 

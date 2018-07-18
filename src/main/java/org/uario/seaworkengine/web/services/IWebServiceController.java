@@ -18,7 +18,7 @@ public interface IWebServiceController {
 
 	/**
 	 * Calculate user saturation
-	 * 
+	 *
 	 * @param date_request
 	 *            TODO
 	 *
@@ -170,7 +170,15 @@ public interface IWebServiceController {
 	 * @param menwork
 	 */
 	public void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer handswork, Integer menwork,
-			String temperature, String sky, String rain, String wind, Date first_down, Date last_down, Date person_down, Date person_onboard);
+	        String temperature, String sky, String rain, String wind, Date first_down, Date last_down, Date person_down, Date person_onboard);
+
+	/**
+	 * Public string get note
+	 *
+	 * @param id_schedule
+	 * @return
+	 */
+	public void updateDetailScheduleShipNote(Integer id_schedule, String note);
 
 	/**
 	 * Public string get note

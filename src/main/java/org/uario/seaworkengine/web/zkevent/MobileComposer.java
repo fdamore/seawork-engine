@@ -128,14 +128,18 @@ public class MobileComposer {
 	 * Add single detail
 	 */
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({
+	        "users", "shift_no", "status_view"
+	})
 	public void addRowSingleDetail() {
 
 		this.refreshDataAndCurrentShift();
 	}
 
 	@Command
-	@NotifyChange({ "status_view", "list_task" })
+	@NotifyChange({
+	        "status_view", "list_task"
+	})
 	public void addSchedule() {
 
 		if (this.status_view == 1) {
@@ -173,8 +177,48 @@ public class MobileComposer {
 		}
 	}
 
+	/**
+	 * Calculate Shift no for shift bar
+	 */
+	private void calculateShiftNo() {
+		this.shift_no = 1;
+		final Calendar now = Calendar.getInstance();
+
+		final Calendar h1 = Calendar.getInstance();
+		h1.set(Calendar.HOUR_OF_DAY, 1);
+		h1.set(Calendar.MINUTE, 0);
+		h1.set(Calendar.SECOND, 0);
+
+		final Calendar h7 = Calendar.getInstance();
+		h7.set(Calendar.HOUR_OF_DAY, 7);
+		h7.set(Calendar.MINUTE, 0);
+		h7.set(Calendar.SECOND, 0);
+
+		final Calendar h13 = Calendar.getInstance();
+		h13.set(Calendar.HOUR_OF_DAY, 13);
+		h13.set(Calendar.MINUTE, 0);
+		h13.set(Calendar.SECOND, 0);
+
+		final Calendar h19 = Calendar.getInstance();
+		h19.set(Calendar.HOUR_OF_DAY, 19);
+		h19.set(Calendar.MINUTE, 0);
+		h19.set(Calendar.SECOND, 0);
+
+		if ((now.getTime().compareTo(h1.getTime()) >= 0) && (now.getTime().compareTo(h7.getTime()) <= 0)) {
+			this.shift_no = 1;
+		} else if ((now.getTime().compareTo(h7.getTime()) > 0) && (now.getTime().compareTo(h13.getTime()) <= 0)) {
+			this.shift_no = 2;
+		} else if ((now.compareTo(h13) > 0) && (now.compareTo(h19) <= 0)) {
+			this.shift_no = 3;
+		} else {
+			this.shift_no = 4;
+		}
+	}
+
 	@Command
-	@NotifyChange({ "status_view", "note", "note_ship" })
+	@NotifyChange({
+	        "status_view", "note", "note_ship"
+	})
 	public void editNote() {
 
 		// note for "TURNI"
@@ -190,7 +234,7 @@ public class MobileComposer {
 
 		}
 
-		// note for "TURNI"
+		// note for "SHIP"
 		if (this.status_view == 4) {
 
 			if (this.detail_schedule_ship_selected == null) {
@@ -275,7 +319,9 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({
+	        "users", "shift_no", "status_view"
+	})
 	public void modifyNote() {
 
 		if (this.schedule_selected == null) {
@@ -289,7 +335,25 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "status_view" })
+	@NotifyChange({
+	        "list_ship", "shift_no", "status_view"
+	})
+	public void modifyShipNote() {
+
+		if (this.detail_schedule_ship_selected == null) {
+			return;
+		}
+
+		this.service.updateDetailScheduleShipNote(this.detail_schedule_ship_selected.getId(), this.note_ship);
+
+		this.refreshShipDataAndCurrentShift();
+
+	}
+
+	@Command
+	@NotifyChange({
+	        "users", "status_view"
+	})
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
 
 		if (this.users != null) {
@@ -342,40 +406,12 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({
+	        "users", "shift_no", "status_view"
+	})
 	public void refreshDataAndCurrentShift() {
-		this.shift_no = 1;
-		final Calendar now = Calendar.getInstance();
 
-		final Calendar h1 = Calendar.getInstance();
-		h1.set(Calendar.HOUR_OF_DAY, 1);
-		h1.set(Calendar.MINUTE, 0);
-		h1.set(Calendar.SECOND, 0);
-
-		final Calendar h7 = Calendar.getInstance();
-		h7.set(Calendar.HOUR_OF_DAY, 7);
-		h7.set(Calendar.MINUTE, 0);
-		h7.set(Calendar.SECOND, 0);
-
-		final Calendar h13 = Calendar.getInstance();
-		h13.set(Calendar.HOUR_OF_DAY, 13);
-		h13.set(Calendar.MINUTE, 0);
-		h13.set(Calendar.SECOND, 0);
-
-		final Calendar h19 = Calendar.getInstance();
-		h19.set(Calendar.HOUR_OF_DAY, 19);
-		h19.set(Calendar.MINUTE, 0);
-		h19.set(Calendar.SECOND, 0);
-
-		if ((now.getTime().compareTo(h1.getTime()) >= 0) && (now.getTime().compareTo(h7.getTime()) <= 0)) {
-			this.shift_no = 1;
-		} else if ((now.getTime().compareTo(h7.getTime()) > 0) && (now.getTime().compareTo(h13.getTime()) <= 0)) {
-			this.shift_no = 2;
-		} else if ((now.compareTo(h13) > 0) && (now.compareTo(h19) <= 0)) {
-			this.shift_no = 3;
-		} else {
-			this.shift_no = 4;
-		}
+		this.calculateShiftNo();
 
 		// define status view
 		this.status_view = 1;
@@ -384,12 +420,29 @@ public class MobileComposer {
 		this.refresh(this.shift_no);
 	}
 
+	@Command
+	@NotifyChange({
+	        "list_ship", "shift_no", "status_view"
+	})
+	public void refreshShipDataAndCurrentShift() {
+
+		this.calculateShiftNo();
+
+		// return to list of ship
+		this.status_view = 4;
+
+		this.list_ship = this.service.selectDetailScheduleShipByShiftDate(Calendar.getInstance().getTime());
+
+	}
+
 	/**
 	 * @param filed
 	 *            0 for initial, 1 for final
 	 */
 	@Command
-	@NotifyChange({ "starting_task", "end_task" })
+	@NotifyChange({
+	        "starting_task", "end_task"
+	})
 	public void setCurrentTaskTime(@BindingParam("field") final int field) {
 
 		final Calendar now = Calendar.getInstance();
@@ -440,16 +493,17 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view", "list_ship" })
+	@NotifyChange({
+	        "users", "shift_no", "status_view", "list_ship"
+	})
 	public void switchShipShift() {
 
 		if (this.status_view == 1) {
-			this.status_view = 4;
 
-			this.list_ship = this.service.selectDetailScheduleShipByShiftDate(Calendar.getInstance().getTime());
+			this.refreshShipDataAndCurrentShift();
 
 		} else {
-			this.status_view = 1;
+
 			this.refreshDataAndCurrentShift();
 		}
 
