@@ -122,6 +122,10 @@ public class MobileComposer {
 
 	private TasksDAO							task_dao;
 
+	private String								user_crane;
+
+	private String								user_position;
+
 	private UserTask							user_task_selected;
 
 	private List<InitialScheduleSingleDetail>	users;
@@ -301,6 +305,14 @@ public class MobileComposer {
 
 	public Integer getStatus_view() {
 		return this.status_view;
+	}
+
+	public String getUser_crane() {
+		return this.user_crane;
+	}
+
+	public String getUser_position() {
+		return this.user_position;
 	}
 
 	public UserTask getUser_task_selected() {
@@ -493,6 +505,14 @@ public class MobileComposer {
 
 	public void setStarting_task(final String starting_task) {
 		this.starting_task = starting_task;
+	}
+
+	public void setUser_crane(final String user_crane) {
+		this.user_crane = user_crane;
+	}
+
+	public void setUser_position(final String user_position) {
+		this.user_position = user_position;
 	}
 
 	public void setUser_task_selected(final UserTask user_task_selected) {

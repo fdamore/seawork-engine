@@ -40,10 +40,10 @@
 					onClick="@command('refresh', shift_no= 4)" />
 
 			</div>
-			
+
 			<div class="btn-group-mg btn btn-group">
 
-			
+
 				<button sclass="btn btn-info" label="Entra"
 					onClick="@command('signIn')" />
 				<button sclass="btn btn-info" label="Esce"
@@ -101,13 +101,17 @@
 
 
 						<div class="input-group">
-							<span class="input-group-addon">Data di Arrivo</span>
+							<span class="input-group-addon">
+								Data di Arrivo
+							</span>
 							<label
 								value="@load(vm.detail_schedule_ship_selected.arrivaldate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 								class="form-control label label-primary">
 							</label>
-							
-							<span class="input-group-addon">Data di Partenza</span>
+
+							<span class="input-group-addon">
+								Data di Partenza
+							</span>
 							<label
 								value="@load(vm.detail_schedule_ship_selected.departuredate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 								class="form-control label label-primary">
@@ -133,7 +137,8 @@
 						label="AGGIUNGI" onClick="@command('modifyShipNote')">
 					</button>
 					<button sclass="btn btn-lg btn-danger"
-						label="CHIUDI" onClick="@command('refreshShipDataAndCurrentShift')">
+						label="CHIUDI"
+						onClick="@command('refreshShipDataAndCurrentShift')">
 					</button>
 
 
@@ -344,9 +349,9 @@
 							<label
 								value="@load(vm.schedule_selected.person)"
 								class="form-control label label-primary">
-							</label>		
-							
-							
+							</label>
+
+
 						</div>
 
 
@@ -426,10 +431,20 @@
 
 							<div class="input-group input-group-lg">
 								<span class="input-group-addon">
-									GRU
+									POSIZIONE
 								</span>
-								<textbox class="form-control"
-									placeholder="GRU..." />
+
+								<combobox class="form-control"
+									value="@bind(vm.user_position)" placeholder="POSIZIONE...">
+
+									<comboitem label="SOTTO BORDO"
+										value="SOTTO BORDO">
+									</comboitem>
+									<comboitem label="A BORDO"
+										value="A BORDO">
+									</comboitem>
+
+								</combobox>
 							</div>
 
 
@@ -438,7 +453,7 @@
 									GRU
 								</span>
 								<textbox class="form-control"
-									placeholder="GRU..." />
+									value="@bind(vm.user_crane)" placeholder="GRU..." />
 							</div>
 
 						</hbox>
@@ -627,13 +642,13 @@
 										sclass="label label-info">
 									</label>
 								</n:h3>
-								
+
 								<n:h3>
 									<label value="@load(item.badgeInfo)"
 										sclass="label label-info">
 									</label>
 								</n:h3>
-								
+
 							</div>
 						</listcell>
 
