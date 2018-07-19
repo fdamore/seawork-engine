@@ -25,7 +25,7 @@
 		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
 
 		<hbox>
-			<div class="btn-group-lg btn btn-group">
+			<div class="btn-group-mg btn btn-group">
 				<button sclass="btn btn-info" label="Turno 1"
 					focus="@load(vm.shift_no eq 1)"
 					onClick="@command('refresh', shift_no= 1)" />
@@ -40,8 +40,18 @@
 					onClick="@command('refresh', shift_no= 4)" />
 
 			</div>
+			
+			<div class="btn-group-mg btn btn-group">
 
-			<div class="btn-group-lg btn btn-group">
+			
+				<button sclass="btn btn-info" label="Entra"
+					onClick="@command('signIn')" />
+				<button sclass="btn btn-info" label="Esce"
+					onClick="@command('signOut')" />
+
+			</div>
+
+			<div class="btn-group-mg btn btn-group">
 
 				<button sclass="btn btn-danger" label="Cancella" />
 				<button sclass="btn btn-info" label="Note"
@@ -53,7 +63,7 @@
 
 
 
-			<div class="btn-group-lg btn btn-group">
+			<div class="btn-group-mg btn btn-group">
 				<button sclass="btn btn-info"
 					label="@load(vm.status_view eq 1 ? 'Navi':'Turni')"
 					onClick="@command('switchShipShift')" />
@@ -334,7 +344,9 @@
 							<label
 								value="@load(vm.schedule_selected.person)"
 								class="form-control label label-primary">
-							</label>
+							</label>		
+							
+							
 						</div>
 
 
@@ -615,6 +627,13 @@
 										sclass="label label-info">
 									</label>
 								</n:h3>
+								
+								<n:h3>
+									<label value="@load(item.badgeInfo)"
+										sclass="label label-info">
+									</label>
+								</n:h3>
+								
 							</div>
 						</listcell>
 

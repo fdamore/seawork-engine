@@ -18,6 +18,7 @@ import java.util.Locale;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -26,6 +27,7 @@ import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.ShipTotal;
+import org.uario.seaworkengine.web.services.handler.Badge;
 import org.zkoss.spring.SpringUtil;
 
 import com.google.zxing.BarcodeFormat;
@@ -48,8 +50,8 @@ public class Utility {
 	private static SimpleDateFormat			dateFormat_it	= new SimpleDateFormat("dd-MM-yyyy");
 
 	private static SimpleDateFormat			dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
-	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
+	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
 	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
 
 	public static String convertToDateAndTime(final Date date) {
@@ -265,6 +267,34 @@ public class Utility {
 		final Days days = Days.daysBetween(dt_from, dt_to);
 
 		return days.getDays() + 1;
+	}
+
+	/**
+	 * Define label for Badge
+	 * 
+	 * @param badgeList
+	 * @return
+	 */
+	public static String getLabelListBadge(final List<Badge> badgeList) {
+
+		if (CollectionUtils.isEmpty(badgeList)) {
+			return "";
+		}
+
+		String ret = "";
+
+		for (final Badge badge : badgeList) {
+			if (badge != null) {
+				if (!badge.getEventType()) {
+					ret = ret + " - U: " + Utility.getTimeFormat().format(badge.getEventTime());
+				} else {
+					ret = ret + " - E: " + Utility.getTimeFormat().format(badge.getEventTime());
+				}
+			}
+		}
+
+		return ret;
+
 	}
 
 	public static Integer getMonthNumber(final Date date) {

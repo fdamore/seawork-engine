@@ -15,7 +15,9 @@ import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.web.services.IWebServiceController;
+import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialScheduleSingleDetail;
 import org.zkoss.bind.BindContext;
@@ -391,6 +393,11 @@ public class MobileComposer {
 				itm.setSchedule(insch.getSchedule());
 				itm.setUser_task(user_task);
 
+				// set badge info
+				final List<Badge> badgeList = this.service.loadListBadge(insch.getSchedule().getId());
+				final String infob = Utility.getLabelListBadge(badgeList);
+				itm.setBadgeInfo(infob);
+
 				this.users.add(itm);
 
 			}
@@ -490,6 +497,43 @@ public class MobileComposer {
 
 	public void setUser_task_selected(final UserTask user_task_selected) {
 		this.user_task_selected = user_task_selected;
+	}
+
+	@Command
+	@NotifyChange({
+	        "users", "shift_no", "status_view"
+	})
+	public void signIn() {
+		if ((this.status_view == 1) && (this.schedule_selected != null)) {
+
+			final Badge badge = new Badge();
+			badge.setEventTime(Calendar.getInstance().getTime());
+			badge.setEventType(Boolean.TRUE);
+			badge.setIdschedule(this.schedule_selected.getSchedule().getId());
+
+			this.service.createBadge(badge);
+
+			this.refreshDataAndCurrentShift();
+		}
+
+	}
+
+	@Command
+	@NotifyChange({
+	        "users", "shift_no", "status_view"
+	})
+	public void signOut() {
+		if ((this.status_view == 1) && (this.schedule_selected != null)) {
+
+			final Badge badge = new Badge();
+			badge.setEventTime(Calendar.getInstance().getTime());
+			badge.setEventType(Boolean.FALSE);
+			badge.setIdschedule(this.schedule_selected.getSchedule().getId());
+
+			this.service.createBadge(badge);
+
+			this.refreshDataAndCurrentShift();
+		}
 	}
 
 	@Command

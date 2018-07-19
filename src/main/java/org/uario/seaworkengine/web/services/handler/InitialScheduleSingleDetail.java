@@ -7,13 +7,19 @@ import org.uario.seaworkengine.model.UserTask;
 
 public class InitialScheduleSingleDetail {
 
-	private DetailInitialSchedule detail_schedule;
+	private String					badgeInfo;
 
-	private Person person;
+	private DetailInitialSchedule	detail_schedule;
 
-	private Schedule schedule;
+	private Person					person;
 
-	private UserTask user_task;
+	private Schedule				schedule;
+
+	private UserTask				user_task;
+
+	public String getBadgeInfo() {
+		return this.badgeInfo;
+	}
 
 	public DetailInitialSchedule getDetail_schedule() {
 		return this.detail_schedule;
@@ -29,6 +35,10 @@ public class InitialScheduleSingleDetail {
 
 	public UserTask getUser_task() {
 		return this.user_task;
+	}
+
+	public void setBadgeInfo(final String badgeInfo) {
+		this.badgeInfo = badgeInfo;
 	}
 
 	public void setDetail_schedule(final DetailInitialSchedule detail_schedule) {

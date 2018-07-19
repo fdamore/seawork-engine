@@ -3,12 +3,6 @@ package org.uario.seaworkengine.web.services.handler;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(namespace = "org.uario.seaworkengine.model")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Badge implements Serializable, Comparable<Badge> {
 
 	/**
@@ -18,7 +12,7 @@ public class Badge implements Serializable, Comparable<Badge> {
 
 	private Date				eventTime;
 
-	// false if the user entry, true if the user exit
+	// true if the user entry, false if the user exit
 	private Boolean				eventType;
 
 	private Integer				id;
