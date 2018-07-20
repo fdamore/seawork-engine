@@ -4,14 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-@XmlRootElement(namespace = "org.uario.seaworkengine.model")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class DetailInitialSchedule implements Serializable, Comparable<DetailInitialSchedule> {
 
 	/**
@@ -39,53 +33,32 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 	@XmlTransient
 	private String				employee_identification;
 
-	// ** FILED USED IN MOBILE ** //
-	private String				field_mobile_board;
-
-	private String				field_mobile_crane;
-
-	private Integer				field_mobile_id_ship;
-
-	private String				field_mobile_nameShip;
-	// ** END FILED USED IN MOBILE ** //
-
 	private Integer				id;
 
 	private Integer				id_schedule;
 
 	// to show in overview
-	@XmlTransient
 	private Integer				id_user;
 
 	// to show in overview listbox
 	private String				note;
 
-	@XmlElement(name = "no_shift")
 	private Integer				shift;
 
 	// to show in overview
-	@XmlTransient
 	private Integer				shift_type;
 
 	private Integer				task;
 
-	// used in mobile device
-	private String				task_mobile_desc;
-
-	@XmlTransient
 	private Double				time;
 
-	@XmlTransient
 	private Timestamp			time_from;
 
-	@XmlTransient
 	private Timestamp			time_to;
 
-	@XmlTransient
 	private Double				time_vacation;
 
 	// to show in overview
-	@XmlTransient
 	private String				user;
 
 	@Override
@@ -131,7 +104,6 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 		return this.date_schedule;
 	}
 
-	@XmlElement(name = "time_from")
 	public Date getDateFrom() {
 		if (this.time_from == null) {
 			return null;
@@ -141,7 +113,6 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 
 	}
 
-	@XmlElement(name = "time_to")
 	public Date getDateTo() {
 		if (this.time_to == null) {
 			return null;
@@ -160,22 +131,6 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 
 	public String getEmployee_identification() {
 		return this.employee_identification;
-	}
-
-	public String getField_mobile_board() {
-		return this.field_mobile_board;
-	}
-
-	public String getField_mobile_crane() {
-		return this.field_mobile_crane;
-	}
-
-	public Integer getField_mobile_id_ship() {
-		return this.field_mobile_id_ship;
-	}
-
-	public String getField_mobile_nameShip() {
-		return this.field_mobile_nameShip;
 	}
 
 	public Integer getId() {
@@ -204,10 +159,6 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 
 	public Integer getTask() {
 		return this.task;
-	}
-
-	public String getTask_mobile_desc() {
-		return this.task_mobile_desc;
 	}
 
 	public Double getTime() {
@@ -254,22 +205,6 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 		this.employee_identification = employee_identification;
 	}
 
-	public void setField_mobile_board(final String field_mobile_board) {
-		this.field_mobile_board = field_mobile_board;
-	}
-
-	public void setField_mobile_crane(final String field_mobile_crane) {
-		this.field_mobile_crane = field_mobile_crane;
-	}
-
-	public void setField_mobile_id_ship(final Integer field_mobile_id_ship) {
-		this.field_mobile_id_ship = field_mobile_id_ship;
-	}
-
-	public void setField_mobile_nameShip(final String field_mobile_nameShip) {
-		this.field_mobile_nameShip = field_mobile_nameShip;
-	}
-
 	public void setId(final int id) {
 		this.id = id;
 	}
@@ -296,10 +231,6 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 
 	public void setTask(final int task_initial) {
 		this.task = task_initial;
-	}
-
-	public void setTask_mobile_desc(final String task_mobile_desc) {
-		this.task_mobile_desc = task_mobile_desc;
 	}
 
 	public void setTime(final Double time_initial) {

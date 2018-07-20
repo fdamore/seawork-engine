@@ -16,6 +16,7 @@ import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.web.services.handler.Badge;
+import org.uario.seaworkengine.web.services.handler.MobileUserDetail;
 
 public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedule {
 	private static Logger	logger	= Logger.getLogger(MyBatisScheduleDAO.class);
@@ -143,17 +144,6 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(final Integer id_schedule, final Integer no_shift) {
-		MyBatisScheduleDAO.logger.info("loadDetailFinalScheduleForMobileByIdScheduleAndNoShift");
-
-		final HashMap<String, Integer> map = new HashMap<>();
-		map.put("id_schedule", id_schedule);
-		map.put("no_shift", no_shift);
-
-		return this.getSqlSession().selectList("schedule.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift", map);
-	}
-
-	@Override
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(final Integer id_schedule) {
 		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleByIdSchedule");
 
@@ -172,14 +162,25 @@ public class MyBatisScheduleDAO extends SqlSessionDaoSupport implements ISchedul
 	}
 
 	@Override
-	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(final Integer id_schedule, final Integer no_shift) {
-		MyBatisScheduleDAO.logger.info("loadDetailInitialScheduleForMobileByIdScheduleAndNoShift");
+	public List<MobileUserDetail> loadMobileUserFinalDetail(final Integer id_schedule, final Integer no_shift) {
+		MyBatisScheduleDAO.logger.info("loadMobileUserFinalDetail");
 
 		final HashMap<String, Integer> map = new HashMap<>();
 		map.put("id_schedule", id_schedule);
 		map.put("no_shift", no_shift);
 
-		return this.getSqlSession().selectList("schedule.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift", map);
+		return this.getSqlSession().selectList("schedule.loadMobileUserFinalDetail", map);
+	}
+
+	@Override
+	public List<MobileUserDetail> loadMobileUserInitialDetail(final Integer id_schedule, final Integer no_shift) {
+		MyBatisScheduleDAO.logger.info("loadMobileUserInitialDetail");
+
+		final HashMap<String, Integer> map = new HashMap<>();
+		map.put("id_schedule", id_schedule);
+		map.put("no_shift", no_shift);
+
+		return this.getSqlSession().selectList("schedule.loadMobileUserInitialDetail", map);
 	}
 
 	@Override

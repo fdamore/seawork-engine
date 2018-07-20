@@ -1,27 +1,26 @@
 package org.uario.seaworkengine.web.services.handler;
 
-import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserTask;
 
 public class InitialScheduleSingleDetail {
 
-	private String					badgeInfo;
+	private String				badgeInfo;
 
-	private DetailInitialSchedule	detail_schedule;
+	private MobileUserDetail	detail_schedule;
 
-	private Person					person;
+	private Person				person;
 
-	private Schedule				schedule;
+	private Schedule			schedule;
 
-	private UserTask				user_task;
+	private UserTask			user_task;
 
 	public String getBadgeInfo() {
 		return this.badgeInfo;
 	}
 
-	public DetailInitialSchedule getDetail_schedule() {
+	public MobileUserDetail getDetail_schedule() {
 		return this.detail_schedule;
 	}
 
@@ -41,7 +40,7 @@ public class InitialScheduleSingleDetail {
 		this.badgeInfo = badgeInfo;
 	}
 
-	public void setDetail_schedule(final DetailInitialSchedule detail_schedule) {
+	public void setDetail_schedule(final MobileUserDetail detail_schedule) {
 		this.detail_schedule = detail_schedule;
 	}
 

@@ -59,7 +59,8 @@ WHERE
 
 
 	<select id="selectSchedulersForPreprocessingOnUserId"
-		resultType="org.uario.seaworkengine.model.Schedule" parameterType="map">
+		resultType="org.uario.seaworkengine.model.Schedule"
+		parameterType="map">
 	<![CDATA[	
 select 
     s.id,
@@ -86,7 +87,8 @@ order by u.lastname asc
 	</select>
 
 
-	<select id="selectSchedulersForPreprocessing" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectSchedulersForPreprocessing"
+		resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 <![CDATA[
 select 
@@ -125,27 +127,33 @@ where
 	</select>
 
 
-	<insert id="createSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
+	<insert id="createSchedule"
+		parameterType="org.uario.seaworkengine.model.Schedule">
 		INSERT INTO
 		schedule
-		(date_schedule, user, editor, controller, note,shift)
+		(date_schedule, user, editor,
+		controller, note,shift)
 		VALUES
-		(#{date_schedule}, #{user}, #{editor}, #{controller},#{note},
+		(#{date_schedule}, #{user}, #{editor},
+		#{controller},#{note},
 		#{shift});
 	</insert>
 
 
 
-	<update id="updateSchedule" parameterType="org.uario.seaworkengine.model.Schedule">
+	<update id="updateSchedule"
+		parameterType="org.uario.seaworkengine.model.Schedule">
 		UPDATE schedule
 		SET
 		id =
 		#{id},
-		date_schedule = #{date_schedule},
+		date_schedule =
+		#{date_schedule},
 		user = #{user},
 		editor =
 		#{editor},
-		controller = #{controller},
+		controller =
+		#{controller},
 		note = #{note},
 		shift = #{shift}
 		WHERE id = #{id};
@@ -154,7 +162,8 @@ where
 
 
 
-	<select id="getLastShiftProgram" parameterType="map" resultType="int">
+	<select id="getLastShiftProgram" parameterType="map"
+		resultType="int">
 	<![CDATA[
 select 
     max(dfs.shift)
@@ -207,7 +216,8 @@ where
 		s.date_schedule = #{date_schedule}
 	</select>
 
-	<select id="selectScheduleByDateAndUser" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectScheduleByDateAndUser"
+		resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 <![CDATA[		
 SELECT 
@@ -242,7 +252,8 @@ WHERE
 		#{date_schedule};
 	</delete>
 
-	<select id="selectScheduleInIntervalDateByUserId" parameterType="map"
+	<select id="selectScheduleInIntervalDateByUserId"
+		parameterType="map"
 		resultType="org.uario.seaworkengine.model.Schedule">
 <![CDATA[
 SELECT 
@@ -269,7 +280,8 @@ ORDER BY date_schedule ASC;
  ]]>
 	</select>
 
-	<select id="selectAggregateScheduleProgram" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectAggregateScheduleProgram"
+		resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 <![CDATA[		
 select 
@@ -315,7 +327,8 @@ where
 
 	</select>
 
-	<select id="selectAggregateScheduleRevision" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectAggregateScheduleRevision"
+		resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 <![CDATA[
 select 
@@ -362,7 +375,8 @@ where
 
 	</select>
 
-	<select id="selectAggregateScheduleByDateProgram" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectAggregateScheduleByDateProgram"
+		resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 <![CDATA[
 select 
@@ -407,7 +421,8 @@ where
 ]]>
 	</select>
 
-	<select id="selectAggregateScheduleByDateRevision" resultType="org.uario.seaworkengine.model.Schedule"
+	<select id="selectAggregateScheduleByDateRevision"
+		resultType="org.uario.seaworkengine.model.Schedule"
 		parameterType="map">
 		
 		<![CDATA[			
@@ -454,7 +469,8 @@ where
 	</select>
 
 
-	<insert id="createDetailInitialSchedule" parameterType="org.uario.seaworkengine.model.DetailInitialSchedule">
+	<insert id="createDetailInitialSchedule"
+		parameterType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		INSERT
 		INTO
 		detailinitialschedule (id_schedule, shift,
@@ -465,9 +481,11 @@ where
 		#{time_from},#{time_to},#{time_vacation},#{continueshift});
 	</insert>
 
-	<insert id="createDetailFinalSchedule" parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
+	<insert id="createDetailFinalSchedule"
+		parameterType="org.uario.seaworkengine.model.DetailFinalSchedule">
 		INSERT INTO
-		detailfinalschedule (id_schedule, shift, task, time, time_from,
+		detailfinalschedule (id_schedule, shift,
+		task, time, time_from,
 		time_to, time_vacation, id_ship, crane, board,
 		reviewshift,continueshift,rif_sws)
 		VALUES
@@ -525,16 +543,20 @@ ORDER BY df.time_from ASC;
 	</select>
 
 	<select id="loadDetailInitialScheduleByIdSchedule"
-		parameterType="Integer" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
+		parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
 		SELECT id, id_schedule, shift,
-		task, time, time_from, time_to, time_vacation, continueshift
+		task, time, time_from,
+		time_to, time_vacation, continueshift
 		FROM
 		detailinitialschedule
-		WHERE id_schedule =
+		WHERE
+		id_schedule =
 		#{id_schedule}
 	</select>
 
-	<select id="loadDetailFinalScheduleByIdSchedule" parameterType="Integer"
+	<select id="loadDetailFinalScheduleByIdSchedule"
+		parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailFinalSchedule">
 <![CDATA[		
 SELECT 
@@ -609,7 +631,21 @@ WHERE
 		]]>
 	</delete>
 
+	<!-- UPDATE EXCEPTION BREAK_EX -->
+	<update id="updateBreakEx" parameterType="map">
+		UPDATE schedule
+		SET
+		break_ex = #{break_ex}
+		WHERE id = #{id};
+	</update>
 
+	<!-- UPDATE EXCEPTION BREAK_FORCE -->
+	<update id="updateBreakForce" parameterType="map">
+		UPDATE schedule
+		SET
+		break_force = #{break_force}
+		WHERE id = #{id};
+	</update>
 
 
 
@@ -650,74 +686,57 @@ WHERE
 		WHERE id = #{id};
 	</update>
 
-	<!-- UPDATE EXCEPTION BREAK_EX -->
-	<update id="updateBreakEx" parameterType="map">
-		UPDATE schedule
-		SET
-		break_ex = #{break_ex}
-		WHERE id = #{id};
-	</update>
-	
-	<!-- UPDATE EXCEPTION BREAK_FORCE -->
-	<update id="updateBreakForce" parameterType="map">
-		UPDATE schedule
-		SET
-		break_force = #{break_force}
-		WHERE id = #{id};
-	</update>
 
 
-	<select id="loadDetailInitialScheduleForMobileByIdScheduleAndNoShift"
-		parameterType="map" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
-		SELECT d.id, d.id_schedule,
-		d.shift,
-		d.task, d.time, d.time_from, d.time_to,
-		d.time_vacation,d.continueshift,
-		ut.code as
-		task_mobile_desc
-		FROM
-		detailinitialschedule d, usertask ut
-		WHERE
-		id_schedule =
-		#{id_schedule}
-		and d.shift = #{no_shift}
-		and d.task =
-		ut.id and ut.hiddentask=false and
-		((ut.isabsence=false and
-		ut.justificatory = false) or
-		(ut.endoperation=true or ut.overflow=true
-		or ut.changeshift=true) );
+
+	<select
+		id="loadMobileUserInitialDetail"
+		parameterType="map"
+		resultType="org.uario.seaworkengine.web.services.handler.MobileUserDetail">
+<![CDATA[		
+SELECT 
+    d.id,
+    d.id_schedule,
+    d.shift,
+    d.task,
+    d.time,
+    d.time_from,
+    d.time_to,
+    d.time_vacation,
+    d.continueshift
+FROM
+    detailinitialschedule d
+WHERE
+    id_schedule = #{id_schedule} AND d.shift = #{no_shift}       
+]]>
 	</select>
 
 
 
 	<!-- LOAD THE FINAL INFO IN INITIAL STRUCTURE -->
-	<select id="loadDetailFinalScheduleForMobileByIdScheduleAndNoShift"
-		parameterType="map" resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
-		SELECT d.id, d.id_schedule,
-		d.shift,
-		d.task,
-		d.time, d.time_from, d.time_to,
-		d.time_vacation,d.continueshift,
-		ut.code as
-		task_mobile_desc,
-		d.id_ship
-		as field_mobile_id_ship,
-		d.board as
-		field_mobile_board,
-		s.name as
-		field_mobile_nameShip,
-		d.crane as
-		field_mobile_crane
-		FROM
-		usertask ut,
-		detailfinalschedule d LEFT JOIN ship
-		s ON d.id_ship = s.id
-		WHERE
-		id_schedule = #{id_schedule} and d.shift = #{no_shift} and d.task =
-		ut.id and ut.hiddentask=false and ((ut.isabsence=false and
-		ut.justificatory = false) or (ut.endoperation=true or ut.overflow=true
-		or ut.changeshift=true) );
+	<select
+		id="loadMobileUserFinalDetail"
+		parameterType="map"
+		resultType="org.uario.seaworkengine.web.services.handler.MobileUserDetail">
+		<![CDATA[	
+SELECT 
+    d.id,
+    d.id_schedule,
+    d.shift,
+    d.task,
+    d.time,
+    d.time_from,
+    d.time_to,
+    d.time_vacation,
+    d.continueshift
+    d.id_ship,
+    d.board,
+    d.crane
+FROM    
+    detailfinalschedule d
+WHERE
+    id_schedule = #{id_schedule} AND d.shift = #{no_shift}
+        ]]>
 	</select>
 
 	<insert id="createBadge">

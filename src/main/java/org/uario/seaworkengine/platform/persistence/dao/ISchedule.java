@@ -7,6 +7,7 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.web.services.handler.Badge;
+import org.uario.seaworkengine.web.services.handler.MobileUserDetail;
 
 public interface ISchedule {
 
@@ -28,13 +29,13 @@ public interface ISchedule {
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public List<DetailInitialSchedule> loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(Integer id_schedule, Integer no_shift);
+	public List<MobileUserDetail> loadMobileUserFinalDetail(Integer id_schedule, Integer no_shift);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public List<DetailInitialSchedule> loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(Integer id_schedule, Integer no_shift);
+	public List<MobileUserDetail> loadMobileUserInitialDetail(Integer id_schedule, Integer no_shift);
 
 	public List<Schedule> loadSchedule(Date date_scheduled);
 

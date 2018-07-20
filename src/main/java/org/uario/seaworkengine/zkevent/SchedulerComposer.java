@@ -4365,20 +4365,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				}
 			}
 
-			// check or unchek sync_mobile checkbox
-			if (this.selectedShift.equals(1)) {
-				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_1());
-			}
-			if (this.selectedShift.equals(2)) {
-				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_2());
-			}
-			if (this.selectedShift.equals(3)) {
-				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_3());
-			}
-			if (this.selectedShift.equals(4)) {
-				this.sync_schedule.setChecked(this.currentSchedule.getSync_mobile_4());
-			}
-
+			// check or un-chek sync_mobile checkbooks
+			// TODO: this behavior must be re-implemented
+			this.sync_schedule.setChecked(Boolean.FALSE);
 		}
 
 	}
@@ -4792,8 +4781,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		if (this.currentSchedule != null) {
 			this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(this.currentSchedule.getId(), this.selectedShift);
-
-			this.scheduleDAO.updateMobileSynch(this.currentSchedule.getId(), false, this.selectedShift);
 
 			// refresh grid
 			this.setupGlobalSchedulerGridForShiftReview();
@@ -5441,8 +5428,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// save details
 		this.scheduleDAO.saveListDetailFinalScheduler(this.currentSchedule.getId(), this.selectedShift, this.list_details_review);
-
-		this.scheduleDAO.updateMobileSynch(this.currentSchedule.getId(), this.sync_schedule.isChecked(), this.selectedShift);
 
 		// refresh grid
 		this.setupGlobalSchedulerGridForShiftReview();

@@ -9,7 +9,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserTask;
@@ -20,6 +19,7 @@ import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.InitialScheduleSingleDetail;
+import org.uario.seaworkengine.web.services.handler.MobileUserDetail;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.Converter;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -384,7 +384,7 @@ public class MobileComposer {
 				continue;
 			}
 
-			for (final DetailInitialSchedule detail : insch.getDetail_schedule()) {
+			for (final MobileUserDetail detail : insch.getDetail_schedule()) {
 
 				if (detail.getShift() == null) {
 					continue;

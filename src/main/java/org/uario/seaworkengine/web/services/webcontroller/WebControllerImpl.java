@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailFinalScheduleShip;
-import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
@@ -31,6 +30,7 @@ import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
+import org.uario.seaworkengine.web.services.handler.MobileUserDetail;
 import org.uario.seaworkengine.web.services.handler.TaskRunner;
 import org.uario.seaworkengine.web.services.handler.UserStaturation;
 import org.uario.seaworkengine.web.services.handler.Worker;
@@ -368,62 +368,19 @@ public class WebControllerImpl implements IWebServiceController {
 				continue;
 			}
 
-			final List<DetailInitialSchedule> merging_details = new ArrayList<>();
+			final List<MobileUserDetail> merging_details = new ArrayList<>();
 
 			// ADD SHIFT 1
-			if (!schedule.getSync_mobile_1()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-				        1);
-				if (itm != null) {
-					merging_details.addAll(itm);
+			for (int i = 1; i <= 4; i++) {
+				List<MobileUserDetail> list_details = this.scheduleDAO.loadMobileUserFinalDetail(schedule.getId(), i);
+				if (list_details == null) {
+					list_details = this.scheduleDAO.loadMobileUserInitialDetail(schedule.getId(), i);
 				}
-			} else {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 1);
-				if (itm != null) {
-					merging_details.addAll(itm);
-				}
-			}
 
-			// ADD SHIFT 2
-			if (!schedule.getSync_mobile_2()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-				        2);
-				if (itm != null) {
-					merging_details.addAll(itm);
+				if (list_details != null) {
+					merging_details.addAll(list_details);
 				}
-			} else {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 2);
-				if (itm != null) {
-					merging_details.addAll(itm);
-				}
-			}
 
-			// ADD SHIFT 3
-			if (!schedule.getSync_mobile_3()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-				        3);
-				if (itm != null) {
-					merging_details.addAll(itm);
-				}
-			} else {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 3);
-				if (itm != null) {
-					merging_details.addAll(itm);
-				}
-			}
-
-			// ADD SHIFT 4
-			if (!schedule.getSync_mobile_4()) {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailInitialScheduleForMobileByIdScheduleAndNoShift(schedule.getId(),
-				        4);
-				if (itm != null) {
-					merging_details.addAll(itm);
-				}
-			} else {
-				final List<DetailInitialSchedule> itm = this.scheduleDAO.loadDetailFinalScheduleForMobileByIdScheduleAndNoShift(schedule.getId(), 4);
-				if (itm != null) {
-					merging_details.addAll(itm);
-				}
 			}
 
 			// CHECK IF ANY ITEM TO ADD
