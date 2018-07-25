@@ -2171,15 +2171,7 @@
 								</checkbox>
 							</hbox>
 
-							<separator></separator>
-
-							<hbox align="center">
-								<a label="Inviato ad App Mobile"></a>
-								<checkbox checked="true"
-									id="sync_schedule" />
-							</hbox>
-
-							<separator></separator>
+							<separator></separator>						
 
 							<vbox align="start">
 

@@ -20,10 +20,6 @@ SELECT
     editor,
     controller,
     shift,
-    sync_mobile_1,
-    sync_mobile_2,
-    sync_mobile_3,
-    sync_mobile_4,
     break_ex,
     break_force
 FROM
@@ -44,10 +40,6 @@ SELECT
     editor,
     controller,
     shift,
-    sync_mobile_1,
-    sync_mobile_2,
-    sync_mobile_3,
-    sync_mobile_4,
     break_ex,
     break_force
 FROM
@@ -67,10 +59,6 @@ select
     u.id as user,
     s.shift,
     s.date_schedule,
-    s.sync_mobile_1,
-    s.sync_mobile_2,
-    s.sync_mobile_3,
-    s.sync_mobile_4,
     s.break_ex,
     s.break_force,
     concat(u.lastname, ' ', u.firstname) AS name_user
@@ -96,10 +84,6 @@ select
     u.id as user,
     s.shift,
     s.date_schedule,
-    s.sync_mobile_1,
-    s.sync_mobile_2,
-    s.sync_mobile_3,
-    s.sync_mobile_4,
     s.break_ex,
     s.break_force,
     concat(u.lastname, ' ', u.firstname) AS name_user
@@ -228,10 +212,6 @@ SELECT
     s.controller,
     s.shift,
     s.note,
-    s.sync_mobile_1,
-    s.sync_mobile_2,
-    s.sync_mobile_3,
-    s.sync_mobile_4,
     s.break_ex,
     s.break_force
 FROM
@@ -264,10 +244,6 @@ SELECT
     editor,
     controller,
     shift,
-    sync_mobile_1,
-    sync_mobile_2,
-    sync_mobile_3,
-    sync_mobile_4,
     break_ex,
     break_force
 FROM
@@ -287,10 +263,6 @@ ORDER BY date_schedule ASC;
 select 
     s.id,
     s.shift,
-    s.sync_mobile_1,
-    s.sync_mobile_2,
-    s.sync_mobile_3,
-    s.sync_mobile_4,
     s.break_ex,
     s.break_force,
     ds.shift as no_shift,
@@ -334,10 +306,6 @@ where
 select 
     s.id,
     s.shift,
-    s.sync_mobile_1,
-    s.sync_mobile_2,
-    s.sync_mobile_3,
-    s.sync_mobile_4,
     s.break_ex,
     s.break_force,
     ds.shift as no_shift,
@@ -382,10 +350,6 @@ where
 select 
     s.id,
     s.shift,
-    s.sync_mobile_1,
-    s.sync_mobile_2,
-    s.sync_mobile_3,
-    s.sync_mobile_4,
     s.break_ex,
     s.break_force,
     ds.shift as no_shift,
@@ -429,10 +393,6 @@ where
 select 
     s.id,
     s.shift,
-    s.sync_mobile_1,
-    s.sync_mobile_2,
-    s.sync_mobile_3,
-    s.sync_mobile_4,
     s.break_ex,
     s.break_force,
     ds.shift as no_shift,
@@ -658,33 +618,7 @@ WHERE
 		WHERE id = #{id_schedule};
 	</update>
 
-	<update id="updateMobileSynch1" parameterType="map">
-		UPDATE schedule
-		SET
-		sync_mobile_1 = #{sync_mobile}
-		WHERE id = #{id};
-	</update>
-
-	<update id="updateMobileSynch2" parameterType="map">
-		UPDATE schedule
-		SET
-		sync_mobile_2 = #{sync_mobile}
-		WHERE id = #{id};
-	</update>
-
-	<update id="updateMobileSynch3" parameterType="map">
-		UPDATE schedule
-		SET
-		sync_mobile_3 = #{sync_mobile}
-		WHERE id = #{id};
-	</update>
-
-	<update id="updateMobileSynch4" parameterType="map">
-		UPDATE schedule
-		SET
-		sync_mobile_4 = #{sync_mobile}
-		WHERE id = #{id};
-	</update>
+	
 
 
 

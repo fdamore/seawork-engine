@@ -29,11 +29,12 @@ public interface ISchedule {
 
 	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public List<MobileUserDetail> loadMobileUserFinalDetail(Integer id_schedule, Integer no_shift);
-
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 
-	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
+	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule,
+	        Integer shift);
+
+	public List<MobileUserDetail> loadMobileUserFinalDetail(Integer id_schedule, Integer no_shift);
 
 	public List<MobileUserDetail> loadMobileUserInitialDetail(Integer id_schedule, Integer no_shift);
 
@@ -65,21 +66,21 @@ public interface ISchedule {
 
 	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
 
-	public List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
+	public List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date,
+	        String full_text_search);
 
 	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 
 	public List<Schedule> selectScheduleInIntervalDateByUserId(Integer user, Date date_from, Date date_to);
 
-	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
+	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date,
+	        String my_full_text_search);
 
 	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
 
 	public void updateBreakEx(Integer id, Boolean break_ex);
 
 	public void updateBreakForce(Integer id, Boolean break_force);
-
-	public void updateMobileSynch(Integer id_schedule, boolean synch_mobile, Integer shift_no);
 
 	public void updateScheduleNote(Integer id_schedule, String note);
 

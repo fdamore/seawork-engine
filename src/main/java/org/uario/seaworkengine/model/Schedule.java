@@ -63,18 +63,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	private Integer				shift;
 
-	@XmlTransient
-	private Boolean				sync_mobile_1;
-
-	@XmlTransient
-	private Boolean				sync_mobile_2;
-
-	@XmlTransient
-	private Boolean				sync_mobile_3;
-
-	@XmlTransient
-	private Boolean				sync_mobile_4;
-
 	private Integer				user;
 
 	public Schedule() {
@@ -163,34 +151,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.shift;
 	}
 
-	public Boolean getSync_mobile_1() {
-		if (this.sync_mobile_1 == null) {
-			return Boolean.FALSE;
-		}
-		return this.sync_mobile_1;
-	}
-
-	public Boolean getSync_mobile_2() {
-		if (this.sync_mobile_2 == null) {
-			return Boolean.FALSE;
-		}
-		return this.sync_mobile_2;
-	}
-
-	public Boolean getSync_mobile_3() {
-		if (this.sync_mobile_3 == null) {
-			return Boolean.FALSE;
-		}
-		return this.sync_mobile_3;
-	}
-
-	public Boolean getSync_mobile_4() {
-		if (this.sync_mobile_4 == null) {
-			return Boolean.FALSE;
-		}
-		return this.sync_mobile_4;
-	}
-
 	public Integer getUser() {
 		return this.user;
 	}
@@ -253,22 +213,6 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setShift(final Integer shift) {
 		this.shift = shift;
-	}
-
-	public void setSync_mobile_1(final Boolean sync_mobile_1) {
-		this.sync_mobile_1 = sync_mobile_1;
-	}
-
-	public void setSync_mobile_2(final Boolean sync_mobile_2) {
-		this.sync_mobile_2 = sync_mobile_2;
-	}
-
-	public void setSync_mobile_3(final Boolean sync_mobile_3) {
-		this.sync_mobile_3 = sync_mobile_3;
-	}
-
-	public void setSync_mobile_4(final Boolean sync_mobile_4) {
-		this.sync_mobile_4 = sync_mobile_4;
 	}
 
 	public void setUser(final Integer user) {
