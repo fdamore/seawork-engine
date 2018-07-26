@@ -9,14 +9,20 @@ public class MobileUserDetail implements Serializable {
 	 *
 	 */
 	private static final long	serialVersionUID	= 1L;
+
 	private String				board;
+
 	private Boolean				continueshift;
+
 	private String				cran;
 	private Integer				id;
 	private Integer				id_schedule;
 	private Integer				id_ship;
+	private Boolean				revised;
 	private Integer				shift;
+
 	private Integer				task;
+
 	private Double				time;
 	private Date				time_from;
 	private Date				time_to;
@@ -44,6 +50,10 @@ public class MobileUserDetail implements Serializable {
 
 	public Integer getId_ship() {
 		return this.id_ship;
+	}
+
+	public Boolean getRevised() {
+		return this.revised;
 	}
 
 	public Integer getShift() {
@@ -92,6 +102,10 @@ public class MobileUserDetail implements Serializable {
 
 	public void setId_ship(final Integer id_ship) {
 		this.id_ship = id_ship;
+	}
+
+	public void setRevised(final Boolean revised) {
+		this.revised = revised;
 	}
 
 	public void setShift(final Integer shift) {

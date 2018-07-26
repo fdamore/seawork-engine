@@ -52,13 +52,12 @@
 			</div>
 
 			<div class="btn-group-mg btn btn-group">
-
-				<button sclass="btn btn-danger" label="Cancella" />
 				<button sclass="btn btn-info" label="Note"
 					onClick="@command('editNote')" />
 				<button sclass="btn btn-info" label="Aggiungi"
-					onClick="@command('addSchedule')" />
-
+					onClick="@command('addComponents')" />
+				<button sclass="btn btn-danger" label="Cancella"
+					onClick="@command('removeComponent')" />
 			</div>
 
 
@@ -67,7 +66,8 @@
 				<button sclass="btn btn-info"
 					label="@load(vm.status_view eq 1 ? 'Navi':'Turni')"
 					onClick="@command('switchShipShift')" />
-				<button sclass="btn btn-info" label="Consuntiva" />
+				<button sclass="btn btn-info" label="Consuntiva"
+					onClick="@command('review')" />
 				<button sclass="btn btn-success" label="Aggiorna"
 					onClick="@command('refreshDataAndCurrentShift')" />
 
@@ -589,7 +589,7 @@
 				<div class="well well-lg">
 
 					<button sclass="btn btn-lg btn-success"
-						label="AGGIUNGI" onClick="@command('addRowSingleDetail')">
+						label="AGGIUNGI" onClick="@command('addDetailFinalSchedule')">
 					</button>
 					<button sclass="btn btn-lg btn-danger"
 						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
@@ -639,7 +639,7 @@
 							<div class="well well-lg">
 								<n:h3>
 									<label value="@load(item.person)"
-										sclass="label label-info">
+										sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
 									</label>
 								</n:h3>
 

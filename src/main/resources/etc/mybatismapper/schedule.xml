@@ -563,9 +563,11 @@ WHERE
 	</delete>
 
 
-
-
-
+	<delete id="removeDetailFinalSchedule" parameterType="map">
+		DELETE FROM
+		detailfinalschedule
+		WHERE id = #{id}
+	</delete>
 
 	<delete id="removeAllDetailInitialScheduleBySchedule"
 		parameterType="map">
@@ -618,14 +620,12 @@ WHERE
 		WHERE id = #{id_schedule};
 	</update>
 
-	
 
 
 
 
-	<select
-		id="loadMobileUserInitialDetail"
-		parameterType="map"
+
+	<select id="loadMobileUserInitialDetail" parameterType="map"
 		resultType="org.uario.seaworkengine.web.services.handler.MobileUserDetail">
 <![CDATA[		
 SELECT 
@@ -637,7 +637,8 @@ SELECT
     d.time_from,
     d.time_to,
     d.time_vacation,
-    d.continueshift
+    d.continueshift,
+    0 as revised
 FROM
     detailinitialschedule d
 WHERE
@@ -648,9 +649,7 @@ WHERE
 
 
 	<!-- LOAD THE FINAL INFO IN INITIAL STRUCTURE -->
-	<select
-		id="loadMobileUserFinalDetail"
-		parameterType="map"
+	<select id="loadMobileUserFinalDetail" parameterType="map"
 		resultType="org.uario.seaworkengine.web.services.handler.MobileUserDetail">
 		<![CDATA[	
 SELECT 
@@ -662,10 +661,11 @@ SELECT
     d.time_from,
     d.time_to,
     d.time_vacation,
-    d.continueshift
+    d.continueshift,
     d.id_ship,
     d.board,
-    d.crane
+    d.crane,
+    1 as revised
 FROM    
     detailfinalschedule d
 WHERE

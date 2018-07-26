@@ -52,6 +52,7 @@ public class Utility {
 	private static SimpleDateFormat			dateTimeformat	= new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
 	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
+
 	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
 
 	public static String convertToDateAndTime(final Date date) {
@@ -271,7 +272,7 @@ public class Utility {
 
 	/**
 	 * Define label for Badge
-	 * 
+	 *
 	 * @param badgeList
 	 * @return
 	 */
@@ -301,6 +302,29 @@ public class Utility {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return cal.get(Calendar.MONTH) + 1;
+	}
+
+	/**
+	 * Get Time differences
+	 *
+	 * @param date_from
+	 * @param date_to
+	 * @return
+	 */
+	public static Double getTimeDifference(final Date date_from, final Date date_to) {
+		final Date time_from_date = DateUtils.truncate(date_from, Calendar.MINUTE);
+		final Date time_to_date = DateUtils.truncate(date_to, Calendar.MINUTE);
+		if (time_from_date.after(time_to_date)) {
+			return null;
+		}
+
+		final Long long_time = time_to_date.getTime() - time_from_date.getTime();
+
+		final Double millis = long_time.doubleValue();
+
+		final Double ret = millis / (1000.0 * 60.0 * 60.0);
+
+		return Utility.roundSix(ret);
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package org.uario.seaworkengine.web.zkevent;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,9 +10,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.BooleanUtils;
+import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -106,6 +110,8 @@ public class MobileComposer {
 
 	private String								note_ship;
 
+	private ISchedule							schedule_dao;
+
 	private InitialScheduleSingleDetail			schedule_selected	= null;
 
 	private IWebServiceController				service;
@@ -130,23 +136,9 @@ public class MobileComposer {
 
 	private List<InitialScheduleSingleDetail>	users;
 
-	/**
-	 * Add single detail
-	 */
 	@Command
-	@NotifyChange({
-	        "users", "shift_no", "status_view"
-	})
-	public void addRowSingleDetail() {
-
-		this.refreshDataAndCurrentShift();
-	}
-
-	@Command
-	@NotifyChange({
-	        "status_view", "list_task"
-	})
-	public void addSchedule() {
+	@NotifyChange({ "status_view", "list_task" })
+	public void addComponents() {
 
 		if (this.status_view == 1) {
 			if (this.schedule_selected == null) {
@@ -181,6 +173,68 @@ public class MobileComposer {
 			this.status_view = 2;
 
 		}
+	}
+
+	/**
+	 * Add single detail
+	 */
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view" })
+	public void addDetailFinalSchedule() {
+
+		if (this.schedule_selected == null) {
+			return;
+		}
+
+		// parse time
+		final String starting = this.getStarting_task();
+		final String end = this.getEnd_task();
+		final Date dt_starting = this.parseUserWorkTime(starting);
+		final Date dt_end = this.parseUserWorkTime(end);
+		if ((dt_starting == null) || (dt_end == null)) {
+			return;
+		}
+
+		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+
+		detail_schedule.setId_schedule(this.schedule_selected.getSchedule().getId());
+		detail_schedule.setShift(this.schedule_selected.getDetail_schedule().getShift());
+		detail_schedule.setContinueshift(Boolean.FALSE);
+		detail_schedule.setBoard(this.getUser_position());
+
+		if (this.getUser_crane() != null) {
+			detail_schedule.setCrane(this.getUser_crane().toUpperCase());
+		}
+
+		// task
+		if (this.user_task_selected != null) {
+			detail_schedule.setTask(this.user_task_selected.getId());
+		}
+
+		// ship
+		if (this.ship_selected != null) {
+			detail_schedule.setId_ship(this.ship_selected.getId());
+		}
+
+		// define time
+		detail_schedule.setTime_from(new java.sql.Timestamp(dt_starting.getTime()));
+		detail_schedule.setTime_to(new java.sql.Timestamp(dt_end.getTime()));
+		final Double time = Utility.getTimeDifference(dt_starting, dt_end);
+
+		if (this.user_task_selected.getIsabsence()) {
+			detail_schedule.setTime_vacation(time);
+			detail_schedule.setTime(0.0);
+
+		} else {
+			detail_schedule.setTime_vacation(0.0);
+			detail_schedule.setTime(time);
+
+		}
+
+		this.schedule_dao.createDetailFinalSchedule(detail_schedule);
+
+		// refresh view for user list (status 1)
+		this.refreshDataAndCurrentShift();
 	}
 
 	/**
@@ -222,9 +276,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({
-	        "status_view", "note", "note_ship"
-	})
+	@NotifyChange({ "status_view", "note", "note_ship" })
 	public void editNote() {
 
 		// note for "TURNI"
@@ -326,16 +378,16 @@ public class MobileComposer {
 	@AfterCompose
 	public void init(@ContextParam(ContextType.COMPONENT) final Component component) throws Exception {
 		this.service = (IWebServiceController) SpringUtil.getBean(BeansTag.WEBCONTROLLER);
+
 		this.task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+		this.schedule_dao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
 		this.refreshDataAndCurrentShift();
 
 	}
 
 	@Command
-	@NotifyChange({
-	        "users", "shift_no", "status_view"
-	})
+	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void modifyNote() {
 
 		if (this.schedule_selected == null) {
@@ -349,9 +401,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({
-	        "list_ship", "shift_no", "status_view"
-	})
+	@NotifyChange({ "list_ship", "shift_no", "status_view" })
 	public void modifyShipNote() {
 
 		if (this.detail_schedule_ship_selected == null) {
@@ -364,10 +414,45 @@ public class MobileComposer {
 
 	}
 
+	/**
+	 * Parse duration time
+	 *
+	 * @param tm
+	 * @return
+	 */
+	private Date parseUserWorkTime(final String tm) {
+		final SimpleDateFormat format_time = new SimpleDateFormat("HH:mm");
+		final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY HH:mm");
+
+		Date dt = null;
+
+		try {
+			dt = format_time.parse(tm);
+
+			final Calendar calendar = Calendar.getInstance();
+			final Calendar current_calendar = Calendar.getInstance();
+			calendar.setTime(dt);
+
+			calendar.set(Calendar.YEAR, current_calendar.get(Calendar.YEAR));
+			calendar.set(Calendar.MONTH, current_calendar.get(Calendar.MONTH));
+			calendar.set(Calendar.DAY_OF_MONTH, current_calendar.get(Calendar.DAY_OF_MONTH));
+
+			return calendar.getTime();
+
+		} catch (final ParseException e) {
+			try {
+				dt = format_date.parse(tm);
+			} catch (final ParseException e1) {
+				return null;
+			}
+		}
+
+		return dt;
+
+	}
+
 	@Command
-	@NotifyChange({
-	        "users", "status_view"
-	})
+	@NotifyChange({ "users", "status_view" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
 
 		if (this.users != null) {
@@ -425,9 +510,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({
-	        "users", "shift_no", "status_view"
-	})
+	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void refreshDataAndCurrentShift() {
 
 		this.calculateShiftNo();
@@ -440,9 +523,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({
-	        "list_ship", "shift_no", "status_view"
-	})
+	@NotifyChange({ "list_ship", "shift_no", "status_view" })
 	public void refreshShipDataAndCurrentShift() {
 
 		this.calculateShiftNo();
@@ -454,14 +535,80 @@ public class MobileComposer {
 
 	}
 
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view" })
+	public void removeComponent() {
+
+		// remove "TURNI"
+		if (this.status_view == 1) {
+
+			if (this.schedule_selected == null) {
+				return;
+			}
+
+			if (BooleanUtils.isNotTrue(this.schedule_selected.getDetail_schedule().getRevised())) {
+				return;
+			}
+
+			final Integer id = this.schedule_selected.getDetail_schedule().getId();
+			this.schedule_dao.removeDetailFinalSchedule(id);
+
+			this.refreshDataAndCurrentShift();
+
+		}
+
+	}
+
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view" })
+	public void review() {
+
+		// review "TURNI"
+		if (this.status_view == 1) {
+
+			for (final InitialScheduleSingleDetail itm : this.users) {
+
+				// if already revised, no act
+				final MobileUserDetail user_detail = itm.getDetail_schedule();
+
+				if (BooleanUtils.isTrue(user_detail.getRevised())) {
+					continue;
+				}
+
+				// TODO: test this code
+				if (false) {
+
+					final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+
+					detail_schedule.setTime_from(new Timestamp(user_detail.getTime_from().getTime()));
+					detail_schedule.setTime_to(new Timestamp(user_detail.getTime_to().getTime()));
+					detail_schedule.setId_schedule(itm.getSchedule().getId());
+					detail_schedule.setShift(user_detail.getShift());
+					detail_schedule.setContinueshift(Boolean.FALSE);
+					detail_schedule.setBoard(user_detail.getBoard());
+					detail_schedule.setCrane(user_detail.getCran());
+					detail_schedule.setTask(user_detail.getTask());
+					detail_schedule.setId_ship(user_detail.getId_ship());
+					detail_schedule.setTime(user_detail.getTime());
+					detail_schedule.setTime_vacation(user_detail.getTime_vacation());
+
+					this.schedule_dao.createDetailFinalSchedule(detail_schedule);
+				}
+
+			}
+
+			this.refreshDataAndCurrentShift();
+
+		}
+
+	}
+
 	/**
 	 * @param filed
 	 *            0 for initial, 1 for final
 	 */
 	@Command
-	@NotifyChange({
-	        "starting_task", "end_task"
-	})
+	@NotifyChange({ "starting_task", "end_task" })
 	public void setCurrentTaskTime(@BindingParam("field") final int field) {
 
 		final Calendar now = Calendar.getInstance();
@@ -469,7 +616,12 @@ public class MobileComposer {
 		final Integer h = now.get(Calendar.HOUR_OF_DAY);
 		final Integer m = now.get(Calendar.MINUTE);
 
-		final String current = "" + h + ":" + m;
+		String info_m = m.toString();
+		if (info_m.length() == 1) {
+			info_m = "0" + info_m;
+		}
+
+		final String current = "" + h + ":" + info_m;
 
 		if (field == 0) {
 			this.starting_task = current;
@@ -520,9 +672,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({
-	        "users", "shift_no", "status_view"
-	})
+	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void signIn() {
 		if ((this.status_view == 1) && (this.schedule_selected != null)) {
 
@@ -539,9 +689,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({
-	        "users", "shift_no", "status_view"
-	})
+	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void signOut() {
 		if ((this.status_view == 1) && (this.schedule_selected != null)) {
 
@@ -557,9 +705,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({
-	        "users", "shift_no", "status_view", "list_ship"
-	})
+	@NotifyChange({ "users", "shift_no", "status_view", "list_ship" })
 	public void switchShipShift() {
 
 		if (this.status_view == 1) {

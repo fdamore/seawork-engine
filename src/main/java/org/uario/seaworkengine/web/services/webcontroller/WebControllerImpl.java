@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
@@ -307,11 +308,9 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(
-	        final Integer idDetailScheduleShip) {
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
 
-		final List<DetailFinalScheduleShip> final_details = this.ship_dao
-		        .loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+		final List<DetailFinalScheduleShip> final_details = this.ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 
 		return final_details;
 	}
@@ -333,8 +332,8 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<DetailScheduleShip> list = this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate,
-		        null, null, null, null, null, null, null);
+		final List<DetailScheduleShip> list = this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, null, null, null, null,
+				null, null);
 		return list;
 	}
 
@@ -372,11 +371,11 @@ public class WebControllerImpl implements IWebServiceController {
 			// ADD SHIFT 1
 			for (int i = 1; i <= 4; i++) {
 				List<MobileUserDetail> list_details = this.scheduleDAO.loadMobileUserFinalDetail(schedule.getId(), i);
-				if (list_details == null) {
+				if (CollectionUtils.isEmpty(list_details)) {
 					list_details = this.scheduleDAO.loadMobileUserInitialDetail(schedule.getId(), i);
 				}
 
-				if (list_details != null) {
+				if (!CollectionUtils.isEmpty(list_details)) {
 					merging_details.addAll(list_details);
 				}
 
@@ -464,9 +463,9 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork,
-	        final Integer menwork, final String temperature, final String sky, final String rain, final String wind,
-	        final Date first_down, final Date last_down, final Date person_down, final Date person_onboard) {
+	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork, final Integer menwork,
+			final String temperature, final String sky, final String rain, final String wind, final Date first_down, final Date last_down,
+			final Date person_down, final Date person_onboard) {
 
 		final DetailScheduleShip sch = new DetailScheduleShip();
 		sch.setId(id);

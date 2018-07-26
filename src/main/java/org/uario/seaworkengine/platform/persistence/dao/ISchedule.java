@@ -31,8 +31,7 @@ public interface ISchedule {
 
 	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 
-	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule,
-	        Integer shift);
+	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
 	public List<MobileUserDetail> loadMobileUserFinalDetail(Integer id_schedule, Integer no_shift);
 
@@ -52,6 +51,8 @@ public interface ISchedule {
 
 	public void removeAllDetailInitialScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 
+	public void removeDetailFinalSchedule(Integer id);
+
 	public void removeSchedule(Date date_scheduler, Integer id_user);
 
 	public void removeScheduleUser(Integer idUser, Date initialDate, Date finalDate);
@@ -66,15 +67,13 @@ public interface ISchedule {
 
 	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
 
-	public List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date,
-	        String full_text_search);
+	public List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
 
 	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 
 	public List<Schedule> selectScheduleInIntervalDateByUserId(Integer user, Date date_from, Date date_to);
 
-	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date,
-	        String my_full_text_search);
+	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
 
 	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
 
