@@ -12,7 +12,6 @@ import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.UserStaturation;
-import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public interface IWebServiceController {
 
@@ -126,21 +125,14 @@ public interface IWebServiceController {
 	 * @param idDetailScheduleShip
 	 * @return
 	 */
-	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(
+	        Integer idDetailScheduleShip);
 
 	/**
 	 * @param id_schedule
 	 * @return
 	 */
 	public List<Badge> loadListBadge(Integer id_schedule);
-
-	/**
-	 * Return Detail Scheduler
-	 *
-	 * @param date_request
-	 * @return
-	 */
-	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(Date date_request);
 
 	/**
 	 * Get initial schedule for each person
@@ -151,16 +143,14 @@ public interface IWebServiceController {
 	public List<InitialSchedule> selectInitialSchedule(Date date_request);
 
 	/**
-	 * Transmit final scheduler
+	 * Return Detail Scheduler
 	 *
-	 * @param no_shift
-	 *            *
+	 * @param date_request
 	 * @param shift
-	 * @param date
-	 *
+	 *            TODO
 	 * @return
 	 */
-	public boolean synchronizeWork(Date date_request, Integer no_shift, WorkerShift worker_shift);
+	public List<DetailScheduleShip> selectInitialShipSchedule(Date date_request, Integer shift);
 
 	/**
 	 * Update scheduler ship for mobile
@@ -169,8 +159,7 @@ public interface IWebServiceController {
 	 * @param operation
 	 * @param menwork
 	 */
-	public void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer handswork, Integer menwork,
-	        String temperature, String sky, String rain, String wind, Date first_down, Date last_down, Date person_down, Date person_onboard);
+	public void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer handswork);
 
 	/**
 	 * Public string get note

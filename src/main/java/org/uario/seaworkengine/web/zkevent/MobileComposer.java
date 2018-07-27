@@ -118,6 +118,10 @@ public class MobileComposer {
 
 	private Integer								shift_no;
 
+	private Integer								ship_handswork;
+
+	private String								ship_operation;
+
 	private Ship								ship_selected;
 
 	private List<Ship>							ships;
@@ -343,6 +347,14 @@ public class MobileComposer {
 		return this.shift_no;
 	}
 
+	public Integer getShip_handswork() {
+		return this.ship_handswork;
+	}
+
+	public String getShip_operation() {
+		return this.ship_operation;
+	}
+
 	public Ship getShip_selected() {
 		return this.ship_selected;
 	}
@@ -387,7 +399,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({ "users", "shift_no", "status_view", "schedule_selected" })
 	public void modifyNote() {
 
 		if (this.schedule_selected == null) {
@@ -401,7 +413,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "list_ship", "shift_no", "status_view" })
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
 	public void modifyShipNote() {
 
 		if (this.detail_schedule_ship_selected == null) {
@@ -452,86 +464,98 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "status_view" })
+	@NotifyChange({ "users", "list_ship", "schedule_selected", "status_view", "detail_schedule_ship_selected" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
 
-		if (this.users != null) {
-			this.users.clear();
-		} else {
-			this.users = new ArrayList<>();
-		}
+		if (this.status_view == 1) {
 
-		final List<InitialSchedule> list = this.service.selectInitialSchedule(Calendar.getInstance().getTime());
-
-		// POST PROCESSING
-		for (final InitialSchedule insch : list) {
-			if (insch.getDetail_schedule() == null) {
-				continue;
+			if (this.users != null) {
+				this.users.clear();
+			} else {
+				this.users = new ArrayList<>();
 			}
 
-			for (final MobileUserDetail detail : insch.getDetail_schedule()) {
+			final List<InitialSchedule> list = this.service.selectInitialSchedule(Calendar.getInstance().getTime());
 
-				if (detail.getShift() == null) {
+			// POST PROCESSING
+			for (final InitialSchedule insch : list) {
+				if (insch.getDetail_schedule() == null) {
 					continue;
 				}
 
-				// filter on shift
-				if (shift_no != null) {
-					if (!shift_no.equals(detail.getShift())) {
+				for (final MobileUserDetail detail : insch.getDetail_schedule()) {
+
+					if (detail.getShift() == null) {
 						continue;
 					}
+
+					// filter on shift
+					if (shift_no != null) {
+						if (!shift_no.equals(detail.getShift())) {
+							continue;
+						}
+					}
+
+					final UserTask user_task = this.task_dao.loadTask(detail.getTask());
+
+					final InitialScheduleSingleDetail itm = new InitialScheduleSingleDetail();
+					itm.setDetail_schedule(detail);
+					itm.setPerson(insch.getPerson());
+					itm.setSchedule(insch.getSchedule());
+					itm.setUser_task(user_task);
+
+					// set badge info
+					final List<Badge> badgeList = this.service.loadListBadge(insch.getSchedule().getId());
+					final String infob = Utility.getLabelListBadge(badgeList);
+					itm.setBadgeInfo(infob);
+
+					this.users.add(itm);
+
 				}
-
-				final UserTask user_task = this.task_dao.loadTask(detail.getTask());
-
-				final InitialScheduleSingleDetail itm = new InitialScheduleSingleDetail();
-				itm.setDetail_schedule(detail);
-				itm.setPerson(insch.getPerson());
-				itm.setSchedule(insch.getSchedule());
-				itm.setUser_task(user_task);
-
-				// set badge info
-				final List<Badge> badgeList = this.service.loadListBadge(insch.getSchedule().getId());
-				final String infob = Utility.getLabelListBadge(badgeList);
-				itm.setBadgeInfo(infob);
-
-				this.users.add(itm);
 
 			}
 
+			// set null selected
+			this.schedule_selected = null;
+
 		}
 
-		// refresh ship list
-		this.ships = this.service.listShip(Calendar.getInstance().getTime());
+		if (this.status_view == 4) {
+
+			this.list_ship = this.service.selectInitialShipSchedule(Calendar.getInstance().getTime(), shift_no);
+
+			// deselect
+			this.detail_schedule_ship_selected = null;
+
+		}
+
+	}
+
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view", "schedule_selected" })
+	public void refreshDataAndCurrentShift() {
 
 		// set view to status 1
 		this.status_view = 1;
 
-	}
-
-	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
-	public void refreshDataAndCurrentShift() {
-
 		this.calculateShiftNo();
-
-		// define status view
-		this.status_view = 1;
 
 		// refresh with shift_no
 		this.refresh(this.shift_no);
+
 	}
 
 	@Command
-	@NotifyChange({ "list_ship", "shift_no", "status_view" })
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
 	public void refreshShipDataAndCurrentShift() {
-
-		this.calculateShiftNo();
 
 		// return to list of ship
 		this.status_view = 4;
 
-		this.list_ship = this.service.selectDetailScheduleShipByShiftDate(Calendar.getInstance().getTime());
+		this.calculateShiftNo();
+
+		// refresh with shift_no
+		this.refresh(this.shift_no);
 
 	}
 
@@ -560,7 +584,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({ "users", "shift_no", "status_view", "ship_operation", "ship_handswork" })
 	public void review() {
 
 		// review "TURNI"
@@ -598,6 +622,21 @@ public class MobileComposer {
 			}
 
 			this.refreshDataAndCurrentShift();
+
+		}
+
+		// review for ship - active review editor for ship
+		if (this.status_view == 4) {
+
+			if (this.detail_schedule_ship_selected == null) {
+				return;
+			}
+
+			this.ship_operation = this.detail_schedule_ship_selected.getOperation();
+			this.ship_handswork = this.detail_schedule_ship_selected.getHandswork();
+
+			// set view
+			this.status_view = 6;
 
 		}
 
@@ -651,6 +690,14 @@ public class MobileComposer {
 		this.schedule_selected = schedule_selected;
 	}
 
+	public void setShip_handswork(final Integer ship_handswork) {
+		this.ship_handswork = ship_handswork;
+	}
+
+	public void setShip_operation(final String ship_operation) {
+		this.ship_operation = ship_operation;
+	}
+
 	public void setShip_selected(final Ship ship_selected) {
 		this.ship_selected = ship_selected;
 	}
@@ -669,6 +716,21 @@ public class MobileComposer {
 
 	public void setUser_task_selected(final UserTask user_task_selected) {
 		this.user_task_selected = user_task_selected;
+	}
+
+	@Command
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
+	public void shipReviewCommand() {
+
+		if (this.detail_schedule_ship_selected == null) {
+			return;
+		}
+
+		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(),
+		        this.getShip_operation(), this.getShip_handswork());
+
+		this.refreshShipDataAndCurrentShift();
+
 	}
 
 	@Command

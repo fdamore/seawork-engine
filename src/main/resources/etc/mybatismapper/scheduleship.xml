@@ -737,7 +737,7 @@ WHERE
 	</select>
 
 
-	
+
 
 
 	<update id="updateDetailScheduleShipNote" parameterType="map">
@@ -792,25 +792,12 @@ WHERE
 
 
 	<update id="updateDetailScheduleShipForMobile"
-		parameterType="org.uario.seaworkengine.model.DetailScheduleShip">
-		UPDATE
-		detailscheduleship SET
-		operation = #{operation},
-		handswork =
-		#{handswork},
-		menwork = #{menwork},
-		rain = #{rain},
-		wind =
-		#{wind},
-		sky=#{sky},
-		temperature = #{temperature},
-		first_down =
-		#{first_down},
-		last_down = #{last_down},
-		person_down = #{person_down},
-		person_onboard =
-		#{person_onboard}
-		WHERE id = #{id};
+		parameterType="map">
+		<![CDATA[
+		UPDATE detailscheduleship 
+			SET operation = #{operation}, handswork = #{handswork}
+		WHERE id = #{id}
+		]]>
 	</update>
 
 

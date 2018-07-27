@@ -95,7 +95,7 @@ public interface IScheduleShip {
 
 	public void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);
 
-	public void updateDetailScheduleShipForMobile(DetailScheduleShip sch);
+	public void updateDetailScheduleShipForMobile(Integer id, String operation, Integer handswork);
 
 	public void updateDetailScheduleShipNote(Integer id_schedule, String note);
 

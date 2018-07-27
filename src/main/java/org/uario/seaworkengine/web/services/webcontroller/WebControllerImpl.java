@@ -9,8 +9,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
@@ -19,7 +17,6 @@ import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
-import org.uario.seaworkengine.platform.persistence.cache.ITaskCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
@@ -32,10 +29,7 @@ import org.uario.seaworkengine.web.services.IWebServiceController;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
 import org.uario.seaworkengine.web.services.handler.MobileUserDetail;
-import org.uario.seaworkengine.web.services.handler.TaskRunner;
 import org.uario.seaworkengine.web.services.handler.UserStaturation;
-import org.uario.seaworkengine.web.services.handler.Worker;
-import org.uario.seaworkengine.web.services.handler.WorkerShift;
 
 public class WebControllerImpl implements IWebServiceController {
 
@@ -54,8 +48,6 @@ public class WebControllerImpl implements IWebServiceController {
 	private IStatProcedure		stat_procedure;
 
 	private IStatistics			statistics;
-
-	private ITaskCache			taskCache;
 
 	private TasksDAO			taskDAO;
 
@@ -136,113 +128,6 @@ public class WebControllerImpl implements IWebServiceController {
 
 	}
 
-	/**
-	 * final synch process
-	 *
-	 * @param list_synch
-	 * @return
-	 */
-	private boolean finalSyncProcess(final Date date_request, final Integer no_shift, final WorkerShift worker_shift) {
-
-		if (worker_shift == null) {
-			this.logger.error("worker_shift null");
-			return false;
-		}
-
-		if (no_shift == null) {
-			this.logger.error("no_shift null");
-			return false;
-		}
-
-		if (date_request == null) {
-			this.logger.error("date_request null");
-			return false;
-		}
-
-		// define data synchronize
-		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
-
-		for (final Worker worker : worker_shift.getWorkers()) {
-
-			if (worker.getUtente() == null) {
-				this.logger.error("Worker null");
-				continue;
-			}
-
-			if (worker.getUtente().intValue() != 19) {
-				continue;
-			}
-
-			final Schedule schedule = this.scheduleDAO.loadSchedule(date_schedule, worker.getUtente());
-
-			if (schedule == null) {
-				this.logger.error("Schedule null");
-				continue;
-			}
-
-			// remove final info in this schedule
-			this.scheduleDAO.removeAllDetailFinalScheduleByScheduleAndShift(schedule.getId(), no_shift);
-
-			if ((worker.getTasks() == null) || (worker.getTasks().size() == 0)) {
-				this.logger.error("Worker Task Collection null or empty");
-				continue;
-			}
-
-			for (final TaskRunner task_item : worker.getTasks()) {
-
-				final DetailFinalSchedule final_detail = new DetailFinalSchedule();
-				final_detail.setDate_schedule(schedule.getDate_schedule());
-				final_detail.setId_schedule(schedule.getId());
-				final_detail.setShift(no_shift);
-				final_detail.setTask(task_item.getID());
-
-				// set ship and crane
-				final_detail.setId_ship(task_item.getShip_id());
-				final_detail.setCrane(task_item.getCrane());
-
-				// define on/out board
-				final_detail.setBoard(task_item.getBoard());
-
-				// define time
-				final Date time_from = task_item.getEntrata();
-				final Date time_to = task_item.getUscita();
-
-				// manage time
-				if ((time_from == null) || (time_to == null)) {
-					this.logger.error("Time from or time to null");
-					continue;
-				}
-
-				final Timestamp timestamp_from = new Timestamp(time_from.getTime());
-				final Timestamp timestamp_to = new Timestamp(time_to.getTime());
-
-				// set time stamp
-				final_detail.setTime_from(timestamp_from);
-				final_detail.setTime_to(timestamp_to);
-
-				// get time
-				final long millis = Math.abs(time_to.getTime() - time_from.getTime());
-				final double h = (double) millis / (1000 * 60 * 60);
-				final UserTask currentTask = this.taskCache.getUserTask(task_item.getID());
-
-				if (currentTask.getIsabsence().booleanValue()) {
-					final_detail.setTime(0.0);
-					final_detail.setTime_vacation(h);
-				} else {
-					final_detail.setTime(h);
-					final_detail.setTime_vacation(0.0);
-				}
-
-				// insert new info
-				this.scheduleDAO.createDetailFinalSchedule(final_detail);
-
-			}
-
-		}
-
-		return true;
-	}
-
 	public ConfigurationDAO getConfigurationDAO() {
 		return this.configurationDAO;
 	}
@@ -308,9 +193,11 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(
+	        final Integer idDetailScheduleShip) {
 
-		final List<DetailFinalScheduleShip> final_details = this.ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+		final List<DetailFinalScheduleShip> final_details = this.ship_dao
+		        .loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 
 		return final_details;
 	}
@@ -319,22 +206,6 @@ public class WebControllerImpl implements IWebServiceController {
 	public List<Badge> loadListBadge(final Integer id_schedule) {
 		return this.scheduleDAO.loadBadgeByScheduleId(id_schedule);
 
-	}
-
-	/**
-	 * return detail ship by date
-	 *
-	 * @param date_request
-	 * @return
-	 */
-	@Override
-	public List<DetailScheduleShip> selectDetailScheduleShipByShiftDate(final Date date_request) {
-
-		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
-
-		final List<DetailScheduleShip> list = this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, null, null, null, null,
-				null, null);
-		return list;
 	}
 
 	@Override
@@ -412,6 +283,22 @@ public class WebControllerImpl implements IWebServiceController {
 		return ret;
 	}
 
+	/**
+	 * return detail ship by date
+	 *
+	 * @param date_request
+	 * @return
+	 */
+	@Override
+	public List<DetailScheduleShip> selectInitialShipSchedule(final Date date_request, final Integer shift) {
+
+		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
+
+		final List<DetailScheduleShip> list = this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate,
+		        null, shift, null, null, null, null, null);
+		return list;
+	}
+
 	public void setConfigurationDAO(final ConfigurationDAO configurationDAO) {
 		this.configurationDAO = configurationDAO;
 	}
@@ -440,48 +327,14 @@ public class WebControllerImpl implements IWebServiceController {
 		this.statistics = statistics;
 	}
 
-	public void setTaskCache(final ITaskCache taskCache) {
-		this.taskCache = taskCache;
-	}
-
 	public void setTaskDAO(final TasksDAO taskDAO) {
 		this.taskDAO = taskDAO;
 	}
 
 	@Override
-	@Transactional
-	public boolean synchronizeWork(final Date date_request, final Integer no_shift, final WorkerShift worker_shift) {
+	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork) {
 
-		if (date_request == null) {
-			return false;
-		}
-
-		final Date dt = DateUtils.truncate(date_request, Calendar.DATE);
-
-		return this.finalSyncProcess(dt, no_shift, worker_shift);
-
-	}
-
-	@Override
-	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork, final Integer menwork,
-			final String temperature, final String sky, final String rain, final String wind, final Date first_down, final Date last_down,
-			final Date person_down, final Date person_onboard) {
-
-		final DetailScheduleShip sch = new DetailScheduleShip();
-		sch.setId(id);
-		sch.setOperation(operation);
-		sch.setHandswork(handswork);
-		sch.setMenwork(menwork);
-		sch.setTemperature(temperature);
-		sch.setSky(sky);
-		sch.setRain(rain);
-		sch.setWind(wind);
-		sch.setFirst_down(first_down);
-		sch.setLast_down(last_down);
-		sch.setPerson_down(person_down);
-		sch.setPerson_onboard(person_onboard);
-
-		this.ship_dao.updateDetailScheduleShipForMobile(sch);
+		this.ship_dao.updateDetailScheduleShipForMobile(id, operation, handswork);
 
 	}
 
