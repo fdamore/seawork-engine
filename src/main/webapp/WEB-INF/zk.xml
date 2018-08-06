@@ -11,7 +11,7 @@
 
 	<session-config>
 		<device-type>ajax</device-type>
-		<timeout-uri>/index.zul</timeout-uri>
+		<timeout-uri>/index.html</timeout-uri>
 
 	</session-config>
 
