@@ -34,6 +34,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.UiException;
 
 public class MobileComposer {
@@ -399,6 +400,13 @@ public class MobileComposer {
 	}
 
 	@Command
+	public void logout() {
+
+		Executions.sendRedirect("/j_spring_security_logout");
+
+	}
+
+	@Command
 	@NotifyChange({ "users", "shift_no", "status_view", "schedule_selected" })
 	public void modifyNote() {
 
@@ -726,8 +734,8 @@ public class MobileComposer {
 			return;
 		}
 
-		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(),
-		        this.getShip_operation(), this.getShip_handswork());
+		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(), this.getShip_operation(),
+				this.getShip_handswork());
 
 		this.refreshShipDataAndCurrentShift();
 

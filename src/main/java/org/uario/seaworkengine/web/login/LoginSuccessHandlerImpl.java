@@ -8,7 +8,9 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.uario.seaworkengine.model.LockTable;
@@ -17,15 +19,19 @@ import org.uario.seaworkengine.utility.TableTag;
 
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
-	private final String	APPLICATION_URL	= "application/index.zul";
+	public final static String	MOBILE_TAG		= "MOBILE_TAG";
 
-	private Integer			hours_loked;
+	private final String		APPLICATION_URL	= "application/index.zul";
 
-	private LockTableDAO	lockTable		= null;
+	private Integer				hours_loked;
+
+	private LockTableDAO		lockTable		= null;
+
+	private final String		MOBILE_URL		= "mobile/index.zul";
 
 	/**
-	 * Check the lock, if each table locked more that hours_loked, return true,
-	 * else false
+	 * Check the lock, if each table locked more that hours_loked, return true, else
+	 * false
 	 *
 	 * @return
 	 */
@@ -49,8 +55,8 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	}
 
 	/**
-	 * Check the lock, if each table locked more that hours_loked, return true,
-	 * else false
+	 * Check the lock, if each table locked more that hours_loked, return true, else
+	 * false
 	 *
 	 * @return
 	 */
@@ -85,20 +91,37 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication)
 			throws IOException, ServletException {
 
-		final boolean check_table_program = this.checkLockProgram();
+		try {
 
-		if (check_table_program) {
-			this.unlockTableProgram();
+			final boolean check_table_program = this.checkLockProgram();
+
+			if (check_table_program) {
+				this.unlockTableProgram();
+			}
+
+			final boolean check_table_revision = this.checkLockRevision();
+
+			if (check_table_revision) {
+				this.unlockTableRevision();
+			}
+
+			// define redirect
+
+			final HttpSession session = request.getSession();
+
+			final String mobile_tag = (String) session.getAttribute(LoginSuccessHandlerImpl.MOBILE_TAG);
+			if (StringUtils.equals(mobile_tag, LoginSuccessHandlerImpl.MOBILE_TAG)) {
+				session.setAttribute(LoginSuccessHandlerImpl.MOBILE_TAG, "ciao");
+				response.sendRedirect(this.MOBILE_URL);
+
+			} else {
+				response.sendRedirect(this.APPLICATION_URL);
+			}
+
+			return;
+		} finally {
+			request.setAttribute(LoginSuccessHandlerImpl.MOBILE_TAG, null);
 		}
-
-		final boolean check_table_revision = this.checkLockRevision();
-
-		if (check_table_revision) {
-			this.unlockTableRevision();
-		}
-
-		response.sendRedirect(this.APPLICATION_URL);
-		return;
 
 	}
 

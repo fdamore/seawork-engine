@@ -32,12 +32,19 @@
 	<security:http auto-config="true" use-expressions="true"
 		access-denied-page="/index.zul">
 
+		<!-- SECURITY FILTERS -->
+		<security:custom-filter after="BASIC_AUTH_FILTER"
+			ref="after_auth_fitler" />
+
 		<security:intercept-url pattern="/index.zul*"
 			access="permitAll" />
 
 		<security:intercept-url
 			pattern="/application/**"
 			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_VIEWER')" />
+
+		<security:intercept-url pattern="/mobile/**"
+			access="hasAnyRole('ROLE_SUPERVISOR')" />
 
 		<security:form-login login-page='/index.zul'
 			authentication-success-handler-ref="successLoginHandler"
@@ -66,6 +73,11 @@
 		<property name="hours_loked" value="2"></property>
 		<property name="lockTable" ref="myLockTableDAO"></property>
 	</bean>
+
+
+	<!-- FILTER -->
+	<bean id="after_auth_fitler"
+		class="org.uario.seaworkengine.web.filters.PreAuthFilter"></bean>
 
 
 
@@ -343,7 +355,7 @@
 		class="org.uario.seaworkengine.web.services.webcontroller.WebControllerImpl">
 		<property name="personDAO" ref="myPersonDAO"></property>
 		<property name="scheduleDAO" ref="myScheduleDAO"></property>
-		<property name="shiftCache" ref="myShiftCache"></property>		
+		<property name="shiftCache" ref="myShiftCache"></property>
 		<property name="ship_dao" ref="myScheduleShipDAO"></property>
 		<property name="taskDAO" ref="myTasksDAO"></property>
 		<property name="configurationDAO" ref="myConfigurationDAO"></property>

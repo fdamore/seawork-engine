@@ -73,6 +73,9 @@
 				<button sclass="btn btn-success" label="Aggiorna"
 					onClick="@command('refreshDataAndCurrentShift')" />
 
+				<button sclass="btn btn-success" label="Logout"
+					onClick="@command('logout')" />
+
 			</div>
 
 		</hbox>
@@ -134,7 +137,7 @@
 						<intbox class="form-control"
 							value="@bind(vm.ship_handswork)" placeholder="Mani di Lavoro..." />
 					</div>
-					
+
 					<space></space>
 
 					<div class="input-group input-group-lg">
