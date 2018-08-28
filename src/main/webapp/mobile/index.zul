@@ -25,6 +25,15 @@
 		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
 
 		<hbox>
+
+			<div class="btn-group-mg btn btn-group">
+
+				<button sclass="btn btn-info"
+					label="@load(vm.status_view eq 1 ? 'Navi':'Presenze')"
+					onClick="@command('switchShipShift')" />
+
+			</div>
+
 			<div class="btn-group-mg btn btn-group">
 				<button sclass="btn btn-info" label="Turno 1"
 					focus="@load(vm.shift_no eq 1)"
@@ -63,12 +72,8 @@
 					onClick="@command('removeComponent')" />
 			</div>
 
-
-
 			<div class="btn-group-mg btn btn-group">
-				<button sclass="btn btn-info"
-					label="@load(vm.status_view eq 1 ? 'Navi':'Turni')"
-					onClick="@command('switchShipShift')" />
+
 
 				<button sclass="btn btn-success" label="Aggiorna"
 					onClick="@command('refreshDataAndCurrentShift')" />
@@ -77,6 +82,10 @@
 					onClick="@command('logout')" />
 
 			</div>
+
+
+
+
 
 		</hbox>
 
@@ -386,7 +395,7 @@
 								Nota su Utente
 							</span>
 							<label
-								value="@load(vm.schedule_selected.person)"
+								value="@load(vm.list_schedule_selected.get(0).person)"
 								class="form-control label label-primary">
 							</label>
 						</div>
@@ -401,7 +410,7 @@
 						<div class="input-group">
 							<span class="input-group-addon">Data</span>
 							<label
-								value="@load(vm.schedule_selected.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+								value="@load(vm.list_schedule_selected.get(0).schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 								class="form-control label label-primary">
 							</label>
 						</div>
@@ -453,7 +462,7 @@
 								Utente
 							</span>
 							<label
-								value="@load(vm.schedule_selected.person)"
+								value="@load(vm.list_schedule_selected.get(0).person)"
 								class="form-control label label-primary">
 							</label>
 
@@ -472,7 +481,7 @@
 									Data
 								</span>
 								<label
-									value="@load(vm.schedule_selected.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									value="@load(vm.list_schedule_selected.get(0).schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 									class="form-control label label-primary">
 								</label>
 							</div>
@@ -483,7 +492,7 @@
 									Turno
 								</span>
 								<label
-									value="@load(vm.schedule_selected.detail_schedule.shift)"
+									value="@load(vm.list_schedule_selected.get(0).detail_schedule.shift)"
 									class="form-control label label-primary">
 								</label>
 							</div>
@@ -716,9 +725,9 @@
 
 
 			<listbox pagingPosition="both" mold="paging"
-				selectedItem="@save(vm.schedule_selected)"
+				selectedItems="@bind(vm.list_schedule_selected)"				
 				emptyMessage="Nessun risultato..." model="@load(vm.users)"
-				checkmark="true" multiple="false" pageSize="8">
+				checkmark="true" multiple="true" pageSize="8">
 
 				<listhead sizable="true">
 
@@ -726,8 +735,8 @@
 					<listheader align="center" label="RISORSA"
 						hflex="3" />
 					<listheader align="center" label="MANSIONE"
-						hflex="3" />
-					<listheader align="center" label="ORARI" hflex="2" />
+						hflex="2" />
+					<listheader align="center" label="INGRESSI" hflex="2" />
 
 
 				</listhead>
@@ -752,42 +761,48 @@
 								</label>
 							</n:h3>
 
+
+
+
+						</listcell>
+
+
+
+						<listcell>
+
+							<n:h3>
+								<label
+									value="@load(item) @converter(vm.taskConverter)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+
+
+						<listcell>
+
 							<n:h3>
 								<label value="@load(item.badgeInfo)"
 									sclass="label label-info">
 								</label>
 							</n:h3>
 
-
-						</listcell>
-
-
-
-						<listcell>
-
-							<n:h3>
-								<label value="@load(item.user_task)"
-									sclass="label label-default">
-								</label>
-							</n:h3>
-
-						</listcell>
-
-
-
-						<listcell>
-
-							<n:h3>
+							<!-- 
+								<n:h3>
 								<label
-									value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='HH:MM')"
-									sclass="label label-default">
+								value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='HH:MM')"
+								sclass="label label-default">
 								</label>
-
+								
 								<label
-									value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='HH:MM')"
-									sclass="label label-default">
+								value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='HH:MM')"
+								sclass="label label-default">
 								</label>
-							</n:h3>
+								</n:h3>
+								
+							-->
 
 						</listcell>
 

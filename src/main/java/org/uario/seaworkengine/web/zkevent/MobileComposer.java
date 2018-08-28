@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
@@ -94,14 +95,50 @@ public class MobileComposer {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
+	private class MyMobileTaskConverter implements Converter {
+
+		SimpleDateFormat data_format = new SimpleDateFormat("HH:mm");
+
+		@Override
+		public Object coerceToBean(final Object val, final Component comp, final BindContext ctx) {
+
+			return null;
+
+		}
+
+		@Override
+		public Object coerceToUi(final Object val, final Component comp, final BindContext ctx) {
+
+			if (!(val instanceof InitialScheduleSingleDetail)) {
+				return null;
+			}
+
+			final InitialScheduleSingleDetail itm = (InitialScheduleSingleDetail) val;
+
+			final String code = itm.getUser_task().getCode();
+
+			final Date time_from = itm.getDetail_schedule().getTime_from();
+			final Date time_to = itm.getDetail_schedule().getTime_to();
+
+			final String from = this.data_format.format(time_from);
+			final String to = this.data_format.format(time_to);
+
+			return code + " (" + from + " - " + to + ")";
+
+		}
+	}
+
 	/**
-	 * Instace of converter
+	 * Instace of data converter
 	 */
-	private final MyDateFormatConverter			dateConverter		= new MyDateFormatConverter();
+	private final MyDateFormatConverter			dateConverter			= new MyDateFormatConverter();
 
 	private DetailScheduleShip					detail_schedule_ship_selected;
 
 	private String								end_task;
+
+	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
 
 	private List<DetailScheduleShip>			list_ship;
 
@@ -112,8 +149,6 @@ public class MobileComposer {
 	private String								note_ship;
 
 	private ISchedule							schedule_dao;
-
-	private InitialScheduleSingleDetail			schedule_selected	= null;
 
 	private IWebServiceController				service;
 
@@ -129,9 +164,14 @@ public class MobileComposer {
 
 	private String								starting_task;
 
-	private Integer								status_view			= 1;
+	private Integer								status_view				= 1;
 
 	private TasksDAO							task_dao;
+
+	/**
+	 * Task converter
+	 */
+	private final MyMobileTaskConverter			taskConverter			= new MyMobileTaskConverter();
 
 	private String								user_crane;
 
@@ -146,14 +186,17 @@ public class MobileComposer {
 	public void addComponents() {
 
 		if (this.status_view == 1) {
-			if (this.schedule_selected == null) {
+
+			final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
+
+			if (selectedSchedule == null) {
 				return;
 			}
 
-			this.list_task = this.task_dao.loadTasksByUserForMobile(this.schedule_selected.getPerson().getId());
+			this.list_task = this.task_dao.loadTasksByUserForMobile(selectedSchedule.getPerson().getId());
 
 			// get default task
-			final UserTask def_task = this.task_dao.getDefault(this.schedule_selected.getPerson().getId());
+			final UserTask def_task = this.task_dao.getDefault(selectedSchedule.getPerson().getId());
 
 			if (def_task != null) {
 
@@ -187,7 +230,9 @@ public class MobileComposer {
 	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void addDetailFinalSchedule() {
 
-		if (this.schedule_selected == null) {
+		final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
+
+		if (selectedSchedule == null) {
 			return;
 		}
 
@@ -202,8 +247,8 @@ public class MobileComposer {
 
 		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
 
-		detail_schedule.setId_schedule(this.schedule_selected.getSchedule().getId());
-		detail_schedule.setShift(this.schedule_selected.getDetail_schedule().getShift());
+		detail_schedule.setId_schedule(selectedSchedule.getSchedule().getId());
+		detail_schedule.setShift(selectedSchedule.getDetail_schedule().getShift());
 		detail_schedule.setContinueshift(Boolean.FALSE);
 		detail_schedule.setBoard(this.getUser_position());
 
@@ -287,11 +332,13 @@ public class MobileComposer {
 		// note for "TURNI"
 		if (this.status_view == 1) {
 
-			if (this.schedule_selected == null) {
+			final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
+
+			if (selectedSchedule == null) {
 				return;
 			}
 
-			this.note = this.service.getScheduleNote(this.schedule_selected.getSchedule().getId());
+			this.note = this.service.getScheduleNote(selectedSchedule.getSchedule().getId());
 
 			this.status_view = 3;
 
@@ -324,6 +371,10 @@ public class MobileComposer {
 		return this.end_task;
 	}
 
+	public List<InitialScheduleSingleDetail> getList_schedule_selected() {
+		return this.list_schedule_selected;
+	}
+
 	public List<DetailScheduleShip> getList_ship() {
 		return this.list_ship;
 	}
@@ -340,8 +391,17 @@ public class MobileComposer {
 		return this.note_ship;
 	}
 
-	public InitialScheduleSingleDetail getSchedule_selected() {
-		return this.schedule_selected;
+	/**
+	 * Return the first selected schedule
+	 *
+	 * @return
+	 */
+	public InitialScheduleSingleDetail getSelectedSchedule() {
+		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
+			return null;
+		}
+
+		return this.list_schedule_selected.get(0);
 	}
 
 	public Integer getShift_no() {
@@ -370,6 +430,10 @@ public class MobileComposer {
 
 	public Integer getStatus_view() {
 		return this.status_view;
+	}
+
+	public MyMobileTaskConverter getTaskConverter() {
+		return this.taskConverter;
 	}
 
 	public String getUser_crane() {
@@ -407,14 +471,16 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view", "schedule_selected" })
+	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void modifyNote() {
 
-		if (this.schedule_selected == null) {
+		final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
+
+		if (selectedSchedule == null) {
 			return;
 		}
 
-		this.service.updateScheduleNote(this.schedule_selected.getSchedule().getId(), this.note);
+		this.service.updateScheduleNote(selectedSchedule.getSchedule().getId(), this.note);
 
 		this.refreshDataAndCurrentShift();
 
@@ -472,7 +538,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "schedule_selected", "status_view", "detail_schedule_ship_selected" })
+	@NotifyChange({ "users", "list_ship", "status_view", "detail_schedule_ship_selected" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
 
 		if (this.status_view == 1) {
@@ -524,7 +590,7 @@ public class MobileComposer {
 			}
 
 			// set null selected
-			this.schedule_selected = null;
+			this.list_schedule_selected = null;
 
 		}
 
@@ -540,7 +606,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view", "schedule_selected" })
+	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void refreshDataAndCurrentShift() {
 
 		// set view to status 1
@@ -568,25 +634,42 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({ "users", "shift_no", "status_view", "list_ship" })
 	public void removeComponent() {
 
 		// remove "TURNI"
 		if (this.status_view == 1) {
 
-			if (this.schedule_selected == null) {
-				return;
-			}
+			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
-			if (BooleanUtils.isNotTrue(this.schedule_selected.getDetail_schedule().getRevised())) {
-				return;
-			}
+				if (BooleanUtils.isNotTrue(itm.getDetail_schedule().getRevised())) {
+					return;
+				}
 
-			final Integer id = this.schedule_selected.getDetail_schedule().getId();
-			this.schedule_dao.removeDetailFinalSchedule(id);
+				final Integer id = itm.getDetail_schedule().getId();
+				this.schedule_dao.removeDetailFinalSchedule(id);
+
+			}
 
 			this.refreshDataAndCurrentShift();
 
+		}
+
+		// remove "SHIP"
+		if (this.status_view == 4) {
+
+			this.refreshShipDataAndCurrentShift();
+
+		}
+
+		// CLOSE FOR "TURNI"
+		if ((this.status_view == 2) || (this.status_view == 3)) {
+			this.refreshDataAndCurrentShift();
+		}
+
+		// CLOSE FOR "SHIP"
+		if ((this.status_view == 5) || (this.status_view == 6)) {
+			this.refreshShipDataAndCurrentShift();
 		}
 
 	}
@@ -598,7 +681,7 @@ public class MobileComposer {
 		// review "TURNI"
 		if (this.status_view == 1) {
 
-			for (final InitialScheduleSingleDetail itm : this.users) {
+			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
 				// if already revised, no act
 				final MobileUserDetail user_detail = itm.getDetail_schedule();
@@ -607,25 +690,21 @@ public class MobileComposer {
 					continue;
 				}
 
-				// TODO: test this code
-				if (false) {
+				final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
 
-					final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+				detail_schedule.setTime_from(new Timestamp(user_detail.getTime_from().getTime()));
+				detail_schedule.setTime_to(new Timestamp(user_detail.getTime_to().getTime()));
+				detail_schedule.setId_schedule(itm.getSchedule().getId());
+				detail_schedule.setShift(user_detail.getShift());
+				detail_schedule.setContinueshift(Boolean.FALSE);
+				detail_schedule.setBoard(user_detail.getBoard());
+				detail_schedule.setCrane(user_detail.getCran());
+				detail_schedule.setTask(user_detail.getTask());
+				detail_schedule.setId_ship(user_detail.getId_ship());
+				detail_schedule.setTime(user_detail.getTime());
+				detail_schedule.setTime_vacation(user_detail.getTime_vacation());
 
-					detail_schedule.setTime_from(new Timestamp(user_detail.getTime_from().getTime()));
-					detail_schedule.setTime_to(new Timestamp(user_detail.getTime_to().getTime()));
-					detail_schedule.setId_schedule(itm.getSchedule().getId());
-					detail_schedule.setShift(user_detail.getShift());
-					detail_schedule.setContinueshift(Boolean.FALSE);
-					detail_schedule.setBoard(user_detail.getBoard());
-					detail_schedule.setCrane(user_detail.getCran());
-					detail_schedule.setTask(user_detail.getTask());
-					detail_schedule.setId_ship(user_detail.getId_ship());
-					detail_schedule.setTime(user_detail.getTime());
-					detail_schedule.setTime_vacation(user_detail.getTime_vacation());
-
-					this.schedule_dao.createDetailFinalSchedule(detail_schedule);
-				}
+				this.schedule_dao.createDetailFinalSchedule(detail_schedule);
 
 			}
 
@@ -686,16 +765,16 @@ public class MobileComposer {
 		this.end_task = end_task;
 	}
 
+	public void setList_schedule_selected(final List<InitialScheduleSingleDetail> list_schedule_selected) {
+		this.list_schedule_selected = list_schedule_selected;
+	}
+
 	public void setNote(final String note) {
 		this.note = note;
 	}
 
 	public void setNote_ship(final String note_ship) {
 		this.note_ship = note_ship;
-	}
-
-	public void setSchedule_selected(final InitialScheduleSingleDetail schedule_selected) {
-		this.schedule_selected = schedule_selected;
 	}
 
 	public void setShip_handswork(final Integer ship_handswork) {
@@ -744,14 +823,18 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void signIn() {
-		if ((this.status_view == 1) && (this.schedule_selected != null)) {
 
-			final Badge badge = new Badge();
-			badge.setEventTime(Calendar.getInstance().getTime());
-			badge.setEventType(Boolean.TRUE);
-			badge.setIdschedule(this.schedule_selected.getSchedule().getId());
+		if (this.status_view == 1) {
 
-			this.service.createBadge(badge);
+			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
+
+				final Badge badge = new Badge();
+				badge.setEventTime(Calendar.getInstance().getTime());
+				badge.setEventType(Boolean.TRUE);
+				badge.setIdschedule(itm.getSchedule().getId());
+
+				this.service.createBadge(badge);
+			}
 
 			this.refreshDataAndCurrentShift();
 		}
@@ -761,14 +844,19 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "users", "shift_no", "status_view" })
 	public void signOut() {
-		if ((this.status_view == 1) && (this.schedule_selected != null)) {
 
-			final Badge badge = new Badge();
-			badge.setEventTime(Calendar.getInstance().getTime());
-			badge.setEventType(Boolean.FALSE);
-			badge.setIdschedule(this.schedule_selected.getSchedule().getId());
+		if (this.status_view == 1) {
 
-			this.service.createBadge(badge);
+			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
+
+				final Badge badge = new Badge();
+				badge.setEventTime(Calendar.getInstance().getTime());
+				badge.setEventType(Boolean.FALSE);
+				badge.setIdschedule(itm.getSchedule().getId());
+
+				this.service.createBadge(badge);
+
+			}
 
 			this.refreshDataAndCurrentShift();
 		}
