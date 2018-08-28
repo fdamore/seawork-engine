@@ -790,26 +790,7 @@
 									sclass="label label-info">
 								</label>
 							</n:h3>
-							<<<<<<< HEAD
-
-							=======
-
-							<!-- 
-								<n:h3>
-								<label
-								value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='HH:MM')"
-								sclass="label label-default">
-								</label>
-								
-								<label
-								value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='HH:MM')"
-								sclass="label label-default">
-								</label>
-								</n:h3>
-								
-							-->
-							>>>>>>> branch 'master' of
-							http://fdamore@stash.source.uario.com/scm/sea/seawork.git
+							
 
 						</listcell>
 
