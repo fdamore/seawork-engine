@@ -28,6 +28,7 @@
 
 			<div class="btn-group-mg btn btn-group">
 
+
 				<button sclass="btn btn-success"
 					label="@load(vm.status_view eq 1 ? 'Navi':'Presenze')"
 					onClick="@command('switchShipShift')" />
@@ -725,7 +726,7 @@
 
 
 			<listbox pagingPosition="both" mold="paging"
-				selectedItems="@bind(vm.list_schedule_selected)"				
+				selectedItems="@bind(vm.list_schedule_selected)"
 				emptyMessage="Nessun risultato..." model="@load(vm.users)"
 				checkmark="true" multiple="true" pageSize="8">
 
@@ -736,7 +737,8 @@
 						hflex="3" />
 					<listheader align="center" label="MANSIONE"
 						hflex="2" />
-					<listheader align="center" label="INGRESSI" hflex="2" />
+					<listheader align="center" label="INGRESSI"
+						hflex="2" />
 
 
 				</listhead>
@@ -788,7 +790,26 @@
 									sclass="label label-info">
 								</label>
 							</n:h3>
-							
+							<<<<<<< HEAD
+
+							=======
+
+							<!-- 
+								<n:h3>
+								<label
+								value="@load(item.detail_schedule.time_from) @converter(vm.dateConverter, format='HH:MM')"
+								sclass="label label-default">
+								</label>
+								
+								<label
+								value="@load(item.detail_schedule.time_to) @converter(vm.dateConverter, format='HH:MM')"
+								sclass="label label-default">
+								</label>
+								</n:h3>
+								
+							-->
+							>>>>>>> branch 'master' of
+							http://fdamore@stash.source.uario.com/scm/sea/seawork.git
 
 						</listcell>
 
