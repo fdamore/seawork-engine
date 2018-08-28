@@ -287,9 +287,9 @@ public class Utility {
 		for (final Badge badge : badgeList) {
 			if (badge != null) {
 				if (!badge.getEventType()) {
-					ret = ret + " - U: " + Utility.getTimeFormat().format(badge.getEventTime());
+					ret = ret + " U" + Utility.getTimeFormat().format(badge.getEventTime());
 				} else {
-					ret = ret + " - E: " + Utility.getTimeFormat().format(badge.getEventTime());
+					ret = ret + " E" + Utility.getTimeFormat().format(badge.getEventTime());
 				}
 			}
 		}
