@@ -33,9 +33,15 @@ import org.uario.seaworkengine.web.services.handler.UserStaturation;
 
 public class WebControllerImpl implements IWebServiceController {
 
+	public static Integer		STATUS_SELECTION_SCHEDULE_ALL			= 3;
+
+	public static Integer		STATUS_SELECTION_SCHEDULE_ONLY_PROGRAM	= 1;
+
+	public static Integer		STATUS_SELECTION_SCHEDULE_ONLY_REVIEW	= 2;
+
 	private ConfigurationDAO	configurationDAO;
 
-	private final Logger		logger	= Logger.getLogger(WebControllerImpl.class);
+	private final Logger		logger									= Logger.getLogger(WebControllerImpl.class);
 
 	private PersonDAO			personDAO;
 
@@ -209,7 +215,11 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<InitialSchedule> selectInitialSchedule(final Date date_request) {
+	public List<InitialSchedule> selectInitialSchedule(final Date date_request, Integer status_selection) {
+
+		if (status_selection == null) {
+			status_selection = 3;
+		}
 
 		final List<InitialSchedule> ret = new ArrayList<>();
 
@@ -233,9 +243,28 @@ public class WebControllerImpl implements IWebServiceController {
 
 			// ADD SHIFT 1
 			for (int i = 1; i <= 4; i++) {
-				List<MobileUserDetail> list_details = this.scheduleDAO.loadMobileUserFinalDetail(schedule.getId(), i);
-				if (CollectionUtils.isEmpty(list_details)) {
+
+				List<MobileUserDetail> list_details = null;
+
+				switch (status_selection) {
+				case 1: {
 					list_details = this.scheduleDAO.loadMobileUserInitialDetail(schedule.getId(), i);
+
+					break;
+				}
+
+				case 2: {
+					list_details = this.scheduleDAO.loadMobileUserFinalDetail(schedule.getId(), i);
+
+					break;
+				}
+
+				case 3: {
+					list_details = this.scheduleDAO.loadMobileUserInitialDetail(schedule.getId(), i);
+					list_details.addAll(this.scheduleDAO.loadMobileUserFinalDetail(schedule.getId(), i));
+					break;
+				}
+
 				}
 
 				if (!CollectionUtils.isEmpty(list_details)) {

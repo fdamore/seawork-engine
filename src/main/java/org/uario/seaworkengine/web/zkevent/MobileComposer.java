@@ -129,16 +129,18 @@ public class MobileComposer {
 		}
 	}
 
+	private Date								date_selection;
+
 	/**
 	 * Instace of data converter
 	 */
-	private final MyDateFormatConverter			dateConverter			= new MyDateFormatConverter();
+	private final MyDateFormatConverter			dateConverter				= new MyDateFormatConverter();
 
 	private DetailScheduleShip					detail_schedule_ship_selected;
 
 	private String								end_task;
 
-	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
+	private List<InitialScheduleSingleDetail>	list_schedule_selected		= null;
 
 	private List<DetailScheduleShip>			list_ship;
 
@@ -149,6 +151,8 @@ public class MobileComposer {
 	private String								note_ship;
 
 	private ISchedule							schedule_dao;
+
+	private Boolean								select_position_on			= Boolean.TRUE;
 
 	private IWebServiceController				service;
 
@@ -164,14 +168,19 @@ public class MobileComposer {
 
 	private String								starting_task;
 
-	private Integer								status_view				= 1;
+	/**
+	 * STATUS SELECTION: 1: ONLY PROGRAM 2: ONLY REVIEW 3: SELECT ALL
+	 */
+	private Integer								status_schedule_selection	= 3;
+
+	private Integer								status_view					= 1;
 
 	private TasksDAO							task_dao;
 
 	/**
 	 * Task converter
 	 */
-	private final MyMobileTaskConverter			taskConverter			= new MyMobileTaskConverter();
+	private final MyMobileTaskConverter			taskConverter				= new MyMobileTaskConverter();
 
 	private String								user_crane;
 
@@ -288,9 +297,10 @@ public class MobileComposer {
 	}
 
 	/**
-	 * Calculate Shift no for shift bar
+	 * Calculate shift and refresh view
 	 */
-	private void calculateShiftNo() {
+	private void calculateShiftAndRefresh() {
+
 		this.shift_no = 1;
 		final Calendar now = Calendar.getInstance();
 
@@ -323,6 +333,9 @@ public class MobileComposer {
 		} else {
 			this.shift_no = 4;
 		}
+
+		// refresh with shift_no
+		this.refresh(this.shift_no);
 	}
 
 	@Command
@@ -359,6 +372,10 @@ public class MobileComposer {
 
 	}
 
+	public Date getDate_selection() {
+		return this.date_selection;
+	}
+
 	public MyDateFormatConverter getDateConverter() {
 		return this.dateConverter;
 	}
@@ -389,6 +406,10 @@ public class MobileComposer {
 
 	public String getNote_ship() {
 		return this.note_ship;
+	}
+
+	public Boolean getSelect_position_on() {
+		return this.select_position_on;
 	}
 
 	/**
@@ -458,6 +479,13 @@ public class MobileComposer {
 
 		this.task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 		this.schedule_dao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+
+		// set selection at today
+		this.date_selection = Calendar.getInstance().getTime();
+
+		// select position
+		this.select_position_on = Boolean.TRUE;
+		this.status_schedule_selection = 3;
 
 		this.refreshDataAndCurrentShift();
 
@@ -538,8 +566,13 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "status_view", "detail_schedule_ship_selected" })
+	@NotifyChange({ "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
+
+		Date date_for_selection = this.date_selection;
+		if (this.date_selection == null) {
+			date_for_selection = Calendar.getInstance().getTime();
+		}
 
 		if (this.status_view == 1) {
 
@@ -549,7 +582,8 @@ public class MobileComposer {
 				this.users = new ArrayList<>();
 			}
 
-			final List<InitialSchedule> list = this.service.selectInitialSchedule(Calendar.getInstance().getTime());
+			final List<InitialSchedule> list = this.service.selectInitialSchedule(date_for_selection,
+			        this.status_schedule_selection);
 
 			// POST PROCESSING
 			for (final InitialSchedule insch : list) {
@@ -596,7 +630,7 @@ public class MobileComposer {
 
 		if (this.status_view == 4) {
 
-			this.list_ship = this.service.selectInitialShipSchedule(Calendar.getInstance().getTime(), shift_no);
+			this.list_ship = this.service.selectInitialShipSchedule(date_for_selection, shift_no);
 
 			// deselect
 			this.detail_schedule_ship_selected = null;
@@ -606,30 +640,30 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({ "users", "shift_no", "status_view", "list_schedule_selected", "select_position_on" })
 	public void refreshDataAndCurrentShift() {
 
 		// set view to status 1
 		this.status_view = 1;
 
-		this.calculateShiftNo();
+		// active command about schedule position
+		this.select_position_on = Boolean.TRUE;
 
-		// refresh with shift_no
-		this.refresh(this.shift_no);
+		this.calculateShiftAndRefresh();
 
 	}
 
 	@Command
-	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected", "select_position_on" })
 	public void refreshShipDataAndCurrentShift() {
 
 		// return to list of ship
 		this.status_view = 4;
 
-		this.calculateShiftNo();
+		// active command about schedule position
+		this.select_position_on = Boolean.FALSE;
 
-		// refresh with shift_no
-		this.refresh(this.shift_no);
+		this.calculateShiftAndRefresh();
 
 	}
 
@@ -731,6 +765,62 @@ public class MobileComposer {
 
 	}
 
+	@Command
+	@NotifyChange({ "list_schedule_selected", "users", "shift_no", "status_view", "list_schedule_selected" })
+	public void selectAllPosition() {
+
+		this.status_schedule_selection = 3;
+		this.refreshDataAndCurrentShift();
+
+	}
+
+	@Command
+	@NotifyChange({ "list_schedule_selected", "users", "shift_no", "status_view", "list_schedule_selected" })
+	public void selectOnlyProgram() {
+
+		this.status_schedule_selection = 1;
+		this.refreshDataAndCurrentShift();
+
+	}
+
+	@Command
+	@NotifyChange({ "list_schedule_selected", "users", "shift_no", "status_view", "list_schedule_selected" })
+	public void selectOnlyReview() {
+
+		this.status_schedule_selection = 2;
+		this.refreshDataAndCurrentShift();
+
+	}
+
+	@Command
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected",
+	        "date_selection" })
+	public void selectToDay() {
+		final Calendar calendar = Calendar.getInstance();
+		this.date_selection = calendar.getTime();
+
+		this.calculateShiftAndRefresh();
+
+	}
+
+	@Command
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected",
+	        "date_selection" })
+	public void selectTomorrow() {
+
+		final Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+		this.date_selection = calendar.getTime();
+
+		// tomorrow set shift number to 1.
+
+		this.shift_no = 1;
+
+		// refresh with shift_no
+		this.refresh(this.shift_no);
+
+	}
+
 	/**
 	 * @param filed
 	 *            0 for initial, 1 for final
@@ -759,6 +849,10 @@ public class MobileComposer {
 
 	}
 
+	public void setDate_selection(final Date date_selection) {
+		this.date_selection = date_selection;
+	}
+
 	public void setDetail_schedule_ship_selected(final DetailScheduleShip detail_schedule_ship_selected) {
 		this.detail_schedule_ship_selected = detail_schedule_ship_selected;
 	}
@@ -777,6 +871,10 @@ public class MobileComposer {
 
 	public void setNote_ship(final String note_ship) {
 		this.note_ship = note_ship;
+	}
+
+	public void setSelect_position_on(final Boolean select_position_on) {
+		this.select_position_on = select_position_on;
 	}
 
 	public void setShip_handswork(final Integer ship_handswork) {
@@ -815,8 +913,8 @@ public class MobileComposer {
 			return;
 		}
 
-		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(), this.getShip_operation(),
-				this.getShip_handswork());
+		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(),
+		        this.getShip_operation(), this.getShip_handswork());
 
 		this.refreshShipDataAndCurrentShift();
 
@@ -865,7 +963,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view", "list_ship" })
+	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected",
+	        "detail_schedule_ship_selected", "select_position_on" })
 	public void switchShipShift() {
 
 		if (this.status_view == 1) {

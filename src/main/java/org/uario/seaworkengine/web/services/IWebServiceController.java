@@ -136,11 +136,12 @@ public interface IWebServiceController {
 
 	/**
 	 * Get initial schedule for each person
-	 *
+	 * @param status_selection TODO
 	 * @param date
+	 *
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedule(Date date_request);
+	public List<InitialSchedule> selectInitialSchedule(Date date_request, Integer status_selection);
 
 	/**
 	 * Return Detail Scheduler
