@@ -191,7 +191,7 @@ public class MobileComposer {
 	private List<InitialScheduleSingleDetail>	users;
 
 	@Command
-	@NotifyChange({ "status_view", "list_task" })
+	@NotifyChange({ "status_view", "list_task", "ships" })
 	public void addComponents() {
 
 		if (this.status_view == 1) {
@@ -203,6 +203,7 @@ public class MobileComposer {
 			}
 
 			this.list_task = this.task_dao.loadTasksByUserForMobile(selectedSchedule.getPerson().getId());
+			this.ships = this.service.listShip(this.date_selection);
 
 			// get default task
 			final UserTask def_task = this.task_dao.getDefault(selectedSchedule.getPerson().getId());
@@ -248,8 +249,8 @@ public class MobileComposer {
 		// parse time
 		final String starting = this.getStarting_task();
 		final String end = this.getEnd_task();
-		final Date dt_starting = this.parseUserWorkTime(starting);
-		final Date dt_end = this.parseUserWorkTime(end);
+		final Date dt_starting = this.parseUserWorkTime(selectedSchedule.getSchedule().getDate_schedule(), starting);
+		final Date dt_end = this.parseUserWorkTime(selectedSchedule.getSchedule().getDate_schedule(), end);
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
 		}
@@ -534,17 +535,19 @@ public class MobileComposer {
 	 * @param tm
 	 * @return
 	 */
-	private Date parseUserWorkTime(final String tm) {
+	private Date parseUserWorkTime(final Date date, final String tm) {
 		final SimpleDateFormat format_time = new SimpleDateFormat("HH:mm");
 		final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY HH:mm");
 
 		Date dt = null;
 
 		try {
-			dt = format_time.parse(tm);
 
-			final Calendar calendar = Calendar.getInstance();
 			final Calendar current_calendar = Calendar.getInstance();
+			current_calendar.setTime(date);
+
+			dt = format_time.parse(tm);
+			final Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dt);
 
 			calendar.set(Calendar.YEAR, current_calendar.get(Calendar.YEAR));
@@ -813,9 +816,7 @@ public class MobileComposer {
 		this.date_selection = calendar.getTime();
 
 		// tomorrow set shift number to 1.
-
 		this.shift_no = 1;
-
 		// refresh with shift_no
 		this.refresh(this.shift_no);
 
