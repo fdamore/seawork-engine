@@ -436,7 +436,7 @@
 								Nota su Utente
 							</span>
 							<label
-								value="@load(vm.list_schedule_selected.get(0).person)"
+								value="@load(vm.selectedSchedule.person)"
 								class="form-control label label-primary">
 							</label>
 						</div>
@@ -451,7 +451,7 @@
 						<div class="input-group">
 							<span class="input-group-addon">Data</span>
 							<label
-								value="@load(vm.list_schedule_selected.get(0).schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+								value="@load(vm.selectedSchedule.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 								class="form-control label label-primary">
 							</label>
 						</div>
@@ -503,7 +503,7 @@
 								Utente
 							</span>
 							<label
-								value="@load(vm.list_schedule_selected.get(0).person)"
+								value="@load(vm.selectedSchedule.person)"
 								class="form-control label label-primary">
 							</label>
 
@@ -522,7 +522,7 @@
 									Data
 								</span>
 								<label
-									value="@load(vm.list_schedule_selected.get(0).schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									value="@load(vm.selectedSchedule.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 									class="form-control label label-primary">
 								</label>
 							</div>
@@ -533,7 +533,7 @@
 									Turno
 								</span>
 								<label
-									value="@load(vm.list_schedule_selected.get(0).detail_schedule.shift)"
+									value="@load(vm.selectedSchedule.detail_schedule.shift)"
 									class="form-control label label-primary">
 								</label>
 							</div>

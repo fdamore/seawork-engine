@@ -154,6 +154,8 @@ public class MobileComposer {
 
 	private Boolean								select_position_on			= Boolean.TRUE;
 
+	private InitialScheduleSingleDetail			selectedSchedule;
+
 	private IWebServiceController				service;
 
 	private Integer								shift_no;
@@ -191,74 +193,77 @@ public class MobileComposer {
 	private List<InitialScheduleSingleDetail>	users;
 
 	@Command
-	@NotifyChange({ "status_view", "list_task", "ships" })
+	@NotifyChange({ "status_view", "list_task", "ships", "selectedSchedule" })
 	public void addComponents() {
 
-		if (this.status_view == 1) {
-
-			final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
-
-			if (selectedSchedule == null) {
-				return;
-			}
-
-			this.list_task = this.task_dao.loadTasksByUserForMobile(selectedSchedule.getPerson().getId());
-			this.ships = this.service.listShip(this.date_selection);
-
-			// get default task
-			final UserTask def_task = this.task_dao.getDefault(selectedSchedule.getPerson().getId());
-
-			if (def_task != null) {
-
-				Collections.sort(this.list_task, new Comparator<UserTask>() {
-
-					@Override
-					public int compare(final UserTask o1, final UserTask o2) {
-						if (o1.equals(def_task)) {
-							return -1;
-						}
-						if (o2.equals(def_task)) {
-							return 1;
-						} else {
-							return o1.compareTo(o2);
-						}
-
-					}
-
-				});
-			}
-
-			this.status_view = 2;
+		if (this.status_view != 1) {
+			return;
 
 		}
+
+		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
+			return;
+		}
+
+		this.selectedSchedule = this.list_schedule_selected.get(0);
+
+		this.list_task = this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
+		this.ships = this.service.listShip(this.date_selection);
+
+		// get default task
+		final UserTask def_task = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());
+
+		if (def_task != null) {
+
+			Collections.sort(this.list_task, new Comparator<UserTask>() {
+
+				@Override
+				public int compare(final UserTask o1, final UserTask o2) {
+					if (o1.equals(def_task)) {
+						return -1;
+					}
+					if (o2.equals(def_task)) {
+						return 1;
+					} else {
+						return o1.compareTo(o2);
+					}
+
+				}
+
+			});
+		}
+
+		this.status_view = 2;
+
 	}
 
 	/**
 	 * Add single detail
 	 */
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({ "users", "shift_no", "status_view", "selectedSchedule" })
 	public void addDetailFinalSchedule() {
 
-		final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
-
-		if (selectedSchedule == null) {
+		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
 			return;
 		}
+
+		this.selectedSchedule = this.list_schedule_selected.get(0);
 
 		// parse time
 		final String starting = this.getStarting_task();
 		final String end = this.getEnd_task();
-		final Date dt_starting = this.parseUserWorkTime(selectedSchedule.getSchedule().getDate_schedule(), starting);
-		final Date dt_end = this.parseUserWorkTime(selectedSchedule.getSchedule().getDate_schedule(), end);
+		final Date dt_starting = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(),
+		        starting);
+		final Date dt_end = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), end);
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
 		}
 
 		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
 
-		detail_schedule.setId_schedule(selectedSchedule.getSchedule().getId());
-		detail_schedule.setShift(selectedSchedule.getDetail_schedule().getShift());
+		detail_schedule.setId_schedule(this.selectedSchedule.getSchedule().getId());
+		detail_schedule.setShift(this.selectedSchedule.getDetail_schedule().getShift());
 		detail_schedule.setContinueshift(Boolean.FALSE);
 		detail_schedule.setBoard(this.getUser_position());
 
@@ -340,19 +345,19 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "status_view", "note", "note_ship" })
+	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule" })
 	public void editNote() {
 
 		// note for "TURNI"
 		if (this.status_view == 1) {
 
-			final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
-
-			if (selectedSchedule == null) {
+			if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
 				return;
 			}
 
-			this.note = this.service.getScheduleNote(selectedSchedule.getSchedule().getId());
+			this.selectedSchedule = this.list_schedule_selected.get(0);
+
+			this.note = this.service.getScheduleNote(this.selectedSchedule.getSchedule().getId());
 
 			this.status_view = 3;
 
@@ -413,17 +418,8 @@ public class MobileComposer {
 		return this.select_position_on;
 	}
 
-	/**
-	 * Return the first selected schedule
-	 *
-	 * @return
-	 */
 	public InitialScheduleSingleDetail getSelectedSchedule() {
-		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
-			return null;
-		}
-
-		return this.list_schedule_selected.get(0);
+		return this.selectedSchedule;
 	}
 
 	public Integer getShift_no() {
@@ -500,16 +496,16 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view" })
+	@NotifyChange({ "users", "shift_no", "status_view", "selectedSchedule" })
 	public void modifyNote() {
 
-		final InitialScheduleSingleDetail selectedSchedule = this.getSelectedSchedule();
-
-		if (selectedSchedule == null) {
+		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
 			return;
 		}
 
-		this.service.updateScheduleNote(selectedSchedule.getSchedule().getId(), this.note);
+		this.selectedSchedule = this.list_schedule_selected.get(0);
+
+		this.service.updateScheduleNote(this.selectedSchedule.getSchedule().getId(), this.note);
 
 		this.refreshDataAndCurrentShift();
 
@@ -876,6 +872,10 @@ public class MobileComposer {
 
 	public void setSelect_position_on(final Boolean select_position_on) {
 		this.select_position_on = select_position_on;
+	}
+
+	public void setSelectedSchedule(final InitialScheduleSingleDetail selectedSchedule) {
+		this.selectedSchedule = selectedSchedule;
 	}
 
 	public void setShip_handswork(final Integer ship_handswork) {
