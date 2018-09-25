@@ -532,6 +532,11 @@ public class MobileComposer {
 	 * @return
 	 */
 	private Date parseUserWorkTime(final Date date, final String tm) {
+
+		if (tm == null) {
+			return null;
+		}
+
 		final SimpleDateFormat format_time = new SimpleDateFormat("HH:mm");
 		final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY HH:mm");
 
