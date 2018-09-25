@@ -271,6 +271,12 @@
 								value="@load(vm.detail_schedule_ship_selected.departuredate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 								class="form-control label label-primary">
 							</label>
+
+							<span class="input-group-addon">Turno</span>
+							<label
+								value="@load(vm.detail_schedule_ship_selected.shift)"
+								class="form-control label label-primary">
+							</label>
 						</div>
 
 
