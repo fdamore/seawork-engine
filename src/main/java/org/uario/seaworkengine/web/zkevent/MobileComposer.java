@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.util.StringUtils;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
@@ -129,6 +130,43 @@ public class MobileComposer {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
+	private class MyOperationConverter implements Converter {
+
+		@Override
+		public Object coerceToBean(final Object val, final Component comp, final BindContext ctx) {
+			return null;
+
+		}
+
+		@Override
+		public Object coerceToUi(final Object val, final Component comp, final BindContext ctx) {
+
+			if ((val == null) || !(val instanceof DetailScheduleShip)) {
+				return "";
+			}
+
+			final DetailScheduleShip op = (DetailScheduleShip) val;
+
+			final String op_info = op.getOperation();
+
+			if (StringUtils.isEmpty(op_info)) {
+				return "";
+			}
+
+			if (op_info.equalsIgnoreCase("COMPLETA")) {
+				return "CO";
+			}
+
+			if (op_info.equalsIgnoreCase("TWISTER")) {
+				return "TW";
+			}
+
+			return "";
+
+		}
+	}
+
 	private Date								date_selection;
 
 	/**
@@ -149,6 +187,8 @@ public class MobileComposer {
 	private String								note;
 
 	private String								note_ship;
+
+	private final MyOperationConverter			operationConverter			= new MyOperationConverter();
 
 	private ISchedule							schedule_dao;
 
@@ -412,6 +452,10 @@ public class MobileComposer {
 
 	public String getNote_ship() {
 		return this.note_ship;
+	}
+
+	public MyOperationConverter getOperationConverter() {
+		return this.operationConverter;
 	}
 
 	public Boolean getSelect_position_on() {

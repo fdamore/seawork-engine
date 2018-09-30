@@ -330,11 +330,7 @@
 						<listheader align="center" label="NAVE"
 							hflex="3" />
 						<listheader align="center" label="OPERAZIONE"
-							hflex="2" />
-						<listheader align="center"
-							label="PRIMO PREPOSTO" hflex="4" />
-						<listheader align="center"
-							label="SECONDO PREPOSTO" hflex="4" />
+							hflex="2" />						
 						<listheader align="center" label="MANI"
 							hflex="1" />
 						<listheader align="center" label="UOMINI"
@@ -365,36 +361,14 @@
 							<listcell>
 
 								<n:h4>
-									<label value="@load(item.operation)"
+									<label value="@load(item) @converter(vm.operationConverter)"
 										sclass="label label-default">
 									</label>
 								</n:h4>
 
 							</listcell>
 
-							<listcell>
-
-								<n:h3>
-									<label
-										value="@load(item.firstOperativeName)"
-										sclass="label label-default">
-									</label>
-								</n:h3>
-
-							</listcell>
-
-
-
-							<listcell>
-
-								<n:h3>
-									<label
-										value="@load(item.secondOperativeName)"
-										sclass="label label-default">
-									</label>
-								</n:h3>
-
-							</listcell>
+							
 
 							<listcell>
 
