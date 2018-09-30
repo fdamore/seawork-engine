@@ -211,7 +211,7 @@ public class MobileComposer {
 	private String								starting_task;
 
 	/**
-	 * STATUS SELECTION: 1: ONLY PROGRAM 2: ONLY REVIEW 3: SELECT ALL
+	 * STATUS SELECTION. EDIT ZUL FOR INFO
 	 */
 	private Integer								status_schedule_selection	= 3;
 
@@ -786,9 +786,7 @@ public class MobileComposer {
 				detail_schedule.setTime(user_detail.getTime());
 				detail_schedule.setTime_vacation(user_detail.getTime_vacation());
 
-				// TODO: REMOVE THE REM!
-				// THIS IS DISABLED TEMPORALY
-				// this.schedule_dao.createDetailFinalSchedule(detail_schedule);
+				this.schedule_dao.createDetailFinalSchedule(detail_schedule);
 
 			}
 

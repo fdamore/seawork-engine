@@ -310,9 +310,6 @@
 
 		</div>
 
-
-
-
 		<!-- PROGRAMMAZINE NAVI -->
 		<div visible="@load(vm.status_view eq 4)">
 
@@ -330,7 +327,7 @@
 						<listheader align="center" label="NAVE"
 							hflex="3" />
 						<listheader align="center" label="OPERAZIONE"
-							hflex="2" />						
+							hflex="2" />
 						<listheader align="center" label="MANI"
 							hflex="1" />
 						<listheader align="center" label="UOMINI"
@@ -361,14 +358,15 @@
 							<listcell>
 
 								<n:h4>
-									<label value="@load(item) @converter(vm.operationConverter)"
+									<label
+										value="@load(item) @converter(vm.operationConverter)"
 										sclass="label label-default">
 									</label>
 								</n:h4>
 
 							</listcell>
 
-							
+
 
 							<listcell>
 
@@ -471,7 +469,6 @@
 
 		</div>
 
-
 		<!-- ADD TO USER LIST -->
 		<div visible="@load(vm.status_view eq 2)">
 
@@ -562,64 +559,21 @@
 
 					<space></space>
 
-					<div>
-						<hbox>
+					<div class="input-group input-group-lg">
 
-							<div class="input-group input-group-lg">
-								<span class="input-group-addon">
-									POSIZIONE
-								</span>
+						<span class="input-group-addon">MANSIONE</span>
 
-								<combobox class="form-control" cols="15"
-									readonly="true" value="@bind(vm.user_position)"
-									placeholder="POSIZIONE...">
-
-									<comboitem label="SOTTO BORDO"
-										value="SOTTO BORDO">
-									</comboitem>
-									<comboitem label="A BORDO"
-										value="A BORDO">
-									</comboitem>
-
-								</combobox>
-							</div>
+						<combobox model="@load(vm.list_task)"
+							readonly="true" class="form-control"
+							selectedItem="@save(vm.user_task_selected)">
+						</combobox>
 
 
-							<div class="input-group input-group-lg">
-								<span class="input-group-addon">
-									GRU
-								</span>
-								<textbox class="form-control"
-									value="@bind(vm.user_crane)" placeholder="GRU..." />
-							</div>
-
-							<div class="input-group input-group-lg">
-
-								<span class="input-group-addon">
-									MANSIONE
-								</span>
-
-								<combobox model="@load(vm.list_task)"
-									readonly="true" class="form-control"
-									selectedItem="@save(vm.user_task_selected)">
-								</combobox>
-							</div>
-
-							<div class="input-group input-group-lg">
-
-								<span class="input-group-addon">
-									NAVI
-								</span>
-
-								<combobox model="@load(vm.ships)"
-									readonly="true" class="form-control"
-									selectedItem="@save(vm.ship_selected)">
-								</combobox>
-							</div>
-
-						</hbox>
 
 					</div>
+
+
+
 
 
 
@@ -645,6 +599,45 @@
 
 		</div>
 
+		<!-- SET SHIP, CRANE, POSIZIONE -->
+		<div visible="@load(vm.status_view eq 7)">
+			<hbox>
+
+				<div class="input-group input-group-lg">
+
+					<span class="input-group-addon">NAVI</span>
+
+					<combobox model="@load(vm.ships)" readonly="true"
+						class="form-control" selectedItem="@save(vm.ship_selected)">
+					</combobox>
+				</div>
+
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon">GRU</span>
+					<textbox class="form-control"
+						value="@bind(vm.user_crane)" placeholder="GRU..." />
+				</div>
+
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon">POSIZIONE</span>
+
+					<combobox class="form-control" cols="15"
+						readonly="true" value="@bind(vm.user_position)"
+						placeholder="POSIZIONE...">
+
+						<comboitem label="SOTTO BORDO"
+							value="SOTTO BORDO">
+						</comboitem>
+						<comboitem label="A BORDO" value="A BORDO">
+						</comboitem>
+
+					</combobox>
+				</div>
+
+
+			</hbox>
+
+		</div>
 
 		<!-- USER LIST -->
 		<div visible="@load(vm.status_view eq 1)">
