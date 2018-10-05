@@ -136,7 +136,9 @@ public interface IWebServiceController {
 
 	/**
 	 * Get initial schedule for each person
-	 * @param status_selection TODO
+	 *
+	 * @param status_selection
+	 *            TODO
 	 * @param date
 	 *
 	 * @return
@@ -152,6 +154,14 @@ public interface IWebServiceController {
 	 * @return
 	 */
 	public List<DetailScheduleShip> selectInitialShipSchedule(Date date_request, Integer shift);
+
+	/**
+	 * @param date_request
+	 * @param shift
+	 * @param id_ship
+	 * @return
+	 */
+	public DetailScheduleShip selectInitialShipSchedule(Date date_request, Integer shift, Integer id_ship);
 
 	/**
 	 * Update scheduler ship for mobile

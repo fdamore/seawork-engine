@@ -13,11 +13,15 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.StringUtils;
+import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Ship;
 import org.uario.seaworkengine.model.UserTask;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.Utility;
@@ -167,6 +171,51 @@ public class MobileComposer {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
+	private class MyUserConverter implements Converter {
+
+		@Override
+		public Object coerceToBean(final Object val, final Component comp, final BindContext ctx) {
+			return null;
+
+		}
+
+		@Override
+		public Object coerceToUi(final Object val, final Component comp, final BindContext ctx) {
+
+			if ((val == null) || !(val instanceof InitialScheduleSingleDetail)) {
+				return "";
+			}
+
+			final InitialScheduleSingleDetail op = (InitialScheduleSingleDetail) val;
+
+			final Person person = op.getPerson();
+
+			String main = person.toString() + " ";
+
+			final String board = op.getDetail_schedule().getBoard();
+			if (!StringUtils.isEmpty(board)) {
+				main = main + "(" + board.toCharArray()[0] + ") ";
+			}
+
+			final Integer id_ship = op.getDetail_schedule().getId_ship();
+			final String crane = op.getDetail_schedule().getCran();
+			if ((id_ship != null) && (crane != null)) {
+
+				final Ship ship = MobileComposer.this.shipdao.loadShip(id_ship);
+				final String name = ship.getName();
+				main = main + "(" + name + " - CR" + crane + ")";
+			}
+
+			return main;
+
+		}
+	}
+
+	private ConfigurationDAO					configurationDao;
+
+	private Crane								crane_selected;
+
 	private Date								date_selection;
 
 	/**
@@ -177,6 +226,8 @@ public class MobileComposer {
 	private DetailScheduleShip					detail_schedule_ship_selected;
 
 	private String								end_task;
+
+	private List<Crane>							list_crane;
 
 	private List<InitialScheduleSingleDetail>	list_schedule_selected		= null;
 
@@ -206,6 +257,8 @@ public class MobileComposer {
 
 	private Ship								ship_selected;
 
+	private IShip								shipdao;
+
 	private List<Ship>							ships;
 
 	private String								starting_task;
@@ -224,11 +277,11 @@ public class MobileComposer {
 	 */
 	private final MyMobileTaskConverter			taskConverter				= new MyMobileTaskConverter();
 
-	private String								user_crane;
-
 	private String								user_position;
 
 	private UserTask							user_task_selected;
+
+	private MyUserConverter						userConverter				= new MyUserConverter();
 
 	private List<InitialScheduleSingleDetail>	users;
 
@@ -248,7 +301,6 @@ public class MobileComposer {
 		this.selectedSchedule = this.list_schedule_selected.get(0);
 
 		this.list_task = this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
-		this.ships = this.service.listShip(this.date_selection);
 
 		// get default task
 		final UserTask def_task = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());
@@ -293,8 +345,7 @@ public class MobileComposer {
 		// parse time
 		final String starting = this.getStarting_task();
 		final String end = this.getEnd_task();
-		final Date dt_starting = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(),
-		        starting);
+		final Date dt_starting = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), starting);
 		final Date dt_end = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), end);
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -305,20 +356,10 @@ public class MobileComposer {
 		detail_schedule.setId_schedule(this.selectedSchedule.getSchedule().getId());
 		detail_schedule.setShift(this.selectedSchedule.getDetail_schedule().getShift());
 		detail_schedule.setContinueshift(Boolean.FALSE);
-		detail_schedule.setBoard(this.getUser_position());
-
-		if (this.getUser_crane() != null) {
-			detail_schedule.setCrane(this.getUser_crane().toUpperCase());
-		}
 
 		// task
 		if (this.user_task_selected != null) {
 			detail_schedule.setTask(this.user_task_selected.getId());
-		}
-
-		// ship
-		if (this.ship_selected != null) {
-			detail_schedule.setId_ship(this.ship_selected.getId());
 		}
 
 		// define time
@@ -418,6 +459,10 @@ public class MobileComposer {
 
 	}
 
+	public Crane getCrane_selected() {
+		return this.crane_selected;
+	}
+
 	public Date getDate_selection() {
 		return this.date_selection;
 	}
@@ -432,6 +477,10 @@ public class MobileComposer {
 
 	public String getEnd_task() {
 		return this.end_task;
+	}
+
+	public List<Crane> getList_crane() {
+		return this.list_crane;
 	}
 
 	public List<InitialScheduleSingleDetail> getList_schedule_selected() {
@@ -498,16 +547,16 @@ public class MobileComposer {
 		return this.taskConverter;
 	}
 
-	public String getUser_crane() {
-		return this.user_crane;
-	}
-
 	public String getUser_position() {
 		return this.user_position;
 	}
 
 	public UserTask getUser_task_selected() {
 		return this.user_task_selected;
+	}
+
+	public MyUserConverter getUserConverter() {
+		return this.userConverter;
 	}
 
 	public List<InitialScheduleSingleDetail> getUsers() {
@@ -519,7 +568,10 @@ public class MobileComposer {
 		this.service = (IWebServiceController) SpringUtil.getBean(BeansTag.WEBCONTROLLER);
 
 		this.task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+		this.shipdao = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
 		this.schedule_dao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+		this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		this.list_crane = this.configurationDao.getCrane(null, null, null, null);
 
 		// set selection at today
 		this.date_selection = Calendar.getInstance().getTime();
@@ -630,8 +682,7 @@ public class MobileComposer {
 				this.users = new ArrayList<>();
 			}
 
-			final List<InitialSchedule> list = this.service.selectInitialSchedule(date_for_selection,
-			        this.status_schedule_selection);
+			final List<InitialSchedule> list = this.service.selectInitialSchedule(date_for_selection, this.status_schedule_selection);
 
 			// POST PROCESSING
 			for (final InitialSchedule insch : list) {
@@ -725,7 +776,7 @@ public class MobileComposer {
 			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
 				if (BooleanUtils.isNotTrue(itm.getDetail_schedule().getRevised())) {
-					return;
+					continue;
 				}
 
 				final Integer id = itm.getDetail_schedule().getId();
@@ -757,40 +808,20 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view", "ship_operation", "ship_handswork" })
+	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork" })
 	public void review() {
 
 		// review "TURNI"
 		if (this.status_view == 1) {
 
-			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
-
-				// if already revised, no act
-				final MobileUserDetail user_detail = itm.getDetail_schedule();
-
-				if (BooleanUtils.isTrue(user_detail.getRevised())) {
-					continue;
-				}
-
-				final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
-
-				detail_schedule.setTime_from(new Timestamp(user_detail.getTime_from().getTime()));
-				detail_schedule.setTime_to(new Timestamp(user_detail.getTime_to().getTime()));
-				detail_schedule.setId_schedule(itm.getSchedule().getId());
-				detail_schedule.setShift(user_detail.getShift());
-				detail_schedule.setContinueshift(Boolean.FALSE);
-				detail_schedule.setBoard(user_detail.getBoard());
-				detail_schedule.setCrane(user_detail.getCran());
-				detail_schedule.setTask(user_detail.getTask());
-				detail_schedule.setId_ship(user_detail.getId_ship());
-				detail_schedule.setTime(user_detail.getTime());
-				detail_schedule.setTime_vacation(user_detail.getTime_vacation());
-
-				this.schedule_dao.createDetailFinalSchedule(detail_schedule);
-
+			if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
+				return;
 			}
 
-			this.refreshDataAndCurrentShift();
+			this.ships = this.service.listShip(this.date_selection);
+
+			// set view
+			this.status_view = 7;
 
 		}
 
@@ -809,6 +840,60 @@ public class MobileComposer {
 
 		}
 
+	}
+
+	@Command
+	@NotifyChange({ "users", "shift_no", "status_view", "ship_operation", "ship_handswork" })
+	public void reviewUserCommand() {
+
+		// get info about crane and ship
+		if ((this.crane_selected == null) || (this.ship_selected == null) || (this.user_position == null)) {
+			return;
+		}
+
+		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
+			return;
+		}
+
+		for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
+
+			// if already revised, no act
+			final MobileUserDetail user_detail = itm.getDetail_schedule();
+
+			if (BooleanUtils.isTrue(user_detail.getRevised())) {
+				continue;
+			}
+
+			final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+
+			detail_schedule.setTime_from(new Timestamp(user_detail.getTime_from().getTime()));
+			detail_schedule.setTime_to(new Timestamp(user_detail.getTime_to().getTime()));
+			detail_schedule.setId_schedule(itm.getSchedule().getId());
+			detail_schedule.setShift(user_detail.getShift());
+			detail_schedule.setContinueshift(Boolean.FALSE);
+			detail_schedule.setTask(user_detail.getTask());
+			detail_schedule.setTime(user_detail.getTime());
+			detail_schedule.setTime_vacation(user_detail.getTime_vacation());
+
+			// info ship
+			detail_schedule.setCrane(this.crane_selected.getNumber().toString());
+			detail_schedule.setId_ship(this.ship_selected.getId());
+			detail_schedule.setBoard(this.user_position);
+
+			// define rif_sws
+			final DetailScheduleShip shipdetail = this.service.selectInitialShipSchedule(this.date_selection, user_detail.getShift(),
+			        this.ship_selected.getId());
+			if (shipdetail == null) {
+				detail_schedule.setRif_sws(null);
+			} else {
+				detail_schedule.setRif_sws(shipdetail.getIdscheduleship());
+			}
+
+			this.schedule_dao.createDetailFinalSchedule(detail_schedule);
+
+		}
+
+		this.refreshDataAndCurrentShift();
 	}
 
 	@Command
@@ -839,8 +924,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected",
-	        "date_selection" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection" })
 	public void selectToDay() {
 		final Calendar calendar = Calendar.getInstance();
 		this.date_selection = calendar.getTime();
@@ -850,8 +934,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected",
-	        "date_selection" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection" })
 	public void selectTomorrow() {
 
 		final Calendar calendar = Calendar.getInstance();
@@ -863,6 +946,10 @@ public class MobileComposer {
 		// refresh with shift_no
 		this.refresh(this.shift_no);
 
+	}
+
+	public void setCrane_selected(final Crane crane_selected) {
+		this.crane_selected = crane_selected;
 	}
 
 	/**
@@ -905,6 +992,10 @@ public class MobileComposer {
 		this.end_task = end_task;
 	}
 
+	public void setList_crane(final List<Crane> list_crane) {
+		this.list_crane = list_crane;
+	}
+
 	public void setList_schedule_selected(final List<InitialScheduleSingleDetail> list_schedule_selected) {
 		this.list_schedule_selected = list_schedule_selected;
 	}
@@ -941,16 +1032,16 @@ public class MobileComposer {
 		this.starting_task = starting_task;
 	}
 
-	public void setUser_crane(final String user_crane) {
-		this.user_crane = user_crane;
-	}
-
 	public void setUser_position(final String user_position) {
 		this.user_position = user_position;
 	}
 
 	public void setUser_task_selected(final UserTask user_task_selected) {
 		this.user_task_selected = user_task_selected;
+	}
+
+	public void setUserConverter(final MyUserConverter userConverter) {
+		this.userConverter = userConverter;
 	}
 
 	@Command
@@ -961,8 +1052,8 @@ public class MobileComposer {
 			return;
 		}
 
-		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(),
-		        this.getShip_operation(), this.getShip_handswork());
+		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(), this.getShip_operation(),
+		        this.getShip_handswork());
 
 		this.refreshShipDataAndCurrentShift();
 
@@ -1011,8 +1102,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected",
-	        "detail_schedule_ship_selected", "select_position_on" })
+	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected", "detail_schedule_ship_selected",
+	        "select_position_on" })
 	public void switchShipShift() {
 
 		if (this.status_view == 1) {

@@ -599,45 +599,7 @@
 
 		</div>
 
-		<!-- SET SHIP, CRANE, POSIZIONE -->
-		<div visible="@load(vm.status_view eq 7)">
-			<hbox>
 
-				<div class="input-group input-group-lg">
-
-					<span class="input-group-addon">NAVI</span>
-
-					<combobox model="@load(vm.ships)" readonly="true"
-						class="form-control" selectedItem="@save(vm.ship_selected)">
-					</combobox>
-				</div>
-
-				<div class="input-group input-group-lg">
-					<span class="input-group-addon">GRU</span>
-					<textbox class="form-control"
-						value="@bind(vm.user_crane)" placeholder="GRU..." />
-				</div>
-
-				<div class="input-group input-group-lg">
-					<span class="input-group-addon">POSIZIONE</span>
-
-					<combobox class="form-control" cols="15"
-						readonly="true" value="@bind(vm.user_position)"
-						placeholder="POSIZIONE...">
-
-						<comboitem label="SOTTO BORDO"
-							value="SOTTO BORDO">
-						</comboitem>
-						<comboitem label="A BORDO" value="A BORDO">
-						</comboitem>
-
-					</combobox>
-				</div>
-
-
-			</hbox>
-
-		</div>
 
 		<!-- USER LIST -->
 		<div visible="@load(vm.status_view eq 1)">
@@ -654,9 +616,10 @@
 
 					<listheader align="center" label="TURNO" hflex="1" />
 					<listheader align="center" label="RISORSA"
-						hflex="3" />
+						hflex="4" />
 					<listheader align="center" label="MANSIONE"
 						hflex="2" />
+
 					<listheader align="center" label="INGRESSI"
 						hflex="2" />
 
@@ -678,7 +641,7 @@
 						<listcell>
 
 							<n:h3>
-								<label value="@load(item.person)"
+								<label value="@load(item) @converter(vm.userConverter)"
 									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
 								</label>
 							</n:h3>
@@ -701,8 +664,6 @@
 
 						</listcell>
 
-
-
 						<listcell>
 
 							<n:h3>
@@ -722,6 +683,81 @@
 			</listbox>
 
 		</div>
+
+
+
+		<!-- ADD INFO USER FOR REVIEW -->
+		<div visible="@load(vm.status_view eq 7)">
+
+			<div class="container-fluid">
+
+				<div class="input-group input-group-lg">
+
+					<span class="input-group-addon">NAVI</span>
+
+					<combobox model="@load(vm.ships)" readonly="true"
+						class="form-control" selectedItem="@bind(vm.ship_selected)">
+					</combobox>
+				</div>
+
+				<space></space>
+
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon">GRU</span>
+					<combobox model="@load(vm.list_crane)"
+						readonly="true" class="form-control"
+						selectedItem="@bind(vm.crane_selected)">
+
+						<template name="model">
+							<comboitem label="@load(each.number)" />
+						</template>
+
+					</combobox>
+
+
+				</div>
+
+				<space></space>
+
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon">POSIZIONE</span>
+
+					<combobox class="form-control" cols="15"
+						readonly="true" value="@bind(vm.user_position)"
+						placeholder="POSIZIONE...">
+
+						<comboitem label="SOTTO BORDO"
+							value="SOTTO BORDO">
+						</comboitem>
+						<comboitem label="A BORDO" value="A BORDO">
+						</comboitem>
+
+					</combobox>
+				</div>
+
+				<space></space>
+
+				<div class="input-group input-group-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="CONSUNTIVA" onClick="@command('reviewUserCommand')">
+					</button>
+
+					<space></space>
+
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
+					</button>
+
+				</div>
+
+
+
+			</div>
+
+		</div>
+
+
 
 
 

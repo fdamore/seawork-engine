@@ -199,11 +199,9 @@ public class WebControllerImpl implements IWebServiceController {
 	}
 
 	@Override
-	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(
-	        final Integer idDetailScheduleShip) {
+	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(final Integer idDetailScheduleShip) {
 
-		final List<DetailFinalScheduleShip> final_details = this.ship_dao
-		        .loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
+		final List<DetailFinalScheduleShip> final_details = this.ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(idDetailScheduleShip);
 
 		return final_details;
 	}
@@ -315,9 +313,34 @@ public class WebControllerImpl implements IWebServiceController {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<DetailScheduleShip> list = this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate,
-		        null, shift, null, null, null, null, null);
+		final List<DetailScheduleShip> list = this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift, null, null, null,
+		        null, null);
 		return list;
+	}
+
+	/**
+	 * return detail ship by date
+	 *
+	 * @param date_request
+	 * @return
+	 */
+	@Override
+	public DetailScheduleShip selectInitialShipSchedule(final Date date_request, final Integer shift, final Integer id_ship) {
+
+		if (id_ship == null) {
+			return null;
+		}
+
+		final List<DetailScheduleShip> list = this.selectInitialShipSchedule(date_request, shift);
+
+		for (final DetailScheduleShip itm : list) {
+			if (id_ship.equals(itm.getId_ship())) {
+				return itm;
+			}
+		}
+
+		return null;
+
 	}
 
 	public void setConfigurationDAO(final ConfigurationDAO configurationDAO) {
