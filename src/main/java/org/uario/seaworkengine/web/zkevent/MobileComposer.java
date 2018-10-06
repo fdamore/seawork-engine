@@ -199,7 +199,7 @@ public class MobileComposer {
 			}
 
 			final Integer id_ship = op.getDetail_schedule().getId_ship();
-			final String crane = op.getDetail_schedule().getCran();
+			final String crane = op.getDetail_schedule().getCrane();
 			if ((id_ship != null) && (crane != null)) {
 
 				final Ship ship = MobileComposer.this.shipdao.loadShip(id_ship);

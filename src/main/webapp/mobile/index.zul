@@ -330,8 +330,7 @@
 							hflex="2" />
 						<listheader align="center" label="MANI"
 							hflex="1" />
-						<listheader align="center" label="UOMINI"
-							hflex="1" />
+						
 
 
 					</listhead>
@@ -378,16 +377,7 @@
 
 							</listcell>
 
-							<listcell>
-
-								<n:h3>
-									<label value="@load(item.menwork)"
-										sclass="label label-default">
-									</label>
-								</n:h3>
-
-							</listcell>
-
+							
 
 
 

@@ -14,17 +14,20 @@ public class MobileUserDetail implements Serializable {
 
 	private Boolean				continueshift;
 
-	private String				cran;
+	private String				crane;
+
 	private Integer				id;
+
 	private Integer				id_schedule;
+
 	private Integer				id_ship;
 	private Boolean				revised;
 	private Integer				shift;
-
 	private Integer				task;
-
 	private Double				time;
+
 	private Date				time_from;
+
 	private Date				time_to;
 	private Double				time_vacation;
 
@@ -36,8 +39,8 @@ public class MobileUserDetail implements Serializable {
 		return this.continueshift;
 	}
 
-	public String getCran() {
-		return this.cran;
+	public String getCrane() {
+		return this.crane;
 	}
 
 	public Integer getId() {
@@ -88,8 +91,8 @@ public class MobileUserDetail implements Serializable {
 		this.continueshift = continueshift;
 	}
 
-	public void setCran(final String cran) {
-		this.cran = cran;
+	public void setCrane(final String crane) {
+		this.crane = crane;
 	}
 
 	public void setId(final Integer id) {
