@@ -44,7 +44,7 @@
 			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE,ROLE_VIEWER')" />
 
 		<security:intercept-url pattern="/mobile/**"
-			access="hasAnyRole('ROLE_SUPERVISOR')" />
+			access="hasAnyRole('ROLE_SUPERVISOR,ROLE_BACKOFFICE')" />
 
 		<security:form-login login-page='/login.zul'
 			authentication-success-handler-ref="successLoginHandler"
