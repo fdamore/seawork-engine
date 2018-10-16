@@ -50,13 +50,10 @@ public class MobileComposer {
 		/**
 		 * Convert String to Date.
 		 *
-		 * @param val
-		 *            date in string form
-		 * @param comp
-		 *            associated component
-		 * @param ctx
-		 *            bind context for associate Binding and extra parameter (e.g.
-		 *            format)
+		 * @param val  date in string form
+		 * @param comp associated component
+		 * @param ctx  bind context for associate Binding and extra parameter (e.g.
+		 *             format)
 		 * @return the converted Date
 		 */
 		@Override
@@ -78,13 +75,10 @@ public class MobileComposer {
 		/**
 		 * Convert Date to String.
 		 *
-		 * @param val
-		 *            date to be converted
-		 * @param comp
-		 *            associated component
-		 * @param ctx
-		 *            bind context for associate Binding and extra parameter (e.g.
-		 *            format)
+		 * @param val  date to be converted
+		 * @param comp associated component
+		 * @param ctx  bind context for associate Binding and extra parameter (e.g.
+		 *             format)
 		 * @return the converted String
 		 */
 		@Override
@@ -212,78 +206,78 @@ public class MobileComposer {
 		}
 	}
 
-	private ConfigurationDAO					configurationDao;
+	private ConfigurationDAO configurationDao;
 
-	private Crane								crane_selected;
+	private Crane crane_selected;
 
-	private Date								date_selection;
+	private Date date_selection;
 
 	/**
 	 * Instace of data converter
 	 */
-	private final MyDateFormatConverter			dateConverter				= new MyDateFormatConverter();
+	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
 
-	private DetailScheduleShip					detail_schedule_ship_selected;
+	private DetailScheduleShip detail_schedule_ship_selected;
 
-	private String								end_task;
+	private String end_task;
 
-	private List<Crane>							list_crane;
+	private List<Crane> list_crane;
 
-	private List<InitialScheduleSingleDetail>	list_schedule_selected		= null;
+	private List<InitialScheduleSingleDetail> list_schedule_selected = null;
 
-	private List<DetailScheduleShip>			list_ship;
+	private List<DetailScheduleShip> list_ship;
 
-	private List<UserTask>						list_task;
+	private List<UserTask> list_task;
 
-	private String								note;
+	private String note;
 
-	private String								note_ship;
+	private String note_ship;
 
-	private final MyOperationConverter			operationConverter			= new MyOperationConverter();
+	private final MyOperationConverter operationConverter = new MyOperationConverter();
 
-	private ISchedule							schedule_dao;
+	private ISchedule schedule_dao;
 
-	private Boolean								select_position_on			= Boolean.TRUE;
+	private Boolean select_position_on = Boolean.TRUE;
 
-	private InitialScheduleSingleDetail			selectedSchedule;
+	private InitialScheduleSingleDetail selectedSchedule;
 
-	private IWebServiceController				service;
+	private IWebServiceController service;
 
-	private Integer								shift_no;
+	private Integer shift_no;
 
-	private Integer								ship_handswork;
+	private Integer ship_handswork;
 
-	private String								ship_operation;
+	private String ship_operation;
 
-	private Ship								ship_selected;
+	private Ship ship_selected;
 
-	private IShip								shipdao;
+	private IShip shipdao;
 
-	private List<Ship>							ships;
+	private List<Ship> ships;
 
-	private String								starting_task;
+	private String starting_task;
 
 	/**
 	 * STATUS SELECTION. EDIT ZUL FOR INFO
 	 */
-	private Integer								status_schedule_selection	= 3;
+	private Integer status_schedule_selection = 3;
 
-	private Integer								status_view					= 1;
+	private Integer status_view = 1;
 
-	private TasksDAO							task_dao;
+	private TasksDAO task_dao;
 
 	/**
 	 * Task converter
 	 */
-	private final MyMobileTaskConverter			taskConverter				= new MyMobileTaskConverter();
+	private final MyMobileTaskConverter taskConverter = new MyMobileTaskConverter();
 
-	private String								user_position;
+	private String user_position;
 
-	private UserTask							user_task_selected;
+	private UserTask user_task_selected;
 
-	private MyUserConverter						userConverter				= new MyUserConverter();
+	private MyUserConverter userConverter = new MyUserConverter();
 
-	private List<InitialScheduleSingleDetail>	users;
+	private List<InitialScheduleSingleDetail> users;
 
 	@Command
 	@NotifyChange({ "status_view", "list_task", "ships", "selectedSchedule" })
@@ -345,7 +339,8 @@ public class MobileComposer {
 		// parse time
 		final String starting = this.getStarting_task();
 		final String end = this.getEnd_task();
-		final Date dt_starting = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), starting);
+		final Date dt_starting = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(),
+				starting);
 		final Date dt_end = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), end);
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -682,7 +677,8 @@ public class MobileComposer {
 				this.users = new ArrayList<>();
 			}
 
-			final List<InitialSchedule> list = this.service.selectInitialSchedule(date_for_selection, this.status_schedule_selection);
+			final List<InitialSchedule> list = this.service.selectInitialSchedule(date_for_selection,
+					this.status_schedule_selection);
 
 			// POST PROCESSING
 			for (final InitialSchedule insch : list) {
@@ -772,6 +768,10 @@ public class MobileComposer {
 
 		// remove "TURNI"
 		if (this.status_view == 1) {
+
+			if (this.list_schedule_selected == null) {
+				return;
+			}
 
 			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
@@ -881,8 +881,8 @@ public class MobileComposer {
 			detail_schedule.setBoard(this.user_position);
 
 			// define rif_sws
-			final DetailScheduleShip shipdetail = this.service.selectInitialShipSchedule(this.date_selection, user_detail.getShift(),
-			        this.ship_selected.getId());
+			final DetailScheduleShip shipdetail = this.service.selectInitialShipSchedule(this.date_selection,
+					user_detail.getShift(), this.ship_selected.getId());
 			if (shipdetail == null) {
 				detail_schedule.setRif_sws(null);
 			} else {
@@ -924,7 +924,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected",
+			"date_selection" })
 	public void selectToDay() {
 		final Calendar calendar = Calendar.getInstance();
 		this.date_selection = calendar.getTime();
@@ -934,7 +935,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected",
+			"date_selection" })
 	public void selectTomorrow() {
 
 		final Calendar calendar = Calendar.getInstance();
@@ -953,8 +955,7 @@ public class MobileComposer {
 	}
 
 	/**
-	 * @param filed
-	 *            0 for initial, 1 for final
+	 * @param filed 0 for initial, 1 for final
 	 */
 	@Command
 	@NotifyChange({ "starting_task", "end_task" })
@@ -1052,8 +1053,8 @@ public class MobileComposer {
 			return;
 		}
 
-		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(), this.getShip_operation(),
-		        this.getShip_handswork());
+		this.service.updateDetailScheduleShipForMobile(this.detail_schedule_ship_selected.getId(),
+				this.getShip_operation(), this.getShip_handswork());
 
 		this.refreshShipDataAndCurrentShift();
 
@@ -1102,8 +1103,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected", "detail_schedule_ship_selected",
-	        "select_position_on" })
+	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected",
+			"detail_schedule_ship_selected", "select_position_on" })
 	public void switchShipShift() {
 
 		if (this.status_view == 1) {

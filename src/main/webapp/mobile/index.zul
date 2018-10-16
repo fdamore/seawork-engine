@@ -20,7 +20,7 @@
 
 <zk>
 
-	<vlayout sclass="container" xmlns:n="native" spacing="0"
+	<vlayout sclass="container-fluid" xmlns:n="native" spacing="0"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
 
@@ -64,10 +64,10 @@
 			<div class="btn-group-mg btn btn-group">
 				<button sclass="btn btn-info" label="Note"
 					onClick="@command('editNote')" />
-				<button sclass="btn btn-info" label="Aggiungi"
+				<button sclass="btn btn-info" label="Spostamento"
 					visible="@load(vm.status_view eq 1)"
 					onClick="@command('addComponents')" />
-				<button sclass="btn btn-info" label="Consuntiva"
+				<button sclass="btn btn-info" label="Assegna"
 					onClick="@command('review')" />
 				<button sclass="btn btn-danger" label="Cancella"
 					onClick="@command('removeComponent')" />
@@ -330,7 +330,7 @@
 							hflex="2" />
 						<listheader align="center" label="MANI"
 							hflex="1" />
-						
+
 
 
 					</listhead>
@@ -377,7 +377,7 @@
 
 							</listcell>
 
-							
+
 
 
 
@@ -551,13 +551,100 @@
 
 					<div class="input-group input-group-lg">
 
-						<span class="input-group-addon">MANSIONE</span>
+						<div class="row">
 
-						<combobox model="@load(vm.list_task)"
-							readonly="true" class="form-control"
-							selectedItem="@save(vm.user_task_selected)">
-						</combobox>
+							<div class="col-md-4">
 
+								<div
+									class="input-group input-group-lg">
+
+									<span class="input-group-addon">
+										MANSIONE
+									</span>
+
+									<combobox
+										model="@load(vm.list_task)" readonly="true"
+										class="form-control"
+										selectedItem="@save(vm.user_task_selected)">
+
+									</combobox>
+
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+
+
+								<div
+									class="input-group input-group-lg">
+
+									<span class="input-group-addon">
+										NAVI
+									</span>
+
+									<combobox model="@load(vm.ships)"
+										readonly="true" class="form-control"
+										selectedItem="@bind(vm.ship_selected)">
+									</combobox>
+								</div>
+
+							</div>
+
+
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+									<span class="input-group-addon">
+										GRU
+									</span>
+									<combobox
+										model="@load(vm.list_crane)" readonly="true"
+										class="form-control"
+										selectedItem="@bind(vm.crane_selected)">
+
+										<template name="model">
+											<comboitem
+												label="@load(each.number)" />
+										</template>
+
+									</combobox>
+
+
+								</div>
+							</div>
+						</div>
+						
+						<space></space>
+						
+						<div class="row">
+
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+									<span class="input-group-addon">
+										POSIZIONE
+									</span>
+
+									<combobox class="form-control"
+										 readonly="true" value="@bind(vm.user_position)"
+										placeholder="POSIZIONE...">
+
+										<comboitem label="SOTTO BORDO"
+											value="SOTTO BORDO">
+										</comboitem>
+										<comboitem label="A BORDO"
+											value="A BORDO">
+										</comboitem>
+
+									</combobox>
+								</div>
+
+							</div>
+
+						</div>
 
 
 					</div>
@@ -631,7 +718,8 @@
 						<listcell>
 
 							<n:h3>
-								<label value="@load(item) @converter(vm.userConverter)"
+								<label
+									value="@load(item) @converter(vm.userConverter)"
 									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
 								</label>
 							</n:h3>
