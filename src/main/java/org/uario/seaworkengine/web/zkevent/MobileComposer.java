@@ -280,7 +280,7 @@ public class MobileComposer {
 	private List<InitialScheduleSingleDetail> users;
 
 	@Command
-	@NotifyChange({ "status_view", "list_task", "ships", "selectedSchedule" })
+	@NotifyChange({ "status_view", "list_task", "ships", "selectedSchedule", "starting_task", "end_task","user_task_selected" })
 	public void addComponents() {
 
 		if (this.status_view != 1) {
@@ -293,8 +293,11 @@ public class MobileComposer {
 		}
 
 		this.selectedSchedule = this.list_schedule_selected.get(0);
-
 		this.list_task = this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
+
+		// set task default
+		UserTask task_defaukt = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());		
+		user_task_selected = task_defaukt;
 
 		// get default task
 		final UserTask def_task = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());
@@ -305,6 +308,10 @@ public class MobileComposer {
 
 				@Override
 				public int compare(final UserTask o1, final UserTask o2) {
+
+					if (o1.equals(task_defaukt))
+						return -1;
+
 					if (o1.equals(def_task)) {
 						return -1;
 					}
@@ -318,6 +325,40 @@ public class MobileComposer {
 
 			});
 		}
+
+		// define ships
+		this.ships = this.service.listShip(this.date_selection);
+
+		// set starting and end task
+		Integer shift = selectedSchedule.getDetail_schedule().getShift();
+		String starting_info = this.getCurrentInfoTime();
+		String end_info = "";
+		switch (shift) {
+		case 1: {
+			end_info = "07:00";
+			break;
+		}
+		case 2: {
+			end_info = "13:00";
+			break;
+		}
+		case 3: {
+			end_info = "19:00";
+			break;
+		}
+		case 4: {
+			
+			final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY");
+			Calendar now = Calendar.getInstance();
+			now.add(Calendar.DAY_OF_YEAR,1);
+			end_info = format_date.format(now.getTime()) + " 01:00 ";			
+			
+			break;
+		}
+		}
+
+		starting_task = starting_info;
+		end_task = end_info;
 
 		this.status_view = 2;
 
@@ -961,6 +1002,22 @@ public class MobileComposer {
 	@NotifyChange({ "starting_task", "end_task" })
 	public void setCurrentTaskTime(@BindingParam("field") final int field) {
 
+		final String current = getCurrentInfoTime();
+
+		if (field == 0) {
+			this.starting_task = current;
+		} else if (field == 1) {
+			this.end_task = current;
+		}
+
+	}
+
+	/**
+	 * get current info time for define time task
+	 * 
+	 * @return
+	 */
+	private String getCurrentInfoTime() {
 		final Calendar now = Calendar.getInstance();
 
 		final Integer h = now.get(Calendar.HOUR_OF_DAY);
@@ -972,13 +1029,7 @@ public class MobileComposer {
 		}
 
 		final String current = "" + h + ":" + info_m;
-
-		if (field == 0) {
-			this.starting_task = current;
-		} else if (field == 1) {
-			this.end_task = current;
-		}
-
+		return current;
 	}
 
 	public void setDate_selection(final Date date_selection) {

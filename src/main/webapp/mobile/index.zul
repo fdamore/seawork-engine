@@ -459,7 +459,7 @@
 
 		</div>
 
-		<!-- ADD TO USER LIST -->
+		<!-- ADD TO USER LIST - ***SPOSTAMENTO*** -->
 		<div visible="@load(vm.status_view eq 2)">
 
 			<div class="container-fluid text-center">
@@ -565,7 +565,7 @@
 									<combobox
 										model="@load(vm.list_task)" readonly="true"
 										class="form-control"
-										selectedItem="@save(vm.user_task_selected)">
+										selectedItem="@bind(vm.user_task_selected)">
 
 									</combobox>
 
