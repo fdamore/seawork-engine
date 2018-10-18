@@ -11,64 +11,44 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.handler.Badge;
 import org.uario.seaworkengine.web.services.handler.InitialSchedule;
-import org.uario.seaworkengine.web.services.handler.UserStaturation;
 
 public interface IWebServiceController {
 
 	/**
-	 * Calculate user saturation
-	 *
-	 * @param date_request
-	 *            TODO
-	 *
-	 * @return
-	 */
-	public List<UserStaturation> calculateUserSaturation(Date date_request);
-
-	/**
-	 * Check for user abilitation
-	 *
-	 * @param username
-	 * @param password
-	 * @return
-	 */
-	public Boolean checkUser(String username, String password);
-
-	/**
 	 * @param badge
 	 */
-	public void createBadge(Badge badge);
+	void createBadge(Badge badge);
 
 	/**
 	 * create detail final schedule
 	 *
 	 * @param detailFinalScheduleShip
 	 */
-	public void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip);
+	void createDetailFinalScheduleShip(final DetailFinalScheduleShip detailFinalScheduleShip);
 
 	/**
 	 * @param id_badge
 	 */
-	public void deleteBadge(Integer id_badge);
+	void deleteBadge(Integer id_badge);
 
 	/**
 	 * delete details final id
 	 *
 	 * @param id_detail_final
 	 */
-	public void deleteDetailFinalScheduleShipById(Integer id_detail_final);
+	void deleteDetailFinalScheduleShipById(Integer id_detail_final);
 
 	/**
 	 * Get CT Task
 	 *
 	 * @return
 	 */
-	public UserTask getCTTask();
+	UserTask getCTTask();
 
 	/**
 	 * @return
 	 */
-	public UserTask getDelayOperation();
+	UserTask getDelayOperation();
 
 	/**
 	 * Public string get note
@@ -76,12 +56,12 @@ public interface IWebServiceController {
 	 * @param id_schedule
 	 * @return
 	 */
-	public String getDetailScheduleShipNote(Integer id_schedule);
+	String getDetailScheduleShipNote(Integer id_schedule);
 
 	/**
 	 * @return
 	 */
-	public UserTask getEndOperationTask();
+	UserTask getEndOperationTask();
 
 	/**
 	 * Get Monitor data
@@ -89,12 +69,12 @@ public interface IWebServiceController {
 	 * @param request
 	 * @return
 	 */
-	public List<MonitorData> getMonitorData(Date request);
+	List<MonitorData> getMonitorData(Date request);
 
 	/**
 	 * @return
 	 */
-	public UserTask getOverflowTask();
+	UserTask getOverflowTask();
 
 	/**
 	 * Public string get note
@@ -102,14 +82,14 @@ public interface IWebServiceController {
 	 * @param id_schedule
 	 * @return
 	 */
-	public String getScheduleNote(Integer id_schedule);
+	String getScheduleNote(Integer id_schedule);
 
 	/**
 	 * Get Configuration User shift
 	 *
 	 * @return
 	 */
-	public List<UserShift> getUserShiftConfiguration();
+	List<UserShift> getUserShiftConfiguration();
 
 	/**
 	 * Get list of ship schedulated today
@@ -117,7 +97,7 @@ public interface IWebServiceController {
 	 * @param date_request
 	 * @return
 	 */
-	public List<Ship> listShip(Date date_request);
+	List<Ship> listShip(Date date_request);
 
 	/**
 	 * list detail schedule ship
@@ -125,35 +105,32 @@ public interface IWebServiceController {
 	 * @param idDetailScheduleShip
 	 * @return
 	 */
-	public List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(
-	        Integer idDetailScheduleShip);
+	List<DetailFinalScheduleShip> loadDetailFinalScheduleShipByIdDetailScheduleShip(Integer idDetailScheduleShip);
 
 	/**
 	 * @param id_schedule
 	 * @return
 	 */
-	public List<Badge> loadListBadge(Integer id_schedule);
+	List<Badge> loadListBadge(Integer id_schedule);
 
 	/**
 	 * Get initial schedule for each person
 	 *
-	 * @param status_selection
-	 *            TODO
+	 * @param status_selection TODO
 	 * @param date
 	 *
 	 * @return
 	 */
-	public List<InitialSchedule> selectInitialSchedule(Date date_request, Integer status_selection);
+	List<InitialSchedule> selectInitialSchedule(Date date_request, Integer status_selection);
 
 	/**
 	 * Return Detail Scheduler
 	 *
 	 * @param date_request
-	 * @param shift
-	 *            TODO
+	 * @param shift        TODO
 	 * @return
 	 */
-	public List<DetailScheduleShip> selectInitialShipSchedule(Date date_request, Integer shift);
+	List<DetailScheduleShip> selectInitialShipSchedule(Date date_request, Integer shift);
 
 	/**
 	 * @param date_request
@@ -161,7 +138,7 @@ public interface IWebServiceController {
 	 * @param id_ship
 	 * @return
 	 */
-	public DetailScheduleShip selectInitialShipSchedule(Date date_request, Integer shift, Integer id_ship);
+	DetailScheduleShip selectInitialShipSchedule(Date date_request, Integer shift, Integer id_ship);
 
 	/**
 	 * Update scheduler ship for mobile
@@ -170,7 +147,7 @@ public interface IWebServiceController {
 	 * @param operation
 	 * @param menwork
 	 */
-	public void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer handswork);
+	void updateDetailScheduleShipForMobile(Integer detail_schedule_ship_id, String operation, Integer handswork);
 
 	/**
 	 * Public string get note
@@ -178,13 +155,13 @@ public interface IWebServiceController {
 	 * @param id_schedule
 	 * @return
 	 */
-	public void updateDetailScheduleShipNote(Integer id_schedule, String note);
+	void updateDetailScheduleShipNote(Integer id_schedule, String note);
 
 	/**
 	 * Public string get note
 	 *
 	 * @param id_schedule
 	 */
-	public void updateScheduleNote(Integer id_schedule, String note);
+	void updateScheduleNote(Integer id_schedule, String note);
 
 }

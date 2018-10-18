@@ -21,14 +21,15 @@ public class MobileUserDetail implements Serializable {
 	private Integer				id_schedule;
 
 	private Integer				id_ship;
+
 	private Boolean				revised;
 	private Integer				shift;
 	private Integer				task;
 	private Double				time;
-
 	private Date				time_from;
 
 	private Date				time_to;
+
 	private Double				time_vacation;
 
 	public String getBoard() {

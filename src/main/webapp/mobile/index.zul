@@ -24,6 +24,7 @@
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
 
+
 		<hbox>
 
 			<div class="btn-group-mg btn btn-group">
@@ -91,8 +92,6 @@
 
 			<div class="btn-group-mg btn btn-group input-group">
 
-
-
 				<button sclass="btn btn-success"
 					onClick="@command('selectToDay')" label="Oggi" />
 
@@ -116,19 +115,16 @@
 			</div>
 
 
-			<n:h1>
-				<div class="input-group">
-					<span class="input-group-addon">Data</span>
-					<label
-						value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')"
-						class="form-control label label-primary">
-					</label>
-				</div>
-			</n:h1>
+			<div class="btn-group-mg btn btn-group input-group"
+				visible="@load(vm.select_position_on)">
+
+				<button sclass="btn btn-success" label="Dettaglio"
+					onClick="@command('showFinalDetails')" />
+
+			</div>
 
 
 		</hbox>
-
 
 		<!-- REVIW FOR SHIP -->
 		<div visible="@load(vm.status_view eq 6)">
@@ -313,82 +309,86 @@
 		<!-- PROGRAMMAZINE NAVI -->
 		<div visible="@load(vm.status_view eq 4)">
 
-			<div class="container-fluid text-center">
-
-				<listbox pagingPosition="both" mold="paging"
-					selectedItem="@save(vm.detail_schedule_ship_selected)"
-					emptyMessage="Nessun risultato..." model="@load(vm.list_ship)"
-					checkmark="true" multiple="false" pageSize="8">
-
-					<listhead sizable="true">
-
-						<listheader align="center" label="TURNO"
-							hflex="1" />
-						<listheader align="center" label="NAVE"
-							hflex="3" />
-						<listheader align="center" label="OPERAZIONE"
-							hflex="2" />
-						<listheader align="center" label="MANI"
-							hflex="1" />
 
 
+			<listbox pagingPosition="both" mold="paging"
+				selectedItem="@save(vm.detail_schedule_ship_selected)"
+				emptyMessage="Nessun risultato..." model="@load(vm.list_ship)"
+				checkmark="true" multiple="false" pageSize="8">
 
-					</listhead>
+				<listhead sizable="true">
 
-					<template name="model" var="item">
-						<listitem>
+					<listheader align="center" label="TURNO" hflex="1" />
 
-							<listcell>
-								<label value="@load(item.shift)"
+					<listheader align="center" label="NAVE" hflex="3">
+						<label
+							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
+						</label>
+
+					</listheader>
+
+					<listheader align="center" label="OPERAZIONE"
+						hflex="2" />
+					<listheader align="center" label="MANI" hflex="1" />
+
+
+
+				</listhead>
+
+				<template name="model" var="item">
+					<listitem>
+
+						<listcell>
+							<label value="@load(item.shift)"
+								sclass="label label-info">
+							</label>
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label value="@load(item.name)"
 									sclass="label label-info">
 								</label>
-							</listcell>
+							</n:h3>
 
-							<listcell>
+						</listcell>
 
-								<n:h3>
-									<label value="@load(item.name)"
-										sclass="label label-info">
-									</label>
-								</n:h3>
+						<listcell>
 
-							</listcell>
+							<n:h4>
+								<label
+									value="@load(item) @converter(vm.operationConverter)"
+									sclass="label label-default">
+								</label>
+							</n:h4>
 
-							<listcell>
-
-								<n:h4>
-									<label
-										value="@load(item) @converter(vm.operationConverter)"
-										sclass="label label-default">
-									</label>
-								</n:h4>
-
-							</listcell>
+						</listcell>
 
 
 
-							<listcell>
+						<listcell>
 
-								<n:h3>
-									<label value="@load(item.handswork)"
-										sclass="label label-default">
-									</label>
-								</n:h3>
+							<n:h3>
+								<label value="@load(item.handswork)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
 
-							</listcell>
+						</listcell>
 
 
 
 
 
-						</listitem>
-					</template>
+					</listitem>
+				</template>
 
-				</listbox>
+			</listbox>
 
 
 
-			</div>
+
 
 
 		</div>
@@ -563,7 +563,7 @@
 									</span>
 
 									<combobox
-										model="@load(vm.list_task)" readonly="true" 
+										model="@load(vm.list_task)" readonly="true"
 										class="form-control"
 										selectedItem="@bind(vm.user_task_selected)">
 
@@ -688,18 +688,23 @@
 		<div visible="@load(vm.status_view eq 1)">
 
 
-
-
 			<listbox pagingPosition="both" mold="paging"
 				selectedItems="@bind(vm.list_schedule_selected)"
 				emptyMessage="Nessun risultato..." model="@load(vm.users)"
 				checkmark="true" multiple="true" pageSize="8">
 
+
 				<listhead sizable="true">
 
 					<listheader align="center" label="TURNO" hflex="1" />
+
 					<listheader align="center" label="RISORSA"
-						hflex="4" />
+						hflex="4">
+						<label
+							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
+						</label>
+					</listheader>
+
 					<listheader align="center" label="MANSIONE"
 						hflex="2" />
 

@@ -360,8 +360,6 @@
 		<property name="taskDAO" ref="myTasksDAO"></property>
 		<property name="configurationDAO" ref="myConfigurationDAO"></property>
 		<property name="statistics" ref="myStatisticsDAO"></property>
-		<property name="stat_procedure" ref="myStatProcedure"></property>
-
 
 	</bean>
 

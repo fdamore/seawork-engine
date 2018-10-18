@@ -405,6 +405,12 @@ public class MobileComposer {
 			return;
 		}
 
+		// check time integrity
+		final Double time = Utility.getTimeDifference(dt_starting, dt_end);
+		if (time == null) {
+			return;
+		}
+
 		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
 
 		detail_schedule.setId_schedule(this.selectedSchedule.getSchedule().getId());
@@ -417,7 +423,6 @@ public class MobileComposer {
 		// define time
 		detail_schedule.setTime_from(new java.sql.Timestamp(dt_starting.getTime()));
 		detail_schedule.setTime_to(new java.sql.Timestamp(dt_end.getTime()));
-		final Double time = Utility.getTimeDifference(dt_starting, dt_end);
 
 		if (this.user_task_selected.getIsabsence()) {
 			detail_schedule.setTime_vacation(time);
@@ -742,6 +747,59 @@ public class MobileComposer {
 
 	}
 
+	/**
+	 * PROCESS INITIAL USER DATA FOR VIEW USERS
+	 *
+	 * @param shift_no
+	 * @param list
+	 */
+	private void processInitiaUserData(final Integer shift_no, final List<InitialSchedule> list) {
+
+		if (this.users != null) {
+			this.users.clear();
+		} else {
+			this.users = new ArrayList<>();
+		}
+
+		// POST PROCESSING
+		for (final InitialSchedule insch : list) {
+			if (insch.getDetail_schedule() == null) {
+				continue;
+			}
+
+			for (final MobileUserDetail detail : insch.getDetail_schedule()) {
+
+				if (detail.getShift() == null) {
+					continue;
+				}
+
+				// filter on shift
+				if (shift_no != null) {
+					if (!shift_no.equals(detail.getShift())) {
+						continue;
+					}
+				}
+
+				final UserTask						user_task	= this.task_dao.loadTask(detail.getTask());
+
+				final InitialScheduleSingleDetail	itm			= new InitialScheduleSingleDetail();
+				itm.setDetail_schedule(detail);
+				itm.setPerson(insch.getPerson());
+				itm.setSchedule(insch.getSchedule());
+				itm.setUser_task(user_task);
+
+				// set badge info
+				final List<Badge>	badgeList	= this.service.loadListBadge(insch.getSchedule().getId());
+				final String		infob		= Utility.getLabelListBadge(badgeList);
+				itm.setBadgeInfo(infob);
+
+				this.users.add(itm);
+
+			}
+
+		}
+	}
+
 	@Command
 	@NotifyChange({ "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
@@ -753,51 +811,9 @@ public class MobileComposer {
 
 		if (this.status_view == 1) {
 
-			if (this.users != null) {
-				this.users.clear();
-			} else {
-				this.users = new ArrayList<>();
-			}
-
 			final List<InitialSchedule> list = this.service.selectInitialSchedule(date_for_selection, this.status_schedule_selection);
 
-			// POST PROCESSING
-			for (final InitialSchedule insch : list) {
-				if (insch.getDetail_schedule() == null) {
-					continue;
-				}
-
-				for (final MobileUserDetail detail : insch.getDetail_schedule()) {
-
-					if (detail.getShift() == null) {
-						continue;
-					}
-
-					// filter on shift
-					if (shift_no != null) {
-						if (!shift_no.equals(detail.getShift())) {
-							continue;
-						}
-					}
-
-					final UserTask						user_task	= this.task_dao.loadTask(detail.getTask());
-
-					final InitialScheduleSingleDetail	itm			= new InitialScheduleSingleDetail();
-					itm.setDetail_schedule(detail);
-					itm.setPerson(insch.getPerson());
-					itm.setSchedule(insch.getSchedule());
-					itm.setUser_task(user_task);
-
-					// set badge info
-					final List<Badge>	badgeList	= this.service.loadListBadge(insch.getSchedule().getId());
-					final String		infob		= Utility.getLabelListBadge(badgeList);
-					itm.setBadgeInfo(infob);
-
-					this.users.add(itm);
-
-				}
-
-			}
+			this.processInitiaUserData(shift_no, list);
 
 			// set null selected
 			this.list_schedule_selected = null;
@@ -1126,6 +1142,40 @@ public class MobileComposer {
 								this.getShip_handswork());
 
 		this.refreshShipDataAndCurrentShift();
+
+	}
+
+	@Command
+	@NotifyChange({ "users", "list_schedule_selected" })
+	public void showFinalDetails() {
+
+		if (!(this.status_view == 1)) {
+			return;
+		}
+
+		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
+			return;
+		}
+
+		final InitialScheduleSingleDetail	itm				= this.list_schedule_selected.get(0);
+
+		// get shift no
+		final Integer						shift_info		= itm.getDetail_schedule().getShift();
+
+		final List<MobileUserDetail>		list_details	= this.schedule_dao.loadMobileUserFinalDetail(itm.getSchedule().getId(), shift_info);
+
+		final InitialSchedule				item			= new InitialSchedule();
+		// set current object
+		item.setPerson(itm.getPerson());
+		item.setDetail_schedule(list_details);
+		item.setSchedule(itm.getSchedule());
+
+		final List<InitialSchedule> list = new ArrayList<>();
+		list.add(item);
+		this.processInitiaUserData(shift_info, list);
+
+		// set null selected
+		this.list_schedule_selected = null;
 
 	}
 
