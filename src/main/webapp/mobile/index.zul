@@ -563,7 +563,7 @@
 									</span>
 
 									<combobox
-										model="@load(vm.list_task)" readonly="true"
+										model="@load(vm.list_task)" readonly="true" 
 										class="form-control"
 										selectedItem="@bind(vm.user_task_selected)">
 
@@ -586,6 +586,12 @@
 									<combobox model="@load(vm.ships)"
 										readonly="true" class="form-control"
 										selectedItem="@bind(vm.ship_selected)">
+
+										<template name="model">
+											<comboitem
+												value="@load(each)" label="@load(each)" />
+										</template>
+
 									</combobox>
 								</div>
 
@@ -615,9 +621,9 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<space></space>
-						
+
 						<div class="row">
 
 							<div class="col-md-4">
@@ -629,7 +635,7 @@
 									</span>
 
 									<combobox class="form-control"
-										 readonly="true" value="@bind(vm.user_position)"
+										readonly="true" value="@bind(vm.user_position)"
 										placeholder="POSIZIONE...">
 
 										<comboitem label="SOTTO BORDO"
@@ -775,6 +781,12 @@
 
 					<combobox model="@load(vm.ships)" readonly="true"
 						class="form-control" selectedItem="@bind(vm.ship_selected)">
+
+						<template name="model">
+							<comboitem value="@load(each)"
+								label="@load(each)" />
+						</template>
+
 					</combobox>
 				</div>
 
