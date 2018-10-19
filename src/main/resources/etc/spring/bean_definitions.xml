@@ -132,9 +132,6 @@
 	<bean id="myConfigurationDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisConfigurationDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-		<property name="task_cache" ref="myTaskCache"></property>
-		<property name="shift_cache" ref="myShiftCache"></property>
-
 	</bean>
 
 
@@ -198,7 +195,8 @@
 	<bean id="myScheduleDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisScheduleDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-		<property name="shift_cache" ref="myShiftCache"></property>
+		<property name="configuration" ref="myConfigurationDAO"></property>
+		
 
 	</bean>
 
@@ -224,8 +222,7 @@
 
 	<bean id="myShipDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisShipDAO">
-		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-		<property name="ship_cache" ref="myShipCache"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />		
 
 	</bean>
 
@@ -244,30 +241,9 @@
 	<bean id="myCustomerDAO"
 		class="org.uario.seaworkengine.platform.persistence.mybatis.MyBatisCustomerDAO">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
-		<property name="customer_cache" ref="myCustomerCache"></property>
-
 	</bean>
 
 
-
-
-
-	<!-- SETUP PLATFORM CACHES -->
-	<bean id="myTaskCache"
-		class="org.uario.seaworkengine.platform.persistence.cache.task.TaskCacheImpl">
-	</bean>
-
-	<bean id="myShiftCache"
-		class="org.uario.seaworkengine.platform.persistence.cache.task.ShiftCacheImpl">
-	</bean>
-
-	<bean id="myShipCache"
-		class="org.uario.seaworkengine.platform.persistence.cache.task.ShipCacheImpl">
-	</bean>
-
-	<bean id="myCustomerCache"
-		class="org.uario.seaworkengine.platform.persistence.cache.task.CustomerCacheImpl">
-	</bean>
 
 
 
@@ -280,7 +256,7 @@
 		<property name="myScheduleDAO" ref="myScheduleDAO"></property>
 		<property name="myTaskDAO" ref="myTasksDAO"></property>
 		<property name="statisticDAO" ref="myStatisticsDAO"></property>
-		<property name="shiftCache" ref="myShiftCache"></property>
+		<property name="configuration" ref="myConfigurationDAO"></property>		
 		<property name="compensationDAO" ref="myUserCompensationDAO"></property>
 		<property name="bank_holiday" ref="bank_holidays"></property>
 	</bean>
@@ -342,11 +318,11 @@
 		<property name="period" value="1"></property>
 
 		<property name="params" ref="myParamDAO"></property>
-		<property name="scheduleDAO" ref="myScheduleDAO"></property>
-		<property name="shiftCache" ref="myShiftCache"></property>
+		<property name="scheduleDAO" ref="myScheduleDAO"></property>		
 		<property name="personDAO" ref="myPersonDAO"></property>
 		<property name="statProcedure" ref="myStatProcedure"></property>
 		<property name="bank_holiday" ref="bank_holidays"></property>
+		<property name="configuration" ref="myConfigurationDAO"></property>		
 
 	</bean>
 
@@ -354,8 +330,7 @@
 	<bean id="webcontroller"
 		class="org.uario.seaworkengine.web.services.webcontroller.WebControllerImpl">
 		<property name="personDAO" ref="myPersonDAO"></property>
-		<property name="scheduleDAO" ref="myScheduleDAO"></property>
-		<property name="shiftCache" ref="myShiftCache"></property>
+		<property name="scheduleDAO" ref="myScheduleDAO"></property>		
 		<property name="ship_dao" ref="myScheduleShipDAO"></property>
 		<property name="taskDAO" ref="myTasksDAO"></property>
 		<property name="configurationDAO" ref="myConfigurationDAO"></property>

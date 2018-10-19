@@ -5,7 +5,7 @@ import java.util.List;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
-import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
@@ -31,9 +31,10 @@ public class TaskReviewConverter implements TypeConverter {
 		final DetailInitialSchedule detailInitialSchedule = (DetailInitialSchedule) arg0;
 
 		if (detailInitialSchedule.getTask() == null) {
-			final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
 
-			final UserShift shift = shiftCache.getUserShift(detailInitialSchedule.getShift_type());
+			final ConfigurationDAO	configuration	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+
+			final UserShift			shift			= configuration.loadShiftById(detailInitialSchedule.getShift_type());
 
 			// Absence Shift
 			if (!shift.getPresence()) {
@@ -41,15 +42,15 @@ public class TaskReviewConverter implements TypeConverter {
 			}
 		}
 
-		final ISchedule scheduleDAO = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+		final ISchedule						scheduleDAO	= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 
-		final List<DetailInitialSchedule> listDetail = scheduleDAO.loadDetailInitialScheduleByIdSchedule(detailInitialSchedule.getId_schedule());
+		final List<DetailInitialSchedule>	listDetail	= scheduleDAO.loadDetailInitialScheduleByIdSchedule(detailInitialSchedule.getId_schedule());
 
-		final TasksDAO taskCache = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+		final TasksDAO						taskCache	= (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
 
-		final Integer id_task = detailInitialSchedule.getTask();
+		final Integer						id_task		= detailInitialSchedule.getTask();
 
-		final UserTask task = taskCache.loadTask(id_task);
+		final UserTask						task		= taskCache.loadTask(id_task);
 
 		if (task == null) {
 			return "";
@@ -59,19 +60,19 @@ public class TaskReviewConverter implements TypeConverter {
 
 		// search previous task
 		if (task.getIsabsence() || task.getJustificatory()) {
-			Long time = null;
-			Integer minTimeIndex = null;
+			Long	time			= null;
+			Integer	minTimeIndex	= null;
 
 			for (int i = 0; i < listDetail.size(); i++) {
-				final Integer idItemTask = listDetail.get(i).getTask();
-				final UserTask itemtask = taskCache.loadTask(idItemTask);
+				final Integer	idItemTask	= listDetail.get(i).getTask();
+				final UserTask	itemtask	= taskCache.loadTask(idItemTask);
 				if (!detailInitialSchedule.getId().equals(listDetail.get(i).getId()) && !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
 					final Long t = detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 
 					if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
-						minTimeIndex = i;
-						time = detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+						minTimeIndex	= i;
+						time			= detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 					}
 
 				}
@@ -89,8 +90,8 @@ public class TaskReviewConverter implements TypeConverter {
 			} else {
 				// search following task
 				for (int i = 0; i < listDetail.size(); i++) {
-					final Integer idItemTask = listDetail.get(i).getTask();
-					final UserTask itemtask = taskCache.loadTask(idItemTask);
+					final Integer	idItemTask	= listDetail.get(i).getTask();
+					final UserTask	itemtask	= taskCache.loadTask(idItemTask);
 					if (!detailInitialSchedule.getId().equals(listDetail.get(i).getId())
 							&& !(itemtask.getIsabsence() || itemtask.getJustificatory())) {
 
@@ -105,8 +106,8 @@ public class TaskReviewConverter implements TypeConverter {
 						}
 
 						if (((time == null) && (t >= 0)) || ((t >= 0) && ((t) < time))) {
-							minTimeIndex = i;
-							time = detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
+							minTimeIndex	= i;
+							time			= detailInitialSchedule.getTime_from().getTime() - listDetail.get(i).getTime_to().getTime();
 						}
 
 					}

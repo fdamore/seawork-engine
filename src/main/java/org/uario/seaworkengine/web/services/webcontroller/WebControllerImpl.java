@@ -14,9 +14,7 @@ import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.Ship;
-import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
-import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
@@ -44,8 +42,6 @@ public class WebControllerImpl implements IWebServiceController {
 	private PersonDAO			personDAO;
 
 	private ISchedule			scheduleDAO;
-
-	private IShiftCache			shiftCache;
 
 	private IScheduleShip		ship_dao;
 
@@ -156,12 +152,6 @@ public class WebControllerImpl implements IWebServiceController {
 		final Schedule	schedule	= this.scheduleDAO.loadScheduleById(id_schedule);
 		final String	note		= schedule.getNote();
 		return note;
-	}
-
-	@Override
-	public List<UserShift> getUserShiftConfiguration() {
-		return new ArrayList<>(this.shiftCache.getHash().values());
-
 	}
 
 	@Override
@@ -298,7 +288,7 @@ public class WebControllerImpl implements IWebServiceController {
 		final Date						date_request_truncate	= DateUtils.truncate(date_request, Calendar.DATE);
 
 		final List<DetailScheduleShip>	list					= this.ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift,
-								null, null, null, null, null);
+				null, null, null, null, null);
 		return list;
 	}
 
@@ -337,10 +327,6 @@ public class WebControllerImpl implements IWebServiceController {
 
 	public void setScheduleDAO(final ISchedule scheduleDAO) {
 		this.scheduleDAO = scheduleDAO;
-	}
-
-	public void setShiftCache(final IShiftCache shiftCache) {
-		this.shiftCache = shiftCache;
 	}
 
 	public void setShip_dao(final IScheduleShip ship_dao) {

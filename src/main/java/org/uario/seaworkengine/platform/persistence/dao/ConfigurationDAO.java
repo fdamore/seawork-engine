@@ -10,132 +10,140 @@ import org.uario.seaworkengine.model.WorkerStatus;
 
 public interface ConfigurationDAO {
 
-	public void addService(Service service);
+	void addService(Service service);
 
-	public void addStatus(String status, String note);
-	
-	public List<Service> checkServiceExist(String name);
+	void addStatus(String status, String note);
 
-	public void createCrane(Crane crane);
+	List<Service> checkServiceExist(String name);
 
-	public void createShift(UserShift shift);
+	void createCrane(Crane crane);
 
-	public void createTask(UserTask task);
+	void createShift(UserShift shift);
 
-	public UserTask getChangeshiftTask();
+	void createTask(UserTask task);
 
-	public List<Crane> getCrane(Integer id, Integer number, String name, String description);
+	UserShift getBreakShift();
 
-	public UserTask getDelayOperationTask();
+	UserTask getChangeshiftTask();
 
-	public UserTask getEndOperationTask();
+	List<Crane> getCrane(Integer id, Integer number, String name, String description);
 
-	public UserTask getOverflowTask();
+	UserShift getDailyShift();
 
-	public List<UserTask> listAllAbsenceTask();
+	UserTask getDelayOperationTask();
 
-	public List<UserShift> listAllDefaultShift();
+	UserTask getEndOperationTask();
 
-	public List<UserTask> listAllHiddenTask();
+	UserTask getOverflowTask();
 
-	public List<UserTask> listAllJustificatoryTask();
+	UserShift getStandardWorkShift();
 
-	public List<UserShift> listAllShifts(String full_text_search);
+	UserShift getWaitedBreakShift();
 
-	public List<UserTask> listAllStandardTask();
+	List<UserTask> listAllAbsenceTask();
 
-	public List<UserTask> listAllTasks(String full_text_search);
+	List<UserShift> listAllDefaultShift();
 
-	public List<UserShift> listRecordedShift();
+	List<UserTask> listAllHiddenTask();
 
-	public List<UserTask> listSpecialTaskMobile();
+	List<UserTask> listAllJustificatoryTask();
 
-	public List<String> loadAllShiftCode();
+	List<UserShift> listAllShifts(String full_text_search);
 
-	public List<String> loadAllTaskCode();
+	List<UserTask> listAllStandardTask();
 
-	public List<UserTask> loadInternalTask();
+	List<UserTask> listAllTasks(String full_text_search);
 
-	public UserTask loadPPTask();
+	List<UserShift> listRecordedShift();
 
-	public List<UserTask> loadRecordedTask();
+	List<UserTask> listSpecialTaskMobile();
 
-	public Service loadRZService();
+	List<String> loadAllShiftCode();
 
-	public UserTask loadRZTask();
+	List<String> loadAllTaskCode();
 
-	public Service loadService(Integer id);
+	List<UserTask> loadInternalTask();
 
-	public UserShift loadShiftById(Integer id);
+	UserTask loadPPTask();
 
-	public List<UserShift> loadShifts();
+	List<UserTask> loadRecordedTask();
 
-	public UserTask loadTask(Integer id);
+	Service loadRZService();
 
-	public List<UserTask> loadTasks();
+	UserTask loadRZTask();
 
-	public void updateStatus(WorkerStatus itm);
+	Service loadService(Integer id);
 
-	public void removeAllAccidentShift();
+	UserShift loadShiftById(Integer id);
 
-	public void removeAllBreakShift();
+	List<UserShift> loadShifts();
 
-	public void removeAllChangeshiftTasks();
+	UserTask loadTask(Integer id);
 
-	public void removeAllDailyShift();
+	List<UserTask> loadTasks();
 
-	public void removeAllDelayOperationTasks();
+	void removeAllAccidentShift();
 
-	public void removeAllDiseaseShift();
+	void removeAllBreakShift();
 
-	public void removeAllEndoperationTasks();
+	void removeAllChangeshiftTasks();
 
-	public void removeAllOverflowTasks();
+	void removeAllDailyShift();
 
-	public void removeAllStandardShift();
+	void removeAllDelayOperationTasks();
 
-	public void removeAllWaitBreakShift();
+	void removeAllDiseaseShift();
 
-	public void removeCrane(Integer id);
+	void removeAllEndoperationTasks();
 
-	public void removeService(Integer id);
+	void removeAllOverflowTasks();
 
-	public void removeShift(Integer id);
+	void removeAllStandardShift();
 
-	public void removeStatus(String description);
+	void removeAllWaitBreakShift();
 
-	public void removeTask(Integer id);
+	void removeCrane(Integer id);
 
-	public List<WorkerStatus> selectAllStatus();
+	void removeService(Integer id);
 
-	public List<Service> selectService(Integer id, String name, String description);
+	void removeShift(Integer id);
 
-	public void setShiftAsAccident(final Integer id_usershift);
+	void removeStatus(String description);
 
-	public void setShiftAsBreak(final Integer id_usershift);
+	void removeTask(Integer id);
 
-	public void setShiftAsDailyShift(final Integer id_usershift);
+	List<WorkerStatus> selectAllStatus();
 
-	public void setShiftAsDisease(final Integer id_usershift);
+	List<Service> selectService(Integer id, String name, String description);
 
-	public void setShiftAsExpectedBreak(final Integer id_usershift);
+	void setShiftAsAccident(final Integer id_usershift);
 
-	public void setShiftAsStandardShift(final Integer id_usershift);
+	void setShiftAsBreak(final Integer id_usershift);
 
-	public void setTaskAsChangeshift(Integer idTask);
+	void setShiftAsDailyShift(final Integer id_usershift);
 
-	public void setTaskAsDelayOperation(Integer idTask);
+	void setShiftAsDisease(final Integer id_usershift);
 
-	public void setTaskAsEndoperation(Integer idTask);
+	void setShiftAsExpectedBreak(final Integer id_usershift);
 
-	public void setTaskAsOverflow(Integer idTask);
+	void setShiftAsStandardShift(final Integer id_usershift);
 
-	public void updateCrane(Crane crane);
+	void setTaskAsChangeshift(Integer idTask);
 
-	public void updateService(Service service);
+	void setTaskAsDelayOperation(Integer idTask);
 
-	public void updateShift(UserShift shift);
+	void setTaskAsEndoperation(Integer idTask);
 
-	public void updateTask(UserTask task);
+	void setTaskAsOverflow(Integer idTask);
+
+	void updateCrane(Crane crane);
+
+	void updateService(Service service);
+
+	void updateShift(UserShift shift);
+
+	void updateStatus(WorkerStatus itm);
+
+	void updateTask(UserTask task);
 
 }

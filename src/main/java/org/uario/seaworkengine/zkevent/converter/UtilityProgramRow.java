@@ -1,7 +1,7 @@
 package org.uario.seaworkengine.zkevent.converter;
 
 import org.uario.seaworkengine.model.UserShift;
-import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.ProgramColorTag;
 import org.uario.seaworkengine.utility.ShiftTag;
@@ -13,14 +13,13 @@ import org.zkoss.zul.Toolbarbutton;
 
 public class UtilityProgramRow {
 
-	public static final String	NO_DATA	= "_";
+	public static final String NO_DATA = "_";
 
 	/**
 	 * color scheduler shift
 	 *
 	 * @param item_schedule
-	 * @param status
-	 *            TODO
+	 * @param status        TODO
 	 * @param arg1
 	 */
 	public static void defineRowBeahvior(final Component comp, final ItemRowSchedule item_schedule, final String status) {
@@ -52,12 +51,16 @@ public class UtilityProgramRow {
 
 		// color DAILY
 		if ((item_schedule != null) && (item_schedule.getSchedule() != null) && (item_schedule.getSchedule().getShift() != null)) {
-			final IShiftCache shift_cache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
-			if (shift_cache.getDailyShift() != null) {
-				if (shift_cache.getDailyShift().getId().equals(item_schedule.getSchedule().getShift())) {
+
+			final ConfigurationDAO	configuration	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+
+			final UserShift			dailyShift		= configuration.getDailyShift();
+			if (dailyShift != null) {
+				if (dailyShift.getId().equals(item_schedule.getSchedule().getShift())) {
 					color_stye = "background-color:" + ProgramColorTag.DAILY_COLOR;
 				}
 			}
+
 		}
 
 		listcell.setStyle(color_stye);
@@ -72,15 +75,15 @@ public class UtilityProgramRow {
 	 */
 	public static String getCurrentStatus(final ItemRowSchedule item_schedule) {
 		// define status
-		String status = ShiftTag.USER_WORKER_AVAILABLE;
+		String		status	= ShiftTag.USER_WORKER_AVAILABLE;
 
-		UserShift myShift = null;
+		UserShift	myShift	= null;
 
 		// define shift
 		if (item_schedule.getSchedule() != null) {
-			final Integer shift = item_schedule.getSchedule().getShift();
-			final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
-			myShift = shiftCache.getUserShift(shift);
+			final Integer			shift			= item_schedule.getSchedule().getShift();
+			final ConfigurationDAO	configuration	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+			myShift = configuration.loadShiftById(shift);
 
 			if (!myShift.getPresence().booleanValue()) {
 				status = ShiftTag.USER_WORKER_NOT_AVAILABLE;
@@ -105,9 +108,10 @@ public class UtilityProgramRow {
 
 		// define shift
 		if (item_schedule.getSchedule() != null) {
-			final Integer shift = item_schedule.getSchedule().getShift();
-			final IShiftCache shiftCache = (IShiftCache) SpringUtil.getBean(BeansTag.SHIFT_CACHE);
-			myShift = shiftCache.getUserShift(shift);
+			final Integer			shift			= item_schedule.getSchedule().getShift();
+			final ConfigurationDAO	configuration	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+			myShift = configuration.loadShiftById(shift);
+
 		}
 
 		return myShift;

@@ -6,12 +6,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.Ship;
-import org.uario.seaworkengine.platform.persistence.cache.IShipCache;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
 
 public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 
-	private static Logger	logger	= Logger.getLogger(MyBatisShipDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisShipDAO.class);
 
 	public static Logger getLogger() {
 		return MyBatisShipDAO.logger;
@@ -21,17 +20,11 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		MyBatisShipDAO.logger = logger;
 	}
 
-	private IShipCache	ship_cache;
-
 	@Override
 	public void createShip(final Ship ship) {
 		MyBatisShipDAO.logger.info("createShip");
 
 		this.getSqlSession().insert("ship.createShip", ship);
-
-		// recreate cache
-		final List<Ship> list = this.loadAllShip();
-		this.ship_cache.buildCache(list);
 
 	}
 
@@ -40,10 +33,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		MyBatisShipDAO.logger.info("deleteShip");
 
 		this.getSqlSession().delete("ship.deleteShip", id_ship);
-
-		// recreate cache
-		final List<Ship> list = this.loadAllShip();
-		this.ship_cache.buildCache(list);
 
 	}
 
@@ -61,10 +50,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 		return ship;
 	}
 
-	public IShipCache getShip_cache() {
-		return this.ship_cache;
-	}
-
 	@Override
 	public List<String> listAllNameShip() {
 		MyBatisShipDAO.logger.info("listAllNameShip");
@@ -77,7 +62,7 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 	public List<Ship> listAllShip(final String full_text_search) {
 		MyBatisShipDAO.logger.info("selectAllShipFulltextSearchLike");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("my_full_text_search", full_text_search);
 
 		return this.getSqlSession().selectList("ship.selectAllShipFulltextSearchLike", map);
@@ -108,10 +93,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 
 	}
 
-	public void setShip_cache(final IShipCache ship_cache) {
-		this.ship_cache = ship_cache;
-	}
-
 	@Override
 	public void setShipAsActivityH(final Integer shipId) {
 		MyBatisShipDAO.logger.info("setShipAsNoWork id " + shipId);
@@ -137,10 +118,6 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 
 		this.getSqlSession().update("ship.updateShip", ship);
 
-		// recreate cache
-		final List<Ship> list = this.loadAllShip();
-		this.ship_cache.buildCache(list);
-
 	}
 
 	@Override
@@ -153,7 +130,8 @@ public class MyBatisShipDAO extends SqlSessionDaoSupport implements IShip {
 			for (final Ship item : ships) {
 				if (item != null) {
 					if (idShipNoCheck != null) {
-						if ((item.getId() != idShipNoCheck) && (item.getName() != null) && item.getName().equals(name)) {
+						if ((item.getId() != idShipNoCheck) && (item.getName() != null)
+								&& item.getName().equals(name)) {
 							return true;
 						}
 					} else if ((item.getName() != null) && item.getName().equals(name)) {

@@ -6,7 +6,6 @@ import java.util.List;
 import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Ship;
-import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.statistics.impl.MonitorData;
 import org.uario.seaworkengine.web.services.handler.Badge;
@@ -83,13 +82,6 @@ public interface IWebServiceController {
 	 * @return
 	 */
 	String getScheduleNote(Integer id_schedule);
-
-	/**
-	 * Get Configuration User shift
-	 *
-	 * @return
-	 */
-	List<UserShift> getUserShiftConfiguration();
 
 	/**
 	 * Get list of ship schedulated today

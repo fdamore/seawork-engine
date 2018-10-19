@@ -15,7 +15,7 @@ import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.UserShift;
-import org.uario.seaworkengine.platform.persistence.cache.IShiftCache;
+import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
@@ -49,6 +49,8 @@ public class EngineServiceImpl implements IEngineService {
 
 	private IBankHolidays					bank_holiday;
 
+	private ConfigurationDAO				configuration;
+
 	private final SimpleDateFormat			date_fromatter	= new SimpleDateFormat("yyyy-MM-dd");
 
 	private long							initialDelay;
@@ -61,8 +63,6 @@ public class EngineServiceImpl implements IEngineService {
 
 	private ISchedule						scheduleDAO;
 
-	private IShiftCache						shiftCache;
-
 	private IStatProcedure					statProcedure;
 
 	/**
@@ -70,10 +70,10 @@ public class EngineServiceImpl implements IEngineService {
 	 */
 	private boolean checkForDaylightSavingTime() {
 
-		final Calendar calendar = Calendar.getInstance();
+		final Calendar	calendar	= Calendar.getInstance();
 
-		final double hours = calendar.get(Calendar.HOUR_OF_DAY);
-		final int minutes = calendar.get(Calendar.MINUTE);
+		final double	hours		= calendar.get(Calendar.HOUR_OF_DAY);
+		final int		minutes		= calendar.get(Calendar.MINUTE);
 		if (hours < 3) {
 			return false;
 		}
@@ -86,6 +86,10 @@ public class EngineServiceImpl implements IEngineService {
 
 	public IBankHolidays getBank_holiday() {
 		return this.bank_holiday;
+	}
+
+	public ConfigurationDAO getConfiguration() {
+		return this.configuration;
 	}
 
 	public long getInitialDelay() {
@@ -108,10 +112,6 @@ public class EngineServiceImpl implements IEngineService {
 		return this.scheduleDAO;
 	}
 
-	public IShiftCache getShiftCache() {
-		return this.shiftCache;
-	}
-
 	public IStatProcedure getStatProcedure() {
 		return this.statProcedure;
 	}
@@ -121,14 +121,18 @@ public class EngineServiceImpl implements IEngineService {
 	 */
 	public void init() {
 		// set runnable
-		final MyRunnable runnable = new MyRunnable();
+		final MyRunnable				runnable	= new MyRunnable();
 
-		final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		final ScheduledExecutorService	scheduler	= Executors.newScheduledThreadPool(1);
 		scheduler.scheduleAtFixedRate(runnable, this.initialDelay, this.period, TimeUnit.HOURS);
 	}
 
 	public void setBank_holiday(final IBankHolidays bank_holiday) {
 		this.bank_holiday = bank_holiday;
+	}
+
+	public void setConfiguration(final ConfigurationDAO configuration) {
+		this.configuration = configuration;
 	}
 
 	public void setInitialDelay(final long initialDelay) {
@@ -151,10 +155,6 @@ public class EngineServiceImpl implements IEngineService {
 		this.scheduleDAO = scheduleDAO;
 	}
 
-	public void setShiftCache(final IShiftCache shiftCache) {
-		this.shiftCache = shiftCache;
-	}
-
 	public void setStatProcedure(final IStatProcedure statProcedure) {
 		this.statProcedure = statProcedure;
 	}
@@ -171,15 +171,15 @@ public class EngineServiceImpl implements IEngineService {
 				return;
 			}
 
-			final Calendar calendar = Calendar.getInstance();
-			final Date current_day = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
+			final Calendar	calendar	= Calendar.getInstance();
+			final Date		current_day	= DateUtils.truncate(calendar.getTime(), Calendar.DATE);
 
 			// date today
 			calendar.add(Calendar.DATE, 1);
-			final Date date_tomorrow = DateUtils.truncate(calendar.getTime(), Calendar.DATE);
+			final Date		date_tomorrow	= DateUtils.truncate(calendar.getTime(), Calendar.DATE);
 
 			// check if the process ran in current day
-			final String date_assign = this.params.getParam(ParamsTag.ASSIGN_SHIFT_DATE);
+			final String	date_assign		= this.params.getParam(ParamsTag.ASSIGN_SHIFT_DATE);
 
 			if (date_assign != null) {
 				Date date_to_check = null;
@@ -193,28 +193,41 @@ public class EngineServiceImpl implements IEngineService {
 				}
 			}
 
+			// ***** define selected shift type ***
+
+			UserShift				work_shift				= null;
+			UserShift				waited_work_shift		= null;
+			UserShift				break_shift				= null;
+			UserShift				daily_employee_shift	= null;
+
+			final List<UserShift>	list_shifts				= this.configuration.listAllDefaultShift();	//
+			for (final UserShift item : list_shifts) {
+
+				// check if item have to be added as beaskShift
+				if (item.getBreak_shift().booleanValue()) {
+					break_shift = item;
+				}
+
+				if (item.getStandard_shift().booleanValue()) {
+					work_shift = item;
+				}
+
+				if (item.getWaitbreak_shift().booleanValue()) {
+					waited_work_shift = item;
+				}
+
+				if (item.getDaily_shift().booleanValue()) {
+					daily_employee_shift = item;
+				}
+
+			}
+
+			// check integrity
+			if ((work_shift == null) || (waited_work_shift == null) || (break_shift == null) || (daily_employee_shift == null)) {
+				return;
+			}
+
 			// ASSIGN WORK PROCEDURE
-
-			// take info shift----- check if any info are configured
-			final UserShift work_shift = this.shiftCache.getStandardWorkShift();
-			if (work_shift == null) {
-				return;
-			}
-
-			final UserShift waited_work_shift = this.shiftCache.getWaitedBreakShift();
-			if (waited_work_shift == null) {
-				return;
-			}
-
-			final UserShift break_shift = this.shiftCache.getBreakShift();
-			if (break_shift == null) {
-				return;
-			}
-
-			final UserShift daily_employee_shift = this.shiftCache.getDailyShift();
-			if (daily_employee_shift == null) {
-				return;
-			}
 
 			// ASSIGN WORK FOR TOMORROW-------- BEGIN SUB PROCEDURE
 			// get all persons
@@ -239,9 +252,9 @@ public class EngineServiceImpl implements IEngineService {
 
 							UserShift itm_usr_shift = null;
 							if (person.getDailyemployee()) {
-								itm_usr_shift = this.shiftCache.getDailyShift();
+								itm_usr_shift = daily_employee_shift;
 							} else {
-								itm_usr_shift = this.shiftCache.getStandardWorkShift();
+								itm_usr_shift = work_shift;
 							}
 
 							this.statProcedure.workAssignProcedure(itm_usr_shift, itm.getDate_schedule(), itm.getUser(), null);
@@ -256,8 +269,8 @@ public class EngineServiceImpl implements IEngineService {
 
 					// check if is needed to assign work each shift
 
-					final boolean isScheduleNull = schedule.getShift() == null;
-					boolean isDayEmpty = true;
+					final boolean	isScheduleNull	= schedule.getShift() == null;
+					boolean			isDayEmpty		= true;
 
 					if (!isScheduleNull) {
 
@@ -278,7 +291,7 @@ public class EngineServiceImpl implements IEngineService {
 							UserShift shift_to_assign = null;
 
 							if (!isScheduleNull) {
-								shift_to_assign = this.shiftCache.getUserShift(schedule.getShift());
+								shift_to_assign = this.configuration.loadShiftById(schedule.getShift());
 							} else {
 								shift_to_assign = work_shift;
 							}
@@ -294,7 +307,7 @@ public class EngineServiceImpl implements IEngineService {
 								UserShift shift_to_assign = null;
 
 								if (!isScheduleNull) {
-									shift_to_assign = this.shiftCache.getUserShift(schedule.getShift());
+									shift_to_assign = this.configuration.loadShiftById(schedule.getShift());
 								} else {
 									shift_to_assign = break_shift;
 								}
@@ -306,7 +319,7 @@ public class EngineServiceImpl implements IEngineService {
 								UserShift shift_to_assign = null;
 
 								if (!isScheduleNull) {
-									shift_to_assign = this.shiftCache.getUserShift(schedule.getShift());
+									shift_to_assign = this.configuration.loadShiftById(schedule.getShift());
 								} else {
 									shift_to_assign = daily_employee_shift;
 								}
@@ -332,7 +345,7 @@ public class EngineServiceImpl implements IEngineService {
 
 				if (isSunaday) {
 
-					this.sundayProcess(current_day, person);
+					this.sundayProcess(current_day, person, break_shift);
 				}
 
 				// END SUB PROCEDURE
@@ -362,10 +375,9 @@ public class EngineServiceImpl implements IEngineService {
 	 * @param person
 	 * @param lenght_series_working
 	 */
-	public void sundayProcess(final Date current_sunday, final Person person) {
+	public void sundayProcess(final Date current_sunday, final Person person, final UserShift break_shift) {
 
-		// get break shift
-		final UserShift break_shift = this.shiftCache.getBreakShift();
+		// check break shift
 		if (break_shift == null) {
 			return;
 		}
@@ -411,20 +423,20 @@ public class EngineServiceImpl implements IEngineService {
 				final Calendar cal = DateUtils.truncate(next_sunday, Calendar.DATE);
 				cal.add(Calendar.DAY_OF_YEAR, -1);
 
-				final List<Schedule> list_break_first_week = this.statProcedure.searchBreakInCurrentWeek(cal.getTime(), person.getId(), true);
+				final List<Schedule>	list_break_first_week	= this.statProcedure.searchBreakInCurrentWeek(cal.getTime(), person.getId(), true);
 
-				int max_day_to_break = 7;
+				int						max_day_to_break		= 7;
 
 				if (list_break_first_week != null) {
 
 					// choose a different max day
-					final Schedule item_schedule = list_break_first_week.get(list_break_first_week.size() - 1);
-					final Calendar day_calendar = DateUtils.toCalendar(item_schedule.getDate_schedule());
+					final Schedule	item_schedule	= list_break_first_week.get(list_break_first_week.size() - 1);
+					final Calendar	day_calendar	= DateUtils.toCalendar(item_schedule.getDate_schedule());
 
 					if (day_calendar.get(Calendar.DAY_OF_WEEK) < Calendar.THURSDAY) {
 
-						final Date max_day = DateUtils.truncate(item_schedule.getDate_schedule(), Calendar.DATE);
-						final Calendar cal_max_day = DateUtils.toCalendar(max_day);
+						final Date		max_day		= DateUtils.truncate(item_schedule.getDate_schedule(), Calendar.DATE);
+						final Calendar	cal_max_day	= DateUtils.toCalendar(max_day);
 						cal_max_day.add(Calendar.DAY_OF_YEAR, 10);
 
 						max_day_to_break = cal_max_day.get(Calendar.DAY_OF_WEEK) - 1;
