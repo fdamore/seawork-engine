@@ -22,12 +22,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.ShipTotal;
-import org.uario.seaworkengine.web.services.handler.Badge;
 import org.zkoss.spring.SpringUtil;
 
 import com.google.zxing.BarcodeFormat;

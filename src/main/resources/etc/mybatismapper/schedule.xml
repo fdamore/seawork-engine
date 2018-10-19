@@ -626,7 +626,7 @@ WHERE
 
 
 	<select id="loadMobileUserInitialDetail" parameterType="map"
-		resultType="org.uario.seaworkengine.web.services.handler.MobileUserDetail">
+		resultType="org.uario.seaworkengine.mobile.model.MobileUserDetail">
 <![CDATA[		
 SELECT 
     d.id,
@@ -650,7 +650,7 @@ WHERE
 
 	<!-- LOAD THE FINAL INFO IN INITIAL STRUCTURE -->
 	<select id="loadMobileUserFinalDetail" parameterType="map"
-		resultType="org.uario.seaworkengine.web.services.handler.MobileUserDetail">
+		resultType="org.uario.seaworkengine.mobile.model.MobileUserDetail">
 		<![CDATA[	
 SELECT 
     d.id,
@@ -680,7 +680,7 @@ WHERE
 	</insert>
 
 	<select id="loadBadgeByScheduleId" parameterType="Integer"
-		resultType="org.uario.seaworkengine.web.services.handler.Badge">
+		resultType="org.uario.seaworkengine.mobile.model.Badge">
 		SELECT id, eventTime, eventType, idschedule
 		FROM badge
 		WHERE

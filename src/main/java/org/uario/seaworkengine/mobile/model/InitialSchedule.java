@@ -1,4 +1,4 @@
-package org.uario.seaworkengine.web.services.handler;
+package org.uario.seaworkengine.mobile.model;
 
 import java.util.List;
 

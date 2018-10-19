@@ -22,7 +22,7 @@
 
 	<vlayout sclass="container-fluid" xmlns:n="native" spacing="0"
 		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('org.uario.seaworkengine.web.zkevent.MobileComposer')">
+		viewModel="@id('vm') @init('org.uario.seaworkengine.mobile.zkevent.MobileComposer')">
 
 
 		<hbox>

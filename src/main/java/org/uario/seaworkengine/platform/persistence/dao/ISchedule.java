@@ -3,11 +3,11 @@ package org.uario.seaworkengine.platform.persistence.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.uario.seaworkengine.mobile.model.Badge;
+import org.uario.seaworkengine.mobile.model.MobileUserDetail;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Schedule;
-import org.uario.seaworkengine.web.services.handler.Badge;
-import org.uario.seaworkengine.web.services.handler.MobileUserDetail;
 
 public interface ISchedule {
 
