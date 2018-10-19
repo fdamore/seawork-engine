@@ -218,7 +218,7 @@ public class MobileComposer {
 	/**
 	 * Instace of data converter
 	 */
-	private final MyDateFormatConverter			dateConverter				= new MyDateFormatConverter();
+	private final MyDateFormatConverter			dateConverter			= new MyDateFormatConverter();
 
 	private DetailScheduleShip					detail_schedule_ship_selected;
 
@@ -226,7 +226,7 @@ public class MobileComposer {
 
 	private List<Crane>							list_crane;
 
-	private List<InitialScheduleSingleDetail>	list_schedule_selected		= null;
+	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
 
 	private List<DetailScheduleShip>			list_ship;
 
@@ -236,15 +236,13 @@ public class MobileComposer {
 
 	private String								note_ship;
 
-	private final MyOperationConverter			operationConverter			= new MyOperationConverter();
+	private final MyOperationConverter			operationConverter		= new MyOperationConverter();
 
 	private PersonDAO							person_dao;
 
 	private ISchedule							schedule_dao;
 
 	private IScheduleShip						schedule_ship_dao;
-
-	private Boolean								select_position_on			= Boolean.TRUE;
 
 	private InitialScheduleSingleDetail			selectedSchedule;
 
@@ -262,25 +260,20 @@ public class MobileComposer {
 
 	private String								starting_task;
 
-	/**
-	 * STATUS SELECTION. EDIT ZUL FOR INFO
-	 */
-	private Integer								status_schedule_selection	= 3;
-
-	private Integer								status_view					= 1;
+	private Integer								status_view				= 1;
 
 	private TasksDAO							task_dao;
 
 	/**
 	 * Task converter
 	 */
-	private final MyMobileTaskConverter			taskConverter				= new MyMobileTaskConverter();
+	private final MyMobileTaskConverter			taskConverter			= new MyMobileTaskConverter();
 
 	private String								user_position;
 
 	private UserTask							user_task_selected;
 
-	private MyUserConverter						userConverter				= new MyUserConverter();
+	private MyUserConverter						userConverter			= new MyUserConverter();
 
 	private List<InitialScheduleSingleDetail>	users;
 
@@ -632,10 +625,6 @@ public class MobileComposer {
 		return note;
 	}
 
-	public Boolean getSelect_position_on() {
-		return this.select_position_on;
-	}
-
 	public InitialScheduleSingleDetail getSelectedSchedule() {
 		return this.selectedSchedule;
 	}
@@ -691,21 +680,17 @@ public class MobileComposer {
 	@AfterCompose
 	public void init(@ContextParam(ContextType.COMPONENT) final Component component) throws Exception {
 
-		this.task_dao					= (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
-		this.shipdao					= (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
-		this.schedule_ship_dao			= (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
-		this.schedule_dao				= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
-		this.configurationDao			= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
-		this.person_dao					= (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+		this.task_dao			= (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+		this.shipdao			= (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
+		this.schedule_ship_dao	= (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
+		this.schedule_dao		= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+		this.configurationDao	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		this.person_dao			= (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
-		this.list_crane					= this.configurationDao.getCrane(null, null, null, null);
+		this.list_crane			= this.configurationDao.getCrane(null, null, null, null);
 
 		// set selection at today
-		this.date_selection				= Calendar.getInstance().getTime();
-
-		// select position
-		this.select_position_on			= Boolean.TRUE;
-		this.status_schedule_selection	= 3;
+		this.date_selection		= Calendar.getInstance().getTime();
 
 		this.refreshDataAndCurrentShift();
 
@@ -863,7 +848,7 @@ public class MobileComposer {
 
 		if (this.status_view == 1) {
 
-			final List<InitialSchedule> list = this.selectInitialSchedule(date_for_selection, this.status_schedule_selection);
+			final List<InitialSchedule> list = this.selectInitialSchedule(date_for_selection);
 
 			this.processInitiaUserData(shift_no, list);
 
@@ -884,28 +869,22 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view", "list_schedule_selected", "select_position_on" })
+	@NotifyChange({ "users", "shift_no", "status_view", "list_schedule_selected" })
 	public void refreshDataAndCurrentShift() {
 
 		// set view to status 1
-		this.status_view		= 1;
-
-		// active command about schedule position
-		this.select_position_on	= Boolean.TRUE;
+		this.status_view = 1;
 
 		this.calculateShiftAndRefresh();
 
 	}
 
 	@Command
-	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected", "select_position_on" })
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
 	public void refreshShipDataAndCurrentShift() {
 
 		// return to list of ship
-		this.status_view		= 4;
-
-		// active command about schedule position
-		this.select_position_on	= Boolean.FALSE;
+		this.status_view = 4;
 
 		this.calculateShiftAndRefresh();
 
@@ -1045,20 +1024,7 @@ public class MobileComposer {
 		this.refreshDataAndCurrentShift();
 	}
 
-	@Command
-	@NotifyChange({ "list_schedule_selected", "users", "shift_no", "status_view", "list_schedule_selected" })
-	public void selectAllPosition() {
-
-		this.status_schedule_selection = 3;
-		this.refreshDataAndCurrentShift();
-
-	}
-
-	public List<InitialSchedule> selectInitialSchedule(final Date date_request, Integer status_selection) {
-
-		if (status_selection == null) {
-			status_selection = 3;
-		}
+	public List<InitialSchedule> selectInitialSchedule(final Date date_request) {
 
 		final List<InitialSchedule>	ret				= new ArrayList<>();
 
@@ -1083,40 +1049,18 @@ public class MobileComposer {
 			// ADD SHIFT 1
 			for (int i = 1; i <= 4; i++) {
 
-				List<MobileUserDetail> list_details = null;
+				List<MobileUserDetail>			list_details	= null;
 
-				switch (status_selection) {
-				case 1: {
+				final List<MobileUserDetail>	final_details	= this.schedule_dao.loadMobileUserFinalDetail(schedule.getId(), i);
+				if (CollectionUtils.isNotEmpty(final_details)) {
+					final MobileUserDetail last = this.extractThelast(final_details);
+					list_details = new ArrayList<>();
+					list_details.add(last);
+				} else {
 					list_details = this.schedule_dao.loadMobileUserInitialDetail(schedule.getId(), i);
-
-					break;
 				}
 
-				case 2: {
-					list_details = this.schedule_dao.loadMobileUserFinalDetail(schedule.getId(), i);
-					final MobileUserDetail last = this.extractThelast(list_details);
-					if (last != null) {
-						list_details.clear();
-						list_details.add(last);
-					}
-
-					break;
-				}
-
-				case 3: {
-					list_details = this.schedule_dao.loadMobileUserInitialDetail(schedule.getId(), i);
-					final List<MobileUserDetail>	final_details	= this.schedule_dao.loadMobileUserFinalDetail(schedule.getId(), i);
-					final MobileUserDetail			last			= this.extractThelast(final_details);
-					if (last != null) {
-						list_details.add(last);
-					}
-
-					break;
-				}
-
-				}
-
-				if (!CollectionUtils.isEmpty(list_details)) {
+				if (CollectionUtils.isNotEmpty(list_details)) {
 					merging_details.addAll(list_details);
 				}
 
@@ -1194,24 +1138,6 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "list_schedule_selected", "users", "shift_no", "status_view", "list_schedule_selected" })
-	public void selectOnlyProgram() {
-
-		this.status_schedule_selection = 1;
-		this.refreshDataAndCurrentShift();
-
-	}
-
-	@Command
-	@NotifyChange({ "list_schedule_selected", "users", "shift_no", "status_view", "list_schedule_selected" })
-	public void selectOnlyReview() {
-
-		this.status_schedule_selection = 2;
-		this.refreshDataAndCurrentShift();
-
-	}
-
-	@Command
 	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection" })
 	public void selectToDay() {
 		final Calendar calendar = Calendar.getInstance();
@@ -1283,10 +1209,6 @@ public class MobileComposer {
 
 	public void setNote_ship(final String note_ship) {
 		this.note_ship = note_ship;
-	}
-
-	public void setSelect_position_on(final Boolean select_position_on) {
-		this.select_position_on = select_position_on;
 	}
 
 	public void setSelectedSchedule(final InitialScheduleSingleDetail selectedSchedule) {
@@ -1413,8 +1335,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected", "detail_schedule_ship_selected",
-			"select_position_on" })
+	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected", "detail_schedule_ship_selected" })
 	public void switchShipShift() {
 
 		if (this.status_view == 1) {

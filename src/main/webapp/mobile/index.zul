@@ -100,23 +100,10 @@
 
 			</div>
 
-			<div class="btn-group-mg btn btn-group input-group"
-				visible="@load(vm.select_position_on)">
-
-				<button sclass="btn btn-warning"
-					onClick="@command('selectOnlyProgram')" label="Programmato" />
-
-				<button sclass="btn btn-success"
-					onClick="@command('selectOnlyReview')" label="Consuntivato" />
-
-				<button sclass="btn btn-info"
-					onClick="@command('selectAllPosition')" label="Tutto" />
-
-			</div>
-
+			
 
 			<div class="btn-group-mg btn btn-group input-group"
-				visible="@load(vm.select_position_on)">
+				visible="@load(vm.status_view eq 1)">
 
 				<button sclass="btn btn-success" label="Dettaglio"
 					onClick="@command('showFinalDetails')" />
