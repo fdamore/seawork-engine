@@ -397,47 +397,16 @@ public class MobileComposer {
 		this.selectedSchedule = this.list_schedule_selected.get(0);
 
 		// parse time
+
 		final Date	dt_starting	= this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), starting);
 		final Date	dt_end		= this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), end);
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
 		}
 
-		// check time integrity
-		final Double time = Utility.getTimeDifference(dt_starting, dt_end);
-		if (time == null) {
-			return;
-		}
-
-		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
-
-		detail_schedule.setId_schedule(this.selectedSchedule.getSchedule().getId());
-		detail_schedule.setShift(this.selectedSchedule.getDetail_schedule().getShift());
-		detail_schedule.setContinueshift(Boolean.FALSE);
-
-		// task
-		detail_schedule.setTask(this.user_task_selected.getId());
-
-		// define time
-		detail_schedule.setTime_from(new java.sql.Timestamp(dt_starting.getTime()));
-		detail_schedule.setTime_to(new java.sql.Timestamp(dt_end.getTime()));
-
-		if (this.user_task_selected.getIsabsence()) {
-			detail_schedule.setTime_vacation(time);
-			detail_schedule.setTime(0.0);
-
-		} else {
-			detail_schedule.setTime_vacation(0.0);
-			detail_schedule.setTime(time);
-
-		}
-
-		// info ship
-		detail_schedule.setCrane(this.crane_selected.getNumber().toString());
-		detail_schedule.setId_ship(this.ship_selected.getId());
-		detail_schedule.setBoard(this.user_position);
-
-		this.schedule_dao.createDetailFinalSchedule(detail_schedule);
+		// Create info
+		this.createDetailFinalSchedule(dt_starting, dt_end, this.selectedSchedule, this.user_task_selected, this.crane_selected, this.ship_selected,
+				this.user_position);
 
 		// refresh view for user list (status 1)
 		this.refreshDataAndCurrentShift();
@@ -483,6 +452,68 @@ public class MobileComposer {
 
 		// refresh with shift_no
 		this.refresh(this.shift_no);
+	}
+
+	/**
+	 * C reate info fro task
+	 *
+	 * @param dt_starting
+	 * @param dt_end
+	 * @param programmedSchedule
+	 * @param task
+	 * @param crane
+	 * @param ship
+	 * @param position
+	 */
+	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
+			final UserTask task, final Crane crane, final Ship ship, final String position) {
+
+		if ((dt_starting == null) || (dt_end == null)) {
+			return;
+		}
+
+		// check time integrity
+		final Double time = Utility.getTimeDifference(dt_starting, dt_end);
+		if (time == null) {
+			return;
+		}
+
+		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+
+		detail_schedule.setId_schedule(programmedSchedule.getSchedule().getId());
+		detail_schedule.setShift(programmedSchedule.getDetail_schedule().getShift());
+		detail_schedule.setContinueshift(Boolean.FALSE);
+
+		// task
+		detail_schedule.setTask(task.getId());
+
+		// define time
+		detail_schedule.setTime_from(new java.sql.Timestamp(dt_starting.getTime()));
+		detail_schedule.setTime_to(new java.sql.Timestamp(dt_end.getTime()));
+
+		if (task.getIsabsence()) {
+			detail_schedule.setTime_vacation(time);
+			detail_schedule.setTime(0.0);
+
+		} else {
+			detail_schedule.setTime_vacation(0.0);
+			detail_schedule.setTime(time);
+
+		}
+
+		// info ship...
+		if (crane != null) {
+			detail_schedule.setCrane(crane.getNumber().toString());
+		}
+		if (ship != null) {
+			detail_schedule.setId_ship(ship.getId());
+		}
+		if (position != null) {
+			detail_schedule.setBoard(position);
+		}
+
+		this.schedule_dao.createDetailFinalSchedule(detail_schedule);
+
 	}
 
 	@Command
@@ -1300,12 +1331,32 @@ public class MobileComposer {
 
 			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
-				final Badge badge = new Badge();
-				badge.setEventTime(Calendar.getInstance().getTime());
+				final Schedule	schedule		= itm.getSchedule();
+				final Date		current_time	= Calendar.getInstance().getTime();
+
+				final Badge		badge			= new Badge();
+				badge.setEventTime(current_time);
 				badge.setEventType(Boolean.TRUE);
-				badge.setIdschedule(itm.getSchedule().getId());
+				badge.setIdschedule(schedule.getId());
 
 				this.schedule_dao.createBadge(badge);
+
+				// check if delay
+				final Date time_from = itm.getDetail_schedule().getTime_from();
+				if (current_time.after(time_from)) {
+
+					// calculate minutes
+					final int mins = Utility.getMinutesBetweenDate(time_from, current_time);
+					if (mins > 1) {
+
+						final UserTask delay = this.configurationDao.getDelayOperationTask();
+
+						this.createDetailFinalSchedule(time_from, current_time, itm, delay, null, null, null);
+
+					}
+
+				}
+
 			}
 
 			this.refreshDataAndCurrentShift();

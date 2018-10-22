@@ -1734,7 +1734,6 @@ WHERE
    		u.status = 'IN ORGANICO'
         AND u.out_schedule = 0
         AND u.dailyemployee = 0
-        AND u.dailyemployee = 0
         AND s.user = u.id
         AND s.date_schedule = #{date_scheudle}
         AND s.shift = us.id

@@ -22,6 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.Minutes;
 import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.UserShift;
@@ -295,6 +296,27 @@ public class Utility {
 
 		return ret;
 
+	}
+
+	/**
+	 * Get minutes between date
+	 *
+	 * @param date_to
+	 * @param date_from
+	 * @return
+	 */
+	public static int getMinutesBetweenDate(final Date date_from, final Date date_to) {
+
+		if (date_from.after(date_to)) {
+			return 0;
+		}
+
+		final DateTime	dt_from	= new DateTime(date_from);
+		final DateTime	dt_to	= new DateTime(date_to);
+
+		final Minutes	min		= Minutes.minutesBetween(dt_from, dt_to);
+
+		return min.getMinutes();
 	}
 
 	public static Integer getMonthNumber(final Date date) {
