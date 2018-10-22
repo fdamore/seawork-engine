@@ -163,7 +163,7 @@ public class EngineServiceImpl implements IEngineService {
 	public void startEngineProcess() {
 
 		try {
-			EngineServiceImpl.logger.info("INIT AUTOMATIC ENGINE SERIVICE");
+			EngineServiceImpl.logger.info("INIT AUTOMATIC ENGINE SERVICE");
 
 			// the process must start after the potential daylight saving split
 			final boolean check_daylight_saving = this.checkForDaylightSavingTime();
