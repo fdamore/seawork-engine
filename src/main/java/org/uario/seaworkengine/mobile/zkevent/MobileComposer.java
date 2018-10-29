@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.mobile.model.InitialSchedule;
@@ -413,7 +414,7 @@ public class MobileComposer {
 
 		// Create info
 		this.createDetailFinalSchedule(dt_starting, dt_end, this.selectedSchedule, this.user_task_selected, this.crane_selected, this.ship_selected,
-				this.user_position);
+								this.user_position);
 
 		// refresh view for user list (status 1)
 		this.refreshDataAndCurrentShift();
@@ -473,7 +474,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-			final UserTask task, final Crane crane, final Ship ship, final String position) {
+							final UserTask task, final Crane crane, final Ship ship, final String position) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -518,6 +519,10 @@ public class MobileComposer {
 		if (position != null) {
 			detail_schedule.setBoard(position);
 		}
+
+		// set controller
+		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// TODO: define final control
 
 		this.schedule_dao.createDetailFinalSchedule(detail_schedule);
 
