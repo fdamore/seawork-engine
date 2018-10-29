@@ -692,7 +692,7 @@
 						</label>
 					</listheader>
 
-					<listheader align="center" label="MANSIONE"
+					<listheader align="center" label="PROGRAMMA"
 						hflex="2" />
 
 					<listheader align="center" label="INGRESSI"

@@ -2,35 +2,41 @@ package org.uario.seaworkengine.mobile.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class MobileUserDetail implements Serializable {
 
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long		serialVersionUID	= 1L;
 
-	private String				board;
+	private String					board;
 
-	private Boolean				continueshift;
+	private Boolean					continueshift;
 
-	private String				crane;
+	private String					crane;
 
-	private Integer				id;
+	private Integer					id;
 
-	private Integer				id_schedule;
+	private Integer					id_schedule;
 
-	private Integer				id_ship;
+	private Integer					id_ship;
 
-	private Boolean				revised;
-	private Integer				shift;
-	private Integer				task;
-	private Double				time;
-	private Date				time_from;
+	/**
+	 * List of programmed (used if this is a representation of REVIEW)
+	 */
+	private List<MobileUserDetail>	programmed;
 
-	private Date				time_to;
+	private Boolean					revised;
 
-	private Double				time_vacation;
+	private Integer					shift;
+
+	private Integer					task;
+	private Double					time;
+	private Date					time_from;
+	private Date					time_to;
+	private Double					time_vacation;
 
 	public String getBoard() {
 		return this.board;
@@ -54,6 +60,10 @@ public class MobileUserDetail implements Serializable {
 
 	public Integer getId_ship() {
 		return this.id_ship;
+	}
+
+	public List<MobileUserDetail> getProgrammed() {
+		return this.programmed;
 	}
 
 	public Boolean getRevised() {
@@ -106,6 +116,10 @@ public class MobileUserDetail implements Serializable {
 
 	public void setId_ship(final Integer id_ship) {
 		this.id_ship = id_ship;
+	}
+
+	public void setProgrammed(final List<MobileUserDetail> programmed) {
+		this.programmed = programmed;
 	}
 
 	public void setRevised(final Boolean revised) {

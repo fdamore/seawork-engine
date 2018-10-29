@@ -100,8 +100,6 @@ public class MobileComposer {
 	@SuppressWarnings("rawtypes")
 	private class MyMobileTaskConverter implements Converter {
 
-		SimpleDateFormat data_format = new SimpleDateFormat("HH:mm");
-
 		@Override
 		public Object coerceToBean(final Object val, final Component comp, final BindContext ctx) {
 
@@ -116,19 +114,16 @@ public class MobileComposer {
 				return null;
 			}
 
-			final InitialScheduleSingleDetail	itm			= (InitialScheduleSingleDetail) val;
+			final InitialScheduleSingleDetail init_val = (InitialScheduleSingleDetail) val;
 
-			final String						code		= itm.getUser_task().getCode();
-
-			final Date							time_from	= itm.getDetail_schedule().getTime_from();
-			final Date							time_to		= itm.getDetail_schedule().getTime_to();
-
-			final String						from		= this.data_format.format(time_from);
-			final String						to			= this.data_format.format(time_to);
-
-			return code + " (" + from + " - " + to + ")";
+			if (BooleanUtils.isNotTrue(init_val.getDetail_schedule().getRevised())) {
+				return MobileComposer.this.getTaskStringView(init_val);
+			} else {
+				return MobileComposer.this.getTaskStringViewProgrammed(init_val.getDetail_schedule());
+			}
 
 		}
+
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -184,19 +179,27 @@ public class MobileComposer {
 				return "";
 			}
 
-			final InitialScheduleSingleDetail	op		= (InitialScheduleSingleDetail) val;
+			final InitialScheduleSingleDetail	op				= (InitialScheduleSingleDetail) val;
 
-			final Person						person	= op.getPerson();
+			final Person						person			= op.getPerson();
 
-			String								main	= person.toString() + " ";
+			String								main			= Utility.dottedName(person.toString());
 
-			final String						board	= op.getDetail_schedule().getBoard();
+			final MobileUserDetail				detail_schedule	= op.getDetail_schedule();
+
+			if (BooleanUtils.isNotTrue(detail_schedule.getRevised())) {
+				return main;
+			}
+
+			// adding info board
+			final String board = detail_schedule.getBoard();
 			if (!StringUtils.isEmpty(board)) {
 				main = main + "(" + board.toCharArray()[0] + ") ";
 			}
 
-			final Integer	id_ship	= op.getDetail_schedule().getId_ship();
-			final String	crane	= op.getDetail_schedule().getCrane();
+			// adding info ship and crane
+			final Integer	id_ship	= detail_schedule.getId_ship();
+			final String	crane	= detail_schedule.getCrane();
 			if ((id_ship != null) && (crane != null)) {
 
 				final Ship		ship	= MobileComposer.this.shipdao.loadShip(id_ship);
@@ -204,6 +207,10 @@ public class MobileComposer {
 				main = main + "(" + name + " - CR" + crane + ")";
 			}
 
+			// adding info program
+			main = main + "(";
+			final String info = MobileComposer.this.getTaskStringView(op);
+			main = main + info + ")";
 			return main;
 
 		}
@@ -661,6 +668,59 @@ public class MobileComposer {
 		return this.taskConverter;
 	}
 
+	/**
+	 * return task string view
+	 *
+	 * @param val
+	 * @return
+	 */
+	private String getTaskStringView(final InitialScheduleSingleDetail val) {
+
+		final SimpleDateFormat	data_format	= new SimpleDateFormat("HH:mm");
+
+		final String			code		= val.getUser_task().getCode();
+
+		final Date				time_from	= val.getDetail_schedule().getTime_from();
+		final Date				time_to		= val.getDetail_schedule().getTime_to();
+
+		final String			from		= data_format.format(time_from);
+		final String			to			= data_format.format(time_to);
+
+		return code + " (" + from + " - " + to + ")";
+	}
+
+	/**
+	 * return task string view
+	 *
+	 * @param val
+	 * @return
+	 */
+	private String getTaskStringViewProgrammed(final MobileUserDetail val) {
+
+		final SimpleDateFormat	data_format	= new SimpleDateFormat("HH:mm");
+
+		final StringBuilder		builder		= new StringBuilder();
+
+		for (final MobileUserDetail itm : val.getProgrammed()) {
+
+			final UserTask	task		= this.task_dao.loadTask(itm.getTask());
+
+			final String	code		= task.getCode();
+
+			final Date		time_from	= itm.getTime_from();
+			final Date		time_to		= itm.getTime_to();
+
+			final String	from		= data_format.format(time_from);
+			final String	to			= data_format.format(time_to);
+
+			builder.append(code + " (" + from + " - " + to + ")\n");
+
+		}
+
+		return builder.toString();
+
+	}
+
 	public String getUser_position() {
 		return this.user_position;
 	}
@@ -1010,7 +1070,7 @@ public class MobileComposer {
 
 			// define rif_sws
 			final DetailScheduleShip shipdetail = this.selectInitialShipSchedule(this.date_selection, user_detail.getShift(),
-					this.ship_selected.getId());
+									this.ship_selected.getId());
 			if (shipdetail == null) {
 				detail_schedule.setRif_sws(null);
 			} else {
@@ -1052,12 +1112,20 @@ public class MobileComposer {
 				List<MobileUserDetail>			list_details	= null;
 
 				final List<MobileUserDetail>	final_details	= this.schedule_dao.loadMobileUserFinalDetail(schedule.getId(), i);
+				final List<MobileUserDetail>	initial_details	= this.schedule_dao.loadMobileUserInitialDetail(schedule.getId(), i);
+
 				if (CollectionUtils.isNotEmpty(final_details)) {
+
 					final MobileUserDetail last = this.extractThelast(final_details);
 					list_details = new ArrayList<>();
 					list_details.add(last);
+
+					if (CollectionUtils.isNotEmpty(initial_details)) {
+						last.setProgrammed(initial_details);
+					}
+
 				} else {
-					list_details = this.schedule_dao.loadMobileUserInitialDetail(schedule.getId(), i);
+					list_details = initial_details;
 				}
 
 				if (CollectionUtils.isNotEmpty(list_details)) {
@@ -1108,7 +1176,7 @@ public class MobileComposer {
 
 		final Date						date_request_truncate	= DateUtils.truncate(date_request, Calendar.DATE);
 		final List<DetailScheduleShip>	list					= this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate,
-				null, shift, null, null, null, null, null);
+								null, shift, null, null, null, null, null);
 		return list;
 	}
 
