@@ -486,10 +486,12 @@ public class MobileComposer {
 			return;
 		}
 
-		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+		final Integer				shift_n			= programmedSchedule.getDetail_schedule().getShift();
+
+		final DetailFinalSchedule	detail_schedule	= new DetailFinalSchedule();
 
 		detail_schedule.setId_schedule(programmedSchedule.getSchedule().getId());
-		detail_schedule.setShift(programmedSchedule.getDetail_schedule().getShift());
+		detail_schedule.setShift(shift_n);
 		detail_schedule.setContinueshift(Boolean.FALSE);
 
 		// task
@@ -522,7 +524,15 @@ public class MobileComposer {
 
 		// set controller
 		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		// TODO: define final control
+		detail_schedule.setMobile_user(person_logged.getId());
+
+		// define rif_sws
+		final DetailScheduleShip shipdetail = this.selectInitialShipSchedule(this.date_selection, shift_n, this.ship_selected.getId());
+		if (shipdetail == null) {
+			detail_schedule.setRif_sws(null);
+		} else {
+			detail_schedule.setRif_sws(shipdetail.getIdscheduleship());
+		}
 
 		this.schedule_dao.createDetailFinalSchedule(detail_schedule);
 
@@ -1088,32 +1098,10 @@ public class MobileComposer {
 				continue;
 			}
 
-			final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
+			final UserTask task = this.task_dao.loadTask(user_detail.getTask());
 
-			detail_schedule.setTime_from(new Timestamp(user_detail.getTime_from().getTime()));
-			detail_schedule.setTime_to(new Timestamp(user_detail.getTime_to().getTime()));
-			detail_schedule.setId_schedule(itm.getSchedule().getId());
-			detail_schedule.setShift(user_detail.getShift());
-			detail_schedule.setContinueshift(Boolean.FALSE);
-			detail_schedule.setTask(user_detail.getTask());
-			detail_schedule.setTime(user_detail.getTime());
-			detail_schedule.setTime_vacation(user_detail.getTime_vacation());
-
-			// info ship
-			detail_schedule.setCrane(this.crane_selected.getNumber().toString());
-			detail_schedule.setId_ship(this.ship_selected.getId());
-			detail_schedule.setBoard(this.user_position);
-
-			// define rif_sws
-			final DetailScheduleShip shipdetail = this.selectInitialShipSchedule(this.date_selection, user_detail.getShift(),
-									this.ship_selected.getId());
-			if (shipdetail == null) {
-				detail_schedule.setRif_sws(null);
-			} else {
-				detail_schedule.setRif_sws(shipdetail.getIdscheduleship());
-			}
-
-			this.schedule_dao.createDetailFinalSchedule(detail_schedule);
+			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.crane_selected, this.ship_selected,
+									this.user_position);
 
 		}
 

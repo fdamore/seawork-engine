@@ -6,11 +6,14 @@ import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
+import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.statistics.UserStatistics;
+import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.ZkSessionTag;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
+import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkplus.databind.TypeConverter;
@@ -39,7 +42,19 @@ public class DottedNameConverter implements TypeConverter {
 
 		}
 
-		// if arg is not string, define an additional report
+		// alternative standard definition
+		if (arg0 instanceof Integer) {
+
+			final PersonDAO	dao			= (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+			final Person	person		= dao.loadPerson((Integer) arg0);
+
+			final String	info_name	= Utility.dottedName(person.toString());
+
+			return info_name;
+
+		}
+
+		// if arg is not string or int, define an additional report
 		return this.defineAdditionalBhavior(arg0);
 
 	}
@@ -52,56 +67,56 @@ public class DottedNameConverter implements TypeConverter {
 	 */
 	private Object defineAdditionalBhavior(final Object arg0) {
 		// get info for additional definition (stat) when required
-		String name_user = null;
-		Integer id_user = null;
+		String	name_user	= null;
+		Integer	id_user		= null;
 
 		if (arg0 instanceof RowDaySchedule) {
 
 			final RowDaySchedule row = (RowDaySchedule) arg0;
-			name_user = row.getName_user();
-			id_user = row.getUser();
+			name_user	= row.getName_user();
+			id_user		= row.getUser();
 
 		} else if (arg0 instanceof RowSchedule) {
 
 			final RowSchedule row = (RowSchedule) arg0;
 
-			name_user = row.getName_user();
-			id_user = row.getUser();
+			name_user	= row.getName_user();
+			id_user		= row.getUser();
 
 		} else if (arg0 instanceof DetailFinalSchedule) {
 
 			final DetailFinalSchedule row = (DetailFinalSchedule) arg0;
 
-			name_user = row.getUser();
-			id_user = row.getId_user();
+			name_user	= row.getUser();
+			id_user		= row.getId_user();
 
 		} else if (arg0 instanceof DetailInitialSchedule) {
 			final DetailInitialSchedule row = (DetailInitialSchedule) arg0;
 
-			name_user = row.getUser();
-			id_user = row.getId_user();
+			name_user	= row.getUser();
+			id_user		= row.getId_user();
 		} else if (arg0 instanceof Schedule) {
 			final Schedule row = (Schedule) arg0;
 
-			name_user = row.getName_user();
-			id_user = row.getUser();
+			name_user	= row.getName_user();
+			id_user		= row.getUser();
 		} else if (arg0 instanceof UserStatistics) {
-			final UserStatistics row = (UserStatistics) arg0;
+			final UserStatistics	row		= (UserStatistics) arg0;
 
-			final Person person = row.getPerson();
-			name_user = person.getIndividualName();
-			id_user = person.getId();
+			final Person			person	= row.getPerson();
+			name_user	= person.getIndividualName();
+			id_user		= person.getId();
 		}
 
 		if ((name_user == null) || (id_user == null)) {
 			return "";
 		}
 
-		final String info_name = Utility.dottedName(name_user);
+		final String					info_name	= Utility.dottedName(name_user);
 
 		// define info about sat
-		final HashMap<Integer, Double> cache_sat = (HashMap<Integer, Double>) Executions.getCurrent().getSession()
-				.getAttribute(ZkSessionTag.PersonCache);
+		final HashMap<Integer, Double>	cache_sat	= (HashMap<Integer, Double>) Executions.getCurrent().getSession()
+								.getAttribute(ZkSessionTag.PersonCache);
 
 		if (cache_sat == null) {
 			return info_name;

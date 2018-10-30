@@ -447,11 +447,11 @@ where
 		detailfinalschedule (id_schedule, shift,
 		task, time, time_from,
 		time_to, time_vacation, id_ship, crane, board,
-		reviewshift,continueshift,rif_sws)
+		reviewshift,continueshift,rif_sws, mobile_user)
 		VALUES
 		(#{id_schedule},#{shift},#{task},#{time},#{time_from},#{time_to},
 		#{time_vacation}, #{id_ship}, #{crane}, #{board},
-		#{reviewshift},#{continueshift},#{rif_sws});
+		#{reviewshift},#{continueshift},#{rif_sws},#{mobile_user});
 	</insert>
 
 
@@ -489,7 +489,8 @@ SELECT
     df.board,
     df.reviewshift,
     df.continueshift,
-    df.rif_sws
+    df.rif_sws,
+    df.mobile_user
 FROM
     detailfinalschedule df
         LEFT JOIN
@@ -533,7 +534,8 @@ SELECT
     df.continueshift,
     df.board,
     s.name AS nameShip,
-    df.rif_sws
+    df.rif_sws,
+    df.mobile_user
 FROM
     detailfinalschedule df
         LEFT JOIN

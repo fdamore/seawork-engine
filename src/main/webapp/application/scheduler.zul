@@ -2154,6 +2154,7 @@
 
 								<a id="editor_label_review" />
 								<a id="controller_label_review" />
+								
 							</vbox>
 
 							<hbox align="center" id="day_shift_over">
@@ -2316,6 +2317,7 @@
 									<listheader
 										label="Consuntiva Fascia" />
 									<listheader label="Continua Turno" />
+									<listheader label="Operatore" />
 									<listheader label="" />
 
 
@@ -2373,6 +2375,11 @@
 									<listcell>
 										<checkbox
 											checked="@{itemreview.continueshift}" disabled="true" />
+									</listcell>
+									<listcell>
+										<label
+											value="@{itemreview.mobile_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}">
+										</label>
 									</listcell>
 									<listcell>
 										<toolbarbutton
