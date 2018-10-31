@@ -743,6 +743,10 @@ public class MobileComposer {
 	 */
 	private String getTaskStringViewProgrammed(final MobileUserDetail val) {
 
+		if (val.getProgrammed() == null) {
+			return "";
+		}
+
 		final SimpleDateFormat	data_format	= new SimpleDateFormat("HH:mm");
 
 		final StringBuilder		builder		= new StringBuilder();
@@ -1368,8 +1372,15 @@ public class MobileComposer {
 		final Integer						shift_info		= itm.getDetail_schedule().getShift();
 
 		final List<MobileUserDetail>		list_details	= this.schedule_dao.loadMobileUserFinalDetail(itm.getSchedule().getId(), shift_info);
+		final List<MobileUserDetail>		initial_details	= this.schedule_dao.loadMobileUserInitialDetail(itm.getSchedule().getId(), shift_info);
 
-		final InitialSchedule				item			= new InitialSchedule();
+		if (CollectionUtils.isNotEmpty(initial_details)) {
+			for (final MobileUserDetail itm_d : list_details) {
+				itm_d.setProgrammed(initial_details);
+			}
+		}
+
+		final InitialSchedule item = new InitialSchedule();
 		// set current object
 		item.setPerson(itm.getPerson());
 		item.setDetail_schedule(list_details);
