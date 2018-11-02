@@ -1244,171 +1244,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.comp_editor.setVisible(true);
 	}
 
-	@Listen("onClick= #add_program_item")
-	public Boolean addProgramItem() {
-
-		if (!this.checkConnection()) {
-			return false;
-		}
-
-		if (this.list_details_program == null) {
-			return false;
-		}
-
-		if (this.selectedShift == null) {
-			return false;
-		}
-
-		if (this.program_task.getSelectedItem() == null) {
-
-			return false;
-		}
-
-		final UserTask task = this.program_task.getSelectedItem().getValue();
-		if (task == null) {
-
-			return false;
-		}
-
-		double countHours = 0;
-
-		if ((this.time_from_program.getValue() != null) && (this.time_to_program.getValue() != null)) {
-
-			final Double time = this.getProgrammedTime();
-
-			if (time == null) {
-
-				return false;
-			}
-
-			if (this.currentSchedule == null) {
-				// save scheduler
-				this.saveCurrentSchedulerProgram();
-			}
-
-			final DetailInitialSchedule new_item = new DetailInitialSchedule();
-			new_item.setId_schedule(this.currentSchedule.getId());
-			new_item.setShift(this.selectedShift);
-			new_item.setContinueshift(this.continue_shiftProgram.isChecked());
-			new_item.setTask(task.getId());
-
-			final UserTask t = this.configurationDAO.loadTask(task.getId());
-
-			// check if is absence task
-			if ((t != null) && t.getIsabsence()) {
-				new_item.setTime(0.0);
-				new_item.setTime_vacation(time);
-			} else {
-				new_item.setTime(time);
-				new_item.setTime_vacation(0.0);
-			}
-
-			countHours = time;
-
-			final java.util.Date now_from = this.time_from_program.getValue();
-			if (now_from != null) {
-
-				final Calendar	current_calendar	= DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
-				final Calendar	from_calendar		= DateUtils.toCalendar(now_from);
-
-				if ((this.selectedShift == 4) && this.day_shift_over_control_program_init.isChecked()) {
-					current_calendar.add(Calendar.DAY_OF_YEAR, 1);
-				}
-
-				current_calendar.set(Calendar.HOUR_OF_DAY, from_calendar.get(Calendar.HOUR_OF_DAY));
-				current_calendar.set(Calendar.MINUTE, from_calendar.get(Calendar.MINUTE));
-				current_calendar.set(Calendar.SECOND, from_calendar.get(Calendar.SECOND));
-
-				final java.sql.Timestamp t_from = new java.sql.Timestamp(current_calendar.getTimeInMillis());
-				new_item.setTime_from(t_from);
-			}
-
-			final java.util.Date now_to = this.time_to_program.getValue();
-			if (now_to != null) {
-				final Calendar	current_calendar	= DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
-				final Calendar	to_calendar			= DateUtils.toCalendar(now_to);
-
-				if ((this.selectedShift == 4) && this.day_shift_over_control_program.isChecked()) {
-					current_calendar.add(Calendar.DAY_OF_YEAR, 1);
-				}
-
-				current_calendar.set(Calendar.HOUR_OF_DAY, to_calendar.get(Calendar.HOUR_OF_DAY));
-				current_calendar.set(Calendar.MINUTE, to_calendar.get(Calendar.MINUTE));
-				current_calendar.set(Calendar.SECOND, to_calendar.get(Calendar.SECOND));
-
-				final java.sql.Timestamp t_to = new java.sql.Timestamp(current_calendar.getTimeInMillis());
-				new_item.setTime_to(t_to);
-			}
-
-			// check if hours interval is already present in list and if count
-			// hours is more than 12
-			final List<DetailInitialSchedule> list = (List<DetailInitialSchedule>) this.listbox_program.getModel();
-			if (list != null) {
-
-				for (final DetailInitialSchedule item : list) {
-
-					Double	timeVacation	= 0.0;
-					Double	timeWorked		= 0.0;
-
-					if (item.getTime() != null) {
-						timeWorked = item.getTime();
-					}
-					if (item.getTime_vacation() != null) {
-						timeVacation = item.getTime_vacation();
-					}
-
-					countHours = countHours + timeWorked + timeVacation;
-
-					if (Utility.roundTwo(countHours) > 6.00) {
-						this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
-						return false;
-					}
-
-					if (BooleanUtils.isNotTrue(this.person_logged.isAdministrator())) {
-
-						if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0)
-								&& (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
-								|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0)
-										&& (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
-								|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
-										&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
-							this.errorMessageAddProgramItem.setValue("Attenzione, orario in sovrapposizione.");
-							return false;
-						}
-					}
-
-				}
-			}
-
-			if (Utility.roundTwo(countHours) > 6.00) {
-				this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
-				return false;
-			}
-
-			// update program list
-			this.list_details_program.add(new_item);
-			final ListModelList<DetailInitialSchedule> model = new ListModelList<>(this.list_details_program);
-			model.setMultiple(true);
-			this.orderListDetailInitialScheduleByTimeFrom(model);
-			this.listbox_program.setModel(model);
-
-			this.setLabelTotalHoursProgram(model);
-		}
-
-		if (countHours >= 6) {
-			this.minHoursAlert = false;
-			this.alertMinHours.setVisible(false);
-		}
-
-		this.errorMessageAddProgramItem.setValue("");
-
-		return true;
-
-	}
-
-	@Listen("onClick= #add_review_item")
-	public Boolean addReviewItem() {
-
+	/**
+	 * Remve a detail final scehdule
+	 *
+	 * @param det a detail just removed
+	 * @return
+	 */
+	private Boolean addNewDetailFinalSchedule(final DetailFinalSchedule det) {
 		this.errorMessageAddItem.setValue("");
 		this.alertMinHoursReview.setVisible(false);
 
@@ -1579,6 +1421,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 
+		// add info about not graphical information, if any (e.g. mobil user)
+		if (det != null) {
+			new_item.setMobile_user(det.getMobile_user());
+		}
+
 		// update program list
 		this.list_details_review.add(new_item);
 
@@ -1612,6 +1459,174 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.reviewShift.setChecked(false);
 
 		return true;
+	}
+
+	@Listen("onClick= #add_program_item")
+	public Boolean addProgramItem() {
+
+		if (!this.checkConnection()) {
+			return false;
+		}
+
+		if (this.list_details_program == null) {
+			return false;
+		}
+
+		if (this.selectedShift == null) {
+			return false;
+		}
+
+		if (this.program_task.getSelectedItem() == null) {
+
+			return false;
+		}
+
+		final UserTask task = this.program_task.getSelectedItem().getValue();
+		if (task == null) {
+
+			return false;
+		}
+
+		double countHours = 0;
+
+		if ((this.time_from_program.getValue() != null) && (this.time_to_program.getValue() != null)) {
+
+			final Double time = this.getProgrammedTime();
+
+			if (time == null) {
+
+				return false;
+			}
+
+			if (this.currentSchedule == null) {
+				// save scheduler
+				this.saveCurrentSchedulerProgram();
+			}
+
+			final DetailInitialSchedule new_item = new DetailInitialSchedule();
+			new_item.setId_schedule(this.currentSchedule.getId());
+			new_item.setShift(this.selectedShift);
+			new_item.setContinueshift(this.continue_shiftProgram.isChecked());
+			new_item.setTask(task.getId());
+
+			final UserTask t = this.configurationDAO.loadTask(task.getId());
+
+			// check if is absence task
+			if ((t != null) && t.getIsabsence()) {
+				new_item.setTime(0.0);
+				new_item.setTime_vacation(time);
+			} else {
+				new_item.setTime(time);
+				new_item.setTime_vacation(0.0);
+			}
+
+			countHours = time;
+
+			final java.util.Date now_from = this.time_from_program.getValue();
+			if (now_from != null) {
+
+				final Calendar	current_calendar	= DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
+				final Calendar	from_calendar		= DateUtils.toCalendar(now_from);
+
+				if ((this.selectedShift == 4) && this.day_shift_over_control_program_init.isChecked()) {
+					current_calendar.add(Calendar.DAY_OF_YEAR, 1);
+				}
+
+				current_calendar.set(Calendar.HOUR_OF_DAY, from_calendar.get(Calendar.HOUR_OF_DAY));
+				current_calendar.set(Calendar.MINUTE, from_calendar.get(Calendar.MINUTE));
+				current_calendar.set(Calendar.SECOND, from_calendar.get(Calendar.SECOND));
+
+				final java.sql.Timestamp t_from = new java.sql.Timestamp(current_calendar.getTimeInMillis());
+				new_item.setTime_from(t_from);
+			}
+
+			final java.util.Date now_to = this.time_to_program.getValue();
+			if (now_to != null) {
+				final Calendar	current_calendar	= DateUtils.toCalendar(this.currentSchedule.getDate_schedule());
+				final Calendar	to_calendar			= DateUtils.toCalendar(now_to);
+
+				if ((this.selectedShift == 4) && this.day_shift_over_control_program.isChecked()) {
+					current_calendar.add(Calendar.DAY_OF_YEAR, 1);
+				}
+
+				current_calendar.set(Calendar.HOUR_OF_DAY, to_calendar.get(Calendar.HOUR_OF_DAY));
+				current_calendar.set(Calendar.MINUTE, to_calendar.get(Calendar.MINUTE));
+				current_calendar.set(Calendar.SECOND, to_calendar.get(Calendar.SECOND));
+
+				final java.sql.Timestamp t_to = new java.sql.Timestamp(current_calendar.getTimeInMillis());
+				new_item.setTime_to(t_to);
+			}
+
+			// check if hours interval is already present in list and if count
+			// hours is more than 12
+			final List<DetailInitialSchedule> list = (List<DetailInitialSchedule>) this.listbox_program.getModel();
+			if (list != null) {
+
+				for (final DetailInitialSchedule item : list) {
+
+					Double	timeVacation	= 0.0;
+					Double	timeWorked		= 0.0;
+
+					if (item.getTime() != null) {
+						timeWorked = item.getTime();
+					}
+					if (item.getTime_vacation() != null) {
+						timeVacation = item.getTime_vacation();
+					}
+
+					countHours = countHours + timeWorked + timeVacation;
+
+					if (Utility.roundTwo(countHours) > 6.00) {
+						this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
+						return false;
+					}
+
+					if (BooleanUtils.isNotTrue(this.person_logged.isAdministrator())) {
+
+						if (((new_item.getTime_from().compareTo(item.getTime_from()) >= 0)
+								&& (new_item.getTime_from().compareTo(item.getTime_to()) < 0))
+								|| ((new_item.getTime_to().compareTo(item.getTime_from()) > 0)
+										&& (new_item.getTime_to().compareTo(item.getTime_to()) <= 0))
+								|| ((new_item.getTime_from().compareTo(item.getTime_from()) <= 0)
+										&& (new_item.getTime_to().compareTo(item.getTime_to()) >= 0))) {
+							this.errorMessageAddProgramItem.setValue("Attenzione, orario in sovrapposizione.");
+							return false;
+						}
+					}
+
+				}
+			}
+
+			if (Utility.roundTwo(countHours) > 6.00) {
+				this.errorMessageAddProgramItem.setValue("Attenzione, totale ore maggiore di 6.");
+				return false;
+			}
+
+			// update program list
+			this.list_details_program.add(new_item);
+			final ListModelList<DetailInitialSchedule> model = new ListModelList<>(this.list_details_program);
+			model.setMultiple(true);
+			this.orderListDetailInitialScheduleByTimeFrom(model);
+			this.listbox_program.setModel(model);
+
+			this.setLabelTotalHoursProgram(model);
+		}
+
+		if (countHours >= 6) {
+			this.minHoursAlert = false;
+			this.alertMinHours.setVisible(false);
+		}
+
+		this.errorMessageAddProgramItem.setValue("");
+
+		return true;
+
+	}
+
+	@Listen("onClick= #add_review_item")
+	public Boolean addReviewItem() {
+
+		return this.addNewDetailFinalSchedule(null);
 
 	}
 
@@ -4648,6 +4663,42 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.day_definition_popup.close();
 	}
 
+	private DetailFinalSchedule removeFinalDetail() {
+
+		// this is the term returned
+		DetailFinalSchedule ret = null;
+
+		this.errorMessageAddItem.setValue("");
+		this.alertMinHoursReview.setVisible(false);
+
+		if (!this.checkConnection()) {
+			return null;
+		}
+
+		if (this.listbox_review == null) {
+			return null;
+		}
+
+		if ((this.list_details_review == null) || (this.list_details_review.size() == 0)) {
+			return null;
+		}
+
+		// remove....
+		for (final Listitem itm : this.listbox_review.getSelectedItems()) {
+			ret = itm.getValue();
+			this.list_details_review.remove(ret);
+		}
+
+		// set model list program and revision
+		final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
+		model.setMultiple(true);
+		this.listbox_review.setModel(model);
+
+		this.setLabelTotalHoursReview(model);
+
+		return ret;
+	}
+
 	@Listen("onClick = #cancel_program")
 	public void removeProgram() {
 		if (!this.checkConnection()) {
@@ -4742,33 +4793,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #remove_review_item")
 	public void removeReviewItem() {
 
-		this.errorMessageAddItem.setValue("");
-		this.alertMinHoursReview.setVisible(false);
-
-		if (!this.checkConnection()) {
-			return;
-		}
-
-		if (this.listbox_review == null) {
-			return;
-		}
-
-		if ((this.list_details_review == null) || (this.list_details_review.size() == 0)) {
-			return;
-		}
-
-		// remove....
-		for (final Listitem itm : this.listbox_review.getSelectedItems()) {
-			final DetailFinalSchedule detail_item = itm.getValue();
-			this.list_details_review.remove(detail_item);
-		}
-
-		// set model list program and revision
-		final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
-		model.setMultiple(true);
-		this.listbox_review.setModel(model);
-
-		this.setLabelTotalHoursReview(model);
+		this.removeFinalDetail();
 
 	}
 
@@ -5401,10 +5426,15 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.remove_review_item.setVisible(true);
 
 		// refresh info
-		this.removeReviewItem();
-		final Boolean adding_check = this.addReviewItem();
+		final DetailFinalSchedule	infoRemoved	= this.removeFinalDetail();
 
-		if (!adding_check) {
+		Boolean						check		= false;
+
+		if (infoRemoved != null) {
+			check = this.addNewDetailFinalSchedule(infoRemoved);
+		}
+
+		if (!check) {
 
 			this.list_details_review.add(this.selectedItemReview);
 			final ListModelList<DetailFinalSchedule> model = new ListModelList<>(this.list_details_review);
@@ -5415,7 +5445,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			this.cancel_modify.setVisible(true);
 			this.add_review_item.setVisible(false);
 			this.remove_review_item.setVisible(false);
-		} else {
+		} else if (check) {
 			this.ship.setSelectedItem(null);
 			this.shipInDay.setSelectedItem(null);
 			this.rif_sws.setSelectedItem(null);
