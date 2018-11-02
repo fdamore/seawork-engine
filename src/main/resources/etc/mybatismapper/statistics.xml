@@ -605,6 +605,7 @@ SELECT
     u.id AS id_user,
     u.daywork_w,
     u.hourswork_w,
+    dfs.mobile_user,
     (SELECT 
             CONCAT(temp_1.lastname, ' ', temp_1.firstname)
         FROM

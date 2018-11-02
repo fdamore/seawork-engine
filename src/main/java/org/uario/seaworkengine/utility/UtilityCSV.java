@@ -35,6 +35,7 @@ import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
+import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
@@ -1181,17 +1182,19 @@ public class UtilityCSV {
 	}
 
 	public static StringBuilder downloadCSVReview(final List<DetailFinalSchedule> listDetailRevision, final TasksDAO taskDao,
-			final ConfigurationDAO configuration, final IShip ship_dao, final ISchedule scheduleDAO, final Boolean administrator) {
-		final StringBuilder	builder		= new StringBuilder();
+			final ConfigurationDAO configuration, final IShip ship_dao, final ISchedule scheduleDAO, final PersonDAO person_dao,
+			final Boolean administrator) {
+		final StringBuilder	builder				= new StringBuilder();
 
-		String				header		= "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota\n";
+		String				header				= "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota\n";
 
-		String				holiday		= "";
-		String				programmer	= "";
-		String				controller	= "";
+		String				holiday				= "";
+		String				programmer			= "";
+		String				controller			= "";
+		String				mobile_controller	= "";
 
 		if (administrator) {
-			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;programmatore;controllore\n";
+			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;programmatore;operatore;controllore\n";
 		}
 		builder.append(header);
 
@@ -1254,6 +1257,12 @@ public class UtilityCSV {
 
 				if (item.getController() != null) {
 					controller = item.getController();
+				}
+
+				if (item.getMobile_user() != null) {
+					final Person person = person_dao.loadPerson(item.getMobile_user());
+					mobile_controller = person.toString();
+
 				}
 
 				// get info about process
@@ -1469,7 +1478,7 @@ public class UtilityCSV {
 						+ ";" + sign_info + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info + ";" + contabilizzato + ";"
 						+ factor_shift + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane
 						+ ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + continue_shif + ";" + nota + ";"
-						+ programmer + ";" + controller + ";\n";
+						+ programmer + ";" + mobile_controller + ";" + controller + ";\n";
 			} else {
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
 						+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
