@@ -279,6 +279,8 @@ public class MobileComposer {
 
 	private String								user_position;
 
+	private final Integer[]						user_programmed			= new Integer[] { 0, 0, 0, 0 };
+
 	private UserTask							user_task_selected;
 
 	private MyUserConverter						userConverter			= new MyUserConverter();
@@ -414,7 +416,7 @@ public class MobileComposer {
 
 		// Create info
 		this.createDetailFinalSchedule(dt_starting, dt_end, this.selectedSchedule, this.user_task_selected, this.crane_selected, this.ship_selected,
-								this.user_position);
+				this.user_position);
 
 		// refresh view for user list (status 1)
 		this.refreshDataAndCurrentShift();
@@ -474,7 +476,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-							final UserTask task, final Crane crane, final Ship ship, final String position) {
+			final UserTask task, final Crane crane, final Ship ship, final String position) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -775,6 +777,10 @@ public class MobileComposer {
 		return this.user_position;
 	}
 
+	public Integer[] getUser_programmed() {
+		return this.user_programmed;
+	}
+
 	public UserTask getUser_task_selected() {
 		return this.user_task_selected;
 	}
@@ -948,7 +954,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected" })
+	@NotifyChange({ "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "user_programmed" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
 
 		Date date_for_selection = this.date_selection;
@@ -1105,7 +1111,7 @@ public class MobileComposer {
 			final UserTask task = this.task_dao.loadTask(user_detail.getTask());
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.crane_selected, this.ship_selected,
-									this.user_position);
+					this.user_position);
 
 		}
 
@@ -1122,6 +1128,11 @@ public class MobileComposer {
 		final List<UserTask>		list_special	= this.configurationDao.listSpecialTaskMobile();
 
 		final List<Person>			list			= this.person_dao.listAllPersonsForMobile(date_schedule);
+
+		// reset programmed person
+		for (int i = 0; i < 4; i++) {
+			this.user_programmed[0] = 0;
+		}
 
 		for (final Person person : list) {
 
@@ -1141,6 +1152,11 @@ public class MobileComposer {
 
 				final List<MobileUserDetail>	final_details	= this.schedule_dao.loadMobileUserFinalDetail(schedule.getId(), i);
 				final List<MobileUserDetail>	initial_details	= this.schedule_dao.loadMobileUserInitialDetail(schedule.getId(), i);
+
+				// sum for person programmed
+				if (CollectionUtils.isNotEmpty(initial_details)) {
+					this.user_programmed[i - 1]++;
+				}
 
 				if (CollectionUtils.isNotEmpty(final_details)) {
 
@@ -1204,7 +1220,7 @@ public class MobileComposer {
 
 		final Date						date_request_truncate	= DateUtils.truncate(date_request, Calendar.DATE);
 		final List<DetailScheduleShip>	list					= this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate,
-								null, shift, null, null, null, null, null);
+				null, shift, null, null, null, null, null);
 		return list;
 	}
 
@@ -1244,7 +1260,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection",
+			"user_programmed" })
 	public void selectTomorrow() {
 
 		final Calendar calendar = Calendar.getInstance();
