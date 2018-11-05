@@ -68,7 +68,7 @@
 				<button sclass="btn btn-info" label="Spostamento"
 					visible="@load(vm.status_view eq 1)"
 					onClick="@command('addComponents')" />
-				<button sclass="btn btn-info" label="Assegna"
+				<button sclass="btn btn-info" label="Assegna Programmato"
 					onClick="@command('review')" />
 				<button sclass="btn btn-danger" label="Cancella"
 					onClick="@command('removeComponent')" />
