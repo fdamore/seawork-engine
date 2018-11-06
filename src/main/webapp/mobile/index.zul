@@ -52,15 +52,7 @@
 
 			</div>
 
-			<div class="btn-group-mg btn btn-group">
 
-
-				<button sclass="btn btn-info" label="Entra"
-					onClick="@command('signIn')" />
-				<button sclass="btn btn-info" label="Esce"
-					onClick="@command('signOut')" />
-
-			</div>
 
 			<div class="btn-group-mg btn btn-group">
 				<button sclass="btn btn-info" label="Note"
@@ -97,6 +89,17 @@
 
 				<button sclass="btn btn-success"
 					onClick="@command('selectTomorrow')" label="Domani" />
+
+			</div>
+
+			<div class="btn-group-mg btn btn-group"
+				visible="@load(vm.status_view eq 1)">
+
+
+				<button sclass="btn btn-info" label="Entra"
+					onClick="@command('signIn')" />
+				<button sclass="btn btn-info" label="Esce"
+					onClick="@command('signOut')" />
 
 			</div>
 
