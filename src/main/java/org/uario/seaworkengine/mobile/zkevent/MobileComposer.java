@@ -517,24 +517,26 @@ public class MobileComposer {
 		if (crane != null) {
 			detail_schedule.setCrane(crane.getNumber().toString());
 		}
-		if (ship != null) {
-			detail_schedule.setId_ship(ship.getId());
-		}
+
 		if (position != null) {
 			detail_schedule.setBoard(position);
+		}
+
+		if (ship != null) {
+			detail_schedule.setId_ship(ship.getId());
+
+			// define rif_sws
+			final DetailScheduleShip shipdetail = this.selectInitialShipSchedule(this.date_selection, shift_n, ship.getId());
+			if (shipdetail == null) {
+				detail_schedule.setRif_sws(null);
+			} else {
+				detail_schedule.setRif_sws(shipdetail.getIdscheduleship());
+			}
 		}
 
 		// set controller
 		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		detail_schedule.setMobile_user(person_logged.getId());
-
-		// define rif_sws
-		final DetailScheduleShip shipdetail = this.selectInitialShipSchedule(this.date_selection, shift_n, this.ship_selected.getId());
-		if (shipdetail == null) {
-			detail_schedule.setRif_sws(null);
-		} else {
-			detail_schedule.setRif_sws(shipdetail.getIdscheduleship());
-		}
 
 		this.schedule_dao.createDetailFinalSchedule(detail_schedule);
 
