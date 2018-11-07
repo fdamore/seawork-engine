@@ -283,13 +283,15 @@ public class MobileComposer {
 
 	private UserTask user_task_selected;
 
+	private Boolean user_visible_adding = Boolean.FALSE;
+
 	private MyUserConverter userConverter = new MyUserConverter();
 
 	private List<InitialScheduleSingleDetail> users;
 
 	@Command
 	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "crane_selected", "selectedSchedule", "starting_task", "end_task",
-			"user_task_selected" })
+			"user_task_selected", "user_visible_adding" })
 	public void addComponents() {
 
 		if (this.status_view != 1) {
@@ -301,41 +303,6 @@ public class MobileComposer {
 			return;
 		}
 
-		this.selectedSchedule = this.list_schedule_selected.get(0);
-		this.list_task = this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
-
-		// set task default
-		final UserTask task_defaukt = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());
-		this.user_task_selected = task_defaukt;
-
-		// get default task
-		final UserTask def_task = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());
-
-		if (def_task != null) {
-
-			Collections.sort(this.list_task, new Comparator<UserTask>() {
-
-				@Override
-				public int compare(final UserTask o1, final UserTask o2) {
-
-					if (o1.equals(task_defaukt)) {
-						return -1;
-					}
-
-					if (o1.equals(def_task)) {
-						return -1;
-					}
-					if (o2.equals(def_task)) {
-						return 1;
-					} else {
-						return o1.compareTo(o2);
-					}
-
-				}
-
-			});
-		}
-
 		// define ships and ship selected
 		this.ships = this.listShip(this.date_selection);
 
@@ -343,10 +310,8 @@ public class MobileComposer {
 		this.crane_selected = null;
 
 		// set starting and end task
-		final Integer shift = this.selectedSchedule.getDetail_schedule().getShift();
-		final String starting_info = this.getCurrentInfoTime();
 		String end_info = "";
-		switch (shift) {
+		switch (this.shift_no) {
 		case 1: {
 			end_info = "07:00";
 			break;
@@ -370,8 +335,58 @@ public class MobileComposer {
 		}
 		}
 
-		this.starting_task = starting_info;
+		this.starting_task = this.getCurrentInfoTime();
 		this.end_task = end_info;
+
+		if (this.list_schedule_selected.size() > 1) {
+
+			// DEFINE INFO FOR MULTIPLE USER
+
+			this.user_visible_adding = Boolean.FALSE;
+
+			this.list_task = this.task_dao.loadTasksForMobile();
+			this.user_task_selected = null;
+
+		} else {
+
+			// DEFINE INFO FOR SINGLE USER
+			this.user_visible_adding = Boolean.TRUE;
+
+			// select this
+			this.selectedSchedule = this.list_schedule_selected.get(0);
+
+			this.list_task = this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
+
+			// set task default
+			final UserTask task_defaukt = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());
+			this.user_task_selected = task_defaukt;
+
+			if (this.user_task_selected != null) {
+
+				Collections.sort(this.list_task, new Comparator<UserTask>() {
+
+					@Override
+					public int compare(final UserTask o1, final UserTask o2) {
+
+						if (o1.equals(task_defaukt)) {
+							return -1;
+						}
+
+						if (o1.equals(MobileComposer.this.user_task_selected)) {
+							return -1;
+						}
+						if (o2.equals(MobileComposer.this.user_task_selected)) {
+							return 1;
+						} else {
+							return o1.compareTo(o2);
+						}
+
+					}
+
+				});
+			}
+
+		}
 
 		this.status_view = 2;
 
@@ -403,20 +418,21 @@ public class MobileComposer {
 			return;
 		}
 
-		// get info.... and process
-		this.selectedSchedule = this.list_schedule_selected.get(0);
+		for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
-		// parse time
+			final Date date_schedule = itm.getSchedule().getDate_schedule();
 
-		final Date dt_starting = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), starting);
-		final Date dt_end = this.parseUserWorkTime(this.selectedSchedule.getSchedule().getDate_schedule(), end);
-		if ((dt_starting == null) || (dt_end == null)) {
-			return;
+			final Date dt_starting = this.parseUserWorkTime(date_schedule, starting);
+			final Date dt_end = this.parseUserWorkTime(date_schedule, end);
+			if ((dt_starting == null) || (dt_end == null)) {
+				return;
+			}
+
+			// Create info
+			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.crane_selected, this.ship_selected,
+									this.user_position);
+
 		}
-
-		// Create info
-		this.createDetailFinalSchedule(dt_starting, dt_end, this.selectedSchedule, this.user_task_selected, this.crane_selected, this.ship_selected,
-								this.user_position);
 
 		// refresh view for user list (status 1)
 		this.refreshDataAndCurrentShift();
@@ -785,6 +801,10 @@ public class MobileComposer {
 
 	public UserTask getUser_task_selected() {
 		return this.user_task_selected;
+	}
+
+	public Boolean getUser_visible_adding() {
+		return this.user_visible_adding;
 	}
 
 	public MyUserConverter getUserConverter() {

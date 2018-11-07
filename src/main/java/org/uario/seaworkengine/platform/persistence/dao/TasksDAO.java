@@ -6,22 +6,24 @@ import org.uario.seaworkengine.model.UserTask;
 
 public interface TasksDAO {
 
-	public void assignTaskToUser(Integer id_user, Integer id_task);
+	void assignTaskToUser(Integer id_user, Integer id_task);
 
-	public void deleteTaskToUser(final Integer id_user, final Integer id_usertask);
+	void deleteTaskToUser(final Integer id_user, final Integer id_usertask);
 
-	public UserTask getDefault(Integer id_user);
+	UserTask getDefault(Integer id_user);
 
-	public boolean isTaskAssigned(Integer id_user, Integer id_task);
+	boolean isTaskAssigned(Integer id_user, Integer id_task);
 
-	public List<UserTask> listAllTask();
+	List<UserTask> listAllTask();
 
-	public UserTask loadTask(Integer idTask);
+	UserTask loadTask(Integer idTask);
 
-	public List<UserTask> loadTasksByUser(Integer id_user);
+	List<UserTask> loadTasksByUser(Integer id_user);
 
-	public List<UserTask> loadTasksByUserForMobile(Integer id_user);
+	List<UserTask> loadTasksByUserForMobile(Integer id_user);
 
-	public void setAsDefault(final Integer id_user, final Integer id_usertask);
+	List<UserTask> loadTasksForMobile();
+
+	void setAsDefault(final Integer id_user, final Integer id_usertask);
 
 }

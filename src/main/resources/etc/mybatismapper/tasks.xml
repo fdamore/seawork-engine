@@ -5,57 +5,100 @@
 
 	<cache-ref namespace="schedule" />
 
-	<select id="loadTask" resultType="org.uario.seaworkengine.model.UserTask"
+	<select id="loadTask"
+		resultType="org.uario.seaworkengine.model.UserTask"
 		parameterType="Integer">
 		SELECT *
 		FROM usertask
-		WHERE id = #{idTask};		
+		WHERE id = #{idTask};
 	</select>
-	
-	<select id="listAllTask" resultType="org.uario.seaworkengine.model.UserTask">
+
+	<select id="listAllTask"
+		resultType="org.uario.seaworkengine.model.UserTask">
 		SELECT *
 		FROM usertask;
 	</select>
-	
-	<select id="selectAllTasksByUser" resultType="org.uario.seaworkengine.model.UserTask"
+
+	<select id="selectAllTasksByUser"
+		resultType="org.uario.seaworkengine.model.UserTask"
 		parameterType="map">
 		SELECT t.id,
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default, t.internal 
+		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default,
+		t.internal
 		FROM
-		usertask t, 
-		user_usertask ut where ut.id_user = #{id_user} and
+		usertask t,
+		user_usertask ut where ut.id_user =
+		#{id_user} and
 		ut.id_usertask =
-		t.id 
+		t.id
 		order by t.code asc;
 
 	</select>
 
-	<select id="loadTasksByUserForMobile" resultType="org.uario.seaworkengine.model.UserTask"
-		parameterType="map">
-		SELECT t.id,
-		t.code,
-		t.description,
-		t.isabsence,
-		t.recorded, t.justificatory, t.isRZ, t.isPP, ut.task_default, t.internal  
-		FROM
-		usertask t,
-		user_usertask ut 
-		WHERE ut.id_user = #{id_user} and 
-		ut.id_usertask = t.id and hiddentask = false and t.isabsence = false and t.justificatory = false;
+	<select id="loadTasksByUserForMobile"
+		resultType="org.uario.seaworkengine.model.UserTask"
+		parameterType="map">		
+		<![CDATA[
+		SELECT 
+    t.id,
+    t.code,
+    t.description,
+    t.isabsence,
+    t.recorded,
+    t.justificatory,
+    t.isRZ,
+    t.isPP,
+    ut.task_default,
+    t.internal
+FROM
+    usertask t,
+    user_usertask ut
+WHERE
+    ut.id_user = #{id_user} AND ut.id_usertask = t.id
+        AND hiddentask = FALSE
+        AND t.isabsence = FALSE
+        AND t.justificatory = FALSE;
+	   ]]>
 
 	</select>
 
-	<select id="isTaskAssigned" resultType="org.uario.seaworkengine.model.UserTask"
+	<select id="loadTasksForMobile"
+		resultType="org.uario.seaworkengine.model.UserTask"
+		parameterType="map">
+		<![CDATA[
+SELECT 
+    t.id,
+    t.code,
+    t.description,
+    t.isabsence,
+    t.recorded,
+    t.justificatory,
+    t.isRZ,
+    t.isPP,
+    t.internal
+FROM
+    usertask t
+WHERE  t.hiddentask = FALSE
+        AND t.isabsence = FALSE
+        AND t.justificatory = FALSE;
+        ]]>
+	</select>
+
+
+
+
+	<select id="isTaskAssigned"
+		resultType="org.uario.seaworkengine.model.UserTask"
 		parameterType="map">
 		SELECT t.id,
 		t.code,
 		t.description,
 		t.isabsence,
-		t.recorded, 
-		t.justificatory, t.isRZ, t.isPP, t.internal   
+		t.recorded,
+		t.justificatory, t.isRZ, t.isPP, t.internal
 		FROM usertask t,
 		user_usertask ut where t.id = ut.id_user and ut.id_user =
 		#{id_user}
@@ -88,11 +131,14 @@
 
 		SELECT t.id,
 		t.code,
-		t.description, t.isabsence, t.recorded, t.justificatory, t.isRZ, t.isPP, t.internal   
-		FROM user_usertask ut, usertask t
+		t.description, t.isabsence, t.recorded,
+		t.justificatory, t.isRZ, t.isPP, t.internal
+		FROM user_usertask ut,
+		usertask t
 		WHERE
 		ut.task_default = 1 and ut.id_user =
-		#{id_user} and t.id =
+		#{id_user} and t.id
+		=
 		ut.id_usertask
 
 	</select>

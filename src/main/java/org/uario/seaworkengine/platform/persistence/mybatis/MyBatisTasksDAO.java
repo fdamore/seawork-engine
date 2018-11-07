@@ -19,7 +19,7 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 	public void assignTaskToUser(final Integer id_user, final Integer id_task) {
 		MyBatisTasksDAO.logger.info("Assign Task To User");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("id_user", id_user.toString());
 		map.put("id_task", id_task.toString());
 
@@ -32,7 +32,7 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 
 		MyBatisTasksDAO.logger.info("Remove task assigment");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("id_user", id_user.toString());
 		map.put("id_usertask", id_usertask.toString());
 
@@ -54,7 +54,7 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 
 		MyBatisTasksDAO.logger.info("Get Task assigned");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("id_user", id_user.toString());
 		map.put("id_task", id_task.toString());
 
@@ -84,7 +84,7 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 
 		MyBatisTasksDAO.logger.info("Get all tasks by user..");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("id_user", id_user.toString());
 
 		final List<UserTask> list_tasks = this.getSqlSession().selectList("tasks.selectAllTasksByUser", map);
@@ -97,7 +97,7 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 
 		MyBatisTasksDAO.logger.info("loadTasksByUserForMobile...");
 
-		final HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<>();
 		map.put("id_user", id_user.toString());
 
 		final List<UserTask> list_tasks = this.getSqlSession().selectList("tasks.loadTasksByUserForMobile", map);
@@ -106,15 +106,23 @@ public class MyBatisTasksDAO extends SqlSessionDaoSupport implements TasksDAO {
 	}
 
 	@Override
+	public List<UserTask> loadTasksForMobile() {
+		MyBatisTasksDAO.logger.info("loadTasksByUserForMobile...");
+
+		final List<UserTask> list_tasks = this.getSqlSession().selectList("tasks.loadTasksForMobile");
+		return list_tasks;
+	}
+
+	@Override
 	public void setAsDefault(final Integer id_user, final Integer id_usertask) {
 		MyBatisTasksDAO.logger.info("setAsDefault");
 
 		// remove all default
-		final HashMap<String, String> map_0 = new HashMap<String, String>();
+		final HashMap<String, String> map_0 = new HashMap<>();
 		map_0.put("id_user", id_user.toString());
 		this.getSqlSession().update("tasks.removeAllDefault", map_0);
 
-		final HashMap<String, String> map_1 = new HashMap<String, String>();
+		final HashMap<String, String> map_1 = new HashMap<>();
 		map_1.put("id_user", id_user.toString());
 		map_1.put("id_usertask", id_usertask.toString());
 
