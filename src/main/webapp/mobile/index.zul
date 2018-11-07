@@ -256,19 +256,23 @@
 
 			<div class="container-fluid text-center">
 				<div class="well well-lg">
-					<n:h1>
-						<div class="input-group">
-							<span class="input-group-addon">
-								Nota su Nave
-							</span>
-							<label
-								value="@load(vm.detail_schedule_ship_selected.name)"
-								class="form-control label label-primary">
-							</label>
-						</div>
+
+					<div visible="@load(vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Nota su Nave
+								</span>
+								<label
+									value="@load(vm.detail_schedule_ship_selected.name)"
+									class="form-control label label-primary">
+								</label>
+							</div>
 
 
-					</n:h1>
+						</n:h1>
+
+					</div>
 
 					<n:h2>
 
@@ -421,19 +425,24 @@
 
 			<div class="container-fluid text-center">
 				<div class="well well-lg">
-					<n:h1>
-						<div class="input-group">
-							<span class="input-group-addon">
-								Nota su Utente
-							</span>
-							<label
-								value="@load(vm.selectedSchedule.person)"
-								class="form-control label label-primary">
-							</label>
-						</div>
+
+					<div visible="@load(vm.user_visible_adding)">
+
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Nota su Utente
+								</span>
+								<label
+									value="@load(vm.selectedSchedule.person)"
+									class="form-control label label-primary">
+								</label>
+							</div>
 
 
-					</n:h1>
+						</n:h1>
+
+					</div>
 
 					<n:h2>
 
@@ -442,7 +451,7 @@
 						<div class="input-group">
 							<span class="input-group-addon">Data</span>
 							<label
-								value="@load(vm.selectedSchedule.schedule.date_schedule)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+								value="@load(vm.date_selection)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 								class="form-control label label-primary">
 							</label>
 						</div>

@@ -568,7 +568,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule" })
+	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule", "user_visible_adding" })
 	public void editNote() {
 
 		// note for "TURNI"
@@ -578,9 +578,23 @@ public class MobileComposer {
 				return;
 			}
 
-			this.selectedSchedule = this.list_schedule_selected.get(0);
+			if (this.list_schedule_selected.size() > 1) {
 
-			this.note = this.getScheduleNote(this.selectedSchedule.getSchedule().getId());
+				// DEFINE INFO FOR MULTIPLE USER
+				this.user_visible_adding = Boolean.FALSE;
+
+				this.note = "";
+
+			} else {
+
+				// DEFINE INFO FOR SINGLE USER
+				this.user_visible_adding = Boolean.TRUE;
+
+				this.selectedSchedule = this.list_schedule_selected.get(0);
+
+				this.note = this.getScheduleNote(this.selectedSchedule.getSchedule().getId());
+
+			}
 
 			this.status_view = 3;
 
@@ -877,9 +891,17 @@ public class MobileComposer {
 			return;
 		}
 
-		this.selectedSchedule = this.list_schedule_selected.get(0);
+		for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
-		this.schedule_dao.updateScheduleNote(this.selectedSchedule.getSchedule().getId(), this.note);
+			String mynote = this.note;
+
+			// massive?
+			if (this.list_schedule_selected.size() > 1) {
+				mynote = "" + mynote + "\n" + org.apache.commons.lang3.StringUtils.defaultString(itm.getSchedule().getNote(), "");
+			}
+
+			this.schedule_dao.updateScheduleNote(itm.getSchedule().getId(), mynote);
+		}
 
 		this.refreshDataAndCurrentShift();
 
