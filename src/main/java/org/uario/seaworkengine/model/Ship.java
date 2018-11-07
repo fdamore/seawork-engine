@@ -9,35 +9,44 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(namespace = "org.uario.seaworkengine.model")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Ship implements Serializable {
+
+	public static Ship EMPTY = new Ship();
+
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
+	static {
+
+		Ship.EMPTY.setName("NESSUNA");
+
+	}
+
 	public static long getSerialversionuid() {
 		return Ship.serialVersionUID;
 	}
 
-	private Boolean	activityh;
+	private Boolean activityh;
 
-	private Integer	id;
+	private Integer id;
 
-	private String	line;
-	
-	private String	name;
+	private String line;
 
-	private String	note;
+	private String name;
 
-	private Boolean	nowork;
-	
+	private String note;
+
+	private Boolean nowork;
+
 	// using for mobile app
-	private Integer	rifSWS;
-	
-	private String	shipcondition;
+	private Integer rifSWS;
 
-	private String	shiptype;
+	private String shipcondition;
 
-	private String	twtype;
+	private String shiptype;
+
+	private String twtype;
 
 	@Override
 	public boolean equals(final Object obj) {
@@ -117,7 +126,7 @@ public class Ship implements Serializable {
 		this.name = name;
 	}
 
-	public void setNote(String note) {
+	public void setNote(final String note) {
 		this.note = note;
 	}
 
@@ -143,7 +152,7 @@ public class Ship implements Serializable {
 
 	@Override
 	public String toString() {
-		if (this.activityh != null && this.nowork != null) {
+		if ((this.activityh != null) && (this.nowork != null)) {
 			if (this.activityh || this.nowork) {
 				return this.name + "*";
 			} else {

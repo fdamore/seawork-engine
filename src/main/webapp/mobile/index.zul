@@ -524,8 +524,7 @@
 								<span class="input-group-addon">
 									Turno
 								</span>
-								<label
-									value="@load(vm.shift_no)"
+								<label value="@load(vm.shift_no)"
 									class="form-control label label-primary">
 								</label>
 							</div>
@@ -662,6 +661,10 @@
 									<combobox class="form-control"
 										readonly="true" value="@bind(vm.user_position)"
 										placeholder="POSIZIONE...">
+
+										<comboitem label="NESSUNA"
+											value="NESSUNA">
+										</comboitem>
 
 										<comboitem label="SOTTO BORDO"
 											value="SOTTO BORDO">
@@ -845,6 +848,9 @@
 					<combobox class="form-control" cols="15"
 						readonly="true" value="@bind(vm.user_position)"
 						placeholder="POSIZIONE...">
+
+						<comboitem label="NESSUNA" value="NESSUNA">
+						</comboitem>
 
 						<comboitem label="SOTTO BORDO"
 							value="SOTTO BORDO">

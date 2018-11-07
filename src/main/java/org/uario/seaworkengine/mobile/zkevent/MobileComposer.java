@@ -414,7 +414,7 @@ public class MobileComposer {
 			return;
 		}
 
-		if ((this.crane_selected == null) || (this.ship_selected == null) || (this.user_position == null)) {
+		if (this.crane_selected == null) {
 			return;
 		}
 
@@ -428,9 +428,18 @@ public class MobileComposer {
 				return;
 			}
 
+			Ship ship_itm = this.ship_selected;
+			if (this.ship_selected == Ship.EMPTY) {
+				ship_itm = null;
+			}
+
+			String myposition = this.user_position;
+			if (this.user_position == "NESSUNA") {
+				myposition = null;
+			}
+
 			// Create info
-			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.crane_selected, this.ship_selected,
-									this.user_position);
+			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.crane_selected, ship_itm, myposition);
 
 		}
 
@@ -834,11 +843,23 @@ public class MobileComposer {
 
 	}
 
+	/**
+	 * Get ships in date
+	 *
+	 * @param date_request
+	 * @return
+	 */
 	private List<Ship> listShip(final Date date_request) {
 
 		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		return this.schedule_ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
+		final List<Ship> list_ret = this.schedule_ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
+
+		// add empty ship
+		list_ret.add(0, Ship.EMPTY);
+
+		return list_ret;
+
 	}
 
 	@Command
@@ -1113,7 +1134,7 @@ public class MobileComposer {
 	public void reviewUserCommand() {
 
 		// get info about crane and ship
-		if ((this.crane_selected == null) || (this.ship_selected == null) || (this.user_position == null)) {
+		if (this.crane_selected == null) {
 			return;
 		}
 
@@ -1132,8 +1153,18 @@ public class MobileComposer {
 
 			final UserTask task = this.task_dao.loadTask(user_detail.getTask());
 
-			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.crane_selected, this.ship_selected,
-									this.user_position);
+			Ship ship_itm = this.ship_selected;
+			if (this.ship_selected == Ship.EMPTY) {
+				ship_itm = null;
+			}
+
+			String myposition = this.user_position;
+			if (this.user_position == "NESSUNA") {
+				myposition = null;
+			}
+
+			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.crane_selected, ship_itm,
+									myposition);
 
 		}
 
