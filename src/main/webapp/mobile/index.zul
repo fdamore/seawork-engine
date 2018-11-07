@@ -257,22 +257,22 @@
 			<div class="container-fluid text-center">
 				<div class="well well-lg">
 
-					<div visible="@load(vm.user_visible_adding)">
-						<n:h1>
-							<div class="input-group">
-								<span class="input-group-addon">
-									Nota su Nave
-								</span>
-								<label
-									value="@load(vm.detail_schedule_ship_selected.name)"
-									class="form-control label label-primary">
-								</label>
-							</div>
+
+					<n:h1>
+						<div class="input-group">
+							<span class="input-group-addon">
+								Nota su Nave
+							</span>
+							<label
+								value="@load(vm.detail_schedule_ship_selected.name)"
+								class="form-control label label-primary">
+							</label>
+						</div>
 
 
-						</n:h1>
+					</n:h1>
 
-					</div>
+
 
 					<n:h2>
 
@@ -497,21 +497,23 @@
 			<div class="container-fluid text-center">
 				<div class="well well-lg">
 
+					<div visible="@load(vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Utente
+								</span>
+								<label
+									value="@load(vm.selectedSchedule.person)"
+									class="form-control label label-primary">
+								</label>
 
-					<n:h1>
-						<div class="input-group">
-							<span class="input-group-addon">
-								Utente
-							</span>
-							<label
-								value="@load(vm.selectedSchedule.person)"
-								class="form-control label label-primary">
-							</label>
 
+							</div>
 
-						</div>
+						</n:h1>
 
-					</n:h1>
+					</div>
 
 
 					<n:h2>
