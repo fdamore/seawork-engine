@@ -12,14 +12,13 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.mobile.model.InitialSchedule;
 import org.uario.seaworkengine.mobile.model.InitialScheduleSingleDetail;
 import org.uario.seaworkengine.mobile.model.MobileUserDetail;
-import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.Person;
@@ -205,7 +204,7 @@ public class MobileComposer {
 
 				final Ship ship = MobileComposer.this.shipdao.loadShip(id_ship);
 				final String name = ship.getName();
-				main = main + "(" + name + " - CR" + crane + ")";
+				main = main + "(" + name + " - CR[" + crane + "])";
 			}
 
 			// adding info program
@@ -219,7 +218,7 @@ public class MobileComposer {
 
 	private ConfigurationDAO					configurationDao;
 
-	private Crane								crane_selected;
+	private String								crane_selected;
 
 	private Date								date_selection;
 
@@ -231,8 +230,6 @@ public class MobileComposer {
 	private DetailScheduleShip					detail_schedule_ship_selected;
 
 	private String								end_task;
-
-	private List<Crane>							list_crane;
 
 	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
 
@@ -417,10 +414,6 @@ public class MobileComposer {
 			return;
 		}
 
-		if (this.crane_selected == null) {
-			return;
-		}
-
 		for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
 			final Date date_schedule = itm.getSchedule().getDate_schedule();
@@ -504,7 +497,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-			final UserTask task, final Crane crane, final Ship ship, final String position) {
+			final UserTask task, final String crane, final Ship ship, final String position) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -542,11 +535,11 @@ public class MobileComposer {
 		}
 
 		// info ship...
-		if (crane != null) {
-			detail_schedule.setCrane(crane.getNumber().toString());
+		if (StringUtils.isNotEmpty(crane)) {
+			detail_schedule.setCrane(crane);
 		}
 
-		if (position != null) {
+		if (StringUtils.isNotEmpty(position)) {
 			detail_schedule.setBoard(position);
 		}
 
@@ -652,7 +645,7 @@ public class MobileComposer {
 
 	}
 
-	public Crane getCrane_selected() {
+	public String getCrane_selected() {
 		return this.crane_selected;
 	}
 
@@ -690,10 +683,6 @@ public class MobileComposer {
 
 	public String getEnd_task() {
 		return this.end_task;
-	}
-
-	public List<Crane> getList_crane() {
-		return this.list_crane;
 	}
 
 	public List<InitialScheduleSingleDetail> getList_schedule_selected() {
@@ -857,8 +846,6 @@ public class MobileComposer {
 		this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		this.person_dao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
-		this.list_crane = this.configurationDao.getCrane(null, null, null, null);
-
 		// set selection at today
 		this.date_selection = Calendar.getInstance().getTime();
 
@@ -943,7 +930,7 @@ public class MobileComposer {
 		}
 
 		final SimpleDateFormat format_time = new SimpleDateFormat("HH:mm");
-		final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY HH:mm");
+		final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		Date dt = null;
 
@@ -1164,11 +1151,6 @@ public class MobileComposer {
 	@NotifyChange({ "users", "shift_no", "status_view", "ship_operation", "ship_handswork" })
 	public void reviewUserCommand() {
 
-		// get info about crane and ship
-		if (this.crane_selected == null) {
-			return;
-		}
-
 		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
 			return;
 		}
@@ -1359,7 +1341,7 @@ public class MobileComposer {
 
 	}
 
-	public void setCrane_selected(final Crane crane_selected) {
+	public void setCrane_selected(final String crane_selected) {
 		this.crane_selected = crane_selected;
 	}
 
@@ -1390,10 +1372,6 @@ public class MobileComposer {
 
 	public void setEnd_task(final String end_task) {
 		this.end_task = end_task;
-	}
-
-	public void setList_crane(final List<Crane> list_crane) {
-		this.list_crane = list_crane;
 	}
 
 	public void setList_schedule_selected(final List<InitialScheduleSingleDetail> list_schedule_selected) {

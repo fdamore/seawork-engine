@@ -668,19 +668,8 @@
 									<span class="input-group-addon">
 										GRU
 									</span>
-									<combobox
-										model="@load(vm.list_crane)" readonly="true"
-										class="form-control"
-										selectedItem="@bind(vm.crane_selected)">
-
-										<template name="model">
-											<comboitem
-												label="@load(each.number)" />
-										</template>
-
-									</combobox>
-
-
+									<textbox class="form-control"
+										value="@bind(vm.crane_selected)" placeholder="Gru.." />
 								</div>
 							</div>
 						</div>
@@ -866,15 +855,8 @@
 
 				<div class="input-group input-group-lg">
 					<span class="input-group-addon">GRU</span>
-					<combobox model="@load(vm.list_crane)"
-						readonly="true" class="form-control"
-						selectedItem="@bind(vm.crane_selected)">
-
-						<template name="model">
-							<comboitem label="@load(each.number)" />
-						</template>
-
-					</combobox>
+					<textbox class="form-control"
+						value="@bind(vm.crane_selected)" placeholder="Gru.." />
 
 
 				</div>
