@@ -444,6 +444,20 @@
 
 					</div>
 
+					<div visible="@load(!vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									POSIZIONI SELEZIONATE
+								</span>
+								<label value="@load(vm.n_positions)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+						</n:h1>
+					</div>
+
+
 					<n:h2>
 
 
@@ -510,9 +524,23 @@
 
 
 							</div>
+						</n:h1>
+					</div>
+
+					<div visible="@load(!vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									POSIZIONI SELEZIONATE
+								</span>
+								<label value="@load(vm.n_positions)"
+									class="form-control label label-primary">
+								</label>
+
+
+							</div>
 
 						</n:h1>
-
 					</div>
 
 

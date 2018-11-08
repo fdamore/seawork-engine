@@ -217,81 +217,83 @@ public class MobileComposer {
 		}
 	}
 
-	private ConfigurationDAO configurationDao;
+	private ConfigurationDAO					configurationDao;
 
-	private Crane crane_selected;
+	private Crane								crane_selected;
 
-	private Date date_selection;
+	private Date								date_selection;
 
 	/**
 	 * Instace of data converter
 	 */
-	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
+	private final MyDateFormatConverter			dateConverter			= new MyDateFormatConverter();
 
-	private DetailScheduleShip detail_schedule_ship_selected;
+	private DetailScheduleShip					detail_schedule_ship_selected;
 
-	private String end_task;
+	private String								end_task;
 
-	private List<Crane> list_crane;
+	private List<Crane>							list_crane;
 
-	private List<InitialScheduleSingleDetail> list_schedule_selected = null;
+	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
 
-	private List<DetailScheduleShip> list_ship;
+	private List<DetailScheduleShip>			list_ship;
 
-	private List<UserTask> list_task;
+	private List<UserTask>						list_task;
 
-	private String note;
+	private String								n_positions;
 
-	private String note_ship;
+	private String								note;
 
-	private final MyOperationConverter operationConverter = new MyOperationConverter();
+	private String								note_ship;
 
-	private PersonDAO person_dao;
+	private final MyOperationConverter			operationConverter		= new MyOperationConverter();
 
-	private ISchedule schedule_dao;
+	private PersonDAO							person_dao;
 
-	private IScheduleShip schedule_ship_dao;
+	private ISchedule							schedule_dao;
 
-	private InitialScheduleSingleDetail selectedSchedule;
+	private IScheduleShip						schedule_ship_dao;
 
-	private Integer shift_no;
+	private InitialScheduleSingleDetail			selectedSchedule;
 
-	private Integer ship_handswork;
+	private Integer								shift_no;
 
-	private String ship_operation;
+	private Integer								ship_handswork;
 
-	private Ship ship_selected;
+	private String								ship_operation;
 
-	private IShip shipdao;
+	private Ship								ship_selected;
 
-	private List<Ship> ships;
+	private IShip								shipdao;
 
-	private String starting_task;
+	private List<Ship>							ships;
 
-	private Integer status_view = 1;
+	private String								starting_task;
 
-	private TasksDAO task_dao;
+	private Integer								status_view				= 1;
+
+	private TasksDAO							task_dao;
 
 	/**
 	 * Task converter
 	 */
-	private final MyMobileTaskConverter taskConverter = new MyMobileTaskConverter();
+	private final MyMobileTaskConverter			taskConverter			= new MyMobileTaskConverter();
 
-	private String user_position;
+	private String								user_position;
 
-	private final Integer[] user_programmed = new Integer[] { 0, 0, 0, 0 };
+	private final Integer[]						user_programmed			= new Integer[] { 0, 0, 0, 0 };
 
-	private UserTask user_task_selected;
+	private UserTask							user_task_selected;
 
-	private Boolean user_visible_adding = Boolean.FALSE;
+	private Boolean								user_visible_adding		= Boolean.FALSE;
 
-	private MyUserConverter userConverter = new MyUserConverter();
+	private MyUserConverter						userConverter			= new MyUserConverter();
 
-	private List<InitialScheduleSingleDetail> users;
+	private List<InitialScheduleSingleDetail>	users;
 
 	@Command
 	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "crane_selected", "selectedSchedule", "starting_task", "end_task",
-			"user_task_selected", "user_visible_adding" })
+			"user_task_selected", "user_visible_adding", "n_positions" })
 	public void addComponents() {
 
 		if (this.status_view != 1) {
@@ -341,8 +343,9 @@ public class MobileComposer {
 		if (this.list_schedule_selected.size() > 1) {
 
 			// DEFINE INFO FOR MULTIPLE USER
-
 			this.user_visible_adding = Boolean.FALSE;
+
+			this.n_positions = "" + this.list_schedule_selected.size();
 
 			this.list_task = this.task_dao.loadTasksForMobile();
 			this.user_task_selected = null;
@@ -501,7 +504,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-							final UserTask task, final Crane crane, final Ship ship, final String position) {
+			final UserTask task, final Crane crane, final Ship ship, final String position) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -568,7 +571,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule", "user_visible_adding" })
+	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule", "user_visible_adding", "n_positions" })
 	public void editNote() {
 
 		// note for "TURNI"
@@ -582,6 +585,8 @@ public class MobileComposer {
 
 				// DEFINE INFO FOR MULTIPLE USER
 				this.user_visible_adding = Boolean.FALSE;
+
+				this.n_positions = "" + this.list_schedule_selected.size();
 
 				this.note = "";
 
@@ -701,6 +706,10 @@ public class MobileComposer {
 
 	public List<UserTask> getList_task() {
 		return this.list_task;
+	}
+
+	public String getN_positions() {
+		return this.n_positions;
 	}
 
 	public String getNote() {
@@ -1186,7 +1195,7 @@ public class MobileComposer {
 			}
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.crane_selected, ship_itm,
-									myposition);
+					myposition);
 
 		}
 
@@ -1294,8 +1303,8 @@ public class MobileComposer {
 	public List<DetailScheduleShip> selectInitialShipSchedule(final Date date_request, final Integer shift) {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
-		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift, null,
-								null, null, null, null);
+		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift,
+				null, null, null, null, null);
 		return list;
 	}
 
