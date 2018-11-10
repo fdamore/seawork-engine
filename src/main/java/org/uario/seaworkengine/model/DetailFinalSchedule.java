@@ -46,6 +46,8 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	// to show in overview on break shift
 	private Integer				id_user;
 
+	private String				mobile_note;
+
 	private Integer				mobile_user;
 
 	// to show in overview listbox
@@ -182,6 +184,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 		return this.id_user;
 	}
 
+	public String getMobile_note() {
+		return this.mobile_note;
+	}
+
 	public Integer getMobile_user() {
 		return this.mobile_user;
 	}
@@ -288,6 +294,10 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 
 	public void setId_user(final Integer id_user) {
 		this.id_user = id_user;
+	}
+
+	public void setMobile_note(final String mobile_note) {
+		this.mobile_note = mobile_note;
 	}
 
 	public void setMobile_user(final Integer mobile_user) {

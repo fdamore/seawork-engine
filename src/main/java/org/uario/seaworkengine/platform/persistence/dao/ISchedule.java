@@ -11,76 +11,78 @@ import org.uario.seaworkengine.model.Schedule;
 
 public interface ISchedule {
 
-	public void createBadge(Badge badge);
+	void createBadge(Badge badge);
 
-	public void createDetailFinalSchedule(DetailFinalSchedule detail_schedule);
+	void createDetailFinalSchedule(DetailFinalSchedule detail_schedule);
 
-	public void createDetailInitialSchedule(DetailInitialSchedule detail_schedule);
+	void createDetailInitialSchedule(DetailInitialSchedule detail_schedule);
 
-	public void deleteBadge(Integer id_badge);
+	void deleteBadge(Integer id_badge);
 
-	public Integer getFirstShift(Date date_scheduled, Integer user);
+	Integer getFirstShift(Date date_scheduled, Integer user);
 
-	public Integer getLastShift(Date date_scheduled, Integer user);
+	Integer getLastShift(Date date_scheduled, Integer user);
 
-	public List<Badge> loadBadgeByScheduleId(Integer id_schedule);
+	List<Badge> loadBadgeByScheduleId(Integer id_schedule);
 
-	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(Integer id_schedule);
+	List<DetailFinalSchedule> loadDetailFinalScheduleByIdSchedule(Integer id_schedule);
 
-	public List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
+	List<DetailFinalSchedule> loadDetailFinalScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
+	List<DetailInitialSchedule> loadDetailInitialScheduleByIdSchedule(Integer id_schedule);
 
-	public List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
+	List<DetailInitialSchedule> loadDetailInitialScheduleByIdScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public List<MobileUserDetail> loadMobileUserFinalDetail(Integer id_schedule, Integer no_shift);
+	List<MobileUserDetail> loadMobileUserFinalDetail(Integer id_schedule, Integer no_shift);
 
-	public List<MobileUserDetail> loadMobileUserInitialDetail(Integer id_schedule, Integer no_shift);
+	List<MobileUserDetail> loadMobileUserInitialDetail(Integer id_schedule, Integer no_shift);
 
-	public List<Schedule> loadSchedule(Date date_scheduled);
+	List<Schedule> loadSchedule(Date date_scheduled);
 
-	public Schedule loadSchedule(Date date_scheduler, Integer id_user);
+	Schedule loadSchedule(Date date_scheduler, Integer id_user);
 
-	public Schedule loadScheduleById(Integer id);
+	Schedule loadScheduleById(Integer id);
 
-	public void removeAllDetailFinalScheduleBySchedule(Integer id_schedule);
+	void removeAllDetailFinalScheduleBySchedule(Integer id_schedule);
 
-	public void removeAllDetailFinalScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
+	void removeAllDetailFinalScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public void removeAllDetailInitialScheduleBySchedule(Integer id_schedule);
+	void removeAllDetailInitialScheduleBySchedule(Integer id_schedule);
 
-	public void removeAllDetailInitialScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
+	void removeAllDetailInitialScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
 
-	public void removeDetailFinalSchedule(Integer id);
+	void removeDetailFinalSchedule(Integer id);
 
-	public void removeSchedule(Date date_scheduler, Integer id_user);
+	void removeSchedule(Date date_scheduler, Integer id_user);
 
-	public void removeScheduleUser(Integer idUser, Date initialDate, Date finalDate);
+	void removeScheduleUser(Integer idUser, Date initialDate, Date finalDate);
 
-	public void saveListDetailFinalScheduler(Integer id_schedule, Integer shift, List<DetailFinalSchedule> details);
+	void saveListDetailFinalScheduler(Integer id_schedule, Integer shift, List<DetailFinalSchedule> details);
 
-	public void saveListDetailInitialScheduler(Integer id_schedule, Integer shift, List<DetailInitialSchedule> details);
+	void saveListDetailInitialScheduler(Integer id_schedule, Integer shift, List<DetailInitialSchedule> details);
 
-	public void saveOrUpdateSchedule(Schedule currentSchedule);
+	void saveOrUpdateSchedule(Schedule currentSchedule);
 
-	public List<Schedule> selectAggregateSchedulersProgram(Date initial_date, Date final_date, String full_text_search);
+	List<Schedule> selectAggregateSchedulersProgram(Date initial_date, Date final_date, String full_text_search);
 
-	public List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
+	List<Schedule> selectAggregateSchedulersProgram(Date firstDateInGrid, String full_text_search);
 
-	public List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
+	List<Schedule> selectAggregateSchedulersRevision(Date initial_date, Date final_date, String full_text_search);
 
-	public List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
+	List<Schedule> selectAggregateSchedulersRevision(Date firstDateInGrid, String full_text_search);
 
-	public List<Schedule> selectScheduleInIntervalDateByUserId(Integer user, Date date_from, Date date_to);
+	List<Schedule> selectScheduleInIntervalDateByUserId(Integer user, Date date_from, Date date_to);
 
-	public List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
+	List<Schedule> selectSchedulersForPreprocessing(Date initial_date, Date final_date, String my_full_text_search);
 
-	public List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
+	List<Schedule> selectSchedulersForPreprocessingOnUserId(Date initial_date, Date final_date, Integer userid);
 
-	public void updateBreakEx(Integer id, Boolean break_ex);
+	void updateBreakEx(Integer id, Boolean break_ex);
 
-	public void updateBreakForce(Integer id, Boolean break_force);
+	void updateBreakForce(Integer id, Boolean break_force);
 
-	public void updateScheduleNote(Integer id_schedule, String note);
+	void updateMobileUserNote(Integer id, String note);
+
+	void updateScheduleNote(Integer id_schedule, String note);
 
 }

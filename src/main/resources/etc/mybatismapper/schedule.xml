@@ -490,7 +490,8 @@ SELECT
     df.reviewshift,
     df.continueshift,
     df.rif_sws,
-    df.mobile_user
+    df.mobile_user,
+    df.mobile_note
 FROM
     detailfinalschedule df
         LEFT JOIN
@@ -535,7 +536,8 @@ SELECT
     df.board,
     s.name AS nameShip,
     df.rif_sws,
-    df.mobile_user
+    df.mobile_user,
+    df.mobile_note
 FROM
     detailfinalschedule df
         LEFT JOIN
@@ -611,10 +613,6 @@ WHERE
 		WHERE id = #{id};
 	</update>
 
-
-
-	<!-- MOBILE -->
-
 	<update id="updateScheduleNote" parameterType="map">
 		UPDATE schedule
 		SET
@@ -625,6 +623,14 @@ WHERE
 
 
 
+	<!-- MOBILE -->
+
+	<update id="updateMobileUserNote" parameterType="map">
+		UPDATE
+		detailfinalschedule
+		SET mobile_note = #{note}
+		WHERE id = #{id};
+	</update>
 
 
 	<select id="loadMobileUserInitialDetail" parameterType="map"
