@@ -590,7 +590,7 @@ public class MobileComposer {
 
 				this.selectedSchedule		= this.list_schedule_selected.get(0);
 
-				this.note					= this.selectedSchedule.getDetail_schedule().getBoard();	// TODO: modifica questo!!!!
+				this.note					= this.getScheduleNote(this.selectedSchedule.getSchedule().getId());
 
 			}
 
@@ -711,6 +711,19 @@ public class MobileComposer {
 
 	public MyOperationConverter getOperationConverter() {
 		return this.operationConverter;
+	}
+
+	/**
+	 * get the mobile user note
+	 *
+	 * @param id_schedule
+	 * @return
+	 */
+	private String getScheduleNote(final Integer id_schedule) {
+
+		final Schedule	schedule	= this.schedule_dao.loadScheduleByIdForMobile(id_schedule);
+		final String	note		= schedule.getMobile_note();
+		return note;
 	}
 
 	public InitialScheduleSingleDetail getSelectedSchedule() {

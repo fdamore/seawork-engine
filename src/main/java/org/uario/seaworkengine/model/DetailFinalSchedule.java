@@ -46,6 +46,7 @@ public class DetailFinalSchedule implements Serializable, Comparable<DetailFinal
 	// to show in overview on break shift
 	private Integer				id_user;
 
+	// to show in overview listbox
 	private String				mobile_note;
 
 	private Integer				mobile_user;

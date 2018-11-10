@@ -41,6 +41,9 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 	private Integer				id_user;
 
 	// to show in overview listbox
+	private String				mobile_note;
+
+	// to show in overview listbox
 	private String				note;
 
 	private Integer				shift;
@@ -145,6 +148,10 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 		return this.id_user;
 	}
 
+	public String getMobile_note() {
+		return this.mobile_note;
+	}
+
 	public String getNote() {
 		return this.note;
 	}
@@ -215,6 +222,10 @@ public class DetailInitialSchedule implements Serializable, Comparable<DetailIni
 
 	public void setId_user(final Integer id_user) {
 		this.id_user = id_user;
+	}
+
+	public void setMobile_note(final String mobile_note) {
+		this.mobile_note = mobile_note;
 	}
 
 	public void setNote(final String note) {

@@ -35,6 +35,8 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	private Integer				id;
 
+	private String				mobile_note;
+
 	// used form visualize
 	@XmlTransient
 	private String				name_controller;
@@ -119,6 +121,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 		return this.id;
 	}
 
+	public String getMobile_note() {
+		return this.mobile_note;
+	}
+
 	public String getName_controller() {
 		return this.name_controller;
 	}
@@ -181,6 +187,10 @@ public class Schedule implements Comparable<Schedule>, Serializable {
 
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	public void setMobile_note(final String mobile_note) {
+		this.mobile_note = mobile_note;
 	}
 
 	public void setName_controller(final String name_controller) {

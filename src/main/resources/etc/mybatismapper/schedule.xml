@@ -624,6 +624,27 @@ WHERE
 
 
 	<!-- MOBILE -->
+	
+	<select id="loadScheduleByIdForMobile" parameterType="Integer"
+		resultType="org.uario.seaworkengine.model.Schedule">
+<![CDATA[		
+SELECT 
+    id,
+    date_schedule,
+    user,
+    note,
+    mobile_note,
+    editor,
+    controller,
+    shift,
+    break_ex,
+    break_force
+FROM
+    schedule
+WHERE
+    id = #{id}
+]]>
+	</select>
 
 	<update id="updateMobileUserNote" parameterType="map">
 		UPDATE
