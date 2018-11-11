@@ -32,6 +32,7 @@ import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
+import org.uario.seaworkengine.utility.BoardTag;
 import org.uario.seaworkengine.utility.Utility;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.Converter;
@@ -430,7 +431,7 @@ public class MobileComposer {
 			}
 
 			String myposition = this.user_position;
-			if (this.user_position == "NESSUNA") {
+			if (StringUtils.equals(this.user_position, BoardTag.EMPTY)) {
 				myposition = null;
 			}
 
@@ -1166,7 +1167,7 @@ public class MobileComposer {
 			}
 
 			String myposition = this.user_position;
-			if (this.user_position == "NESSUNA") {
+			if (StringUtils.equals(this.user_position, BoardTag.EMPTY)) {
 				myposition = null;
 			}
 

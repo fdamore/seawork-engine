@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -1296,11 +1297,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set on board - under board
 		if (this.board.getSelectedItem() != null) {
-			if (this.board.getSelectedItem().getValue().equals(BoardTag.ON_BOARD)) {
-				new_item.setBoard(BoardTag.ON_BOARD);
-			} else if (this.board.getSelectedItem().getValue().equals(BoardTag.UNDER_BOARD)) {
-				new_item.setBoard(BoardTag.UNDER_BOARD);
+
+			final String value = this.board.getSelectedItem().getValue();
+			if (!StringUtils.equals(value, BoardTag.EMPTY)) {
+				new_item.setBoard(value);
 			}
+
 		}
 
 		final UserTask t = this.configurationDAO.loadTask(task.getId());
@@ -2696,7 +2698,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// set value in board combo box
 		final List<String> boardList = new ArrayList<>();
-		boardList.add("--");
+		boardList.add(BoardTag.EMPTY);
 		boardList.add(BoardTag.ON_BOARD);
 		boardList.add(BoardTag.UNDER_BOARD);
 
