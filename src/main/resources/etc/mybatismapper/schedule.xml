@@ -37,6 +37,7 @@ SELECT
     date_schedule,
     user,
     note,
+    mobile_note,
     editor,
     controller,
     shift,
@@ -212,6 +213,7 @@ SELECT
     s.controller,
     s.shift,
     s.note,
+    s.mobile_note,
     s.break_ex,
     s.break_force
 FROM
@@ -490,8 +492,7 @@ SELECT
     df.reviewshift,
     df.continueshift,
     df.rif_sws,
-    df.mobile_user,
-    df.mobile_note
+    df.mobile_user
 FROM
     detailfinalschedule df
         LEFT JOIN
@@ -507,14 +508,22 @@ ORDER BY df.time_from ASC;
 	<select id="loadDetailInitialScheduleByIdSchedule"
 		parameterType="Integer"
 		resultType="org.uario.seaworkengine.model.DetailInitialSchedule">
-		SELECT id, id_schedule, shift,
-		task, time, time_from,
-		time_to, time_vacation, continueshift
-		FROM
-		detailinitialschedule
-		WHERE
-		id_schedule =
-		#{id_schedule}
+<![CDATA[		
+SELECT 
+    id,
+    id_schedule,
+    shift,
+    task,
+    time,
+    time_from,
+    time_to,
+    time_vacation,
+    continueshift
+FROM
+    detailinitialschedule
+WHERE
+    id_schedule = #{id_schedule}
+		]]>		
 	</select>
 
 	<select id="loadDetailFinalScheduleByIdSchedule"
@@ -536,8 +545,7 @@ SELECT
     df.board,
     s.name AS nameShip,
     df.rif_sws,
-    df.mobile_user,
-    df.mobile_note
+    df.mobile_user    
 FROM
     detailfinalschedule df
         LEFT JOIN
@@ -625,30 +633,10 @@ WHERE
 
 	<!-- MOBILE -->
 	
-	<select id="loadScheduleByIdForMobile" parameterType="Integer"
-		resultType="org.uario.seaworkengine.model.Schedule">
-<![CDATA[		
-SELECT 
-    id,
-    date_schedule,
-    user,
-    note,
-    mobile_note,
-    editor,
-    controller,
-    shift,
-    break_ex,
-    break_force
-FROM
-    schedule
-WHERE
-    id = #{id}
-]]>
-	</select>
 
 	<update id="updateMobileUserNote" parameterType="map">
 		UPDATE
-		detailfinalschedule
+		schedule
 		SET mobile_note = #{note}
 		WHERE id = #{id};
 	</update>

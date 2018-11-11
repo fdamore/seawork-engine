@@ -3051,6 +3051,10 @@
 										<listheader label="Nota"
 											hflex="2" align="center" sort="auto(note)" />
 
+										<listheader label="Nota Mobile"
+											hflex="2" align="center" sort="auto(note)" />
+
+
 										<listheader
 											label="Programmatore" hflex="2" align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
@@ -3192,6 +3196,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.note}" />
+											
+											<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.mobile_note}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.editor, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
@@ -3225,8 +3232,8 @@
 									id="list_overview_program">
 
 									<listhead sizable="true">
-									
-								<listheader label="PROCESSO"
+
+										<listheader label="PROCESSO"
 											align="center" hflex="2" />
 
 										<listheader label="Anno"
@@ -3279,6 +3286,9 @@
 										<listheader label="Nota"
 											hflex="2" align="center" sort="auto(note)" />
 
+										<listheader label="Nota Mobile"
+											hflex="2" align="center" sort="auto(note)" />
+
 										<listheader
 											label="Programmatore" hflex="2" align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
@@ -3291,10 +3301,10 @@
 									<listitem
 										self="@{each='itemoverviewprogram'}"
 										value="@{itemoverviewprogram}">
-										
-											<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram, converter='org.uario.seaworkengine.zkevent.converter.SignAsProcessed'}" />
-										
+
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateToYearConverter'}" />
@@ -3383,6 +3393,9 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.note}" />
+
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewprogram.mobile_note}" />
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewprogram.editor, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"

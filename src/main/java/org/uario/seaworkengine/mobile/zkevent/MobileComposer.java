@@ -590,7 +590,7 @@ public class MobileComposer {
 
 				this.selectedSchedule		= this.list_schedule_selected.get(0);
 
-				this.note					= this.getScheduleNote(this.selectedSchedule.getSchedule().getId());
+				this.note					= this.selectedSchedule.getSchedule().getMobile_note();
 
 			}
 
@@ -711,19 +711,6 @@ public class MobileComposer {
 
 	public MyOperationConverter getOperationConverter() {
 		return this.operationConverter;
-	}
-
-	/**
-	 * get the mobile user note
-	 *
-	 * @param id_schedule
-	 * @return
-	 */
-	private String getScheduleNote(final Integer id_schedule) {
-
-		final Schedule	schedule	= this.schedule_dao.loadScheduleByIdForMobile(id_schedule);
-		final String	note		= schedule.getMobile_note();
-		return note;
 	}
 
 	public InitialScheduleSingleDetail getSelectedSchedule() {
@@ -900,7 +887,7 @@ public class MobileComposer {
 
 			// massive?
 			if (this.list_schedule_selected.size() > 1) {
-				mynote = "" + mynote + "\n" + org.apache.commons.lang3.StringUtils.defaultString(itm.getSchedule().getNote(), "");
+				mynote = "" + mynote + "\n" + StringUtils.defaultString(itm.getSchedule().getMobile_note(), "");
 			}
 
 			this.schedule_dao.updateMobileUserNote(itm.getSchedule().getId(), mynote);

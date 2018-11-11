@@ -981,14 +981,14 @@ public class UtilityCSV {
 	public static StringBuilder downloadCSVProgram(final List<DetailInitialSchedule> listDetailProgram, final TasksDAO taskDao,
 			final ConfigurationDAO configuration, final ISchedule scheduleDAO, final Boolean administrator) {
 		final StringBuilder	builder		= new StringBuilder();
-		String				header		= "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota\n";
+		String				header		= "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota;nota mobile\n";
 
 		String				holiday		= "";
 		String				programmer	= "";
 		String				controller	= "";
 
 		if (administrator) {
-			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota;programmatore;controllore\n";
+			header = "anno;mese;settimana;giorno;nome;matricola;data;festivo;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);ingresso;uscita;nota;nota mobile;programmatore;controllore\n";
 		}
 
 		builder.append(header);
@@ -1011,6 +1011,13 @@ public class UtilityCSV {
 			if (item.getNote() != null) {
 				nota	= item.getNote();
 				nota	= nota.replace("\n", " ");
+			}
+
+			String nota_mobile = "";
+			if (item.getMobile_note() != null) {
+				nota_mobile	= item.getMobile_note();
+				nota_mobile	= nota_mobile.replace("\n", " ");
+				nota_mobile	= nota_mobile.replace("°", " ");
 			}
 
 			if (administrator) {
@@ -1167,12 +1174,12 @@ public class UtilityCSV {
 			if (administrator) {
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
 						+ holiday + ";" + code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";"
-						+ time_from + ";" + time_to + ";" + nota + ";" + programmer + ";" + controller + ";\n";
+						+ time_from + ";" + time_to + ";" + nota + ";" + nota_mobile + ";" + programmer + ";" + controller + ";\n";
 			} else {
 
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
 						+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + time_info + ";" + time_vacation_info + ";" + time_from + ";"
-						+ time_to + ";" + nota + ";\n";
+						+ time_to + ";" + nota + ";" + nota_mobile + ";\n";
 
 			}
 
@@ -1186,7 +1193,7 @@ public class UtilityCSV {
 			final Boolean administrator) {
 		final StringBuilder	builder				= new StringBuilder();
 
-		String				header				= "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota\n";
+		String				header				= "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;nota mobile\n";
 
 		String				holiday				= "";
 		String				programmer			= "";
@@ -1194,7 +1201,7 @@ public class UtilityCSV {
 		String				mobile_controller	= "";
 
 		if (administrator) {
-			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;programmatore;operatore;controllore\n";
+			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;nota mobile;programmatore;operatore;controllore\n";
 		}
 		builder.append(header);
 
@@ -1243,6 +1250,13 @@ public class UtilityCSV {
 				nota	= nota.replace("\n", " ");
 				nota	= nota.replace("°", " ");
 
+			}
+
+			String nota_mobile = "";
+			if (item.getMobile_note() != null) {
+				nota_mobile	= item.getMobile_note();
+				nota_mobile	= nota_mobile.replace("\n", " ");
+				nota_mobile	= nota_mobile.replace("°", " ");
 			}
 
 			if (administrator) {
@@ -1478,12 +1492,12 @@ public class UtilityCSV {
 						+ ";" + sign_info + ";" + date + ";" + holiday + ";" + code_shift + ";" + shift_no_info + ";" + contabilizzato + ";"
 						+ factor_shift + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";" + nameShip + ";" + crane
 						+ ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";" + continue_shif + ";" + nota + ";"
-						+ programmer + ";" + mobile_controller + ";" + controller + ";\n";
+						+ nota_mobile + ";" + programmer + ";" + mobile_controller + ";" + controller + ";\n";
 			} else {
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
 						+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
 						+ nameShip + ";" + crane + ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift + ";"
-						+ continue_shif + ";" + nota + ";\n";
+						+ continue_shif + ";" + nota + ";" + nota_mobile + "\n";
 
 			}
 

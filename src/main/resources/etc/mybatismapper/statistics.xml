@@ -636,6 +636,7 @@ FROM
             scd.shift,
             scd.date_schedule,
             scd.note,
+            scd.mobile_note,
             scd.editor,
             scd.controller,
             scd.user,

@@ -43,8 +43,6 @@ public interface ISchedule {
 
 	Schedule loadScheduleById(Integer id);
 
-	Schedule loadScheduleByIdForMobile(Integer id);
-
 	void removeAllDetailFinalScheduleBySchedule(Integer id_schedule);
 
 	void removeAllDetailFinalScheduleByScheduleAndShift(Integer id_schedule, Integer shift);
