@@ -61,7 +61,7 @@
 					visible="@load(vm.status_view eq 1)"
 					onClick="@command('addComponents')" />
 				<button sclass="btn btn-info"
-					label="Assegna Programmato" onClick="@command('review')" />
+					label="@load(vm.status_view eq 1 or vm.status_view eq 2 or vm.status_view eq 3 or vm.status_view eq 7 ? 'Assegna Programmato':'Assegna')" onClick="@command('review')" />
 				<button sclass="btn btn-danger" label="Cancella"
 					onClick="@command('removeComponent')" />
 			</div>
