@@ -795,7 +795,7 @@ WHERE
 		parameterType="map">
 		<![CDATA[
 		UPDATE detailscheduleship 
-			SET operation = #{operation}, handswork = #{handswork}
+			SET handswork = #{handswork}
 		WHERE id = #{id}
 		]]>
 	</update>

@@ -207,25 +207,9 @@
 							value="@bind(vm.ship_handswork)" placeholder="Mani di Lavoro..." />
 					</div>
 
-					<space></space>
+					
 
-					<div class="input-group input-group-lg">
-						<span class="input-group-addon">
-							TIPO OPERAZIONE
-						</span>
-
-						<combobox class="form-control"
-							value="@bind(vm.ship_operation)" placeholder="OPERAZIONE...">
-
-							<comboitem label="-" value="-"></comboitem>
-							<comboitem label="COMPLETA"
-								value="COMPLETA">
-							</comboitem>
-							<comboitem label="TW" value="TW">
-							</comboitem>
-
-						</combobox>
-					</div>
+				
 
 
 
@@ -352,10 +336,8 @@
 							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
 						</label>
 
-					</listheader>
-
-					<listheader align="center" label="OPERAZIONE"
-						hflex="2" />
+					</listheader>				
+					
 					<listheader align="center" label="MANI" hflex="1" />
 
 
@@ -374,25 +356,12 @@
 						<listcell>
 
 							<n:h3>
-								<label value="@load(item.name)"
+								<label value="@load(item) @converter(vm.shipConverter)"
 									sclass="label label-info">
 								</label>
 							</n:h3>
 
 						</listcell>
-
-						<listcell>
-
-							<n:h4>
-								<label
-									value="@load(item) @converter(vm.operationConverter)"
-									sclass="label label-default">
-								</label>
-							</n:h4>
-
-						</listcell>
-
-
 
 						<listcell>
 

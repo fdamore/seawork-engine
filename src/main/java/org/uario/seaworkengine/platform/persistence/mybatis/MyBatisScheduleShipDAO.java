@@ -110,9 +110,9 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	public List<ScheduleShip> loadScheduleShipByIdShipAndArrivalDate(final Integer idship, final Date arrivaldate) {
 		MyBatisScheduleShipDAO.logger.info("loadScheduleShipByIdShip");
 
-		final Date inf_date = DateUtils.truncate(arrivaldate, Calendar.DATE);
+		final Date						inf_date	= DateUtils.truncate(arrivaldate, Calendar.DATE);
 
-		final HashMap<String, Object> map = new HashMap<>();
+		final HashMap<String, Object>	map			= new HashMap<>();
 		map.put("idship", idship);
 		map.put("arrivaldate", inf_date);
 
@@ -143,8 +143,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 			full_text_search_arg = null;
 		}
 
-		Date date_from_arg = null;
-		Date date_to_arg = null;
+		Date	date_from_arg	= null;
+		Date	date_to_arg		= null;
 		if (datefrom != null) {
 			date_from_arg = DateUtils.truncate(datefrom, Calendar.DATE);
 		}
@@ -187,8 +187,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 			full_text_search_arg = null;
 		}
 
-		Date date_from_arg = null;
-		Date date_to_arg = null;
+		Date	date_from_arg	= null;
+		Date	date_to_arg		= null;
 		if (datefrom != null) {
 			date_from_arg = DateUtils.truncate(datefrom, Calendar.DATE);
 		}
@@ -277,8 +277,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		}
 
 		// define date arg
-		Date date_from_arg = null;
-		Date date_to_arg = null;
+		Date	date_from_arg	= null;
+		Date	date_to_arg		= null;
 
 		if (datefrom != null) {
 			date_from_arg = DateUtils.truncate(datefrom, Calendar.DATE);
@@ -321,12 +321,11 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public void updateDetailScheduleShipForMobile(final Integer id, final String operation, final Integer handswork) {
+	public void updateDetailScheduleShipForMobile(final Integer id, final Integer handswork) {
 		MyBatisScheduleShipDAO.logger.info("updateDetailScheduleShipForMobile");
 
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id", id);
-		map.put("operation", operation);
 		map.put("handswork", handswork);
 
 		this.getSqlSession().update("scheduleship.updateDetailScheduleShipForMobile", map);

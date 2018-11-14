@@ -128,7 +128,7 @@ public class MobileComposer {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private class MyOperationConverter implements Converter {
+	private class MyShipConverter implements Converter {
 
 		@Override
 		public Object coerceToBean(final Object val, final Component comp, final BindContext ctx) {
@@ -143,23 +143,36 @@ public class MobileComposer {
 				return "";
 			}
 
-			final DetailScheduleShip	op		= (DetailScheduleShip) val;
+			final DetailScheduleShip	op			= (DetailScheduleShip) val;
 
-			final String				op_info	= op.getOperation();
+			final String				op_info		= op.getOperation();
 
-			if (StringUtils.isEmpty(op_info)) {
+			String						ship_name	= op.getName();
+
+			if (StringUtils.isEmpty(ship_name)) {
 				return "";
 			}
 
+			// check if note exists
+			if (StringUtils.isNotEmpty(op.getNotedetail())) {
+				ship_name = "(*)" + ship_name;
+			}
+
+			String op_tag = "";
+
 			if (op_info.equalsIgnoreCase("COMPLETA")) {
-				return "CO";
+				op_tag = "CO";
 			}
 
 			if (op_info.equalsIgnoreCase("TWISTER")) {
-				return "TW";
+				op_tag = "TW";
 			}
 
-			return "";
+			if (StringUtils.isEmpty(op_tag)) {
+				return ship_name;
+			} else {
+				return ship_name + "(" + op_tag + ")";
+			}
 
 		}
 	}
@@ -244,8 +257,6 @@ public class MobileComposer {
 
 	private String								note_ship;
 
-	private final MyOperationConverter			operationConverter		= new MyOperationConverter();
-
 	private PersonDAO							person_dao;
 
 	private ISchedule							schedule_dao;
@@ -258,9 +269,9 @@ public class MobileComposer {
 
 	private Integer								ship_handswork;
 
-	private String								ship_operation;
-
 	private Ship								ship_selected;
+
+	private final MyShipConverter				shipConverter			= new MyShipConverter();
 
 	private IShip								shipdao;
 
@@ -710,10 +721,6 @@ public class MobileComposer {
 		return this.note_ship;
 	}
 
-	public MyOperationConverter getOperationConverter() {
-		return this.operationConverter;
-	}
-
 	public InitialScheduleSingleDetail getSelectedSchedule() {
 		return this.selectedSchedule;
 	}
@@ -726,12 +733,12 @@ public class MobileComposer {
 		return this.ship_handswork;
 	}
 
-	public String getShip_operation() {
-		return this.ship_operation;
-	}
-
 	public Ship getShip_selected() {
 		return this.ship_selected;
+	}
+
+	public MyShipConverter getShipConverter() {
+		return this.shipConverter;
 	}
 
 	public List<Ship> getShips() {
@@ -1132,7 +1139,6 @@ public class MobileComposer {
 				return;
 			}
 
-			this.ship_operation	= this.detail_schedule_ship_selected.getOperation();
 			this.ship_handswork	= this.detail_schedule_ship_selected.getHandswork();
 
 			// set view
@@ -1389,10 +1395,6 @@ public class MobileComposer {
 		this.ship_handswork = ship_handswork;
 	}
 
-	public void setShip_operation(final String ship_operation) {
-		this.ship_operation = ship_operation;
-	}
-
 	public void setShip_selected(final Ship ship_selected) {
 		this.ship_selected = ship_selected;
 	}
@@ -1422,7 +1424,7 @@ public class MobileComposer {
 		}
 
 		final Integer id = this.detail_schedule_ship_selected.getId();
-		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.getShip_operation(), this.getShip_handswork());
+		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.getShip_handswork());
 
 		this.refreshShipDataAndCurrentShift();
 
