@@ -143,11 +143,13 @@ public class MobileComposer {
 				return "";
 			}
 
-			final DetailScheduleShip	op			= (DetailScheduleShip) val;
+			final DetailScheduleShip op = (DetailScheduleShip) val;
 
-			final String				op_info		= op.getOperation();
+			final String op_info = op.getOperation();
 
-			String						ship_name	= op.getName();
+			String ship_name = op.getName();
+
+			final Integer h_p = op.getHandswork_program();
 
 			if (StringUtils.isEmpty(ship_name)) {
 				return "";
@@ -157,6 +159,9 @@ public class MobileComposer {
 			if (StringUtils.isNotEmpty(op.getNotedetail())) {
 				ship_name = "(*)" + ship_name;
 			}
+
+			// return
+			String ret = "";
 
 			String op_tag = "";
 
@@ -168,11 +173,18 @@ public class MobileComposer {
 				op_tag = "TW";
 			}
 
+			// ADDING OP
 			if (StringUtils.isEmpty(op_tag)) {
-				return ship_name;
+				ret = ship_name;
 			} else {
-				return ship_name + "(" + op_tag + ")";
+				ret = ship_name + "(" + op_tag + ")";
 			}
+
+			// ADDING MANI P
+			if (h_p != null) {
+				ret = ret + "(MANI P:" + h_p + ")";
+			}
+			return ret;
 
 		}
 	}
@@ -193,13 +205,20 @@ public class MobileComposer {
 				return "";
 			}
 
-			final InitialScheduleSingleDetail	op				= (InitialScheduleSingleDetail) val;
+			final InitialScheduleSingleDetail op = (InitialScheduleSingleDetail) val;
 
-			final Person						person			= op.getPerson();
+			final Person person = op.getPerson();
 
-			String								main			= Utility.dottedName(person.toString());
+			String main = Utility.dottedName(person.toString());
 
-			final MobileUserDetail				detail_schedule	= op.getDetail_schedule();
+			// check if there is a note
+			if (op.getSchedule() != null) {
+				if (StringUtils.isNotEmpty(op.getSchedule().getMobile_note())) {
+					main = "(*)" + main;
+				}
+			}
+
+			final MobileUserDetail detail_schedule = op.getDetail_schedule();
 
 			if (BooleanUtils.isNotTrue(detail_schedule.getRevised())) {
 				return main;
@@ -212,12 +231,12 @@ public class MobileComposer {
 			}
 
 			// adding info ship and crane
-			final Integer	id_ship	= detail_schedule.getId_ship();
-			final String	crane	= detail_schedule.getCrane();
+			final Integer id_ship = detail_schedule.getId_ship();
+			final String crane = detail_schedule.getCrane();
 			if ((id_ship != null) && (crane != null)) {
 
-				final Ship		ship	= MobileComposer.this.shipdao.loadShip(id_ship);
-				final String	name	= ship.getName();
+				final Ship ship = MobileComposer.this.shipdao.loadShip(id_ship);
+				final String name = ship.getName();
 				main = main + "(" + name + " - CR[" + crane + "])";
 			}
 
@@ -225,80 +244,81 @@ public class MobileComposer {
 			main = main + "(";
 			final String info = MobileComposer.this.getTaskStringView(op);
 			main = main + info + ")";
+
 			return main;
 
 		}
 	}
 
-	private ConfigurationDAO					configurationDao;
+	private ConfigurationDAO configurationDao;
 
-	private String								crane_selected;
+	private String crane_selected;
 
-	private Date								date_selection;
+	private Date date_selection;
 
 	/**
 	 * Instace of data converter
 	 */
-	private final MyDateFormatConverter			dateConverter			= new MyDateFormatConverter();
+	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
 
-	private DetailScheduleShip					detail_schedule_ship_selected;
+	private DetailScheduleShip detail_schedule_ship_selected;
 
-	private String								end_task;
+	private String end_task;
 
-	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
+	private List<InitialScheduleSingleDetail> list_schedule_selected = null;
 
-	private List<DetailScheduleShip>			list_ship;
+	private List<DetailScheduleShip> list_ship;
 
-	private List<UserTask>						list_task;
+	private List<UserTask> list_task;
 
-	private String								n_positions;
+	private String n_positions;
 
-	private String								note;
+	private String note;
 
-	private String								note_ship;
+	private String note_ship;
 
-	private PersonDAO							person_dao;
+	private PersonDAO person_dao;
 
-	private ISchedule							schedule_dao;
+	private ISchedule schedule_dao;
 
-	private IScheduleShip						schedule_ship_dao;
+	private IScheduleShip schedule_ship_dao;
 
-	private InitialScheduleSingleDetail			selectedSchedule;
+	private InitialScheduleSingleDetail selectedSchedule;
 
-	private Integer								shift_no;
+	private Integer shift_no;
 
-	private Integer								ship_handswork;
+	private Integer ship_handswork;
 
-	private Ship								ship_selected;
+	private Ship ship_selected;
 
-	private final MyShipConverter				shipConverter			= new MyShipConverter();
+	private final MyShipConverter shipConverter = new MyShipConverter();
 
-	private IShip								shipdao;
+	private IShip shipdao;
 
-	private List<Ship>							ships;
+	private List<Ship> ships;
 
-	private String								starting_task;
+	private String starting_task;
 
-	private Integer								status_view				= 1;
+	private Integer status_view = 1;
 
-	private TasksDAO							task_dao;
+	private TasksDAO task_dao;
 
 	/**
 	 * Task converter
 	 */
-	private final MyMobileTaskConverter			taskConverter			= new MyMobileTaskConverter();
+	private final MyMobileTaskConverter taskConverter = new MyMobileTaskConverter();
 
-	private String								user_position;
+	private String user_position;
 
-	private final Integer[]						user_programmed			= new Integer[] { 0, 0, 0, 0 };
+	private final Integer[] user_programmed = new Integer[] { 0, 0, 0, 0 };
 
-	private UserTask							user_task_selected;
+	private UserTask user_task_selected;
 
-	private Boolean								user_visible_adding		= Boolean.FALSE;
+	private Boolean user_visible_adding = Boolean.FALSE;
 
-	private MyUserConverter						userConverter			= new MyUserConverter();
+	private MyUserConverter userConverter = new MyUserConverter();
 
-	private List<InitialScheduleSingleDetail>	users;
+	private List<InitialScheduleSingleDetail> users;
 
 	@Command
 	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "crane_selected", "selectedSchedule", "starting_task", "end_task",
@@ -315,10 +335,10 @@ public class MobileComposer {
 		}
 
 		// define ships and ship selected
-		this.ships			= this.listShip(this.date_selection);
+		this.ships = this.listShip(this.date_selection);
 
 		// define the crane
-		this.crane_selected	= null;
+		this.crane_selected = null;
 
 		// set starting and end task
 		String end_info = "";
@@ -337,8 +357,8 @@ public class MobileComposer {
 		}
 		case 4: {
 
-			final SimpleDateFormat	format_date	= new SimpleDateFormat("dd/MM/YYYY");
-			final Calendar			now			= Calendar.getInstance();
+			final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY");
+			final Calendar now = Calendar.getInstance();
 			now.add(Calendar.DAY_OF_YEAR, 1);
 			end_info = format_date.format(now.getTime()) + " 01:00 ";
 
@@ -346,28 +366,28 @@ public class MobileComposer {
 		}
 		}
 
-		this.starting_task	= this.getCurrentInfoTime();
-		this.end_task		= end_info;
+		this.starting_task = this.getCurrentInfoTime();
+		this.end_task = end_info;
 
 		if (this.list_schedule_selected.size() > 1) {
 
 			// DEFINE INFO FOR MULTIPLE USER
-			this.user_visible_adding	= Boolean.FALSE;
+			this.user_visible_adding = Boolean.FALSE;
 
-			this.n_positions			= "" + this.list_schedule_selected.size();
+			this.n_positions = "" + this.list_schedule_selected.size();
 
-			this.list_task				= this.task_dao.loadTasksForMobile();
-			this.user_task_selected		= null;
+			this.list_task = this.task_dao.loadTasksForMobile();
+			this.user_task_selected = null;
 
 		} else {
 
 			// DEFINE INFO FOR SINGLE USER
-			this.user_visible_adding	= Boolean.TRUE;
+			this.user_visible_adding = Boolean.TRUE;
 
 			// select this
-			this.selectedSchedule		= this.list_schedule_selected.get(0);
+			this.selectedSchedule = this.list_schedule_selected.get(0);
 
-			this.list_task				= this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
+			this.list_task = this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
 
 			// set task default
 			final UserTask task_defaukt = this.task_dao.getDefault(this.selectedSchedule.getPerson().getId());
@@ -416,8 +436,8 @@ public class MobileComposer {
 			return;
 		}
 
-		final String	starting	= this.getStarting_task();
-		final String	end			= this.getEnd_task();
+		final String starting = this.getStarting_task();
+		final String end = this.getEnd_task();
 		if (StringUtils.isEmpty(starting) || StringUtils.isEmpty(end)) {
 			return;
 		}
@@ -428,10 +448,10 @@ public class MobileComposer {
 
 		for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
-			final Date	date_schedule	= itm.getSchedule().getDate_schedule();
+			final Date date_schedule = itm.getSchedule().getDate_schedule();
 
-			final Date	dt_starting		= this.parseUserWorkTime(date_schedule, starting);
-			final Date	dt_end			= this.parseUserWorkTime(date_schedule, end);
+			final Date dt_starting = this.parseUserWorkTime(date_schedule, starting);
+			final Date dt_end = this.parseUserWorkTime(date_schedule, end);
 			if ((dt_starting == null) || (dt_end == null)) {
 				return;
 			}
@@ -461,9 +481,9 @@ public class MobileComposer {
 	private void calculateShiftAndRefresh() {
 
 		this.shift_no = 1;
-		final Calendar	now	= Calendar.getInstance();
+		final Calendar now = Calendar.getInstance();
 
-		final Calendar	h1	= Calendar.getInstance();
+		final Calendar h1 = Calendar.getInstance();
 		h1.set(Calendar.HOUR_OF_DAY, 1);
 		h1.set(Calendar.MINUTE, 0);
 		h1.set(Calendar.SECOND, 0);
@@ -509,7 +529,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-			final UserTask task, final String crane, final Ship ship, final String position) {
+							final UserTask task, final String crane, final Ship ship, final String position) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -521,9 +541,9 @@ public class MobileComposer {
 			return;
 		}
 
-		final Integer				shift_n			= programmedSchedule.getDetail_schedule().getShift();
+		final Integer shift_n = programmedSchedule.getDetail_schedule().getShift();
 
-		final DetailFinalSchedule	detail_schedule	= new DetailFinalSchedule();
+		final DetailFinalSchedule detail_schedule = new DetailFinalSchedule();
 
 		detail_schedule.setId_schedule(programmedSchedule.getSchedule().getId());
 		detail_schedule.setShift(shift_n);
@@ -589,20 +609,20 @@ public class MobileComposer {
 			if (this.list_schedule_selected.size() > 1) {
 
 				// DEFINE INFO FOR MULTIPLE USER
-				this.user_visible_adding	= Boolean.FALSE;
+				this.user_visible_adding = Boolean.FALSE;
 
-				this.n_positions			= "" + this.list_schedule_selected.size();
+				this.n_positions = "" + this.list_schedule_selected.size();
 
-				this.note					= "";
+				this.note = "";
 
 			} else {
 
 				// DEFINE INFO FOR SINGLE USER
-				this.user_visible_adding	= Boolean.TRUE;
+				this.user_visible_adding = Boolean.TRUE;
 
-				this.selectedSchedule		= this.list_schedule_selected.get(0);
+				this.selectedSchedule = this.list_schedule_selected.get(0);
 
-				this.note					= this.selectedSchedule.getSchedule().getMobile_note();
+				this.note = this.selectedSchedule.getSchedule().getMobile_note();
 
 			}
 
@@ -617,9 +637,9 @@ public class MobileComposer {
 				return;
 			}
 
-			this.note_ship		= this.schedule_ship_dao.getDetailScheduleShipNote(this.detail_schedule_ship_selected.getId());
+			this.note_ship = this.schedule_ship_dao.getDetailScheduleShipNote(this.detail_schedule_ship_selected.getId());
 
-			this.status_view	= 5;
+			this.status_view = 5;
 
 		}
 
@@ -667,12 +687,12 @@ public class MobileComposer {
 	 * @return
 	 */
 	private String getCurrentInfoTime() {
-		final Calendar	now		= Calendar.getInstance();
+		final Calendar now = Calendar.getInstance();
 
-		final Integer	h		= now.get(Calendar.HOUR_OF_DAY);
-		final Integer	m		= now.get(Calendar.MINUTE);
+		final Integer h = now.get(Calendar.HOUR_OF_DAY);
+		final Integer m = now.get(Calendar.MINUTE);
 
-		String			info_m	= m.toString();
+		String info_m = m.toString();
 		if (info_m.length() == 1) {
 			info_m = "0" + info_m;
 		}
@@ -765,15 +785,15 @@ public class MobileComposer {
 	 */
 	private String getTaskStringView(final InitialScheduleSingleDetail val) {
 
-		final SimpleDateFormat	data_format	= new SimpleDateFormat("HH:mm");
+		final SimpleDateFormat data_format = new SimpleDateFormat("HH:mm");
 
-		final String			code		= val.getUser_task().getCode();
+		final String code = val.getUser_task().getCode();
 
-		final Date				time_from	= val.getDetail_schedule().getTime_from();
-		final Date				time_to		= val.getDetail_schedule().getTime_to();
+		final Date time_from = val.getDetail_schedule().getTime_from();
+		final Date time_to = val.getDetail_schedule().getTime_to();
 
-		final String			from		= data_format.format(time_from);
-		final String			to			= data_format.format(time_to);
+		final String from = data_format.format(time_from);
+		final String to = data_format.format(time_to);
 
 		return code + " (" + from + " - " + to + ")";
 	}
@@ -790,21 +810,21 @@ public class MobileComposer {
 			return "";
 		}
 
-		final SimpleDateFormat	data_format	= new SimpleDateFormat("HH:mm");
+		final SimpleDateFormat data_format = new SimpleDateFormat("HH:mm");
 
-		final StringBuilder		builder		= new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		for (final MobileUserDetail itm : val.getProgrammed()) {
 
-			final UserTask	task		= this.task_dao.loadTask(itm.getTask());
+			final UserTask task = this.task_dao.loadTask(itm.getTask());
 
-			final String	code		= task.getCode();
+			final String code = task.getCode();
 
-			final Date		time_from	= itm.getTime_from();
-			final Date		time_to		= itm.getTime_to();
+			final Date time_from = itm.getTime_from();
+			final Date time_to = itm.getTime_to();
 
-			final String	from		= data_format.format(time_from);
-			final String	to			= data_format.format(time_to);
+			final String from = data_format.format(time_from);
+			final String to = data_format.format(time_to);
 
 			builder.append(code + " (" + from + " - " + to + ")\n");
 
@@ -841,15 +861,15 @@ public class MobileComposer {
 	@AfterCompose
 	public void init(@ContextParam(ContextType.COMPONENT) final Component component) throws Exception {
 
-		this.task_dao			= (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
-		this.shipdao			= (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
-		this.schedule_ship_dao	= (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
-		this.schedule_dao		= (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
-		this.configurationDao	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
-		this.person_dao			= (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+		this.task_dao = (TasksDAO) SpringUtil.getBean(BeansTag.TASK_DAO);
+		this.shipdao = (IShip) SpringUtil.getBean(BeansTag.SHIP_DAO);
+		this.schedule_ship_dao = (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
+		this.schedule_dao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
+		this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		this.person_dao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
 		// set selection at today
-		this.date_selection		= Calendar.getInstance().getTime();
+		this.date_selection = Calendar.getInstance().getTime();
 
 		this.refreshDataAndCurrentShift();
 
@@ -863,9 +883,9 @@ public class MobileComposer {
 	 */
 	private List<Ship> listShip(final Date date_request) {
 
-		final Date			date_truncate	= DateUtils.truncate(date_request, Calendar.DATE);
+		final Date date_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 
-		final List<Ship>	list_ret		= this.schedule_ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
+		final List<Ship> list_ret = this.schedule_ship_dao.loadShipInDate(new Timestamp(date_truncate.getTime()));
 
 		// add empty ship
 		list_ret.add(0, Ship.EMPTY);
@@ -931,10 +951,10 @@ public class MobileComposer {
 			return null;
 		}
 
-		final SimpleDateFormat	format_time	= new SimpleDateFormat("HH:mm");
-		final SimpleDateFormat	format_date	= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		final SimpleDateFormat format_time = new SimpleDateFormat("HH:mm");
+		final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-		Date					dt			= null;
+		Date dt = null;
 
 		try {
 
@@ -996,17 +1016,17 @@ public class MobileComposer {
 					}
 				}
 
-				final UserTask						user_task	= this.task_dao.loadTask(detail.getTask());
+				final UserTask user_task = this.task_dao.loadTask(detail.getTask());
 
-				final InitialScheduleSingleDetail	itm			= new InitialScheduleSingleDetail();
+				final InitialScheduleSingleDetail itm = new InitialScheduleSingleDetail();
 				itm.setDetail_schedule(detail);
 				itm.setPerson(insch.getPerson());
 				itm.setSchedule(insch.getSchedule());
 				itm.setUser_task(user_task);
 
 				// set badge info
-				final List<Badge>	badgeList	= this.schedule_dao.loadBadgeByScheduleId(insch.getSchedule().getId());
-				final String		infob		= Utility.getLabelListBadge(badgeList);
+				final List<Badge> badgeList = this.schedule_dao.loadBadgeByScheduleId(insch.getSchedule().getId());
+				final String infob = Utility.getLabelListBadge(badgeList);
 				itm.setBadgeInfo(infob);
 
 				this.users.add(itm);
@@ -1038,10 +1058,10 @@ public class MobileComposer {
 
 		if (this.status_view == 4) {
 
-			this.list_ship						= this.selectInitialShipSchedule(date_for_selection, shift_no);
+			this.list_ship = this.selectInitialShipSchedule(date_for_selection, shift_no);
 
 			// deselect
-			this.detail_schedule_ship_selected	= null;
+			this.detail_schedule_ship_selected = null;
 
 		}
 
@@ -1125,10 +1145,10 @@ public class MobileComposer {
 				return;
 			}
 
-			this.ships			= this.listShip(this.date_selection);
+			this.ships = this.listShip(this.date_selection);
 
 			// set view
-			this.status_view	= 7;
+			this.status_view = 7;
 
 		}
 
@@ -1139,10 +1159,10 @@ public class MobileComposer {
 				return;
 			}
 
-			this.ship_handswork	= this.detail_schedule_ship_selected.getHandswork();
+			this.ship_handswork = this.detail_schedule_ship_selected.getHandswork();
 
 			// set view
-			this.status_view	= 6;
+			this.status_view = 6;
 
 		}
 
@@ -1165,9 +1185,9 @@ public class MobileComposer {
 				continue;
 			}
 
-			final UserTask	task		= this.task_dao.loadTask(user_detail.getTask());
+			final UserTask task = this.task_dao.loadTask(user_detail.getTask());
 
-			Ship			ship_itm	= this.ship_selected;
+			Ship ship_itm = this.ship_selected;
 			if (this.ship_selected == Ship.EMPTY) {
 				ship_itm = null;
 			}
@@ -1178,7 +1198,7 @@ public class MobileComposer {
 			}
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.crane_selected, ship_itm,
-					myposition);
+									myposition);
 
 		}
 
@@ -1187,14 +1207,14 @@ public class MobileComposer {
 
 	public List<InitialSchedule> selectInitialSchedule(final Date date_request) {
 
-		final List<InitialSchedule>	ret				= new ArrayList<>();
+		final List<InitialSchedule> ret = new ArrayList<>();
 
-		final Date					date_schedule	= DateUtils.truncate(date_request, Calendar.DATE);
+		final Date date_schedule = DateUtils.truncate(date_request, Calendar.DATE);
 
 		// get special task
-		final List<UserTask>		list_special	= this.configurationDao.listSpecialTaskMobile();
+		final List<UserTask> list_special = this.configurationDao.listSpecialTaskMobile();
 
-		final List<Person>			list			= this.person_dao.listAllPersonsForMobile(date_schedule);
+		final List<Person> list = this.person_dao.listAllPersonsForMobile(date_schedule);
 
 		// reset programmed person
 		for (int i = 0; i < 4; i++) {
@@ -1203,9 +1223,9 @@ public class MobileComposer {
 
 		for (final Person person : list) {
 
-			final InitialSchedule	item		= new InitialSchedule();
+			final InitialSchedule item = new InitialSchedule();
 
-			final Schedule			schedule	= this.schedule_dao.loadSchedule(date_schedule, person.getId());
+			final Schedule schedule = this.schedule_dao.loadSchedule(date_schedule, person.getId());
 			if (schedule == null) {
 				continue;
 			}
@@ -1215,10 +1235,10 @@ public class MobileComposer {
 			// ADD SHIFT 1
 			for (int i = 1; i <= 4; i++) {
 
-				List<MobileUserDetail>			list_details	= null;
+				List<MobileUserDetail> list_details = null;
 
-				final List<MobileUserDetail>	final_details	= this.schedule_dao.loadMobileUserFinalDetail(schedule.getId(), i);
-				final List<MobileUserDetail>	initial_details	= this.schedule_dao.loadMobileUserInitialDetail(schedule.getId(), i);
+				final List<MobileUserDetail> final_details = this.schedule_dao.loadMobileUserFinalDetail(schedule.getId(), i);
+				final List<MobileUserDetail> initial_details = this.schedule_dao.loadMobileUserInitialDetail(schedule.getId(), i);
 
 				// sum for person programmed
 				if (CollectionUtils.isNotEmpty(initial_details)) {
@@ -1285,9 +1305,9 @@ public class MobileComposer {
 
 	public List<DetailScheduleShip> selectInitialShipSchedule(final Date date_request, final Integer shift) {
 
-		final Date						date_request_truncate	= DateUtils.truncate(date_request, Calendar.DATE);
-		final List<DetailScheduleShip>	list					= this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate,
-				null, shift, null, null, null, null, null);
+		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
+		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift, null,
+								null, null, null, null);
 		return list;
 	}
 
@@ -1333,10 +1353,10 @@ public class MobileComposer {
 
 		final Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_YEAR, 1);
-		this.date_selection	= calendar.getTime();
+		this.date_selection = calendar.getTime();
 
 		// tomorrow set shift number to 1.
-		this.shift_no		= 1;
+		this.shift_no = 1;
 		// refresh with shift_no
 		this.refresh(this.shift_no);
 
@@ -1442,13 +1462,13 @@ public class MobileComposer {
 			return;
 		}
 
-		final InitialScheduleSingleDetail	itm				= this.list_schedule_selected.get(0);
+		final InitialScheduleSingleDetail itm = this.list_schedule_selected.get(0);
 
 		// get shift no
-		final Integer						shift_info		= itm.getDetail_schedule().getShift();
+		final Integer shift_info = itm.getDetail_schedule().getShift();
 
-		final List<MobileUserDetail>		list_details	= this.schedule_dao.loadMobileUserFinalDetail(itm.getSchedule().getId(), shift_info);
-		final List<MobileUserDetail>		initial_details	= this.schedule_dao.loadMobileUserInitialDetail(itm.getSchedule().getId(), shift_info);
+		final List<MobileUserDetail> list_details = this.schedule_dao.loadMobileUserFinalDetail(itm.getSchedule().getId(), shift_info);
+		final List<MobileUserDetail> initial_details = this.schedule_dao.loadMobileUserInitialDetail(itm.getSchedule().getId(), shift_info);
 
 		if (CollectionUtils.isNotEmpty(initial_details)) {
 			for (final MobileUserDetail itm_d : list_details) {
@@ -1479,10 +1499,10 @@ public class MobileComposer {
 
 			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
-				final Schedule	schedule		= itm.getSchedule();
-				final Date		current_time	= Calendar.getInstance().getTime();
+				final Schedule schedule = itm.getSchedule();
+				final Date current_time = Calendar.getInstance().getTime();
 
-				final Badge		badge			= new Badge();
+				final Badge badge = new Badge();
 				badge.setEventTime(current_time);
 				badge.setEventType(Boolean.TRUE);
 				badge.setIdschedule(schedule.getId());
