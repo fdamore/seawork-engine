@@ -257,79 +257,85 @@ public class MobileComposer {
 		}
 	}
 
-	private ConfigurationDAO configurationDao;
+	private ConfigurationDAO					configurationDao;
 
-	private String crane_selected;
+	private String								crane_selected;
 
-	private Date date_selection;
+	private Date								date_selection;
 
 	/**
 	 * Instace of data converter
 	 */
-	private final MyDateFormatConverter dateConverter = new MyDateFormatConverter();
+	private final MyDateFormatConverter			dateConverter			= new MyDateFormatConverter();
 
-	private DetailScheduleShip detail_schedule_ship_selected;
+	private DetailScheduleShip					detail_schedule_ship_selected;
 
-	private String end_task;
+	private String								end_task;
 
-	private List<InitialScheduleSingleDetail> list_schedule_selected = null;
+	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
 
-	private List<DetailScheduleShip> list_ship;
+	private List<DetailScheduleShip>			list_ship;
 
-	private List<UserTask> list_task;
+	private List<UserTask>						list_task;
 
-	private String n_positions;
+	private String								n_positions;
 
-	private String note;
+	private String								note;
 
-	private String note_ship;
+	private String								note_ship;
 
-	private PersonDAO person_dao;
+	private PersonDAO							person_dao;
 
-	private ISchedule schedule_dao;
+	private ISchedule							schedule_dao;
 
-	private IScheduleShip schedule_ship_dao;
+	private IScheduleShip						schedule_ship_dao;
 
-	private InitialScheduleSingleDetail selectedSchedule;
+	private InitialScheduleSingleDetail			selectedSchedule;
 
-	private Integer shift_no;
+	private Integer								shift_no;
 
-	private Integer ship_handswork;
+	private Integer								ship_handswork;
 
-	private Integer ship_menwork;
+	private Integer								ship_menwork;
 
-	private Ship ship_selected;
+	private String								ship_rain;
 
-	private Boolean ship_worked;
+	private Ship								ship_selected;
 
-	private final MyShipConverter shipConverter = new MyShipConverter();
+	private String								ship_sky;
 
-	private IShip shipdao;
+	private String								ship_temperature;
 
-	private List<Ship> ships;
+	private Boolean								ship_worked;
 
-	private String starting_task;
+	private final MyShipConverter				shipConverter			= new MyShipConverter();
 
-	private Integer status_view = 1;
+	private IShip								shipdao;
 
-	private TasksDAO task_dao;
+	private List<Ship>							ships;
+
+	private String								starting_task;
+
+	private Integer								status_view				= 1;
+
+	private TasksDAO							task_dao;
 
 	/**
 	 * Task converter
 	 */
-	private final MyMobileTaskConverter taskConverter = new MyMobileTaskConverter();
+	private final MyMobileTaskConverter			taskConverter			= new MyMobileTaskConverter();
 
-	private String user_position;
+	private String								user_position;
 
-	private final Integer[] user_programmed = new Integer[] { 0, 0, 0, 0 };
+	private final Integer[]						user_programmed			= new Integer[] { 0, 0, 0, 0 };
 
-	private UserTask user_task_selected;
+	private UserTask							user_task_selected;
 
-	private Boolean user_visible_adding = Boolean.FALSE;
+	private Boolean								user_visible_adding		= Boolean.FALSE;
 
-	private MyUserConverter userConverter = new MyUserConverter();
+	private MyUserConverter						userConverter			= new MyUserConverter();
 
-	private List<InitialScheduleSingleDetail> users;
+	private List<InitialScheduleSingleDetail>	users;
 
 	@Command
 	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "crane_selected", "selectedSchedule", "starting_task", "end_task",
@@ -540,7 +546,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-							final UserTask task, final String crane, final Ship ship, final String position) {
+			final UserTask task, final String crane, final Ship ship, final String position) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -768,8 +774,20 @@ public class MobileComposer {
 		return this.ship_menwork;
 	}
 
+	public String getShip_rain() {
+		return this.ship_rain;
+	}
+
 	public Ship getShip_selected() {
 		return this.ship_selected;
+	}
+
+	public String getShip_sky() {
+		return this.ship_sky;
+	}
+
+	public String getShip_temperature() {
+		return this.ship_temperature;
 	}
 
 	public Boolean getShip_worked() {
@@ -1154,7 +1172,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked" })
+	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked", "ship_temperature",
+			"ship_rain", "ship_sky" })
 	public void review() {
 
 		// review "TURNI"
@@ -1179,10 +1198,12 @@ public class MobileComposer {
 			}
 
 			this.ship_handswork = this.detail_schedule_ship_selected.getHandswork();
-
 			this.ship_menwork = this.detail_schedule_ship_selected.getMenwork();
-
 			this.ship_worked = this.detail_schedule_ship_selected.getWorked();
+
+			this.ship_temperature = this.detail_schedule_ship_selected.getTemperature();
+			this.ship_rain = this.detail_schedule_ship_selected.getRain();
+			this.ship_sky = this.detail_schedule_ship_selected.getSky();
 
 			// set view
 			this.status_view = 6;
@@ -1221,7 +1242,7 @@ public class MobileComposer {
 			}
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.crane_selected, ship_itm,
-									myposition);
+					myposition);
 
 		}
 
@@ -1329,8 +1350,8 @@ public class MobileComposer {
 	public List<DetailScheduleShip> selectInitialShipSchedule(final Date date_request, final Integer shift) {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
-		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift, null,
-								null, null, null, null);
+		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift,
+				null, null, null, null, null);
 		return list;
 	}
 
@@ -1442,8 +1463,20 @@ public class MobileComposer {
 		this.ship_menwork = ship_menwork;
 	}
 
+	public void setShip_rain(final String ship_rain) {
+		this.ship_rain = ship_rain;
+	}
+
 	public void setShip_selected(final Ship ship_selected) {
 		this.ship_selected = ship_selected;
+	}
+
+	public void setShip_sky(final String ship_sky) {
+		this.ship_sky = ship_sky;
+	}
+
+	public void setShip_temperature(final String ship_temperature) {
+		this.ship_temperature = ship_temperature;
 	}
 
 	public void setShip_worked(final Boolean ship_worked) {
@@ -1475,7 +1508,8 @@ public class MobileComposer {
 		}
 
 		final Integer id = this.detail_schedule_ship_selected.getId();
-		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked);
+		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
+				this.ship_temperature, this.ship_sky, this.ship_rain);
 
 		this.refreshShipDataAndCurrentShift();
 

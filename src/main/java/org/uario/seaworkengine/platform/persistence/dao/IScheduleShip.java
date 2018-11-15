@@ -56,8 +56,8 @@ public interface IScheduleShip {
 	 * @return
 	 */
 	List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, Date dateshift, Boolean period_on_dateshift,
-							String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked,
-							Integer serviceId, String shipType, String shipLine, String shipCondition, String operation, String invoice_period);
+			String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked,
+			Integer serviceId, String shipType, String shipLine, String shipCondition, String operation, String invoice_period);
 
 	/**
 	 * @param datefrom
@@ -78,23 +78,24 @@ public interface IScheduleShip {
 	 * @return
 	 */
 	List<DetailScheduleShip> searchDetailScheduleShip(Date datefrom, Date dateto, Date dateshift, Boolean period_on_dateshift,
-							String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked,
-							Integer serviceId, String shipType, String shipLine, String shipCondition, String operation, String invoice_period,
-							boolean invoice);
+			String full_text_search, Integer shift, Integer idCustomer, Boolean nowork, Boolean activityh, Boolean worked,
+			Integer serviceId, String shipType, String shipLine, String shipCondition, String operation, String invoice_period,
+			boolean invoice);
 
 	List<DetailScheduleShip> searchDetailScheduleShipByDateshit(Date shiftdate, String full_text_search, Integer shift, Integer idCustomer,
-							Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
+			Boolean nowork, Boolean activityh, Boolean worked, Integer serviceId);
 
 	List<DetailScheduleShip> searchDetailScheduleShipRif_MCT_SWS(Integer rif_sws, String rif_mct);
 
 	List<ScheduleShip> searchScheduleShip(Date datefrom, Date dateto, Integer sws, String mct, Integer idCustomer, Integer idService,
-							String textSearch, String shipType, String shipLine, String shipCondition, Boolean intial_support);
+			String textSearch, String shipType, String shipLine, String shipCondition, Boolean intial_support);
 
 	void updateDetailFinalScheduleShip(DetailFinalScheduleShip detailFinalScheduleShip);
 
 	void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);
 
-	void updateDetailScheduleShipForMobile(Integer id, Integer handswork, Integer manwork, Boolean worked);
+	void updateDetailScheduleShipForMobile(Integer id, Integer handswork, Integer manwork, Boolean worked, String temperature, String sky,
+			String rain);
 
 	void updateDetailScheduleShipNote(Integer id_schedule, String note);
 

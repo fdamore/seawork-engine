@@ -132,9 +132,9 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final Date dateshift,
-							final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer,
-							final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType,
-							final String shipLine, final String shipCondition, final String operation_type, final String invoice_period) {
+			final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer,
+			final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType,
+			final String shipLine, final String shipCondition, final String operation_type, final String invoice_period) {
 
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
@@ -176,10 +176,10 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShip(final Date datefrom, final Date dateto, final Date dateshift,
-							final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer,
-							final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType,
-							final String shipLine, final String shipCondition, final String operation_type, final String invoice_period,
-							final boolean invoice) {
+			final Boolean period_on_dateshift, final String full_text_search, final Integer shift, final Integer idCustomer,
+			final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId, final String shipType,
+			final String shipLine, final String shipCondition, final String operation_type, final String invoice_period,
+			final boolean invoice) {
 
 		MyBatisScheduleShipDAO.logger.info("load DetailScheduleShip in inteval Date And ShipName");
 
@@ -222,8 +222,9 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public List<DetailScheduleShip> searchDetailScheduleShipByDateshit(final Date shiftdate, final String full_text_search, final Integer shift,
-							final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked, final Integer serviceId) {
+	public List<DetailScheduleShip> searchDetailScheduleShipByDateshit(final Date shiftdate, final String full_text_search,
+			final Integer shift, final Integer idCustomer, final Boolean nowork, final Boolean activityh, final Boolean worked,
+			final Integer serviceId) {
 
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
 
@@ -262,8 +263,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public List<ScheduleShip> searchScheduleShip(final Date datefrom, final Date dateto, final Integer sws, final String mct,
-							final Integer idCustomer, final Integer idService, final String textSearch, final String shipType, final String shipLine,
-							final String shipCondition, final Boolean intial_support) {
+			final Integer idCustomer, final Integer idService, final String textSearch, final String shipType, final String shipLine,
+			final String shipCondition, final Boolean intial_support) {
 
 		MyBatisScheduleShipDAO.logger.info("load ScheduleShip");
 
@@ -322,14 +323,20 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public void updateDetailScheduleShipForMobile(final Integer id, final Integer handswork, final Integer manwork, final Boolean worked) {
+	public void updateDetailScheduleShipForMobile(final Integer id, final Integer handswork, final Integer manwork, final Boolean worked,
+			final String temperature, final String sky, final String rain) {
 		MyBatisScheduleShipDAO.logger.info("updateDetailScheduleShipForMobile");
 
 		final HashMap<String, Object> map = new HashMap<>();
 		map.put("id", id);
+
 		map.put("handswork", handswork);
 		map.put("menwork", manwork);
 		map.put("worked", worked);
+
+		map.put("temperature", temperature);
+		map.put("sky", sky);
+		map.put("rain", rain);
 
 		this.getSqlSession().update("scheduleship.updateDetailScheduleShipForMobile", map);
 

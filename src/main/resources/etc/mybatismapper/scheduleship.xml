@@ -795,7 +795,12 @@ WHERE
 		parameterType="map">
 		<![CDATA[
 		UPDATE detailscheduleship 
-			SET handswork = #{handswork}, menwork = #{menwork},worked = #{worked}
+			SET handswork = #{handswork}, 
+			menwork = #{menwork},
+			worked = #{worked},
+			sky = #{sky},
+			temperature = #{temperature},
+			rain = #{rain}			
 		WHERE id = #{id}
 		]]>
 	</update>

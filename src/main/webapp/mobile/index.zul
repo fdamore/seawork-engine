@@ -239,6 +239,94 @@
 
 						</div>
 					</div>
+
+					<space></space>
+
+					<div class="row">
+
+						<div class="col-md-4">
+
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									TEMPERATURA
+								</span>
+
+
+								<combobox class="form-control"
+									value="@bind(vm.ship_temperature)" readonly="true">
+									<comboitem value="BASSA"
+										label="BASSA">
+									</comboitem>
+									<comboitem value="MEDIA"
+										label="MEDIA">
+									</comboitem>
+									<comboitem value="ALTA"
+										label="ALTA">
+									</comboitem>
+								</combobox>
+
+							</div>
+
+						</div>
+
+
+						<div class="col-md-4">
+
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									CIELO
+								</span>
+
+								<combobox class="form-control"
+									value="@bind(vm.ship_sky)" readonly="true">
+									<comboitem value="SERENO"
+										label="SERENO">
+									</comboitem>
+									<comboitem value="COPERTO"
+										label="COPERTO">
+									</comboitem>
+									<comboitem value="NUVOLOSO"
+										label="NUVOLOSO">
+									</comboitem>
+								</combobox>
+
+							</div>
+
+						</div>
+
+
+
+
+						<div class="col-md-4">
+
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									PIOGGIA
+								</span>
+
+
+								<combobox class="form-control"
+									value="@bind(vm.ship_rain)" readonly="true">
+									<comboitem value="LEGGERA"
+										label="LEGGERA">
+									</comboitem>
+									<comboitem value="MEDIA"
+										label="MEDIA">
+									</comboitem>
+									<comboitem value="FORTE"
+										label="FORTE">
+									</comboitem>
+								</combobox>
+
+							</div>
+						</div>
+
+
+
+					</div>
 				</div>
 
 
@@ -412,11 +500,6 @@
 							</n:h3>
 
 						</listcell>
-
-
-
-
-
 
 					</listitem>
 				</template>
