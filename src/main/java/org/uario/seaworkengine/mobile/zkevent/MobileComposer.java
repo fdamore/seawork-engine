@@ -150,6 +150,7 @@ public class MobileComposer {
 			String ship_name = op.getName();
 
 			final Integer h_p = op.getHandswork_program();
+			final Integer m_p = op.getMenwork_program();
 
 			if (StringUtils.isEmpty(ship_name)) {
 				return "";
@@ -182,8 +183,14 @@ public class MobileComposer {
 
 			// ADDING MANI P
 			if (h_p != null) {
-				ret = ret + "(MANI P:" + h_p + ")";
+				ret = ret + "(M.P:" + h_p + ")";
 			}
+
+			// ADDING PERSONE P
+			if (m_p != null) {
+				ret = ret + "(P.P:" + m_p + ")";
+			}
+
 			return ret;
 
 		}
