@@ -296,7 +296,11 @@ public class MobileComposer {
 
 	private Integer ship_handswork;
 
+	private Integer ship_menwork;
+
 	private Ship ship_selected;
+
+	private Boolean ship_worked;
 
 	private final MyShipConverter shipConverter = new MyShipConverter();
 
@@ -760,8 +764,16 @@ public class MobileComposer {
 		return this.ship_handswork;
 	}
 
+	public Integer getShip_menwork() {
+		return this.ship_menwork;
+	}
+
 	public Ship getShip_selected() {
 		return this.ship_selected;
+	}
+
+	public Boolean getShip_worked() {
+		return this.ship_worked;
 	}
 
 	public MyShipConverter getShipConverter() {
@@ -1142,7 +1154,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork" })
+	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked" })
 	public void review() {
 
 		// review "TURNI"
@@ -1168,6 +1180,10 @@ public class MobileComposer {
 
 			this.ship_handswork = this.detail_schedule_ship_selected.getHandswork();
 
+			this.ship_menwork = this.detail_schedule_ship_selected.getMenwork();
+
+			this.ship_worked = this.detail_schedule_ship_selected.getWorked();
+
 			// set view
 			this.status_view = 6;
 
@@ -1176,7 +1192,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "shift_no", "status_view", "ship_operation", "ship_handswork" })
+	@NotifyChange({ "users", "shift_no", "status_view", "list_schedule_selected" })
 	public void reviewUserCommand() {
 
 		if (CollectionUtils.isEmpty(this.list_schedule_selected)) {
@@ -1422,8 +1438,16 @@ public class MobileComposer {
 		this.ship_handswork = ship_handswork;
 	}
 
+	public void setShip_menwork(final Integer ship_menwork) {
+		this.ship_menwork = ship_menwork;
+	}
+
 	public void setShip_selected(final Ship ship_selected) {
 		this.ship_selected = ship_selected;
+	}
+
+	public void setShip_worked(final Boolean ship_worked) {
+		this.ship_worked = ship_worked;
 	}
 
 	public void setStarting_task(final String starting_task) {
@@ -1451,7 +1475,7 @@ public class MobileComposer {
 		}
 
 		final Integer id = this.detail_schedule_ship_selected.getId();
-		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.getShip_handswork());
+		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked);
 
 		this.refreshShipDataAndCurrentShift();
 

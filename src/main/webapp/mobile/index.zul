@@ -61,7 +61,8 @@
 					visible="@load(vm.status_view eq 1)"
 					onClick="@command('addComponents')" />
 				<button sclass="btn btn-info"
-					label="@load(vm.status_view eq 1 or vm.status_view eq 2 or vm.status_view eq 3 or vm.status_view eq 7 ? 'Assegna Programmato':'Assegna')" onClick="@command('review')" />
+					label="@load(vm.status_view eq 1 or vm.status_view eq 2 or vm.status_view eq 3 or vm.status_view eq 7 ? 'Assegna Programmato':'Assegna')"
+					onClick="@command('review')" />
 				<button sclass="btn btn-danger" label="Cancella"
 					onClick="@command('removeComponent')" />
 			</div>
@@ -198,22 +199,46 @@
 
 					</n:h2>
 
-					<div class="input-group input-group-lg">
-						<span class="input-group-addon">
-							MANI DI LAVORO
-						</span>
+					<div class="row">
 
-						<intbox class="form-control"
-							value="@bind(vm.ship_handswork)" placeholder="Mani di Lavoro..." />
+						<div class="col-md-4">
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									MANI DI LAVORO
+								</span>
+
+								<intbox class="form-control"
+									value="@bind(vm.ship_handswork)" placeholder="Mani..." />
+							</div>
+
+						</div>
+
+						<div class="col-md-4">
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									PERSONE CONSUNTIVATE
+								</span>
+
+								<intbox class="form-control"
+									value="@bind(vm.ship_menwork)" placeholder="Persone..." />
+							</div>
+
+						</div>
+
+						<div class="col-md-4">
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									LAVORO
+								</span>
+								<checkbox class="form-control"
+									checked="@bind(vm.ship_worked)" />
+							</div>
+
+						</div>
 					</div>
-
-					
-
-				
-
-
-
-
 				</div>
 
 
@@ -336,9 +361,13 @@
 							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
 						</label>
 
-					</listheader>				
-					
-					<listheader align="center" label="MANI C." hflex="1" />
+					</listheader>
+
+					<listheader align="center" label="MANI C."
+						hflex="1" />
+
+					<listheader align="center" label="PERSONE C."
+						hflex="1" />
 
 
 
@@ -356,8 +385,9 @@
 						<listcell>
 
 							<n:h3>
-								<label value="@load(item) @converter(vm.shipConverter)"
-									sclass="label label-info">
+								<label
+									value="@load(item) @converter(vm.shipConverter)"
+									sclass="@load(item.worked ? 'label label-success' : 'label label-info')">
 								</label>
 							</n:h3>
 
@@ -372,6 +402,17 @@
 							</n:h3>
 
 						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label value="@load(item.menwork)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
 
 
 
