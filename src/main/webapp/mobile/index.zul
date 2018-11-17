@@ -356,7 +356,7 @@
 							</div>
 
 						</div>
-						
+
 						<div class="col-md-4">
 							<div class="input-group input-group-lg">
 
@@ -372,6 +372,78 @@
 						</div>
 
 					</div>
+
+					<space></space>
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									PERSONE A BORDO
+								</span>
+
+								<textbox class="form-control"
+									value="@bind(vm.ship_persononboard)" />
+
+
+							</div>
+
+						</div>
+
+						<div class="col-md-4">
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									PRIMO C. A TERRA
+								</span>
+
+								<textbox class="form-control"
+									value="@bind(vm.ship_persononboard)" />
+
+
+							</div>
+
+						</div>
+
+						<div class="col-md-4">
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									ULTIMO C. A TERRA
+								</span>
+
+								<textbox class="form-control"
+									value="@bind(vm.ship_persononboard)" />
+
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<space></space>
+
+					<div class="row">
+
+						<div class="col-md-4">
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									PERSONE A TERRA
+								</span>
+
+								<textbox class="form-control"
+									value="@bind(vm.ship_persononboard)" />
+
+
+							</div>
+
+						</div>
+
+					</div>
+
 
 				</div>
 

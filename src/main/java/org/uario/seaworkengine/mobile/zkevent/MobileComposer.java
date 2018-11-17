@@ -294,9 +294,17 @@ public class MobileComposer {
 
 	private Integer								shift_no;
 
+	private String								ship_firstdown;
+
 	private Integer								ship_handswork;
 
+	private String								ship_lastdown;
+
 	private Integer								ship_menwork;
+
+	private String								ship_persondown;
+
+	private String								ship_persononboard;
 
 	private String								ship_rain;
 
@@ -698,6 +706,21 @@ public class MobileComposer {
 
 	}
 
+	/**
+	 * @param dt
+	 * @return
+	 */
+	private String formatShipDateTime(final Date dt) {
+
+		if (dt == null) {
+			return null;
+		}
+
+		final SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy kk:mm");
+		return format.format(dt);
+
+	}
+
 	public String getCrane_selected() {
 		return this.crane_selected;
 	}
@@ -770,12 +793,28 @@ public class MobileComposer {
 		return this.shift_no;
 	}
 
+	public String getShip_firstdown() {
+		return this.ship_firstdown;
+	}
+
 	public Integer getShip_handswork() {
 		return this.ship_handswork;
 	}
 
+	public String getShip_lastdown() {
+		return this.ship_lastdown;
+	}
+
 	public Integer getShip_menwork() {
 		return this.ship_menwork;
+	}
+
+	public String getShip_persondown() {
+		return this.ship_persondown;
+	}
+
+	public String getShip_persononboard() {
+		return this.ship_persononboard;
 	}
 
 	public String getShip_rain() {
@@ -1185,7 +1224,7 @@ public class MobileComposer {
 
 	@Command
 	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain",
-			"ship_sky", "ship_wind", "ship_windyday" })
+			"ship_sky", "ship_wind", "ship_windyday", "ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown" })
 	public void review() {
 
 		// review "TURNI"
@@ -1218,6 +1257,11 @@ public class MobileComposer {
 			this.ship_sky			= this.detail_schedule_ship_selected.getSky();
 			this.ship_wind			= this.detail_schedule_ship_selected.getWind();
 			this.ship_windyday		= this.detail_schedule_ship_selected.getWindyday();
+
+			this.ship_persononboard	= this.formatShipDateTime(this.detail_schedule_ship_selected.getPerson_onboard());
+			this.ship_firstdown		= this.formatShipDateTime(this.detail_schedule_ship_selected.getFirst_down());
+			this.ship_lastdown		= this.formatShipDateTime(this.detail_schedule_ship_selected.getLast_down());
+			this.ship_persondown	= this.formatShipDateTime(this.detail_schedule_ship_selected.getPerson_down());
 
 			// set view
 			this.status_view		= 6;
@@ -1469,12 +1513,28 @@ public class MobileComposer {
 		this.selectedSchedule = selectedSchedule;
 	}
 
+	public void setShip_firstdown(final String ship_firstdown) {
+		this.ship_firstdown = ship_firstdown;
+	}
+
 	public void setShip_handswork(final Integer ship_handswork) {
 		this.ship_handswork = ship_handswork;
 	}
 
+	public void setShip_lastdown(final String ship_lastdown) {
+		this.ship_lastdown = ship_lastdown;
+	}
+
 	public void setShip_menwork(final Integer ship_menwork) {
 		this.ship_menwork = ship_menwork;
+	}
+
+	public void setShip_persondown(final String ship_persondown) {
+		this.ship_persondown = ship_persondown;
+	}
+
+	public void setShip_persononboard(final String ship_persononboard) {
+		this.ship_persononboard = ship_persononboard;
 	}
 
 	public void setShip_rain(final String ship_rain) {
