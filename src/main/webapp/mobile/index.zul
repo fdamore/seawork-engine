@@ -327,6 +327,52 @@
 
 
 					</div>
+
+					<space></space>
+
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									VENTO
+								</span>
+
+
+								<combobox class="form-control"
+									value="@bind(vm.ship_wind)" readonly="true">
+									<comboitem value="LEGGERO"
+										label="LEGGERO">
+									</comboitem>
+									<comboitem value="MEDIO"
+										label="MEDIO">
+									</comboitem>
+									<comboitem value="FORTE"
+										label="FORTE">
+									</comboitem>
+								</combobox>
+
+							</div>
+
+						</div>
+						
+						<div class="col-md-4">
+							<div class="input-group input-group-lg">
+
+								<span class="input-group-addon">
+									DISAGIO VENTO
+								</span>
+
+								<checkbox class="form-control"
+									checked="@bind(vm.ship_windyday)" />
+
+							</div>
+
+						</div>
+
+					</div>
+
 				</div>
 
 

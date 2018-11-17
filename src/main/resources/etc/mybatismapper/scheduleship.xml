@@ -800,7 +800,9 @@ WHERE
 			worked = #{worked},
 			sky = #{sky},
 			temperature = #{temperature},
-			rain = #{rain}			
+			rain = #{rain},
+			wind = #{wind},
+			windyday = #{windyday}			
 		WHERE id = #{id}
 		]]>
 	</update>
