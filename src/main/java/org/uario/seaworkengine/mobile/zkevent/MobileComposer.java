@@ -1028,6 +1028,26 @@ public class MobileComposer {
 	}
 
 	/**
+	 * @param dt
+	 * @return
+	 */
+	private Date parseShipDateTime(final String dt) {
+
+		try {
+			if (dt == null) {
+				return null;
+			}
+
+			final SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy kk:mm");
+			return format.parse(dt);
+
+		} catch (final ParseException e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 * Parse duration time
 	 *
 	 * @param tm
@@ -1589,11 +1609,45 @@ public class MobileComposer {
 			return;
 		}
 
-		final Integer id = this.detail_schedule_ship_selected.getId();
+		final Integer	id					= this.detail_schedule_ship_selected.getId();
+
+		final Date		dt_person_onboard	= this.parseShipDateTime(this.ship_persononboard);
+		final Date		dt_ship_firstdown	= this.parseShipDateTime(this.ship_firstdown);
+		final Date		dt_ship_lastdown	= this.parseShipDateTime(this.ship_lastdown);
+		final Date		dt_ship_persondown	= this.parseShipDateTime(this.ship_persondown);
+
 		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked, this.ship_temperature,
-				this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday);
+				this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown, dt_ship_lastdown,
+				dt_ship_persondown);
 
 		this.refreshShipDataAndCurrentShift();
+
+	}
+
+	/**
+	 * Set ship time default
+	 */
+	@Command
+	@NotifyChange({ "ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown" })
+	public void shipTimeDefault() {
+
+		if (this.detail_schedule_ship_selected == null) {
+			return;
+		}
+
+		final Date[] period = Utility.getPeriodForShipWorkingProcess(this.detail_schedule_ship_selected);
+		if (period == null) {
+			return;
+		}
+
+		final Date	begin	= period[0];
+		final Date	end		= period[1];
+
+		// set values
+		this.ship_persononboard	= this.formatShipDateTime(begin);
+		this.ship_firstdown		= this.formatShipDateTime(begin);
+		this.ship_lastdown		= this.formatShipDateTime(end);
+		this.ship_persondown	= this.formatShipDateTime(end);
 
 	}
 

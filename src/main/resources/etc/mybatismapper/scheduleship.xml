@@ -802,7 +802,11 @@ WHERE
 			temperature = #{temperature},
 			rain = #{rain},
 			wind = #{wind},
-			windyday = #{windyday}			
+			windyday = #{windyday},
+			person_onboard = #{person_onboard},
+			first_down = #{firstdown},
+			last_down = #{lastdown},
+			person_down = #{persondown}						
 		WHERE id = #{id}
 		]]>
 	</update>

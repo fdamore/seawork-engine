@@ -95,7 +95,7 @@ public interface IScheduleShip {
 	void updateDetailScheduleShip(DetailScheduleShip detailScheduleShip);
 
 	void updateDetailScheduleShipForMobile(Integer id, Integer handswork, Integer manwork, Boolean worked, String temperature, String sky,
-			String rain, String wind, Boolean windyday);
+			String rain, String wind, Boolean windyday, Date person_onboard, Date firstdown, Date lastdown, Date persondown);
 
 	void updateDetailScheduleShipNote(Integer id_schedule, String note);
 

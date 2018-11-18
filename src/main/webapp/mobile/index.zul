@@ -171,30 +171,46 @@
 
 					<n:h2>
 
-						<hbox>
+						<div class="row">
 
-							<div class="input-group">
-								<span class="input-group-addon">
-									Data
-								</span>
-								<label
-									value="@load(vm.detail_schedule_ship_selected.shiftdate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-									class="form-control label label-primary">
-								</label>
+							<div class="col-md-8">
+
+								<div class="input-group">
+									<span class="input-group-addon">
+										Data
+									</span>
+									<label
+										value="@load(vm.detail_schedule_ship_selected.shiftdate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+										class="form-control label label-primary">
+									</label>
+								</div>
+
 							</div>
 
 
-							<div class="input-group">
-								<span class="input-group-addon">
-									Turno
-								</span>
-								<label
-									value="@load(vm.detail_schedule_ship_selected.shift)"
-									class="form-control label label-primary">
-								</label>
+							<div class="col-md-2">
+
+								<div class="input-group">
+									<span class="input-group-addon">
+										Turno
+									</span>
+									<label
+										value="@load(vm.detail_schedule_ship_selected.shift)"
+										class="form-control label label-primary">
+									</label>
+								</div>
 							</div>
 
-						</hbox>
+							<div class="col-md-2">
+
+								<button sclass="btn btn-success"
+									onClick="@command('shipTimeDefault')" label="Imposta Default"
+									visible="true" />
+
+							</div>
+
+						</div>
+
 
 
 					</n:h2>
@@ -399,7 +415,7 @@
 								</span>
 
 								<textbox class="form-control"
-									value="@bind(vm.ship_persononboard)" />
+									value="@bind(vm.ship_firstdown)" />
 
 
 							</div>
@@ -414,7 +430,7 @@
 								</span>
 
 								<textbox class="form-control"
-									value="@bind(vm.ship_persononboard)" />
+									value="@bind(vm.ship_lastdown)" />
 
 
 							</div>
@@ -435,7 +451,7 @@
 								</span>
 
 								<textbox class="form-control"
-									value="@bind(vm.ship_persononboard)" />
+									value="@bind(vm.ship_persondown)" />
 
 
 							</div>

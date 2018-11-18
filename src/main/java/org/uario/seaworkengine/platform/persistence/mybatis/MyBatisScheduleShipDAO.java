@@ -322,7 +322,8 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 
 	@Override
 	public void updateDetailScheduleShipForMobile(final Integer id, final Integer handswork, final Integer manwork, final Boolean worked,
-			final String temperature, final String sky, final String rain, final String wind, final Boolean windyday) {
+			final String temperature, final String sky, final String rain, final String wind, final Boolean windyday, final Date person_onboard,
+			final Date firstdown, final Date lastdown, final Date persondown) {
 		MyBatisScheduleShipDAO.logger.info("updateDetailScheduleShipForMobile");
 
 		final HashMap<String, Object> map = new HashMap<>();
@@ -337,6 +338,11 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("rain", rain);
 		map.put("wind", wind);
 		map.put("windyday", windyday);
+
+		map.put("person_onboard", person_onboard);
+		map.put("firstdown", firstdown);
+		map.put("lastdown", lastdown);
+		map.put("persondown", persondown);
 
 		this.getSqlSession().update("scheduleship.updateDetailScheduleShipForMobile", map);
 
