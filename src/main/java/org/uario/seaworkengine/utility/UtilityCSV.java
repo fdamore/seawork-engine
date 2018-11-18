@@ -44,7 +44,6 @@ import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 import org.uario.seaworkengine.zkevent.converter.ProductivityConverter;
 import org.uario.seaworkengine.zkevent.converter.UserEnableConverter;
 import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
-import org.uario.seaworkengine.zkevent.utility.ZkUtility;
 
 public class UtilityCSV {
 
@@ -1280,7 +1279,7 @@ public class UtilityCSV {
 				}
 
 				// get info about process
-				final Boolean check_process = ZkUtility.isUserProcessed(item);
+				final Boolean check_process = Utility.isUserProcessed(item);
 				if (check_process.booleanValue()) {
 					processo = "PROCESSATO";
 				} else {

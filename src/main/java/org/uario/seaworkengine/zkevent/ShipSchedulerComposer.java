@@ -328,7 +328,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Component										grid_scheduleShip_details;
-
 	@Wire
 	private Row												h_detail_period;
 	@Wire
@@ -343,6 +342,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Label											handswork_program_Daily;
 	@Wire
 	private Label											hourReview;
+
 	@Wire
 	private Combobox										idCrane_review;
 
@@ -351,11 +351,11 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Checkbox											initial_support_date;
-
 	@Wire
 	private Radio											invoice_no;
 	@Wire
 	private Combobox										invoice_search;
+
 	@Wire
 	private Radio											invoice_yes;
 
@@ -615,9 +615,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Datebox											searchDateShift;
-
 	@Wire
 	private A												selecetedShipName;
+
 	@Wire
 	private Combobox										select_customer;
 
@@ -626,7 +626,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	public Combobox											select_shift;
-
 	@Wire
 	private Combobox										select_type_operation;
 	@Wire
@@ -637,6 +636,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	public Combobox											select_year_detail;
 	@Wire
 	private Combobox										selectCustomer;
+
 	@Wire
 	private Combobox										selectServiceDetail;
 
@@ -785,9 +785,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Listbox											sw_list_reviewWork;
-
 	@Wire
 	private Listbox											sw_list_reviewWorkAggregate;
+
 	@Wire
 	private Listbox											sw_list_scheduleDetailShip;
 
@@ -1581,7 +1581,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// disable popup
 		this.alert_popupdetail.setVisible(false);
 
-		final Date[] period = this.getPeriodForShipWorkingProcess();
+		final DetailScheduleShip	itm		= this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		final Date[]				period	= Utility.getPeriodForShipWorkingProcess(itm);
 
 		if (period == null) {
 			return;
@@ -2157,70 +2159,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	public Div getMonitor_detail_ship() {
 		return this.monitor_detail_ship;
-	}
-
-	/**
-	 * @return the period with index 0 the min_date and index 1 with the max date
-	 */
-	private Date[] getPeriodForShipWorkingProcess() {
-
-		final DetailScheduleShip	itm			= this.sw_list_scheduleShip.getSelectedItem().getValue();
-
-		Date						shift_date	= itm.getShiftdate();
-		final Integer				shift		= itm.getShift();
-		if ((shift_date == null) || (shift == null)) {
-			return null;
-		}
-		shift_date = DateUtils.truncate(shift_date, Calendar.DATE);
-		final Calendar max_date = Calendar.getInstance();
-		max_date.setTime(shift_date);
-
-		final Calendar min_date = Calendar.getInstance();
-		min_date.setTime(shift_date);
-
-		switch (shift) {
-		case 1: {
-
-			min_date.add(Calendar.HOUR, 1);
-			max_date.add(Calendar.HOUR, 7);
-
-			break;
-		}
-
-		case 2: {
-
-			min_date.add(Calendar.HOUR, 7);
-			max_date.add(Calendar.HOUR, 13);
-
-			break;
-		}
-
-		case 3: {
-
-			min_date.add(Calendar.HOUR, 13);
-			max_date.add(Calendar.HOUR, 19);
-
-			break;
-		}
-
-		case 4: {
-
-			min_date.add(Calendar.HOUR, 19);
-			max_date.add(Calendar.HOUR, 25);
-
-			break;
-		}
-
-		default:
-			return null;
-
-		}
-
-		final Date[] ret = new Date[2];
-		ret[0]	= min_date.getTime();
-		ret[1]	= max_date.getTime();
-
-		return ret;
 	}
 
 	private Integer getSelectedShift() {
@@ -5142,6 +5080,10 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #set_default")
 	public void setShipWorkingProcessWithDefault() {
 
+		if (this.sw_list_scheduleShip.getSelectedItem() == null) {
+			return;
+		}
+
 		// set with initial values
 		this.person_onboard_review.setValue(null);
 		this.first_down_review.setValue(null);
@@ -5149,7 +5091,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.person_down_review.setValue(null);
 
 		// get info about period
-		final Date[] period = this.getPeriodForShipWorkingProcess();
+		final DetailScheduleShip	itm		= this.sw_list_scheduleShip.getSelectedItem().getValue();
+
+		final Date[]				period	= Utility.getPeriodForShipWorkingProcess(itm);
 		if (period == null) {
 			return;
 		}

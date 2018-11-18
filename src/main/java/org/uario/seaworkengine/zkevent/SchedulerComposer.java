@@ -62,7 +62,6 @@ import org.uario.seaworkengine.utility.ZkSessionTag;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
-import org.uario.seaworkengine.zkevent.utility.ZkUtility;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -6501,7 +6500,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			for (final DetailFinalSchedule item : this.listDetailRevision) {
 
 				// set user count
-				if (ZkUtility.isUserProcessed(item)) {
+				if (Utility.isUserProcessed(item)) {
 
 					// Create key
 					final String key = item.getId_user() + "ON" + item.getDate_schedule();
@@ -6593,7 +6592,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			for (final DetailInitialSchedule item : this.listDetailProgram) {
 
-				if (ZkUtility.isUserProcessed(item)) {
+				if (Utility.isUserProcessed(item)) {
 					if (item.getTime() != null) {
 						count_h += item.getTime();
 					}

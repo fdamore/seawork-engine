@@ -25,6 +25,8 @@ import org.joda.time.Days;
 import org.joda.time.Minutes;
 import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.DetailInitialSchedule;
+import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
@@ -326,6 +328,68 @@ public class Utility {
 	}
 
 	/**
+	 * @return the period with index 0 the min_date and index 1 with the max date
+	 */
+	public static Date[] getPeriodForShipWorkingProcess(final DetailScheduleShip itm) {
+
+		Date			shift_date	= itm.getShiftdate();
+		final Integer	shift		= itm.getShift();
+		if ((shift_date == null) || (shift == null)) {
+			return null;
+		}
+		shift_date = DateUtils.truncate(shift_date, Calendar.DATE);
+		final Calendar max_date = Calendar.getInstance();
+		max_date.setTime(shift_date);
+
+		final Calendar min_date = Calendar.getInstance();
+		min_date.setTime(shift_date);
+
+		switch (shift) {
+		case 1: {
+
+			min_date.add(Calendar.HOUR, 1);
+			max_date.add(Calendar.HOUR, 7);
+
+			break;
+		}
+
+		case 2: {
+
+			min_date.add(Calendar.HOUR, 7);
+			max_date.add(Calendar.HOUR, 13);
+
+			break;
+		}
+
+		case 3: {
+
+			min_date.add(Calendar.HOUR, 13);
+			max_date.add(Calendar.HOUR, 19);
+
+			break;
+		}
+
+		case 4: {
+
+			min_date.add(Calendar.HOUR, 19);
+			max_date.add(Calendar.HOUR, 25);
+
+			break;
+		}
+
+		default:
+			return null;
+
+		}
+
+		final Date[] ret = new Date[2];
+		ret[0]	= min_date.getTime();
+		ret[1]	= max_date.getTime();
+
+		return ret;
+	}
+
+	/**
 	 * Get Time differences
 	 *
 	 * @param date_from
@@ -408,6 +472,49 @@ public class Utility {
 		final List<String>		list_h		= hld.getDays();
 		final boolean			check		= list_h.contains(inp_info);
 		return check;
+	}
+
+	/**
+	 * Check Processed
+	 *
+	 * @param val
+	 * @return
+	 */
+	public static Boolean isUserProcessed(final Object val) {
+		Integer id_shift = null;
+
+		if (val instanceof DetailFinalSchedule) {
+
+			if (((DetailFinalSchedule) val).getId() != null) {
+				return Boolean.TRUE;
+			}
+
+			id_shift = ((DetailFinalSchedule) val).getShift_type();
+		}
+
+		if (val instanceof DetailInitialSchedule) {
+
+			if (((DetailInitialSchedule) val).getId() != null) {
+				return Boolean.TRUE;
+			}
+
+			id_shift = ((DetailInitialSchedule) val).getShift_type();
+
+		}
+
+		final ConfigurationDAO	configuration	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+
+		final UserShift			shift			= configuration.loadShiftById(id_shift);
+
+		if (shift == null) {
+			return Boolean.FALSE;
+		}
+
+		if (shift.getBreak_shift() || shift.getForceable() || shift.getRecorded() || shift.getDisease_shift() || shift.getWaitbreak_shift()) {
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
+		}
 	}
 
 	/**
