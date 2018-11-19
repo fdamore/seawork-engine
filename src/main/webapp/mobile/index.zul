@@ -933,6 +933,20 @@
 
 							</div>
 
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+									<span class="input-group-addon">
+										CONTINUA TURNO
+									</span>
+
+									<checkbox class="form-control"
+										checked="@bind(vm.user_continue)" />
+								</div>
+
+							</div>
+
 						</div>
 
 
@@ -982,7 +996,7 @@
 					<listheader align="center" label="TURNO" hflex="1" />
 
 					<listheader align="center" label="RISORSA"
-						hflex="4">
+						hflex="5">
 						<label
 							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
 						</label>
