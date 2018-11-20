@@ -67,6 +67,7 @@ public class DetailFinalScheduleShip implements Serializable {
 		return this.activity_start;
 	}
 
+	// RETURN NOT THE ID BUT THE CRANE NUMBER
 	public Integer getCrane() {
 		return this.crane;
 	}
@@ -209,10 +210,6 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	public void setActivity_start(final Date activity_start) {
 		this.activity_start = activity_start;
-	}
-
-	public void setCrane(final Integer crane) {
-		this.crane = crane;
 	}
 
 	public void setCrane_gtw(final Boolean crane_gtw) {
