@@ -12,52 +12,52 @@ public class DetailFinalScheduleShip implements Serializable {
 	private Date				activity_start;
 
 	// for visualization
-	private Integer				crane;
+	private Integer	crane;
 
-	private Boolean				crane_gtw;
+	private Boolean	crane_gtw;
 
-	private Date				datetime;
+	private Date	datetime;
 
-	private Double				franchise_timework;
+	private Double	franchise_timework;
 
-	private Double				franchise_volume;
+	private Double	franchise_volume;
 
-	private Double				franchise_volume_tw_mct;
+	private Double	franchise_volume_tw_mct;
 
-	private Double				franchise_volumeunderboard;
+	private Double	franchise_volumeunderboard;
 
-	private Double				franchise_volumeunderboard_sws;
+	private Double	franchise_volumeunderboard_sws;
 
 	// rif sws
-	private Integer				id;
+	private Integer	id;
 
-	private Integer				id_crane;
+	private Integer	id_crane;
 
-	private Integer				iddetailscheduleship;
+	private Integer	iddetailscheduleship;
 
-	private Integer				invoicing_cycle;
+	private Integer	invoicing_cycle;
 
-	private Integer				menwork_activityh;
+	private Integer	menwork_activityh;
 
-	private String				notedetail;
+	private String	notedetail;
 
-	private Integer				p_crane;
-
-	// using only for view, rif_mct in table scheduleship
-	private String				rif_mct;
+	private Integer	p_crane;
 
 	// using only for view, rif_mct in table scheduleship
-	private Integer				rif_sws;
+	private String rif_mct;
 
-	private Double				timework;
+	// using only for view, rif_mct in table scheduleship
+	private Integer	rif_sws;
 
-	private Integer				volume;
+	private Double	timework;
 
-	private Integer				volume_tw_mct;
+	private Integer	volume;
 
-	private Integer				volumeunderboard;
+	private Integer	volume_tw_mct;
 
-	private Integer				volumeunderboard_sws;
+	private Integer	volumeunderboard;
+
+	private Integer	volumeunderboard_sws;
 
 	public Date getActivity_end() {
 		return this.activity_end;

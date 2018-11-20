@@ -46,4 +46,9 @@ public class Crane implements Serializable {
 		this.number = number;
 	}
 
+	@Override
+	public String toString() {
+		return "" + this.getNumber();
+	}
+
 }

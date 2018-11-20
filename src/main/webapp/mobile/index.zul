@@ -1079,7 +1079,7 @@
 
 
 
-		<!-- ADD INFO USER FOR REVIEW -->
+		<!-- ADD INFO USER FOR REVIEW *** ASSEGNA PROGRAMMATO*** -->
 		<div visible="@load(vm.status_view eq 7)">
 
 			<div class="container-fluid">
@@ -1151,7 +1151,7 @@
 
 		</div>
 
-		<!-- CRANES -->
+		<!-- LIST CRANES -->
 		<div visible="@load(vm.status_view eq 8)">
 
 			<listbox pagingPosition="both" mold="paging"
@@ -1175,8 +1175,7 @@
 					<listitem>
 
 						<listcell>
-							<label
-								value="@load(item.crane)  @converter(vm.craneConverter)"
+							<label value="@load(item.crane)"
 								sclass="label label-info">
 							</label>
 						</listcell>
@@ -1184,7 +1183,9 @@
 						<listcell>
 
 							<n:h3>
-								<label value="@load(item.crane_gtw)"
+
+								<label
+									value="@load(item.crane_gtw ? 'SI': 'NO')"
 									sclass="label label-default">
 								</label>
 							</n:h3>
@@ -1222,8 +1223,12 @@
 
 				<div class="input-group input-group-lg">
 					<span class="input-group-addon">GRU</span>
-					<textbox class="form-control"
-						value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
+
+					<combobox model="@load(vm.cranes_entity)"
+						constraint="no empty" readonly="true" class="form-control"
+						selectedItem="@bind(vm.cranes_entity_selected)">
+
+					</combobox>
 
 
 				</div>
@@ -1231,19 +1236,17 @@
 				<space></space>
 
 				<div class="input-group input-group-lg">
-					<span class="input-group-addon">GRU</span>
-					<textbox class="form-control"
-						value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
-
-
+					<span class="input-group-addon">TIPO GRU GWT</span>
+					<checkbox class="form-control"
+						checked="@bind(vm.crane_type)" />
 				</div>
 
 				<space></space>
 
 				<div class="input-group input-group-lg">
-					<span class="input-group-addon">GRU</span>
+					<span class="input-group-addon">PERSONE GRU</span>
 					<textbox class="form-control"
-						value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
+						value="@bind(vm.crane_p_gru)" placeholder="P. Gru.." />
 
 
 				</div>
