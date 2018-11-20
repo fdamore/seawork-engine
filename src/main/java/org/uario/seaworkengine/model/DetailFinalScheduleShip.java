@@ -3,38 +3,29 @@ package org.uario.seaworkengine.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-@XmlRootElement(namespace = "org.uario.seaworkengine.model")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class DetailFinalScheduleShip implements Serializable {
 
-	@XmlTransient
 	private static final long	serialVersionUID	= 1L;
 
 	private Date				activity_end;
 
 	private Date				activity_start;
 
+	// for visualization
 	private Integer				crane;
-	
+
 	private Boolean				crane_gtw;
 
-	@XmlTransient
 	private Date				datetime;
 
-	@XmlTransient
 	private Double				franchise_timework;
-	@XmlTransient
+
 	private Double				franchise_volume;
-	@XmlTransient
+
 	private Double				franchise_volume_tw_mct;
-	@XmlTransient
+
 	private Double				franchise_volumeunderboard;
-	@XmlTransient
+
 	private Double				franchise_volumeunderboard_sws;
 
 	// rif sws
@@ -44,7 +35,6 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	private Integer				iddetailscheduleship;
 
-	@XmlTransient
 	private Integer				invoicing_cycle;
 
 	private Integer				menwork_activityh;
@@ -54,13 +44,11 @@ public class DetailFinalScheduleShip implements Serializable {
 	private Integer				p_crane;
 
 	// using only for view, rif_mct in table scheduleship
-	@XmlTransient
 	private String				rif_mct;
-	
+
 	// using only for view, rif_mct in table scheduleship
-	@XmlTransient
 	private Integer				rif_sws;
-	
+
 	private Double				timework;
 
 	private Integer				volume;
@@ -69,7 +57,6 @@ public class DetailFinalScheduleShip implements Serializable {
 
 	private Integer				volumeunderboard;
 
-	@XmlTransient
 	private Integer				volumeunderboard_sws;
 
 	public Date getActivity_end() {
@@ -280,7 +267,7 @@ public class DetailFinalScheduleShip implements Serializable {
 		this.notedetail = notedetail;
 	}
 
-	public void setP_crane(Integer p_crane) {
+	public void setP_crane(final Integer p_crane) {
 		this.p_crane = p_crane;
 	}
 

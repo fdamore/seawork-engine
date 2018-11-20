@@ -31,7 +31,7 @@
 
 
 				<button sclass="btn btn-success"
-					label="@load(vm.status_view eq 1 ? 'Navi':'Presenze')"
+					label="@load(vm.status_view eq 1 or vm.status_view eq 7 or vm.status_view eq 8 or vm.status_view eq 9? 'Navi':'Presenze')"
 					onClick="@command('switchShipShift')" />
 
 			</div>
@@ -97,8 +97,8 @@
 				visible="@load(vm.status_view eq 4)">
 				<button sclass="btn btn-success"
 					onClick="@command('showGru')" label="Gru" />
-			</div>		
-			
+			</div>
+
 
 			<div class="btn-group-mg btn btn-group"
 				visible="@load(vm.status_view eq 1)">
@@ -1154,7 +1154,8 @@
 		<!-- CRANES -->
 		<div visible="@load(vm.status_view eq 8)">
 
-			<listbox pagingPosition="both" mold="paging" selectedItem="@save(vm.craneListSelected)"
+			<listbox pagingPosition="both" mold="paging"
+				selectedItem="@save(vm.craneListSelected)"
 				emptyMessage="Nessun risultato..." model="@load(vm.list_cranes)"
 				checkmark="true" multiple="false" pageSize="8">
 
@@ -1163,7 +1164,7 @@
 					<listheader align="center" label="GRU" hflex="1" />
 
 					<listheader align="center" label="TIPO GRU GWT"
-						hflex="1" />					
+						hflex="1" />
 
 					<listheader align="center" label="PERSONE GRU"
 						hflex="1" />
@@ -1174,7 +1175,8 @@
 					<listitem>
 
 						<listcell>
-							<label value="@load(item.crane)  @converter(vm.craneConverter)"
+							<label
+								value="@load(item.crane)  @converter(vm.craneConverter)"
 								sclass="label label-info">
 							</label>
 						</listcell>
@@ -1188,7 +1190,7 @@
 							</n:h3>
 
 						</listcell>
-						
+
 						<listcell>
 
 							<n:h3>
@@ -1198,11 +1200,11 @@
 							</n:h3>
 
 						</listcell>
-						
 
-						
 
-						
+
+
+
 					</listitem>
 				</template>
 
@@ -1213,7 +1215,61 @@
 
 		</div>
 
+		<!-- ADD GRU -->
+		<div visible="@load(vm.status_view eq 9)">
 
+			<div class="container-fluid">
+
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon">GRU</span>
+					<textbox class="form-control"
+						value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
+
+
+				</div>
+
+				<space></space>
+
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon">GRU</span>
+					<textbox class="form-control"
+						value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
+
+
+				</div>
+
+				<space></space>
+
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon">GRU</span>
+					<textbox class="form-control"
+						value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
+
+
+				</div>
+
+				<space></space>
+
+				<div class="input-group input-group-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="AGGIUNGI GRU" onClick="@command('addCrane')">
+					</button>
+
+					<space></space>
+
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI" onClick="@command('showGru')">
+					</button>
+
+				</div>
+
+
+
+			</div>
+
+
+		</div>
 
 	</vlayout>
 
