@@ -19,12 +19,15 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Minutes;
 import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
+import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailInitialSchedule;
 import org.uario.seaworkengine.model.DetailScheduleShip;
 import org.uario.seaworkengine.model.UserShift;
@@ -58,6 +61,25 @@ public class Utility {
 
 	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
 
+	/**
+	 * Body crane converter
+	 *
+	 * @param arg0
+	 * @return
+	 */
+	public static Object bodyCraneConverter(final DetailFinalScheduleShip item) {
+
+		final Boolean crane_gtw = item.getCrane_gtw();
+
+		String crane = "";
+
+		if (item.getCrane() != null) {
+			crane = "" + item.getCrane();
+		}
+
+		return Utility.defineCraneString(crane_gtw, crane);
+	}
+
 	public static String convertToDateAndTime(final Date date) {
 		return Utility.dateTimeformat.format(date);
 	}
@@ -78,11 +100,32 @@ public class Utility {
 		if (source == null) {
 			return "";
 		}
-		final int		hours	= (int) source.doubleValue();
-		final double	decimal	= source - hours;
-		final int		minuts	= (int) Utility.roundOne(decimal * 60);
+		final int hours = (int) source.doubleValue();
+		final double decimal = source - hours;
+		final int minuts = (int) Utility.roundOne(decimal * 60);
 
 		return "" + hours + "h " + minuts + "m";
+	}
+
+	/**
+	 * Define crane
+	 *
+	 * @param crane_gtw
+	 * @param crane
+	 * @return
+	 */
+	public static String defineCraneString(final Boolean crane_gtw, final String crane) {
+
+		if (StringUtils.isEmpty(crane)) {
+			return "";
+		}
+
+		if (BooleanUtils.isTrue(crane_gtw)) {
+			return "GTW" + crane;
+		} else {
+			return "CR" + crane;
+		}
+
 	}
 
 	/**
@@ -97,17 +140,17 @@ public class Utility {
 			return "";
 		}
 
-		final String	def_string	= name.replaceAll("\\s+", "__");
+		final String def_string = name.replaceAll("\\s+", "__");
 
-		final String[]	info		= def_string.split("__");
+		final String[] info = def_string.split("__");
 		if (info.length >= 2) {
 
-			String	surname		= info[0];
-			String	info_name	= info[1];
+			String surname = info[0];
+			String info_name = info[1];
 
 			if ((surname.length() == 2) && (info.length >= 3)) {
-				surname		= info[0] + " " + info[1];
-				info_name	= info[2];
+				surname = info[0] + " " + info[1];
+				info_name = info[2];
 			}
 
 			return surname + " " + info_name.toCharArray()[0] + ".";
@@ -125,15 +168,15 @@ public class Utility {
 	 * @return
 	 */
 	public static String encodeSHA256(final String str, final String salt) {
-		final String	saltedPassword	= str + "{" + salt + "}";
+		final String saltedPassword = str + "{" + salt + "}";
 
-		final String	digest			= DigestUtils.sha256Hex(saltedPassword);
+		final String digest = DigestUtils.sha256Hex(saltedPassword);
 		return digest;
 	}
 
 	public final static Date findAfterEaster(final int year) {
-		final Date		easter			= Utility.findEaster(year);
-		final Calendar	calendar_easter	= DateUtils.toCalendar(easter);
+		final Date easter = Utility.findEaster(year);
+		final Calendar calendar_easter = DateUtils.toCalendar(easter);
 		calendar_easter.add(Calendar.DAY_OF_YEAR, 1);
 		return calendar_easter.getTime();
 	}
@@ -150,50 +193,50 @@ public class Utility {
 			return null;
 		}
 
-		final int	a	= year % 19;
-		final int	b	= year % 4;
-		final int	c	= year % 7;
+		final int a = year % 19;
+		final int b = year % 4;
+		final int c = year % 7;
 
-		int			m	= 0;
-		int			n	= 0;
+		int m = 0;
+		int n = 0;
 
 		if ((year >= 1583) && (year <= 1699)) {
-			m	= 22;
-			n	= 2;
+			m = 22;
+			n = 2;
 		}
 		if ((year >= 1700) && (year <= 1799)) {
-			m	= 23;
-			n	= 3;
+			m = 23;
+			n = 3;
 		}
 		if ((year >= 1800) && (year <= 1899)) {
-			m	= 23;
-			n	= 4;
+			m = 23;
+			n = 4;
 		}
 		if ((year >= 1900) && (year <= 2099)) {
-			m	= 24;
-			n	= 5;
+			m = 24;
+			n = 5;
 		}
 		if ((year >= 2100) && (year <= 2199)) {
-			m	= 24;
-			n	= 6;
+			m = 24;
+			n = 6;
 		}
 		if ((year >= 2200) && (year <= 2299)) {
-			m	= 25;
-			n	= 0;
+			m = 25;
+			n = 0;
 		}
 		if ((year >= 2300) && (year <= 2399)) {
-			m	= 26;
-			n	= 1;
+			m = 26;
+			n = 1;
 		}
 		if ((year >= 2400) && (year <= 2499)) {
-			m	= 25;
-			n	= 1;
+			m = 25;
+			n = 1;
 		}
 
-		final int		d			= ((19 * a) + m) % 30;
-		final int		e			= ((2 * b) + (4 * c) + (6 * d) + n) % 7;
+		final int d = ((19 * a) + m) % 30;
+		final int e = ((2 * b) + (4 * c) + (6 * d) + n) % 7;
 
-		final Calendar	calendar	= new GregorianCalendar();
+		final Calendar calendar = new GregorianCalendar();
 		calendar.set(Calendar.YEAR, year);
 
 		if ((d + e) < 10) {
@@ -264,10 +307,10 @@ public class Utility {
 			return 0;
 		}
 
-		final DateTime	dt_from	= new DateTime(date_from);
-		final DateTime	dt_to	= new DateTime(date_to);
+		final DateTime dt_from = new DateTime(date_from);
+		final DateTime dt_to = new DateTime(date_to);
 
-		final Days		days	= Days.daysBetween(dt_from, dt_to);
+		final Days days = Days.daysBetween(dt_from, dt_to);
 
 		return days.getDays() + 1;
 	}
@@ -313,10 +356,10 @@ public class Utility {
 			return 0;
 		}
 
-		final DateTime	dt_from	= new DateTime(date_from);
-		final DateTime	dt_to	= new DateTime(date_to);
+		final DateTime dt_from = new DateTime(date_from);
+		final DateTime dt_to = new DateTime(date_to);
 
-		final Minutes	min		= Minutes.minutesBetween(dt_from, dt_to);
+		final Minutes min = Minutes.minutesBetween(dt_from, dt_to);
 
 		return min.getMinutes();
 	}
@@ -332,8 +375,8 @@ public class Utility {
 	 */
 	public static Date[] getPeriodForShipWorkingProcess(final DetailScheduleShip itm) {
 
-		Date			shift_date	= itm.getShiftdate();
-		final Integer	shift		= itm.getShift();
+		Date shift_date = itm.getShiftdate();
+		final Integer shift = itm.getShift();
 		if ((shift_date == null) || (shift == null)) {
 			return null;
 		}
@@ -383,8 +426,8 @@ public class Utility {
 		}
 
 		final Date[] ret = new Date[2];
-		ret[0]	= min_date.getTime();
-		ret[1]	= max_date.getTime();
+		ret[0] = min_date.getTime();
+		ret[1] = max_date.getTime();
 
 		return ret;
 	}
@@ -397,17 +440,17 @@ public class Utility {
 	 * @return
 	 */
 	public static Double getTimeDifference(final Date date_from, final Date date_to) {
-		final Date	time_from_date	= DateUtils.truncate(date_from, Calendar.MINUTE);
-		final Date	time_to_date	= DateUtils.truncate(date_to, Calendar.MINUTE);
+		final Date time_from_date = DateUtils.truncate(date_from, Calendar.MINUTE);
+		final Date time_to_date = DateUtils.truncate(date_to, Calendar.MINUTE);
 		if (time_from_date.after(time_to_date)) {
 			return null;
 		}
 
-		final Long		long_time	= time_to_date.getTime() - time_from_date.getTime();
+		final Long long_time = time_to_date.getTime() - time_from_date.getTime();
 
-		final Double	millis		= long_time.doubleValue();
+		final Double millis = long_time.doubleValue();
 
-		final Double	ret			= millis / (1000.0 * 60.0 * 60.0);
+		final Double ret = millis / (1000.0 * 60.0 * 60.0);
 
 		return Utility.roundSix(ret);
 	}
@@ -465,12 +508,12 @@ public class Utility {
 			return true;
 		}
 
-		final SimpleDateFormat	format		= new SimpleDateFormat("MM-dd");
-		final String			inp_info	= format.format(dt);
+		final SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+		final String inp_info = format.format(dt);
 
-		final IBankHolidays		hld			= (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
-		final List<String>		list_h		= hld.getDays();
-		final boolean			check		= list_h.contains(inp_info);
+		final IBankHolidays hld = (IBankHolidays) SpringUtil.getBean(BeansTag.BANK_HOLIDAYS);
+		final List<String> list_h = hld.getDays();
+		final boolean check = list_h.contains(inp_info);
 		return check;
 	}
 
@@ -502,9 +545,9 @@ public class Utility {
 
 		}
 
-		final ConfigurationDAO	configuration	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		final ConfigurationDAO configuration = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 
-		final UserShift			shift			= configuration.loadShiftById(id_shift);
+		final UserShift shift = configuration.loadShiftById(id_shift);
 
 		if (shift == null) {
 			return Boolean.FALSE;
@@ -535,8 +578,8 @@ public class Utility {
 			return Boolean.FALSE;
 		}
 
-		final ConfigurationDAO	task_cache	= (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
-		final UserShift			shift		= task_cache.loadShiftById(detail.getShift_type());
+		final ConfigurationDAO task_cache = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
+		final UserShift shift = task_cache.loadShiftById(detail.getShift_type());
 
 		if ((detail.getTime() == null) || detail.getTime().equals(0.0)) {
 			return Boolean.FALSE;
@@ -584,18 +627,18 @@ public class Utility {
 	public static ByteArrayOutputStream QRCodeGen(final String myCodeText) {
 		try {
 
-			final ByteArrayOutputStream								ret				= new ByteArrayOutputStream();
+			final ByteArrayOutputStream ret = new ByteArrayOutputStream();
 
-			final QRCodeWriter										qrCodeWriter	= new QRCodeWriter();
-			final int												size			= 125;
-			final String											fileType		= "png";
+			final QRCodeWriter qrCodeWriter = new QRCodeWriter();
+			final int size = 125;
+			final String fileType = "png";
 
-			final Hashtable<EncodeHintType, ErrorCorrectionLevel>	hintMap			= new Hashtable<>();
+			final Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<>();
 			hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-			final BitMatrix		byteMatrix		= qrCodeWriter.encode(myCodeText, BarcodeFormat.QR_CODE, size, size, hintMap);
+			final BitMatrix byteMatrix = qrCodeWriter.encode(myCodeText, BarcodeFormat.QR_CODE, size, size, hintMap);
 
-			final int			CrunchifyWidth	= byteMatrix.getWidth();
-			final BufferedImage	image			= new BufferedImage(CrunchifyWidth, CrunchifyWidth, BufferedImage.TYPE_INT_RGB);
+			final int CrunchifyWidth = byteMatrix.getWidth();
+			final BufferedImage image = new BufferedImage(CrunchifyWidth, CrunchifyWidth, BufferedImage.TYPE_INT_RGB);
 			image.createGraphics();
 
 			final Graphics2D graphics = (Graphics2D) image.getGraphics();
