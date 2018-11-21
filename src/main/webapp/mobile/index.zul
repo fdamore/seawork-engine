@@ -228,7 +228,7 @@
 
 							<div class="input-group input-group-lg">
 								<span class="input-group-addon">
-									MANI DI LAVORO
+									MANI DI LAVORO (M.C.)
 								</span>
 
 								<intbox class="form-control"
@@ -241,7 +241,7 @@
 
 							<div class="input-group input-group-lg">
 								<span class="input-group-addon">
-									PERSONE CONSUNTIVATE
+									PERSONE CONSUNTIVATE (P.C.)
 								</span>
 
 								<intbox class="form-control"
@@ -586,17 +586,17 @@
 					<listheader align="center" label="TURNO" hflex="1" />
 
 					<listheader align="center" label="NAVE" hflex="3">
-						<label 
+						<label
 							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
 						</label>
 
 					</listheader>
 
-					<listheader align="center" label="MANI C."
-						hflex="1" />
+					<listheader align="center" label="LAVORO" hflex="1" />
 
-					<listheader align="center" label="PERSONE C."
-						hflex="1" />
+					<listheader align="center" label="M.C." hflex="1" />
+
+					<listheader align="center" label="P.C." hflex="1" />
 
 
 
@@ -616,11 +616,23 @@
 							<n:h3>
 								<label
 									value="@load(item) @converter(vm.shipConverter)"
-									sclass="@load(item.worked ? 'label label-success' : 'label label-warning')">
+									sclass="@load(not empty item.handswork or not empty item.menwork?'label label-success' : 'label label-warning')">
 								</label>
 							</n:h3>
 
 						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label sclass="label label-default"
+									value="@load(item.worked ? 'SI' : 'NO')">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+
 
 						<listcell>
 
