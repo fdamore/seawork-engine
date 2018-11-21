@@ -52,24 +52,6 @@ import org.zkoss.zk.ui.UiException;
 public class MobileComposer {
 
 	@SuppressWarnings("rawtypes")
-	private class MyCraneConverter implements Converter {
-
-		@Override
-		public Object coerceToBean(final Object compAttr, final Component component, final BindContext ctx) {
-			return null;
-		}
-
-		@Override
-		public Object coerceToUi(final Object beanProp, final Component component, final BindContext ctx) {
-
-			final DetailFinalScheduleShip item = (DetailFinalScheduleShip) beanProp;
-			return Utility.bodyCraneConverter(item);
-
-		}
-
-	}
-
-	@SuppressWarnings("rawtypes")
 	private class MyDateFormatConverter implements Converter {
 		/**
 		 * Convert String to Date.
@@ -288,8 +270,6 @@ public class MobileComposer {
 
 	private Boolean								crane_type;
 
-	private final MyCraneConverter				craneConverter			= new MyCraneConverter();
-
 	private DetailFinalScheduleShip				craneListSelected;
 
 	private List<Crane>							cranes_entity;
@@ -393,8 +373,8 @@ public class MobileComposer {
 	private List<InitialScheduleSingleDetail>	users;
 
 	@Command
-	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "user_crane_selected", "selectedSchedule", "starting_task",
-			"end_task", "user_task_selected", "user_visible_adding", "n_positions", "user_continue" })
+	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "user_crane_selected", "selectedSchedule", "starting_task", "end_task",
+			"user_task_selected", "user_visible_adding", "n_positions", "user_continue" })
 	public void addComponents() {
 
 		if (this.status_view != 1) {
@@ -574,8 +554,8 @@ public class MobileComposer {
 			}
 
 			// Create info
-			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm,
-					myposition, this.user_continue);
+			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
+									this.user_continue);
 
 		}
 
@@ -637,7 +617,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-			final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift) {
+							final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -806,10 +786,6 @@ public class MobileComposer {
 
 	public Boolean getCrane_type() {
 		return this.crane_type;
-	}
-
-	public MyCraneConverter getCraneConverter() {
-		return this.craneConverter;
 	}
 
 	public DetailFinalScheduleShip getCraneListSelected() {
@@ -1413,9 +1389,9 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked", "ship_temperature",
-			"ship_rain", "ship_sky", "ship_wind", "ship_windyday", "ship_persononboard", "ship_firstdown", "ship_lastdown",
-			"ship_persondown", "cranes_entity", "cranes_entity_selected", "crane_p_gru", "crane_type" })
+	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain",
+			"ship_sky", "ship_wind", "ship_windyday", "ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity",
+			"cranes_entity_selected", "crane_p_gru", "crane_type" })
 	public void review() {
 
 		// review "TURNI"
@@ -1511,8 +1487,8 @@ public class MobileComposer {
 
 			final Boolean cont_shift = itm.getDetail_schedule().getContinueshift();
 
-			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected,
-					ship_itm, myposition, cont_shift);
+			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
+									myposition, cont_shift);
 
 		}
 
@@ -1620,8 +1596,8 @@ public class MobileComposer {
 	public List<DetailScheduleShip> selectInitialShipSchedule(final Date date_request, final Integer shift) {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
-		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift,
-				null, null, null, null, null);
+		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift, null,
+								null, null, null, null);
 		return list;
 	}
 
@@ -1651,8 +1627,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection",
-			"status_view" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection", "status_view" })
 	public void selectToDay() {
 		final Calendar calendar = Calendar.getInstance();
 		this.date_selection = calendar.getTime();
@@ -1667,8 +1642,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection",
-			"user_programmed", "status_view" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection", "user_programmed",
+			"status_view" })
 	public void selectTomorrow() {
 
 		final Calendar calendar = Calendar.getInstance();
@@ -1851,9 +1826,9 @@ public class MobileComposer {
 		final Date dt_ship_lastdown = this.parseShipDateTime(this.ship_lastdown);
 		final Date dt_ship_persondown = this.parseShipDateTime(this.ship_persondown);
 
-		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
-				this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard,
-				dt_ship_firstdown, dt_ship_lastdown, dt_ship_persondown);
+		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked, this.ship_temperature,
+								this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
+								dt_ship_lastdown, dt_ship_persondown);
 
 		this.refreshShipDataAndCurrentShift();
 

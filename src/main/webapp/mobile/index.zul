@@ -586,7 +586,7 @@
 					<listheader align="center" label="TURNO" hflex="1" />
 
 					<listheader align="center" label="NAVE" hflex="3">
-						<label
+						<label 
 							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
 						</label>
 
@@ -616,7 +616,7 @@
 							<n:h3>
 								<label
 									value="@load(item) @converter(vm.shipConverter)"
-									sclass="@load(item.worked ? 'label label-success' : 'label label-info')">
+									sclass="@load(item.worked ? 'label label-success' : 'label label-warning')">
 								</label>
 							</n:h3>
 
