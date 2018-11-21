@@ -25,137 +25,165 @@
 		viewModel="@id('vm') @init('org.uario.seaworkengine.mobile.zkevent.MobileComposer')">
 
 
-		<hbox>
+		<div class="row">
 
-			<div class="btn-group-mg btn btn-group">
+			<div class="col-md-1">
+
+				<div class="btn-group-sm btn btn-group">
 
 
-				<button sclass="btn btn-success"
-					label="@load(vm.status_view eq 1 or vm.status_view eq 7 or vm.status_view eq 8 or vm.status_view eq 9? 'Navi':'Presenze')"
-					onClick="@command('switchShipShift')" />
+					<button sclass="btn btn-success"
+						label="@load(vm.status_view eq 1 or vm.status_view eq 7 or vm.status_view eq 8 or vm.status_view eq 9? 'Navi':'Presenze')"
+						onClick="@command('switchShipShift')" />
 
-			</div>
-
-			<div class="btn-group-mg btn btn-group">
-				<button sclass="btn btn-info" label="Turno 1"
-					focus="@load(vm.shift_no eq 1)"
-					onClick="@command('refresh', shift_no= 1)" />
-				<button sclass="btn btn-info" label="Turno 2"
-					focus="@load(vm.shift_no eq 2)"
-					onClick="@command('refresh', shift_no= 2)" />
-				<button sclass="btn btn-info" label="Turno 3"
-					focus="@load(vm.shift_no eq 3)"
-					onClick="@command('refresh', shift_no= 3)" />
-				<button sclass="btn btn-info" label="Turno 4"
-					focus="@load(vm.shift_no eq 4)"
-					onClick="@command('refresh', shift_no= 4)" />
+				</div>
 
 			</div>
 
+			<div class="col-md-4">
 
+				<div class="btn-group-sm btn btn-group">
+					<button sclass="btn btn-info" label="Turno 1"
+						focus="@load(vm.shift_no eq 1)"
+						onClick="@command('refresh', shift_no= 1)" />
+					<button sclass="btn btn-info" label="Turno 2"
+						focus="@load(vm.shift_no eq 2)"
+						onClick="@command('refresh', shift_no= 2)" />
+					<button sclass="btn btn-info" label="Turno 3"
+						focus="@load(vm.shift_no eq 3)"
+						onClick="@command('refresh', shift_no= 3)" />
+					<button sclass="btn btn-info" label="Turno 4"
+						focus="@load(vm.shift_no eq 4)"
+						onClick="@command('refresh', shift_no= 4)" />
 
-			<div class="btn-group-mg btn btn-group">
-				<button sclass="btn btn-info" label="Note"
-					onClick="@command('editNote')" />
-				<button sclass="btn btn-info" label="Spostamento"
-					visible="@load(vm.status_view eq 1)"
-					onClick="@command('addComponents')" />
-				<button sclass="btn btn-info"
-					label="@load(vm.status_view eq 1 or vm.status_view eq 2 or vm.status_view eq 3 or vm.status_view eq 7 ? 'Assegna Programmato':'Assegna')"
-					onClick="@command('review')" />
-				<button sclass="btn btn-danger" label="Cancella"
-					onClick="@command('removeComponent')" />
-			</div>
-
-			<div class="btn-group-mg btn btn-group">
-
-
-				<button sclass="btn btn-success" label="Aggiorna"
-					onClick="@command('refreshDataAndCurrentShift')" />
-
-				<button sclass="btn btn-success" label="Logout"
-					onClick="@command('logout')" />
+				</div>
 
 			</div>
 
-		</hbox>
+			<div class="col-md-5">
 
-
-		<hbox>
-
-			<div class="btn-group-mg btn btn-group input-group">
-
-				<button sclass="btn btn-success"
-					onClick="@command('selectToDay')" label="Oggi" />
-
-				<button sclass="btn btn-success"
-					onClick="@command('selectTomorrow')" label="Domani" />
+				<div class="btn-group-sm btn btn-group">
+					<button sclass="btn btn-info" label="Note"
+						onClick="@command('editNote')" />
+					<button sclass="btn btn-info" label="Spostamento"
+						visible="@load(vm.status_view eq 1)"
+						onClick="@command('addComponents')" />
+					<button sclass="btn btn-info"
+						label="@load(vm.status_view eq 1 or vm.status_view eq 2 or vm.status_view eq 3 or vm.status_view eq 7 ? 'Assegna Programmato':'Assegna')"
+						onClick="@command('review')" />
+					<button sclass="btn btn-danger" label="Cancella"
+						onClick="@command('removeComponent')" />
+				</div>
 
 			</div>
 
-			<div class="btn-group-mg btn btn-group input-group"
+			<div class="col-md-2">
+
+				<div class="btn-group-sm btn btn-group">
+
+
+					<button sclass="btn btn-success" label="Aggiorna"
+						onClick="@command('refreshDataAndCurrentShift')" />
+
+					<button sclass="btn btn-success" label="Logout"
+						onClick="@command('logout')" />
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+
+
+		<div class="row">
+			<div class="col-md-2">
+
+				<div class="btn-group-sm btn btn-group input-group">
+
+					<button sclass="btn btn-success"
+						onClick="@command('selectToDay')" label="Oggi" />
+
+					<button sclass="btn btn-success"
+						onClick="@command('selectTomorrow')" label="Domani" />
+
+				</div>
+			</div>
+
+			<div class="col-md-2"
 				visible="@load(vm.status_view eq 4)">
-				<button sclass="btn btn-success"
-					onClick="@command('showGru')" label="Gru" />
+
+				<div class="btn-group-sm btn btn-group input-group">
+					<button sclass="btn btn-success"
+						onClick="@command('showGru')" label="Gru" />
+				</div>
 			</div>
 
-
-			<div class="btn-group-mg btn btn-group"
+			<div class="col-md-2"
 				visible="@load(vm.status_view eq 1)">
 
+				<div class="btn-group-sm btn btn-group">
 
-				<button sclass="btn btn-info" label="Entra"
-					onClick="@command('signIn')" />
-				<button sclass="btn btn-info" label="Esce"
-					onClick="@command('signOut')" />
+
+					<button sclass="btn btn-info" label="Entra"
+						onClick="@command('signIn')" />
+					<button sclass="btn btn-info" label="Esce"
+						onClick="@command('signOut')" />
+
+				</div>
 
 			</div>
 
-
-
-			<div class="btn-group-mg btn btn-group input-group"
+			<div class="col-md-2"
 				visible="@load(vm.status_view eq 1)">
 
-				<button sclass="btn btn-success" label="Dettaglio"
-					onClick="@command('showFinalDetails')" />
+				<div class="btn-group-sm btn btn-group input-group">
+
+					<button sclass="btn btn-success" label="Dettaglio"
+						onClick="@command('showFinalDetails')" />
 
 
+
+				</div>
 
 			</div>
 
-			<div class="btn-group-mg btn btn-group input-group"
+			<div class="col-md-2"
 				visible="@load(vm.status_view eq 1)">
-				<hbox align="center">
 
-					<n:h4>
-						Turno 1
-						<label class="badge"
-							value="@load(vm.user_programmed[0])" />
-					</n:h4>
-					<space bar="true"></space>
-					<n:h4>
-						Turno 2
-						<label class="badge"
-							value="@load(vm.user_programmed[1])" />
-					</n:h4>
-					<space bar="true"></space>
-					<n:h4>
-						Turno 3
-						<label class="badge"
-							value="@load(vm.user_programmed[2])" />
-					</n:h4>
-					<space bar="true"></space>
-					<n:h4>
-						Turno 4
-						<label class="badge"
-							value="@load(vm.user_programmed[3])" />
-					</n:h4>
-				</hbox>
+				<div class="btn-group-sm btn btn-group input-group">
+					<hbox align="center">
+
+						<n:h4>
+							Turno 1
+							<label class="badge"
+								value="@load(vm.user_programmed[0])" />
+						</n:h4>
+						<space bar="true"></space>
+						<n:h4>
+							Turno 2
+							<label class="badge"
+								value="@load(vm.user_programmed[1])" />
+						</n:h4>
+						<space bar="true"></space>
+						<n:h4>
+							Turno 3
+							<label class="badge"
+								value="@load(vm.user_programmed[2])" />
+						</n:h4>
+						<space bar="true"></space>
+						<n:h4>
+							Turno 4
+							<label class="badge"
+								value="@load(vm.user_programmed[3])" />
+						</n:h4>
+					</hbox>
+				</div>
 			</div>
 
 
-
-		</hbox>
+		</div>
 
 		<!-- REVIW FOR SHIP -->
 		<div visible="@load(vm.status_view eq 6)">
