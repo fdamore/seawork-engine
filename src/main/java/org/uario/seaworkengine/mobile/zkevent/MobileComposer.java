@@ -507,6 +507,10 @@ public class MobileComposer {
 		new_item.setId_crane(this.cranes_entity_selected.getId());
 		new_item.setInvoicing_cycle(m + 1);
 
+		// set mobile_user
+		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		new_item.setMobile_user(person_logged.getId());
+
 		this.schedule_ship_dao.createDetailFinalScheduleShip(new_item);
 		this.showGru();
 	}
@@ -555,7 +559,7 @@ public class MobileComposer {
 
 			// Create info
 			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
-									this.user_continue);
+					this.user_continue);
 
 		}
 
@@ -617,7 +621,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-							final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift) {
+			final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -1488,7 +1492,7 @@ public class MobileComposer {
 			final Boolean cont_shift = itm.getDetail_schedule().getContinueshift();
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
-									myposition, cont_shift);
+					myposition, cont_shift);
 
 		}
 
@@ -1597,7 +1601,7 @@ public class MobileComposer {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
 		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchDetailScheduleShipByDateshit(date_request_truncate, null, shift, null,
-								null, null, null, null);
+				null, null, null, null);
 		return list;
 	}
 
@@ -1827,8 +1831,8 @@ public class MobileComposer {
 		final Date dt_ship_persondown = this.parseShipDateTime(this.ship_persondown);
 
 		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked, this.ship_temperature,
-								this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
-								dt_ship_lastdown, dt_ship_persondown);
+				this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown, dt_ship_lastdown,
+				dt_ship_persondown);
 
 		this.refreshShipDataAndCurrentShift();
 
