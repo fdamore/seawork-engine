@@ -189,20 +189,43 @@
 		<div visible="@load(vm.status_view eq 6)">
 
 			<div class="container-fluid text-center">
+
+
 				<div class="well well-lg">
-					<n:h1>
-						<div class="input-group">
-							<span class="input-group-addon">Nave</span>
-							<label
-								value="@load(vm.detail_schedule_ship_selected.name)"
-								class="form-control label label-primary">
-							</label>
+
+					<div visible="@load(vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Nave
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.name)"
+									class="form-control label label-primary">
+								</label>
 
 
-						</div>
+							</div>
 
 
-					</n:h1>
+						</n:h1>
+					</div>
+
+					<div visible="@load(!vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									POSIZIONI SELEZIONATE
+								</span>
+								<label value="@load(vm.n_positions)"
+									class="form-control label label-primary">
+								</label>
+
+
+							</div>
+
+						</n:h1>
+					</div>
 
 					<n:h2>
 
@@ -215,7 +238,7 @@
 										Data
 									</span>
 									<label
-										value="@load(vm.detail_schedule_ship_selected.shiftdate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+										value="@load(vm.selectedDetailShip.shiftdate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
 										class="form-control label label-primary">
 									</label>
 								</div>
@@ -230,7 +253,7 @@
 										Turno
 									</span>
 									<label
-										value="@load(vm.detail_schedule_ship_selected.shift)"
+										value="@load(vm.selectedDetailShip.shift)"
 										class="form-control label label-primary">
 									</label>
 								</div>
@@ -523,53 +546,67 @@
 			<div class="container-fluid text-center">
 				<div class="well well-lg">
 
+					<div visible="@load(!vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									POSIZIONI SELEZIONATE
+								</span>
+								<label value="@load(vm.n_positions)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+						</n:h1>
+					</div>
 
-					<n:h1>
-						<div class="input-group">
-							<span class="input-group-addon">
-								Nota su Nave
-							</span>
-							<label
-								value="@load(vm.detail_schedule_ship_selected.name)"
-								class="form-control label label-primary">
-							</label>
-						</div>
-
-
-					</n:h1>
-
-
-
-					<n:h2>
-
-
-
-						<div class="input-group">
-							<span class="input-group-addon">
-								Data di Arrivo
-							</span>
-							<label
-								value="@load(vm.detail_schedule_ship_selected.arrivaldate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-								class="form-control label label-primary">
-							</label>
-
-							<span class="input-group-addon">
-								Data di Partenza
-							</span>
-							<label
-								value="@load(vm.detail_schedule_ship_selected.departuredate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-								class="form-control label label-primary">
-							</label>
-
-							<span class="input-group-addon">Turno</span>
-							<label
-								value="@load(vm.detail_schedule_ship_selected.shift)"
-								class="form-control label label-primary">
-							</label>
-						</div>
+					<div visible="@load(vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Nota su Nave
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.name)"
+									class="form-control label label-primary">
+								</label>
+							</div>
 
 
-					</n:h2>
+						</n:h1>
+
+
+						<n:h2>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									Data di Arrivo
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.arrivaldate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									class="form-control label label-primary">
+								</label>
+
+								<span class="input-group-addon">
+									Data di Partenza
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.departuredate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									class="form-control label label-primary">
+								</label>
+
+								<span class="input-group-addon">
+									Turno
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.shift)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+
+
+						</n:h2>
+
+					</div>
 				</div>
 
 				<div class="well well-lg">
@@ -599,15 +636,15 @@
 
 		</div>
 
-		<!-- PROGRAMMAZINE NAVI -->
+		<!-- PROGRAMMAZIONE NAVI -->
 		<div visible="@load(vm.status_view eq 4)">
 
 
 
 			<listbox pagingPosition="both" mold="paging"
-				selectedItem="@save(vm.detail_schedule_ship_selected)"
+				selectedItems="@bind(vm.list_selected_ship)"
 				emptyMessage="Nessun risultato..." model="@load(vm.list_ship)"
-				checkmark="true" multiple="false" pageSize="8">
+				checkmark="true" multiple="true" pageSize="8">
 
 				<listhead sizable="true">
 

@@ -283,8 +283,6 @@ public class MobileComposer {
 	 */
 	private final MyDateFormatConverter			dateConverter			= new MyDateFormatConverter();
 
-	private DetailScheduleShip					detail_schedule_ship_selected;
-
 	private String								end_task;
 
 	private String								label_command_ok;
@@ -292,6 +290,8 @@ public class MobileComposer {
 	private List<DetailFinalScheduleShip>		list_cranes;
 
 	private List<InitialScheduleSingleDetail>	list_schedule_selected	= null;
+
+	public List<DetailScheduleShip>				list_selected_ship;
 
 	private List<DetailScheduleShip>			list_ship;
 
@@ -308,6 +308,8 @@ public class MobileComposer {
 	private ISchedule							schedule_dao;
 
 	private IScheduleShip						schedule_ship_dao;
+
+	private DetailScheduleShip					selectedDetailShip;
 
 	private InitialScheduleSingleDetail			selectedSchedule;
 
@@ -483,7 +485,7 @@ public class MobileComposer {
 	@NotifyChange({ "list_cranes", "status_view" })
 	public void addCrane() {
 
-		if (this.detail_schedule_ship_selected == null) {
+		if (this.selectedDetailShip == null) {
 			return;
 		}
 
@@ -501,7 +503,7 @@ public class MobileComposer {
 		final int m = cal.get(Calendar.MONTH);
 
 		final DetailFinalScheduleShip new_item = new DetailFinalScheduleShip();
-		new_item.setIddetailscheduleship(this.detail_schedule_ship_selected.getId());
+		new_item.setIddetailscheduleship(this.selectedDetailShip.getId());
 		new_item.setCrane_gtw(crane_gtw);
 		new_item.setP_crane(this.crane_p_gru);
 		new_item.setId_crane(this.cranes_entity_selected.getId());
@@ -688,7 +690,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule", "user_visible_adding", "n_positions" })
+	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule", "selectedDetailShip", "user_visible_adding", "n_positions" })
 	public void editNote() {
 
 		// note for "TURNI"
@@ -725,11 +727,25 @@ public class MobileComposer {
 		// note for "SHIP"
 		if (this.status_view == 4) {
 
-			if (this.detail_schedule_ship_selected == null) {
-				return;
-			}
+			if (this.list_selected_ship.size() > 1) {
 
-			this.note_ship = this.schedule_ship_dao.getDetailScheduleShipNote(this.detail_schedule_ship_selected.getId());
+				// DEFINE INFO FOR MULTIPLE USER
+				this.user_visible_adding = Boolean.FALSE;
+
+				this.n_positions = "" + this.list_selected_ship.size();
+
+				this.note_ship = "";
+
+			} else {
+
+				// DEFINE INFO FOR SINGLE USER
+				this.user_visible_adding = Boolean.TRUE;
+
+				this.selectedDetailShip = this.getTheFirstSelectedShip();
+
+				this.note_ship = this.schedule_ship_dao.getDetailScheduleShipNote(this.selectedDetailShip.getId());
+
+			}
 
 			this.status_view = 5;
 
@@ -832,10 +848,6 @@ public class MobileComposer {
 		return this.dateConverter;
 	}
 
-	public DetailScheduleShip getDetail_schedule_ship_selected() {
-		return this.detail_schedule_ship_selected;
-	}
-
 	public String getEnd_task() {
 		return this.end_task;
 	}
@@ -850,6 +862,10 @@ public class MobileComposer {
 
 	public List<InitialScheduleSingleDetail> getList_schedule_selected() {
 		return this.list_schedule_selected;
+	}
+
+	public List<DetailScheduleShip> getList_selected_ship() {
+		return this.list_selected_ship;
 	}
 
 	public List<DetailScheduleShip> getList_ship() {
@@ -870,6 +886,10 @@ public class MobileComposer {
 
 	public String getNote_ship() {
 		return this.note_ship;
+	}
+
+	public DetailScheduleShip getSelectedDetailShip() {
+		return this.selectedDetailShip;
 	}
 
 	public InitialScheduleSingleDetail getSelectedSchedule() {
@@ -1014,6 +1034,21 @@ public class MobileComposer {
 
 	}
 
+	/**
+	 * return the first selection
+	 *
+	 * @return
+	 */
+	private DetailScheduleShip getTheFirstSelectedShip() {
+
+		if (CollectionUtils.isEmpty(this.list_selected_ship)) {
+			return null;
+		}
+
+		return this.list_selected_ship.get(0);
+
+	}
+
 	public Boolean getUser_continue() {
 		return this.user_continue;
 	}
@@ -1114,14 +1149,28 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "selectedDetailShip" })
 	public void modifyShipNote() {
 
-		if (this.detail_schedule_ship_selected == null) {
+		if (CollectionUtils.isEmpty(this.list_selected_ship)) {
 			return;
 		}
 
-		this.schedule_ship_dao.updateDetailScheduleShipNote(this.detail_schedule_ship_selected.getId(), this.note_ship);
+		for (final DetailScheduleShip itm : this.list_selected_ship) {
+
+			String mynote = this.note_ship;
+
+			// massive?
+			if (this.list_selected_ship.size() > 1) {
+
+				final String current_note = this.schedule_ship_dao.getDetailScheduleShipNote(itm.getId());
+
+				mynote = "" + mynote + "\n" + StringUtils.defaultString(current_note, "");
+			}
+
+			this.schedule_ship_dao.updateDetailScheduleShipNote(itm.getId(), mynote);
+
+		}
 
 		this.refreshShipDataAndCurrentShift();
 
@@ -1245,7 +1294,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "user_programmed" })
+	@NotifyChange({ "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip", "user_programmed" })
 	public void refresh(@BindingParam("shift_no") final Integer shift_no) {
 
 		Date date_for_selection = this.date_selection;
@@ -1268,8 +1317,7 @@ public class MobileComposer {
 
 			this.list_ship = this.selectInitialShipSchedule(date_for_selection, shift_no);
 
-			// deselect
-			this.detail_schedule_ship_selected = null;
+			this.list_selected_ship = null;
 
 		}
 
@@ -1287,7 +1335,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "list_selected_ship", "selectedDetailShip" })
 	public void refreshShipDataAndCurrentShift() {
 
 		// return to list of ship
@@ -1395,7 +1443,7 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain",
 			"ship_sky", "ship_wind", "ship_windyday", "ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity",
-			"cranes_entity_selected", "crane_p_gru", "crane_type" })
+			"cranes_entity_selected", "crane_p_gru", "crane_type", "selectedDetailShip", "user_visible_adding", "n_positions" })
 	public void review() {
 
 		// review "TURNI"
@@ -1415,24 +1463,55 @@ public class MobileComposer {
 		// review for ship - active review editor for ship
 		if (this.status_view == 4) {
 
-			if (this.detail_schedule_ship_selected == null) {
+			this.selectedDetailShip = this.getTheFirstSelectedShip();
+
+			if (this.selectedDetailShip == null) {
 				return;
 			}
 
-			this.ship_handswork = this.detail_schedule_ship_selected.getHandswork();
-			this.ship_menwork = this.detail_schedule_ship_selected.getMenwork();
-			this.ship_worked = this.detail_schedule_ship_selected.getWorked();
+			if (this.list_selected_ship.size() > 1) {
 
-			this.ship_temperature = this.detail_schedule_ship_selected.getTemperature();
-			this.ship_rain = this.detail_schedule_ship_selected.getRain();
-			this.ship_sky = this.detail_schedule_ship_selected.getSky();
-			this.ship_wind = this.detail_schedule_ship_selected.getWind();
-			this.ship_windyday = this.detail_schedule_ship_selected.getWindyday();
+				// DEFINE INFO FOR MULTIPLE USER
+				this.user_visible_adding = Boolean.FALSE;
 
-			this.ship_persononboard = this.formatShipDateTime(this.detail_schedule_ship_selected.getPerson_onboard());
-			this.ship_firstdown = this.formatShipDateTime(this.detail_schedule_ship_selected.getFirst_down());
-			this.ship_lastdown = this.formatShipDateTime(this.detail_schedule_ship_selected.getLast_down());
-			this.ship_persondown = this.formatShipDateTime(this.detail_schedule_ship_selected.getPerson_down());
+				this.n_positions = "" + this.list_selected_ship.size();
+
+				this.ship_handswork = null;
+				this.ship_menwork = null;
+				this.ship_worked = Boolean.TRUE;
+
+				this.ship_temperature = null;
+				this.ship_rain = null;
+				this.ship_sky = null;
+				this.ship_wind = null;
+				this.ship_windyday = null;
+
+				this.ship_persononboard = null;
+				this.ship_firstdown = null;
+				this.ship_lastdown = null;
+				this.ship_persondown = null;
+
+			} else {
+
+				// DEFINE INFO FOR SINGLE USER
+				this.user_visible_adding = Boolean.TRUE;
+
+				this.ship_handswork = this.selectedDetailShip.getHandswork();
+				this.ship_menwork = this.selectedDetailShip.getMenwork();
+				this.ship_worked = this.selectedDetailShip.getWorked();
+
+				this.ship_temperature = this.selectedDetailShip.getTemperature();
+				this.ship_rain = this.selectedDetailShip.getRain();
+				this.ship_sky = this.selectedDetailShip.getSky();
+				this.ship_wind = this.selectedDetailShip.getWind();
+				this.ship_windyday = this.selectedDetailShip.getWindyday();
+
+				this.ship_persononboard = this.formatShipDateTime(this.selectedDetailShip.getPerson_onboard());
+				this.ship_firstdown = this.formatShipDateTime(this.selectedDetailShip.getFirst_down());
+				this.ship_lastdown = this.formatShipDateTime(this.selectedDetailShip.getLast_down());
+				this.ship_persondown = this.formatShipDateTime(this.selectedDetailShip.getPerson_down());
+
+			}
 
 			// set view
 			this.status_view = 6;
@@ -1630,7 +1709,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection", "status_view" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "selectedDetailShip", "date_selection", "status_view" })
 	public void selectToDay() {
 		final Calendar calendar = Calendar.getInstance();
 		this.date_selection = calendar.getTime();
@@ -1645,8 +1724,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "detail_schedule_ship_selected", "date_selection", "user_programmed",
-			"status_view" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip", "date_selection",
+			"user_programmed", "status_view" })
 	public void selectTomorrow() {
 
 		final Calendar calendar = Calendar.getInstance();
@@ -1706,10 +1785,6 @@ public class MobileComposer {
 		this.date_selection = date_selection;
 	}
 
-	public void setDetail_schedule_ship_selected(final DetailScheduleShip detail_schedule_ship_selected) {
-		this.detail_schedule_ship_selected = detail_schedule_ship_selected;
-	}
-
 	public void setEnd_task(final String end_task) {
 		this.end_task = end_task;
 	}
@@ -1726,12 +1801,20 @@ public class MobileComposer {
 		this.list_schedule_selected = list_schedule_selected;
 	}
 
+	public void setList_selected_ship(final List<DetailScheduleShip> list_selected_ship) {
+		this.list_selected_ship = list_selected_ship;
+	}
+
 	public void setNote(final String note) {
 		this.note = note;
 	}
 
 	public void setNote_ship(final String note_ship) {
 		this.note_ship = note_ship;
+	}
+
+	public void setSelectedDetailShip(final DetailScheduleShip selectedDetailShip) {
+		this.selectedDetailShip = selectedDetailShip;
 	}
 
 	public void setSelectedSchedule(final InitialScheduleSingleDetail selectedSchedule) {
@@ -1815,23 +1898,27 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "list_ship", "shift_no", "status_view", "detail_schedule_ship_selected" })
+	@NotifyChange({ "list_ship", "shift_no", "status_view", "selectedDetailShip" })
 	public void shipReviewCommand() {
 
-		if (this.detail_schedule_ship_selected == null) {
+		if (CollectionUtils.isEmpty(this.list_selected_ship)) {
 			return;
 		}
 
-		final Integer id = this.detail_schedule_ship_selected.getId();
+		for (final DetailScheduleShip itm : this.list_selected_ship) {
 
-		final Date dt_person_onboard = this.parseShipDateTime(this.ship_persononboard);
-		final Date dt_ship_firstdown = this.parseShipDateTime(this.ship_firstdown);
-		final Date dt_ship_lastdown = this.parseShipDateTime(this.ship_lastdown);
-		final Date dt_ship_persondown = this.parseShipDateTime(this.ship_persondown);
+			final Integer id = itm.getId();
 
-		this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked, this.ship_temperature,
-								this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
-								dt_ship_lastdown, dt_ship_persondown);
+			final Date dt_person_onboard = this.parseShipDateTime(this.ship_persononboard);
+			final Date dt_ship_firstdown = this.parseShipDateTime(this.ship_firstdown);
+			final Date dt_ship_lastdown = this.parseShipDateTime(this.ship_lastdown);
+			final Date dt_ship_persondown = this.parseShipDateTime(this.ship_persondown);
+
+			this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
+									this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard,
+									dt_ship_firstdown, dt_ship_lastdown, dt_ship_persondown);
+
+		}
 
 		this.refreshShipDataAndCurrentShift();
 
@@ -1844,11 +1931,11 @@ public class MobileComposer {
 	@NotifyChange({ "ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown" })
 	public void shipTimeDefault() {
 
-		if (this.detail_schedule_ship_selected == null) {
+		if (this.selectedDetailShip == null) {
 			return;
 		}
 
-		final Date[] period = Utility.getPeriodForShipWorkingProcess(this.detail_schedule_ship_selected);
+		final Date[] period = Utility.getPeriodForShipWorkingProcess(this.selectedDetailShip);
 		if (period == null) {
 			return;
 		}
@@ -1909,11 +1996,11 @@ public class MobileComposer {
 	@NotifyChange({ "list_cranes", "status_view" })
 	public void showGru() {
 
-		if (this.detail_schedule_ship_selected == null) {
+		if (this.selectedDetailShip == null) {
 			return;
 		}
 
-		final Integer id = this.detail_schedule_ship_selected.getId();
+		final Integer id = this.selectedDetailShip.getId();
 
 		this.list_cranes = this.schedule_ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(id);
 
@@ -1985,7 +2072,7 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected", "detail_schedule_ship_selected" })
+	@NotifyChange({ "users", "list_ship", "shift_no", "status_view", "list_schedule_selected", "selectedDetailShip" })
 	public void switchShipShift() {
 
 		if ((this.status_view == 1) || (this.status_view == 7) || (this.status_view == 8) || (this.status_view == 9)) {
