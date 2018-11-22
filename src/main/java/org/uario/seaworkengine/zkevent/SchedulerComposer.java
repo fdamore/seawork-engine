@@ -3283,7 +3283,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			cal.add(Calendar.DATE, 1);
 			final Date tomorrowDate = DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
-			final List<DetailScheduleShip> list_DetailScheduleShip = this.shipSchedulerDao.searchShipDetail(tomorrowDate, null, null);
+			final List<DetailScheduleShip> list_DetailScheduleShip = this.shipSchedulerDao.searchShipDetail(tomorrowDate, null, null, null);
 
 			ProgramReportBuilder.createReport(final_list, list_DetailScheduleShip, tomorrowDate).toPdf(stream);
 

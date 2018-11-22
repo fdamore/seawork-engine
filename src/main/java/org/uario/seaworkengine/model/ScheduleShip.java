@@ -9,7 +9,7 @@ public class ScheduleShip implements Serializable {
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public static long getSerialversionuid() {
 		return ScheduleShip.serialVersionUID;
@@ -28,6 +28,8 @@ public class ScheduleShip implements Serializable {
 	private Integer	idship;
 
 	private Integer	idship_activity;
+
+	private Boolean	mobile;
 
 	/**
 	 * Used only in view mode
@@ -70,6 +72,10 @@ public class ScheduleShip implements Serializable {
 
 	public Integer getIdship_activity() {
 		return this.idship_activity;
+	}
+
+	public Boolean getMobile() {
+		return this.mobile;
 	}
 
 	public String getName() {
@@ -118,6 +124,10 @@ public class ScheduleShip implements Serializable {
 
 	public void setIdship_activity(final Integer idship_activity) {
 		this.idship_activity = idship_activity;
+	}
+
+	public void setMobile(final Boolean mobile) {
+		this.mobile = mobile;
 	}
 
 	public void setName(final String name) {

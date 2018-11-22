@@ -23,12 +23,12 @@
 		scheduleship (idship,idship_activity, volume,
 		note, arrivaldate,
 		departuredate,
-		rif_mct, customer_id, id_service)
+		rif_mct, customer_id, id_service, mobile)
 		VALUES
 		(#{idship},#{idship_activity}, #{volume}, #{note},
 		#{arrivaldate},
 		#{departuredate}, #{rif_mct}, #{customer_id},
-		#{id_service});
+		#{id_service},#{mobile});
 	</insert>
 
 	<delete id="deleteScheduleShip" parameterType="Integer">
@@ -53,6 +53,7 @@ SELECT
     s.customer_id,
     s.idship_activity,
     s.id_service,
+    s.mobile,
     (SELECT 
             sr.name
         FROM
@@ -71,22 +72,34 @@ WHERE
 
 	<select id="searchScheduleShip"
 		resultType="org.uario.seaworkengine.model.ScheduleShip">
-		SELECT s.id,
-		s.idship, s.volume, s.note, s.arrivaldate,
-		s.departuredate,
-		sh.name,
-		s.rif_mct, s.customer_id, s.idship_activity,
-		s.id_service,
-		(SELECT sr.name
-		FROM service sr
-		WHERE s.id_service=sr.id
-		)
-		as serviceName
-		FROM
-		scheduleship s left join customer c ON
-		(s.customer_id = c.id), ship sh
-		where
-		s.idship = sh.id
+		<![CDATA[ 
+SELECT 
+    s.id,
+    s.idship,
+    s.volume,
+    s.note,
+    s.arrivaldate,
+    s.departuredate,
+    sh.name,
+    s.rif_mct,
+    s.customer_id,
+    s.idship_activity,
+    s.id_service,
+    s.mobile,
+    (SELECT 
+            sr.name
+        FROM
+            service sr
+        WHERE
+            s.id_service = sr.id) AS serviceName
+FROM
+    scheduleship s
+        LEFT JOIN
+    customer c ON (s.customer_id = c.id),
+    ship sh
+WHERE
+    s.idship = sh.id
+ ]]>
 
 		<if test="datefrom!=null and dateto!=null">
 
@@ -186,7 +199,8 @@ WHERE
 		customer_id = #{customer_id},
 		idship_activity =
 		#{idship_activity},
-		id_service = #{id_service}
+		id_service = #{id_service},
+		mobile = #{mobile}
 		WHERE id
 		= #{id};
 	</update>
@@ -564,26 +578,29 @@ FROM
     user us ON (d1.idseconduser = us.id),
     ship s,
     scheduleship ss
-WHERE
+WHERE (1=1)
 ]]>
 		<if test="full_text_search != null">
-			(s.name like CONCAT('%',#{full_text_search},
-			'%') ) and
+			<![CDATA[AND (s.name like CONCAT('%',#{full_text_search},'%'))]]>
 		</if>
 
 		
 
 		<if test="shift != null">
-			d.shift = #{shift} and
+			AND d.shift = #{shift}
 		</if>
 
 		<if test="shiftdate != null">
-			d.shiftdate=#{shiftdate} and
+			AND d.shiftdate=#{shiftdate}
+		</if>
+		
+		<if test="mobile != null">
+			AND ss.mobile = #{mobile} 
 		</if>
 		
 
 <![CDATA[
-    d.idscheduleship = ss.id
+    	AND d.idscheduleship = ss.id
         AND ss.idship = s.id
         AND d1.id = d.id
 ORDER BY d.shiftdate , d.shift , s.name ASC;
@@ -671,6 +688,7 @@ SELECT
     s.customer_id,
     s.idship_activity,
     s.id_service,
+    s.mobile,
     (SELECT 
             sr.name
         FROM

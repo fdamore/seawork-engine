@@ -510,6 +510,17 @@
 							</row>
 
 							<row>
+								<label value="Mobile" />
+								<hbox>
+
+									<checkbox checked="true"
+										id="ship_view_mobile">
+									</checkbox>
+								</hbox>
+
+							</row>
+
+							<row>
 								<label value="Note"></label>
 								<textbox id="note_schedule" rows="5" />
 							</row>
@@ -1090,6 +1101,17 @@
 										label="Annulla selezione" style="color: blue" visible="true"
 										onClick="servicetype.setSelectedItem(null);" />
 								</hbox>
+							</row>
+
+							<row>
+								<label value="Mobile" />
+								<hbox>
+
+									<checkbox checked="true"
+										id="ship_view_mobile_modify">
+									</checkbox>
+								</hbox>
+
 							</row>
 
 						</rows>

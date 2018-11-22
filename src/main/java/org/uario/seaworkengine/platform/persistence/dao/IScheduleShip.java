@@ -82,7 +82,7 @@ public interface IScheduleShip {
 							Integer serviceId, String shipType, String shipLine, String shipCondition, String operation, String invoice_period,
 							boolean invoice);
 
-	List<DetailScheduleShip> searchShipDetail(Date shiftdate, String full_text_search, Integer shift);
+	List<DetailScheduleShip> searchShipDetail(Date shiftdate, String full_text_search, Integer shift, Boolean mobile);
 
 	List<DetailScheduleShip> searchDetailScheduleShipRif_MCT_SWS(Integer rif_sws, String rif_mct);
 

@@ -728,6 +728,12 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 	private Textbox											ship_type_search;
 
 	@Wire
+	public Checkbox											ship_view_mobile;
+
+	@Wire
+	private Checkbox										ship_view_mobile_modify;
+
+	@Wire
 	private Intbox											ship_volume;
 
 	@Wire
@@ -782,9 +788,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Toolbarbutton									sw_link_reviewscheduleship;
-
 	@Wire
 	private Listbox											sw_list_reviewWork;
+
 	@Wire
 	private Listbox											sw_list_reviewWorkAggregate;
 
@@ -1079,6 +1085,8 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		ship_to_add.setArrivaldate(this.ship_arrival_schedule.getValue());
 
 		ship_to_add.setDeparturedate(this.ship_departure_schedule.getValue());
+
+		ship_to_add.setMobile(this.ship_view_mobile.isChecked());
 
 		// add customer
 		if ((this.ship_customer_add.getSelectedItem() != null) && (this.ship_customer_add.getSelectedItem().getValue() != null)) {
@@ -2724,6 +2732,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		Date date = this.scheduleShip_selected.getArrivaldate();
 		this.ship_arrival.setValue(date);
 
+		// set mobile
+		this.ship_view_mobile_modify.setChecked(this.scheduleShip_selected.getMobile());
+
 		date = this.scheduleShip_selected.getDeparturedate();
 
 		if (date != null) {
@@ -2786,6 +2797,9 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.scheduleShip_selected.setDeparturedate(this.ship_departure.getValue());
 
 		this.scheduleShip_selected.setRif_mct(this.shipRif_mcf.getValue());
+
+		// modify mobile
+		this.scheduleShip_selected.setMobile(this.ship_view_mobile_modify.isChecked());
 
 		// add customer //
 		if ((this.ship_customer.getSelectedItem() != null) && (this.ship_customer.getSelectedItem().getValue() != null)) {
@@ -5134,6 +5148,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		this.ship_rif_mcf.setValue(null);
 		this.ship_arrival_schedule.setValue(null);
 		this.ship_departure_schedule.setValue(null);
+		this.ship_view_mobile.setChecked(true);
 		this.note_schedule.setValue(null);
 
 		this.servicetype_schedule.setSelectedItem(null);

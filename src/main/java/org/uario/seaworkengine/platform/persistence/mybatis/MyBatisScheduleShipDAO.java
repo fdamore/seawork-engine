@@ -222,26 +222,6 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public List<DetailScheduleShip> searchShipDetail(final Date shiftdate, final String full_text_search, final Integer shift) {
-
-		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
-
-		String full_text_search_arg = full_text_search;
-		if ((full_text_search != null) && full_text_search.isEmpty()) {
-			full_text_search_arg = null;
-		}
-
-		final HashMap<String, Object> map = new HashMap<>();
-		map.put("shiftdate", shiftdate);
-		map.put("full_text_search", full_text_search_arg);
-		map.put("shift", shift);
-
-		final List<DetailScheduleShip> list = this.getSqlSession().selectList("scheduleship.searchDetailScheduleShip", map);
-
-		return list;
-	}
-
-	@Override
 	public List<DetailScheduleShip> searchDetailScheduleShipRif_MCT_SWS(final Integer rif_sws, final String rif_mct) {
 		MyBatisScheduleShipDAO.logger.info("searchDetailScheduleShipRif_MCT_SWS ");
 
@@ -297,6 +277,27 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("intial_support", intial_support);
 
 		return this.getSqlSession().selectList("scheduleship.searchScheduleShip", map);
+	}
+
+	@Override
+	public List<DetailScheduleShip> searchShipDetail(final Date shiftdate, final String full_text_search, final Integer shift, Boolean mobile) {
+
+		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
+
+		String full_text_search_arg = full_text_search;
+		if ((full_text_search != null) && full_text_search.isEmpty()) {
+			full_text_search_arg = null;
+		}
+
+		final HashMap<String, Object> map = new HashMap<>();
+		map.put("shiftdate", shiftdate);
+		map.put("full_text_search", full_text_search_arg);
+		map.put("shift", shift);
+		map.put("mobile", mobile);
+
+		final List<DetailScheduleShip> list = this.getSqlSession().selectList("scheduleship.searchDetailScheduleShip", map);
+
+		return list;
 	}
 
 	@Override

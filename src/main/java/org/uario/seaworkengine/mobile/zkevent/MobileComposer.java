@@ -1600,7 +1600,7 @@ public class MobileComposer {
 	public List<DetailScheduleShip> selectInitialShipSchedule(final Date date_request, final Integer shift) {
 
 		final Date date_request_truncate = DateUtils.truncate(date_request, Calendar.DATE);
-		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchShipDetail(date_request_truncate, null, shift);
+		final List<DetailScheduleShip> list = this.schedule_ship_dao.searchShipDetail(date_request_truncate, null, shift, Boolean.TRUE);
 		return list;
 	}
 
