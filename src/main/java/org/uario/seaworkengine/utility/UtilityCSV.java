@@ -44,6 +44,7 @@ import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 import org.uario.seaworkengine.zkevent.converter.ProductivityConverter;
 import org.uario.seaworkengine.zkevent.converter.UserEnableConverter;
 import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
+import org.zkoss.zkplus.spring.SpringUtil;
 
 public class UtilityCSV {
 
@@ -1508,9 +1509,12 @@ public class UtilityCSV {
 	}
 
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
+
 		final StringBuilder builder = new StringBuilder();
 
-		String header = "Settimana;Giorno;Data Turno;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Conta Rif. SWS;Gru;H LAV;N.Persone;Tot. (H x N. Persone);Volumi Netti;";
+		final PersonDAO dao_p = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+
+		String header = "Settimana;Giorno;Data Turno;Operatore;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Conta Rif. SWS;Gru;H LAV;N.Persone;Tot. (H x N. Persone);Volumi Netti;";
 		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
 		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra;Note";
 		header = header + "\n";
@@ -1529,6 +1533,15 @@ public class UtilityCSV {
 			String rif_mct = "";
 			String shift = "";
 			String crane = "";
+			String mobile_user = "";
+
+			// set mobile_user
+			if (item.getMobile_user() != null) {
+				final Person p = dao_p.loadPerson(item.getMobile_user());
+				if (p != null) {
+					mobile_user = p.getIndividualName();
+				}
+			}
 
 			// HLAV
 			final String workedTime = (item.getTimeworkLessFranchise() == null) ? ""
@@ -1646,11 +1659,11 @@ public class UtilityCSV {
 				person_down = "" + Utility.convertToDateAndTime(item.getPerson_down());
 			}
 
-			final String line = "" + week + ";" + day + ";" + date + ";" + shipName + ";" + customer + ";" + rif_sws + ";" + rif_mct + ";" + shift
-									+ ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + n_person + ";" + tot + ";" + volume
-									+ ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle + ";" + sky_item + ";"
-									+ wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";" + date_first_down + ";"
-									+ date_last_down + ";" + person_down + ";" + note + "\n";
+			final String line = "" + week + ";" + day + ";" + date + ";" + mobile_user + ";" + shipName + ";" + customer + ";" + rif_sws + ";"
+									+ rif_mct + ";" + shift + ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + n_person
+									+ ";" + tot + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle
+									+ ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";"
+									+ date_first_down + ";" + date_last_down + ";" + person_down + ";" + note + "\n";
 			builder.append(line);
 
 		}
