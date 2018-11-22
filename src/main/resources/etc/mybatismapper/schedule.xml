@@ -523,7 +523,7 @@ FROM
     detailinitialschedule
 WHERE
     id_schedule = #{id_schedule}
-		]]>		
+		]]>
 	</select>
 
 	<select id="loadDetailFinalScheduleByIdSchedule"
@@ -632,7 +632,7 @@ WHERE
 
 
 	<!-- MOBILE -->
-	
+
 
 	<update id="updateMobileUserNote" parameterType="map">
 		UPDATE
@@ -657,9 +657,12 @@ SELECT
     d.continueshift,
     0 as revised
 FROM
-    detailinitialschedule d
+    detailinitialschedule d,
+    usertask t
 WHERE
-    id_schedule = #{id_schedule} AND d.shift = #{no_shift}       
+    id_schedule = #{id_schedule} AND d.shift = #{no_shift}
+    AND t.id = d.task
+    AND t.hiddentask = 0       
 ]]>
 	</select>
 
@@ -669,6 +672,7 @@ WHERE
 	<select id="loadMobileUserFinalDetail" parameterType="map"
 		resultType="org.uario.seaworkengine.mobile.model.MobileUserDetail">
 		<![CDATA[	
+		
 SELECT 
     d.id,
     d.id_schedule,
@@ -682,11 +686,14 @@ SELECT
     d.id_ship,
     d.board,
     d.crane,
-    1 as revised
-FROM    
-    detailfinalschedule d
+    1 AS revised
+FROM
+    detailfinalschedule d,
+    usertask t
 WHERE
     id_schedule = #{id_schedule} AND d.shift = #{no_shift}
+        AND t.id = d.task
+        AND t.hiddentask = 0
         ]]>
 	</select>
 
