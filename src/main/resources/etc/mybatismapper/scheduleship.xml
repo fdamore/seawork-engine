@@ -571,9 +571,7 @@ WHERE
 			'%') ) and
 		</if>
 
-		<if test="serviceId!=null">
-			ss.id_service = #{serviceId} and
-		</if>
+		
 
 		<if test="shift != null">
 			d.shift = #{shift} and
@@ -582,22 +580,7 @@ WHERE
 		<if test="shiftdate != null">
 			d.shiftdate=#{shiftdate} and
 		</if>
-
-		<if test="idCustomer != null">
-			#{idCustomer}=ss.customer_id and
-		</if>
-
-		<if test="nowork != null">
-			#{nowork}=s.nowork and
-		</if>
-
-		<if test="activityh != null">
-			#{activityh}=s.activityh and
-		</if>
-
-		<if test="worked != null">
-			#{worked}=d.worked and
-		</if>
+		
 
 <![CDATA[
     d.idscheduleship = ss.id
