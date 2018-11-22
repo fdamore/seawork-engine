@@ -125,7 +125,8 @@ SELECT
     dss.person_down,
     dss.person_onboard,
     dss.worked,
-    d.menwork_activityh
+    d.menwork_activityh,
+    d.mobile_user
 FROM
     ship s,
     scheduleship ss,

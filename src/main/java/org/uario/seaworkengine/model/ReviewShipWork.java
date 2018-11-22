@@ -41,6 +41,8 @@ public class ReviewShipWork implements Serializable {
 
 	private Integer				menwork_activityh;
 
+	private Integer				mobile_user;
+
 	private String				notedetail;
 
 	private Date				person_down;
@@ -121,6 +123,10 @@ public class ReviewShipWork implements Serializable {
 		} else {
 			return 0.0;
 		}
+	}
+
+	public Integer getMobile_user() {
+		return this.mobile_user;
 	}
 
 	public String getNotedetail() {
@@ -281,6 +287,10 @@ public class ReviewShipWork implements Serializable {
 
 	public void setMenwork_activityh(final Integer menwork_activityh) {
 		this.menwork_activityh = menwork_activityh;
+	}
+
+	public void setMobile_user(final Integer mobile_user) {
+		this.mobile_user = mobile_user;
 	}
 
 	public void setNotedetail(final String notedetail) {

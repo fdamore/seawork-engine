@@ -2323,6 +2323,8 @@
 									<listheader label="Data Turno"
 										hflex="2" />
 									<listheader label="Turno" hflex="1" />
+									
+									<listheader label="Operatore Mobile" hflex="1" />
 
 									<listheader label="Lavorato"
 										hflex="1" />
@@ -2408,6 +2410,10 @@
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.shift}" />
+
+									<listcell sclass="myBottonCell"
+										label="@{item_review_work.mobile_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}" />
+
 
 									<listcell sclass="myBottonCell"
 										label="@{item_review_work.workedIT}" />

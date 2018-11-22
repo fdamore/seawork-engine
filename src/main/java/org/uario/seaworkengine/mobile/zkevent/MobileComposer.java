@@ -507,6 +507,10 @@ public class MobileComposer {
 		new_item.setId_crane(this.cranes_entity_selected.getId());
 		new_item.setInvoicing_cycle(m + 1);
 
+		// set mobile_user
+		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		new_item.setMobile_user(person_logged.getId());
+
 		this.schedule_ship_dao.createDetailFinalScheduleShip(new_item);
 		this.showGru();
 	}
