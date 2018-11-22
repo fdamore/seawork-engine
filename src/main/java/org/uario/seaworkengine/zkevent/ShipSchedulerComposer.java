@@ -5054,16 +5054,26 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 		// INITIAL BEHAVIOR
 
 		// ** define initial search ***
-		final Calendar calendar_from = Calendar.getInstance();
-		final Calendar calendar_to = Calendar.getInstance();
-//		calendar_from.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
-//		calendar_to.set(Calendar.DAY_OF_YEAR, calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
-		this.select_year_detail.setValue("" + calendar_from.get(Calendar.YEAR));
-		this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
-		this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
+		/*
+		 * final Calendar calendar_from = Calendar.getInstance(); final Calendar
+		 * calendar_to = Calendar.getInstance(); calendar_from.set(Calendar.DAY_OF_YEAR,
+		 * calendar_from.getActualMinimum(Calendar.DAY_OF_YEAR));
+		 * calendar_to.set(Calendar.DAY_OF_YEAR,
+		 * calendar_from.getActualMaximum(Calendar.DAY_OF_YEAR));
+		 * this.select_year_detail.setValue("" + calendar_from.get(Calendar.YEAR));
+		 * this.searchArrivalDateShipFrom.setValue(calendar_from.getTime());
+		 * this.searchArrivalDateShipTo.setValue(calendar_to.getTime());
+		 */
+
+		// search data
+		final Calendar calendar = Calendar.getInstance();
+		this.searchArrivalDateShipFrom.setValue(null);
+		this.searchArrivalDateShipTo.setValue(null);
+		this.searchDateShift.setValue(calendar.getTime());
+		this.select_year_detail.setValue("" + calendar.get(Calendar.YEAR));
 
 		this.invoicing_cycle_search.setVisible(false);
-		this.searchDateShift.setValue(null);
+
 		this.select_shift.setValue(null);
 		this.select_typeShip.setValue(null);
 		this.select_type_operation.setValue(null);

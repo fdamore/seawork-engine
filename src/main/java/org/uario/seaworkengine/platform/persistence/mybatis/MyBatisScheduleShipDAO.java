@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -163,9 +164,9 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 		map.put("activityh", activityh);
 		map.put("worked", worked);
 		map.put("serviceId", serviceId);
-		map.put("shipType", shipType);
-		map.put("shipLine", shipLine);
-		map.put("shipCondition", shipCondition);
+		map.put("shipType", (StringUtils.isEmpty(shipType) ? null : shipType));
+		map.put("shipLine", (StringUtils.isEmpty(shipLine) ? null : shipLine));
+		map.put("shipCondition", (StringUtils.isEmpty(shipCondition) ? null : shipCondition));
 		map.put("period_on_dateshift", period_on_dateshift);
 		map.put("operation_type", operation_type);
 		map.put("invoice_period", invoice_period);
@@ -280,7 +281,7 @@ public class MyBatisScheduleShipDAO extends SqlSessionDaoSupport implements ISch
 	}
 
 	@Override
-	public List<DetailScheduleShip> searchShipDetail(final Date shiftdate, final String full_text_search, final Integer shift, Boolean mobile) {
+	public List<DetailScheduleShip> searchShipDetail(final Date shiftdate, final String full_text_search, final Integer shift, final Boolean mobile) {
 
 		MyBatisScheduleShipDAO.logger.info("load Detail ScheduleShip By Shift Date " + shiftdate);
 

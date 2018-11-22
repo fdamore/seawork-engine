@@ -345,7 +345,7 @@ WHERE
 		</if>
 
 		<if test="dateshift != null">
-			and d.shiftdate = #{dateshift}
+			and d.shiftdate = date(#{dateshift})
 		</if>
 
 		<if test="datefrom !=null and dateto !=null and dateshift == null">
