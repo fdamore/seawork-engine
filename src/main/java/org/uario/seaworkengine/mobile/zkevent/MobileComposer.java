@@ -285,6 +285,12 @@ public class MobileComposer {
 
 	private String								end_task;
 
+	private String								h_date_from;
+
+	private String								h_date_to;
+
+	private Integer								h_menwork;
+
 	private String								label_command_ok;
 
 	private List<DetailFinalScheduleShip>		list_cranes;
@@ -316,6 +322,8 @@ public class MobileComposer {
 	private Integer								shift_no;
 
 	private String								ship_firstdown;
+
+	private Boolean								ship_h					= Boolean.FALSE;
 
 	private Integer								ship_handswork;
 
@@ -513,6 +521,21 @@ public class MobileComposer {
 		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		new_item.setMobile_user(person_logged.getId());
 
+		if (BooleanUtils.isTrue(this.ship_h)) {
+
+			final Date date_from = this.parseDateString(this.h_date_from);
+			final Date date_to = this.parseDateString(this.h_date_to);
+
+			new_item.setActivity_end(date_to);
+			new_item.setActivity_start(date_from);
+
+			// set time work
+			final Double time_worked = this.getDecimalValue(date_from, date_to);
+			new_item.setTimework(time_worked);
+			new_item.setMenwork_activityh(this.h_menwork);
+
+		}
+
 		this.schedule_ship_dao.createDetailFinalScheduleShip(new_item);
 		this.showGru();
 	}
@@ -561,7 +584,7 @@ public class MobileComposer {
 
 			// Create info
 			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
-									this.user_continue);
+					this.user_continue);
 
 		}
 
@@ -623,7 +646,7 @@ public class MobileComposer {
 	 * @param position
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-							final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift) {
+			final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -795,7 +818,7 @@ public class MobileComposer {
 			return null;
 		}
 
-		final SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy kk:mm");
+		final SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy HH:mm");
 		return format.format(dt);
 
 	}
@@ -848,8 +871,39 @@ public class MobileComposer {
 		return this.dateConverter;
 	}
 
+	/**
+	 * Get decimal value for time
+	 *
+	 * @return
+	 */
+	private Double getDecimalValue(final Date date_from, final Date date_to) {
+
+		Double time = null;
+
+		if ((date_from != null) && (date_to != null)) {
+			time = (double) (date_to.getTime() - date_from.getTime());
+
+			time = time / (1000 * 60 * 60);
+		}
+
+		return time;
+
+	}
+
 	public String getEnd_task() {
 		return this.end_task;
+	}
+
+	public String getH_date_from() {
+		return this.h_date_from;
+	}
+
+	public String getH_date_to() {
+		return this.h_date_to;
+	}
+
+	public Integer getH_menwork() {
+		return this.h_menwork;
 	}
 
 	public String getLabel_command_ok() {
@@ -902,6 +956,10 @@ public class MobileComposer {
 
 	public String getShip_firstdown() {
 		return this.ship_firstdown;
+	}
+
+	public Boolean getShip_h() {
+		return this.ship_h;
 	}
 
 	public Integer getShip_handswork() {
@@ -1180,18 +1238,23 @@ public class MobileComposer {
 	 * @param dt
 	 * @return
 	 */
-	private Date parseShipDateTime(final String dt) {
+	private Date parseDateString(final String dt) {
 
 		try {
 			if (dt == null) {
 				return null;
 			}
 
-			final SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy kk:mm");
+			final SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy HH:mm");
 			return format.parse(dt);
 
-		} catch (final ParseException e) {
-			return null;
+		} catch (final ParseException ex1) {
+			try {
+				final SimpleDateFormat format_h = new SimpleDateFormat("HH:mm");
+				return format_h.parse(dt);
+			} catch (final ParseException e) {
+				return null;
+			}
 		}
 
 	}
@@ -1443,7 +1506,8 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain",
 			"ship_sky", "ship_wind", "ship_windyday", "ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity",
-			"cranes_entity_selected", "crane_p_gru", "crane_type", "selectedDetailShip", "user_visible_adding", "n_positions" })
+			"cranes_entity_selected", "crane_p_gru", "crane_type", "selectedDetailShip", "user_visible_adding", "n_positions", "h_date_from",
+			"h_date_to", "h_menwork", "ship_h" })
 	public void review() {
 
 		// review "TURNI"
@@ -1457,6 +1521,8 @@ public class MobileComposer {
 
 			// set view
 			this.status_view = 7;
+
+			return;
 
 		}
 
@@ -1516,6 +1582,8 @@ public class MobileComposer {
 			// set view
 			this.status_view = 6;
 
+			return;
+
 		}
 
 		// add crane
@@ -1528,8 +1596,21 @@ public class MobileComposer {
 			this.crane_p_gru = null;
 			this.crane_type = null;
 
+			final Ship ship = this.shipdao.loadShip(this.selectedDetailShip.getId_ship());
+			if ((ship != null) && (BooleanUtils.isTrue(ship.getActivityh()))) {
+				this.h_date_from = null;
+				this.h_date_to = null;
+				this.h_menwork = null;
+				this.ship_h = Boolean.TRUE;
+			} else {
+				this.ship_h = Boolean.FALSE;
+
+			}
+
 			// set view
 			this.status_view = 9;
+
+			return;
 		}
 
 	}
@@ -1568,10 +1649,11 @@ public class MobileComposer {
 				myposition = null;
 			}
 
+			// for program
 			final Boolean cont_shift = itm.getDetail_schedule().getContinueshift();
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
-									myposition, cont_shift);
+					myposition, cont_shift);
 
 		}
 
@@ -1789,6 +1871,18 @@ public class MobileComposer {
 		this.end_task = end_task;
 	}
 
+	public void setH_date_from(final String h_date_from) {
+		this.h_date_from = h_date_from;
+	}
+
+	public void setH_date_to(final String h_date_to) {
+		this.h_date_to = h_date_to;
+	}
+
+	public void setH_menwork(final Integer h_menwork) {
+		this.h_menwork = h_menwork;
+	}
+
 	public void setLabel_command_ok(final String label_command_ok) {
 		this.label_command_ok = label_command_ok;
 	}
@@ -1823,6 +1917,10 @@ public class MobileComposer {
 
 	public void setShip_firstdown(final String ship_firstdown) {
 		this.ship_firstdown = ship_firstdown;
+	}
+
+	public void setShip_h(final Boolean ship_h) {
+		this.ship_h = ship_h;
 	}
 
 	public void setShip_handswork(final Integer ship_handswork) {
@@ -1873,6 +1971,27 @@ public class MobileComposer {
 		this.ship_worked = ship_worked;
 	}
 
+	/**
+	 * @param filed 0 for initial, 1 for final
+	 */
+	@Command
+	@NotifyChange({ "h_date_from", "h_date_to" })
+	public void setShipHTimeDefault(@BindingParam("field") final int field) {
+
+		final Date[] period = Utility.getPeriodForShipWorkingProcess(this.selectedDetailShip);
+
+		final Date dt_selected = period[field];
+
+		final String ret = this.formatShipDateTime(dt_selected);
+
+		if (field == 0) {
+			this.h_date_from = ret;
+		} else if (field == 1) {
+			this.h_date_to = ret;
+		}
+
+	}
+
 	public void setStarting_task(final String starting_task) {
 		this.starting_task = starting_task;
 	}
@@ -1909,14 +2028,14 @@ public class MobileComposer {
 
 			final Integer id = itm.getId();
 
-			final Date dt_person_onboard = this.parseShipDateTime(this.ship_persononboard);
-			final Date dt_ship_firstdown = this.parseShipDateTime(this.ship_firstdown);
-			final Date dt_ship_lastdown = this.parseShipDateTime(this.ship_lastdown);
-			final Date dt_ship_persondown = this.parseShipDateTime(this.ship_persondown);
+			final Date dt_person_onboard = this.parseDateString(this.ship_persononboard);
+			final Date dt_ship_firstdown = this.parseDateString(this.ship_firstdown);
+			final Date dt_ship_lastdown = this.parseDateString(this.ship_lastdown);
+			final Date dt_ship_persondown = this.parseDateString(this.ship_persondown);
 
 			this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
-									this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard,
-									dt_ship_firstdown, dt_ship_lastdown, dt_ship_persondown);
+					this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
+					dt_ship_lastdown, dt_ship_persondown);
 
 		}
 
@@ -1995,6 +2114,8 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "list_cranes", "status_view" })
 	public void showGru() {
+
+		this.selectedDetailShip = this.getTheFirstSelectedShip();
 
 		if (this.selectedDetailShip == null) {
 			return;

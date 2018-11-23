@@ -185,6 +185,617 @@
 
 		</div>
 
+		<!-- USER LIST -->
+		<div visible="@load(vm.status_view eq 1)">
+
+
+			<listbox pagingPosition="both" mold="paging"
+				selectedItems="@bind(vm.list_schedule_selected)"
+				emptyMessage="Nessun risultato..." model="@load(vm.users)"
+				checkmark="true" multiple="true" pageSize="8">
+
+
+				<listhead sizable="true">
+
+					<listheader align="center" label="TURNO" hflex="1" />
+
+					<listheader align="center" label="RISORSA"
+						hflex="5">
+						<label
+							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
+						</label>
+					</listheader>
+
+					<listheader align="center" label="PROGRAMMA"
+						hflex="2" />
+
+					<listheader align="center" label="INGRESSI"
+						hflex="2" />
+
+
+				</listhead>
+
+				<template name="model" var="item">
+					<listitem>
+
+						<listcell>
+
+							<label
+								value="@load(item.detail_schedule.shift)"
+								sclass="label label-info">
+							</label>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label
+									value="@load(item) @converter(vm.userConverter)"
+									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
+								</label>
+							</n:h3>
+
+
+
+
+						</listcell>
+
+
+
+						<listcell>
+
+							<n:h3>
+								<label
+									value="@load(item) @converter(vm.taskConverter)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label value="@load(item.badgeInfo)"
+									sclass="label label-info">
+								</label>
+							</n:h3>
+
+
+						</listcell>
+
+
+
+					</listitem>
+				</template>
+
+			</listbox>
+
+		</div>
+
+
+		<!-- ADD TO USER LIST - ***SPOSTAMENTO*** -->
+		<div visible="@load(vm.status_view eq 2)">
+
+			<div class="container-fluid text-center">
+				<div class="well well-lg">
+
+					<div visible="@load(vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Utente
+								</span>
+								<label
+									value="@load(vm.selectedSchedule.person)"
+									class="form-control label label-primary">
+								</label>
+
+
+							</div>
+						</n:h1>
+					</div>
+
+					<div visible="@load(!vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									POSIZIONI SELEZIONATE
+								</span>
+								<label value="@load(vm.n_positions)"
+									class="form-control label label-primary">
+								</label>
+
+
+							</div>
+
+						</n:h1>
+					</div>
+
+
+					<n:h2>
+
+						<hbox>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									Data
+								</span>
+								<label
+									value="@load(vm.date_selection)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									class="form-control label label-primary">
+								</label>
+							</div>
+
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									Turno
+								</span>
+								<label value="@load(vm.shift_no)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+
+						</hbox>
+
+
+					</n:h2>
+
+					<div>
+						<hbox>
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									Inizio Attività
+								</span>
+								<textbox class="form-control"
+									value="@bind(vm.starting_task)"
+									placeholder="Inizio Attività..." />
+								<span class="input-group-btn">
+									<button label="Imposta Ora Attuale"
+										onClick="@command('setCurrentTaskTime', field = 0)"
+										sclass="btn btn-info">
+									</button>
+								</span>
+
+							</div>
+
+
+							<div class="input-group input-group-lg">
+								<span class="input-group-addon">
+									Fine Attività
+								</span>
+								<textbox class="form-control"
+									value="@bind(vm.end_task)" placeholder="Fine Attività..." />
+								<span class="input-group-btn">
+									<button label="Imposta Ora Attuale"
+										onClick="@command('setCurrentTaskTime', field = 1)"
+										sclass="btn btn-info">
+									</button>
+								</span>
+
+							</div>
+						</hbox>
+					</div>
+
+					<space></space>
+
+					<div class="input-group input-group-lg">
+
+						<div class="row">
+
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+
+									<span class="input-group-addon">
+										MANSIONE
+									</span>
+
+									<combobox
+										model="@load(vm.list_task)" readonly="true"
+										class="form-control"
+										selectedItem="@bind(vm.user_task_selected)">
+
+									</combobox>
+
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+
+
+								<div
+									class="input-group input-group-lg">
+
+									<span class="input-group-addon">
+										NAVI
+									</span>
+
+									<combobox model="@load(vm.ships)"
+										readonly="true" class="form-control"
+										selectedItem="@bind(vm.ship_selected)">
+
+										<template name="model">
+											<comboitem
+												value="@load(each)" label="@load(each)" />
+										</template>
+
+									</combobox>
+								</div>
+
+							</div>
+
+
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+									<span class="input-group-addon">
+										GRU
+									</span>
+									<textbox class="form-control"
+										value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
+								</div>
+							</div>
+						</div>
+
+						<space></space>
+
+						<div class="row">
+
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+									<span class="input-group-addon">
+										POSIZIONE
+									</span>
+
+									<combobox class="form-control"
+										readonly="true" value="@bind(vm.user_position)"
+										placeholder="POSIZIONE...">
+
+										<comboitem label="--"
+											value="--">
+										</comboitem>
+
+										<comboitem label="SOTTO BORDO"
+											value="SOTTO BORDO">
+										</comboitem>
+										<comboitem label="A BORDO"
+											value="A BORDO">
+										</comboitem>
+
+									</combobox>
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+									<span class="input-group-addon">
+										CONTINUA TURNO
+									</span>
+
+									<checkbox class="form-control"
+										checked="@bind(vm.user_continue)" />
+								</div>
+
+							</div>
+
+						</div>
+
+
+					</div>
+
+
+
+
+
+
+				</div>
+
+
+
+
+
+				<div class="well well-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="AGGIUNGI" onClick="@command('addDetailFinalSchedule')">
+					</button>
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
+					</button>
+
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+		<!-- NOTE USER -->
+		<div visible="@load(vm.status_view eq 3)">
+
+			<div class="container-fluid text-center">
+				<div class="well well-lg">
+
+					<div visible="@load(vm.user_visible_adding)">
+
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Nota su Utente
+								</span>
+								<label
+									value="@load(vm.selectedSchedule.person)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+
+
+						</n:h1>
+
+					</div>
+
+					<div visible="@load(!vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									POSIZIONI SELEZIONATE
+								</span>
+								<label value="@load(vm.n_positions)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+						</n:h1>
+					</div>
+
+
+					<n:h2>
+
+
+
+						<div class="input-group">
+							<span class="input-group-addon">Data</span>
+							<label
+								value="@load(vm.date_selection)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+								class="form-control label label-primary">
+							</label>
+						</div>
+
+
+
+
+
+
+
+					</n:h2>
+				</div>
+
+				<div class="well well-lg">
+
+
+					<textbox sclass="form-control textarea" rows="10"
+						value="@bind(vm.note)">
+					</textbox>
+
+				</div>
+
+				<div class="well well-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="AGGIUNGI" onClick="@command('modifyNote')">
+					</button>
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
+					</button>
+
+
+				</div>
+
+			</div>
+
+
+		</div>
+
+
+		<!-- PROGRAMMAZIONE NAVI -->
+		<div visible="@load(vm.status_view eq 4)">
+
+
+
+			<listbox pagingPosition="both" mold="paging"
+				selectedItems="@bind(vm.list_selected_ship)"
+				emptyMessage="Nessun risultato..." model="@load(vm.list_ship)"
+				checkmark="true" multiple="true" pageSize="8">
+
+				<listhead sizable="true">
+
+					<listheader align="center" label="TURNO" hflex="1" />
+
+					<listheader align="center" label="NAVE" hflex="3">
+						<label
+							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
+						</label>
+
+					</listheader>
+
+					<listheader align="center" label="LAVORO" hflex="1" />
+
+					<listheader align="center" label="M.C." hflex="1" />
+
+					<listheader align="center" label="P.C." hflex="1" />
+
+
+
+				</listhead>
+
+				<template name="model" var="item">
+					<listitem>
+
+						<listcell>
+							<label value="@load(item.shift)"
+								sclass="label label-info">
+							</label>
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label
+									value="@load(item) @converter(vm.shipConverter)"
+									sclass="@load(not empty item.handswork or not empty item.menwork?'label label-success' : 'label label-warning')">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label sclass="label label-default"
+									value="@load(item.worked ? 'SI' : 'NO')">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+
+
+						<listcell>
+
+							<n:h3>
+								<label value="@load(item.handswork)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label value="@load(item.menwork)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+					</listitem>
+				</template>
+
+			</listbox>
+
+		</div>
+
+
+		<!-- NOTE SHIP -->
+		<div visible="@load(vm.status_view eq 5)">
+
+			<div class="container-fluid text-center">
+				<div class="well well-lg">
+
+					<div visible="@load(!vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									POSIZIONI SELEZIONATE
+								</span>
+								<label value="@load(vm.n_positions)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+						</n:h1>
+					</div>
+
+					<div visible="@load(vm.user_visible_adding)">
+						<n:h1>
+							<div class="input-group">
+								<span class="input-group-addon">
+									Nota su Nave
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.name)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+
+
+						</n:h1>
+
+
+						<n:h2>
+
+							<div class="input-group">
+								<span class="input-group-addon">
+									Data di Arrivo
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.arrivaldate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									class="form-control label label-primary">
+								</label>
+
+								<span class="input-group-addon">
+									Data di Partenza
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.departuredate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
+									class="form-control label label-primary">
+								</label>
+
+								<span class="input-group-addon">
+									Turno
+								</span>
+								<label
+									value="@load(vm.selectedDetailShip.shift)"
+									class="form-control label label-primary">
+								</label>
+							</div>
+
+
+						</n:h2>
+
+					</div>
+				</div>
+
+				<div class="well well-lg">
+
+
+					<textbox sclass="form-control textarea" rows="10"
+						value="@bind(vm.note_ship)">
+					</textbox>
+
+				</div>
+
+				<div class="well well-lg">
+
+					<button sclass="btn btn-lg btn-success"
+						label="AGGIUNGI" onClick="@command('modifyShipNote')">
+					</button>
+					<button sclass="btn btn-lg btn-danger"
+						label="CHIUDI"
+						onClick="@command('refreshShipDataAndCurrentShift')">
+					</button>
+
+
+				</div>
+
+			</div>
+
+
+		</div>
+
 		<!-- REVIW FOR SHIP -->
 		<div visible="@load(vm.status_view eq 6)">
 
@@ -540,622 +1151,6 @@
 
 		</div>
 
-		<!-- NOTE SHIP -->
-		<div visible="@load(vm.status_view eq 5)">
-
-			<div class="container-fluid text-center">
-				<div class="well well-lg">
-
-					<div visible="@load(!vm.user_visible_adding)">
-						<n:h1>
-							<div class="input-group">
-								<span class="input-group-addon">
-									POSIZIONI SELEZIONATE
-								</span>
-								<label value="@load(vm.n_positions)"
-									class="form-control label label-primary">
-								</label>
-							</div>
-						</n:h1>
-					</div>
-
-					<div visible="@load(vm.user_visible_adding)">
-						<n:h1>
-							<div class="input-group">
-								<span class="input-group-addon">
-									Nota su Nave
-								</span>
-								<label
-									value="@load(vm.selectedDetailShip.name)"
-									class="form-control label label-primary">
-								</label>
-							</div>
-
-
-						</n:h1>
-
-
-						<n:h2>
-
-							<div class="input-group">
-								<span class="input-group-addon">
-									Data di Arrivo
-								</span>
-								<label
-									value="@load(vm.selectedDetailShip.arrivaldate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-									class="form-control label label-primary">
-								</label>
-
-								<span class="input-group-addon">
-									Data di Partenza
-								</span>
-								<label
-									value="@load(vm.selectedDetailShip.departuredate)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-									class="form-control label label-primary">
-								</label>
-
-								<span class="input-group-addon">
-									Turno
-								</span>
-								<label
-									value="@load(vm.selectedDetailShip.shift)"
-									class="form-control label label-primary">
-								</label>
-							</div>
-
-
-						</n:h2>
-
-					</div>
-				</div>
-
-				<div class="well well-lg">
-
-
-					<textbox sclass="form-control textarea" rows="10"
-						value="@bind(vm.note_ship)">
-					</textbox>
-
-				</div>
-
-				<div class="well well-lg">
-
-					<button sclass="btn btn-lg btn-success"
-						label="AGGIUNGI" onClick="@command('modifyShipNote')">
-					</button>
-					<button sclass="btn btn-lg btn-danger"
-						label="CHIUDI"
-						onClick="@command('refreshShipDataAndCurrentShift')">
-					</button>
-
-
-				</div>
-
-			</div>
-
-
-		</div>
-
-		<!-- PROGRAMMAZIONE NAVI -->
-		<div visible="@load(vm.status_view eq 4)">
-
-
-
-			<listbox pagingPosition="both" mold="paging"
-				selectedItems="@bind(vm.list_selected_ship)"
-				emptyMessage="Nessun risultato..." model="@load(vm.list_ship)"
-				checkmark="true" multiple="true" pageSize="8">
-
-				<listhead sizable="true">
-
-					<listheader align="center" label="TURNO" hflex="1" />
-
-					<listheader align="center" label="NAVE" hflex="3">
-						<label
-							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
-						</label>
-
-					</listheader>
-
-					<listheader align="center" label="LAVORO" hflex="1" />
-
-					<listheader align="center" label="M.C." hflex="1" />
-
-					<listheader align="center" label="P.C." hflex="1" />
-
-
-
-				</listhead>
-
-				<template name="model" var="item">
-					<listitem>
-
-						<listcell>
-							<label value="@load(item.shift)"
-								sclass="label label-info">
-							</label>
-						</listcell>
-
-						<listcell>
-
-							<n:h3>
-								<label
-									value="@load(item) @converter(vm.shipConverter)"
-									sclass="@load(not empty item.handswork or not empty item.menwork?'label label-success' : 'label label-warning')">
-								</label>
-							</n:h3>
-
-						</listcell>
-
-						<listcell>
-
-							<n:h3>
-								<label sclass="label label-default"
-									value="@load(item.worked ? 'SI' : 'NO')">
-								</label>
-							</n:h3>
-
-						</listcell>
-
-
-
-						<listcell>
-
-							<n:h3>
-								<label value="@load(item.handswork)"
-									sclass="label label-default">
-								</label>
-							</n:h3>
-
-						</listcell>
-
-						<listcell>
-
-							<n:h3>
-								<label value="@load(item.menwork)"
-									sclass="label label-default">
-								</label>
-							</n:h3>
-
-						</listcell>
-
-					</listitem>
-				</template>
-
-			</listbox>
-
-
-
-
-
-
-		</div>
-
-		<!-- NOTE USER -->
-		<div visible="@load(vm.status_view eq 3)">
-
-			<div class="container-fluid text-center">
-				<div class="well well-lg">
-
-					<div visible="@load(vm.user_visible_adding)">
-
-						<n:h1>
-							<div class="input-group">
-								<span class="input-group-addon">
-									Nota su Utente
-								</span>
-								<label
-									value="@load(vm.selectedSchedule.person)"
-									class="form-control label label-primary">
-								</label>
-							</div>
-
-
-						</n:h1>
-
-					</div>
-
-					<div visible="@load(!vm.user_visible_adding)">
-						<n:h1>
-							<div class="input-group">
-								<span class="input-group-addon">
-									POSIZIONI SELEZIONATE
-								</span>
-								<label value="@load(vm.n_positions)"
-									class="form-control label label-primary">
-								</label>
-							</div>
-						</n:h1>
-					</div>
-
-
-					<n:h2>
-
-
-
-						<div class="input-group">
-							<span class="input-group-addon">Data</span>
-							<label
-								value="@load(vm.date_selection)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-								class="form-control label label-primary">
-							</label>
-						</div>
-
-
-
-
-
-
-
-					</n:h2>
-				</div>
-
-				<div class="well well-lg">
-
-
-					<textbox sclass="form-control textarea" rows="10"
-						value="@bind(vm.note)">
-					</textbox>
-
-				</div>
-
-				<div class="well well-lg">
-
-					<button sclass="btn btn-lg btn-success"
-						label="AGGIUNGI" onClick="@command('modifyNote')">
-					</button>
-					<button sclass="btn btn-lg btn-danger"
-						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
-					</button>
-
-
-				</div>
-
-			</div>
-
-
-		</div>
-
-		<!-- ADD TO USER LIST - ***SPOSTAMENTO*** -->
-		<div visible="@load(vm.status_view eq 2)">
-
-			<div class="container-fluid text-center">
-				<div class="well well-lg">
-
-					<div visible="@load(vm.user_visible_adding)">
-						<n:h1>
-							<div class="input-group">
-								<span class="input-group-addon">
-									Utente
-								</span>
-								<label
-									value="@load(vm.selectedSchedule.person)"
-									class="form-control label label-primary">
-								</label>
-
-
-							</div>
-						</n:h1>
-					</div>
-
-					<div visible="@load(!vm.user_visible_adding)">
-						<n:h1>
-							<div class="input-group">
-								<span class="input-group-addon">
-									POSIZIONI SELEZIONATE
-								</span>
-								<label value="@load(vm.n_positions)"
-									class="form-control label label-primary">
-								</label>
-
-
-							</div>
-
-						</n:h1>
-					</div>
-
-
-					<n:h2>
-
-						<hbox>
-
-							<div class="input-group">
-								<span class="input-group-addon">
-									Data
-								</span>
-								<label
-									value="@load(vm.date_selection)  @converter(vm.dateConverter, format='dd/MM/YYYY')"
-									class="form-control label label-primary">
-								</label>
-							</div>
-
-
-							<div class="input-group">
-								<span class="input-group-addon">
-									Turno
-								</span>
-								<label value="@load(vm.shift_no)"
-									class="form-control label label-primary">
-								</label>
-							</div>
-
-						</hbox>
-
-
-					</n:h2>
-
-					<div>
-						<hbox>
-
-							<div class="input-group input-group-lg">
-								<span class="input-group-addon">
-									Inizio Attività
-								</span>
-								<textbox class="form-control"
-									value="@bind(vm.starting_task)"
-									placeholder="Inizio Attività..." />
-								<span class="input-group-btn">
-									<button label="Imposta Ora Attuale"
-										onClick="@command('setCurrentTaskTime', field = 0)"
-										sclass="btn btn-info">
-									</button>
-								</span>
-
-							</div>
-
-
-							<div class="input-group input-group-lg">
-								<span class="input-group-addon">
-									Fine Attività
-								</span>
-								<textbox class="form-control"
-									value="@bind(vm.end_task)" placeholder="Fine Attività..." />
-								<span class="input-group-btn">
-									<button label="Imposta Ora Attuale"
-										onClick="@command('setCurrentTaskTime', field = 1)"
-										sclass="btn btn-info">
-									</button>
-								</span>
-
-							</div>
-						</hbox>
-					</div>
-
-					<space></space>
-
-					<div class="input-group input-group-lg">
-
-						<div class="row">
-
-							<div class="col-md-4">
-
-								<div
-									class="input-group input-group-lg">
-
-									<span class="input-group-addon">
-										MANSIONE
-									</span>
-
-									<combobox
-										model="@load(vm.list_task)" readonly="true"
-										class="form-control"
-										selectedItem="@bind(vm.user_task_selected)">
-
-									</combobox>
-
-								</div>
-
-							</div>
-
-							<div class="col-md-4">
-
-
-								<div
-									class="input-group input-group-lg">
-
-									<span class="input-group-addon">
-										NAVI
-									</span>
-
-									<combobox model="@load(vm.ships)"
-										readonly="true" class="form-control"
-										selectedItem="@bind(vm.ship_selected)">
-
-										<template name="model">
-											<comboitem
-												value="@load(each)" label="@load(each)" />
-										</template>
-
-									</combobox>
-								</div>
-
-							</div>
-
-
-							<div class="col-md-4">
-
-								<div
-									class="input-group input-group-lg">
-									<span class="input-group-addon">
-										GRU
-									</span>
-									<textbox class="form-control"
-										value="@bind(vm.user_crane_selected)" placeholder="Gru.." />
-								</div>
-							</div>
-						</div>
-
-						<space></space>
-
-						<div class="row">
-
-							<div class="col-md-4">
-
-								<div
-									class="input-group input-group-lg">
-									<span class="input-group-addon">
-										POSIZIONE
-									</span>
-
-									<combobox class="form-control"
-										readonly="true" value="@bind(vm.user_position)"
-										placeholder="POSIZIONE...">
-
-										<comboitem label="--"
-											value="--">
-										</comboitem>
-
-										<comboitem label="SOTTO BORDO"
-											value="SOTTO BORDO">
-										</comboitem>
-										<comboitem label="A BORDO"
-											value="A BORDO">
-										</comboitem>
-
-									</combobox>
-								</div>
-
-							</div>
-
-							<div class="col-md-4">
-
-								<div
-									class="input-group input-group-lg">
-									<span class="input-group-addon">
-										CONTINUA TURNO
-									</span>
-
-									<checkbox class="form-control"
-										checked="@bind(vm.user_continue)" />
-								</div>
-
-							</div>
-
-						</div>
-
-
-					</div>
-
-
-
-
-
-
-				</div>
-
-
-
-
-
-				<div class="well well-lg">
-
-					<button sclass="btn btn-lg btn-success"
-						label="AGGIUNGI" onClick="@command('addDetailFinalSchedule')">
-					</button>
-					<button sclass="btn btn-lg btn-danger"
-						label="CHIUDI" onClick="@command('refreshDataAndCurrentShift')">
-					</button>
-
-
-				</div>
-			</div>
-
-
-		</div>
-
-
-
-		<!-- USER LIST -->
-		<div visible="@load(vm.status_view eq 1)">
-
-
-			<listbox pagingPosition="both" mold="paging"
-				selectedItems="@bind(vm.list_schedule_selected)"
-				emptyMessage="Nessun risultato..." model="@load(vm.users)"
-				checkmark="true" multiple="true" pageSize="8">
-
-
-				<listhead sizable="true">
-
-					<listheader align="center" label="TURNO" hflex="1" />
-
-					<listheader align="center" label="RISORSA"
-						hflex="5">
-						<label
-							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
-						</label>
-					</listheader>
-
-					<listheader align="center" label="PROGRAMMA"
-						hflex="2" />
-
-					<listheader align="center" label="INGRESSI"
-						hflex="2" />
-
-
-				</listhead>
-
-				<template name="model" var="item">
-					<listitem>
-
-						<listcell>
-
-							<label
-								value="@load(item.detail_schedule.shift)"
-								sclass="label label-info">
-							</label>
-
-						</listcell>
-
-						<listcell>
-
-							<n:h3>
-								<label
-									value="@load(item) @converter(vm.userConverter)"
-									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
-								</label>
-							</n:h3>
-
-
-
-
-						</listcell>
-
-
-
-						<listcell>
-
-							<n:h3>
-								<label
-									value="@load(item) @converter(vm.taskConverter)"
-									sclass="label label-default">
-								</label>
-							</n:h3>
-
-						</listcell>
-
-						<listcell>
-
-							<n:h3>
-								<label value="@load(item.badgeInfo)"
-									sclass="label label-info">
-								</label>
-							</n:h3>
-
-
-						</listcell>
-
-
-
-					</listitem>
-				</template>
-
-			</listbox>
-
-		</div>
-
-
-
 		<!-- ADD INFO USER FOR REVIEW *** ASSEGNA PROGRAMMATO*** -->
 		<div visible="@load(vm.status_view eq 7)">
 
@@ -1240,10 +1235,16 @@
 
 					<listheader align="center" label="GRU" hflex="1" />
 
-					<listheader align="center" label="TIPO GRU GWT"
-						hflex="1" />
+					<listheader align="center" label="GWT" hflex="1" />
 
 					<listheader align="center" label="PERSONE GRU"
+						hflex="1" />
+
+					<listheader align="center" label="INIZIO" hflex="1" />
+
+					<listheader align="center" label="FINE" hflex="1" />
+
+					<listheader align="center" label="PERSONE H"
 						hflex="1" />
 
 				</listhead>
@@ -1273,6 +1274,38 @@
 
 							<n:h3>
 								<label value="@load(item.p_crane)"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label
+									value="@load(item.activity_start) @converter(vm.dateConverter, format='dd/MM/YYYY HH:SS')"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label value="@load(item.activity_end) @converter(vm.dateConverter, format='dd/MM/YYYY  HH:SS')"
+									sclass="label label-default">
+								</label>
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+								<label
+									value="@load(item.menwork_activityh)"
 									sclass="label label-default">
 								</label>
 							</n:h3>
@@ -1313,7 +1346,7 @@
 				<space></space>
 
 				<div class="input-group input-group-lg">
-					<span class="input-group-addon">TIPO GRU GWT</span>
+					<span class="input-group-addon">GWT</span>
 					<checkbox class="form-control"
 						checked="@bind(vm.crane_type)" />
 				</div>
@@ -1325,6 +1358,58 @@
 					<textbox class="form-control"
 						value="@bind(vm.crane_p_gru)" placeholder="P. Gru.." />
 
+
+				</div>
+
+				<div visible="@load(vm.ship_h)">
+
+					<space></space>
+
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon">
+							FASCIA ORARIA DA:
+						</span>
+
+						<textbox class="form-control"
+							value="@bind(vm.h_date_from)" placeholder="Da..." />
+						<span class="input-group-btn">
+							<button label="Imposta Default"
+								onClick="@command('setShipHTimeDefault', field = 0)"
+								sclass="btn btn-info">
+							</button>
+						</span>
+
+
+
+					</div>
+
+					<space></space>
+
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon">
+							FASCIA ORARIA A:
+						</span>
+						<textbox class="form-control"
+							value="@bind(vm.h_date_to)" placeholder="A..." />
+						<span class="input-group-btn">
+							<button label="Imposta Default"
+								onClick="@command('setShipHTimeDefault', field = 1)"
+								sclass="btn btn-info">
+							</button>
+						</span>
+
+					</div>
+
+					<space></space>
+
+					<div class="input-group input-group-lg">
+						<span class="input-group-addon">
+							PERSONE SU SERVIZIO ORARIO:
+						</span>
+						<intbox class="form-control"
+							value="@bind(vm.h_menwork)" placeholder="A..." />
+
+					</div>
 
 				</div>
 

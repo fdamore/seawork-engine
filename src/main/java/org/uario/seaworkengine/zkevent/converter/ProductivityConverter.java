@@ -32,6 +32,10 @@ public class ProductivityConverter implements TypeConverter {
 
 		final ReviewShipWorkAggregate reviewShipWork = (ReviewShipWorkAggregate) arg0;
 
+		if ((reviewShipWork.getVolume() == null) || (reviewShipWork.getTime_work() == null)) {
+			return "";
+		}
+
 		final Double productivity = reviewShipWork.getVolume() / reviewShipWork.getTime_work();
 
 		final DecimalFormat format = new DecimalFormat("#.##");
