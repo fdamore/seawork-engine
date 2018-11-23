@@ -200,7 +200,7 @@
 					<listheader align="center" label="TURNO" hflex="1" />
 
 					<listheader align="center" label="RISORSA"
-						hflex="5">
+						hflex="6">
 						<label
 							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
 						</label>
@@ -208,6 +208,7 @@
 
 					<listheader align="center" label="PROGRAMMA"
 						hflex="2" />
+
 
 					<listheader align="center" label="INGRESSI"
 						hflex="2" />
@@ -234,6 +235,22 @@
 									value="@load(item) @converter(vm.userConverter)"
 									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
 								</label>
+
+								<label
+									value="@load(item) @converter(vm.taskConverter)"
+									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
+								</label>
+
+								<label
+									value="@load(item.detail_schedule.continueshift ? 'CONTINUA TURNO' : '')"
+									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
+								</label>
+
+								<label
+									value="@load(item.detail_schedule.reviewshift and item.detail_schedule.revised  ? 'FASCIA ORARIA' : '')"
+									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
+								</label>
+
 							</n:h3>
 
 
@@ -247,9 +264,10 @@
 
 							<n:h3>
 								<label
-									value="@load(item) @converter(vm.taskConverter)"
+									value="@load(item) @converter(vm.programmedTaskConverter)"
 									sclass="label label-default">
 								</label>
+
 							</n:h3>
 
 						</listcell>
@@ -486,6 +504,20 @@
 
 									<checkbox class="form-control"
 										checked="@bind(vm.user_continue)" />
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+
+								<div
+									class="input-group input-group-lg">
+									<span class="input-group-addon">
+										CONSUNTIVA FASCIA ORARIA
+									</span>
+
+									<checkbox class="form-control"
+										checked="@bind(vm.user_reviewshift)" />
 								</div>
 
 							</div>
@@ -1204,6 +1236,17 @@
 				<space></space>
 
 				<div class="input-group input-group-lg">
+					<span class="input-group-addon">
+						CONSUNTIVA FASCIA ORARIA
+					</span>
+
+					<checkbox class="form-control"
+						checked="@bind(vm.user_reviewshift)" />
+				</div>
+
+				<space></space>
+
+				<div class="input-group input-group-lg">
 
 					<button sclass="btn btn-lg btn-success"
 						label="CONSUNTIVA" onClick="@command('reviewUserCommand')">
@@ -1294,7 +1337,8 @@
 						<listcell>
 
 							<n:h3>
-								<label value="@load(item.activity_end) @converter(vm.dateConverter, format='dd/MM/YYYY  HH:SS')"
+								<label
+									value="@load(item.activity_end) @converter(vm.dateConverter, format='dd/MM/YYYY  HH:SS')"
 									sclass="label label-default">
 								</label>
 							</n:h3>

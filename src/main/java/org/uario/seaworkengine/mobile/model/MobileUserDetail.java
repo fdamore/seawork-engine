@@ -28,12 +28,16 @@ public class MobileUserDetail implements Serializable {
 	 */
 	private List<MobileUserDetail>	programmed;
 
+	private Boolean					reviewshift;
+
 	private Boolean					revised;
 
 	private Integer					shift;
 
 	private Integer					task;
+
 	private Double					time;
+
 	private Date					time_from;
 	private Date					time_to;
 	private Double					time_vacation;
@@ -64,6 +68,10 @@ public class MobileUserDetail implements Serializable {
 
 	public List<MobileUserDetail> getProgrammed() {
 		return this.programmed;
+	}
+
+	public Boolean getReviewshift() {
+		return this.reviewshift;
 	}
 
 	public Boolean getRevised() {
@@ -120,6 +128,10 @@ public class MobileUserDetail implements Serializable {
 
 	public void setProgrammed(final List<MobileUserDetail> programmed) {
 		this.programmed = programmed;
+	}
+
+	public void setReviewshift(final Boolean reviewshift) {
+		this.reviewshift = reviewshift;
 	}
 
 	public void setRevised(final Boolean revised) {

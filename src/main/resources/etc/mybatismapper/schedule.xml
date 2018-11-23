@@ -686,6 +686,7 @@ SELECT
     d.id_ship,
     d.board,
     d.crane,
+    d.reviewshift,
     1 AS revised
 FROM
     detailfinalschedule d,

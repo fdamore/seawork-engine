@@ -101,7 +101,7 @@ public class MobileComposer {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private class MyMobileTaskConverter implements Converter {
+	private class MyProgrammedTaskConverter implements Converter {
 
 		@Override
 		public Object coerceToBean(final Object val, final Component comp, final BindContext ctx) {
@@ -199,6 +199,31 @@ public class MobileComposer {
 	}
 
 	@SuppressWarnings("rawtypes")
+	private class MyTaskConverter implements Converter {
+
+		@Override
+		public Object coerceToBean(final Object val, final Component comp, final BindContext ctx) {
+
+			return null;
+
+		}
+
+		@Override
+		public Object coerceToUi(final Object val, final Component comp, final BindContext ctx) {
+
+			if (!(val instanceof InitialScheduleSingleDetail)) {
+				return null;
+			}
+
+			final InitialScheduleSingleDetail init_val = (InitialScheduleSingleDetail) val;
+
+			return MobileComposer.this.getTaskStringView(init_val);
+
+		}
+
+	}
+
+	@SuppressWarnings("rawtypes")
 	private class MyUserConverter implements Converter {
 
 		@Override
@@ -229,11 +254,6 @@ public class MobileComposer {
 				}
 			}
 
-			// adding info about continue shift
-			final Boolean cont_info = detail_schedule.getContinueshift();
-			if (BooleanUtils.isTrue(cont_info)) {
-				main = main + "{#}";
-			}
 			if (BooleanUtils.isNotTrue(detail_schedule.getRevised())) {
 				return main;
 			}
@@ -253,11 +273,6 @@ public class MobileComposer {
 				final String name = ship.getName();
 				main = main + "(" + name + " - CR[" + crane + "])";
 			}
-
-			// adding info program
-			main = main + "(";
-			final String info = MobileComposer.this.getTaskStringView(op);
-			main = main + info + ")";
 
 			return main;
 
@@ -311,6 +326,11 @@ public class MobileComposer {
 
 	private PersonDAO							person_dao;
 
+	/**
+	 * Task converter
+	 */
+	private final MyProgrammedTaskConverter		programmedTaskConverter	= new MyProgrammedTaskConverter();
+
 	private ISchedule							schedule_dao;
 
 	private IScheduleShip						schedule_ship_dao;
@@ -361,10 +381,7 @@ public class MobileComposer {
 
 	private TasksDAO							task_dao;
 
-	/**
-	 * Task converter
-	 */
-	private final MyMobileTaskConverter			taskConverter			= new MyMobileTaskConverter();
+	private final MyTaskConverter				taskConverter			= new MyTaskConverter();
 
 	private Boolean								user_continue;
 
@@ -373,6 +390,8 @@ public class MobileComposer {
 	private String								user_position;
 
 	private final Integer[]						user_programmed			= new Integer[] { 0, 0, 0, 0 };
+
+	private Boolean								user_reviewshift		= Boolean.FALSE;
 
 	private UserTask							user_task_selected;
 
@@ -383,8 +402,8 @@ public class MobileComposer {
 	private List<InitialScheduleSingleDetail>	users;
 
 	@Command
-	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "user_crane_selected", "selectedSchedule", "starting_task", "end_task",
-			"user_task_selected", "user_visible_adding", "n_positions", "user_continue" })
+	@NotifyChange({ "status_view", "list_task", "ships", "ship_selected", "user_crane_selected", "user_position", "user_reviewshift",
+			"selectedSchedule", "starting_task", "end_task", "user_task_selected", "user_visible_adding", "n_positions", "user_continue" })
 	public void addComponents() {
 
 		if (this.status_view != 1) {
@@ -399,11 +418,13 @@ public class MobileComposer {
 		// define ships and ship selected
 		this.ships = this.listShip(this.date_selection);
 
-		// define the crane
+		// define the view
 		this.user_crane_selected = null;
+		this.user_position = null;
 
-		// define continue shift
+		// define flags: continue and "consuntiva fasacia oraria"
 		this.user_continue = Boolean.FALSE;
+		this.user_reviewshift = Boolean.FALSE;
 
 		// set starting and end task
 		String end_info = "";
@@ -584,7 +605,7 @@ public class MobileComposer {
 
 			// Create info
 			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
-					this.user_continue);
+					this.user_continue, this.user_reviewshift);
 
 		}
 
@@ -644,9 +665,11 @@ public class MobileComposer {
 	 * @param crane
 	 * @param ship
 	 * @param position
+	 * @param user_reviewshift
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-			final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift) {
+			final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift,
+			final Boolean user_reviewshift) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -707,6 +730,9 @@ public class MobileComposer {
 		// set controller
 		final Person person_logged = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		detail_schedule.setMobile_user(person_logged.getId());
+
+		// set user_reviewshift
+		detail_schedule.setReviewshift(user_reviewshift);
 
 		this.schedule_dao.createDetailFinalSchedule(detail_schedule);
 
@@ -942,6 +968,10 @@ public class MobileComposer {
 		return this.note_ship;
 	}
 
+	public MyProgrammedTaskConverter getProgrammedTaskConverter() {
+		return this.programmedTaskConverter;
+	}
+
 	public DetailScheduleShip getSelectedDetailShip() {
 		return this.selectedDetailShip;
 	}
@@ -1026,7 +1056,7 @@ public class MobileComposer {
 		return this.status_view;
 	}
 
-	public MyMobileTaskConverter getTaskConverter() {
+	public MyTaskConverter getTaskConverter() {
 		return this.taskConverter;
 	}
 
@@ -1121,6 +1151,10 @@ public class MobileComposer {
 
 	public Integer[] getUser_programmed() {
 		return this.user_programmed;
+	}
+
+	public Boolean getUser_reviewshift() {
+		return this.user_reviewshift;
 	}
 
 	public UserTask getUser_task_selected() {
@@ -1504,10 +1538,10 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "ships", "status_view", "ship_operation", "ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain",
-			"ship_sky", "ship_wind", "ship_windyday", "ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity",
-			"cranes_entity_selected", "crane_p_gru", "crane_type", "selectedDetailShip", "user_visible_adding", "n_positions", "h_date_from",
-			"h_date_to", "h_menwork", "ship_h" })
+	@NotifyChange({ "ships", "ship_selected", "user_crane_selected", "user_position", "user_reviewshift", "status_view", "ship_operation",
+			"ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain", "ship_sky", "ship_wind", "ship_windyday",
+			"ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity", "cranes_entity_selected", "crane_p_gru",
+			"crane_type", "selectedDetailShip", "user_visible_adding", "n_positions", "h_date_from", "h_date_to", "h_menwork", "ship_h" })
 	public void review() {
 
 		// review "TURNI"
@@ -1518,6 +1552,9 @@ public class MobileComposer {
 			}
 
 			this.ships = this.listShip(this.date_selection);
+			this.user_crane_selected = null;
+			this.user_position = null;
+			this.user_reviewshift = null;
 
 			// set view
 			this.status_view = 7;
@@ -1649,11 +1686,13 @@ public class MobileComposer {
 				myposition = null;
 			}
 
-			// for program
+			// for program continue shift
 			final Boolean cont_shift = itm.getDetail_schedule().getContinueshift();
 
+			//
+
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
-					myposition, cont_shift);
+					myposition, cont_shift, this.user_reviewshift);
 
 		}
 
@@ -2008,6 +2047,10 @@ public class MobileComposer {
 		this.user_position = user_position;
 	}
 
+	public void setUser_reviewshift(final Boolean user_reviewshift) {
+		this.user_reviewshift = user_reviewshift;
+	}
+
 	public void setUser_task_selected(final UserTask user_task_selected) {
 		this.user_task_selected = user_task_selected;
 	}
@@ -2158,7 +2201,7 @@ public class MobileComposer {
 
 						final UserTask delay = this.configurationDao.getDelayOperationTask();
 
-						this.createDetailFinalSchedule(time_from, current_time, itm, delay, null, null, null, Boolean.FALSE);
+						this.createDetailFinalSchedule(time_from, current_time, itm, delay, null, null, null, Boolean.FALSE, Boolean.FALSE);
 
 					}
 
