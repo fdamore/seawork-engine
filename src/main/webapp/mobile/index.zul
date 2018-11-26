@@ -351,7 +351,8 @@
 								<span class="input-group-addon">
 									Turno
 								</span>
-								<label value="@load(vm.selectedSchedule.detail_schedule.shift)"
+								<label
+									value="@load(vm.selectedSchedule.detail_schedule.shift)"
 									class="form-control label label-primary">
 								</label>
 							</div>
@@ -1187,6 +1188,23 @@
 		<div visible="@load(vm.status_view eq 7)">
 
 			<div class="container-fluid">
+
+				<div visible="@load(!vm.user_visible_adding)">
+					<n:h1>
+						<div class="input-group">
+							<span class="input-group-addon">
+								POSIZIONI SELEZIONATE
+							</span>
+							<label value="@load(vm.n_positions)"
+								class="form-control label label-primary">
+							</label>
+
+
+						</div>
+
+					</n:h1>
+				</div>
+
 
 				<div class="input-group input-group-lg">
 

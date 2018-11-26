@@ -1551,6 +1551,15 @@ public class MobileComposer {
 				return;
 			}
 
+			if (this.list_schedule_selected.size() > 1) {
+				// DEFINE INFO FOR MULTIPLE USER
+				this.user_visible_adding = Boolean.FALSE;
+				this.n_positions = "" + this.list_schedule_selected.size();
+			} else {
+				// DEFINE INFO FOR SINGLE USER
+				this.user_visible_adding = Boolean.TRUE;
+			}
+
 			this.ships = this.listShip(this.date_selection);
 			this.user_crane_selected = null;
 			this.user_position = null;
