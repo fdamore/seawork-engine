@@ -242,7 +242,7 @@
 								</label>
 
 								<label
-									value="@load(item.detail_schedule.continueshift ? 'CONTINUA TURNO' : '')"
+									value="@load(item.detail_schedule.continueshift ? 'CON.T.' : '')"
 									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
 								</label>
 
