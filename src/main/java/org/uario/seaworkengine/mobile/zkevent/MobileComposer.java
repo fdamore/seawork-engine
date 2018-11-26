@@ -455,6 +455,9 @@ public class MobileComposer {
 		this.starting_task = this.getCurrentInfoTime();
 		this.end_task = end_info;
 
+		// select this... for info
+		this.selectedSchedule = this.list_schedule_selected.get(0);
+
 		if (this.list_schedule_selected.size() > 1) {
 
 			// DEFINE INFO FOR MULTIPLE USER
@@ -469,9 +472,6 @@ public class MobileComposer {
 
 			// DEFINE INFO FOR SINGLE USER
 			this.user_visible_adding = Boolean.TRUE;
-
-			// select this
-			this.selectedSchedule = this.list_schedule_selected.get(0);
 
 			this.list_task = this.task_dao.loadTasksByUserForMobile(this.selectedSchedule.getPerson().getId());
 
@@ -605,7 +605,7 @@ public class MobileComposer {
 
 			// Create info
 			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
-					this.user_continue, this.user_reviewshift);
+									this.user_continue, this.user_reviewshift);
 
 		}
 
@@ -668,8 +668,8 @@ public class MobileComposer {
 	 * @param user_reviewshift
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-			final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift,
-			final Boolean user_reviewshift) {
+							final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift,
+							final Boolean user_reviewshift) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -1652,6 +1652,9 @@ public class MobileComposer {
 
 	}
 
+	/**
+	 * Used in *** ASSEGNA PROGRAMMATO***
+	 */
 	@Command
 	@NotifyChange({ "users", "shift_no", "status_view", "list_schedule_selected" })
 	public void reviewUserCommand() {
@@ -1692,7 +1695,7 @@ public class MobileComposer {
 			//
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
-					myposition, cont_shift, this.user_reviewshift);
+									myposition, cont_shift, this.user_reviewshift);
 
 		}
 
@@ -2077,8 +2080,8 @@ public class MobileComposer {
 			final Date dt_ship_persondown = this.parseDateString(this.ship_persondown);
 
 			this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
-					this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
-					dt_ship_lastdown, dt_ship_persondown);
+									this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard,
+									dt_ship_firstdown, dt_ship_lastdown, dt_ship_persondown);
 
 		}
 
