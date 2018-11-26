@@ -60,7 +60,7 @@
 
 			</div>
 
-			<div class="col-md-5">
+			<div class="col-md-5" visible="@load(vm.status_view ne 10)">
 
 				<div class="btn-group-sm btn btn-group">
 					<button sclass="btn btn-info" label="Note"
@@ -84,6 +84,9 @@
 
 					<button sclass="btn btn-success" label="Aggiorna"
 						onClick="@command('refreshDataAndCurrentShift')" />
+
+					<button sclass="btn btn-success" label="Riepilogo"
+						onClick="@command('report')" />
 
 					<button sclass="btn btn-success" label="Logout"
 						onClick="@command('logout')" />
@@ -1497,6 +1500,10 @@
 
 
 		</div>
+
+		<!-- REPORT -->
+		<div visible="@load(vm.status_view eq 10)"></div>
+
 
 	</vlayout>
 
