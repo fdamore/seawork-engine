@@ -40,7 +40,8 @@
 
 			</div>
 
-			<div class="col-md-4">
+			<div class="col-md-4"
+				visible="@load(vm.status_view ne 10)">
 
 				<div class="btn-group-sm btn btn-group">
 					<button sclass="btn btn-info" label="Turno 1"
@@ -60,7 +61,8 @@
 
 			</div>
 
-			<div class="col-md-5" visible="@load(vm.status_view ne 10)">
+			<div class="col-md-5"
+				visible="@load(vm.status_view ne 10)">
 
 				<div class="btn-group-sm btn btn-group">
 					<button sclass="btn btn-info" label="Note"
@@ -1502,7 +1504,202 @@
 		</div>
 
 		<!-- REPORT -->
-		<div visible="@load(vm.status_view eq 10)"></div>
+		<div visible="@load(vm.status_view eq 10)">
+
+
+			<listbox pagingPosition="both" mold="paging"
+				emptyMessage="Nessun risultato..." model="@load(vm.report_list)"
+				checkmark="false" multiple="false" pageSize="8">
+
+
+				<listhead sizable="true">
+
+					<listheader align="center" label="TURNO" hflex="1"
+						sort="auto(shift_no)" />
+
+
+					<listheader align="center" label="NAVE" hflex="2"
+						sort="auto(ship_name)">
+						<label
+							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
+						</label>
+					</listheader>
+
+					<listheader align="center" label="TIPO OP."
+						hflex="1" />
+
+					<listheader align="center" label="M.C." hflex="1" />
+
+
+					<listheader align="center" label="GRU" hflex="1"
+						sort="auto(ship_crane_number)" />
+
+					<listheader align="center" label="NOTE" hflex="2" />
+
+					<listheader align="center" label="CR" hflex="2" />
+
+					<listheader align="center" label="PERSONALE"
+						sort="auto(user_name)" hflex="2" />
+
+					<listheader align="center" label="MANS." hflex="2" />
+
+					<listheader align="center" label="ADD" hflex="1" />
+
+					<listheader align="center" label="RD" hflex="2" />
+
+
+				</listhead>
+
+				<template name="model" var="item">
+					<listitem>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.shift_no)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.ship_name)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.typ_op)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.ship_m_c)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label
+									value="@load(item.ship_crane_number)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.ship_note)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.user_crane)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.user_name)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.user_tag_task)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label value="@load(item.board)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+						<listcell>
+
+							<n:h3>
+
+								<label
+									value="@load(item.user_tag_continue)"
+									sclass="label label-info">
+								</label>
+
+							</n:h3>
+
+						</listcell>
+
+
+
+
+					</listitem>
+				</template>
+
+			</listbox>
+
+
+
+		</div>
 
 
 	</vlayout>
