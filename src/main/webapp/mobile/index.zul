@@ -61,7 +61,7 @@
 
 			</div>
 
-			<div class="col-md-5"
+			<div class="col-md-4"
 				visible="@load(vm.status_view ne 10)">
 
 				<div class="btn-group-sm btn btn-group">
@@ -79,7 +79,7 @@
 
 			</div>
 
-			<div class="col-md-2">
+			<div class="col-md-3">
 
 				<div class="btn-group-sm btn btn-group">
 
