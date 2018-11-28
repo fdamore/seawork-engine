@@ -775,20 +775,37 @@ public class MobileComposer {
 
 		final List<DetailScheduleShip> list_s = this.selectInitialShipSchedule(date_for_selection, null);
 
+		// LOOP SHIP DETAIL
 		for (final DetailScheduleShip itm_s : list_s) {
 
 			final List<DetailFinalScheduleShip> cranes = this.schedule_ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(itm_s.getId());
+
+			// LOOP SHIP FINAL DETAILS
 			for (final DetailFinalScheduleShip itm_d : cranes) {
 
 				if (itm_d.getCrane() == null) {
 					continue;
 				}
 
-				// add users
+				// LOOP USER
 				for (final InitialScheduleSingleDetail itm_u : list_u) {
 
+					// check integrity on user info
 					final MobileUserDetail detail_schedule = itm_u.getDetail_schedule();
 					if ((detail_schedule == null) || StringUtils.isEmpty(detail_schedule.getCrane())) {
+						continue;
+					}
+
+					// check ship
+					boolean check_ship = false;
+					if (detail_schedule.getId_ship() != null) {
+						if (itm_s.getId_ship() != null) {
+							if (detail_schedule.getId_ship().equals(itm_s.getId_ship())) {
+								check_ship = true;
+							}
+						}
+					}
+					if (!check_ship) {
 						continue;
 					}
 
