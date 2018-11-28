@@ -796,6 +796,11 @@ public class MobileComposer {
 						continue;
 					}
 
+					// only revised
+					if (BooleanUtils.isNotTrue(detail_schedule.getRevised())) {
+						continue;
+					}
+
 					// check ship
 					boolean check_ship = false;
 					if (detail_schedule.getId_ship() != null) {
@@ -806,11 +811,6 @@ public class MobileComposer {
 						}
 					}
 					if (!check_ship) {
-						continue;
-					}
-
-					// only revised
-					if (BooleanUtils.isNotTrue(detail_schedule.getRevised())) {
 						continue;
 					}
 
