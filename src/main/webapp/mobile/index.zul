@@ -252,7 +252,7 @@
 								</label>
 
 								<label
-									value="@load(item.detail_schedule.reviewshift and item.detail_schedule.revised  ? 'FASCIA ORARIA' : '')"
+									value="@load(item.detail_schedule.reviewshift and item.detail_schedule.revised  ? 'FASC.H' : '')"
 									sclass="@load(item.detail_schedule.revised ? 'label label-success' : 'label label-warning')">
 								</label>
 
