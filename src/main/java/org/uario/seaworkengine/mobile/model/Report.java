@@ -48,7 +48,7 @@ public class Report implements Comparable<Report> {
 	 * @return
 	 */
 	private String createStringShipTag() {
-		return "" + this.shift_no + this.ship_name + this.ship_crane_number;
+		return "" + this.shift_no + this.ship_name;
 	}
 
 	/**

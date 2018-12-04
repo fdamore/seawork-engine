@@ -66,6 +66,7 @@
 
 				<div class="btn-group-sm btn btn-group">
 					<button sclass="btn btn-info" label="Note"
+						visible="@load(vm.status_view ne 8 and vm.status_view ne 9)"
 						onClick="@command('editNote')" />
 					<button sclass="btn btn-info" label="Spostamento"
 						visible="@load(vm.status_view eq 1)"
@@ -1567,7 +1568,7 @@
 							<n:h3>
 
 								<label value="@load(item.ship_name)"
-									visible="@load(item.visible)" sclass="label label-info">
+									sclass="label label-info">
 								</label>
 
 							</n:h3>
@@ -1579,7 +1580,7 @@
 							<n:h3>
 
 								<label value="@load(item.typ_op)"
-									visible="@load(item.visible)" sclass="label label-info">
+									sclass="label label-info">
 								</label>
 
 							</n:h3>
@@ -1606,7 +1607,7 @@
 
 								<label
 									value="@load(item.ship_crane_number)"
-									visible="@load(item.visible)" sclass="label label-info">
+									sclass="label label-info">
 								</label>
 
 							</n:h3>
