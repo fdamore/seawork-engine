@@ -1514,12 +1514,10 @@
 
 				<listhead sizable="true">
 
-					<listheader align="center" label="TURNO" hflex="1"
-						sort="auto(shift_no)" />
+					<listheader align="center" label="TURNO" hflex="1" />
 
 
-					<listheader align="center" label="NAVE" hflex="2"
-						sort="auto(ship_name)">
+					<listheader align="center" label="NAVE" hflex="2">
 						<label
 							value="@load(vm.date_selection) @converter(vm.dateConverter, format='dd/MM/YYYY')">
 						</label>
@@ -1531,20 +1529,18 @@
 					<listheader align="center" label="M.C." hflex="1" />
 
 
-					<listheader align="center" label="GRU" hflex="1"
-						sort="auto(ship_crane_number)" />
+					<listheader align="center" label="GRU" hflex="1" />
 
 					<listheader align="center" label="NOTE" hflex="2" />
 
 					<listheader align="center" label="CR" hflex="2" />
 
 					<listheader align="center" label="PERSONALE"
-						sort="auto(user_name)" hflex="2" />
+						hflex="2" />
 
 					<listheader align="center" label="MANS." hflex="2" />
 
-					<listheader align="center" label="ADD" hflex="1"
-						sort="auto(board)" />
+					<listheader align="center" label="ADD" hflex="1" />
 
 					<listheader align="center" label="RD" hflex="2" />
 
@@ -1571,7 +1567,7 @@
 							<n:h3>
 
 								<label value="@load(item.ship_name)"
-									sclass="label label-info">
+									visible="@load(item.visible)" sclass="label label-info">
 								</label>
 
 							</n:h3>
@@ -1583,7 +1579,7 @@
 							<n:h3>
 
 								<label value="@load(item.typ_op)"
-									sclass="label label-info">
+									visible="@load(item.visible)" sclass="label label-info">
 								</label>
 
 							</n:h3>
@@ -1597,7 +1593,7 @@
 							<n:h3>
 
 								<label value="@load(item.ship_m_c)"
-									sclass="label label-info">
+									visible="@load(item.visible)" sclass="label label-info">
 								</label>
 
 							</n:h3>
@@ -1610,7 +1606,7 @@
 
 								<label
 									value="@load(item.ship_crane_number)"
-									sclass="label label-info">
+									visible="@load(item.visible)" sclass="label label-info">
 								</label>
 
 							</n:h3>
@@ -1622,7 +1618,7 @@
 							<n:h3>
 
 								<label value="@load(item.ship_note)"
-									sclass="label label-info">
+									visible="@load(item.visible)" sclass="label label-info">
 								</label>
 
 							</n:h3>

@@ -27,17 +27,37 @@ public class Report implements Comparable<Report> {
 
 	private String	user_tag_task;
 
+	private boolean	visible	= true;
+
 	@Override
 	public int compareTo(final Report o) {
 		if (o == null) {
 			return -1;
 		}
 
-		final String info_a = "" + this.board + this.user_crane + this.user_name;
-		final String info_b = "" + o.board + o.user_crane + o.user_name;
+		final String info_a = this.createStringTag();
+		final String info_b = o.createStringTag();
 
 		return info_a.compareTo(info_b);
 
+	}
+
+	/**
+	 * Create a tag used for order
+	 *
+	 * @return
+	 */
+	private String createStringShipTag() {
+		return "" + this.shift_no + this.ship_name + this.ship_crane_number;
+	}
+
+	/**
+	 * Create a tag used for order
+	 *
+	 * @return
+	 */
+	private String createStringTag() {
+		return "" + this.shift_no + this.ship_name + this.ship_crane_number + this.board + this.user_crane + this.user_name;
 	}
 
 	@Override
@@ -56,8 +76,8 @@ public class Report implements Comparable<Report> {
 
 		final Report obj_info = (Report) obj;
 
-		final String info_a = "" + this.board + this.user_crane + this.user_name;
-		final String info_b = "" + obj_info.board + obj_info.user_crane + obj_info.user_name;
+		final String info_a = this.createStringTag();
+		final String info_b = obj_info.createStringTag();
 		return info_a.equals(info_b);
 
 	}
@@ -106,6 +126,10 @@ public class Report implements Comparable<Report> {
 		return this.user_tag_task;
 	}
 
+	public boolean isVisible() {
+		return this.visible;
+	}
+
 	public void setBoard(final String board) {
 		this.board = board;
 	}
@@ -148,6 +172,25 @@ public class Report implements Comparable<Report> {
 
 	public void setUser_tag_task(final String user_tag_task) {
 		this.user_tag_task = user_tag_task;
+	}
+
+	public void setVisible(final boolean visible) {
+		this.visible = visible;
+	}
+
+	public Boolean shipEquals(final Report obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+
+		final String info_a = this.createStringShipTag();
+		final String info_b = obj.createStringShipTag();
+
+		return info_a.equals(info_b);
 	}
 
 }

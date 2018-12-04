@@ -600,7 +600,7 @@ public class MobileComposer {
 
 			// Create info
 			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
-									this.user_continue, this.user_reviewshift);
+					this.user_continue, this.user_reviewshift);
 
 		}
 
@@ -688,8 +688,8 @@ public class MobileComposer {
 	 * @param user_reviewshift
 	 */
 	private void createDetailFinalSchedule(final Date dt_starting, final Date dt_end, final InitialScheduleSingleDetail programmedSchedule,
-							final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift,
-							final Boolean user_reviewshift) {
+			final UserTask task, final String crane, final Ship ship, final String position, final Boolean continue_shift,
+			final Boolean user_reviewshift) {
 
 		if ((dt_starting == null) || (dt_end == null)) {
 			return;
@@ -877,6 +877,18 @@ public class MobileComposer {
 
 		// sort report list
 		this.report_list.sort(null);
+
+		// set visible
+		if (CollectionUtils.isNotEmpty(this.report_list)) {
+			for (int i = 1; i < this.report_list.size(); i++) {
+				final Report current = this.report_list.get(i);
+				final Report prev = this.report_list.get(i - 1);
+				if (current.shipEquals(prev)) {
+					current.setVisible(false);
+				}
+			}
+
+		}
 
 	}
 
@@ -1912,7 +1924,7 @@ public class MobileComposer {
 			//
 
 			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
-									myposition, cont_shift, this.user_reviewshift);
+					myposition, cont_shift, this.user_reviewshift);
 
 		}
 
@@ -2323,8 +2335,8 @@ public class MobileComposer {
 			final Date dt_ship_persondown = this.parseDateString(this.ship_persondown);
 
 			this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
-									this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard,
-									dt_ship_firstdown, dt_ship_lastdown, dt_ship_persondown);
+					this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
+					dt_ship_lastdown, dt_ship_persondown);
 
 		}
 
