@@ -1543,7 +1543,8 @@
 
 					<listheader align="center" label="MANS." hflex="2" />
 
-					<listheader align="center" label="ADD" hflex="1" />
+					<listheader align="center" label="ADD" hflex="1"
+						sort="auto(board)" />
 
 					<listheader align="center" label="RD" hflex="2" />
 

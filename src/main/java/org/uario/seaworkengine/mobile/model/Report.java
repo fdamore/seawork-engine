@@ -1,6 +1,6 @@
 package org.uario.seaworkengine.mobile.model;
 
-public class Report {
+public class Report implements Comparable<Report> {
 
 	private String	board;
 
@@ -26,6 +26,41 @@ public class Report {
 	private String	user_tag_continue;
 
 	private String	user_tag_task;
+
+	@Override
+	public int compareTo(final Report o) {
+		if (o == null) {
+			return -1;
+		}
+
+		final String info_a = "" + this.board + this.user_crane + this.user_name;
+		final String info_b = "" + o.board + o.user_crane + o.user_name;
+
+		return info_a.compareTo(info_b);
+
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof Report)) {
+			return false;
+		}
+
+		final Report obj_info = (Report) obj;
+
+		final String info_a = "" + this.board + this.user_crane + this.user_name;
+		final String info_b = "" + obj_info.board + obj_info.user_crane + obj_info.user_name;
+		return info_a.equals(info_b);
+
+	}
 
 	public String getBoard() {
 		return this.board;

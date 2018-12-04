@@ -874,6 +874,10 @@ public class MobileComposer {
 			}
 
 		}
+
+		// sort report list
+		this.report_list.sort(null);
+
 	}
 
 	/**
