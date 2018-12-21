@@ -1432,6 +1432,11 @@ public class MobileComposer {
 		// set selection at today
 		this.date_selection = Calendar.getInstance().getTime();
 
+		/*
+		 * TODO: for test purpose. Delete this comment after fixing this.date_selection
+		 * = new SimpleDateFormat("yyyyMMdd").parse("20181219");
+		 */
+
 		this.refreshDataAndCurrentShift();
 
 	}
