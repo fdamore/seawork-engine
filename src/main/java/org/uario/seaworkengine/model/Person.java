@@ -6,75 +6,61 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.uario.seaworkengine.utility.UserTag;
 
-@XmlRootElement(namespace = "org.uario.seaworkengine.model")
-@XmlAccessorType(XmlAccessType.FIELD)
+/*
+┌────────────┬─────────────────────────────────────────────────────┐
+│ USER ROLES │ Meaning                                             │
+├────────────┼─────────────────────────────────────────────────────┤
+│ UserTag.ROLE_BACKOFFICE, "UFFICIO");
+  UserTag.ROLE_OPERATIVE, "PREPOSTO");
+  UserTag.ROLE_USER, "UTENTE");
+  UserTag.ROLE_VIEWER, "VISUALIZZATORE");
+  UserTag.ROLE_SUPERVISOR, "AMMINISTRATORE");
+└────────────┴─────────────────────────────────────────────────────┘
+*/
+
 public class Person implements Comparable<Person>, UserDetails, Serializable {
 
-	@XmlTransient
 	public static final Person	NULL				= new Person();
 
-	/**
-	 *
-	 */
-	@XmlTransient
 	private static final long	serialVersionUID	= 1L;
 
-	@XmlTransient
 	private String				address;
 
-	@XmlTransient
 	private String				asd					= "asd";
 
-	@XmlTransient
 	private String				authority;
 
-	@XmlTransient
 	private java.util.Date		birth_date;
 
-	@XmlTransient
 	private String				birth_place;
 
-	@XmlTransient
 	private String				birth_province;
 
-	@XmlTransient
 	private String				city;
 
 	private Integer				contractual_level;
 
-	@XmlTransient
 	private String				country;
 
-	@XmlTransient
 	private String				current_position;
 
-	@XmlTransient
 	private Boolean				dailyemployee;
 
-	@XmlTransient
 	private Integer				daywork_w;
 
 	private String				department;
 
 	private String				driving_license;
 
-	@XmlTransient
 	private java.util.Date		driving_license_emission;
 
-	@XmlTransient
 	private String				education;
 
-	@XmlTransient
 	private String				email;
 
 	/**
@@ -82,25 +68,20 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	 */
 	private String				employee_identification;
 
-	@XmlTransient
 	private Boolean				enabled;
 
-	@XmlTransient
 	private String				family_charge;
 
 	private String				firstname;
 
-	@XmlTransient
 	private String				fiscal_code;
 
-	@XmlTransient
 	private Integer				hourswork_w;
 
 	private Integer				id;
 
 	private String				lastname;
 
-	@XmlTransient
 	private String				marital_status;
 
 	private String				nbudge;
@@ -111,24 +92,18 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	private Boolean				out_schedule;
 
-	@XmlTransient
 	private Boolean				part_time;
 
-	@XmlTransient
 	private String				password;
 
-	@XmlTransient
 	private String				personal_code;
 
 	private String				phone;
 
-	@XmlTransient
 	private String				provincia;
 
-	@XmlTransient
 	private Boolean				sex;
 
-	@XmlTransient
 	private String				status;
 
 	private String				tasksPerson;
@@ -138,7 +113,6 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	 */
 	private List<UserTask>		userTaskForMobile;
 
-	@XmlTransient
 	private String				zip;
 
 	public Person() {
@@ -541,7 +515,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 	 */
 	public boolean isViewer() {
 		final Collection<GrantedAuthority> auts = this.getAuthorities();
-		for (GrantedAuthority grantedAuthority : auts) {
+		for (final GrantedAuthority grantedAuthority : auts) {
 			final String item = grantedAuthority.getAuthority();
 			if (item.equals(UserTag.ROLE_VIEWER)) {
 				return true;
@@ -590,7 +564,7 @@ public class Person implements Comparable<Person>, UserDetails, Serializable {
 
 	public void setBirth_province(final String birth_province) {
 		this.birth_province = birth_province;
-	};
+	}
 
 	public void setCity(final String city) {
 		this.city = city;

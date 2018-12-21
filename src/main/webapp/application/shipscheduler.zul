@@ -40,9 +40,9 @@
 		<hbox align="center">
 
 			<combobox id="scheduler_type_selector" readonly="true"
-				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 				width="200px">
 				<comboitem label="PROGRAMMAZIONE NAVI"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					value="PROGRAMMAZIONE" id="program_item">
 				</comboitem>
 				<comboitem label="DETTAGLIO GIORNALIERO"
@@ -50,6 +50,7 @@
 				</comboitem>
 
 				<comboitem label="VERIFICA LAVORO (BAP)"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					value="VERIFICA LAVORO NAVI" id="verify_review_ship_item">
 				</comboitem>
 
@@ -58,6 +59,7 @@
 				</comboitem>
 
 				<comboitem label="REPORT LAVORAZIONI"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 					value="REPORT LAVORAZIONI" id="report_review_ship_item">
 				</comboitem>
 			</combobox>
