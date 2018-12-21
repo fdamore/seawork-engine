@@ -111,7 +111,6 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
 			final String mobile_tag = (String) session.getAttribute(LoginSuccessHandlerImpl.MOBILE_TAG);
 			if (StringUtils.equals(mobile_tag, LoginSuccessHandlerImpl.MOBILE_TAG)) {
-				session.setAttribute(LoginSuccessHandlerImpl.MOBILE_TAG, "ciao");
 				response.sendRedirect(this.MOBILE_URL);
 
 			} else {
