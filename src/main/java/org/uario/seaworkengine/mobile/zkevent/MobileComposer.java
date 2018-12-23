@@ -599,8 +599,8 @@ public class MobileComposer {
 			}
 
 			// Create info
-			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
-					this.user_continue, this.user_reviewshift);
+			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm,
+					myposition, this.user_continue, this.user_reviewshift);
 
 		}
 
@@ -769,7 +769,7 @@ public class MobileComposer {
 
 		this.report_list = new ArrayList<>();
 
-		final List<InitialSchedule> list = this.selectInitialSchedule(date_for_selection);
+		final List<InitialSchedule> list = this.selectInitialSchedule(date_for_selection, true);
 
 		final ArrayList<InitialScheduleSingleDetail> list_u = this.createUserList(null, list);
 
@@ -778,7 +778,8 @@ public class MobileComposer {
 		// LOOP SHIP DETAIL
 		for (final DetailScheduleShip itm_s : list_s) {
 
-			final List<DetailFinalScheduleShip> cranes = this.schedule_ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(itm_s.getId());
+			final List<DetailFinalScheduleShip> cranes = this.schedule_ship_dao
+					.loadDetailFinalScheduleShipByIdDetailScheduleShip(itm_s.getId());
 
 			// LOOP SHIP FINAL DETAILS
 			for (final DetailFinalScheduleShip itm_d : cranes) {
@@ -1432,11 +1433,6 @@ public class MobileComposer {
 		// set selection at today
 		this.date_selection = Calendar.getInstance().getTime();
 
-		/*
-		 * TODO: for test purpose. Delete this comment after fixing this.date_selection
-		 * = new SimpleDateFormat("yyyyMMdd").parse("20181219");
-		 */
-
 		this.refreshDataAndCurrentShift();
 
 	}
@@ -1616,7 +1612,7 @@ public class MobileComposer {
 
 		if (this.status_view == 1) {
 
-			final List<InitialSchedule> list = this.selectInitialSchedule(date_for_selection);
+			final List<InitialSchedule> list = this.selectInitialSchedule(date_for_selection, false);
 
 			this.processInitiaUserData(shift_no, list);
 
@@ -1765,8 +1761,9 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "ships", "ship_selected", "user_crane_selected", "user_position", "user_reviewshift", "status_view", "ship_operation",
 			"ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain", "ship_sky", "ship_wind", "ship_windyday",
-			"ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity", "cranes_entity_selected", "crane_p_gru",
-			"crane_type", "selectedDetailShip", "user_visible_adding", "n_positions", "h_date_from", "h_date_to", "h_menwork", "ship_h" })
+			"ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity", "cranes_entity_selected",
+			"crane_p_gru", "crane_type", "selectedDetailShip", "user_visible_adding", "n_positions", "h_date_from", "h_date_to",
+			"h_menwork", "ship_h" })
 	public void review() {
 
 		// review "TURNI"
@@ -1928,8 +1925,8 @@ public class MobileComposer {
 
 			//
 
-			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
-					myposition, cont_shift, this.user_reviewshift);
+			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected,
+					ship_itm, myposition, cont_shift, this.user_reviewshift);
 
 		}
 
@@ -1942,7 +1939,7 @@ public class MobileComposer {
 	 * @param date_request
 	 * @return
 	 */
-	private List<InitialSchedule> selectInitialSchedule(final Date date_request) {
+	private List<InitialSchedule> selectInitialSchedule(final Date date_request, final boolean report) {
 
 		final List<InitialSchedule> ret = new ArrayList<>();
 
@@ -1984,12 +1981,21 @@ public class MobileComposer {
 
 				if (CollectionUtils.isNotEmpty(final_details)) {
 
-					final MobileUserDetail last = this.extractThelast(final_details);
 					list_details = new ArrayList<>();
-					list_details.add(last);
 
-					if (CollectionUtils.isNotEmpty(initial_details)) {
-						last.setProgrammed(initial_details);
+					if (!report) {
+						final MobileUserDetail last = this.extractThelast(final_details);
+						list_details.add(last);
+						if (CollectionUtils.isNotEmpty(initial_details)) {
+							last.setProgrammed(initial_details);
+						}
+					} else {
+						for (final MobileUserDetail itm : final_details) {
+							list_details.add(itm);
+							if (CollectionUtils.isNotEmpty(initial_details)) {
+								itm.setProgrammed(initial_details);
+							}
+						}
 					}
 
 				} else {
@@ -2096,8 +2102,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip", "date_selection",
-			"user_programmed", "status_view", "report_list" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip",
+			"date_selection", "user_programmed", "status_view", "report_list" })
 	public void selectTomorrow() {
 
 		final Calendar calendar = Calendar.getInstance();
@@ -2340,8 +2346,8 @@ public class MobileComposer {
 			final Date dt_ship_persondown = this.parseDateString(this.ship_persondown);
 
 			this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
-					this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
-					dt_ship_lastdown, dt_ship_persondown);
+					this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard,
+					dt_ship_firstdown, dt_ship_lastdown, dt_ship_persondown);
 
 		}
 
