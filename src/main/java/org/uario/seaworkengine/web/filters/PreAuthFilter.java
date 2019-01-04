@@ -23,7 +23,6 @@ public class PreAuthFilter extends GenericFilterBean {
 			final HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
 			final String url = httpServletRequest.getRequestURL().toString();
-			final String queryString = httpServletRequest.getQueryString();
 
 			if (StringUtils.contains(url, "mobile")) {
 
