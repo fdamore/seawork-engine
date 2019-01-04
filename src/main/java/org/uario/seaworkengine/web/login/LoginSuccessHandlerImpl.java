@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.uario.seaworkengine.model.LockTable;
 import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
-import org.uario.seaworkengine.utility.TableTag;
+import org.uario.seaworkengine.utility.LockMonitoredResources;
 
 public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
@@ -37,7 +37,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	 */
 	private boolean checkLockProgram() {
 
-		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 
 		if (userLockTable != null) {
 			final Calendar cal = Calendar.getInstance();
@@ -62,7 +62,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 	 */
 	private boolean checkLockRevision() {
 
-		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 
 		if (userLockTable != null) {
 			final Calendar cal = Calendar.getInstance();
@@ -89,7 +89,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
 	@Override
 	public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication)
-			throws IOException, ServletException {
+							throws IOException, ServletException {
 
 		try {
 
@@ -112,7 +112,6 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			final String mobile_tag = (String) session.getAttribute(LoginSuccessHandlerImpl.MOBILE_TAG);
 			if (StringUtils.equals(mobile_tag, LoginSuccessHandlerImpl.MOBILE_TAG)) {
 				response.sendRedirect(this.MOBILE_URL);
-
 			} else {
 				response.sendRedirect(this.APPLICATION_URL);
 			}
@@ -143,7 +142,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			return;
 		}
 
-		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 
 		if (userLockTable != null) {
 			userLockTable.setTime_to(new Timestamp(Calendar.getInstance().getTime().getTime()));
@@ -165,7 +164,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 			return;
 		}
 
-		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 
 		if (userLockTable != null) {
 			userLockTable.setTime_to(new Timestamp(Calendar.getInstance().getTime().getTime()));

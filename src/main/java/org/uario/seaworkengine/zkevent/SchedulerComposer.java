@@ -53,7 +53,7 @@ import org.uario.seaworkengine.statistics.UserStatistics;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.BoardTag;
 import org.uario.seaworkengine.utility.ShiftTag;
-import org.uario.seaworkengine.utility.TableTag;
+import org.uario.seaworkengine.utility.LockMonitoredResources;
 import org.uario.seaworkengine.utility.TaskColor;
 import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.UtilityCSV;
@@ -1991,9 +1991,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				final Comboitem version_selected = this.scheduler_type_selector.getSelectedItem();
 				LockTable lockTable = null;
 				if ((version_selected == this.preprocessing_item) || (version_selected == this.program_item)) {
-					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+					lockTable = this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
-					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+					lockTable = this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 				}
 
 				if (lockTable == null) {
@@ -2052,9 +2052,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
 		this.userLockTable = null;
 		if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
-			this.userLockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+			this.userLockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 		} else if (version_selected == SchedulerComposer.this.review_item) {
-			this.userLockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+			this.userLockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 		}
 		this.personLock = null;
 		if (!this.person_logged.isAdministrator()
@@ -3851,9 +3851,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Comboitem version_selected = this.scheduler_type_selector.getSelectedItem();
 		LockTable lockTable = null;
 		if ((version_selected == this.preprocessing_item) || (version_selected == this.program_item)) {
-			lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+			lockTable = this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 		} else if (version_selected == this.review_item) {
-			lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+			lockTable = this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 		}
 
 		// check if you are admin or you are the user that have locked
@@ -6315,9 +6315,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		LockTable lockTable = null;
 
 		if ((version_selected == this.preprocessing_item) || (version_selected == this.program_item)) {
-			lockTable = this.lockTableDAO.loadLastLockTableByTableType(TableTag.PROGRAM_TABLE);
+			lockTable = this.lockTableDAO.loadLastLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 		} else if (version_selected == this.review_item) {
-			lockTable = this.lockTableDAO.loadLastLockTableByTableType(TableTag.REVIEW_TABLE);
+			lockTable = this.lockTableDAO.loadLastLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 		}
 
 		final Person person = this.personDAO.loadPerson(lockTable.getId_user());
@@ -7584,7 +7584,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		if (!personLogged.isAdministrator()) {
 			final Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
 			if (version_selected == SchedulerComposer.this.program_item) {
-				if (this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE) == null) {
+				if (this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE) == null) {
 					this.download_program_report.setVisible(true);
 				} else {
 					this.download_program_report.setVisible(false);
@@ -8008,9 +8008,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		Comboitem version_selected = SchedulerComposer.this.scheduler_type_selector.getSelectedItem();
 		LockTable lockTable = null;
 		if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
-			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 		} else if (version_selected == SchedulerComposer.this.review_item) {
-			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+			lockTable = SchedulerComposer.this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 		}
 
 		if (!this.person_logged.isAdministrator() && (lockTable != null) && !lockTable.getId_user().equals(this.person_logged.getId())) {
@@ -8042,9 +8042,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				this.loggerUserOnTable.setValue(this.messageTableLock + this.person_logged.getFirstname() + " " + this.person_logged.getLastname()
 										+ " - " + this.messageTimeConnectionTableLock + Utility.convertToDateAndTime(myLockTable.getTime_start()));
 				if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
-					myLockTable.setTable_type(TableTag.PROGRAM_TABLE);
+					myLockTable.setTable_type(LockMonitoredResources.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
-					myLockTable.setTable_type(TableTag.REVIEW_TABLE);
+					myLockTable.setTable_type(LockMonitoredResources.REVIEW_TABLE);
 				}
 
 				this.lockTableDAO.createLockTable(myLockTable);
@@ -8061,9 +8061,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				// are administrator
 				lockTable = null;
 				if ((version_selected == SchedulerComposer.this.preprocessing_item) || (version_selected == SchedulerComposer.this.program_item)) {
-					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.PROGRAM_TABLE);
+					lockTable = this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.PROGRAM_TABLE);
 				} else if (version_selected == SchedulerComposer.this.review_item) {
-					lockTable = this.lockTableDAO.loadLockTableByTableType(TableTag.REVIEW_TABLE);
+					lockTable = this.lockTableDAO.loadLockTableByTableType(LockMonitoredResources.REVIEW_TABLE);
 				}
 
 				if (lockTable != null) {
