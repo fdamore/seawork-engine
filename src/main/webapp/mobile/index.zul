@@ -62,7 +62,7 @@
 			</div>
 
 			<div class="col-md-4"
-				visible="@load(vm.status_view ne 10)">
+				visible="@load(vm.status_view ne 10 and !vm.locked)">
 
 				<div class="btn-group-sm btn btn-group">
 					<button sclass="btn btn-info" label="Note"
@@ -79,6 +79,7 @@
 				</div>
 
 			</div>
+
 
 			<div class="col-md-3">
 
@@ -127,7 +128,7 @@
 			</div>
 
 			<div class="col-md-2"
-				visible="@load(vm.status_view eq 1)">
+				visible="@load(vm.status_view eq 1  and !vm.locked)">
 
 				<div class="btn-group-sm btn btn-group">
 
@@ -190,6 +191,10 @@
 
 
 		</div>
+
+		<label value="Comnandi bloccati da un altro utente"
+			sclass="label label-danger">
+		</label>
 
 		<!-- USER LIST -->
 		<div visible="@load(vm.status_view eq 1)">

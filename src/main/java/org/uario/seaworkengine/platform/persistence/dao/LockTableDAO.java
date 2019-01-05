@@ -1,19 +1,23 @@
 package org.uario.seaworkengine.platform.persistence.dao;
 
+import java.util.List;
+
 import org.uario.seaworkengine.model.LockTable;
 
 public interface LockTableDAO {
 
-	public void createLockTable(LockTable lockTable);
+	void createLockTable(LockTable lockTable);
 
-	public LockTable loadLastLockTableByTableType(String tableType);
+	LockTable loadLastLockTableByTableType(String tableType);
 
-	public LockTable loadLockTableById(Integer idLockTable);
+	LockTable loadLockTableById(Integer idLockTable);
 
-	public LockTable loadLockTableByTableType(String tableType);
+	LockTable loadLockTableByTableType(String tableType);
 
-	public void removeLockTable(Integer idLockTable);
+	List<LockTable> loadOpenLockTable();
 
-	public void updateLockTable(LockTable lockTable);
+	void removeLockTable(Integer idLockTable);
+
+	void updateLockTable(LockTable lockTable);
 
 }

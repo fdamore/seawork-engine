@@ -132,7 +132,7 @@
 		</hbox>
 
 
-	</div>
+	</div>	
 
 	<space></space>
 
@@ -1074,7 +1074,7 @@
 
 
 							<listbox id="sw_list_status"
-								pagingPosition="both" mold="paging" 
+								pagingPosition="both" mold="paging"
 								style="border: 1px solid #CCCCCC;" checkmark="true"
 								multiple="false" pageSize="20">
 								<listhead sizable="true">
@@ -1124,14 +1124,6 @@
 
 
 							</listbox>
-
-
-
-
-
-
-
-
 
 						</div>
 
@@ -1537,8 +1529,60 @@
 
 		</tabpanels>
 	</tabbox>
+	
+	<space></space>	
+
+	<hbox align="center">
+		<a label="Blocchi Utente" iconSclass="z-icon-list"
+			sclass="green lighter rcaption" />
+
+		<button id="refresh_listlocks" sclass="btn-primary"
+			label="Ricarica Lista Blocchi">
+		</button>
+
+	</hbox>
+
+	<listbox id="listlocks" pagingPosition="both"
+		style="border: 1px solid #CCCCCC;" checkmark="true"
+		multiple="false">
+		<listhead sizable="true">
+
+			<listheader label="Sezione" />
+			<listheader label="Utente Bloccante" />
+			<listheader label="Utente di Sblocco" />
+			<listheader label="Inizio Blocco" />
+			<listheader label="" />
 
 
+		</listhead>
+
+		<listitem self="@{each='lock_item'}" value="@{lock_item}">
+
+			<listcell sclass="myBottonCell"
+				label="@{lock_item.table_type}" />
+
+			<listcell sclass="myBottonCell"
+				label="@{lock_item.id_user}" />
+
+			<listcell sclass="myBottonCell"
+				label="@{lock_item.id_user_closer}" />
+
+
+			<listcell sclass="myBottonCell"
+				label="@{lock_item.time_start}" />
+
+			<listcell sclass="myBottonCell">
+
+				<toolbarbutton id="removeblock" style="color:blue"
+					onClick="listlocks.setSelectedItem((Listitem)self.getParent().getParent());"
+					label="Rimuovi Blocco">
+				</toolbarbutton>
+
+			</listcell>
+
+		</listitem>
+
+	</listbox>
 
 
 </vlayout>

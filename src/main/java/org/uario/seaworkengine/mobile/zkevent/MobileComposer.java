@@ -24,6 +24,7 @@ import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
 import org.uario.seaworkengine.model.DetailFinalScheduleShip;
 import org.uario.seaworkengine.model.DetailScheduleShip;
+import org.uario.seaworkengine.model.LockTable;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Schedule;
 import org.uario.seaworkengine.model.Ship;
@@ -32,10 +33,12 @@ import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
 import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
+import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.BoardTag;
+import org.uario.seaworkengine.utility.LockMonitoredResources;
 import org.uario.seaworkengine.utility.Utility;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.Converter;
@@ -310,6 +313,8 @@ public class MobileComposer {
 	private List<DetailScheduleShip>			list_ship;
 
 	private List<UserTask>						list_task;
+
+	private Boolean								locked					= Boolean.FALSE;
 
 	private String								n_positions;
 
@@ -599,8 +604,8 @@ public class MobileComposer {
 			}
 
 			// Create info
-			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm,
-					myposition, this.user_continue, this.user_reviewshift);
+			this.createDetailFinalSchedule(dt_starting, dt_end, itm, this.user_task_selected, this.user_crane_selected, ship_itm, myposition,
+					this.user_continue, this.user_reviewshift);
 
 		}
 
@@ -778,8 +783,7 @@ public class MobileComposer {
 		// LOOP SHIP DETAIL
 		for (final DetailScheduleShip itm_s : list_s) {
 
-			final List<DetailFinalScheduleShip> cranes = this.schedule_ship_dao
-					.loadDetailFinalScheduleShipByIdDetailScheduleShip(itm_s.getId());
+			final List<DetailFinalScheduleShip> cranes = this.schedule_ship_dao.loadDetailFinalScheduleShipByIdDetailScheduleShip(itm_s.getId());
 
 			// LOOP SHIP FINAL DETAILS
 			for (final DetailFinalScheduleShip itm_d : cranes) {
@@ -1199,6 +1203,10 @@ public class MobileComposer {
 		return this.list_task;
 	}
 
+	public Boolean getLocked() {
+		return this.locked;
+	}
+
 	public String getN_positions() {
 		return this.n_positions;
 	}
@@ -1432,6 +1440,15 @@ public class MobileComposer {
 
 		// set selection at today
 		this.date_selection = Calendar.getInstance().getTime();
+
+		// check if loked
+		final LockTableDAO lockdao = (LockTableDAO) SpringUtil.getBean(BeansTag.LOCK_TABLE_DAO);
+		final LockTable check = lockdao.loadLockTableByTableType(LockMonitoredResources.MOBILE_DEVICES);
+		if (check != null) {
+			this.locked = true;
+		} else {
+			this.locked = false;
+		}
 
 		this.refreshDataAndCurrentShift();
 
@@ -1761,9 +1778,8 @@ public class MobileComposer {
 	@Command
 	@NotifyChange({ "ships", "ship_selected", "user_crane_selected", "user_position", "user_reviewshift", "status_view", "ship_operation",
 			"ship_handswork", "ship_menwork", "ship_worked", "ship_temperature", "ship_rain", "ship_sky", "ship_wind", "ship_windyday",
-			"ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity", "cranes_entity_selected",
-			"crane_p_gru", "crane_type", "selectedDetailShip", "user_visible_adding", "n_positions", "h_date_from", "h_date_to",
-			"h_menwork", "ship_h" })
+			"ship_persononboard", "ship_firstdown", "ship_lastdown", "ship_persondown", "cranes_entity", "cranes_entity_selected", "crane_p_gru",
+			"crane_type", "selectedDetailShip", "user_visible_adding", "n_positions", "h_date_from", "h_date_to", "h_menwork", "ship_h" })
 	public void review() {
 
 		// review "TURNI"
@@ -1925,8 +1941,8 @@ public class MobileComposer {
 
 			//
 
-			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected,
-					ship_itm, myposition, cont_shift, this.user_reviewshift);
+			this.createDetailFinalSchedule(user_detail.getTime_from(), user_detail.getTime_to(), itm, task, this.user_crane_selected, ship_itm,
+					myposition, cont_shift, this.user_reviewshift);
 
 		}
 
@@ -2102,8 +2118,8 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip",
-			"date_selection", "user_programmed", "status_view", "report_list" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip", "date_selection",
+			"user_programmed", "status_view", "report_list" })
 	public void selectTomorrow() {
 
 		final Calendar calendar = Calendar.getInstance();
@@ -2201,6 +2217,10 @@ public class MobileComposer {
 
 	public void setList_selected_ship(final List<DetailScheduleShip> list_selected_ship) {
 		this.list_selected_ship = list_selected_ship;
+	}
+
+	public void setLocked(final Boolean locked) {
+		this.locked = locked;
 	}
 
 	public void setNote(final String note) {
@@ -2346,8 +2366,8 @@ public class MobileComposer {
 			final Date dt_ship_persondown = this.parseDateString(this.ship_persondown);
 
 			this.schedule_ship_dao.updateDetailScheduleShipForMobile(id, this.ship_handswork, this.ship_menwork, this.ship_worked,
-					this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard,
-					dt_ship_firstdown, dt_ship_lastdown, dt_ship_persondown);
+					this.ship_temperature, this.ship_sky, this.ship_rain, this.ship_wind, this.ship_windyday, dt_person_onboard, dt_ship_firstdown,
+					dt_ship_lastdown, dt_ship_persondown);
 
 		}
 

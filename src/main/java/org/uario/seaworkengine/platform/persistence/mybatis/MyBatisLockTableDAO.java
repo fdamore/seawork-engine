@@ -1,5 +1,7 @@
 package org.uario.seaworkengine.platform.persistence.mybatis;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.uario.seaworkengine.model.LockTable;
@@ -7,7 +9,7 @@ import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
 
 public class MyBatisLockTableDAO extends SqlSessionDaoSupport implements LockTableDAO {
 
-	private static Logger	logger	= Logger.getLogger(MyBatisLockTableDAO.class);
+	private static Logger logger = Logger.getLogger(MyBatisLockTableDAO.class);
 
 	@Override
 	public void createLockTable(final LockTable lockTable) {
@@ -35,6 +37,13 @@ public class MyBatisLockTableDAO extends SqlSessionDaoSupport implements LockTab
 		MyBatisLockTableDAO.logger.info("Load Lock Table By Table Type  " + tableType);
 
 		return this.getSqlSession().selectOne("locktable.loadLockTableByTableType", tableType);
+	}
+
+	@Override
+	public List<LockTable> loadOpenLockTable() {
+		MyBatisLockTableDAO.logger.info("loadOpenLockTable");
+
+		return this.getSqlSession().selectList("locktable.loadOpenLockTable");
 	}
 
 	@Override

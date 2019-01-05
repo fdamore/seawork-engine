@@ -12,8 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.uario.seaworkengine.model.LockTable;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.LockTableDAO;
 import org.uario.seaworkengine.utility.LockMonitoredResources;
 
@@ -87,9 +89,31 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 		return this.lockTable;
 	}
 
+	/**
+	 * Manage
+	 */
+	public void manageMobileAuthorization() {
+
+		final LockTable userLockTable = this.lockTable.loadLockTableByTableType(LockMonitoredResources.MOBILE_DEVICES);
+		if (userLockTable != null) {
+			return;
+		}
+
+		// set info about user
+		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		final LockTable myLockTable = new LockTable();
+		myLockTable.setId_user(person.getId());
+		myLockTable.setTime_start(new Timestamp(Calendar.getInstance().getTime().getTime()));
+		myLockTable.setTable_type(LockMonitoredResources.MOBILE_DEVICES);
+
+		this.lockTable.createLockTable(myLockTable);
+
+	}
+
 	@Override
 	public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication)
-							throws IOException, ServletException {
+			throws IOException, ServletException {
 
 		try {
 
@@ -111,8 +135,13 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
 			final String mobile_tag = (String) session.getAttribute(LoginSuccessHandlerImpl.MOBILE_TAG);
 			if (StringUtils.equals(mobile_tag, LoginSuccessHandlerImpl.MOBILE_TAG)) {
+
+				// manage access to mobile section
+				this.manageMobileAuthorization();
+
 				response.sendRedirect(this.MOBILE_URL);
 			} else {
+
 				response.sendRedirect(this.APPLICATION_URL);
 			}
 
