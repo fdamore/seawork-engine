@@ -14,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.mobile.model.InitialSchedule;
@@ -314,7 +315,11 @@ public class MobileComposer {
 
 	private List<UserTask>						list_task;
 
+	private LockTableDAO						lockdao;
+
 	private Boolean								locked					= Boolean.FALSE;
+
+	private final Logger						logger					= Logger.getLogger(MobileComposer.class);
 
 	private String								n_positions;
 
@@ -947,6 +952,39 @@ public class MobileComposer {
 		return list_ret;
 	}
 
+	/**
+	 * Check the lock system
+	 */
+	private void defineLock() {
+
+		// set info about user
+		try {
+
+			final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			if (person.isAdministrator()) {
+				this.locked = false; // never lock admin
+			}
+
+			final LockTable check = this.lockdao.loadLockTableByTableType(LockMonitoredResources.MOBILE_DEVICES);
+
+			if (check != null) {
+
+				if (person.getId().equals(check.getId_user())) {
+					this.locked = false; // is my lock
+				} else {
+					this.locked = true; // is not my lock
+				}
+			} else {
+				this.locked = false;
+			}
+		} catch (final Exception e) {
+			this.logger.error("Error on define lock for mobile system : " + e);
+			this.locked = false;
+
+		}
+	}
+
 	@Command
 	@NotifyChange({ "status_view", "note", "note_ship", "selectedSchedule", "selectedDetailShip", "user_visible_adding", "n_positions" })
 	public void editNote() {
@@ -1437,18 +1475,13 @@ public class MobileComposer {
 		this.schedule_dao = (ISchedule) SpringUtil.getBean(BeansTag.SCHEDULE_DAO);
 		this.configurationDao = (ConfigurationDAO) SpringUtil.getBean(BeansTag.CONFIGURATION_DAO);
 		this.person_dao = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
+		this.lockdao = (LockTableDAO) SpringUtil.getBean(BeansTag.LOCK_TABLE_DAO);
 
 		// set selection at today
 		this.date_selection = Calendar.getInstance().getTime();
 
 		// check if loked
-		final LockTableDAO lockdao = (LockTableDAO) SpringUtil.getBean(BeansTag.LOCK_TABLE_DAO);
-		final LockTable check = lockdao.loadLockTableByTableType(LockMonitoredResources.MOBILE_DEVICES);
-		if (check != null) {
-			this.locked = true;
-		} else {
-			this.locked = false;
-		}
+		this.defineLock();
 
 		this.refreshDataAndCurrentShift();
 
@@ -1476,8 +1509,29 @@ public class MobileComposer {
 	@Command
 	public void logout() {
 
-		Executions.sendRedirect("/j_spring_security_logout");
+		try {
 
+			final LockTable check = this.lockdao.loadLockTableByTableType(LockMonitoredResources.MOBILE_DEVICES);
+			if (check == null) {
+				return;
+			}
+
+			final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (person.getId().equals(check.getId_user())) {
+				// is my lock
+				check.setTime_to(new Timestamp(Calendar.getInstance().getTime().getTime()));
+				check.setId_user_closer(person.getId());
+				this.lockdao.updateLockTable(check);
+			}
+
+		} catch (final Exception e) {
+			this.logger.error("Error on logout from devices" + e);
+		}
+
+		finally {
+
+			Executions.sendRedirect("/j_spring_security_logout");
+		}
 	}
 
 	@Command

@@ -1,14 +1,18 @@
 package org.uario.seaworkengine.zkevent;
 
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.model.BillCenter;
 import org.uario.seaworkengine.model.Crane;
 import org.uario.seaworkengine.model.LockTable;
+import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.model.Service;
 import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.model.UserTask;
@@ -1717,7 +1721,11 @@ public class Preferences extends SelectorComposer<Component> {
 			return;
 		}
 
-		this.locktabelDao.removeLockTable(itm.getId());
+		final Person person = (Person) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		itm.setTime_to(new Timestamp(Calendar.getInstance().getTime().getTime()));
+		itm.setId_user_closer(person.getId());
+		this.locktabelDao.updateLockTable(itm);
 
 		// reload list block
 		this.showBlocks();
