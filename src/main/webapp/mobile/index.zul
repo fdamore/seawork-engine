@@ -193,7 +193,7 @@
 		</div>
 
 		<label value="Comnandi bloccati da un altro utente"
-			sclass="label label-danger">
+			visible="@load(vm.locked)" sclass="label label-danger">
 		</label>
 
 		<!-- USER LIST -->

@@ -1548,8 +1548,7 @@
 		<listhead sizable="true">
 
 			<listheader label="Sezione" />
-			<listheader label="Utente Bloccante" />
-			<listheader label="Utente di Sblocco" />
+			<listheader label="Utente Bloccante" />			
 			<listheader label="Inizio Blocco" />
 			<listheader label="" />
 
@@ -1562,14 +1561,11 @@
 				label="@{lock_item.table_type}" />
 
 			<listcell sclass="myBottonCell"
-				label="@{lock_item.id_user}" />
+				label="@{lock_item.id_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}" />
+		
 
 			<listcell sclass="myBottonCell"
-				label="@{lock_item.id_user_closer}" />
-
-
-			<listcell sclass="myBottonCell"
-				label="@{lock_item.time_start}" />
+				label="@{lock_item.time_start, converter='org.uario.seaworkengine.zkevent.converter.DateWithTimeConverter'}" />
 
 			<listcell sclass="myBottonCell">
 
