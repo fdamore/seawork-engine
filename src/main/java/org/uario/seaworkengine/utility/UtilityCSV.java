@@ -1570,7 +1570,11 @@ public class UtilityCSV {
 			final String worked = (item.getWorkedIT() == null) ? "" : item.getWorkedIT();
 			final String distinct_sws = (item.getDistinctSWS() == null) ? "" : item.getDistinctSWS();
 			final String customer = (item.getCustomer() == null) ? "" : item.getCustomer();
-			final String note = (item.getNotedetail() == null) ? "" : item.getNotedetail();
+
+			String note = (item.getNotedetail() == null) ? "" : item.getNotedetail();
+			if (note != null) {
+				note = "\"" + note + "\"";
+			}
 
 			if (item.getDate_request() != null) {
 				week = Utility.getWeekNumber(item.getDate_request()).toString();
