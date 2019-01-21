@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -3122,7 +3123,7 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 			final HashMap<Integer, Boolean> map_sws = new HashMap<>();
 			for (final ReviewShipWork itm : this.list_review_work) {
 
-				if (!itm.getWorked().booleanValue()) {
+				if (BooleanUtils.isFalse(itm.getWorked())) {
 					itm.setDistinctSWS("NO");
 					continue;
 				}
