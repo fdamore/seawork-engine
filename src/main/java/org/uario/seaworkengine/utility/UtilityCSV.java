@@ -34,13 +34,13 @@ import org.uario.seaworkengine.model.UserTask;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ICustomerDAO;
 import org.uario.seaworkengine.platform.persistence.dao.ISchedule;
+import org.uario.seaworkengine.platform.persistence.dao.IScheduleShip;
 import org.uario.seaworkengine.platform.persistence.dao.IShip;
 import org.uario.seaworkengine.platform.persistence.dao.PersonDAO;
 import org.uario.seaworkengine.platform.persistence.dao.TasksDAO;
 import org.uario.seaworkengine.statistics.ReviewShipWorkAggregate;
 import org.uario.seaworkengine.statistics.ShipOverview;
 import org.uario.seaworkengine.statistics.UserStatistics;
-import org.uario.seaworkengine.zkevent.converter.CraneTypeConverter;
 import org.uario.seaworkengine.zkevent.converter.ProductivityConverter;
 import org.uario.seaworkengine.zkevent.converter.UserEnableConverter;
 import org.uario.seaworkengine.zkevent.converter.UserRoleConverter;
@@ -1508,20 +1508,26 @@ public class UtilityCSV {
 		return builder;
 	}
 
+	/**
+	 * BAP CSV
+	 *
+	 * @param reviewShipWorkList
+	 * @return
+	 */
 	public static StringBuilder downloadCSVReviewShipWork(final List<ReviewShipWork> reviewShipWorkList) {
 
 		final StringBuilder builder = new StringBuilder();
 
 		final PersonDAO dao_p = (PersonDAO) SpringUtil.getBean(BeansTag.PERSON_DAO);
 
-		String header = "Settimana;Giorno;Data Turno;Operatore;Nome Nave;Cliente;Rif SWS;Rif MCT;Turno;Lavorato;Conta Rif. SWS;Gru;H LAV;N.Persone;Tot. (H x N. Persone);Volumi Netti;";
+		String header = "Settimana;Giorno;Data Turno;Operatore;Nome Nave;Cliente;Rif SWS;Servizio;Rif MCT;Turno;Lavorato;Conta Rif. SWS;Gru;H LAV;N.Persone;Tot. (H x N. Persone);Volumi Netti;";
 		header = header + "Volumi Netti Rizz. da Bordo (x Cliente);Volumi Netti Rizz. da Bordo (x SWS);Volumi Netti TW MTC;Periodo di Fatturazione;";
 		header = header + "Cielo;Vento;Temperatura;Pioggia;Persone a Bordo;Primo Contenitore a Terra;Ultimo Contenitore a Terra;Persone a Terra;Note";
 		header = header + "\n";
 
 		builder.append(header);
 
-		final CraneTypeConverter craneConverter = new CraneTypeConverter();
+		final IScheduleShip dao_ship = (IScheduleShip) SpringUtil.getBean(BeansTag.SCHEDULE_SHIP_DAO);
 
 		for (final ReviewShipWork item : reviewShipWorkList) {
 
@@ -1534,6 +1540,15 @@ public class UtilityCSV {
 			String shift = "";
 			String crane = "";
 			String mobile_user = "";
+
+			// get service
+			String service = "";
+
+			final Integer sws_id = item.getRif_sws();
+			if (sws_id != null) {
+				final ScheduleShip ss = dao_ship.loadScheduleShip(sws_id);
+				service = ss.getServiceName();
+			}
 
 			// set mobile_user
 			if (item.getMobile_user() != null) {
@@ -1664,10 +1679,10 @@ public class UtilityCSV {
 			}
 
 			final String line = "" + week + ";" + day + ";" + date + ";" + mobile_user + ";" + shipName + ";" + customer + ";" + rif_sws + ";"
-									+ rif_mct + ";" + shift + ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";" + n_person
-									+ ";" + tot + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";" + inovoice_cycle
-									+ ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard + ";"
-									+ date_first_down + ";" + date_last_down + ";" + person_down + ";" + note + "\n";
+									+ service + ";" + rif_mct + ";" + shift + ";" + worked + ";" + distinct_sws + ";" + crane + ";" + workedTime + ";"
+									+ n_person + ";" + tot + ";" + volume + ";" + volumeOnBoard + ";" + volumeOnBoard_sws + ";" + volumeTW + ";"
+									+ inovoice_cycle + ";" + sky_item + ";" + wind_item + ";" + temperature_item + ";" + rain + ";" + person_onboard
+									+ ";" + date_first_down + ";" + date_last_down + ";" + person_down + ";" + note + "\n";
 			builder.append(line);
 
 		}
