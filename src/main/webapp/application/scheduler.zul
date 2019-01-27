@@ -1513,6 +1513,7 @@
 							<caption label="Nota Giornaliera">
 
 								<button label="Salva solo la Nota"
+									visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
 									sclass="btn-info" id="save_note_program">
 								</button>
 
