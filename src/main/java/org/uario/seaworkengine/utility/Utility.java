@@ -553,7 +553,8 @@ public class Utility {
 			return Boolean.FALSE;
 		}
 
-		if (shift.getBreak_shift() || shift.getForceable() || shift.getRecorded() || shift.getDisease_shift() || shift.getWaitbreak_shift()) {
+		if (shift.getBreak_shift() || shift.getForceable() || shift.getRecorded() || shift.getDisease_shift() || shift.getWaitbreak_shift()
+				|| shift.getAccident_shift()) {
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
