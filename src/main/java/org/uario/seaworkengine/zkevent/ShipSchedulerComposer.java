@@ -5523,7 +5523,6 @@ public class ShipSchedulerComposer extends SelectorComposer<Component> {
 
 			}
 
-			this.menwork.setVisible(false);
 		}
 
 		// set ship name and alert
