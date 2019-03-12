@@ -1,10 +1,6 @@
 package org.uario.seaworkengine.zkevent.converter;
 
 import org.uario.seaworkengine.model.DetailScheduleShip;
-import org.uario.seaworkengine.model.Ship;
-import org.uario.seaworkengine.platform.persistence.mybatis.MyBatisShipDAO;
-import org.uario.seaworkengine.utility.BeansTag;
-import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zkplus.databind.TypeConverter;
 
@@ -28,12 +24,15 @@ public class ActivityHMenworkConverter implements TypeConverter {
 			return "";
 		}
 
-		final MyBatisShipDAO shipDao = (MyBatisShipDAO) SpringUtil.getBean(BeansTag.SHIP_DAO);
-		final Ship ship = shipDao.loadShip(detail.getId_ship());
-
-		if (ship.getActivityh()) {
-			return "";
-		}
+		// ADDED AFTER USER REQUEST - REMOVED AFTER USER REQUEST
+		/*
+		 * 
+		 * final MyBatisShipDAO shipDao = (MyBatisShipDAO)
+		 * SpringUtil.getBean(BeansTag.SHIP_DAO); final Ship ship =
+		 * shipDao.loadShip(detail.getId_ship());
+		 * 
+		 * if (ship.getActivityh()) { return ""; }
+		 */
 
 		return detail.getMenwork().toString();
 	}
