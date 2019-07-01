@@ -344,6 +344,8 @@ public class MobileComposer {
 
 	private InitialScheduleSingleDetail			selectedSchedule;
 
+	private Boolean								shift_disabled			= Boolean.FALSE;
+
 	private Integer								shift_no;
 
 	private String								ship_firstdown;
@@ -1274,6 +1276,10 @@ public class MobileComposer {
 		return this.selectedSchedule;
 	}
 
+	public Boolean getShift_disabled() {
+		return this.shift_disabled;
+	}
+
 	public Integer getShift_no() {
 		return this.shift_no;
 	}
@@ -2150,11 +2156,14 @@ public class MobileComposer {
 	}
 
 	@Command
-	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "selectedDetailShip", "date_selection", "status_view",
-			"report_list" })
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "selectedDetailShip", "date_selection", "status_view", "report_list",
+			"shift_disabled" })
 	public void selectToDay() {
 		final Calendar calendar = Calendar.getInstance();
 		this.date_selection = calendar.getTime();
+
+		// disable shift if needed
+		this.shift_disabled = Boolean.FALSE;
 
 		if (this.status_view != 10) {
 
@@ -2174,12 +2183,14 @@ public class MobileComposer {
 
 	@Command
 	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip", "date_selection",
-			"user_programmed", "status_view", "report_list" })
+			"user_programmed", "status_view", "report_list", "shift_disabled" })
 	public void selectTomorrow() {
-
 		final Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_YEAR, 1);
 		this.date_selection = calendar.getTime();
+
+		// disable shift if needed
+		this.shift_disabled = Boolean.FALSE;
 
 		if (this.status_view != 10) {
 
@@ -2193,6 +2204,37 @@ public class MobileComposer {
 				this.status_view = 4;
 			}
 
+		} else {
+			// REPORT
+			this.createReport();
+
+		}
+
+	}
+
+	@Command
+	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "selectedDetailShip", "date_selection", "status_view", "report_list",
+			"shift_disabled" })
+	public void selectYesterday() {
+		final Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, -1);
+		this.date_selection = calendar.getTime();
+
+		// disable shift if needed
+		this.shift_disabled = Boolean.TRUE;
+
+		if (this.status_view != 10) {
+
+			// define shift
+			this.shift_no = 4;
+
+			// refresh with shift_no
+			this.refresh(this.shift_no);
+
+			// back to ship
+			if (this.status_view == 8) {
+				this.status_view = 4;
+			}
 		} else {
 			// REPORT
 			this.createReport();
@@ -2296,6 +2338,10 @@ public class MobileComposer {
 
 	public void setSelectedSchedule(final InitialScheduleSingleDetail selectedSchedule) {
 		this.selectedSchedule = selectedSchedule;
+	}
+
+	public void setShift_disabled(final Boolean shift_disabled) {
+		this.shift_disabled = shift_disabled;
 	}
 
 	public void setShip_firstdown(final String ship_firstdown) {

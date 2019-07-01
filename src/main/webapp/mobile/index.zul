@@ -45,12 +45,15 @@
 
 				<div class="btn-group-sm btn btn-group">
 					<button sclass="btn btn-info" label="Turno 1"
+						disabled="@load(vm.shift_disabled)"
 						focus="@load(vm.shift_no eq 1)"
 						onClick="@command('refresh', shift_no= 1)" />
 					<button sclass="btn btn-info" label="Turno 2"
+						disabled="@load(vm.shift_disabled)"
 						focus="@load(vm.shift_no eq 2)"
 						onClick="@command('refresh', shift_no= 2)" />
 					<button sclass="btn btn-info" label="Turno 3"
+						disabled="@load(vm.shift_disabled)"
 						focus="@load(vm.shift_no eq 3)"
 						onClick="@command('refresh', shift_no= 3)" />
 					<button sclass="btn btn-info" label="Turno 4"
@@ -108,6 +111,9 @@
 			<div class="col-md-2">
 
 				<div class="btn-group-sm btn btn-group input-group">
+
+					<button sclass="btn btn-success"
+						onClick="@command('selectYesterday')" label="Ieri" />
 
 					<button sclass="btn btn-success"
 						onClick="@command('selectToDay')" label="Oggi" />
