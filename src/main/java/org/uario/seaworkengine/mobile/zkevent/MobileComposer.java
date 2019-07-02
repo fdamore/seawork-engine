@@ -2157,7 +2157,7 @@ public class MobileComposer {
 
 	@Command
 	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "selectedDetailShip", "date_selection", "status_view", "report_list",
-			"shift_disabled" })
+			"shift_disabled", "user_programmed" })
 	public void selectToDay() {
 		final Calendar calendar = Calendar.getInstance();
 		this.date_selection = calendar.getTime();
@@ -2183,7 +2183,7 @@ public class MobileComposer {
 
 	@Command
 	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "list_selected_ship", "selectedDetailShip", "date_selection",
-			"user_programmed", "status_view", "report_list", "shift_disabled" })
+			"status_view", "report_list", "shift_disabled", "user_programmed" })
 	public void selectTomorrow() {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_YEAR, 1);
@@ -2214,9 +2214,16 @@ public class MobileComposer {
 
 	@Command
 	@NotifyChange({ "shift_no", "users", "list_ship", "list_schedule_selected", "selectedDetailShip", "date_selection", "status_view", "report_list",
-			"shift_disabled" })
+			"shift_disabled", "user_programmed" })
 	public void selectYesterday() {
+
 		final Calendar calendar = Calendar.getInstance();
+
+		final int h = calendar.get(Calendar.HOUR_OF_DAY);
+		if (h > 6) {
+			return;
+		}
+
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
 		this.date_selection = calendar.getTime();
 
