@@ -675,9 +675,11 @@ public class MobileComposer {
 			return false;
 		}
 
+		final String usr_tag = user_crane.replace("gtw", "");
+
 		final String shp_crane = crane.toString();
 
-		final String[] info = user_crane.split(",");
+		final String[] info = usr_tag.split(",");
 		for (final String dgt : info) {
 			if (StringUtils.equals(dgt, shp_crane)) {
 				return true;
