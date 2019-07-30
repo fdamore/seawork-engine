@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.uario.seaworkengine.mobile.model.Badge;
 import org.uario.seaworkengine.model.Contestation;
 import org.uario.seaworkengine.model.Customer;
 import org.uario.seaworkengine.model.DetailFinalSchedule;
@@ -89,7 +91,6 @@ public class UtilityCSV {
 			String startDate = "";
 			String endDate = "";
 
-			// get note //TODO: add note
 			String note = StringUtils.defaultString(item.getNote(), "");
 			String note_dettaglio = StringUtils.defaultString(item.getNotedetail(), "");
 			note = note.replace("\n", " ");
@@ -1208,7 +1209,7 @@ public class UtilityCSV {
 		String mobile_controller = "";
 
 		if (administrator) {
-			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;nota mobile;programmatore;operatore;controllore\n";
+			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;nota mobile;programmatore;operatore;controllore;ingressi;\n";
 		}
 		builder.append(header);
 
@@ -1226,6 +1227,7 @@ public class UtilityCSV {
 			String day = "";
 			String dayWorked = "";
 			String code_task = "";
+			String ingressi = "";
 
 			// GET CURRENT TASK
 			final UserTask task = taskDao.loadTask(item.getTask());
@@ -1299,6 +1301,17 @@ public class UtilityCSV {
 				if ((task != null) && (task.getRecorded() != null) && task.getRecorded().booleanValue()) {
 					contabilizzato = "SI";
 				}
+
+				// CHECK FOR BUDGE
+
+				// set badge info
+				final List<Badge> badgeList = scheduleDAO.loadBadgeByScheduleId(item.getId_schedule());
+				if (!CollectionUtils.isEmpty(badgeList)) {
+
+					ingressi = Utility.getLabelListBadge(badgeList);
+
+				}
+
 			}
 
 			final List<DetailFinalSchedule> listDetail = scheduleDAO.loadDetailFinalScheduleByIdSchedule(item.getId_schedule());
@@ -1501,12 +1514,12 @@ public class UtilityCSV {
 										+ ";" + factor_shift + ";" + code_task + ";" + dayWorked + ";" + time_info + ";" + time_vacation_info + ";"
 										+ nameShip + ";" + crane + ";" + board + ";" + rif_sws + ";" + time_from + ";" + time_to + ";" + reviewshift
 										+ ";" + continue_shif + ";" + nota + ";" + nota_mobile + ";" + programmer + ";" + mobile_controller + ";"
-										+ controller + ";\n";
+										+ controller + ";" + ingressi + ";\n";
 			} else {
 				line = "" + year + ";" + mouth + ";" + weekDate + ";" + day + ";" + item.getUser() + ";" + employee_identification + ";" + date + ";"
 										+ code_shift + ";" + shift_no_info + ";" + code_task + ";" + dayWorked + ";" + time_info + ";"
 										+ time_vacation_info + ";" + nameShip + ";" + crane + ";" + board + ";" + rif_sws + ";" + time_from + ";"
-										+ time_to + ";" + reviewshift + ";" + continue_shif + ";" + nota + ";" + nota_mobile + "\n";
+										+ time_to + ";" + reviewshift + ";" + continue_shif + ";" + nota + ";" + nota_mobile + ";\n";
 
 			}
 

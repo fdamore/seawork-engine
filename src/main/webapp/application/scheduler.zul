@@ -3067,6 +3067,10 @@
 										<listheader label="Controllore"
 											hflex="2" align="center"
 											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+											
+											<listheader label="Ingressi"
+											hflex="2" align="center"
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 
 									</listhead>
 
@@ -3201,19 +3205,27 @@
 											<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.mobile_note}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.editor, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-											
-											<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.mobile_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
-											
-											
+											<listcell
+												sclass="myBottonCell"
+												label="@{itemoverviewreview.editor, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
+												visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 
-										<listcell sclass="myBottonCell"
-											label="@{itemoverviewreview.controller, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+											<listcell
+												sclass="myBottonCell"
+												label="@{itemoverviewreview.mobile_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
+												visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+
+
+
+											<listcell
+												sclass="myBottonCell"
+												label="@{itemoverviewreview.controller, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
+												visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+
+											<listcell
+												sclass="myBottonCell"
+												label="@{itemoverviewreview.id_schedule, converter='org.uario.seaworkengine.zkevent.converter.BudgetConverter'}"
+												visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 
 									</listitem>
 
