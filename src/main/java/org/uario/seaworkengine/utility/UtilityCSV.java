@@ -1258,7 +1258,7 @@ public class UtilityCSV {
 				nota = item.getNote();
 				nota = nota.replace("\n", " ");
 				nota = nota.replace("°", " ");
-
+				nota = "\"" + nota + "\"";
 			}
 
 			String nota_mobile = "";
@@ -1266,6 +1266,7 @@ public class UtilityCSV {
 				nota_mobile = item.getMobile_note();
 				nota_mobile = nota_mobile.replace("\n", " ");
 				nota_mobile = nota_mobile.replace("°", " ");
+				nota_mobile = "\"" + nota_mobile + "\"";
 			}
 
 			if (administrator) {
