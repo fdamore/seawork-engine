@@ -38,7 +38,7 @@ public class Report implements Comparable<Report> {
 		final String info_a = this.createStringTag();
 		final String info_b = o.createStringTag();
 
-		return info_a.compareTo(info_b);
+		return info_b.compareTo(info_a);
 
 	}
 
