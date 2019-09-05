@@ -16,6 +16,8 @@
 
 		<panelchildren>
 
+
+
 			<div id="grid_details" visible="false">
 
 				<space></space>
@@ -156,6 +158,14 @@
 
 			<a label="Lista Contestazioni Disciplinari"
 				iconSclass="z-icon-list" sclass="green lighter rcaption" />
+
+			<div>
+				<label value="Attuale rapporto lavorativo: "
+					sclass="green lighter rcaption">
+				</label>
+				<label id="current_" sclass="green lighter rcaption"></label>
+
+			</div>
 
 			<div>
 				<separator></separator>

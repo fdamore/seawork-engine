@@ -17,6 +17,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.uario.seaworkengine.model.Contestation;
+import org.uario.seaworkengine.model.Employment;
 import org.uario.seaworkengine.model.Person;
 import org.uario.seaworkengine.platform.persistence.dao.IContestation;
 import org.uario.seaworkengine.platform.persistence.dao.IParams;
@@ -42,6 +43,7 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -82,36 +84,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	}
 
-	/**
-	 * Used to send a cons to "Rapporto Lavorativo"
-	 *
-	 * @author francesco
-	 *
-	 */
-	public class ContestationMessage {
-
-		private Date	date_modified;
-
-		private String	status;
-
-		public Date getDate_modified() {
-			return this.date_modified;
-		}
-
-		public String getStatus() {
-			return this.status;
-		}
-
-		public void setDate_modified(final Date date_modified) {
-			this.date_modified = date_modified;
-		}
-
-		public void setStatus(final String item) {
-			this.status = item;
-		}
-
-	}
-
 	private static final String	ALL_ITEM				= "ANNULLA FILTRO";
 
 	private final static String	BUTTON_FINAL_SCLASS		= "btn-danger";
@@ -125,6 +97,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	// dao interface
 	private IContestation		contestationDAO;
+
+	@Wire
+	private Label				current_;
 
 	@Wire
 	private Component			current_document;
@@ -175,9 +150,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 
 	// status ADD or MODIFY
 	private boolean				status_add				= false;
-	private Date				status_date_modified	= null;
-
-	private String				status_upload			= "";
 
 	@Wire
 	private Datebox				stop_from;
@@ -546,24 +518,35 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		if (item.getTyp() != null) {
 			if (item.getTyp().equals(ContestationTag.LICENZIAMENTO) || item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
 
+				// send info to "Rapporto Lavorativo"
+
 				// ask user for update current status
 				Date to_day = Calendar.getInstance().getTime();
 				to_day = DateUtils.truncate(to_day, Calendar.DATE);
-				final Date my_date = DateUtils.truncate(item.getDate_contestation(), Calendar.DATE);
+				final Date my_date = DateUtils.truncate(item.getDate_penalty(), Calendar.DATE);
 
-				if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
+				if ((item != null) && (to_day.compareTo(my_date) >= 0)) {
 
-					this.onUpdateStatus();
-
-					if (item.getTyp().equals(ContestationTag.LICENZIAMENTO)) {
-						this.status_upload = UserStatusTag.FIRED;
-						this.status_date_modified = item.getDate_contestation();
-					}
+					String status_upload = UserStatusTag.FIRED;
 
 					if (item.getTyp().equals(ContestationTag.SOSPENSIONE)) {
-						this.status_upload = UserStatusTag.SUSPENDED;
-						this.status_date_modified = item.getDate_contestation();
+						status_upload = UserStatusTag.SUSPENDED;
 					}
+
+					final Employment data = new Employment();
+
+					data.setStatus(status_upload);
+					data.setDate_modified(my_date);
+					data.setNote(this.note.getValue());
+					data.setId_user(this.person_selected.getId());
+
+					if (status_upload.equals(UserStatusTag.SUSPENDED)) {
+						data.setDate_modified(this.stop_from.getValue());
+						data.setDate_end(this.stop_to.getValue());
+					}
+
+					final Component comp_status = Path.getComponent("//userstatus/panel");
+					Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp_status, data);
 
 				}
 
@@ -573,20 +556,6 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		// Refresh list task
 		this.setInitialView();
 
-	}
-
-	private void onUpdateStatus() {
-
-		// send event to show user task
-		final Component comp = Path.getComponent("//user/page_user_detail");
-		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, this.status_upload);
-
-		// send info to "Rapporto Lavorativo"
-		final ContestationMessage message = new ContestationMessage();
-		message.setStatus(this.status_upload);
-		message.setDate_modified(this.status_date_modified);
-		final Component comp_status = Path.getComponent("//userstatus/panel");
-		Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp_status, message);
 	}
 
 	@Listen("onClick = #sw_link_delete")
@@ -599,16 +568,16 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener<ClickEvent>() {
-					@Override
-					public void onEvent(final ClickEvent e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerCons.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+								new EventListener<ClickEvent>() {
+									@Override
+									public void onEvent(final ClickEvent e) {
+										if (Messagebox.ON_OK.equals(e.getName())) {
+											UserDetailsComposerCons.this.deleteItemToUser();
+										} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+											// Cancel is clicked
+										}
+									}
+								}, params);
 
 	}
 
@@ -724,6 +693,9 @@ public class UserDetailsComposerCons extends SelectorComposer<Component> {
 		this.search_date_penalty.setValue(null);
 
 		this.select_year.setValue(null);
+
+		// define current
+		this.current_.setValue(this.person_selected.getStatus());
 	}
 
 	/**

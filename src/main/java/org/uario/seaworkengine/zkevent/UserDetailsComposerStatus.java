@@ -15,7 +15,6 @@ import org.uario.seaworkengine.platform.persistence.dao.EmploymentDAO;
 import org.uario.seaworkengine.utility.BeansTag;
 import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
-import org.uario.seaworkengine.zkevent.UserDetailsComposerCons.ContestationMessage;
 import org.zkoss.spring.SpringUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
@@ -25,9 +24,11 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -40,10 +41,19 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	 */
 	private static final long	serialVersionUID	= 1L;
 
+	@Wire
+	private Checkbox			check_contractual_level;
+
+	@Wire
+	private Checkbox			check_date_end;
+
 	private ConfigurationDAO	configurationDao;
 
 	@Wire
 	private Combobox			contractual_level;
+
+	@Wire
+	private Label				current_;
 
 	@Wire
 	private Datebox				date_end;
@@ -68,20 +78,27 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 	// status ADD or MODIFY
 	private boolean				status_add			= false;
 
-	private String				status_upload		= "";
-
 	@Wire
 	private Listbox				sw_list;
 
 	@Listen("onClick = #sw_add")
 	public void addItem() {
 
+		this.status.setValue(null);
+
 		this.status_add = true;
 		this.date_modifiled.setValue(Calendar.getInstance().getTime());
-		this.date_end.setValue(Calendar.getInstance().getTime());
+
+		this.date_end.setValue(null);
+		this.date_end.setDisabled(true);
+
 		this.note.setValue("");
-		this.status.setValue(null);
+
 		this.contractual_level.setValue(null);
+		this.contractual_level.setDisabled(true);
+
+		this.check_date_end.setChecked(false);
+		this.check_contractual_level.setChecked(false);
 
 	}
 
@@ -143,21 +160,18 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 					return;
 				}
 
-				final ContestationMessage data = (ContestationMessage) arg0.getData();
+				final Employment data = (Employment) arg0.getData();
 
 				if (data == null) {
 					return;
 				}
 
-				final Employment item = new Employment();
+				// send event to show user task
+				final Component comp = Path.getComponent("//user/page_user_detail");
 
-				// setup item with values
-				item.setNote(null);
-				item.setStatus(data.getStatus());
-				item.setDate_modified(data.getDate_modified());
-				item.setId_user(UserDetailsComposerStatus.this.person_selected.getId());
+				Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, data);
 
-				UserDetailsComposerStatus.this.employmentDao.createEmploymentForUser(UserDetailsComposerStatus.this.person_selected.getId(), item);
+				UserDetailsComposerStatus.this.employmentDao.createEmploymentForUser(UserDetailsComposerStatus.this.person_selected.getId(), data);
 
 				UserDetailsComposerStatus.this.setInitialView();
 
@@ -270,16 +284,12 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		to_day = DateUtils.truncate(to_day, Calendar.DATE);
 		final Date my_date = DateUtils.truncate(item.getDate_modified(), Calendar.DATE);
 
-		if ((item != null) && (my_date.compareTo(to_day) >= 0)) {
+		if ((item != null) && (to_day.compareTo(my_date) >= 0)) {
 
 			// send event to show user task
 			final Component comp = Path.getComponent("//user/page_user_detail");
 
-			if (this.status_upload == null) {
-				Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
-			}
-
-			this.status_upload = item.getStatus();
+			Events.sendEvent(ZkEventsTag.onUpdateGeneralDetails, comp, item);
 
 		}
 
@@ -298,16 +308,16 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		buttons[1] = Messagebox.Button.CANCEL;
 
 		Messagebox.show("Vuoi cancellare la voce selezionata?", "CONFERMA CANCELLAZIONE", buttons, null, Messagebox.EXCLAMATION, null,
-				new EventListener() {
-					@Override
-					public void onEvent(final Event e) {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							UserDetailsComposerStatus.this.deleteItemToUser();
-						} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
-							// Cancel is clicked
-						}
-					}
-				}, params);
+								new EventListener() {
+									@Override
+									public void onEvent(final Event e) {
+										if (Messagebox.ON_OK.equals(e.getName())) {
+											UserDetailsComposerStatus.this.deleteItemToUser();
+										} else if (Messagebox.ON_CANCEL.equals(e.getName())) {
+											// Cancel is clicked
+										}
+									}
+								}, params);
 
 	}
 
@@ -345,6 +355,8 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 		this.sw_list.setModel(new ListModelList<>(list));
 
 		this.grid_details.setVisible(false);
+
+		this.current_.setValue(this.person_selected.getStatus());
 	}
 
 	private void setStatusComboBox() {
@@ -357,14 +369,16 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * define metohod item for modify and add object
+	 *
+	 * @param item
+	 * @return
+	 */
 	private Boolean setupItemWithValues(final Employment item) {
 
 		item.setNote(this.note.getValue());
 		item.setId_user(this.person_selected.getId());
-
-		if (this.contractual_level.getSelectedItem() != null) {
-			item.setContractual_level(Integer.parseInt(this.contractual_level.getSelectedItem().getValue().toString()));
-		}
 
 		// set status
 		if (this.status.getSelectedItem() != null) {
@@ -389,23 +403,31 @@ public class UserDetailsComposerStatus extends SelectorComposer<Component> {
 
 			Messagebox.show("Selezionare una data inizio!", "INFO", buttons, null, Messagebox.ERROR, null, null, params);
 			return false;
+		} else {
+			item.setDate_modified(this.date_modifiled.getValue());
 		}
 
-		if (this.date_end.getValue() != null) {
-			if (this.date_end.getValue().before(this.date_modifiled.getValue())) {
-				final Map<String, String> params = new HashMap<>();
-				params.put("sclass", "mybutton Button");
-				final Messagebox.Button[] buttons = new Messagebox.Button[1];
-				buttons[0] = Messagebox.Button.OK;
+		if (this.check_date_end.isChecked()) {
+			if (this.date_end.getValue() != null) {
+				if (this.date_end.getValue().before(this.date_modifiled.getValue())) {
+					final Map<String, String> params = new HashMap<>();
+					params.put("sclass", "mybutton Button");
+					final Messagebox.Button[] buttons = new Messagebox.Button[1];
+					buttons[0] = Messagebox.Button.OK;
 
-				Messagebox.show("Attenzione alle date!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
-				return false;
+					Messagebox.show("Attenzione alle date!", "ERROR", buttons, null, Messagebox.ERROR, null, null, params);
+					return false;
+				}
+			}
+
+			item.setDate_end(this.date_end.getValue());
+		}
+
+		if (this.check_contractual_level.isChecked()) {
+			if (this.contractual_level.getSelectedItem() != null) {
+				item.setContractual_level(Integer.parseInt(this.contractual_level.getSelectedItem().getValue().toString()));
 			}
 		}
-
-		item.setDate_modified(this.date_modifiled.getValue());
-
-		item.setDate_end(this.date_end.getValue());
 
 		return true;
 	}

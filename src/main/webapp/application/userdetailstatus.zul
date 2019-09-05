@@ -10,10 +10,14 @@
 		<caption iconSclass="z-icon-star orange"
 			label="Rapporto lavorativo">
 
+
+
 		</caption>
 
 
 		<panelchildren>
+
+
 
 			<div id="grid_details" visible="false">
 
@@ -54,21 +58,33 @@
 
 						<row>
 							<label value="Data Fine:"></label>
-							<datebox id="date_end"
-								placeholder="Seleziona La Data" width="200px" />
+							<div>
+								<datebox id="date_end"
+									placeholder="Seleziona La Data" width="200px" />
+								<checkbox id="check_date_end"
+									onCheck="date_end.setDisabled(!self.isChecked())">
+								</checkbox>
+							</div>
 						</row>
 
 						<row>
 							<label value="Livello Contrattuale:"></label>
-							<combobox id="contractual_level"
-								readonly="true">
-								<comboitem label="1" value="1" />
-								<comboitem label="2" value="2" />
-								<comboitem label="3" value="3" />
-								<comboitem label="4" value="4" />
-								<comboitem label="5" value="5" />
-								<comboitem label="6" value="6" />
-							</combobox>
+							<div>
+								<combobox id="contractual_level"
+									readonly="true">
+									<comboitem label="1" value="1" />
+									<comboitem label="2" value="2" />
+									<comboitem label="3" value="3" />
+									<comboitem label="4" value="4" />
+									<comboitem label="5" value="5" />
+									<comboitem label="6" value="6" />
+								</combobox>
+
+								<checkbox checked="false"
+									id="check_contractual_level"
+									onCheck="contractual_level.setDisabled(!self.isChecked())">
+								</checkbox>
+							</div>
 						</row>
 
 						<row>
@@ -89,6 +105,14 @@
 
 			<a label="Storico" iconSclass="z-icon-list"
 				sclass="green lighter rcaption" />
+
+			<div>
+				<label value="Attuale rapporto lavorativo: "
+					sclass="green lighter rcaption">
+				</label>
+				<label id="current_" sclass="green lighter rcaption"></label>
+
+			</div>
 
 			<div>
 				<separator></separator>
