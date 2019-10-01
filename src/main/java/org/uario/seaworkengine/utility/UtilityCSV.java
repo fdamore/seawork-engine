@@ -1203,11 +1203,6 @@ public class UtilityCSV {
 
 		String header = "anno;mese;settimana;giorno;nome;matricola;data;tipoturno;turno;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;nota mobile\n";
 
-		String holiday = "";
-		String programmer = "";
-		String controller = "";
-		String mobile_controller = "";
-
 		if (administrator) {
 			header = "processo;anno;mese;settimana;giorno;nome;matricola;conta;data;festivo;tipoturno;turno;contabilizzato;fattore;mansione;GG. Lav.;ore (hh:mm);ore_chiusura (hh:mm);nome nave;gru;postazione;rif_sws;ingresso;uscita;consuntiva fascia oraria;continua turno;nota;nota mobile;programmatore;operatore;controllore;ingressi;\n";
 		}
@@ -1228,6 +1223,11 @@ public class UtilityCSV {
 			String dayWorked = "";
 			String code_task = "";
 			String ingressi = "";
+
+			String holiday = "";
+			String programmer = "";
+			String controller = "";
+			String mobile_controller = "";
 
 			// GET CURRENT TASK
 			final UserTask task = taskDao.loadTask(item.getTask());
