@@ -436,27 +436,27 @@ public class MobileComposer {
 		// set starting and end task
 		String end_info = "";
 		switch (this.shift_no) {
-		case 1: {
-			end_info = "07:00";
-			break;
-		}
-		case 2: {
-			end_info = "13:00";
-			break;
-		}
-		case 3: {
-			end_info = "19:00";
-			break;
-		}
-		case 4: {
+			case 1: {
+				end_info = "07:00";
+				break;
+			}
+			case 2: {
+				end_info = "13:00";
+				break;
+			}
+			case 3: {
+				end_info = "19:00";
+				break;
+			}
+			case 4: {
 
-			final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY");
-			final Calendar now = Calendar.getInstance();
-			now.add(Calendar.DAY_OF_YEAR, 1);
-			end_info = format_date.format(now.getTime()) + " 01:00 ";
+				final SimpleDateFormat format_date = new SimpleDateFormat("dd/MM/YYYY");
+				final Calendar now = Calendar.getInstance();
+				now.add(Calendar.DAY_OF_YEAR, 1);
+				end_info = format_date.format(now.getTime()) + " 01:00 ";
 
-			break;
-		}
+				break;
+			}
 		}
 
 		this.starting_task = this.getCurrentInfoTime();
@@ -1413,8 +1413,14 @@ public class MobileComposer {
 			final Date time_from = itm.getTime_from();
 			final Date time_to = itm.getTime_to();
 
-			final String from = data_format.format(time_from);
-			final String to = data_format.format(time_to);
+			String from = "";
+			String to = "";
+			try {
+				from = data_format.format(time_from);
+				to = data_format.format(time_to);
+			} catch (final Exception e) {
+				this.logger.warn("Data from and/or to not present for tagging time. " + e);
+			}
 
 			builder.append(code + " (" + from + " - " + to + ")\n");
 
@@ -1739,91 +1745,91 @@ public class MobileComposer {
 
 		switch (this.status_view) {
 
-		case 1: {
+			case 1: {
 
-			// remove "USER LIST"
-			if (this.list_schedule_selected == null) {
-				return;
-			}
-
-			for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
-
-				if (BooleanUtils.isNotTrue(itm.getDetail_schedule().getRevised())) {
-					continue;
+				// remove "USER LIST"
+				if (this.list_schedule_selected == null) {
+					return;
 				}
 
-				final Integer id = itm.getDetail_schedule().getId();
-				this.schedule_dao.removeDetailFinalSchedule(id);
+				for (final InitialScheduleSingleDetail itm : this.list_schedule_selected) {
 
+					if (BooleanUtils.isNotTrue(itm.getDetail_schedule().getRevised())) {
+						continue;
+					}
+
+					final Integer id = itm.getDetail_schedule().getId();
+					this.schedule_dao.removeDetailFinalSchedule(id);
+
+				}
+
+				this.refreshDataAndCurrentShift();
+
+				break;
 			}
 
-			this.refreshDataAndCurrentShift();
+			case 2: {
+				// ***SPOSTAMENTO***
+				this.refreshDataAndCurrentShift();
 
-			break;
-		}
-
-		case 2: {
-			// ***SPOSTAMENTO***
-			this.refreshDataAndCurrentShift();
-
-			break;
-		}
-
-		case 3: {
-			// NOTE USER
-			this.refreshDataAndCurrentShift();
-
-			break;
-		}
-
-		case 4: {
-			// remove "SHIP"
-			this.refreshShipDataAndCurrentShift();
-
-			break;
-		}
-
-		case 5: {
-			// NOTE SHIP
-			this.refreshShipDataAndCurrentShift();
-
-			break;
-		}
-
-		case 6: {
-			// REVIW FOR SHIP
-			this.refreshShipDataAndCurrentShift();
-
-			break;
-		}
-
-		case 7: {
-			// ADD INFO USER FOR REVIEW *** ASSEGNA PROGRAMMATO***
-			this.refreshShipDataAndCurrentShift();
-
-			break;
-		}
-
-		case 8: {
-			// LIST CRANES
-			if (this.craneListSelected != null) {
-
-				this.schedule_ship_dao.deleteDetailFinalScheduleShipById(this.craneListSelected.getId());
-
+				break;
 			}
 
-			// remove crane
-			this.showGru();
+			case 3: {
+				// NOTE USER
+				this.refreshDataAndCurrentShift();
 
-			break;
-		}
+				break;
+			}
 
-		case 9: {
-			// close adding crane
-			this.showGru();
+			case 4: {
+				// remove "SHIP"
+				this.refreshShipDataAndCurrentShift();
 
-			break;
-		}
+				break;
+			}
+
+			case 5: {
+				// NOTE SHIP
+				this.refreshShipDataAndCurrentShift();
+
+				break;
+			}
+
+			case 6: {
+				// REVIW FOR SHIP
+				this.refreshShipDataAndCurrentShift();
+
+				break;
+			}
+
+			case 7: {
+				// ADD INFO USER FOR REVIEW *** ASSEGNA PROGRAMMATO***
+				this.refreshShipDataAndCurrentShift();
+
+				break;
+			}
+
+			case 8: {
+				// LIST CRANES
+				if (this.craneListSelected != null) {
+
+					this.schedule_ship_dao.deleteDetailFinalScheduleShipById(this.craneListSelected.getId());
+
+				}
+
+				// remove crane
+				this.showGru();
+
+				break;
+			}
+
+			case 9: {
+				// close adding crane
+				this.showGru();
+
+				break;
+			}
 		}
 
 	}
