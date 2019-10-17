@@ -3,69 +3,53 @@ package org.uario.seaworkengine.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-@XmlRootElement(namespace = "org.uario.seaworkengine.model")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Schedule implements Comparable<Schedule>, Serializable {
 
 	/**
 	 *
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	@XmlTransient
-	private Boolean				break_ex;
+	private Boolean break_ex;
 
-	@XmlTransient
-	private Boolean				break_force;
+	private Boolean break_force;
 
-	private Integer				controller;
+	private Integer controller;
 
-	private Date				date_schedule;
+	private Date date_schedule;
 
-	private Integer				editor;
+	private Integer editor;
 
 	// to show in overview
-	@XmlTransient
-	private String				employee_identification;
+	private String employee_identification;
 
-	private Integer				id;
+	private Integer id;
 
-	private String				mobile_note;
-
-	// used form visualize
-	@XmlTransient
-	private String				name_controller;
+	private String mobile_note;
 
 	// used form visualize
-	@XmlTransient
-	private String				name_editor;
+	private String name_controller;
 
 	// used form visualize
-	@XmlTransient
-	private String				name_user;
+	private String name_editor;
+
+	// used form visualize
+	private String name_user;
 
 	// used for visualize - number of shift (1,2,3,4)
-	@XmlTransient
-	private Integer				no_shift;
+	private Integer no_shift;
 
-	private String				note;
-
-	// used for visualize
-	@XmlTransient
-	private Double				program_time;
+	private String note;
 
 	// used for visualize
-	@XmlTransient
-	private Double				revision_time;
+	private Double program_time;
 
-	private Integer				shift;
+	// used for visualize
+	private Double revision_time;
 
-	private Integer				user;
+	private Integer shift;
+
+	private Integer user;
 
 	public Schedule() {
 
