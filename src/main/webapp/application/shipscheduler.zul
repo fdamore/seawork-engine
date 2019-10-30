@@ -2753,11 +2753,9 @@
 						<listheader label="Posizione" hflex="2" />
 						<listheader label="Mansione" hflex="1"></listheader>
 						<listheader label="Inizio Turno" hflex="2"></listheader>
-						<listheader label="Fine Turno" hflex="2"></listheader>
-
-						<listheader label="Controllore" hflex="2"></listheader>
+						<listheader label="Fine Turno" hflex="2"></listheader>					
 						<listheader label="Rif. SWS" hflex="1"></listheader>
-						<listheader label="Note Turni" hflex="2"></listheader>
+						
 
 
 					</listhead>
@@ -2790,19 +2788,10 @@
 							label="@{item.time_from}" />
 
 						<listcell sclass="myBottonCell"
-							label="@{item.time_to}" />
-
-						<listcell sclass="myBottonCell"
-							label="@{item.controller}" />
+							label="@{item.time_to}" />						
 
 						<listcell sclass="myBottonCell"
 							label="@{item.rif_sws}" />
-
-						<listcell sclass="myBottonCell"
-							label="@{item.note}" />
-
-
-
 
 					</listitem>
 
