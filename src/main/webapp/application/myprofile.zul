@@ -1,4 +1,5 @@
 <?page id="myprofile" title="Sea Work Admin"?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
 
 <?link href="css/style.css" rel="stylesheet" type="text/css"?>
@@ -23,8 +24,10 @@
 			<caption iconSclass="z-icon-star orange"
 				label="Dettagli utente">
 
+
 				<toolbarbutton id="modify_users_command"
-					label="Modifica" style="color: blue" visible="true">
+					label="Modifica" style="color: blue"
+					visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}">
 				</toolbarbutton>
 
 			</caption>
@@ -105,9 +108,10 @@
 
 		</panel>
 
-		<div id="panel_modify" visible="true">
+		<div id="panel_modify">
 
 			<panel id="panel_mail_user" border="normal"
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
 				collapsible="false" sclass="transparent">
 				<caption iconSclass="z-icon-star orange"
 					label="Gestione Mail">
@@ -160,7 +164,8 @@
 			</panel>
 
 			<panel id="panel_mail_password" border="normal"
-				collapsible="false" sclass="transparent">
+				visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" collapsible="false"
+				sclass="transparent">
 				<caption iconSclass="z-icon-star orange"
 					label="Gestione Password">
 
