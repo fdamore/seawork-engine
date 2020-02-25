@@ -24,6 +24,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.uario.seaworkengine.docfactory.ProgramReportBuilder;
 import org.uario.seaworkengine.mobile.model.Badge;
@@ -99,6 +100,7 @@ import org.zkoss.zul.Toolbarbutton;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
+	private Logger logger = Logger.getLogger(SchedulerComposer.class);
 	/**
 	 * Break in week management - Substitution or not break in week
 	 *
@@ -3389,8 +3391,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Calendar cal = Calendar.getInstance(Locale.ITALIAN);
 
 		cal.set(Calendar.YEAR, year);
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
 
 		cal.set(Calendar.WEEK_OF_YEAR, week);
+		
+		logger.error("Date Cal ITALIAN: "+formatter_last_p.format(cal.getTime()));
+		logger.error("Week ITALIAN: "+cal.get(Calendar.WEEK_OF_YEAR));
 
 		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
 

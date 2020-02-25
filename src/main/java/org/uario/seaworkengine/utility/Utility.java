@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.imageio.ImageIO;
 
@@ -22,6 +23,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Minutes;
@@ -34,6 +36,7 @@ import org.uario.seaworkengine.model.UserShift;
 import org.uario.seaworkengine.platform.persistence.dao.ConfigurationDAO;
 import org.uario.seaworkengine.statistics.IBankHolidays;
 import org.uario.seaworkengine.statistics.ShipTotal;
+import org.uario.seaworkengine.zkevent.SchedulerComposer;
 import org.zkoss.spring.SpringUtil;
 
 import com.google.zxing.BarcodeFormat;
@@ -60,6 +63,8 @@ public class Utility {
 	private static final SimpleDateFormat	formatDay		= new SimpleDateFormat("EEE", Locale.ITALIAN);
 
 	private static SimpleDateFormat			timeFormat		= new SimpleDateFormat("HH:mm");
+	
+	private static Logger logger = Logger.getLogger(Utility.class);
 
 	/**
 	 * Body crane converter
@@ -482,8 +487,12 @@ public class Utility {
 	}
 
 	public static Integer getWeekNumber(final Date date) {
+		logger.error("Date in: "+dateFormat.format(date));
 		final Calendar cal = Calendar.getInstance(Locale.ITALIAN);
 		cal.setTime(date);
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		logger.error("Date Cal ITALIAN: "+dateFormat.format(cal.getTime()));
+		logger.error("Week ITALIAN: "+cal.get(Calendar.WEEK_OF_YEAR));
 		return cal.get(Calendar.WEEK_OF_YEAR);
 	}
 
