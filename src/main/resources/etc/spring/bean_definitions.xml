@@ -88,7 +88,7 @@
 		destroy-method="close">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl"
-			value="jdbc:mysql://sws.uario.com/seawork" />
+			value="jdbc:mysql://keplerosea/seawork" />
 		<property name="user" value="seawork"></property>
 		<property name="password" value="J3n.l0pA.zzc#44sGopla1.2bov"></property>
 		<property name="acquireIncrement" value="5" />

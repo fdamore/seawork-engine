@@ -106,8 +106,9 @@ public interface IStatProcedure {
 	 * @param current_date_scheduled
 	 * @param user
 	 * @param editor
+	 * @param shift_sg TODO
 	 *
 	 */
-	public void workAssignProcedure(UserShift shift, Date current_date_scheduled, Integer user, Integer editor);
+	public void workAssignProcedure(UserShift shift, Date current_date_scheduled, Integer user, Integer editor, ShiftPersonSuggest shift_sg);
 
 }
