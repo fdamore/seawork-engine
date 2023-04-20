@@ -1593,34 +1593,36 @@
 				<vbox>
 
 					<div>
-						<intbox constraint="no negative" readonly="true"
-							id="suggest_shift_1">
+						<intbox  readonly="true"
+							id="suggest_diff_shift_1">
 						</intbox>
-						<intbox constraint="no negative" readonly="true"
-							id="suggest_shift_2">
+						<intbox  readonly="true"
+							id="suggest_diff_shift_2">
 						</intbox>
-						<intbox constraint="no negative" readonly="true"
-							id="suggest_shift_3">
+						<intbox  readonly="true"
+							id="suggest_diff_shift_3">
 						</intbox>
-						<intbox constraint="no negative" readonly="true"
-							id="suggest_shift_4">
+						<intbox  readonly="true"
+							id="suggest_diff_shift_4">
 						</intbox>
 					</div>
 
 					<div>
 						<intbox constraint="no negative"
-							id="suggest_diff_shift_1">
+							id="suggest_shift_1">
 						</intbox>
 						<intbox constraint="no negative"
-							id="suggest_diff_shift_2">
+							id="suggest_shift_2">
 						</intbox>
 						<intbox constraint="no negative"
-							id="suggest_diff_shift_3">
+							id="suggest_shift_3">
 						</intbox>
 						<intbox constraint="no negative"
-							id="suggest_diff_shift_4">
+							id="suggest_shift_4">
 						</intbox>
 					</div>
+
+
 
 
 

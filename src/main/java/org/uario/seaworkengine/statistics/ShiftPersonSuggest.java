@@ -6,20 +6,20 @@ package org.uario.seaworkengine.statistics;
  */
 public class ShiftPersonSuggest {
 
-	private int[] shift_number;
+	private int[] shift_number = new int[4];
 
 	public ShiftPersonSuggest(int shift_1, int shift_2, int shift_3, int shift_4) {
 		super();
-		shift_number[0] = shift_1;
-		shift_number[1] = shift_2;
-		shift_number[2] = shift_3;
-		shift_number[3] = shift_4;
+		this.shift_number[0] = shift_1;
+		this.shift_number[1] = shift_2;
+		this.shift_number[2] = shift_3;
+		this.shift_number[3] = shift_4;
 
 	}
 
 	public void decreasePersonOnShift(int shift_n) {
-		if (shift_number[shift_n] > 0) {
-			shift_number[shift_n]--;
+		if (this.shift_number[shift_n] > 0) {
+			this.shift_number[shift_n]--;
 		}
 	}
 
@@ -35,22 +35,22 @@ public class ShiftPersonSuggest {
 		int max_person = 0;
 
 		for (int i = minumum_shift; i <= 4; i++) {
-			if (shift_number[i - 1] > max_person) {
+			if (this.shift_number[i - 1] > max_person) {
 				res = i;
-				max_person = shift_number[i - 1];
+				max_person = this.shift_number[i - 1];
 			}
 
 		}
 
 		if (decrese) {
-			shift_number[res]--;
+			this.shift_number[res]--;
 		}
 
 		return res;
 	}
 
 	public int getPersonSuggested(int shift_no) {
-		return shift_number[shift_no];
+		return this.shift_number[shift_no];
 	}
 
 }

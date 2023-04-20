@@ -1107,6 +1107,36 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private String status_comp_editor = SchedulerComposer.STATUS_COMP_EDITOR_ADD;
 
 	@Wire
+	private Intbox suggest_diff_shift_1;
+
+	@Wire
+	private Intbox suggest_diff_shift_2;
+
+	@Wire
+	private Intbox suggest_diff_shift_3;
+
+	@Wire
+	private Intbox suggest_diff_shift_4;
+
+	@Wire
+	private Intbox suggest_shift_1;
+
+	@Wire
+	private Intbox suggest_shift_2;
+
+	@Wire
+	private Intbox suggest_shift_3;
+
+	@Wire
+	private Intbox suggest_shift_4;
+
+	/**
+	 * Suggest for no
+	 */
+	@Wire
+	private Checkbox suggest_shift_active;
+
+	@Wire
 	private Listbox sw_compensation_list;
 
 	@Wire
@@ -1240,24 +1270,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Label working_series;
-
-	/**
-	 * Suggest for no
-	 */
-	@Wire
-	private Checkbox suggest_shift_active;
-
-	@Wire
-	private Intbox suggest_shift_1;
-
-	@Wire
-	private Intbox suggest_shift_2;
-
-	@Wire
-	private Intbox suggest_shift_3;
-
-	@Wire
-	private Intbox suggest_shift_4;
 
 	@Listen("onClick = #sw_link_add_comp")
 	public void addCompenstion() {
@@ -2462,6 +2474,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// show panel
 		this.panel_shift_period.setVisible(true);
+	}
+
+	/**
+	 *
+	 */
+	private void defineSuggestDiff() {
+
+		int tot_programmed_person_1 = NumberUtils.toInt(this.programUser_tot_3_1.getLabel(), 0);
+		int tot_programmed_person_2 = NumberUtils.toInt(this.programUser_tot_3_2.getLabel(), 0);
+		int tot_programmed_person_3 = NumberUtils.toInt(this.programUser_tot_3_3.getLabel(), 0);
+		int tot_programmed_person_4 = NumberUtils.toInt(this.programUser_tot_3_4.getLabel(), 0);
+
+		int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0 : this.suggest_shift_1.getValue().intValue();
+		int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0 : this.suggest_shift_2.getValue().intValue();
+		int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0 : this.suggest_shift_3.getValue().intValue();
+		int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0 : this.suggest_shift_4.getValue().intValue();
+
+		this.suggest_diff_shift_1.setValue(tot_programmed_person_1 - suggest_person_1);
+		this.suggest_diff_shift_2.setValue(tot_programmed_person_2 - suggest_person_2);
+		this.suggest_diff_shift_3.setValue(tot_programmed_person_3 - suggest_person_3);
+		this.suggest_diff_shift_4.setValue(tot_programmed_person_4 - suggest_person_4);
+
 	}
 
 	/**
@@ -4461,8 +4495,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	public void refreshCommand() {
 
 		this.select_shift_overview.setSelectedItem(this.item_all_shift_overview);
-		this.resetFilter();
-		// refresh for overview
+
+		this.select_shift_overview.setSelectedItem(null);
+		this.select_shifttype_overview.setSelectedItem(null);
+		this.taskComboBox.setSelectedItem(null);
+		this.hoursInterval.setSelectedItem(null);
+		this.shipSelector.setSelectedItem(null);
+		this.craneSelector.setValue(null);
 		this.full_text_search.setValue(null);
 		this.date_from_overview.setValue(null);
 		this.date_to_overview.setValue(null);
@@ -4896,10 +4935,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		// check the suggestions about no shift
 		ShiftPersonSuggest shift_sg = null;
-		if (suggest_shift_active.isChecked()) {
+		if (this.suggest_shift_active.isChecked()) {
 
-			shift_sg = new ShiftPersonSuggest(suggest_shift_1.getValue(), suggest_shift_2.getValue(),
-					suggest_shift_3.getValue(), suggest_shift_4.getValue());
+			int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0
+					: this.suggest_shift_1.getValue().intValue();
+			int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0
+					: this.suggest_shift_2.getValue().intValue();
+			int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0
+					: this.suggest_shift_3.getValue().intValue();
+			int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0
+					: this.suggest_shift_4.getValue().intValue();
+
+			shift_sg = new ShiftPersonSuggest(suggest_person_1, suggest_person_2, suggest_person_3, suggest_person_4);
 
 		}
 
@@ -4937,16 +4984,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// upload grid
 		this.setupGlobalSchedulerGridForShift();
 
-	}
-
-	private void resetFilter() {
-
-		this.select_shift_overview.setSelectedItem(null);
-		this.select_shifttype_overview.setSelectedItem(null);
-		this.taskComboBox.setSelectedItem(null);
-		this.hoursInterval.setSelectedItem(null);
-		this.shipSelector.setSelectedItem(null);
-		this.craneSelector.setValue(null);
+		// defineSuggestDiff
+		this.defineSuggestDiff();
 
 	}
 
