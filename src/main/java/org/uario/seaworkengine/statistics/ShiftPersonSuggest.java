@@ -17,12 +17,6 @@ public class ShiftPersonSuggest {
 
 	}
 
-	public void decreasePersonOnShift(int shift_n) {
-		if (this.shift_number[shift_n] > 0) {
-			this.shift_number[shift_n]--;
-		}
-	}
-
 	public int getMostSuggestedShift(int minumum_shift, boolean decrese) {
 
 		if (minumum_shift < 1)
@@ -31,22 +25,22 @@ public class ShiftPersonSuggest {
 		if (minumum_shift > 4)
 			minumum_shift = 4;
 
-		int res = 1;
+		int index_max_person = minumum_shift;
 		int max_person = 0;
 
 		for (int i = minumum_shift; i <= 4; i++) {
 			if (this.shift_number[i - 1] > max_person) {
-				res = i;
+				index_max_person = i;
 				max_person = this.shift_number[i - 1];
 			}
 
 		}
 
 		if (decrese) {
-			this.shift_number[res]--;
+			this.shift_number[index_max_person - 1]--;
 		}
 
-		return res;
+		return index_max_person;
 	}
 
 	public int getPersonSuggested(int shift_no) {
