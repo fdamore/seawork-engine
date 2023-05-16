@@ -26,12 +26,11 @@ public class ShiftPersonSuggest {
 			minumum_shift = 4;
 
 		int index_max_person = minumum_shift;
-		int max_person = 0;
 
 		for (int i = minumum_shift; i <= 4; i++) {
-			if (this.shift_number[i - 1] > max_person) {
+			if (this.shift_number[i - 1] > 0) {
 				index_max_person = i;
-				max_person = this.shift_number[i - 1];
+				break;
 			}
 
 		}
