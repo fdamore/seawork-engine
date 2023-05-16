@@ -7103,28 +7103,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		// create a map for define people scheduled
 		final HashMap<Integer, RowSchedule> sign_scheduled = new HashMap<>();
 
-		// set variable for count
-		final Double[][] count_matrix = new Double[5][4];
-		for (int i = 0; i < count_matrix.length; i++) {
-			for (int j = 0; j < count_matrix[i].length; j++) {
-				count_matrix[i][j] = 0.0;
-			}
-		}
-
-		// set variable for count persons
-		final Integer[][] count_matrixUsers = new Integer[5][4];
-		for (int i = 0; i < count_matrixUsers.length; i++) {
-			for (int j = 0; j < count_matrixUsers[i].length; j++) {
-				count_matrixUsers[i][j] = 0;
-			}
-		}
-
-		// set variable for count total person in day
-		final Integer[] count_Day_Users = new Integer[5];
-		for (int i = 0; i < count_Day_Users.length; i++) {
-			count_Day_Users[i] = 0;
-		}
-
 		// under program
 		for (int i = 0; i < list_program.size(); i++) {
 
@@ -7211,230 +7189,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
-		// count review
-		for (final RowSchedule itemrow_count : this.list_rows_program) {
-
-			final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
-
-			if (!user.isInOffice()) {
-				if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
-					count_matrixUsers[0][0]++;
-				}
-
-				if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
-					count_matrixUsers[0][1]++;
-				}
-
-				if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
-					count_matrixUsers[0][2]++;
-				}
-
-				if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
-					count_matrixUsers[0][3]++;
-				}
-
-				if ((itemrow_count.getItem_1().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
-					count_Day_Users[0]++;
-				}
-
-				count_matrix[0][0] = count_matrix[0][0] + itemrow_count.getItem_1().getAnchorValue1();
-				count_matrix[0][1] = count_matrix[0][1] + itemrow_count.getItem_1().getAnchorValue2();
-				count_matrix[0][2] = count_matrix[0][2] + itemrow_count.getItem_1().getAnchorValue3();
-				count_matrix[0][3] = count_matrix[0][3] + itemrow_count.getItem_1().getAnchorValue4();
-
-				if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
-					count_matrixUsers[1][0]++;
-				}
-
-				if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
-					count_matrixUsers[1][1]++;
-				}
-
-				if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
-					count_matrixUsers[1][2]++;
-				}
-
-				if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
-					count_matrixUsers[1][3]++;
-				}
-
-				if ((itemrow_count.getItem_2().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
-					count_Day_Users[1]++;
-				}
-
-				count_matrix[1][0] = count_matrix[1][0] + itemrow_count.getItem_2().getAnchorValue1();
-				count_matrix[1][1] = count_matrix[1][1] + itemrow_count.getItem_2().getAnchorValue2();
-				count_matrix[1][2] = count_matrix[1][2] + itemrow_count.getItem_2().getAnchorValue3();
-				count_matrix[1][3] = count_matrix[1][3] + itemrow_count.getItem_2().getAnchorValue4();
-
-				if (itemrow_count.getItem_3().getAnchorValue1() != 0) {
-					count_matrixUsers[2][0]++;
-				}
-
-				if (itemrow_count.getItem_3().getAnchorValue2() != 0) {
-					count_matrixUsers[2][1]++;
-				}
-
-				if (itemrow_count.getItem_3().getAnchorValue3() != 0) {
-					count_matrixUsers[2][2]++;
-				}
-
-				if (itemrow_count.getItem_3().getAnchorValue4() != 0) {
-					count_matrixUsers[2][3]++;
-				}
-
-				if ((itemrow_count.getItem_3().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_3().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_3().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_3().getAnchorValue4() != 0)) {
-					count_Day_Users[2]++;
-				}
-
-				count_matrix[2][0] = count_matrix[2][0] + itemrow_count.getItem_3().getAnchorValue1();
-				count_matrix[2][1] = count_matrix[2][1] + itemrow_count.getItem_3().getAnchorValue2();
-				count_matrix[2][2] = count_matrix[2][2] + itemrow_count.getItem_3().getAnchorValue3();
-				count_matrix[2][3] = count_matrix[2][3] + itemrow_count.getItem_3().getAnchorValue4();
-
-				if (itemrow_count.getItem_4().getAnchorValue1() != 0) {
-					count_matrixUsers[3][0]++;
-				}
-
-				if (itemrow_count.getItem_4().getAnchorValue2() != 0) {
-					count_matrixUsers[3][1]++;
-				}
-
-				if (itemrow_count.getItem_4().getAnchorValue3() != 0) {
-					count_matrixUsers[3][2]++;
-				}
-
-				if (itemrow_count.getItem_4().getAnchorValue4() != 0) {
-					count_matrixUsers[3][3]++;
-				}
-
-				if ((itemrow_count.getItem_4().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_4().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_4().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_4().getAnchorValue4() != 0)) {
-					count_Day_Users[3]++;
-				}
-
-				count_matrix[3][0] = count_matrix[3][0] + itemrow_count.getItem_4().getAnchorValue1();
-				count_matrix[3][1] = count_matrix[3][1] + itemrow_count.getItem_4().getAnchorValue2();
-				count_matrix[3][2] = count_matrix[3][2] + itemrow_count.getItem_4().getAnchorValue3();
-				count_matrix[3][3] = count_matrix[3][3] + itemrow_count.getItem_4().getAnchorValue4();
-
-				if (itemrow_count.getItem_5().getAnchorValue1() != 0) {
-					count_matrixUsers[4][0]++;
-				}
-
-				if (itemrow_count.getItem_5().getAnchorValue2() != 0) {
-					count_matrixUsers[4][1]++;
-				}
-
-				if (itemrow_count.getItem_5().getAnchorValue3() != 0) {
-					count_matrixUsers[4][2]++;
-				}
-
-				if (itemrow_count.getItem_5().getAnchorValue4() != 0) {
-					count_matrixUsers[4][3]++;
-				}
-
-				if ((itemrow_count.getItem_5().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_5().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_5().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_5().getAnchorValue4() != 0)) {
-					count_Day_Users[4]++;
-				}
-
-				count_matrix[4][0] = count_matrix[4][0] + itemrow_count.getItem_5().getAnchorValue1();
-				count_matrix[4][1] = count_matrix[4][1] + itemrow_count.getItem_5().getAnchorValue2();
-				count_matrix[4][2] = count_matrix[4][2] + itemrow_count.getItem_5().getAnchorValue3();
-				count_matrix[4][3] = count_matrix[4][3] + itemrow_count.getItem_5().getAnchorValue4();
-
-			}
-		}
-
-		// set sum review
-		this.program_tot_1_1.setLabel(Utility.decimatToTime(count_matrix[0][0]));
-		this.program_tot_1_2.setLabel(Utility.decimatToTime(count_matrix[0][1]));
-		this.program_tot_1_3.setLabel(Utility.decimatToTime(count_matrix[0][2]));
-		this.program_tot_1_4.setLabel(Utility.decimatToTime(count_matrix[0][3]));
-
-		this.program_tot_2_1.setLabel(Utility.decimatToTime(count_matrix[1][0]));
-		this.program_tot_2_2.setLabel(Utility.decimatToTime(count_matrix[1][1]));
-		this.program_tot_2_3.setLabel(Utility.decimatToTime(count_matrix[1][2]));
-		this.program_tot_2_4.setLabel(Utility.decimatToTime(count_matrix[1][3]));
-
-		this.program_tot_3_1.setLabel(Utility.decimatToTime(count_matrix[2][0]));
-		this.program_tot_3_2.setLabel(Utility.decimatToTime(count_matrix[2][1]));
-		this.program_tot_3_3.setLabel(Utility.decimatToTime(count_matrix[2][2]));
-		this.program_tot_3_4.setLabel(Utility.decimatToTime(count_matrix[2][3]));
-
-		this.program_tot_4_1.setLabel(Utility.decimatToTime(count_matrix[3][0]));
-		this.program_tot_4_2.setLabel(Utility.decimatToTime(count_matrix[3][1]));
-		this.program_tot_4_3.setLabel(Utility.decimatToTime(count_matrix[3][2]));
-		this.program_tot_4_4.setLabel(Utility.decimatToTime(count_matrix[3][3]));
-
-		this.program_tot_5_1.setLabel(Utility.decimatToTime(count_matrix[4][0]));
-		this.program_tot_5_2.setLabel(Utility.decimatToTime(count_matrix[4][1]));
-		this.program_tot_5_3.setLabel(Utility.decimatToTime(count_matrix[4][2]));
-		this.program_tot_5_4.setLabel(Utility.decimatToTime(count_matrix[4][3]));
-
-		// set sum for persons
-		this.programUser_tot_1_1.setLabel(count_matrixUsers[0][0].toString());
-		this.programUser_tot_1_2.setLabel(count_matrixUsers[0][1].toString());
-		this.programUser_tot_1_3.setLabel(count_matrixUsers[0][2].toString());
-		this.programUser_tot_1_4.setLabel(count_matrixUsers[0][3].toString());
-
-		this.programUser_tot_2_1.setLabel(count_matrixUsers[1][0].toString());
-		this.programUser_tot_2_2.setLabel(count_matrixUsers[1][1].toString());
-		this.programUser_tot_2_3.setLabel(count_matrixUsers[1][2].toString());
-		this.programUser_tot_2_4.setLabel(count_matrixUsers[1][3].toString());
-
-		this.programUser_tot_3_1.setLabel(count_matrixUsers[2][0].toString());
-		this.programUser_tot_3_2.setLabel(count_matrixUsers[2][1].toString());
-		this.programUser_tot_3_3.setLabel(count_matrixUsers[2][2].toString());
-		this.programUser_tot_3_4.setLabel(count_matrixUsers[2][3].toString());
-
-		this.programUser_tot_4_1.setLabel(count_matrixUsers[3][0].toString());
-		this.programUser_tot_4_2.setLabel(count_matrixUsers[3][1].toString());
-		this.programUser_tot_4_3.setLabel(count_matrixUsers[3][2].toString());
-		this.programUser_tot_4_4.setLabel(count_matrixUsers[3][3].toString());
-
-		this.programUser_tot_5_1.setLabel(count_matrixUsers[4][0].toString());
-		this.programUser_tot_5_2.setLabel(count_matrixUsers[4][1].toString());
-		this.programUser_tot_5_3.setLabel(count_matrixUsers[4][2].toString());
-		this.programUser_tot_5_4.setLabel(count_matrixUsers[4][3].toString());
-
-		final Double[] count_matrix_row = new Double[5];
-		for (int i = 0; i < count_matrix_row.length; i++) {
-			count_matrix_row[i] = 0.0;
-		}
-
-		// set sum row of matrix
-		for (int i = 0; i < count_matrix.length; i++) {
-			for (int j = 0; j < count_matrix[i].length; j++) {
-				count_matrix_row[i] = count_matrix_row[i] + count_matrix[i][j];
-			}
-		}
-
-		this.total_program_day_1.setLabel(Utility.decimatToTime(count_matrix_row[0]));
-		this.total_program_day_2.setLabel(Utility.decimatToTime(count_matrix_row[1]));
-		this.total_program_day_3.setLabel(Utility.decimatToTime(count_matrix_row[2]));
-		this.total_program_day_4.setLabel(Utility.decimatToTime(count_matrix_row[3]));
-		this.total_program_day_5.setLabel(Utility.decimatToTime(count_matrix_row[4]));
-
-		this.totalUser_program_day_1.setLabel(count_Day_Users[0].toString());
-		this.totalUser_program_day_2.setLabel(count_Day_Users[1].toString());
-		this.totalUser_program_day_3.setLabel(count_Day_Users[2].toString());
-		this.totalUser_program_day_4.setLabel(count_Day_Users[3].toString());
-		this.totalUser_program_day_5.setLabel(count_Day_Users[4].toString());
+		// define summary count program (use in_office)
+		this.summaryCountProgram(true);
 
 		// get all user to schedule
 		final List<Person> users_schedule = this.personDAO.listWorkerPersons(text_search_person, null);
@@ -8169,6 +7925,265 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 		}
+	}
+
+	/**
+	 * define count summary
+	 */
+	private void summaryCountProgram(boolean use_in_office) {
+		// set variable for count
+		final Double[][] count_matrix = new Double[5][4];
+		for (int i = 0; i < count_matrix.length; i++) {
+			for (int j = 0; j < count_matrix[i].length; j++) {
+				count_matrix[i][j] = 0.0;
+			}
+		}
+
+		// set variable for count persons
+		final Integer[][] count_matrixUsers = new Integer[5][4];
+		for (int i = 0; i < count_matrixUsers.length; i++) {
+			for (int j = 0; j < count_matrixUsers[i].length; j++) {
+				count_matrixUsers[i][j] = 0;
+			}
+		}
+
+		// set variable for count total person in day
+		final Integer[] count_Day_Users = new Integer[5];
+		for (int i = 0; i < count_Day_Users.length; i++) {
+			count_Day_Users[i] = 0;
+		}
+
+		// define count
+		for (final RowSchedule itemrow_count : this.list_rows_program) {
+
+			boolean compute_row = true;
+
+			if (use_in_office) {
+
+				final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
+				compute_row = !user.isInOffice();
+
+			}
+
+			if (compute_row) {
+				if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
+					count_matrixUsers[0][0]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
+					count_matrixUsers[0][1]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
+					count_matrixUsers[0][2]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
+					count_matrixUsers[0][3]++;
+				}
+
+				if ((itemrow_count.getItem_1().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
+					count_Day_Users[0]++;
+				}
+
+				count_matrix[0][0] = count_matrix[0][0] + itemrow_count.getItem_1().getAnchorValue1();
+				count_matrix[0][1] = count_matrix[0][1] + itemrow_count.getItem_1().getAnchorValue2();
+				count_matrix[0][2] = count_matrix[0][2] + itemrow_count.getItem_1().getAnchorValue3();
+				count_matrix[0][3] = count_matrix[0][3] + itemrow_count.getItem_1().getAnchorValue4();
+
+				if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
+					count_matrixUsers[1][0]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
+					count_matrixUsers[1][1]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
+					count_matrixUsers[1][2]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
+					count_matrixUsers[1][3]++;
+				}
+
+				if ((itemrow_count.getItem_2().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
+					count_Day_Users[1]++;
+				}
+
+				count_matrix[1][0] = count_matrix[1][0] + itemrow_count.getItem_2().getAnchorValue1();
+				count_matrix[1][1] = count_matrix[1][1] + itemrow_count.getItem_2().getAnchorValue2();
+				count_matrix[1][2] = count_matrix[1][2] + itemrow_count.getItem_2().getAnchorValue3();
+				count_matrix[1][3] = count_matrix[1][3] + itemrow_count.getItem_2().getAnchorValue4();
+
+				if (itemrow_count.getItem_3().getAnchorValue1() != 0) {
+					count_matrixUsers[2][0]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue2() != 0) {
+					count_matrixUsers[2][1]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue3() != 0) {
+					count_matrixUsers[2][2]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue4() != 0) {
+					count_matrixUsers[2][3]++;
+				}
+
+				if ((itemrow_count.getItem_3().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_3().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_3().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_3().getAnchorValue4() != 0)) {
+					count_Day_Users[2]++;
+				}
+
+				count_matrix[2][0] = count_matrix[2][0] + itemrow_count.getItem_3().getAnchorValue1();
+				count_matrix[2][1] = count_matrix[2][1] + itemrow_count.getItem_3().getAnchorValue2();
+				count_matrix[2][2] = count_matrix[2][2] + itemrow_count.getItem_3().getAnchorValue3();
+				count_matrix[2][3] = count_matrix[2][3] + itemrow_count.getItem_3().getAnchorValue4();
+
+				if (itemrow_count.getItem_4().getAnchorValue1() != 0) {
+					count_matrixUsers[3][0]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue2() != 0) {
+					count_matrixUsers[3][1]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue3() != 0) {
+					count_matrixUsers[3][2]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue4() != 0) {
+					count_matrixUsers[3][3]++;
+				}
+
+				if ((itemrow_count.getItem_4().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_4().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_4().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_4().getAnchorValue4() != 0)) {
+					count_Day_Users[3]++;
+				}
+
+				count_matrix[3][0] = count_matrix[3][0] + itemrow_count.getItem_4().getAnchorValue1();
+				count_matrix[3][1] = count_matrix[3][1] + itemrow_count.getItem_4().getAnchorValue2();
+				count_matrix[3][2] = count_matrix[3][2] + itemrow_count.getItem_4().getAnchorValue3();
+				count_matrix[3][3] = count_matrix[3][3] + itemrow_count.getItem_4().getAnchorValue4();
+
+				if (itemrow_count.getItem_5().getAnchorValue1() != 0) {
+					count_matrixUsers[4][0]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue2() != 0) {
+					count_matrixUsers[4][1]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue3() != 0) {
+					count_matrixUsers[4][2]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue4() != 0) {
+					count_matrixUsers[4][3]++;
+				}
+
+				if ((itemrow_count.getItem_5().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_5().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_5().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_5().getAnchorValue4() != 0)) {
+					count_Day_Users[4]++;
+				}
+
+				count_matrix[4][0] = count_matrix[4][0] + itemrow_count.getItem_5().getAnchorValue1();
+				count_matrix[4][1] = count_matrix[4][1] + itemrow_count.getItem_5().getAnchorValue2();
+				count_matrix[4][2] = count_matrix[4][2] + itemrow_count.getItem_5().getAnchorValue3();
+				count_matrix[4][3] = count_matrix[4][3] + itemrow_count.getItem_5().getAnchorValue4();
+
+			}
+		}
+
+		// set sum review
+		this.program_tot_1_1.setLabel(Utility.decimatToTime(count_matrix[0][0]));
+		this.program_tot_1_2.setLabel(Utility.decimatToTime(count_matrix[0][1]));
+		this.program_tot_1_3.setLabel(Utility.decimatToTime(count_matrix[0][2]));
+		this.program_tot_1_4.setLabel(Utility.decimatToTime(count_matrix[0][3]));
+
+		this.program_tot_2_1.setLabel(Utility.decimatToTime(count_matrix[1][0]));
+		this.program_tot_2_2.setLabel(Utility.decimatToTime(count_matrix[1][1]));
+		this.program_tot_2_3.setLabel(Utility.decimatToTime(count_matrix[1][2]));
+		this.program_tot_2_4.setLabel(Utility.decimatToTime(count_matrix[1][3]));
+
+		this.program_tot_3_1.setLabel(Utility.decimatToTime(count_matrix[2][0]));
+		this.program_tot_3_2.setLabel(Utility.decimatToTime(count_matrix[2][1]));
+		this.program_tot_3_3.setLabel(Utility.decimatToTime(count_matrix[2][2]));
+		this.program_tot_3_4.setLabel(Utility.decimatToTime(count_matrix[2][3]));
+
+		this.program_tot_4_1.setLabel(Utility.decimatToTime(count_matrix[3][0]));
+		this.program_tot_4_2.setLabel(Utility.decimatToTime(count_matrix[3][1]));
+		this.program_tot_4_3.setLabel(Utility.decimatToTime(count_matrix[3][2]));
+		this.program_tot_4_4.setLabel(Utility.decimatToTime(count_matrix[3][3]));
+
+		this.program_tot_5_1.setLabel(Utility.decimatToTime(count_matrix[4][0]));
+		this.program_tot_5_2.setLabel(Utility.decimatToTime(count_matrix[4][1]));
+		this.program_tot_5_3.setLabel(Utility.decimatToTime(count_matrix[4][2]));
+		this.program_tot_5_4.setLabel(Utility.decimatToTime(count_matrix[4][3]));
+
+		// set sum for persons
+		this.programUser_tot_1_1.setLabel(count_matrixUsers[0][0].toString());
+		this.programUser_tot_1_2.setLabel(count_matrixUsers[0][1].toString());
+		this.programUser_tot_1_3.setLabel(count_matrixUsers[0][2].toString());
+		this.programUser_tot_1_4.setLabel(count_matrixUsers[0][3].toString());
+
+		this.programUser_tot_2_1.setLabel(count_matrixUsers[1][0].toString());
+		this.programUser_tot_2_2.setLabel(count_matrixUsers[1][1].toString());
+		this.programUser_tot_2_3.setLabel(count_matrixUsers[1][2].toString());
+		this.programUser_tot_2_4.setLabel(count_matrixUsers[1][3].toString());
+
+		this.programUser_tot_3_1.setLabel(count_matrixUsers[2][0].toString());
+		this.programUser_tot_3_2.setLabel(count_matrixUsers[2][1].toString());
+		this.programUser_tot_3_3.setLabel(count_matrixUsers[2][2].toString());
+		this.programUser_tot_3_4.setLabel(count_matrixUsers[2][3].toString());
+
+		this.programUser_tot_4_1.setLabel(count_matrixUsers[3][0].toString());
+		this.programUser_tot_4_2.setLabel(count_matrixUsers[3][1].toString());
+		this.programUser_tot_4_3.setLabel(count_matrixUsers[3][2].toString());
+		this.programUser_tot_4_4.setLabel(count_matrixUsers[3][3].toString());
+
+		this.programUser_tot_5_1.setLabel(count_matrixUsers[4][0].toString());
+		this.programUser_tot_5_2.setLabel(count_matrixUsers[4][1].toString());
+		this.programUser_tot_5_3.setLabel(count_matrixUsers[4][2].toString());
+		this.programUser_tot_5_4.setLabel(count_matrixUsers[4][3].toString());
+
+		final Double[] count_matrix_row = new Double[5];
+		for (int i = 0; i < count_matrix_row.length; i++) {
+			count_matrix_row[i] = 0.0;
+		}
+
+		// set sum row of matrix
+		for (int i = 0; i < count_matrix.length; i++) {
+			for (int j = 0; j < count_matrix[i].length; j++) {
+				count_matrix_row[i] = count_matrix_row[i] + count_matrix[i][j];
+			}
+		}
+
+		this.total_program_day_1.setLabel(Utility.decimatToTime(count_matrix_row[0]));
+		this.total_program_day_2.setLabel(Utility.decimatToTime(count_matrix_row[1]));
+		this.total_program_day_3.setLabel(Utility.decimatToTime(count_matrix_row[2]));
+		this.total_program_day_4.setLabel(Utility.decimatToTime(count_matrix_row[3]));
+		this.total_program_day_5.setLabel(Utility.decimatToTime(count_matrix_row[4]));
+
+		this.totalUser_program_day_1.setLabel(count_Day_Users[0].toString());
+		this.totalUser_program_day_2.setLabel(count_Day_Users[1].toString());
+		this.totalUser_program_day_3.setLabel(count_Day_Users[2].toString());
+		this.totalUser_program_day_4.setLabel(count_Day_Users[3].toString());
+		this.totalUser_program_day_5.setLabel(count_Day_Users[4].toString());
 	}
 
 	@Listen("onClick= #switchButton")
