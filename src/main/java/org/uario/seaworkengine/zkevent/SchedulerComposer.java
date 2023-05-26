@@ -60,6 +60,7 @@ import org.uario.seaworkengine.utility.Utility;
 import org.uario.seaworkengine.utility.UtilityCSV;
 import org.uario.seaworkengine.utility.ZkEventsTag;
 import org.uario.seaworkengine.utility.ZkSessionTag;
+import org.uario.seaworkengine.zkevent.bean.CountMatrix;
 import org.uario.seaworkengine.zkevent.bean.ItemRowSchedule;
 import org.uario.seaworkengine.zkevent.bean.RowDaySchedule;
 import org.uario.seaworkengine.zkevent.bean.RowSchedule;
@@ -1188,6 +1189,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Timebox time_to_program;
 
 	@Wire
+	private Intbox total_person_shift_1;
+
+	@Wire
+	private Intbox total_person_shift_2;
+
+	@Wire
+	private Intbox total_person_shift_3;
+
+	@Wire
+	private Intbox total_person_shift_4;
+
+	@Wire
 	private Auxheader total_program_day_1;
 
 	@Wire
@@ -1865,6 +1878,212 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	}
 
+	/**
+	 * @param use_in_office return Count matrix (only computation)
+	 */
+	private CountMatrix buildCurrentCountMatrix(boolean use_in_office) {
+		// return counting
+		CountMatrix count_matrix_struct = new CountMatrix();
+
+		// set variable for count
+		final Double[][] count_matrix = new Double[5][4];
+		for (int i = 0; i < count_matrix.length; i++) {
+			for (int j = 0; j < count_matrix[i].length; j++) {
+				count_matrix[i][j] = 0.0;
+			}
+		}
+
+		// set variable for count persons
+		final Integer[][] count_matrixUsers = new Integer[5][4];
+		for (int i = 0; i < count_matrixUsers.length; i++) {
+			for (int j = 0; j < count_matrixUsers[i].length; j++) {
+				count_matrixUsers[i][j] = 0;
+			}
+		}
+
+		// set variable for count total person in day
+		final Integer[] count_Day_Users = new Integer[5];
+		for (int i = 0; i < count_Day_Users.length; i++) {
+			count_Day_Users[i] = 0;
+		}
+
+		// set variable for count
+		final Double[] count_matrix_row = new Double[5];
+		for (int i = 0; i < count_matrix_row.length; i++) {
+			count_matrix_row[i] = 0.0;
+		}
+
+		// define count
+		for (final RowSchedule itemrow_count : this.list_rows_program) {
+
+			boolean compute_row = true;
+
+			if (use_in_office) {
+
+				final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
+				compute_row = !user.isInOffice();
+
+			}
+
+			if (compute_row) {
+				if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
+					count_matrixUsers[0][0]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
+					count_matrixUsers[0][1]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
+					count_matrixUsers[0][2]++;
+				}
+
+				if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
+					count_matrixUsers[0][3]++;
+				}
+
+				if ((itemrow_count.getItem_1().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
+					count_Day_Users[0]++;
+				}
+
+				count_matrix[0][0] = count_matrix[0][0] + itemrow_count.getItem_1().getAnchorValue1();
+				count_matrix[0][1] = count_matrix[0][1] + itemrow_count.getItem_1().getAnchorValue2();
+				count_matrix[0][2] = count_matrix[0][2] + itemrow_count.getItem_1().getAnchorValue3();
+				count_matrix[0][3] = count_matrix[0][3] + itemrow_count.getItem_1().getAnchorValue4();
+
+				if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
+					count_matrixUsers[1][0]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
+					count_matrixUsers[1][1]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
+					count_matrixUsers[1][2]++;
+				}
+
+				if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
+					count_matrixUsers[1][3]++;
+				}
+
+				if ((itemrow_count.getItem_2().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
+					count_Day_Users[1]++;
+				}
+
+				count_matrix[1][0] = count_matrix[1][0] + itemrow_count.getItem_2().getAnchorValue1();
+				count_matrix[1][1] = count_matrix[1][1] + itemrow_count.getItem_2().getAnchorValue2();
+				count_matrix[1][2] = count_matrix[1][2] + itemrow_count.getItem_2().getAnchorValue3();
+				count_matrix[1][3] = count_matrix[1][3] + itemrow_count.getItem_2().getAnchorValue4();
+
+				if (itemrow_count.getItem_3().getAnchorValue1() != 0) {
+					count_matrixUsers[2][0]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue2() != 0) {
+					count_matrixUsers[2][1]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue3() != 0) {
+					count_matrixUsers[2][2]++;
+				}
+
+				if (itemrow_count.getItem_3().getAnchorValue4() != 0) {
+					count_matrixUsers[2][3]++;
+				}
+
+				if ((itemrow_count.getItem_3().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_3().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_3().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_3().getAnchorValue4() != 0)) {
+					count_Day_Users[2]++;
+				}
+
+				count_matrix[2][0] = count_matrix[2][0] + itemrow_count.getItem_3().getAnchorValue1();
+				count_matrix[2][1] = count_matrix[2][1] + itemrow_count.getItem_3().getAnchorValue2();
+				count_matrix[2][2] = count_matrix[2][2] + itemrow_count.getItem_3().getAnchorValue3();
+				count_matrix[2][3] = count_matrix[2][3] + itemrow_count.getItem_3().getAnchorValue4();
+
+				if (itemrow_count.getItem_4().getAnchorValue1() != 0) {
+					count_matrixUsers[3][0]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue2() != 0) {
+					count_matrixUsers[3][1]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue3() != 0) {
+					count_matrixUsers[3][2]++;
+				}
+
+				if (itemrow_count.getItem_4().getAnchorValue4() != 0) {
+					count_matrixUsers[3][3]++;
+				}
+
+				if ((itemrow_count.getItem_4().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_4().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_4().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_4().getAnchorValue4() != 0)) {
+					count_Day_Users[3]++;
+				}
+
+				count_matrix[3][0] = count_matrix[3][0] + itemrow_count.getItem_4().getAnchorValue1();
+				count_matrix[3][1] = count_matrix[3][1] + itemrow_count.getItem_4().getAnchorValue2();
+				count_matrix[3][2] = count_matrix[3][2] + itemrow_count.getItem_4().getAnchorValue3();
+				count_matrix[3][3] = count_matrix[3][3] + itemrow_count.getItem_4().getAnchorValue4();
+
+				if (itemrow_count.getItem_5().getAnchorValue1() != 0) {
+					count_matrixUsers[4][0]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue2() != 0) {
+					count_matrixUsers[4][1]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue3() != 0) {
+					count_matrixUsers[4][2]++;
+				}
+
+				if (itemrow_count.getItem_5().getAnchorValue4() != 0) {
+					count_matrixUsers[4][3]++;
+				}
+
+				if ((itemrow_count.getItem_5().getAnchorValue1() != 0)
+						|| (itemrow_count.getItem_5().getAnchorValue2() != 0)
+						|| (itemrow_count.getItem_5().getAnchorValue3() != 0)
+						|| (itemrow_count.getItem_5().getAnchorValue4() != 0)) {
+					count_Day_Users[4]++;
+				}
+
+				count_matrix[4][0] = count_matrix[4][0] + itemrow_count.getItem_5().getAnchorValue1();
+				count_matrix[4][1] = count_matrix[4][1] + itemrow_count.getItem_5().getAnchorValue2();
+				count_matrix[4][2] = count_matrix[4][2] + itemrow_count.getItem_5().getAnchorValue3();
+				count_matrix[4][3] = count_matrix[4][3] + itemrow_count.getItem_5().getAnchorValue4();
+
+			}
+		}
+
+		// set sum row of matrix
+		for (int i = 0; i < count_matrix.length; i++) {
+			for (int j = 0; j < count_matrix[i].length; j++) {
+				count_matrix_row[i] = count_matrix_row[i] + count_matrix[i][j];
+			}
+		}
+
+		count_matrix_struct.setCount_Day_Users(count_Day_Users);
+		count_matrix_struct.setCount_matrix(count_matrix);
+		count_matrix_struct.setCount_matrix_row(count_matrix_row);
+		count_matrix_struct.setCount_matrixUsers(count_matrixUsers);
+
+		return count_matrix_struct;
+	}
+
 	@Listen("onClick = #calculate_sat")
 	public void calculateSatOnPersons() {
 
@@ -2477,19 +2696,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 *
+	 * define the label in differences tag
 	 */
 	private void defineSuggestDiff() {
-
-		int tot_programmed_person_1 = NumberUtils.toInt(this.programUser_tot_3_1.getLabel(), 0);
-		int tot_programmed_person_2 = NumberUtils.toInt(this.programUser_tot_3_2.getLabel(), 0);
-		int tot_programmed_person_3 = NumberUtils.toInt(this.programUser_tot_3_3.getLabel(), 0);
-		int tot_programmed_person_4 = NumberUtils.toInt(this.programUser_tot_3_4.getLabel(), 0);
 
 		int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0 : this.suggest_shift_1.getValue().intValue();
 		int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0 : this.suggest_shift_2.getValue().intValue();
 		int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0 : this.suggest_shift_3.getValue().intValue();
 		int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0 : this.suggest_shift_4.getValue().intValue();
+
+		CountMatrix current_count_matrix = this.buildCurrentCountMatrix(false);
+
+		Integer[][] count_matrixUsers = current_count_matrix.getCount_matrixUsers();
+
+		int tot_programmed_person_1 = count_matrixUsers[2][0];
+		int tot_programmed_person_2 = count_matrixUsers[2][1];
+		int tot_programmed_person_3 = count_matrixUsers[2][2];
+		int tot_programmed_person_4 = count_matrixUsers[2][3];
+
+		this.total_person_shift_1.setValue(tot_programmed_person_1);
+		this.total_person_shift_2.setValue(tot_programmed_person_2);
+		this.total_person_shift_3.setValue(tot_programmed_person_3);
+		this.total_person_shift_4.setValue(tot_programmed_person_4);
 
 		this.suggest_diff_shift_1.setValue(tot_programmed_person_1 - suggest_person_1);
 		this.suggest_diff_shift_2.setValue(tot_programmed_person_2 - suggest_person_2);
@@ -7928,188 +8156,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
-	 * define count summary
+	 * define count summary (ReProGram)
 	 */
 	private void summaryCountProgram(boolean use_in_office) {
-		// set variable for count
-		final Double[][] count_matrix = new Double[5][4];
-		for (int i = 0; i < count_matrix.length; i++) {
-			for (int j = 0; j < count_matrix[i].length; j++) {
-				count_matrix[i][j] = 0.0;
-			}
-		}
 
-		// set variable for count persons
-		final Integer[][] count_matrixUsers = new Integer[5][4];
-		for (int i = 0; i < count_matrixUsers.length; i++) {
-			for (int j = 0; j < count_matrixUsers[i].length; j++) {
-				count_matrixUsers[i][j] = 0;
-			}
-		}
+		CountMatrix current_count_matrix = this.buildCurrentCountMatrix(use_in_office);
 
-		// set variable for count total person in day
-		final Integer[] count_Day_Users = new Integer[5];
-		for (int i = 0; i < count_Day_Users.length; i++) {
-			count_Day_Users[i] = 0;
-		}
+		Double[][] count_matrix = current_count_matrix.getCount_matrix();
+		Integer[][] count_matrixUsers = current_count_matrix.getCount_matrixUsers();
+		Double[] count_matrix_row = current_count_matrix.getCount_matrix_row();
+		Integer[] count_Day_Users = current_count_matrix.getCount_Day_Users();
 
-		// define count
-		for (final RowSchedule itemrow_count : this.list_rows_program) {
-
-			boolean compute_row = true;
-
-			if (use_in_office) {
-
-				final Person user = this.personDAO.loadPerson(itemrow_count.getUser());
-				compute_row = !user.isInOffice();
-
-			}
-
-			if (compute_row) {
-				if (itemrow_count.getItem_1().getAnchorValue1() != 0) {
-					count_matrixUsers[0][0]++;
-				}
-
-				if (itemrow_count.getItem_1().getAnchorValue2() != 0) {
-					count_matrixUsers[0][1]++;
-				}
-
-				if (itemrow_count.getItem_1().getAnchorValue3() != 0) {
-					count_matrixUsers[0][2]++;
-				}
-
-				if (itemrow_count.getItem_1().getAnchorValue4() != 0) {
-					count_matrixUsers[0][3]++;
-				}
-
-				if ((itemrow_count.getItem_1().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_1().getAnchorValue4() != 0)) {
-					count_Day_Users[0]++;
-				}
-
-				count_matrix[0][0] = count_matrix[0][0] + itemrow_count.getItem_1().getAnchorValue1();
-				count_matrix[0][1] = count_matrix[0][1] + itemrow_count.getItem_1().getAnchorValue2();
-				count_matrix[0][2] = count_matrix[0][2] + itemrow_count.getItem_1().getAnchorValue3();
-				count_matrix[0][3] = count_matrix[0][3] + itemrow_count.getItem_1().getAnchorValue4();
-
-				if (itemrow_count.getItem_2().getAnchorValue1() != 0) {
-					count_matrixUsers[1][0]++;
-				}
-
-				if (itemrow_count.getItem_2().getAnchorValue2() != 0) {
-					count_matrixUsers[1][1]++;
-				}
-
-				if (itemrow_count.getItem_2().getAnchorValue3() != 0) {
-					count_matrixUsers[1][2]++;
-				}
-
-				if (itemrow_count.getItem_2().getAnchorValue4() != 0) {
-					count_matrixUsers[1][3]++;
-				}
-
-				if ((itemrow_count.getItem_2().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_2().getAnchorValue4() != 0)) {
-					count_Day_Users[1]++;
-				}
-
-				count_matrix[1][0] = count_matrix[1][0] + itemrow_count.getItem_2().getAnchorValue1();
-				count_matrix[1][1] = count_matrix[1][1] + itemrow_count.getItem_2().getAnchorValue2();
-				count_matrix[1][2] = count_matrix[1][2] + itemrow_count.getItem_2().getAnchorValue3();
-				count_matrix[1][3] = count_matrix[1][3] + itemrow_count.getItem_2().getAnchorValue4();
-
-				if (itemrow_count.getItem_3().getAnchorValue1() != 0) {
-					count_matrixUsers[2][0]++;
-				}
-
-				if (itemrow_count.getItem_3().getAnchorValue2() != 0) {
-					count_matrixUsers[2][1]++;
-				}
-
-				if (itemrow_count.getItem_3().getAnchorValue3() != 0) {
-					count_matrixUsers[2][2]++;
-				}
-
-				if (itemrow_count.getItem_3().getAnchorValue4() != 0) {
-					count_matrixUsers[2][3]++;
-				}
-
-				if ((itemrow_count.getItem_3().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_3().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_3().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_3().getAnchorValue4() != 0)) {
-					count_Day_Users[2]++;
-				}
-
-				count_matrix[2][0] = count_matrix[2][0] + itemrow_count.getItem_3().getAnchorValue1();
-				count_matrix[2][1] = count_matrix[2][1] + itemrow_count.getItem_3().getAnchorValue2();
-				count_matrix[2][2] = count_matrix[2][2] + itemrow_count.getItem_3().getAnchorValue3();
-				count_matrix[2][3] = count_matrix[2][3] + itemrow_count.getItem_3().getAnchorValue4();
-
-				if (itemrow_count.getItem_4().getAnchorValue1() != 0) {
-					count_matrixUsers[3][0]++;
-				}
-
-				if (itemrow_count.getItem_4().getAnchorValue2() != 0) {
-					count_matrixUsers[3][1]++;
-				}
-
-				if (itemrow_count.getItem_4().getAnchorValue3() != 0) {
-					count_matrixUsers[3][2]++;
-				}
-
-				if (itemrow_count.getItem_4().getAnchorValue4() != 0) {
-					count_matrixUsers[3][3]++;
-				}
-
-				if ((itemrow_count.getItem_4().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_4().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_4().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_4().getAnchorValue4() != 0)) {
-					count_Day_Users[3]++;
-				}
-
-				count_matrix[3][0] = count_matrix[3][0] + itemrow_count.getItem_4().getAnchorValue1();
-				count_matrix[3][1] = count_matrix[3][1] + itemrow_count.getItem_4().getAnchorValue2();
-				count_matrix[3][2] = count_matrix[3][2] + itemrow_count.getItem_4().getAnchorValue3();
-				count_matrix[3][3] = count_matrix[3][3] + itemrow_count.getItem_4().getAnchorValue4();
-
-				if (itemrow_count.getItem_5().getAnchorValue1() != 0) {
-					count_matrixUsers[4][0]++;
-				}
-
-				if (itemrow_count.getItem_5().getAnchorValue2() != 0) {
-					count_matrixUsers[4][1]++;
-				}
-
-				if (itemrow_count.getItem_5().getAnchorValue3() != 0) {
-					count_matrixUsers[4][2]++;
-				}
-
-				if (itemrow_count.getItem_5().getAnchorValue4() != 0) {
-					count_matrixUsers[4][3]++;
-				}
-
-				if ((itemrow_count.getItem_5().getAnchorValue1() != 0)
-						|| (itemrow_count.getItem_5().getAnchorValue2() != 0)
-						|| (itemrow_count.getItem_5().getAnchorValue3() != 0)
-						|| (itemrow_count.getItem_5().getAnchorValue4() != 0)) {
-					count_Day_Users[4]++;
-				}
-
-				count_matrix[4][0] = count_matrix[4][0] + itemrow_count.getItem_5().getAnchorValue1();
-				count_matrix[4][1] = count_matrix[4][1] + itemrow_count.getItem_5().getAnchorValue2();
-				count_matrix[4][2] = count_matrix[4][2] + itemrow_count.getItem_5().getAnchorValue3();
-				count_matrix[4][3] = count_matrix[4][3] + itemrow_count.getItem_5().getAnchorValue4();
-
-			}
-		}
-
-		// set sum review
+		// show info
 		this.program_tot_1_1.setLabel(Utility.decimatToTime(count_matrix[0][0]));
 		this.program_tot_1_2.setLabel(Utility.decimatToTime(count_matrix[0][1]));
 		this.program_tot_1_3.setLabel(Utility.decimatToTime(count_matrix[0][2]));
@@ -8161,18 +8219,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.programUser_tot_5_3.setLabel(count_matrixUsers[4][2].toString());
 		this.programUser_tot_5_4.setLabel(count_matrixUsers[4][3].toString());
 
-		final Double[] count_matrix_row = new Double[5];
-		for (int i = 0; i < count_matrix_row.length; i++) {
-			count_matrix_row[i] = 0.0;
-		}
-
-		// set sum row of matrix
-		for (int i = 0; i < count_matrix.length; i++) {
-			for (int j = 0; j < count_matrix[i].length; j++) {
-				count_matrix_row[i] = count_matrix_row[i] + count_matrix[i][j];
-			}
-		}
-
 		this.total_program_day_1.setLabel(Utility.decimatToTime(count_matrix_row[0]));
 		this.total_program_day_2.setLabel(Utility.decimatToTime(count_matrix_row[1]));
 		this.total_program_day_3.setLabel(Utility.decimatToTime(count_matrix_row[2]));
@@ -8184,6 +8230,21 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.totalUser_program_day_3.setLabel(count_Day_Users[2].toString());
 		this.totalUser_program_day_4.setLabel(count_Day_Users[3].toString());
 		this.totalUser_program_day_5.setLabel(count_Day_Users[4].toString());
+
+		// show total person for suggestions:
+		CountMatrix current_count_matrix4suggestion = this.buildCurrentCountMatrix(false);
+
+		Integer[][] count_matrixUsers4Suggestion = current_count_matrix4suggestion.getCount_matrixUsers();
+
+		int tot_programmed_person_1 = count_matrixUsers4Suggestion[2][0];
+		int tot_programmed_person_2 = count_matrixUsers4Suggestion[2][1];
+		int tot_programmed_person_3 = count_matrixUsers4Suggestion[2][2];
+		int tot_programmed_person_4 = count_matrixUsers4Suggestion[2][3];
+
+		this.total_person_shift_1.setValue(tot_programmed_person_1);
+		this.total_person_shift_2.setValue(tot_programmed_person_2);
+		this.total_person_shift_3.setValue(tot_programmed_person_3);
+		this.total_person_shift_4.setValue(tot_programmed_person_4);
 	}
 
 	@Listen("onClick= #switchButton")

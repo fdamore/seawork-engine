@@ -1593,21 +1593,43 @@
 				<vbox>
 
 					<div>
-						<intbox  readonly="true"
+
+						<intbox readonly="true"
 							id="suggest_diff_shift_1">
 						</intbox>
-						<intbox  readonly="true"
+						<intbox readonly="true"
 							id="suggest_diff_shift_2">
 						</intbox>
-						<intbox  readonly="true"
+						<intbox readonly="true"
 							id="suggest_diff_shift_3">
 						</intbox>
-						<intbox  readonly="true"
+						<intbox readonly="true"
 							id="suggest_diff_shift_4">
 						</intbox>
+						<label value="DIFFERENZE"></label>
+
 					</div>
 
 					<div>
+						
+						<intbox readonly="true"
+							id="total_person_shift_1">
+						</intbox>
+						<intbox readonly="true"
+							id="total_person_shift_2">
+						</intbox>
+						<intbox readonly="true"
+							id="total_person_shift_3">
+						</intbox>
+						<intbox readonly="true"
+							id="total_person_shift_4">
+						</intbox>
+						<label value="CONTEGGI TOTALI"></label>
+
+					</div>
+
+					<div>
+
 						<intbox constraint="no negative"
 							id="suggest_shift_1">
 						</intbox>
@@ -1620,6 +1642,7 @@
 						<intbox constraint="no negative"
 							id="suggest_shift_4">
 						</intbox>
+						<label value="SUGGERIMENTI"></label>
 					</div>
 
 
