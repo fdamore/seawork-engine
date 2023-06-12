@@ -1659,7 +1659,7 @@
 						<label value="DIFFERENZE TOTALI"></label>
 
 					</div>
-					
+
 					<div>
 
 						<intbox readonly="true"
@@ -1689,10 +1689,19 @@
 
 			<separator></separator>
 
+			<button label="Identifica risorse inpiegate in ufficio"
+				id="find_inoffice" sclass="btn-info">
+			</button>
+			
+			
+
+			<separator></separator>
 
 			<panel border="normal" collapsible="false"
 				id="program_panel" sclass="transparent">
 				<panelchildren>
+
+
 
 					<listbox sclass="domain" id="grid_scheduler"
 						checkmark="true" multiple="true" mold="paging" pageSize="10"

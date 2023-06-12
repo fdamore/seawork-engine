@@ -84,6 +84,7 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
@@ -98,6 +99,8 @@ import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timebox;
 import org.zkoss.zul.Toolbarbutton;
+
+import com.itextpdf.text.ListItem;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
@@ -1118,7 +1121,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 	@Wire
 	private Intbox suggest_diff_shift_4;
-	
+
 	@Wire
 	private Intbox suggest_diff_rz_shift_1;
 
@@ -1306,6 +1309,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.status_comp_editor = SchedulerComposer.STATUS_COMP_EDITOR_ADD;
 
 		this.comp_editor.setVisible(true);
+	}
+
+	@Listen("onClick = #find_inoffice")
+	public void findInOffice() {
+
+		List<Listitem> listitems = grid_scheduler.getItems();
+
+		for (Listitem item : listitems) {
+			RowSchedule row_schedule = item.getValue();
+			if(row_schedule == null)
+				continue;
+			Integer id_user = row_schedule.getUser();
+			final Person user = this.personDAO.loadPerson(id_user);
+			if (user.isInOffice()) {
+				item.setStyle("background-color: green");
+			}
+		}
+
 	}
 
 	/**
@@ -2715,14 +2736,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0 : this.suggest_shift_1.getValue().intValue();
 		int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0 : this.suggest_shift_2.getValue().intValue();
 		int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0 : this.suggest_shift_3.getValue().intValue();
-		int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0 : this.suggest_shift_4.getValue().intValue();	
-		
-		
-		int tot_programmed_rz_person_1 = NumberUtils.toInt(this.programUser_tot_3_1.getLabel(),0);
-		int tot_programmed_rz_person_2 = NumberUtils.toInt(this.programUser_tot_3_2.getLabel(),0);
-		int tot_programmed_rz_person_3 = NumberUtils.toInt(this.programUser_tot_3_3.getLabel(),0);
-		int tot_programmed_rz_person_4 = NumberUtils.toInt(this.programUser_tot_3_4.getLabel(),0);		
-		
+		int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0 : this.suggest_shift_4.getValue().intValue();
+
+		int tot_programmed_rz_person_1 = NumberUtils.toInt(this.programUser_tot_3_1.getLabel(), 0);
+		int tot_programmed_rz_person_2 = NumberUtils.toInt(this.programUser_tot_3_2.getLabel(), 0);
+		int tot_programmed_rz_person_3 = NumberUtils.toInt(this.programUser_tot_3_3.getLabel(), 0);
+		int tot_programmed_rz_person_4 = NumberUtils.toInt(this.programUser_tot_3_4.getLabel(), 0);
 
 		CountMatrix current_count_matrix = this.buildCurrentCountMatrix(false);
 
@@ -2738,13 +2757,12 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.total_person_shift_3.setValue(tot_programmed_person_3);
 		this.total_person_shift_4.setValue(tot_programmed_person_4);
 
-		this.suggest_diff_shift_1.setValue(tot_programmed_person_1 - suggest_person_1);		
+		this.suggest_diff_shift_1.setValue(tot_programmed_person_1 - suggest_person_1);
 		this.suggest_diff_shift_2.setValue(tot_programmed_person_2 - suggest_person_2);
 		this.suggest_diff_shift_3.setValue(tot_programmed_person_3 - suggest_person_3);
 		this.suggest_diff_shift_4.setValue(tot_programmed_person_4 - suggest_person_4);
-		
-		
-		this.suggest_diff_rz_shift_1.setValue(tot_programmed_rz_person_1 - suggest_person_1);		
+
+		this.suggest_diff_rz_shift_1.setValue(tot_programmed_rz_person_1 - suggest_person_1);
 		this.suggest_diff_rz_shift_2.setValue(tot_programmed_rz_person_2 - suggest_person_2);
 		this.suggest_diff_rz_shift_3.setValue(tot_programmed_rz_person_3 - suggest_person_3);
 		this.suggest_diff_rz_shift_4.setValue(tot_programmed_rz_person_4 - suggest_person_4);
