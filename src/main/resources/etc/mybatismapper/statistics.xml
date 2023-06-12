@@ -433,7 +433,7 @@ SELECT
     u.employee_identification AS employee_identification,
     s.shift,    
     s.date_schedule,
-    CONCAT(u.lastname, '', u.firstname) AS name_user,
+    CONCAT(u.lastname, ' ', u.firstname) AS name_user,
     s.editor,
     s.controller,
     s.break_ex,
