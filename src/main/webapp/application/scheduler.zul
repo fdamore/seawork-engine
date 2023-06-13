@@ -1593,15 +1593,28 @@
 
 			<hbox align="center">
 
-				<button id="repogram_users"
-					visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
-					label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
+				<vbox>
+
+					<button id="repogram_users"
+						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
+						label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
 
 
-				<label value="Usa suggerimenti per turno: "></label>
-				<checkbox checked="true" id="suggest_shift_active"></checkbox>
+					<hbox>
+						<label value="Usa suggerimenti per turno: "></label>
+						<checkbox checked="true"
+							id="suggest_shift_active">
+						</checkbox>
+					</hbox>
+					
+					<hbox>
+						<label value="Solo rizzatori: "></label>
+						<checkbox checked="true"
+							id="suggest_on_rz">
+						</checkbox>
+					</hbox>
 
-
+				</vbox>
 
 				<vbox>
 
@@ -1621,6 +1634,19 @@
 							id="total_person_shift_4">
 						</intbox>
 						<label value="CONTEGGI TOTALI"></label>
+
+					</div>
+
+					<div>
+						<intbox readonly="true" id="total_rz_shift_1">
+						</intbox>
+						<intbox readonly="true" id="total_rz_shift_2">
+						</intbox>
+						<intbox readonly="true" id="total_rz_shift_3">
+						</intbox>
+						<intbox readonly="true" id="total_rz_shift_4">
+						</intbox>
+						<label value="CONTEGGI RIZZATORI"></label>
 
 					</div>
 
@@ -1692,8 +1718,8 @@
 			<button label="Identifica risorse inpiegate in ufficio"
 				id="find_inoffice" sclass="btn-info">
 			</button>
-			
-			
+
+
 
 			<separator></separator>
 

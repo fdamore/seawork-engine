@@ -84,7 +84,6 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.ListModel;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listheader;
@@ -99,8 +98,6 @@ import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timebox;
 import org.zkoss.zul.Toolbarbutton;
-
-import com.itextpdf.text.ListItem;
 
 public class SchedulerComposer extends SelectorComposer<Component> {
 
@@ -1111,6 +1108,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private String status_comp_editor = SchedulerComposer.STATUS_COMP_EDITOR_ADD;
 
 	@Wire
+	private Intbox suggest_diff_rz_shift_1;
+
+	@Wire
+	private Intbox suggest_diff_rz_shift_2;
+
+	@Wire
+	private Intbox suggest_diff_rz_shift_3;
+
+	@Wire
+	private Intbox suggest_diff_rz_shift_4;
+
+	@Wire
 	private Intbox suggest_diff_shift_1;
 
 	@Wire
@@ -1122,17 +1131,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Intbox suggest_diff_shift_4;
 
+	/**
+	 * Suggest for no
+	 */
 	@Wire
-	private Intbox suggest_diff_rz_shift_1;
-
-	@Wire
-	private Intbox suggest_diff_rz_shift_2;
-
-	@Wire
-	private Intbox suggest_diff_rz_shift_3;
-
-	@Wire
-	private Intbox suggest_diff_rz_shift_4;
+	private Checkbox suggest_on_rz;
 
 	@Wire
 	private Intbox suggest_shift_1;
@@ -1237,6 +1240,18 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	private Auxheader total_review_day_2;
 
 	@Wire
+	private Intbox total_rz_shift_1;
+
+	@Wire
+	private Intbox total_rz_shift_2;
+
+	@Wire
+	private Intbox total_rz_shift_3;
+
+	@Wire
+	private Intbox total_rz_shift_4;
+
+	@Wire
 	public Label totalHours_Program;
 
 	@Wire
@@ -1309,24 +1324,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.status_comp_editor = SchedulerComposer.STATUS_COMP_EDITOR_ADD;
 
 		this.comp_editor.setVisible(true);
-	}
-
-	@Listen("onClick = #find_inoffice")
-	public void findInOffice() {
-
-		List<Listitem> listitems = grid_scheduler.getItems();
-
-		for (Listitem item : listitems) {
-			RowSchedule row_schedule = item.getValue();
-			if(row_schedule == null)
-				continue;
-			Integer id_user = row_schedule.getUser();
-			final Person user = this.personDAO.loadPerson(id_user);
-			if (user.isInOffice()) {
-				item.setStyle("background-color: green");
-			}
-		}
-
 	}
 
 	/**
@@ -2752,10 +2749,17 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		int tot_programmed_person_3 = count_matrixUsers[2][2];
 		int tot_programmed_person_4 = count_matrixUsers[2][3];
 
-		this.total_person_shift_1.setValue(tot_programmed_person_1);
-		this.total_person_shift_2.setValue(tot_programmed_person_2);
-		this.total_person_shift_3.setValue(tot_programmed_person_3);
-		this.total_person_shift_4.setValue(tot_programmed_person_4);
+		/*
+		 * this.total_rz_shift_1.setValue(tot_programmed_rz_person_1);
+		 * this.total_rz_shift_2.setValue(tot_programmed_rz_person_2);
+		 * this.total_rz_shift_3.setValue(tot_programmed_rz_person_2);
+		 * this.total_rz_shift_4.setValue(tot_programmed_rz_person_2);
+		 *
+		 * this.total_person_shift_1.setValue(tot_programmed_person_1);
+		 * this.total_person_shift_2.setValue(tot_programmed_person_2);
+		 * this.total_person_shift_3.setValue(tot_programmed_person_3);
+		 * this.total_person_shift_4.setValue(tot_programmed_person_4);
+		 */
 
 		this.suggest_diff_shift_1.setValue(tot_programmed_person_1 - suggest_person_1);
 		this.suggest_diff_shift_2.setValue(tot_programmed_person_2 - suggest_person_2);
@@ -3689,6 +3693,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 		}
 		return newList;
+	}
+
+	@Listen("onClick = #find_inoffice")
+	public void findInOffice() {
+
+		List<Listitem> listitems = this.grid_scheduler.getItems();
+
+		for (Listitem item : listitems) {
+			RowSchedule row_schedule = item.getValue();
+			if (row_schedule == null)
+				continue;
+			Integer id_user = row_schedule.getUser();
+			final Person user = this.personDAO.loadPerson(id_user);
+			if (user.isInOffice()) {
+				item.setStyle("background-color: green");
+			}
+		}
+
 	}
 
 	@Listen("onChange = #force_shift_combo;")
@@ -5230,6 +5252,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 			// get Person
 			final Person person = this.personDAO.loadPerson(itm_row.getUser());
+			if (this.suggest_on_rz.isChecked()) {
+				if (person.isInOffice()) {
+					continue;
+				}
+			}
 
 			Schedule schedule = null;
 
@@ -8288,6 +8315,11 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.total_person_shift_2.setValue(tot_programmed_person_2);
 		this.total_person_shift_3.setValue(tot_programmed_person_3);
 		this.total_person_shift_4.setValue(tot_programmed_person_4);
+
+		this.total_rz_shift_1.setValue(count_matrixUsers[2][0]);
+		this.total_rz_shift_2.setValue(count_matrixUsers[2][1]);
+		this.total_rz_shift_3.setValue(count_matrixUsers[2][2]);
+		this.total_rz_shift_4.setValue(count_matrixUsers[2][3]);
 	}
 
 	@Listen("onClick= #switchButton")
