@@ -44,7 +44,7 @@ public interface IStatProcedure {
 	public Integer getMaximumShift(Date date_calendar_schedule, Integer user);
 
 	/**
-	 * Get minumim shift
+	 * Get minumim shift using 12h costraint
 	 *
 	 * @param date_calendar_schedule
 	 * @param user
@@ -110,5 +110,14 @@ public interface IStatProcedure {
 	 *
 	 */
 	public void workAssignProcedure(UserShift shift, Date current_date_scheduled, Integer user, Integer editor, ShiftPersonSuggest shift_sg);
+
+	/**
+	 * Get the right shift number for a given day using rate and minimum shift
+	 *
+	 * @param current_date_scheduled in the application, use tomorrow
+	 * @param user
+	 * @return
+	 */
+	Integer getShiftNoForDay(Date current_date_scheduled, Integer user, ShiftPersonSuggest shift_sg);
 
 }

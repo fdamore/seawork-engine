@@ -235,7 +235,8 @@ public class StatProceduresImpl implements IStatProcedure {
 	 * @param user
 	 * @return
 	 */
-	private Integer getShiftNoForDay(final Date current_date_scheduled, final Integer user,
+	@Override
+	public Integer getShiftNoForDay(final Date current_date_scheduled, final Integer user,
 			final ShiftPersonSuggest shift_sg) {
 
 		// get info for the begin of current year
@@ -265,6 +266,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 		}
 
+		//using averages
 		for (final RateShift current_shift : averages) {
 
 			if (current_shift.getShift() >= min_shift) {

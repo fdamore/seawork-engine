@@ -1606,11 +1606,10 @@
 							id="suggest_shift_active">
 						</checkbox>
 					</hbox>
-					
+
 					<hbox>
 						<label value="Solo rizzatori: "></label>
-						<checkbox checked="true"
-							id="suggest_on_rz">
+						<checkbox checked="true" id="suggest_on_rz">
 						</checkbox>
 					</hbox>
 
@@ -1717,6 +1716,10 @@
 
 			<button label="Identifica risorse inpiegate in ufficio"
 				id="find_inoffice" sclass="btn-info">
+			</button>
+
+			<button label="Mostra turno minimo" sclass="btn-info"
+				id="show_minimum_shift">
 			</button>
 
 

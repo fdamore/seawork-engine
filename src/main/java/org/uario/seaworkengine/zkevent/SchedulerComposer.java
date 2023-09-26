@@ -3707,11 +3707,45 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			Integer id_user = row_schedule.getUser();
 			final Person user = this.personDAO.loadPerson(id_user);
 			if (user.isInOffice()) {
-				item.setStyle("background-color: green");
+				item.setStyle("background-color: yellow");
 			}
 		}
 
 	}
+	
+	/**
+	 * 
+	 */
+	@Listen("onClick = #show_minimum_shift")
+	public void showMinimumShift() {
+
+		List<Listitem> listitems = this.grid_scheduler.getItems();
+
+		for (Listitem item : listitems) {
+			RowSchedule row_schedule = item.getValue();
+			if (row_schedule == null)
+				continue;
+			Integer id_user = row_schedule.getUser();
+			
+			// get date tomorrow
+			final Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DAY_OF_YEAR, 1);
+			final Date date_tomorrow = DateUtils.truncate(cal.getTime(), Calendar.DATE);		
+			
+			Integer minimum_shift = this.statProcedure.getShiftNoForDay(date_tomorrow, id_user, null);
+			
+			String label = item.getLabel();
+			if(label.startsWith("(")) {
+				label = label.substring(3);
+			}
+			item.setLabel(label + "(" + minimum_shift + ")");
+			
+			
+			
+		}
+
+	}
+
 
 	@Listen("onChange = #force_shift_combo;")
 	public void forceProgramShift() {
