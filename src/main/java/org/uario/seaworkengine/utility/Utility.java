@@ -599,9 +599,13 @@ public class Utility {
 
 	}
 
-	public static void main(String[] args) {
-		String pass = encodeSHA256("ciaociao", "francesco.damore@gmail.com");
-		System.out.println(pass);
+	public static void main(final String[] args) {
+		// String pass = encodeSHA256("ciaociao", "francesco.damore@gmail.com");
+		// System.out.println(pass);
+
+		while (true) {
+			System.out.println(4 + (int) (Math.random() * ((4 - 4) + 1)));
+		}
 	}
 
 	/**

@@ -1281,6 +1281,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Wire
 	private Label updateStatisticTime;
 
+	@Wire
+	private Checkbox use_average;
+
 	/**
 	 * Userstatistic selected
 	 */
@@ -1911,9 +1914,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * @param use_in_office return Count matrix (only computation)
 	 */
-	private CountMatrix buildCurrentCountMatrix(boolean use_in_office) {
+	private CountMatrix buildCurrentCountMatrix(final boolean use_in_office) {
 		// return counting
-		CountMatrix count_matrix_struct = new CountMatrix();
+		final CountMatrix count_matrix_struct = new CountMatrix();
 
 		// set variable for count
 		final Double[][] count_matrix = new Double[5][4];
@@ -2730,24 +2733,28 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	 */
 	private void defineSuggestDiff() {
 
-		int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0 : this.suggest_shift_1.getValue().intValue();
-		int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0 : this.suggest_shift_2.getValue().intValue();
-		int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0 : this.suggest_shift_3.getValue().intValue();
-		int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0 : this.suggest_shift_4.getValue().intValue();
+		final int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0
+				: this.suggest_shift_1.getValue().intValue();
+		final int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0
+				: this.suggest_shift_2.getValue().intValue();
+		final int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0
+				: this.suggest_shift_3.getValue().intValue();
+		final int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0
+				: this.suggest_shift_4.getValue().intValue();
 
-		int tot_programmed_rz_person_1 = NumberUtils.toInt(this.programUser_tot_3_1.getLabel(), 0);
-		int tot_programmed_rz_person_2 = NumberUtils.toInt(this.programUser_tot_3_2.getLabel(), 0);
-		int tot_programmed_rz_person_3 = NumberUtils.toInt(this.programUser_tot_3_3.getLabel(), 0);
-		int tot_programmed_rz_person_4 = NumberUtils.toInt(this.programUser_tot_3_4.getLabel(), 0);
+		final int tot_programmed_rz_person_1 = NumberUtils.toInt(this.programUser_tot_3_1.getLabel(), 0);
+		final int tot_programmed_rz_person_2 = NumberUtils.toInt(this.programUser_tot_3_2.getLabel(), 0);
+		final int tot_programmed_rz_person_3 = NumberUtils.toInt(this.programUser_tot_3_3.getLabel(), 0);
+		final int tot_programmed_rz_person_4 = NumberUtils.toInt(this.programUser_tot_3_4.getLabel(), 0);
 
-		CountMatrix current_count_matrix = this.buildCurrentCountMatrix(false);
+		final CountMatrix current_count_matrix = this.buildCurrentCountMatrix(false);
 
-		Integer[][] count_matrixUsers = current_count_matrix.getCount_matrixUsers();
+		final Integer[][] count_matrixUsers = current_count_matrix.getCount_matrixUsers();
 
-		int tot_programmed_person_1 = count_matrixUsers[2][0];
-		int tot_programmed_person_2 = count_matrixUsers[2][1];
-		int tot_programmed_person_3 = count_matrixUsers[2][2];
-		int tot_programmed_person_4 = count_matrixUsers[2][3];
+		final int tot_programmed_person_1 = count_matrixUsers[2][0];
+		final int tot_programmed_person_2 = count_matrixUsers[2][1];
+		final int tot_programmed_person_3 = count_matrixUsers[2][2];
+		final int tot_programmed_person_4 = count_matrixUsers[2][3];
 
 		/*
 		 * this.total_rz_shift_1.setValue(tot_programmed_rz_person_1);
@@ -3698,13 +3705,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	@Listen("onClick = #find_inoffice")
 	public void findInOffice() {
 
-		List<Listitem> listitems = this.grid_scheduler.getItems();
+		final List<Listitem> listitems = this.grid_scheduler.getItems();
 
-		for (Listitem item : listitems) {
-			RowSchedule row_schedule = item.getValue();
-			if (row_schedule == null)
+		for (final Listitem item : listitems) {
+			final RowSchedule row_schedule = item.getValue();
+			if (row_schedule == null) {
 				continue;
-			Integer id_user = row_schedule.getUser();
+			}
+			final Integer id_user = row_schedule.getUser();
 			final Person user = this.personDAO.loadPerson(id_user);
 			if (user.isInOffice()) {
 				item.setStyle("background-color: yellow");
@@ -3712,40 +3720,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		}
 
 	}
-	
-	/**
-	 * 
-	 */
-	@Listen("onClick = #show_minimum_shift")
-	public void showMinimumShift() {
-
-		List<Listitem> listitems = this.grid_scheduler.getItems();
-
-		for (Listitem item : listitems) {
-			RowSchedule row_schedule = item.getValue();
-			if (row_schedule == null)
-				continue;
-			Integer id_user = row_schedule.getUser();
-			
-			// get date tomorrow
-			final Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DAY_OF_YEAR, 1);
-			final Date date_tomorrow = DateUtils.truncate(cal.getTime(), Calendar.DATE);		
-			
-			Integer minimum_shift = this.statProcedure.getShiftNoForDay(date_tomorrow, id_user, null);
-			
-			String label = item.getLabel();
-			if(label.startsWith("(")) {
-				label = label.substring(3);
-			}
-			item.setLabel(label + "(" + minimum_shift + ")");
-			
-			
-			
-		}
-
-	}
-
 
 	@Listen("onChange = #force_shift_combo;")
 	public void forceProgramShift() {
@@ -3926,13 +3900,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			if (day == 1) {
 				version_program = true;
 			}
+		} else if (day == 1) {
+			version_program = false;
 		} else {
-
-			if (day == 1) {
-				version_program = false;
-			} else {
-				version_program = true;
-			}
+			version_program = true;
 		}
 
 		if (day_on_current_calendar == 1) {
@@ -4688,12 +4659,10 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			final UserShift myshift = this.configurationDAO.loadShiftById(this.currentSchedule.getShift());
 			if (myshift != null) {
 				this.label_date_shift_review.setLabel(myshift.toString());
+			} else if (this.configurationDAO.getStandardWorkShift() != null) {
+				this.label_date_shift_review.setLabel(this.configurationDAO.getStandardWorkShift().toString());
 			} else {
-				if (this.configurationDAO.getStandardWorkShift() != null) {
-					this.label_date_shift_review.setLabel(this.configurationDAO.getStandardWorkShift().toString());
-				} else {
-					this.label_date_shift_review.setLabel(null);
-				}
+				this.label_date_shift_review.setLabel(null);
 			}
 		}
 
@@ -5264,13 +5233,13 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		ShiftPersonSuggest shift_sg = null;
 		if (this.suggest_shift_active.isChecked()) {
 
-			int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0
+			final int suggest_person_1 = this.suggest_shift_1.getValue() == null ? 0
 					: this.suggest_shift_1.getValue().intValue();
-			int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0
+			final int suggest_person_2 = this.suggest_shift_2.getValue() == null ? 0
 					: this.suggest_shift_2.getValue().intValue();
-			int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0
+			final int suggest_person_3 = this.suggest_shift_3.getValue() == null ? 0
 					: this.suggest_shift_3.getValue().intValue();
-			int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0
+			final int suggest_person_4 = this.suggest_shift_4.getValue() == null ? 0
 					: this.suggest_shift_4.getValue().intValue();
 
 			shift_sg = new ShiftPersonSuggest(suggest_person_1, suggest_person_2, suggest_person_3, suggest_person_4);
@@ -7853,6 +7822,41 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	}
 
 	/**
+	 *
+	 */
+	@Listen("onClick = #show_minimum_shift")
+	public void showMinimumShift() {
+
+		final List<Listitem> listitems = this.grid_scheduler.getItems();
+
+		// check if averages on shift should be used
+		final boolean use_vg = this.use_average.isChecked();
+
+		for (final Listitem item : listitems) {
+			final RowSchedule row_schedule = item.getValue();
+			if (row_schedule == null) {
+				continue;
+			}
+			final Integer id_user = row_schedule.getUser();
+
+			// get date tomorrow
+			final Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DAY_OF_YEAR, 1);
+			final Date date_tomorrow = DateUtils.truncate(cal.getTime(), Calendar.DATE);
+
+			final Integer minimum_shift = this.statProcedure.getShiftNoForDay(date_tomorrow, id_user, null, use_vg);
+
+			String label = item.getLabel();
+			if (label.startsWith("(")) {
+				label = label.substring(3);
+			}
+			item.setLabel(label + "(" + minimum_shift + ")");
+
+		}
+
+	}
+
+	/**
 	 * Define bheavior for day configuration
 	 *
 	 * @param data_info
@@ -8069,30 +8073,24 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		final Double sat_month = userStatistics.getSaturation_month();
 		if (sat_month == null) {
 			this.saturation_current_month.setValue(" ");
+		} else if (sat_month < 0) {
+			this.saturation_current_month.setStyle("color:red");
+			this.saturation_current_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_month)));
 		} else {
-
-			if (sat_month < 0) {
-				this.saturation_current_month.setStyle("color:red");
-				this.saturation_current_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_month)));
-			} else {
-				this.saturation_current_month.setStyle("color:green");
-				this.saturation_current_month.setValue("OT " + Utility.roundTwo(sat_month));
-			}
+			this.saturation_current_month.setStyle("color:green");
+			this.saturation_current_month.setValue("OT " + Utility.roundTwo(sat_month));
 		}
 
 		// set saturation prec month style
 		final Double sat_prec = userStatistics.getSaturation_prec_month();
 		if (sat_prec == null) {
 			this.saturation_prec_month.setValue(" ");
+		} else if (sat_prec < 0) {
+			this.saturation_prec_month.setStyle("color:red");
+			this.saturation_prec_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_prec)));
 		} else {
-
-			if (sat_prec < 0) {
-				this.saturation_prec_month.setStyle("color:red");
-				this.saturation_prec_month.setValue("REC " + Utility.roundTwo(Math.abs(sat_prec)));
-			} else {
-				this.saturation_prec_month.setStyle("color:green");
-				this.saturation_prec_month.setValue("OT " + Utility.roundTwo(sat_prec));
-			}
+			this.saturation_prec_month.setStyle("color:green");
+			this.saturation_prec_month.setValue("OT " + Utility.roundTwo(sat_prec));
 		}
 
 		this.work_sunday_perc.setValue(userStatistics.getWork_sunday_perc());
@@ -8262,14 +8260,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 	/**
 	 * define count summary (ReProGram)
 	 */
-	private void summaryCountProgram(boolean use_in_office) {
+	private void summaryCountProgram(final boolean use_in_office) {
 
-		CountMatrix current_count_matrix = this.buildCurrentCountMatrix(use_in_office);
+		final CountMatrix current_count_matrix = this.buildCurrentCountMatrix(use_in_office);
 
-		Double[][] count_matrix = current_count_matrix.getCount_matrix();
-		Integer[][] count_matrixUsers = current_count_matrix.getCount_matrixUsers();
-		Double[] count_matrix_row = current_count_matrix.getCount_matrix_row();
-		Integer[] count_Day_Users = current_count_matrix.getCount_Day_Users();
+		final Double[][] count_matrix = current_count_matrix.getCount_matrix();
+		final Integer[][] count_matrixUsers = current_count_matrix.getCount_matrixUsers();
+		final Double[] count_matrix_row = current_count_matrix.getCount_matrix_row();
+		final Integer[] count_Day_Users = current_count_matrix.getCount_Day_Users();
 
 		// show info
 		this.program_tot_1_1.setLabel(Utility.decimatToTime(count_matrix[0][0]));
@@ -8336,14 +8334,14 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.totalUser_program_day_5.setLabel(count_Day_Users[4].toString());
 
 		// show total person for suggestions:
-		CountMatrix current_count_matrix4suggestion = this.buildCurrentCountMatrix(false);
+		final CountMatrix current_count_matrix4suggestion = this.buildCurrentCountMatrix(false);
 
-		Integer[][] count_matrixUsers4Suggestion = current_count_matrix4suggestion.getCount_matrixUsers();
+		final Integer[][] count_matrixUsers4Suggestion = current_count_matrix4suggestion.getCount_matrixUsers();
 
-		int tot_programmed_person_1 = count_matrixUsers4Suggestion[2][0];
-		int tot_programmed_person_2 = count_matrixUsers4Suggestion[2][1];
-		int tot_programmed_person_3 = count_matrixUsers4Suggestion[2][2];
-		int tot_programmed_person_4 = count_matrixUsers4Suggestion[2][3];
+		final int tot_programmed_person_1 = count_matrixUsers4Suggestion[2][0];
+		final int tot_programmed_person_2 = count_matrixUsers4Suggestion[2][1];
+		final int tot_programmed_person_3 = count_matrixUsers4Suggestion[2][2];
+		final int tot_programmed_person_4 = count_matrixUsers4Suggestion[2][3];
 
 		this.total_person_shift_1.setValue(tot_programmed_person_1);
 		this.total_person_shift_2.setValue(tot_programmed_person_2);

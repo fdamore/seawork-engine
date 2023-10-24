@@ -237,15 +237,18 @@ public class StatProceduresImpl implements IStatProcedure {
 	 */
 	@Override
 	public Integer getShiftNoForDay(final Date current_date_scheduled, final Integer user,
-			final ShiftPersonSuggest shift_sg) {
+			final ShiftPersonSuggest shift_sg, final boolean use_average) {
 
 		// get info for the begin of current year
 		final Calendar calendar_first_day = Calendar.getInstance();
 		calendar_first_day.set(Calendar.DAY_OF_YEAR, 1);
 		final Date date_first_day_year = calendar_first_day.getTime();
 
-		final RateShift[] averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled,
-				date_first_day_year);
+		// define average, if needed
+		RateShift[] averages = null;
+		if (use_average) {
+			averages = this.statisticDAO.getAverageForShift(user, current_date_scheduled, date_first_day_year);
+		}
 
 		// get a shift - 12 after last shift
 		// mi_shift is the minimum usable shift number
@@ -259,21 +262,22 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			} else {
 
-				final Integer my_shift = min_shift + (int) (Math.random() * 4);
+				final Integer my_shift = min_shift + (int) ((Math.random() * (4 - min_shift)) + 1);
 
 				return my_shift;
 			}
 
 		}
 
-		//using averages
+		// using averages
 		for (final RateShift current_shift : averages) {
 
 			if (current_shift.getShift() >= min_shift) {
 				if (shift_sg != null) {
 					return shift_sg.getMostSuggestedShift(current_shift.getShift(), true);
-				} else
+				} else {
 					return current_shift.getShift();
+				}
 			}
 
 		}
@@ -634,7 +638,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			}
 
 			// get a shift for a day
-			final Integer my_no_shift = this.getShiftNoForDay(truncDate, schedule.getUser(), null);
+			final Integer my_no_shift = this.getShiftNoForDay(truncDate, schedule.getUser(), null, true);
 
 			// remove all detail in any shift
 			this.myScheduleDAO.removeAllDetailInitialScheduleBySchedule(schedule.getId());
@@ -936,7 +940,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			} else {
 
 				// get a shift for a day
-				final Integer my_no_shift = this.getShiftNoForDay(truncDate, user, shift_sg);
+				final Integer my_no_shift = this.getShiftNoForDay(truncDate, user, shift_sg, true);
 
 				final DetailInitialSchedule item = new DetailInitialSchedule();
 				item.setId_schedule(schedule.getId());

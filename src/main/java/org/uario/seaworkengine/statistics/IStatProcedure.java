@@ -116,8 +116,9 @@ public interface IStatProcedure {
 	 *
 	 * @param current_date_scheduled in the application, use tomorrow
 	 * @param user
+	 * @param use_average TODO
 	 * @return
 	 */
-	Integer getShiftNoForDay(Date current_date_scheduled, Integer user, ShiftPersonSuggest shift_sg);
+	Integer getShiftNoForDay(Date current_date_scheduled, Integer user, ShiftPersonSuggest shift_sg, boolean use_average);
 
 }

@@ -1600,18 +1600,25 @@
 						label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
 
 
-					<hbox>
+					<hbox align="center">
 						<label value="Usa suggerimenti per turno: "></label>
 						<checkbox checked="true"
 							id="suggest_shift_active">
 						</checkbox>
 					</hbox>
+					
+					<hbox align="center">
+						<label value="Usa perentuali su turno: "></label>
+						<checkbox checked="true" id="use_average">
+						</checkbox>
+					</hbox>
 
-					<hbox>
+					<hbox align="center">
 						<label value="Solo rizzatori: "></label>
 						<checkbox checked="true" id="suggest_on_rz">
 						</checkbox>
-					</hbox>
+					</hbox>					
+					
 
 				</vbox>
 
