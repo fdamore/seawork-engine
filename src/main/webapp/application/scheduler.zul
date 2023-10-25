@@ -1725,7 +1725,7 @@
 				id="find_inoffice" sclass="btn-info">
 			</button>
 
-			<button label="Mostra turno minimo" sclass="btn-info"
+			<button label="Mostra turno assegnabile" sclass="btn-info"
 				id="show_minimum_shift">
 			</button>
 
