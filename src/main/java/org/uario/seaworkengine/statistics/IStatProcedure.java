@@ -107,9 +107,10 @@ public interface IStatProcedure {
 	 * @param user
 	 * @param editor
 	 * @param shift_sg TODO
+	 * @param use_average TODO
 	 *
 	 */
-	public void workAssignProcedure(UserShift shift, Date current_date_scheduled, Integer user, Integer editor, ShiftPersonSuggest shift_sg);
+	public void workAssignProcedure(UserShift shift, Date current_date_scheduled, Integer user, Integer editor, ShiftPersonSuggest shift_sg, boolean use_average);
 
 	/**
 	 * Get the right shift number for a given day using rate and minimum shift

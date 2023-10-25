@@ -274,7 +274,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			if (current_shift.getShift() >= min_shift) {
 				if (shift_sg != null) {
-					return shift_sg.getMostSuggestedShift(current_shift.getShift(), true);
+					return shift_sg.getMostSuggestedShift(current_shift.getShift(), use_average);
 				} else {
 					return current_shift.getShift();
 				}
@@ -807,7 +807,7 @@ public class StatProceduresImpl implements IStatProcedure {
 	 */
 	@Override
 	public void workAssignProcedure(final UserShift shift, final Date current_date_scheduled, final Integer user,
-			final Integer editor, final ShiftPersonSuggest shift_sg) {
+			final Integer editor, final ShiftPersonSuggest shift_sg, final boolean use_average) {
 
 		final Date truncDate = DateUtils.truncate(current_date_scheduled, Calendar.DATE);
 

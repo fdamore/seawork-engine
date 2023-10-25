@@ -257,7 +257,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 				SchedulerComposer.this.statProcedure.workAssignProcedure(
 						SchedulerComposer.this.configurationDAO.getBreakShift(), date_break, this.row_item.getUser(),
-						person_logged.getId(), null);
+						person_logged.getId(), null, true);
 
 				SchedulerComposer.this.setupGlobalSchedulerGridForDay();
 
@@ -1745,7 +1745,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 		this.scheduleDAO.saveOrUpdateSchedule(schedule);
 
 		// assign
-		this.statProcedure.workAssignProcedure(shift, current_date_scheduled, user, editor.getId(), null);
+		this.statProcedure.workAssignProcedure(shift, current_date_scheduled, user, editor.getId(), null, true);
 	}
 
 	/**
@@ -1899,7 +1899,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			}
 
 			// assign
-			this.statProcedure.workAssignProcedure(shift, date_index, user, editor.getId(), null);
+			this.statProcedure.workAssignProcedure(shift, date_index, user, editor.getId(), null, true);
 			index_calendar.add(Calendar.DAY_OF_YEAR, 1);
 
 		} while (!index_calendar.after(calendar_to));
@@ -5278,8 +5278,8 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				continue;
 			}
 
-			this.statProcedure.workAssignProcedure(shift, date_tomorrow, person.getId(), null, shift_sg);
-
+			this.statProcedure.workAssignProcedure(shift, date_tomorrow, person.getId(), null, shift_sg,
+					this.use_average.isChecked());
 		}
 
 		// upload grid
