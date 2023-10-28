@@ -274,7 +274,7 @@ public class StatProceduresImpl implements IStatProcedure {
 
 			if (current_shift.getShift() >= min_shift) {
 				if (shift_sg != null) {
-					return shift_sg.getMostSuggestedShift(current_shift.getShift(), use_average);
+					return shift_sg.getMostSuggestedShift(current_shift.getShift(), true);
 				} else {
 					return current_shift.getShift();
 				}
