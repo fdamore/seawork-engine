@@ -5246,6 +5246,9 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		}
 
+		// check if use average is checked
+		final boolean use_average = this.use_average.isChecked();
+
 		for (final Listitem item : this.grid_scheduler.getSelectedItems()) {
 
 			final RowSchedule itm_row = item.getValue();
@@ -5278,8 +5281,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 				continue;
 			}
 
-			this.statProcedure.workAssignProcedure(shift, date_tomorrow, person.getId(), null, shift_sg,
-					this.use_average.isChecked());
+			this.statProcedure.workAssignProcedure(shift, date_tomorrow, person.getId(), null, shift_sg, use_average);
 		}
 
 		// upload grid
@@ -7829,9 +7831,6 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 
 		final List<Listitem> listitems = this.grid_scheduler.getItems();
 
-		// check if averages on shift should be used
-		final boolean use_vg = this.use_average.isChecked();
-
 		for (final Listitem item : listitems) {
 			final RowSchedule row_schedule = item.getValue();
 			if (row_schedule == null) {
@@ -7844,7 +7843,7 @@ public class SchedulerComposer extends SelectorComposer<Component> {
 			cal.add(Calendar.DAY_OF_YEAR, 1);
 			final Date date_tomorrow = DateUtils.truncate(cal.getTime(), Calendar.DATE);
 
-			final Integer minimum_shift = this.statProcedure.getShiftNoForDay(date_tomorrow, id_user, null, use_vg);
+			final Integer minimum_shift = this.statProcedure.getShiftNoForDay(date_tomorrow, id_user, null, true);
 
 			String label = item.getLabel();
 			if (label.startsWith("(")) {
