@@ -940,7 +940,7 @@ public class StatProceduresImpl implements IStatProcedure {
 			} else {
 
 				// get a shift for a day
-				final Integer my_no_shift = this.getShiftNoForDay(truncDate, user, shift_sg, true);
+				final Integer my_no_shift = this.getShiftNoForDay(truncDate, user, shift_sg, use_average);
 
 				final DetailInitialSchedule item = new DetailInitialSchedule();
 				item.setId_schedule(schedule.getId());
