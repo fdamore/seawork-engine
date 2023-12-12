@@ -257,13 +257,13 @@ public class EngineServiceImpl implements IEngineService {
 								itm_usr_shift = work_shift;
 							}
 
-							this.statProcedure.workAssignProcedure(itm_usr_shift, itm.getDate_schedule(), itm.getUser(), null);
+							this.statProcedure.workAssignProcedure(itm_usr_shift, itm.getDate_schedule(), itm.getUser(), null, null, true);
 
 						}
 					}
 
 					// assign waited break work
-					this.statProcedure.workAssignProcedure(waited_work_shift, date_tomorrow, person.getId(), null);
+					this.statProcedure.workAssignProcedure(waited_work_shift, date_tomorrow, person.getId(), null, null, true);
 
 				} else {
 
@@ -296,7 +296,7 @@ public class EngineServiceImpl implements IEngineService {
 								shift_to_assign = work_shift;
 							}
 
-							this.statProcedure.workAssignProcedure(shift_to_assign, date_tomorrow, person.getId(), null);
+							this.statProcedure.workAssignProcedure(shift_to_assign, date_tomorrow, person.getId(), null, null, true);
 
 						} else {
 
@@ -313,7 +313,7 @@ public class EngineServiceImpl implements IEngineService {
 								}
 
 								// if is a bank holiday, set a break
-								this.statProcedure.workAssignProcedure(shift_to_assign, date_tomorrow, person.getId(), null);
+								this.statProcedure.workAssignProcedure(shift_to_assign, date_tomorrow, person.getId(), null, null, true);
 							} else {
 
 								UserShift shift_to_assign = null;
@@ -325,7 +325,7 @@ public class EngineServiceImpl implements IEngineService {
 								}
 
 								// work for daily worker
-								this.statProcedure.workAssignProcedure(shift_to_assign, date_tomorrow, person.getId(), null);
+								this.statProcedure.workAssignProcedure(shift_to_assign, date_tomorrow, person.getId(), null, null, true);
 							}
 
 						}
@@ -405,8 +405,8 @@ public class EngineServiceImpl implements IEngineService {
 				final Calendar next_next_sunday = DateUtils.toCalendar(next_sunday.getTime());
 				next_next_sunday.add(Calendar.DAY_OF_YEAR, 7);
 
-				this.statProcedure.workAssignProcedure(break_shift, next_saturday.getTime(), person.getId(), null);
-				this.statProcedure.workAssignProcedure(break_shift, next_next_sunday.getTime(), person.getId(), null);
+				this.statProcedure.workAssignProcedure(break_shift, next_saturday.getTime(), person.getId(), null, null, true);
+				this.statProcedure.workAssignProcedure(break_shift, next_next_sunday.getTime(), person.getId(), null, null, true);
 			}
 
 		} else {
@@ -445,7 +445,7 @@ public class EngineServiceImpl implements IEngineService {
 				}
 
 				final Date date_break = this.statProcedure.getARandomDay(next_sunday.getTime(), max_day_to_break);
-				this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null);
+				this.statProcedure.workAssignProcedure(break_shift, date_break, person.getId(), null, null, true);
 			}
 
 		}

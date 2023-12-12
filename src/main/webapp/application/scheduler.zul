@@ -1556,7 +1556,7 @@
 					<grid>
 						<auxhead>
 							<auxheader style="background-color: #FAFAFA"
-								colspan="8" label="Legenda Colori" />
+								colspan="8" label="Legenda" />
 						</auxhead>
 
 						<columns>
@@ -1574,23 +1574,170 @@
 							<column label="Turno giornaliero" />
 						</columns>
 					</grid>
+					<separator></separator>
+					<div>
+
+						<label
+							value="Sono considerati nei conteggi in tabella le risorse non impiegate IN UFFICIO, 
+							cioè quelle risorse che non sono dipendenti giornalieri, che non hanno un ruolo PREPOSTO o ruolo UFFICIO. 
+							I conteggi TOTALI nei suggerimenti si riferiscono invece a tutti le risorse disponibili. Le DIFFERENZE RIZZATORI nei suggerimenti tengono in conto i dati in tabella">
+						</label>
+
+					</div>
 				</panelchildren>
 			</panel>
 
 
 			<separator></separator>
-			<button id="repogram_users"
-				visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
-				label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
+
+
+			<hbox align="center">
+
+				<vbox>
+
+					<button id="repogram_users"
+						visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}"
+						label="Riprogramma Utenti Selezionati" sclass="btn-danger" />
+
+
+					<hbox align="center">
+						<label value="Usa suggerimenti per turno: "></label>
+						<checkbox checked="true"
+							id="suggest_shift_active">
+						</checkbox>
+					</hbox>
+					
+					<hbox align="center">
+						<label value="Usa perentuali su turno: "></label>
+						<checkbox checked="true" id="use_average">
+						</checkbox>
+					</hbox>
+
+					<hbox align="center">
+						<label value="Solo rizzatori: "></label>
+						<checkbox checked="true" id="suggest_on_rz">
+						</checkbox>
+					</hbox>					
+					
+
+				</vbox>
+
+				<vbox>
+
+
+					<div>
+
+						<intbox readonly="true"
+							id="total_person_shift_1">
+						</intbox>
+						<intbox readonly="true"
+							id="total_person_shift_2">
+						</intbox>
+						<intbox readonly="true"
+							id="total_person_shift_3">
+						</intbox>
+						<intbox readonly="true"
+							id="total_person_shift_4">
+						</intbox>
+						<label value="CONTEGGI TOTALI"></label>
+
+					</div>
+
+					<div>
+						<intbox readonly="true" id="total_rz_shift_1">
+						</intbox>
+						<intbox readonly="true" id="total_rz_shift_2">
+						</intbox>
+						<intbox readonly="true" id="total_rz_shift_3">
+						</intbox>
+						<intbox readonly="true" id="total_rz_shift_4">
+						</intbox>
+						<label value="CONTEGGI RIZZATORI"></label>
+
+					</div>
+
+
+					<div>
+
+						<intbox constraint="no negative"
+							id="suggest_shift_1">
+						</intbox>
+						<intbox constraint="no negative"
+							id="suggest_shift_2">
+						</intbox>
+						<intbox constraint="no negative"
+							id="suggest_shift_3">
+						</intbox>
+						<intbox constraint="no negative"
+							id="suggest_shift_4">
+						</intbox>
+						<label value="SUGGERIMENTI"></label>
+					</div>
+
+					<div>
+
+						<intbox readonly="true"
+							id="suggest_diff_shift_1">
+						</intbox>
+						<intbox readonly="true"
+							id="suggest_diff_shift_2">
+						</intbox>
+						<intbox readonly="true"
+							id="suggest_diff_shift_3">
+						</intbox>
+						<intbox readonly="true"
+							id="suggest_diff_shift_4">
+						</intbox>
+						<label value="DIFFERENZE TOTALI"></label>
+
+					</div>
+
+					<div>
+
+						<intbox readonly="true"
+							id="suggest_diff_rz_shift_1">
+						</intbox>
+						<intbox readonly="true"
+							id="suggest_diff_rz_shift_2">
+						</intbox>
+						<intbox readonly="true"
+							id="suggest_diff_rz_shift_3">
+						</intbox>
+						<intbox readonly="true"
+							id="suggest_diff_rz_shift_4">
+						</intbox>
+						<label value="DIFFERENZE RIZZATORI"></label>
+
+					</div>
+
+
+				</vbox>
+
+
+
+			</hbox>
 
 
 
 			<separator></separator>
 
+			<button label="Identifica risorse inpiegate in ufficio"
+				id="find_inoffice" sclass="btn-info">
+			</button>
+
+			<button label="Mostra turno assegnabile" sclass="btn-info"
+				id="show_minimum_shift">
+			</button>
+
+
+
+			<separator></separator>
 
 			<panel border="normal" collapsible="false"
 				id="program_panel" sclass="transparent">
 				<panelchildren>
+
+
 
 					<listbox sclass="domain" id="grid_scheduler"
 						checkmark="true" multiple="true" mold="paging" pageSize="10"
@@ -2155,7 +2302,7 @@
 
 								<a id="editor_label_review" />
 								<a id="controller_label_review" />
-								
+
 							</vbox>
 
 							<hbox align="center" id="day_shift_over">
@@ -2173,7 +2320,7 @@
 								</checkbox>
 							</hbox>
 
-							<separator></separator>						
+							<separator></separator>
 
 							<vbox align="start">
 
@@ -2222,7 +2369,7 @@
 							</hbox>
 
 							<separator></separator>
-							
+
 							<hbox>
 								<hbox align="center">
 									<a label="Consuntiva Fascia Oraria" />
@@ -2255,9 +2402,9 @@
 									format="short" cols="10" id="time_to">
 								</timebox>
 
-							</hbox>			
-							
-							<separator></separator>				
+							</hbox>
+
+							<separator></separator>
 
 							<hbox
 								visible="${sec:isAnyGranted('ROLE_SUPERVISOR,ROLE_BACKOFFICE')}">
@@ -2275,20 +2422,18 @@
 										style="color:green; font-size:9pt" id="selectShipNoWork" />
 								</vbox>
 
-								<combobox id="shipInDay" 
-									autodrop="true"
+								<combobox id="shipInDay" autodrop="true"
 									placeholder="Navi in giornata...">
 									<comboitem self="@{each='ship'}"
 										label="@{ship.name}" value="@{ship}" />
 								</combobox>
-								
-								<combobox id="rif_sws" 
-									autodrop="true"
+
+								<combobox id="rif_sws" autodrop="true"
 									placeholder="Rif SWS...">
 									<comboitem self="@{each='rif_sws'}"
 										label="@{rif_sws.id}" value="@{rif_sws}" />
-								</combobox>								
-								
+								</combobox>
+
 								<textbox id="crane"
 									placeholder="Inserisci gru..." />
 								<combobox id="board" readonly="true"
@@ -2314,7 +2459,7 @@
 									<listheader label="Nave" />
 									<listheader label="Rif. SWS" />
 									<listheader label="Gru" />
-									<listheader label="Postazione" />									
+									<listheader label="Postazione" />
 									<listheader
 										label="Consuntiva Fascia" />
 									<listheader label="Continua Turno" />
@@ -2352,13 +2497,13 @@
 											value="@{itemreview.id_ship, converter='org.uario.seaworkengine.zkevent.converter.ShipNameConverter'}">
 										</label>
 									</listcell>
-									
+
 									<listcell>
 										<label
 											value="@{itemreview.rif_sws}">
 										</label>
 									</listcell>
-									
+
 									<listcell>
 										<label
 											value="@{itemreview.crane}">
@@ -2950,7 +3095,7 @@
 
 			</hbox>
 
-			
+
 
 
 
@@ -3118,10 +3263,11 @@
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
 
-										
+
 										<listcell sclass="myBottonCell"
-											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayFlag'}" />
-											
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}"
+											label="@{itemoverviewreview.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayFlag'}" />
+
 
 										<listcell
 											sclass="myBottonCell">
@@ -3148,9 +3294,9 @@
 </attribute>
 											</a>
 										</listcell>
-										
-									
-										
+
+
+
 
 										<listcell
 											sclass="myBottonCell">
@@ -3176,8 +3322,8 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.board}" />
-											
-											<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.rif_sws}" />
 
 										<listcell sclass="myBottonCell"
@@ -3191,40 +3337,36 @@
 											<checkbox
 												checked="@{itemoverviewreview.reviewshift}" disabled="true" />
 										</listcell>
-										
+
 										<listcell
 											sclass="myBottonCell">
 											<checkbox
-												checked="@{itemoverviewreview.continueshift}" disabled="true" />
+												checked="@{itemoverviewreview.continueshift}"
+												disabled="true" />
 										</listcell>
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.note}" />
-											
-											<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewreview.mobile_note}" />
 
-											<listcell
-												sclass="myBottonCell"
-												label="@{itemoverviewreview.editor, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
-												visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.editor, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 
-											<listcell
-												sclass="myBottonCell"
-												label="@{itemoverviewreview.mobile_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
-												visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.mobile_user, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 
 
 
-											<listcell
-												sclass="myBottonCell"
-												label="@{itemoverviewreview.controller, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
-												visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.controller, converter='org.uario.seaworkengine.zkevent.converter.DottedNameConverter'}"
+											visible="${sec:isAnyGranted('ROLE_SUPERVISOR')}" />
 
-											<listcell
-												sclass="myBottonCell"
-												label="@{itemoverviewreview.id_schedule, converter='org.uario.seaworkengine.zkevent.converter.BudgetConverter'}"
-												/>
+										<listcell sclass="myBottonCell"
+											label="@{itemoverviewreview.id_schedule, converter='org.uario.seaworkengine.zkevent.converter.BudgetConverter'}" />
 
 									</listitem>
 
@@ -3519,8 +3661,8 @@
 
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.DateConverter'}" />
-											
-											<listcell sclass="myBottonCell"
+
+										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.date_schedule, converter='org.uario.seaworkengine.zkevent.converter.BankHolidayFlag'}" />
 
 
@@ -3534,14 +3676,14 @@
 </attribute>
 											</a>
 										</listcell>
-										
+
 										<listcell
 											sclass="myBottonCell">
 											<checkbox disabled="true"
 												checked="@{itemoverviewpreprocessing.break_ex}">
 											</checkbox>
 										</listcell>
-										
+
 										<listcell
 											sclass="myBottonCell">
 											<checkbox disabled="true"
@@ -3550,8 +3692,8 @@
 										</listcell>
 
 
-									
-										
+
+
 										<listcell sclass="myBottonCell"
 											label="@{itemoverviewpreprocessing.note}" />
 
@@ -3668,8 +3810,8 @@
 </attribute>
 
 											</a>
-										</listcell>									
-										
+										</listcell>
+
 										<listcell sclass="myBottonCell"
 											label="@{userschedule.person.employee_identification}" />
 

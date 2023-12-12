@@ -4,6 +4,7 @@
 /target/
 /logs/
 /.settings/
+/.vscode/
 */build/
 */bin/
 */target/
